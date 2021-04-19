@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.loanscrefia.system.code.repository.CodeRepository">
+
+	<!-- 공통 -->
+	<sql id="baseColumns">
+		,USE_YN
+		,REG_DATE
+		,REG_NO
+		,UPD_DATE
+		,UPD_NO
+	</sql>
+	
+	<!-- 프로퍼티 컬럼 -->
+	<sql id="propertyColumns">
+		,PROPERTY01
+		,PROPERTY02
+		,PROPERTY03
+		,PROPERTY04
+		,PROPERTY05
+	</sql>
+	
+	<!-- 코드 마스터 리스트 -->
+	<select id="selectCodeMstList" parameterType="code" resultType="code">
+		SELECT
+			 CODE_MST_CD
+			,CODE_MST_NM
+			,CODE_MST_DESC
+			<include refid="propertyColumns"></include>
+			<include refid="baseColumns"></include>
+		FROM TBL_CODE_MST
+	</select>
+	
+	<!-- 코드 마스터 아이디 중복체크 -->
+	<select id="codeMstCdDupCheck" parameterType="code" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM TBL_CODE_MST
+		<where>
+			AND CODE_MST_CD = #{codeMstCd}
+		</where>
+	</select>
+
+	<!-- 코드 마스터 등록 -->
+	<insert id="insertCodeMst" parameterType="code">
+		INSERT INTO TBL_CODE_MST
+		(
+			 CODE_MST_CD
+			,CODE_MST_NM
+			,CODE_MST_DESC
+			,PROPERTY01
+			,PROPERTY02
+			,PROPERTY03
+			,PROPERTY04
+			,PROPERTY05
+			,REG_DATE
+			,REG_NO
+		)
+		VALUES
+		(
+			 #{codeMstCd}
+			,#{codeMstNm}
+			,#{codeMstDesc}
+			,#{property01}
+			,#{property02}
+			,#{property03}
+			,#{property04}
+			,#{property05}
+			,NOW()
+			,#{regNo}
+		)
+	</insert>
+	
+	<!-- 코드 마스터 상세 -->
+	
+	<!-- 코드 마스터 수정 -->
+	<update id="updateCodeMst" parameterType="code">
+		UPDATE TBL_CODE_MST
+		SET 
+			 CODE_MST_NM 	= #{codeMstNm}
+			,CODE_MST_DESC	= #{codeMstDesc}
+			,UPD_DATE		= NOW()
+			,UPD_NO			= #{updNo}
+		<where>
+			AND CODE_MST_CD = #{codeMstCd}
+		</where>
+	</update>
+	
+	<!-- 코드 상세 리스트 -->
+	<select id="selectCodeDtlList" parameterType="code" resultType="code">
+		SELECT
+			 CODE_MST_CD
+			,CODE_DTL_CD
+			,CODE_DTL_NM
+			,CODE_DTL_DESC
+			<include refid="propertyColumns"></include>
+			<include refid="baseColumns"></include>
+		FROM TBL_CODE_DTL
+		<where>
+			AND CODE_MST_CD = #{codeMstCd}
+			<if test="useYn != null and useYn != ''">
+			AND USE_YN = #{useYn}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 코드 상세 아이디 중복체크 -->
+	<select id="codeDtlCdDupCheck" parameterType="code" resultType="int">
+		SELECT COUNT(*)
+		FROM TBL_CODE_DTL
+		<where>
+			AND CODE_MST_CD = #{codeMstCd}
+			AND CODE_DTL_CD = #{codeDtlCd}
+		</where>
+	</select>
+	
+	<!-- 코드 상세 등록 -->
+	<insert id="insertCodeDtl" parameterType="code">
+		INSERT INTO TBL_CODE_DTL
+		(
+			 CODE_MST_CD
+			,CODE_DTL_CD
+			,CODE_DTL_NM
+			,CODE_DTL_DESC
+			,PROPERTY01
+			,PROPERTY02
+			,PROPERTY03
+			,PROPERTY04
+			,PROPERTY05
+			,REG_DATE
+			,REG_NO
+		)
+		VALUES
+		(
+			 #{codeMstCd}
+			,#{codeDtlCd}
+			,#{codeDtlNm}
+			,#{codeDtlDesc}
+			,#{property01}
+			,#{property02}
+			,#{property03}
+			,#{property04}
+			,#{property05}
+			,NOW()
+			,#{regNo}
+		)
+	</insert>
+	
+	<!-- 코드 상세 -->
+	
+	<!-- 코드 상세 수정 -->
+	<update id="updateCodeDtl" parameterType="code">
+		UPDATE TBL_CODE_DTL
+		SET 
+			 CODE_DTL_NM 	= #{codeDtlNm}
+			,CODE_DTL_DESC	= #{codeDtlDesc}
+			,UPD_DATE		= NOW()
+			,UPD_NO			= #{updNo}
+		<where>
+			AND CODE_MST_CD = #{codeMstCd}
+			AND CODE_DTL_CD = #{codeDtlCd}
+		</where>
+	</update>
+	
+    
+</mapper> 

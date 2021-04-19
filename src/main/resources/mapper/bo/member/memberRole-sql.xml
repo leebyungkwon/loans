@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.common.member.repository.MemberRoleRepository">
+   
+    <select id="save" parameterType="memberRole">
+	    insert into tbl_member_role
+		(role_name, member_no)
+		values(#{roleName}, #{memberNo})
+    </select>
+    
+</mapper> 

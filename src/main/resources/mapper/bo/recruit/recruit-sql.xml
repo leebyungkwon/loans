@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.loanscrefia.admin.recruit.repository.RecruitRepository">
+
+	<!-- 모집인 조회 -->
+	<select id="selectRecruitList" parameterType="recruit" resultType="recruit">
+	    select 
+	    	<include refid="common.totalPages"/>
+	    	b.* 
+	    from tbl_recruiter b
+	    <include refid="common.pageBottom"/>
+	    
+	</select>
+	
+    
+</mapper> 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+   <!-- main -->
+   <definition name="main-layout" template="/WEB-INF/layout/default-layout.jsp">
+       <put-attribute name="js"		value="/WEB-INF/layout/default/js.jsp" />
+       <put-attribute name="css"	value="/WEB-INF/layout/default/css.jsp" />
+       <put-attribute name="header" value="/WEB-INF/layout/default/header.jsp" />
+       <put-attribute name="category" value="/WEB-INF/layout/default/category.jsp" />
+       <put-attribute name="left" value="/WEB-INF/layout/default/left.jsp" />
+       <put-attribute name="body"	value="" />
+       <put-attribute name="footer" value="/WEB-INF/layout/default/footer.jsp" />
+   </definition>
+   
+   <definition name="bo/*" extends="main-layout">
+       <put-attribute name="body" value="/WEB-INF/views/bo/{1}.jsp" />
+   </definition>
+   <definition name="bo/*/*" extends="main-layout">
+       <put-attribute name="body" value="/WEB-INF/views/bo/{1}/{2}.jsp" />
+   </definition>
+   
+   <!-- common -->
+   <definition name="common-layout" template="/WEB-INF/layout/common-layout.jsp">
+       <put-attribute name="js"		value="/WEB-INF/layout/default/js.jsp" />
+       <put-attribute name="css"	value="/WEB-INF/layout/default/css.jsp" />
+       <put-attribute name="header" value="/WEB-INF/layout/default/header.jsp" />
+       <put-attribute name="body"	value="" />
+       <put-attribute name="footer" value="/WEB-INF/layout/default/footer.jsp" />
+   </definition>
+   
+   
+   <definition name="/common/*" extends="common-layout">
+       <put-attribute name="body" value="/WEB-INF/views/common/{1}.jsp" />
+   </definition>
+   <definition name="/error/*" extends="common-layout">
+       <put-attribute name="body" value="/WEB-INF/views/error/{1}.jsp" />
+   </definition>
+
+</tiles-definitions>

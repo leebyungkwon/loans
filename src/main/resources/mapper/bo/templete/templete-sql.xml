@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.system.templete.repository.TempleteRepository">
+    <select id="selectTemplete" parameterType="board" resultType="board">
+	    <!-- TempleteRepository.selectTemplete -->
+	    select 
+	    	<include refid="common.totalPages"/>
+	    	b.* 
+	    from tbl_board b
+	    <include refid="common.pageBottom"/>
+    </select>
+	<insert id="insert" parameterType="board" useGeneratedKeys="true" keyProperty="boardNo">
+		<!-- TempleteRepository.insert -->
+		insert into tbl_board
+		(reg_date, upd_date, use_yn, attch_no1, attch_no2, attch_no3, board_cnts, board_title, board_type)
+		values(now(), now(), 'Y', #{attchNo1}, #{attchNo2}, #{attchNo3}, #{boardCnts}, #{boardTitle}, #{boardType})
+	</insert>
+	<update id="update" parameterType="board">
+		<!-- TempleteRepository.update -->
+		update tbl_board
+		set upd_date = now()
+		,	board_type = #{boardType}
+		,	board_title = #{boardTitle}
+		,	board_cnts = #{boardCnts}
+		,	use_yn = #{useYn}
+		where board_no = #{boardNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	<select id="getFile" parameterType="file" resultType="file">
+		select
+			file_attach_id
+			, file_ext
+			, file_org_nm
+			, file_path
+			, file_save_nm
+			, reg_date
+			, upd_date
+			, use_yn
+		from tbl_file_attach
+		where file_attach_id = #{fileAttachId}
+	</select>
+	
+</mapper> 

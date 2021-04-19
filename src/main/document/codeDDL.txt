@@ -1,0 +1,53 @@
+-- public.tbl_code_mst definition
+
+-- Drop table
+
+-- DROP TABLE public.tbl_code_mst; 
+
+CREATE TABLE public.tbl_code_mst (
+	code_mst_cd varchar(10) NOT NULL,
+	code_mst_nm varchar(100) NULL,
+	code_mst_desc varchar(100) NULL,
+	property01 varchar(100) NULL,
+	property02 varchar(100) NULL,
+	property03 varchar(100) NULL,
+	property04 varchar(100) NULL,
+	property05 varchar(100) NULL,
+	use_yn varchar(1) NOT NULL DEFAULT 'Y'::character varying,
+	reg_date timestamp NOT NULL,
+	reg_no int4 NOT NULL,
+	upd_date timestamp NULL,
+	upd_no int4 NULL,
+	CONSTRAINT tbl_code_mst_pkey PRIMARY KEY (code_mst_cd)
+);
+
+
+
+-- public.tbl_code_dtl definition
+
+-- Drop table
+
+-- DROP TABLE public.tbl_code_dtl;
+
+CREATE TABLE public.tbl_code_dtl (
+	code_mst_cd varchar(10) NULL,
+	code_dtl_cd varchar(255) NOT NULL,
+	code_dtl_nm varchar(100) NULL,
+	code_dtl_desc varchar(100) NULL,
+	property01 varchar(100) NULL,
+	property02 varchar(100) NULL,
+	property03 varchar(100) NULL,
+	property04 varchar(100) NULL,
+	property05 varchar(100) NULL,
+	use_yn varchar(1) NOT NULL DEFAULT 'Y'::character varying,
+	reg_date timestamp NOT NULL,
+	reg_no int4 NOT NULL,
+	upd_date timestamp NULL,
+	upd_no int4 NULL,
+	CONSTRAINT tbl_code_dtl_pkey PRIMARY KEY (code_dtl_cd)
+);
+
+
+-- public.tbl_code_dtl foreign keys
+
+ALTER TABLE public.tbl_code_dtl ADD CONSTRAINT fksly1icd4bxqqc0cvat87yeb0a FOREIGN KEY (code_mst_cd) REFERENCES public.tbl_code_mst(code_mst_cd);

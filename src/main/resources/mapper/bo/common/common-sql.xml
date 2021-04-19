@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.common.common.repository.CommonRepository">
+	<insert id="insertFile" parameterType="com.loanscrefia.common.common.domain.FileDomain" useGeneratedKeys="true" keyProperty="fileAttachId">
+		<!-- CommonRepository.insertFile -->
+		insert into tbl_file_attach
+		(file_ext, file_org_nm, file_path, file_save_nm, reg_date, upd_date, use_yn)
+		values(#{fileExt}, #{fileOrgNm}, #{filePath}, #{fileSaveNm}, now(), now(), 'Y')
+	</insert>
+	
+	
+	
+	<!-- 공통코드조회 selectBox -->
+	<select id="selectCommonCodeList" parameterType="code" resultType="code">
+		SELECT
+			 CODE_MST_CD
+			,CODE_DTL_CD
+			,CODE_DTL_NM
+			,CODE_DTL_DESC
+			,PROPERTY01
+			,PROPERTY02
+			,PROPERTY03
+			,PROPERTY04
+			,PROPERTY05
+			,REG_DATE
+			,REG_NO
+		FROM tbl_code_dtl
+		WHERE
+			CODE_MST_CD = #{codeMstCd}
+		<if test="property01 != null and property01 != ''">
+			AND PROPERTY01 = #{property01}
+		</if>
+		<if test="property02 != null and property02 != ''">
+			AND PROPERTY02 = #{property02}
+		</if>
+		<if test="property03 != null and property03 != ''">
+			AND PROPERTY03 = #{property03}
+		</if>
+		<if test="property04 != null and property04 != ''">
+			AND PROPERTY04 = #{property04}
+		</if>
+		<if test="property05 != null and property05 != ''">
+			AND PROPERTY05 = #{property05}
+		</if>
+	</select>
+</mapper> 
