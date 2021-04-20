@@ -57,8 +57,9 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.loginProcessingUrl("/j_spring_security")
 			.usernameParameter("email")
 			.passwordParameter("password")
-			.failureHandler(failurHandler())
-			.successHandler(successHandler()).failureUrl("/login").permitAll();
+			//.failureHandler(failurHandler())
+			.successHandler(successHandler()).permitAll()
+			.failureHandler(failurHandler()).permitAll();
 
 		http.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -77,6 +78,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 	public AuthenticationSuccessHandler successHandler() {
 		return new LoginSuccessHandler("/main");
 	}
+	
 	public AuthenticationFailureHandler failurHandler() {
 		return new LoginFailurHandler();
 	}

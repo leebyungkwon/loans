@@ -3,6 +3,8 @@ package com.loanscrefia.common.login.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,7 +40,7 @@ public class LoginService implements UserDetailsService {
 	 * member != null) .map(member -> new SecurityMember((MemberDomain)
 	 * member)).get(); }
 	 */ 
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@Valid String email) throws UsernameNotFoundException {
     	MemberDomain mem = memberRepository.findByEmail(email);
     	List<MemberRoleDomain> role = memberRepository.findRoles(mem);
     	mem.setRoles(role);

@@ -17,8 +17,12 @@ import lombok.Data;
 public class MemberDomain extends BaseDomain{
     private Long memberNo;
 
+	@NotBlank(message = "ID를 입력하세요.")
+    @Pattern(regexp = "[a-zA-Z0-9]{2,20}", message = "내용은 영문/숫자 2~20자리로 입력해 주세요.")
     private String email;
     private String memberNm;
+    
+	@NotBlank(message = "비밀번호를 입력하세요.")
     private String password;
     List<MemberRoleDomain> roles;
 
