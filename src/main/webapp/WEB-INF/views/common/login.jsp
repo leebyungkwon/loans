@@ -47,9 +47,9 @@ function pageLoad(){
 			<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
 			</c:if>
 			
-			<c:if test="${not empty failMsg}">
-				<span class="txt_warning">휴면계정입니다. 활성화 하시겠습니까?</span>
-				<c:remove var="failMsg" scope="session" />
+			<c:if test="${not empty loginFailMsg}">
+				<span class="txt_warning">${loginFailMsg }</span>
+				<c:remove var="loginFailMsg" scope="session" />
 			</c:if>
 			
 			

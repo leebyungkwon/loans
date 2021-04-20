@@ -26,6 +26,12 @@ public class LoginController {
         ModelAndView mv = new ModelAndView(CosntPage.Common+"/login");
         return mv;
     }
+    
+    @PostMapping("/login")
+    public ModelAndView testLogin() {
+        ModelAndView mv = new ModelAndView(CosntPage.Common+"/login");
+        return mv;
+    }
 
     @GetMapping("/signup")
     public ModelAndView dispSignup() {
