@@ -38,6 +38,8 @@ dependencies {
 	implementation 'org.apache.poi:poi-ooxml:3.11'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
+	implementation 'org.hibernate.validator:hibernate-validator'
+	implementation 'javax.validation:validation-api'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'

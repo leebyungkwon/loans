@@ -4,7 +4,6 @@
 <script type="text/javascript">
 
 var Grid = Object.create(GRID); 
-
 function pageLoad(){
 	Grid.set({
 		  id		: "grid"

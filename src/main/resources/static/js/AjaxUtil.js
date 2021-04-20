@@ -47,6 +47,7 @@ var AjaxUtil = {
         var async = WebUtil.nvl(opt.async, true);
         var loadYn = WebUtil.nvl(opt.loadYn, true);
         var responseType = WebUtil.nvl(opt.responseType, "");
+
         // 파라미터 json 설정
         if (reqType == "json") {
             param = JSON.stringify(opt.param);
@@ -56,12 +57,13 @@ var AjaxUtil = {
         } else {
         	param = opt.param;
         }
+		console.log(param);
         // 응답 유형
         opt.resType = WebUtil.nvl(opt.resType, "json");
 
         // 로딩바 열기
         //this.openLoadBar(loadYn);
-		
+
         // ajax 호출
         axios({
             method: "post",
@@ -72,13 +74,13 @@ var AjaxUtil = {
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
-        	
+
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
             		else LibUtil.msgOpenPopup(messages[response.data.code])
             	}
-            	AjaxUtil.successHandler(opt, response.data);	
+            	AjaxUtil.successHandler(opt, response.data);
         	}else{
         		if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
@@ -86,12 +88,10 @@ var AjaxUtil = {
             	}
         	}
         })
-        /*
         .catch(function(error) {
             //AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         })
-        */
         .then(function () {
             // 로딩바 닫기
             //AjaxUtil.closeLoadBar(loadYn);
@@ -104,24 +104,18 @@ var AjaxUtil = {
     excel: function(opt) {
         var param = null;
         var reqType = WebUtil.nvl(opt.reqType, "text/html");
-        // 파라미터 json 설정
-        if (reqType == "json") {
-            param = JSON.stringify(opt.param);
-        } else if (WebUtil.isObject(opt.param)){
-            param = WebUtil.getParamUrl(opt.param);
-        } else {
-        	param = opt.param;
-        }
+
         // 로딩바 열기
         //this.openLoadBar(loadYn);
-		
+
+        param = JSON.stringify(opt.param);
         // ajax 호출
         axios({
             method: "post",
             url: opt.url,
             data: param,
             responseType: 'blob',
-    		headers: {"Content-Type": "application/json"}, 
+    		headers: {"Content-Type": "application/json"},
         }).then(function(response) {
 		    const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
 		    const link = document.createElement('a');
@@ -151,7 +145,7 @@ var AjaxUtil = {
     form: function(opt) {
         let frm = document.getElementsByName(opt.name);
         if(frm.length!==1) return false;
-        
+
         let f = true;
         $.each(frm[0].querySelectorAll('input'), function(key, value) {
         	f = Valid.set(value);
@@ -166,14 +160,14 @@ var AjaxUtil = {
         }
         this.post(param);
     },
-    
+
     /**
      * Form submit 방식
      */
     submit: function(name) {
         let frm = document.getElementsByName(name);
         if(frm.length!==1) return false;
-        
+
         let f = true;
         $.each(frm[0].querySelectorAll('input'), function(key, value) {
         	if(!f) return false;
@@ -181,10 +175,10 @@ var AjaxUtil = {
 		});
 
     	if(!f) return false;
-    	
+
 		if(f) frm[0].submit();
     },
-    
+
     /**
      * FormData 방식
      */
@@ -194,9 +188,9 @@ var AjaxUtil = {
 		frm.method = "POST";
 		frm.action = opt.url;
 		document.body.appendChild(frm);
-		
+
         //this.openLoadBar(loadYn);
-        
+
 		if (opt.param != null && typeof (opt.param) != "undefined") {
 			$.each(opt.param, function(key, value) {
 				input = document.createElement('input');
@@ -215,7 +209,7 @@ var AjaxUtil = {
     files: function(opt) {
         let frm = document.getElementsByName(opt.name);
         if(frm.length!==1) return false;
-        
+
         let f = true;
         $.each(frm[0].querySelectorAll('input'), function(key, value) {
         	if(!f) return false;
@@ -233,13 +227,13 @@ var AjaxUtil = {
         	console.log(response);
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
-        	
+
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
             		else LibUtil.msgOpenPopup(messages[response.data.code])
             	}
-            	AjaxUtil.successHandler(opt, response.data);	
+            	AjaxUtil.successHandler(opt, response.data);
         	}else{
         		if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
@@ -262,7 +256,7 @@ var AjaxUtil = {
             }
         });
     },
-    
+
     /**
      * 로딩바 열기
      */
@@ -304,9 +298,9 @@ var AjaxUtil = {
 
         if (error.response) {
             var resData = error.response.data;
-
-            if (WebUtil.isObject(resData) && WebUtil.isNotNull(resData.message)) {
-                errMsg = resData.message;
+			console.log(resData);
+            if (WebUtil.isObject(resData.errors[0]) && WebUtil.isNotNull(resData.errors[0].defaultMessage)) {
+                errMsg = resData.errors[0].defaultMessage;
             }
 
         } else if (error.request) {
@@ -330,6 +324,7 @@ var AjaxUtil = {
         } else {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
+            LibUtil.msgOpenPopup(errMsg);
             console.log(errMsg);
         }
     }

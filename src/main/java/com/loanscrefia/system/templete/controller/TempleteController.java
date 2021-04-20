@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
@@ -104,7 +105,7 @@ public class TempleteController {
     }
 	
 	@PostMapping("/templeteSave")
-	public ResponseEntity<ResponseMsg> templeteSave(BoardDomain board) {
+	public ResponseEntity<ResponseMsg> templeteSave(@Valid BoardDomain board) {
 		ResponseMsg responseMsg = templeteService.templeteSave(board);
 		return new ResponseEntity<>(responseMsg, HttpStatus.OK);
 	}

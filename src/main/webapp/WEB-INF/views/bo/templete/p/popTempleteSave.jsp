@@ -24,7 +24,7 @@
 	<section class="k_inputform">
 			<h3  class="article_tit"><span>팝업템플릿1저장하기</span></h3>
 			<fieldset>
-			<form name="save" action="/bo/templete/templeteSave" method="POST">
+			<form name="save" action="/system/templete/templeteSave" method="POST">
 			<input type="hidden" name="boardNo" value=""/>
 			<input type="hidden" name="boardType" value="NOTICE"/>
 			
@@ -37,13 +37,13 @@
 					<tr>
 						<td class="leftTd"><span class="type">제목</span></td>
 						<td class="rightTd">
-							<input type="text" name="boardTitle" id="u_title" placeholder="제목을 입력하세요." class="" value="" data-vd='{"type":"text","len":"1,20","req":true,"msg":"제목을 입력하세요"}'>
+							<input type="text" name="boardTitle" id="u_title" placeholder="제목을 입력하세요." class="" value="">
 						</td>
 					</tr>
 					<tr>
 						<td class="leftTd"><span class="type">내용</span></td>
 						<td class="rightTd">
-							<textarea id="u_content" name="boardCnts" rows="5" cols="1" placeholder="내용을 입력하세요." class="field_inp" data-vd='{"type":"text","len":"1,400","req":true,"msg":"내용을 입력하세요"}'></textarea>
+							<textarea id="u_content" name="boardCnts" rows="5" cols="1" placeholder="내용을 입력하세요." class="field_inp"></textarea>
 						</td>
 					</tr>
 					<tr>
