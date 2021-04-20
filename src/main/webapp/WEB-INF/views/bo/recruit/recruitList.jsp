@@ -55,7 +55,7 @@ function pageLoad(){
 	
 	// 검증 테스트용
 	$("#btn_ocr").on("click", function(){
-		console.log("검증 시작");
+		console.log("검증 시작 ");
 		var param = {
 				'recruitNo'	:	'RE20210420'
 		}
