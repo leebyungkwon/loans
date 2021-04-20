@@ -62,7 +62,7 @@ public class RecruitController {
 	// 모집인 등록 팝업
 	@GetMapping(value="/p/recruitReg")
 	public ModelAndView recruitReg() {
-    	ModelAndView mv = new ModelAndView(CosntPage.BoTempletePage+"/p/recruitReg");
+    	ModelAndView mv = new ModelAndView(CosntPage.BoRecruitPage+"/p/recruitReg");
         return mv;
 	}
 	
@@ -82,7 +82,6 @@ public class RecruitController {
 	@PostMapping("/ocrTest")
 	public ResponseEntity<ResponseMsg> ocrTest(@ModelAttribute RecruitDomain recruitDomain) throws IOException { 
 		
-		
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		Map<String, Object> ret = new HashMap<>();
 		// 전체검증 시작
@@ -94,7 +93,7 @@ public class RecruitController {
 		long sampleRecruitNo = 1;
 		recruitDomain.setRecruitNo(sampleRecruitNo);
 		
-		RecruitDomain resultRecruit = recruitService.getRecruit(recruitDomain);
+		RecruitDomain resultRecruit = recruitService.getRecruit(recruitDomain); 
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileAttachId(resultRecruit.getAtchNo());
 		// 첨부파일번호가 하나인 경우

@@ -8,7 +8,7 @@ var Grid = Object.create(GRID);
 function pageLoad(){
 	Grid.set({
 		  id		: "grid"
-  		, url		: "/bo/recruit/recruitList"
+  		, url		: "/admin/recruit/recruitList"
 	    , width		: "100%"
   		, headCol	: ["번호", "이름", "유형", "연락처", "이메일", "단계", "등록일", "오류내용", "첨부서류", "사용여부"]
   		, bodyCol	: 
@@ -34,7 +34,7 @@ function pageLoad(){
 	document.getElementById('btn_pop').onclick = function () {
 		let p = {
 			id : 'excel_save'
-			, curl : "/bo/recruit/p/recruitReg"
+			, curl : "/admin/recruit/p/recruitReg"
 		}
 		LibUtil.openPopup(p);
 	};
@@ -50,12 +50,34 @@ function pageLoad(){
 	};
 	console.log(grpCode);
 	DataUtil.selectBox(grpCode);
+	
+	
+	
+	// 검증 테스트용
+	$("#btn_ocr").on("click", function(){
+		console.log("검증 시작");
+		var param = {
+				'recruitNo'	:	'RE20210420'
+		}
+ 		var p = {
+			  param : param
+			, url : "/admin/recruit/ocrTest"
+			, success : function (opt,result) {
+				
+				console.log("####" , result);
+				
+    	    }
+		}
+		
+		AjaxUtil.post(p);
+	});
+	
 }
 function detailPop(idx, data){
 	let p = {
 		id : "dtl_save"
 		, data : data
-		, curl : "/bo/recruit/p/recruitDtl"
+		, curl : "/admin/recruit/p/recruitDtl"
 	}
 	LibUtil.openPopup(p);
 }
@@ -134,6 +156,7 @@ function detailPop(idx, data){
 			<button type="button" class="btn btn_home gridSearch">조회</button>
 			<button type="button" class="btn btn_home" id="btn_pop">모집인 등록</button>
 			<button type="button" class="btn btn_home" id="btn_req">선택승인요청</button>
+			<button type="button" class="btn btn_home" id="btn_ocr">검증테스트</button>
 			</div>
 		</div>
 	</div>

@@ -43,15 +43,14 @@
 			    <sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
 			    <h4>회원사</h4>
 			    <ul class="k_menu_2">
-			        <li><a href="/bo/recruit/recruitPage">모집인 조회</a></li>
-			        <li><a href="/bo/recruit/regList">모집인 등록</a></li>
+			        <li><a href="/admin/recruit/recruitPage">모집인 조회</a></li>
+			        <li><a href="/admin/recruit/regList">모집인 등록</a></li>
 			    </ul>
 			    </sec:authorize>
 			    <h4>시스템관리</h4>
 			    <ul class="k_menu_2">
-			        <li><a href="/bo/board/notice">공지사항</a></li>
-			        <li><a href="/bo/code/codeList">공통코드관리</a></li>
-			        <li><a href="/bo/admin/adminList">관리자관리</a></li>
+			        <li><a href="/common/board/notice">공지사항</a></li>
+			        <li><a href="/system/code/codeList">공통코드관리</a></li>
 			    </ul>
 			</section>
  		</div>
