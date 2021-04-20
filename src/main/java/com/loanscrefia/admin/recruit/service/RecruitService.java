@@ -14,10 +14,18 @@ public class RecruitService {
 
 	@Autowired private RecruitRepository recruitRepo;
 	
-	// 모집인 조회
+
+	// 모집인 리스트 조회
 	@Transactional(readOnly=true)
 	public List<RecruitDomain> selectRecruitList(RecruitDomain recruitDomain){
 		return recruitRepo.selectRecruitList(recruitDomain);
+	}
+	
+	
+	// 모집인 단건 조회
+	@Transactional(readOnly=true)
+	public RecruitDomain getRecruit(RecruitDomain recruitDomain){
+		return recruitRepo.getRecruit(recruitDomain);
 	}
 	
 }

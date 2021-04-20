@@ -9,6 +9,7 @@ import lombok.Data;
 public class RecruitDomain extends BaseDomain{
 	
 
+	private long recruitNo;
 	private String userNm;
 	private String userJumin;
 	private String userAddr;
@@ -20,6 +21,8 @@ public class RecruitDomain extends BaseDomain{
 	private String colTest1;
 	private String colTest2;
 	private String colTest3;
+	
+	private long atchNo;
 	
 	
 }

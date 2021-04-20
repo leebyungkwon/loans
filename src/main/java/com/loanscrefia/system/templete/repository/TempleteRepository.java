@@ -16,8 +16,10 @@ public interface TempleteRepository  {
 	void update(BoardDomain board);
 	
 	
+	// 첨부파일 단건 조회
 	FileDomain getFile(FileDomain fileDomain);
 	
-	
+	// 첨부파일 리스트 조회
+	List<FileDomain> getFileList(FileDomain fileDomain);
 	
 }

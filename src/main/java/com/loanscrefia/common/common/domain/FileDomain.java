@@ -16,4 +16,5 @@ public class FileDomain extends BaseDomain{
     private String useYn = "Y";
     
     private String fileTest;
+    private String fileDocType;
 }

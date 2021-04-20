@@ -42,5 +42,9 @@ public class TempleteService {
 	public FileDomain getFile(FileDomain fileDomain) {
 		return templeteRepository.getFile(fileDomain);
 	}
+	
+	public List<FileDomain> getFileList(FileDomain fileDomain) {
+		return templeteRepository.getFileList(fileDomain);
+	}
 
 }

@@ -11,4 +11,7 @@ public interface RecruitRepository {
 	// 모집인 조회
 	List<RecruitDomain> selectRecruitList(RecruitDomain recruitDomain);
 	
+	// 모집인 상세조회
+	RecruitDomain getRecruit(RecruitDomain recruitDomain);
+	
 }
