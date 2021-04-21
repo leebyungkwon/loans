@@ -4,11 +4,11 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script>
 function pageLoad(){
-   	document.getElementById('btn_login').onclick = function () {
+    	document.getElementById('btn_login').onclick = function () {
 		AjaxUtil.submit('login');
-	};  
+	};   
 	
-/*    	$("#btn_login").on("click", function(){
+/*     	$("#btn_login").on("click", function(){
 		var param = {
 				'email'			: $("#user_id").val()
 				, 'password'	:  $("#user_password").val()
@@ -17,13 +17,13 @@ function pageLoad(){
 			  param : param
 			, url : "/j_spring_security"
 			, success : function (opt,result) {
-				var tt = "${requestScope.loginFailMsg}";
+				AjaxUtil.submit('login');
     	    }
 		}
 		
 		AjaxUtil.post(p);
 	});   
-	 */
+	  */
 	
 	
 }

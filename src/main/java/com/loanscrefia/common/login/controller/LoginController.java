@@ -71,5 +71,11 @@ public class LoginController {
     	ModelAndView mv = new ModelAndView(CosntPage.Error+"/denied");
         return mv;
     }
+    
+    
+    @PostMapping("/dormantCheck")
+    public boolean dormantCheck(MemberDomain memberDomain) {
+    	return true;
+    }
 
 }

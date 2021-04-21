@@ -26,23 +26,19 @@ public class LoginFailurHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception)
             throws IOException, ServletException {
 		
-		
-		String email = req.getParameter("email").toString();
-		
-		// 로그인 실패횟수 증가
-		loginService.loginFailCnt(email);
-		
 		if (exception instanceof AuthenticationServiceException) {
 			req.setAttribute("loginFailMsg", "존재하지 않는 사용자입니다.");
-		
-		} else if(exception instanceof BadCredentialsException) {
-			req.setAttribute("loginFailMsg", "아이디 또는 비밀번호가 틀립니다.");
 			
+		} else if(exception instanceof BadCredentialsException) {
+			String email = req.getParameter("email").toString();
+			// 로그인 실패횟수 증가
+			loginService.loginFailCnt(email);
+			req.setAttribute("loginFailMsg", "아이디 또는 비밀번호가 틀립니다.");
 		} else if(exception instanceof LockedException) {
 			req.setAttribute("loginFailMsg", "잠긴 계정입니다..");
 			
 		} else if(exception instanceof DisabledException) {
-			req.setAttribute("loginFailMsg", "비활성화된 계정입니다..");
+			req.setAttribute("loginFailMsg", "휴면 계정입니다..");
 			
 		}  else if(exception instanceof CredentialsExpiredException) {
 			req.setAttribute("loginFailMsg", "비밀번호가 만료되었습니다.");

@@ -27,7 +27,13 @@ public class MemberDomain extends BaseDomain{
 	
 	private String dormant;
 	private int failCnt;
-	
+	private boolean enable;
     List<MemberRoleDomain> roles;
-
+    public boolean isEnabled() {
+    	if("Y".equals(dormant)) {
+    		return true; 
+    	}else {
+    		return false;
+    	}
+    }
 }
