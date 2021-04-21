@@ -2,12 +2,12 @@ package com.loanscrefia.config.login;
 
 import java.io.IOException;
 
-import javax.security.auth.login.AccountExpiredException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -15,11 +15,22 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import com.loanscrefia.common.login.service.LoginService;
 
 public class LoginFailurHandler implements AuthenticationFailureHandler {    
+	
+	
+	@Autowired 
+	private LoginService loginService;
+	
 	public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception)
             throws IOException, ServletException {
 		
+		
+		String email = req.getParameter("email").toString();
+		
+		// 로그인 실패횟수 증가
+		loginService.loginFailCnt(email);
 		
 		if (exception instanceof AuthenticationServiceException) {
 			req.setAttribute("loginFailMsg", "존재하지 않는 사용자입니다.");

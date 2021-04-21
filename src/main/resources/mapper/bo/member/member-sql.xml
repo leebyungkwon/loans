@@ -6,7 +6,8 @@
 	    insert into tbl_members
 		(email, member_nm, password)
 		values(#{email}, #{memberNm}, #{password})
-    </select>
+		RETURNING member_no
+	</select>
     
     <select id="findByEmail" parameterType="member" resultType="member">
 	    <!-- MemberRepository.findByEmail -->
@@ -23,14 +24,17 @@
 	    where member_no = #{memberNo}
     </select>
     
+    <update id="loginFailCnt" parameterType="string" >
+    	UPDATE tbl_members
+    	SET fail_cnt = fail_cnt+1
+    	WHERE email = #{email}
+    </update>
     
     
-    <select id="test" parameterType="member" resultType="long">
-	    <!-- MemberRepository.save -->
-	    insert into tbl_members
-		(email, member_nm, password)
-		values(#{email}, #{memberNm}, #{password})
-		RETURNING member_no
+    <select id="getMember" parameterType="member" resultType="member">
+	    select *
+	    from tbl_members
+	    where member_no = #{memberNo}
     </select>
     
 </mapper> 

@@ -24,13 +24,10 @@ public class MemberDomain extends BaseDomain{
     
 	@NotBlank(message = "비밀번호를 입력하세요.")
     private String password;
+	
+	private String dormant;
+	private int failCnt;
+	
     List<MemberRoleDomain> roles;
 
-    @Builder
-    public MemberDomain(Long memberNo, String email, String password, String memberNm) {
-        this.memberNo = memberNo;
-        this.email = email;
-        this.password = password;
-        this.memberNm = memberNm;
-    }
 }

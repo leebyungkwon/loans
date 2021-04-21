@@ -10,13 +10,19 @@ import com.loanscrefia.common.member.domain.MemberRoleDomain;
 
 @Mapper 
 public interface MemberRepository {
+	// email조회(id조회)
 	MemberDomain findByEmail(String email);
-
-	MemberDomain save(MemberDomain memberEntity);
 	
+	// 회원정보 저장
+	long save(MemberDomain memberEntity);
+	
+	// 회원권한정보 저장
 	List<MemberRoleDomain> findRoles(MemberDomain memberDomain);
-
 	
-	long test(MemberDomain memberEntity);
+	// 로그인 실패횟수 증가
+	void loginFailCnt(String email);
+	
+	// 회원정보 조회
+	MemberDomain getMember(MemberDomain memberDomain);
 	
 }

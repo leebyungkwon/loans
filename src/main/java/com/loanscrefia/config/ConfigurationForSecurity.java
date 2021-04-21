@@ -43,13 +43,14 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-    	// 권한체크
+    	
+    	// 권한체크/
 		http.authorizeRequests()
 			.antMatchers("/admin/**").hasAnyRole("ADMIN","SYSTEM")
 			.antMatchers("/member/**").hasAnyRole("MEMBER","SYSTEM")
 			.antMatchers("/system/**").hasAnyRole("SYSTEM")
 			// .antMatchers("/bo/mem/boardList").permitAll()
-			.antMatchers("/**").permitAll()
+			.antMatchers("/**").hasAnyRole("ADMIN","SYSTEM","MEMBER")
 			.anyRequest().authenticated();
 
 		http.formLogin()
@@ -79,6 +80,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 		return new LoginSuccessHandler("/main");
 	}
 	
+	@Bean
 	public AuthenticationFailureHandler failurHandler() {
 		return new LoginFailurHandler();
 	}

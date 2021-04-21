@@ -67,7 +67,7 @@ public class LoginController {
     }
 
     @GetMapping("/denied")
-    public ModelAndView dispDenied( ) {
+    public ModelAndView dispDenied() {
     	ModelAndView mv = new ModelAndView(CosntPage.Error+"/denied");
         return mv;
     }

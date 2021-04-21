@@ -8,8 +8,7 @@ function pageLoad(){
 		AjaxUtil.submit('login');
 	};  
 	
-	// 개별 수동 검증
-/*   	$("#btn_login").on("click", function(){
+/*    	$("#btn_login").on("click", function(){
 		var param = {
 				'email'			: $("#user_id").val()
 				, 'password'	:  $("#user_password").val()
@@ -19,14 +18,12 @@ function pageLoad(){
 			, url : "/j_spring_security"
 			, success : function (opt,result) {
 				var tt = "${requestScope.loginFailMsg}";
-				console.log(".....", tt);
-				console.log(".....1111    "+ tt);
     	    }
 		}
 		
 		AjaxUtil.post(p);
-	});   */
-	
+	});   
+	 */
 	
 	
 }

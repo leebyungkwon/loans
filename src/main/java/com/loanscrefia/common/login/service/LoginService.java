@@ -29,8 +29,7 @@ public class LoginService implements UserDetailsService {
     public Long saveUser(MemberDomain memberEntity) {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	memberEntity.setPassword(passwordEncoder.encode(memberEntity.getPassword()));
-
-        return memberRepository.test(memberEntity);
+        return memberRepository.save(memberEntity);
     }
 
 	/*
@@ -52,6 +51,16 @@ public class LoginService implements UserDetailsService {
 	public void saveRole(MemberRoleDomain role) {
 		role.setRoleName("MEMBER");
 		memberRoleRepository.save(role);
+	}
+	
+	
+	@Transactional
+	public void loginFailCnt(String email) {
+		memberRepository.loginFailCnt(email);
+	}
+	
+	public MemberDomain getMember(MemberDomain memberDomain) {
+		return memberRepository.getMember(memberDomain);
 	}
 
 }
