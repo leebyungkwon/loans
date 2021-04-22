@@ -11,7 +11,7 @@
 	
 	
 	<!-- 공통코드조회 selectBox -->
-	<select id="selectCommonCodeList" parameterType="code" resultType="code">
+	<select id="selectCommonCodeList" parameterType="codeDtl" resultType="codeDtl">
 		SELECT
 			 CODE_MST_CD
 			,CODE_DTL_CD

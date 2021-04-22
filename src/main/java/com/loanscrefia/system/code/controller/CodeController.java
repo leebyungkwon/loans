@@ -1,5 +1,7 @@
 package com.loanscrefia.system.code.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,11 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
-import com.loanscrefia.system.code.domain.CodeDomain;
+import com.loanscrefia.system.code.domain.CodeDtlDomain;
+import com.loanscrefia.system.code.domain.CodeMstDomain;
 import com.loanscrefia.system.code.service.CodeService;
 
 @Controller
@@ -33,21 +35,20 @@ public class CodeController {
 	
 	//공통코드관리 > 코드 마스터 리스트
 	@PostMapping(value="/codeMstList")
-	public ResponseEntity<ResponseMsg> codeMstList(CodeDomain codeVO){
+	public ResponseEntity<ResponseMsg> codeMstList(CodeMstDomain codeMstDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(codeService.selectCodeMstList(codeVO));
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
-	//공통코드관리 > 코드 마스터 아이디 중복체크
-	@PostMapping(value="/codeMstCdDupCheck")
-	public ResponseEntity<ResponseMsg> codeMstCdDupCheck(CodeDomain codeVO){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(codeService.codeMstCdDupCheck(codeVO));
+    	responseMsg.setData(codeService.selectCodeMstList(codeMstDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	/*
+	//공통코드관리 > 코드 마스터 아이디 중복체크
+	@PostMapping(value="/codeMstCdDupCheck")
+	public ResponseEntity<ResponseMsg> codeMstCdDupCheck(CodeMstDomain codeMstDomain){
+		ResponseMsg responseMsg = codeService.codeMstCdDupCheck(codeMstDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	//공통코드관리 > 코드 마스터 저장 레이어 팝업
 	@GetMapping(value="/p/codeMstSavePop")
 	public ModelAndView codeMstSavePop(CodeDomain codeVO) {
@@ -63,8 +64,8 @@ public class CodeController {
 	
 	//공통코드관리 > 코드 마스터 저장
 	@PostMapping(value="/codeMstSave")
-	public ResponseEntity<ResponseMsg> codeMstSave(CodeDomain codeVO){
-		ResponseMsg responseMsg = codeService.saveCodeMst(codeVO);
+	public ResponseEntity<ResponseMsg> codeMstSave(@Valid CodeMstDomain codeMstDomain){
+		ResponseMsg responseMsg = codeService.saveCodeMst(codeMstDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -75,21 +76,20 @@ public class CodeController {
 	
 	//공통코드관리 > 코드 상세 리스트
 	@PostMapping(value="/codeDtlList")
-	public ResponseEntity<ResponseMsg> codeDtlList(CodeDomain codeVO){
+	public ResponseEntity<ResponseMsg> codeDtlList(CodeDtlDomain codeDtlDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(codeService.selectCodeDtlList(codeVO));
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
-	//공통코드관리 > 코드 마스터 아이디 중복체크
-	@PostMapping(value="/codeDtlCdDupCheck")
-	public ResponseEntity<ResponseMsg> codeDtlCdDupCheck(CodeDomain codeVO){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(codeService.codeDtlCdDupCheck(codeVO));
+    	responseMsg.setData(codeService.selectCodeDtlList(codeDtlDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	/*
+	//공통코드관리 > 코드 상세 아이디 중복체크
+	@PostMapping(value="/codeDtlCdDupCheck")
+	public ResponseEntity<ResponseMsg> codeDtlCdDupCheck(CodeDtlDomain codeDtlDomain){
+		ResponseMsg responseMsg = codeService.codeDtlCdDupCheck(codeDtlDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	//공통코드관리 > 코드 상세 저장 레이어 팝업
 	@GetMapping(value="/p/codeDtlSavePop")
 	public ModelAndView codeDtlSavePop(CodeDomain codeVO) {
@@ -105,8 +105,8 @@ public class CodeController {
 	
 	//공통코드관리 > 코드 상세 저장
 	@PostMapping(value="/codeDtlSave")
-	public ResponseEntity<ResponseMsg> codeDtlSave(CodeDomain codeVO){
-		ResponseMsg responseMsg = codeService.saveCodeDtl(codeVO);
+	public ResponseEntity<ResponseMsg> codeDtlSave(@Valid CodeDtlDomain codeDtlDomain){
+		ResponseMsg responseMsg = codeService.saveCodeDtl(codeDtlDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

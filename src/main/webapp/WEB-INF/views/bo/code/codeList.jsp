@@ -10,7 +10,7 @@ function pageLoad(){
 	//코드 마스터 그리드
 	codeMstGrid.set({
 		  id			: "codeMstGrid"
-  		, url			: "/bo/system/code/codeMstList"
+  		, url			: "/system/code/codeMstList"
 	    , width			: "100%"
   		, headCol		: ["번호", "코드명", "코드설명"]
   		, bodyCol		: 
@@ -53,8 +53,8 @@ function goCodeDtlList(idx, data){
 	//코드 마스터 정보 보여주기
 	$("#pCodeMstCd").val(data.codeMstCd);
 	$("#pCodeMstCd").attr("readonly","readonly");
-	$("#codeMstCdDupCheckResult").val("Y");
-	$("#goCodeMstCdDupCheck").hide();
+	//$("#codeMstCdDupCheckResult").val("Y");
+	//$("#goCodeMstCdDupCheck").hide();
 	$("#pCodeMstNm").val(data.codeMstNm);
 	$("#pCodeMstDesc").val(data.codeMstDesc);
 	$("#hCodeMstCd").val(data.codeMstCd);		//코드 상세 관련
@@ -63,7 +63,7 @@ function goCodeDtlList(idx, data){
 	//코드 상세 그리드
 	codeDtlGrid.set({
 		  id			: "codeDtlGrid"
-  		, url			: "/bo/system/code/codeDtlList?codeMstCd="+data.codeMstCd
+  		, url			: "/system/code/codeDtlList?codeMstCd="+data.codeMstCd
 	    , width			: "100%"
   		, headCol		: ["번호", "코드명", "코드설명"]
   		, bodyCol		: 
@@ -86,42 +86,35 @@ function goCodeDtlInfo(idx, data){
 	//코드 상세 정보 보여주기
 	$("#pCodeDtlCd").val(data.codeDtlCd);
 	$("#pCodeDtlCd").attr("readonly","readonly");
-	$("#codeDtlCdDupCheckResult").val("Y");
-	$("#goCodeDtlCdDupCheck").hide();
+	//$("#codeDtlCdDupCheckResult").val("Y");
+	//$("#goCodeDtlCdDupCheck").hide();
 	$("#pCodeDtlNm").val(data.codeDtlNm);
 	$("#pCodeDtlDesc").val(data.codeDtlDesc);
 }
 </script>
 
-<div class="article_right">
-	<h3  class="article_tit">공통코드관리</h3>
-	<div class="k_search" id="search">
-		<table class="searchbx" style="width:60%">
-			<colgroup>
-				<col width="5%">
-				<col width="10%">
-				<col width="5%">
-				<col width="10%">
-				<col width="5%">
-				<col width="10%">
-			</colgroup>
-			<tbody>
-				<tr>
-					<td>
-						<p class="red">코드마스터ID</p>
-					</td>
-					<td><input type="text" name="codeMstCd" class="" value=""></td>
-				</tr>
-			</tbody>
-		</table>
-		<!-- 
-		<div class="btnbx">
-			<div>
-				<button type="button" class="btn btn_home" id="goCodeMstSavePop" >[레이어]코드마스터등록</button>
-				<button type="button" class="btn btn_home" id="goCodeDtlSavePop" >[레이어]코드상세등록</button>
-			</div>
+<div class="cont_area">
+	<div class="top_box">
+		<div class="title">
+			<h2>공통코드관리</h2>
 		</div>
-		 -->
+		<div class="info_box" id="search">
+			<table class="info_box_table">
+				<colgroup>
+					<col width="80"/>
+					<col width="200"/>
+					<col width="80"/>
+					<col width="200"/>
+				</colgroup>
+				<tr>
+					<th>코드마스터ID</th>
+					<td>
+						<input type="text"/>
+					</td>
+				</tr>
+			</table>
+			<a href="#" class="btn_inquiry">조회</a>
+		</div>
 	</div>
 	<div id="codeMstGrid"></div>
 	<div id="codeDtlGrid"></div>

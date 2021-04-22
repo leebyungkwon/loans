@@ -19,10 +19,13 @@
 			<a href="#">결제 내역</a>
 		</li>
 		<li>
-			<a href="/system/code/codeList">타협회 내역 다운로드</a>
+			<a href="#">타협회 내역 다운로드</a>
 		</li>
 		<li class="on">
 			<a href="/member/company/companyPage">회원사 관리</a>
+		</li>
+		<li>
+			<a href="/system/code/codeList">공통코드관리</a>
 		</li>
 	</ul>
 </div>

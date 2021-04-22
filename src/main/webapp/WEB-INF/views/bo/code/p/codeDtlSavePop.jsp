@@ -2,106 +2,100 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<div class="article_right">
-	<section class="k_inputform">
-		<h3 class="article_tit"><span>코드 상세 저장</span></h3>
-		<fieldset>
-			<form name="codeDtlSave" action="/bo/system/code/codeDtlSave" method="POST">
+<div class="cont_area">
+	<div class="top_box">
+		<div class="title">
+			<h2>코드상세 저장</h2>
+		</div>
+		<div class="info_box">
+			<form name="codeDtlSave" action="/system/code/codeDtlSave" method="POST">
 				<input type="hidden" name="saveType" id="codeDtlCdSaveType" value="reg"/>
-				<input type="hidden" name="codeMstCd" id="hCodeMstCd" value=""/>
-				<input type="hidden" id="codeDtlCdDupCheckResult" value="N"/>
-				
-				<table class="inputTable" style="width:500px;">
+				<input type="hidden" name="codeMstCd" id="hCodeMstCd"/>
+			
+				<table class="info_box_table">
 					<colgroup>
-						<col width="30%">
-						<col width="70%">
+						<col width="100"/>
+						<col width="300"/>
 					</colgroup>
-					<tbody>
-						<tr>
-							<td class="leftTd"><span class="type">코드마스터ID</span></td>
-							<td class="rightTd" id="codeMstCdText"></td>
-						</tr>
-						<tr>
-							<td class="leftTd"><span class="type">코드상세ID</span></td>
-							<td class="rightTd">
-								<input type="text" name="codeDtlCd" id="pCodeDtlCd" placeholder="코드상세ID를 입력하세요." class="" value="" maxlength="100" data-vd='{"type":"text","len":"1,100","req":true,"msg":"코드상세ID를 입력하세요."}'>
-								<button type="button" id="goCodeDtlCdDupCheck">중복체크</button>
-							</td>
-						</tr>
-						<tr>
-							<td class="leftTd"><span class="type">코드상세명</span></td>
-							<td class="rightTd">
-								<input type="text" name="codeDtlNm" id="pCodeDtlNm" placeholder="코드상세명을 입력하세요." class="" value="" maxlength="100" data-vd='{"type":"text","len":"1,100","req":true,"msg":"코드상세명을 입력하세요."}'>
-							</td>
-						</tr>
-						<tr>
-							<td class="leftTd"><span class="type">설명</span></td>
-							<td class="rightTd">
-								<textarea name="codeDtlDesc" id="pCodeDtlDesc" rows="5" cols="1" placeholder="설명을 입력하세요." class="field_inp" maxlength="100"></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td class="leftTd"><span class="type">(RADIO)사용</span></td>
-							<td class="rightTd">
-								<span class="rabx1">
-								    <input type="radio" name="useYn" id="radioY" value="Y" checked="checked">
-								    <label title="예" for="radioY">예</label>
-								</span>
-								<span class="rabx1">
-								    <input type="radio" name="useYn" id="radioN" value="N">
-								    <label title="아니오" for="radioN">아니오</label>
-								</span>
-							</td>
-						</tr>
-					</tbody>
+					<tr>
+						<th>코드마스터ID</th>
+						<td id="codeMstCdText"></td>
+					</tr>
+					<tr>
+						<th class="pdt10">코드상세ID</th>
+						<td class="pdt10">
+							<input type="text" name="codeDtlCd" id="pCodeDtlCd" class="" placeholder="코드상세ID를 입력하세요." maxlength="100">
+							<!-- <button type="button" id="goCodeDtlCdDupCheck">중복체크</button> -->
+						</td>
+					</tr>
+					<tr>
+						<th class="pdt10">코드상세명</th>
+						<td class="pdt10"> 
+							<input type="text" name="codeDtlNm" id="pCodeDtlNm" class="" placeholder="코드상세명을 입력하세요." maxlength="100">
+						</td>
+					</tr>
+					<tr>
+						<th class="pdt10">설명</th>
+						<td class="pdt10">
+							<textarea rows="5" cols="1" name="codeDtlDesc" id="pCodeDtlDesc" class="w100" placeholder="설명을 입력하세요."  maxlength="100"></textarea>
+						</td>
+					</tr>
+					<!-- 
+					<tr>
+						<th class="pdt10">사용여부</th>
+						<td class="pdt10">
+							<span class="rabx1">
+							    <input type="radio" name="useYn" value="Y" checked="checked">
+							    <label title="예" for="radioY">예</label>
+							</span>
+							<span class="rabx1">
+							    <input type="radio" name="useYn" value="N">
+							    <label title="아니오" for="radioN">아니오</label>
+							</span>
+						</td>
+					</tr>
+					 -->
 				</table>
-				
-				<div class="btn_bx">
-					<button type="button" class="btn_black" id="codeDtlSaveBtn">저장</button>
-					<!-- <button type="button" class="btn_black" id="btn_close">닫기</button> -->
-				</div>
 			</form>
-		</fieldset>
-	</section>
+			<a href="javascript:void(0);" class="btn_inquiry" id="codeDtlSaveBtn">저장</a>
+			<!-- <a href="javascript:void(0);" class="btn_inquiry" id="codeMstResetBtn">초기화</a> -->
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
+//var codeDtlCdDupCheckResult = "N";
+
 (function() {
+	/*
+	//코드 마스터 아이디 변경 시 이벤트
+	document.getElementById("pCodeDtlCd").onchange = function () {
+		codeDtlCdDupCheckResult = "N";
+	};
+	
 	//코드 상세 아이디 중복체크
 	document.getElementById("goCodeDtlCdDupCheck").onclick = function () {
-		if($("#pCodeDtlCd").val() == ""){
-			$("#pCodeDtlCd").focus();
-			alert("코드상세ID를 입력하세요.");
-			return;
-		}
-		
 		var p = {
-			  url		: "/bo/system/code/codeDtlCdDupCheck"	
+			  url		: "/system/code/codeDtlCdDupCheck"	
 			, param		: {
 					 codeMstCd : $("#hCodeMstCd").val()  
 					,codeDtlCd : $("#pCodeDtlCd").val()
 			  }
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					$("#codeDtlCdDupCheckResult").val("N");
-					$("#pCodeDtlCd").focus();
-					alert("이미 존재하는 ID입니다.");
-					return;
-				}else{
-					$("#codeDtlCdDupCheckResult").val("Y");
-					alert("성공!");
-				}
+				codeDtlCdDupCheckResult = "Y";
     	    }
 		}
 		AjaxUtil.post(p);
 	};
-	
+	*/
 	//저장
 	document.getElementById("codeDtlSaveBtn").onclick = function () {
-		if($("#codeDtlCdDupCheckResult").val() == "N"){
+		/*
+		if(codeDtlCdDupCheckResult == "N"){
 			alert("코드상세ID 중복체크를 해주세요.");
 			return;
 		}
+		*/
 		var p = {
 			  name 		: "codeDtlSave"
 			, success 	: function (opt,result) {
@@ -111,12 +105,5 @@
 		}
 		AjaxUtil.form(p);
 	};
-	
-	/*
-	//닫기
-	document.getElementById("btn_close").onclick = function () {
-		$(".closeLayer").trigger("click");
-	};
-	*/
 })();
 </script>	

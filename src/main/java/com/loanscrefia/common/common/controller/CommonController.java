@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
-import com.loanscrefia.system.code.domain.CodeDomain;
+import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,9 +54,9 @@ public class CommonController {
 	
 	// 2021-04-16 commonCodeList - selectBox
 	@PostMapping(value="/common/selectCommonCodeList")
-	public ResponseEntity<ResponseMsg> selectCommonCodeList(CodeDomain code){
+	public ResponseEntity<ResponseMsg> selectCommonCodeList(CodeDtlDomain codeDtlDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-    	responseMsg.setData(commonService.selectCommonCodeList(code));
+    	responseMsg.setData(commonService.selectCommonCodeList(codeDtlDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

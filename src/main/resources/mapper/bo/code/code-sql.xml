@@ -22,7 +22,7 @@
 	</sql>
 	
 	<!-- 코드 마스터 리스트 -->
-	<select id="selectCodeMstList" parameterType="code" resultType="code">
+	<select id="selectCodeMstList" parameterType="codeMst" resultType="codeMst">
 		SELECT
 			 CODE_MST_CD
 			,CODE_MST_NM
@@ -33,7 +33,7 @@
 	</select>
 	
 	<!-- 코드 마스터 아이디 중복체크 -->
-	<select id="codeMstCdDupCheck" parameterType="code" resultType="int">
+	<select id="codeMstCdDupCheck" parameterType="codeMst" resultType="int">
 		SELECT 
 			COUNT(*)
 		FROM TBL_CODE_MST
@@ -43,7 +43,7 @@
 	</select>
 
 	<!-- 코드 마스터 등록 -->
-	<insert id="insertCodeMst" parameterType="code">
+	<insert id="insertCodeMst" parameterType="codeMst">
 		INSERT INTO TBL_CODE_MST
 		(
 			 CODE_MST_CD
@@ -72,10 +72,8 @@
 		)
 	</insert>
 	
-	<!-- 코드 마스터 상세 -->
-	
 	<!-- 코드 마스터 수정 -->
-	<update id="updateCodeMst" parameterType="code">
+	<update id="updateCodeMst" parameterType="codeMst">
 		UPDATE TBL_CODE_MST
 		SET 
 			 CODE_MST_NM 	= #{codeMstNm}
@@ -88,7 +86,7 @@
 	</update>
 	
 	<!-- 코드 상세 리스트 -->
-	<select id="selectCodeDtlList" parameterType="code" resultType="code">
+	<select id="selectCodeDtlList" parameterType="codeDtl" resultType="codeDtl">
 		SELECT
 			 CODE_MST_CD
 			,CODE_DTL_CD
@@ -106,7 +104,7 @@
 	</select>
 	
 	<!-- 코드 상세 아이디 중복체크 -->
-	<select id="codeDtlCdDupCheck" parameterType="code" resultType="int">
+	<select id="codeDtlCdDupCheck" parameterType="codeDtl" resultType="int">
 		SELECT COUNT(*)
 		FROM TBL_CODE_DTL
 		<where>
@@ -116,7 +114,7 @@
 	</select>
 	
 	<!-- 코드 상세 등록 -->
-	<insert id="insertCodeDtl" parameterType="code">
+	<insert id="insertCodeDtl" parameterType="codeDtl">
 		INSERT INTO TBL_CODE_DTL
 		(
 			 CODE_MST_CD
@@ -147,10 +145,8 @@
 		)
 	</insert>
 	
-	<!-- 코드 상세 -->
-	
 	<!-- 코드 상세 수정 -->
-	<update id="updateCodeDtl" parameterType="code">
+	<update id="updateCodeDtl" parameterType="codeDtl">
 		UPDATE TBL_CODE_DTL
 		SET 
 			 CODE_DTL_NM 	= #{codeDtlNm}

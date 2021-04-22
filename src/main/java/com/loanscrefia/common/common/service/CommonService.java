@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.common.common.repository.VersionRepository;
-import com.loanscrefia.system.code.domain.CodeDomain;
-
+import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
 @Service
 public class CommonService {
@@ -35,8 +34,8 @@ public class CommonService {
 	
 	
 	// 공통코드조회
-	public List<CodeDomain> selectCommonCodeList(CodeDomain code){
-		return commonRepository.selectCommonCodeList(code);
+	public List<CodeDtlDomain> selectCommonCodeList(CodeDtlDomain codeDtlDomain){
+		return commonRepository.selectCommonCodeList(codeDtlDomain);
 	}
 
 }
