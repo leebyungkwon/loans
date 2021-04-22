@@ -3,60 +3,72 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script type="text/javascript">
 
-var Grid = Object.create(GRID); 
+var Grid = Object.create(GRID);
 
 function pageLoad(){
-	var jpa_url = "/system/templete/listJpa";
-	var mybatis_url = "/system/templete/list";
-	var url = mybatis_url;
+	var url = "/bo/templete/list";
+
 	Grid.set({
-		  id		: "grid"
+		  id		: "grid"	//영역
   		, url		: url
 	    , width		: "100%"
-	    , check		: true
-  		, headCol	: ["번호", "타입", "제목", "등록시간", "첨부"]
-  		, bodyCol	: 
+	    , check		: true		//체크박스 생성
+  		, headCol	: ["번호", "타입", "제목", "등록시간", "등록시간", "수정"]	//헤더
+  		, bodyCol	: //데이터 영역
   			[
 				{type:"string"	, name:'boardNo'	, index:'boardNo'		, width:"10px"	, id:true}
-				,{type:"string"	, name:'boardType'	, index:'boardType'		, width:"20%"	, align:"center"}
-				,{type:"string"	, name:'boardTitle'	, index:'boardTitle'	, width:"40%"	, align:"center"}		
-				,{type:"string"	, name:'regDate'	, index:'regDate'		, width:"30%"	, sortable:false}
-				,{type:"string"	, name:'attchNo3'	, index:'attchNo3'		, width:"30%"	, sortable:false}	
+				,{type:"string"	, name:'boardType'	, index:'boardType'		, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'boardTitle'	, index:'boardTitle'	, width:"30%"	, align:"center"}
+				,{type:"string"	, name:'regDate'	, index:'regDate'		, width:"30%"	, sortTable:false}
+				,{type:"string"	, name:'regDate'	, index:'regDate'		, width:"30%"	, sortTable:false, hidden:true}
+				,{type:"string"	, name:'btn'		, index:'btn'			, width:"30%"	, sortTable:false
+						, button:{"수정": "modify","삭제": "del"}
+				}
 			]
-		, sortNm : "board_no"
-		, sort : "DESC"
-		, rowClick	: {/* color:"#ccc",  */retFunc : detail}
-		, gridSearch : "search"
-		, isPaging : true
-		, excel : "/system/templete/excelDown"
+		, sortTable:true
+		, sortNm : "board_no"				//정렬 필드
+		, sort : "DESC"						//정렬 방법
+		, rowClick	: {/* color:"#ccc",  */retFunc : detailPop}		//클릭시 리턴
+		, gridSearch : "searchDiv,searchBtnId"				//검색영역 (검색영역,검색버튼)
+		, isPaging : true					//페이징여부
+		, excel : "/bo/templete/excelDown"
+		, initTable : false
+		, size : 10
 	});
-	
+
+
 	document.getElementById('btn_pop1').onclick = function () {
 		let p = {
 			id : 'testReg'
-			, url : "/system/templete/p/templeteSave"
+			, url : "/bo/templete/p/templeteSave"
 		}
 		LibUtil.openPopup(p);
 	};
 	document.getElementById('btn_pop2').onclick = function () {
 		let p = {
 			id : 'testReg'
-			, url : "/system/templete/p/templeteFileSave"
+			, url : "/bo/templete/p/templeteFileSave"
 		}
 		LibUtil.openPopup(p);
 	};
 	document.getElementById('btn_page').onclick = function () {
-		location.href = "/system/board/noticeReg";
+		location.href = "/bo/board/noticeReg";
 	};
 }
+function modify(idx){
+	alert("수정 "+Grid.gridData[idx].boardNo);
+}
+function del(idx){
+	alert("삭제 "+Grid.gridData[idx].boardNo);
+}
 function detail(idx, data){
-	location.href = "/system/templete/templeteSave?id="+data.id;
+	location.href = "/bo/templete/templeteSave?boardNo="+data.boardNo;
 }
 function detailPop(idx, data){
 	let p = {
 		id : "testReg"
 		, data : data
-		, url : "/system/templete/p/templeteSave"
+		, url : "/bo/templete/p/templeteSave"
 	}
 	LibUtil.openPopup(p);
 }
@@ -64,7 +76,7 @@ function detailPop(idx, data){
 
 <div class="article_right">
 	<h3  class="article_tit">템플릿 1</h3>
-	<div class="k_search" id="search">
+	<div class="k_search" id="searchDiv">
 		<table class="searchbx" style="width:60%">
 			<colgroup>
 				<col width="5%">
@@ -93,7 +105,7 @@ function detailPop(idx, data){
 		</table>
 		<div class="btnbx">
 			<div>
-			<button type="button" class="btn btn_home gridSearch">조회</button>
+			<button type="button" class="btn btn_home" id="searchBtnId">조회</button>
 			</div>
 			<div>
 			<button type="button" class="btn btn_home" id="btn_page" >[페이지이동]등록</button>
