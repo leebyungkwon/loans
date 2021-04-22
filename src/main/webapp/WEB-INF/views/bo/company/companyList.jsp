@@ -26,7 +26,7 @@ function pageLoad(){
 		, sort : "DESC"
 		, size : 10
 		, rowClick	: {color:"#ccc", retFunc : detailPop}
-		, gridSearch : "search"
+		//, gridSearch : "search"
 		, isPaging : true
 	});
 }
@@ -35,7 +35,7 @@ function detailPop(idx, data){
 	let p = {
 		id : "dtl_save"
 		, data : data
-		, curl : "/admin/recruit/p/recruitDtl"
+		, url : "/member/company/p/companyView"
 	}
 	LibUtil.openPopup(p);
 }
