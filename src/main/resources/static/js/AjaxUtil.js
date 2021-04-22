@@ -19,9 +19,6 @@ var AjaxUtil = {
             params: opt.param
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
-            
-            console.log("?11?" , response);
-            
             AjaxUtil.successHandler(opt, response.data);
         }).
         /*
@@ -66,8 +63,6 @@ var AjaxUtil = {
         // 로딩바 열기
         //this.openLoadBar(loadYn);
 
-		console.log("opt.url == "+opt.url);
-
         // ajax 호출
         axios({
             method: "post",
@@ -78,9 +73,7 @@ var AjaxUtil = {
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
-
-			console.log("?????" ,response);
-
+console.log("success",status);
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
@@ -95,6 +88,7 @@ var AjaxUtil = {
         	}
         })
         .catch(function(error) {
+console.log("catch",error);
             //AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         })
@@ -223,12 +217,14 @@ var AjaxUtil = {
 		});
     	if(!f) return false;
         let formData = new FormData(frm[0]);
+        console.log(formData);
         axios({
             method: "post",
             url: frm[0].action,
             data: formData,
             headers: { "Content-Type": "multipart/form-data" }
         }).then(function(response) {
+        	console.log(response);
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
 
@@ -298,6 +294,7 @@ var AjaxUtil = {
      * 에러 핸들러
      */
     errorHandler: function(callback, error) {
+		console.log(callback, error);
         var errMsg = "서버에 일시적인 문제가 생겼습니다.\n잠시후에 다시 이용해주세요.";
 
         if (error.response) {
@@ -328,6 +325,7 @@ var AjaxUtil = {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
             LibUtil.msgOpenPopup(errMsg);
+            console.log(errMsg);
         }
     }
 
