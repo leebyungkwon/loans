@@ -51,3 +51,23 @@ CREATE TABLE public.tbl_code_dtl (
 -- public.tbl_code_dtl foreign keys
 
 ALTER TABLE public.tbl_code_dtl ADD CONSTRAINT fksly1icd4bxqqc0cvat87yeb0a FOREIGN KEY (code_mst_cd) REFERENCES public.tbl_code_mst(code_mst_cd);
+
+
+
+-- 2021-04-22 추가
+-- public.tbl_members definition
+
+-- Drop table
+
+-- DROP TABLE public.tbl_members;
+
+CREATE TABLE public.tbl_members (
+	member_no bigserial NOT NULL,
+	email varchar(20) NOT NULL,
+	member_nm varchar(100) NOT NULL,
+	"password" varchar(100) NOT NULL,
+	dormant bpchar(1) NULL DEFAULT 'N'::bpchar,
+	fail_cnt int4 NULL DEFAULT 0,
+	enabled int4 NULL DEFAULT 1,
+	CONSTRAINT tbl_members_pkey PRIMARY KEY (member_no)
+);
