@@ -8,8 +8,8 @@ import lombok.Data;
 public abstract class BaseDomain extends PagingDomain{
 
     private String useYn;
-    private String regDate; //LocalDateTime regDate;
+    private String regDate; 
     private int regNo;
-    private String updDate; //LocalDateTime updDate;
+    private String updDate; 
     private int updNo;
 }

@@ -19,6 +19,9 @@ var AjaxUtil = {
             params: opt.param
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
+            
+            console.log("?11?" , response);
+            
             AjaxUtil.successHandler(opt, response.data);
         }).
         /*
@@ -57,12 +60,13 @@ var AjaxUtil = {
         } else {
         	param = opt.param;
         }
-		console.log(param);
         // 응답 유형
         opt.resType = WebUtil.nvl(opt.resType, "json");
 
         // 로딩바 열기
         //this.openLoadBar(loadYn);
+
+		console.log("opt.url == "+opt.url);
 
         // ajax 호출
         axios({
@@ -74,6 +78,8 @@ var AjaxUtil = {
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
+
+			console.log("?????" ,response);
 
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
@@ -217,14 +223,12 @@ var AjaxUtil = {
 		});
     	if(!f) return false;
         let formData = new FormData(frm[0]);
-        console.log(formData);
         axios({
             method: "post",
             url: frm[0].action,
             data: formData,
             headers: { "Content-Type": "multipart/form-data" }
         }).then(function(response) {
-        	console.log(response);
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
 
@@ -298,7 +302,6 @@ var AjaxUtil = {
 
         if (error.response) {
             var resData = error.response.data;
-			console.log(resData);
             if (WebUtil.isObject(resData.errors[0]) && WebUtil.isNotNull(resData.errors[0].defaultMessage)) {
                 errMsg = resData.errors[0].defaultMessage;
             }
@@ -325,7 +328,6 @@ var AjaxUtil = {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
             LibUtil.msgOpenPopup(errMsg);
-            console.log(errMsg);
         }
     }
 

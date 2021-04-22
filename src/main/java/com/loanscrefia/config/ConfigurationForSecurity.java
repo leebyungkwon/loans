@@ -51,6 +51,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/system/**").hasAnyRole("SYSTEM")
 			// .antMatchers("/bo/mem/boardList").permitAll()
 			.antMatchers("/signup").permitAll()
+			.antMatchers("/common/**").permitAll()
 			.antMatchers("/**").hasAnyRole("ADMIN","SYSTEM","MEMBER")
 			.anyRequest().authenticated();
 

@@ -1,6 +1,5 @@
 package com.loanscrefia.member.company.controller;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +41,9 @@ public class CompanyController {
     	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/p/companyView");
     	
     	// 테스트용 임시
-    	if(StringUtils.isNotEmpty(companyDomain.getComNo())) {
+    	if(companyDomain.getGroupNo() > 0) {
     		// 조회 후 데이터 던짐
         	CompanyDomain result = new CompanyDomain();
-        	result.setComNm("테스터");
         	mv.addObject("testParam", result);
     	}
     	

@@ -32,6 +32,15 @@ function pageLoad(){
 		var fileName = fileValue[fileValue.length-1];
 		$("#fileName").val(fileName);
 	});
+	
+	
+	// 회원사 코드
+	var companyCode = {
+		useCode : true
+		,code : 'COM001'
+		,target : '#companyCd'
+	};
+	DataUtil.selectBox(companyCode);
 
 }
 </script>
@@ -49,15 +58,13 @@ function pageLoad(){
 			<tr>
 				<th>회원사 선택</th>
 				<td>
-					<select>
-						<option value="">전체</option>
-					</select>
+					<select id="companyCd" name="companyCd"></select>
 				</td>
 			</tr>
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="user_id" name="email" placeholder="아이디 (이메일)" />
+					<input type="text" id="user_id" name="email" placeholder="아이디" />
 					<a href="javascript:void(0);" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>
@@ -65,7 +72,7 @@ function pageLoad(){
 				<th>비밀번호</th>
 				<td>
 					<input type="password" id="user_password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)"/>
-					<p class="noti">
+ 					<p class="noti">
 						알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br />
 						휴대폰 뒤 4자리, 생년월일, 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용불가능합니다.
 					</p>
