@@ -1,12 +1,6 @@
 let LibUtil = {
-		
 	openPopup: function(opts){
-		const _this = this ;
  		if(document.querySelectorAll("#"+opts.id).length >= 1) return false;
- 		
- 		const wrap = document.querySelector('.wrapperModal');
-		if(wrap.style.display=="" || wrap.style.display=="none") wrap.style.display = "block";
-		
  		let url = WebUtil.nvl(opts.url, "/common/openPopup");
 		let p = { url : opts.curl};
 		//p = WebUtil.getParamJson(opts.params , p);
@@ -22,51 +16,53 @@ let LibUtil = {
 				cloneEl.querySelector('.layerContent').innerHTML = data;
 				//document.querySelector('body').appendChild(cloneEl);
 				$('body').append(cloneEl);
-
 				if(WebUtil.isNotNull(opts.data)){
 					let inputEl = document.getElementById(opts.id).getElementsByTagName("input");
 					for (let i=0;i<inputEl.length;i++) {
 						if(WebUtil.isNotNull(opts.data[inputEl[i].name])){
 							if(inputEl[i].type=='radio') 	if(inputEl[i].value == opts.data[inputEl[i].name]) inputEl[i].checked = true;
 							if(inputEl[i].type=='checkbox') if(inputEl[i].value == opts.data[inputEl[i].name]) inputEl[i].checked = true;
-							if(inputEl[i].type=='text')	inputEl[i].value = opts.data[inputEl[i].name];	
+							if(inputEl[i].type=='text')	{
+								inputEl[i].value = (typeof opts.data[inputEl[i].name] === "string") ? opts.data[inputEl[i].name].unescapeHtml() : opts.data[inputEl[i].name];
+							}
+							if(inputEl[i].type=='hidden')	{
+								inputEl[i].value = (typeof opts.data[inputEl[i].name] === "string") ? opts.data[inputEl[i].name].unescapeHtml() : opts.data[inputEl[i].name];
+							}
 						}
 					}
 					let textareaEl = document.getElementById(opts.id).getElementsByTagName("textarea");
 					for (let i=0;i<textareaEl.length;i++) {
-						if(WebUtil.isNotNull(opts.data[inputEl[i].name])){
-							//console.log(textareaEl[i].name,opts.data[textareaEl[i].name], textareaEl[i]);
-							textareaEl[i].value = opts.data[textareaEl[i].name];
+						if(WebUtil.isNotNull(opts.data[textareaEl[i].name])){
+							textareaEl[i].value = opts.data[textareaEl[i].name].unescapeHtml();
 						}
 					}
 					let selectEl = document.getElementById(opts.id).getElementsByTagName("select");
 					for (let i=0;i<selectEl.length;i++) {
-						if(WebUtil.isNotNull(opts.data[inputEl[i].name])){
+						if(WebUtil.isNotNull(opts.data[selectEl[i].name])){
 							//console.log(selectEl[i].name,opts.data[selectEl[i].name], selectEl[i]);
 							if(WebUtil.isNotNull(opts.data[selectEl[i].name])) selectEl[i].value = opts.data[selectEl[i].name];
 						}
 					}
 				}
-				cloneEl.querySelector(".closeLayer").onclick = function(){
-					_this.closePopup(opts.id);
 
+				cloneEl.querySelector(".closeLayer").onclick = function(){
+					//this.parentElement.remove();
+					this.parentElement.parentNode.removeChild(this.parentElement);
 				};
-	            if (typeof opts.success === "function") {
-	                opts.success();
+
+				if (typeof popupInit === "function") {
+					popupInit(opts.data);
 	            }
+
 	        }
 		};
 		AjaxUtil.get(params);
     }
 	, closePopup: function(id){
- 		const wrap = document.querySelector('.wrapperModal');
-		if(wrap.style.display=="block") wrap.style.display = "none";
-		
-		const Element = document.querySelector('#'+id);
-		Element.parentElement.removeChild(Element);
+		document.getElementById(id).remove();
 	}
 	, msgOpenPopup: function(message){
-		
+
     	const Element = document.querySelector('.msgLayerPopupBase');
 		let cloneEl = Element.cloneNode(true);
 		cloneEl.className = 'msgLayerPopup';
@@ -79,7 +75,7 @@ let LibUtil = {
 		};
 	}
 	, getMessage: function(){
-		return 
+		return
 	}
     , openWinPopup: function(opts){
    		let win = window.open(opts.popupUrl, "PopupWin", "width=500,height=600");
@@ -94,7 +90,7 @@ let LibUtil = {
 	    		w = 'style="width:35% !important;"';
 	    		if(opt.time)	w = 'style="width:25% !important;"';
 	    	}
-			
+
 	    	if(typeof opt.startDtNm != 'undefined') {
 	    		let startDt = (typeof opt.startDtVal === 'undefined') ? WebUtil.getDate("oneMonthAgo") :  opt.startDtVal;
 	    		let startTm = (typeof opt.startTmVal === 'undefined') ? '00' : opt.startTmVal ;
@@ -118,17 +114,17 @@ let LibUtil = {
 	    			WebUtil.setHour(opt.endTmNm, 24,endTm);
 	    		}
 	    	}
-	    	
-	    	
+
+
 	    	this.setDatePicker('range', opt.startDtNm, opt.endDtNm);
     	}else{
     		this.setDatePicker();
     		return;
     	}
-    	
-    	
+
+
 	    $.datepicker.regional['ko'] = {
-	       //Input Display Format 변경 
+	       //Input Display Format 변경
 	        dateFormat: 'yy-mm-dd'
 	       //월 1일 이전, 월 말일 이후 빈칸에 이전달, 다음달 날짜 출력 여부
 	       ,showOtherMonths: true
@@ -141,18 +137,18 @@ let LibUtil = {
 	       //콤보박스에서 년 선택 가능
 	       ,changeYear: true
 	       //콤보박스에서 월 선택 가능
-	       ,changeMonth: true         
+	       ,changeMonth: true
 	       //달력의 년도 부분 뒤에 붙는 텍스트
 	       ,yearSuffix: "년"
 	       // next,prev 아이콘의 툴팁.
-	       ,nextText: "다음 달" 
+	       ,nextText: "다음 달"
 	       ,prevText: "이전 달"
 	       // 캘린더 하단에 버튼 패널을 표시한다.
-	       ,showButtonPanel: false 
+	       ,showButtonPanel: false
 	       // 오늘 날짜로 이동하는 버튼 패널
 	       ,currentText: '오늘'
 	       // 닫기 버튼 패널
-	       ,closeText: '닫기' 
+	       ,closeText: '닫기'
 	       //우측에 달력 icon 을 보인다.
 	       //,showOn: 'both'
 	       //우측 달력 icon 의 이미지 패스
@@ -175,20 +171,20 @@ let LibUtil = {
 	       ,numberOfMonths: 1
 	    };
 	    let datepicker = $.extend({}, $.datepicker.regional['ko'], opt);
-	    
+
 	    $.datepicker.setDefaults(datepicker);
-	    
+
 	    if(WebUtil.isNotNull(opt.useRange)){
 	    	let m = ['1개월','3개월','6개월','1년'];
 	    	let m_v = [30,60,180,365];
-	    	
+
 	    	let d = ['당일','1주일','1개월','3개월'];
 	    	let d_v = [0,7,30,90];
-	    	
+
 	        let html = '';
 			let selectList = [];
 			let selectVal =  [];
-			
+
 			if(opt.range == 'month'){
 				selectList = m;
 				selectVal = m_v;
@@ -203,15 +199,15 @@ let LibUtil = {
 				}
 				html += '</select>';
 			}
-			
+
 			if(opt.time) $('[name="'+opt.endDtNm+'"]').next().after(html);
 			else		 $('[name="'+opt.endDtNm+'"]').after(html);
-			
+
 			$(opt.target).find("#dateRange").on('change', function(){
 				$(opt.target).find('[name="'+opt.startDtNm+'"]').val(WebUtil.getDate(this.value));
 				$(opt.target).find('[name="'+opt.endDtNm+'"]').val(WebUtil.getDate('today'));
 			});
-			
+
 	    }
     }
     ,setDatePicker: function(typ, startDtNm, endDtNm){
@@ -227,13 +223,13 @@ let LibUtil = {
 						return false;
 					};
 		        }
-		        , onClose: function( selectedDate ) {    
+		        , onClose: function( selectedDate ) {
 		            $(".eDatepicker").datepicker( "option", "minDate", selectedDate );
 		            // 달력 click시 초기화
 		            $("#dateRange").val("");
 		            // 시작일(sDatepicker) datepicker가 닫힐때
 		            // 종료일(eDatepicker)의 선택할수있는 최소 날짜(minDate)를 선택한 시작일로 지정
-		        }                
+		        }
 		    });
 		    //종료일의 초기값을 내일로 설정
 		    $('[name="'+endDtNm+'"]').datepicker({
@@ -252,16 +248,19 @@ let LibUtil = {
 		            // 달력 click시 초기화
 		            $("#dateRange").val("");
 		            // 종료일(eDatepicker) datepicker가 닫힐때
-		            // 시작일(eDatepicker)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정 
+		            // 시작일(eDatepicker)의 선택할수있는 최대 날짜(maxDate)를 선택한 종료일로 지정
 		        }
 		    });
     	}else{
     		$('.dDatepicker').datepicker();
     	}
-    	
+
     }
 };
 var messages = {
-	COM0001: '저장되었습니다.',
-	COM0002: '저장에 실패하였습니다.'
+	COM0001: '저장 되었습니다.',
+	COM0002: '저장에 실패 하였습니다.',
+	COM0003: '사용 중인 아이디입니다.',
+	COM0004: '사용 가능한 아이디입니다.',
+	COM0005: '같은 해시태그가 존대합니다.'
 }
