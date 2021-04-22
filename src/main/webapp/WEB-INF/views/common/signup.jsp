@@ -3,47 +3,128 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
 function pageLoad(){
-	document.getElementById('btn_login').onclick = function () {
+	document.getElementById('btn_signup').onclick = function () {
 		AjaxUtil.submit('signup');
 	};
+	
+	// 첨부파일 삭제
+	$("#fileDelete").on("click", function(){
+		$("#fileName").val("");
+		
+		// IE일 경우
+		//$("#u_file").replaceWith( $("#u_file").clone(true) );
+		$("#u_file").val("");
+	});
+	
+	// 첨부파일 찾기
+	$("#fileSearch").on("click", function(){
+		$("#u_file").click();
+	});
+	
+	// 양식 다운로드
+	$("#sampleDown").on("click", function(){
+		alert("양식다운로드 실행");
+	});
+	
+	// 첨부파일 찾기시 file tag 실행
+	$("#u_file").on("change", function(){
+		var fileValue = $("#u_file").val().split("\\");
+		var fileName = fileValue[fileValue.length-1];
+		$("#fileName").val(fileName);
+	});
+
 }
 </script>
-<div class="login_wrap ">
-	<h2 class="member_title">회원가입</h2>
-	<div class="tab_cnt signup_step">
-		<form class="" name="signup" id="signup" action="/signup" method="POST">
-			<h3 class="">로그인에 사용할<br>아이디를 입력해주세요.</h3>
-	        <div class="inpbx">
-	                <input type="text" id="user_id" name="email" placeholder="아이디 (이메일)" data-vd='{"type":"email","len":"8,20","req":true,"msg":"아이디를 입력하세요."}'/>
-			</div>
-			<h3 class="">로그인에 사용할<br>비밀번호를 입력해주세요.</h3>
-			<div class="inpbx">
-				<input type="password" id="user_password" name="password" placeholder="비밀번호" data-vd='{"type":"pw","len":"1,20","req":false,"msg":"비밀번호를 입력하세요."}'>
-			</div>
-			<p class="field_vali">
-                <span class="on">영문포함</span>
-                <span class="">숫자포함</span>
-                <span class="">8~20자 이내</span>
-            </p>
-			<div class="inpbx">
-				<input type="password" id="user_password_chk" name="password_chk" placeholder="비밀번호 확인" data-vd='{"type":"pw","len":"1,20","req":false,"eq":"password","msg":"비밀번호 일치 여부 확인 하세요."}'>
-			</div>
-			<p class="field_vali">
-                <span class="">비밀번호 일치</span>
-            </p>
-            
-			<h3 class="">이름을 입력하세요</h3>
-			<div class="inpbx">
-				<input type="text" id="name" name="memberNm" placeholder="이름">
-			</div>
-	        <button type="button" class="btn btn_login" id="btn_login">가입 하기</button>
-	    </form>
-	
-	    <a href="/signup" class="member_go">계정이 없으신가요? 간편가입하기</a>
-	    <ul class="linkarea">
-	        <li><a href="">아이디 (이메일) 찾기</a></li>
-	        <li><a href="">비밀번호 찾기</a></li>
-	    </ul>
+
+<div class="page_title">
+	<h2>회원가입</h2>
+</div>
+<form name="signup" id="signup" action="/signup" method="POST" enctype="multipart/form-data" >
+	<div class="join_wrap">
+		<table>
+			<colgroup>
+				<col width="200"/>
+				<col width="*"/>
+			</colgroup>
+			<tr>
+				<th>회원사 선택</th>
+				<td>
+					<select>
+						<option value="">전체</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>아이디</th>
+				<td>
+					<input type="text" id="user_id" name="email" placeholder="아이디 (이메일)" />
+					<a href="javascript:void(0);" class="btn_gray btn_small">중복체크</a>
+				</td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td>
+					<input type="password" id="user_password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)"/>
+					<p class="noti">
+						알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br />
+						휴대폰 뒤 4자리, 생년월일, 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용불가능합니다.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<th>비밀번호 확인</th>
+				<td>
+					<input type="password" id="user_password_chk" name="password_chk" placeholder="동일한 비밀번호를 입력" />
+				</td>
+			</tr>
+			<tr>
+				<th>부서명</th>
+				<td>
+					<input type="text" placeholder="부서명 입력">
+				</td>
+			</tr>
+			<tr>
+				<th>담당자명</th>
+				<td>
+					<input type="text" id="name" name="memberNm" placeholder="이름">
+				</td>
+			</tr>
+			<tr>
+				<th>직위</th>
+				<td>
+					<input type="text" placeholder="직위 입력">
+				</td>
+			</tr>
+			<tr>
+				<th>이메일</th>
+				<td>
+					<input type="text" placeholder="이메일 입력">
+					<p class="noti">
+						가입 승인여부는 입력하신 이메일로 전송됩니다. 정확히 기입해 주세요.
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td>
+					<input type="text" placeholder="전화번호 입력">
+				</td>
+			</tr>
+			<tr>
+				<th>첨부파일 (신청서)</th>
+				<td id="fileTag">
+					<input type="text" readonly disabled id="fileName">
+					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
+					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
+					<a href="javascript:void(0);" class="btn_gray btn_small" id="sampleDown">양식다운로드</a>
+					<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
+				</td>
+			</tr>
+		</table>
 	</div>
+</form>
+
+<div class="btn_wrap">
+	<a href="#" class="btn_black" id="btn_signup">회원가입 신청</a>
 </div>
 

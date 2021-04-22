@@ -11,7 +11,11 @@ public class CosntPage {
 	public static String BoMemPage = "bo/mem"; 
 	public static String BoBoardPage = "bo/board"; 
 	public static String BoManagePage = "bo/manage"; 
-	public static String BoRecruitPage = "bo/recruit"; 
+	public static String BoRecruitPage = "bo/recruit";
+	
+	
+	// 회원사관리
+	public static String BoCompanyPage = "bo/company";
 	
 	//시스템관리 > 공통코드관리
 	public static String BoCodePage = "bo/code";

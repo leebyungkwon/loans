@@ -11,8 +11,6 @@
 		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<tiles:insertAttribute name="css" />
-		<link rel="stylesheet" type="text/css" href="/static/css/left_contents.css">
-		<link rel="stylesheet" type="text/css" href="/static/css/body_contents.css">
 		<tiles:insertAttribute name="js" />
 		<script>
 		window.onload = function() { 
@@ -22,21 +20,12 @@
 	</head>
 	<body>
 		
-		<div class="k_container">
 		<tiles:insertAttribute name="header" />
 		<tiles:insertAttribute name="category" />
-		</div>
-		
-		<section class="k_content_wrap">
-			<div class="my_wrap">		
-				<tiles:insertAttribute name="left" />
-				<tiles:insertAttribute name="body" />
-			</div>
-		</section>
-		<!-- body -->
-
+		<tiles:insertAttribute name="left" />
+		<tiles:insertAttribute name="body" />
 		<tiles:insertAttribute name="footer" />
-		<!-- /WEB-INF/views/common/layout/footer.jsp -->
+		
 		<div class="layerPopupBase" style="display:none;">
 			<button type="button" class="pop_btn_close closeLayer">X</button>
 	    	<div class="layerContent">

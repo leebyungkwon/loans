@@ -20,7 +20,8 @@ public class SecurityMember extends User {
 	private static final long serialVersionUID = 1L;
 	
 	public SecurityMember(MemberDomain member) {
-		super(member.getMemberNo().toString(), member.getPassword(),member.isEnabled(),true,true,true, makeGrantedAuthority(member.getRoles()));
+		//super(member.getMemberNo().toString(), member.getPassword(),member.isEnabled(),true,true,true, makeGrantedAuthority(member.getRoles()));
+		super(member.getMemberNo().toString(), member.getPassword(), true,true,true,true, makeGrantedAuthority(member.getRoles()));
 	}
 	private static List<GrantedAuthority> makeGrantedAuthority(List<MemberRoleDomain> roles){
 		List<GrantedAuthority> list = new ArrayList<>();

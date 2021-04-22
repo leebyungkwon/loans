@@ -28,7 +28,6 @@
        <put-attribute name="css"	value="/WEB-INF/layout/default/css.jsp" />
        <put-attribute name="header" value="/WEB-INF/layout/default/header.jsp" />
        <put-attribute name="body"	value="" />
-       <put-attribute name="footer" value="/WEB-INF/layout/default/footer.jsp" />
    </definition>
    
    

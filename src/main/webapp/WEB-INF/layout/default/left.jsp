@@ -4,56 +4,26 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-		<div class="article_left">
-			<!-- 
-			<section class="my_my">
-			    <div class="my_myin">
-			        <h3>이병권</h3>
-			        <ul>
-			            <li>
-			                <a class="btn_heart" href="">
-			                    <span class="txt">나의 하트 </span> <em>6</em>
-			                </a>
-			            </li>
-			            <li>
-			                <a href="">
-			                    <span class="txt">팔로잉 <span>0</span></span>
-			                </a>
-			            </li>
-			        </ul>
-			    </div>
-			</section>
-			 -->
-			<section class="k_menu">
-	    		<ul class="k_menu_1">
-	            	<li>
-	                	<h2>
-	                        <button type="button" class="btn_cate">템플릿</button>
-	                    </h2> 
-	                </li>
-	            </ul>
-	            <h4>게시판</h4>
-	            <sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
-			    <ul class="k_menu_2">
-			        <li><a href="/system/templete/templete">템플릿1</a></li>
-			        <li><a href="/system/templete/templete2">템플릿2</a></li>
-			        <li><a href="/system/manage/excel">엑셀 템플릿 관리</a></li>
-			    </ul>
-			    </sec:authorize>
-			    <sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
-			    <h4>회원사</h4>
-			    <ul class="k_menu_2">
-			        <li><a href="/admin/recruit/recruitPage">모집인 조회</a></li>
-			        <li><a href="/admin/recruit/regList">모집인 등록</a></li>
-			    </ul>
-			    </sec:authorize>
-			    <h4>시스템관리</h4>
-			    <ul class="k_menu_2">
-			        <li><a href="/common/board/notice">공지사항</a></li>
-			        <li><a href="/system/code/codeList">공통코드관리</a></li>
-			    </ul>
-			</section>
- 		</div>
- 		
-		
+
+<div class="gnb">
+	<ul>
+		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
+			<li>
+				<a href="/system/templete/templete">모집인 조회 및 변경</a>
+			</li>
+		</sec:authorize>
+		<li>
+			<a href="/admin/recruit/regList">모집인 승인처리</a>
+		</li>
+		<li>
+			<a href="#">결제 내역</a>
+		</li>
+		<li>
+			<a href="/system/code/codeList">타협회 내역 다운로드</a>
+		</li>
+		<li class="on">
+			<a href="/member/company/companyPage">회원사 관리</a>
+		</li>
+	</ul>
+</div>
 		

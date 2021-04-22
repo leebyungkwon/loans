@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.member.company.repository.CompanyRepository">
+   
+   
+   <!-- 회원사 회원 조회 -->
+   <select id="selectCompanyList" parameterType="company" resultType="company">
+		SELECT
+			'1'			AS com_no
+			, '볼보파이낸셜'	AS com_nm
+			, 'ABC111'	AS com_id
+			, '마케팅부서'	AS com_dept_nm
+			, '홍길동'	AS manager_nm
+			, '과장'		AS test1
+			, TO_CHAR(NOW(), 'YYYY-MM-DD')	AS reg_date
+			, '승인요청'	AS approve_cd_nm
+   </select>
+   
+   <!-- 회원사 회원 상세조회 -->
+   <select id="getCompany" parameterType="company" resultType="company">
+   
+   </select>
+   
+    
+   
+   
+</mapper> 

@@ -37,7 +37,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception
     {
-        web.ignoring().antMatchers("/static/plugin/**", "/static/css/**", "/static/js/**", "/static/img/**", "/static/lib/**");
+        web.ignoring().antMatchers("/static/plugin/**", "/static/css/**", "/static/js/**", "/static/img/**", "/static/lib/**", "/static/images/**");
     }
 
     @Override
@@ -50,6 +50,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/member/**").hasAnyRole("MEMBER","SYSTEM")
 			.antMatchers("/system/**").hasAnyRole("SYSTEM")
 			// .antMatchers("/bo/mem/boardList").permitAll()
+			.antMatchers("/signup").permitAll()
 			.antMatchers("/**").hasAnyRole("ADMIN","SYSTEM","MEMBER")
 			.anyRequest().authenticated();
 

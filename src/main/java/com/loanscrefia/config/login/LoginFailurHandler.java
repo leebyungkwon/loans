@@ -42,7 +42,10 @@ public class LoginFailurHandler implements AuthenticationFailureHandler {
 			
 		}  else if(exception instanceof CredentialsExpiredException) {
 			req.setAttribute("loginFailMsg", "비밀번호가 만료되었습니다.");
-		}
+			
+		}  else if(exception instanceof AuthenticationException) {
+			req.setAttribute("loginFailMsg", "휴면(만료) 계정입니다.");
+		}  
 		
         //req.setAttribute("email", req.getParameter("email"));
         //req.getRequestDispatcher("/login_view?error=true").forward(req, res);

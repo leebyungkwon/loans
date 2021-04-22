@@ -28,37 +28,55 @@ function pageLoad(){
 	
 }
 </script>
-<div class="login_wrap">
-	<h2 class="member_title ng-star-inserted">로그인</h2>
-	<div class="tab_cnt">
-		<form name="login" action="/j_spring_security" method="POST">
-	        <div class="inpbx">
-	            <input type="text" id="user_id" name="email" placeholder="아이디 (이메일)" />
-			</div>
-			<div class="inpbx">
-				<input type="password" id="user_password" name="password" placeholder="비밀번호" />
-			</div>
-			
-			<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
-			<span class="txt_warning">입력하신 정보와 일치하는 계정이 없습니다.</br> 로그인 정보를 확인해주세요</span>
-			<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
-			</c:if>
-			
-			<c:if test="${not empty loginFailMsg}">
-				<span class="txt_warning">${loginFailMsg }</span>
-				<c:remove var="loginFailMsg" scope="session" />
-			</c:if>
-			
-			
-	        <button type="button" class="btn btn_login" id="btn_login">로그인하기</button><!---->
-	
-	    </form>
-	
-	    <a href="/signup" class="member_go">계정이 없으신가요? 간편가입하기</a>
-	    <ul class="linkarea">
-	        <li><a href="./find?findType=id">아이디 (이메일) 찾기</a></li>
-	        <li><a href="./find?findType=password">비밀번호 찾기</a></li>
-	    </ul>
-	</div>
-</div>
 
+
+	<div id="container">
+		<div class="page_title">
+			<h2>로그인</h2>
+			<p class="sub">
+				<span>리스할부모집인 등록관리 시스템입니다.</span><br />
+				비밀번호 5회 오류 시, 30분동안 로그인이 제한됩니다.
+			</p>
+		</div>
+		<div class="login_wrap">
+			<form name="login" action="/j_spring_security" method="POST">
+				<div class="input_wrap clfix">
+					<div class="f-left w80">
+						<div class="input_box mgt0">
+							<div class="tit">아이디</div>
+							<div class="value">
+								<input type="text" id="user_id" name="email" placeholder="아이디 (이메일)" />
+							</div>
+						</div>
+						<div class="input_box">
+							<div class="tit">비밀번호</div>
+							<div class="value">
+								<input type="password" id="user_password" name="password" placeholder="비밀번호" />
+							</div>
+						</div>
+					</div>
+					<a href="javascript:void(0);" class="btn_login" id="btn_login">로그인</a>
+				</div>
+				
+				<!-- 로그인 실패 관련 메세지 영역 필요함 -->
+				<c:if test="${not empty loginFailMsg}">
+					<span class="txt_warning">${loginFailMsg }</span>
+					<c:remove var="loginFailMsg" scope="session" />
+				</c:if>
+				
+				<div class="bottom_box clfix">
+					<p class="f-left">
+						<input type="checkbox" id="test1" class="check">
+						<label for="test1">아이디 저장</label> <!-- id/for 값 변경하셔도됩니다 -->
+					</p>
+					<div class="f-right right_cont">
+						<ul>
+							<li>
+								<a href="/signup">회원가입</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
