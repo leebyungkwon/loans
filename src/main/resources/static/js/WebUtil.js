@@ -114,7 +114,7 @@ var WebUtil = {
 
         return result;
     },
-    
+
     getParamJson: function(obj, mObj) {
    	 	var result = {};
 		if (this.isObject(mObj)) {
@@ -127,7 +127,7 @@ var WebUtil = {
         }
         return result;
     },
-    
+
     getTagInParam: function(tag) {
         var result = {};
         var checkName = new Array();
@@ -135,18 +135,18 @@ var WebUtil = {
 			var selectorTag = $(selector).prop('tagName');
 			var selectorName = $(selector).prop('name');
 			var selectorType = $(selector).prop('type');
-			
+
 			var value = '';
-			
+
         	var checkData = new Array();
 			if(selectorType == 'radio') 		value = $(tag).find('input[name="'+selectorName+'"]:checked').val();
 	 		else if(selectorType == 'checkbox') ($(this).is(':checked')) ? checkName.push(selectorName) : '';
 	 		else if(selectorTag == 'SELECT') 	value = $(tag).find('select[name="'+selectorName+'"]').val();
 	 		else								value = $(tag).find('input[name='+selectorName+']').val();
-	 		
+
 	 		if(selectorType != 'checkbox')	(value != undefined) ? result[selectorName] = value : '';
-			
-			
+
+
 			//if(checkData.length > 0) result[checkName] = checkData;
 		});
 		//checkName = Array.from(new Set(checkName))
@@ -187,16 +187,16 @@ var WebUtil = {
 		    var toYear = nowDate.getFullYear();
 			var toMonth = nowDate.getMonth() + 1;
 			if(toMonth < 10){ toMonth = "0" + toMonth; }
-		    result = toYear + "-" + toMonth + "-01"; 
+		    result = toYear + "-" + toMonth + "-01";
         }else if(d == 'monFirst'){
-		    var toYear = nowDate.getFullYear();  
-		    result = toYear + "-" + "01-01"; 
+		    var toYear = nowDate.getFullYear();
+		    result = toYear + "-" + "01-01";
         }else if(d == 'oneMonthAgo'){
         	var toYear = Number(nowDate.getFullYear());
 			var toMonth = Number(nowDate.getMonth()) - 1;
 			var toDay = Number(nowDate.getDate());
 			if(toMonth == 0){
-				toMonth = "12"; 
+				toMonth = "12";
 				toYear = nowDate.getFullYear() -1;
 			}else if(toMonth < 9){
 				toMonth = "0" + Number(toMonth);
@@ -239,18 +239,33 @@ var WebUtil = {
 		}
 		return sel;
     },
-    
+
     // 금액표시
     numberWithCommas: function(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-    
+    },
+
+	camel2Snake: function(s, u) {
+		let r = '';
+
+		if (s !== undefined && s !== null) {
+			let sp = s.split(/(?=[A-Z])/);
+			if (u !== undefined && u !== null && u) {
+				r = sp.join('_').toUpperCase();
+			} else {
+				r = sp.join('_').toLowerCase();
+			}
+		}
+
+		return r;
+	}
+
 };
 
 String.prototype.escapeHtml = function(){
   return this.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\"/g, "&quot;");
 };
- 
+
 String.prototype.unescapeHtml = function(){
   return this.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"");
 };
