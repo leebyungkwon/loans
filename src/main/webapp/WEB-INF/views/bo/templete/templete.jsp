@@ -27,7 +27,7 @@ function pageLoad(){
 		, rowClick	: {/* color:"#ccc",  */retFunc : detailPop}		//클릭시 리턴
 		, gridSearch : "searchDiv,searchBtnId"				//검색영역 (검색영역,검색버튼)
 		, isPaging : true					//페이징여부
-		, excel : "/bo/templete/excelDown"
+		, excel : "/system/templete/excelDown"
 		//, initTable : false
 		, size : 10
 	});
