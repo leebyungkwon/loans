@@ -6,7 +6,7 @@
 var Grid = Object.create(GRID);
 
 function pageLoad(){
-	var url = "/bo/templete/list";
+	var url = "/system/templete/list";
 
 	Grid.set({
 		  id		: "grid"	//영역
