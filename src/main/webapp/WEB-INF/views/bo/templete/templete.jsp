@@ -6,11 +6,9 @@
 var Grid = Object.create(GRID);
 
 function pageLoad(){
-	var url = "/system/templete/list";
-
 	Grid.set({
 		  id		: "grid"	//영역
-  		, url		: url
+  		, url		: "/system/templete/list"
 	    , width		: "100%"
 	    , check		: true		//체크박스 생성
   		, headCol	: ["번호", "타입", "제목", "등록시간", "등록시간", "수정"]	//헤더
@@ -21,9 +19,7 @@ function pageLoad(){
 				,{type:"string"	, name:'boardTitle'	, index:'boardTitle'	, width:"30%"	, align:"center"}
 				,{type:"string"	, name:'regDate'	, index:'regDate'		, width:"30%"	, sortTable:false}
 				,{type:"string"	, name:'regDate'	, index:'regDate'		, width:"30%"	, sortTable:false, hidden:true}
-				,{type:"string"	, name:'btn'		, index:'btn'			, width:"30%"	, sortTable:false
-						, button:{"수정": "modify","삭제": "del"}
-				}
+				,{type:"string"	, name:'btn'		, index:'btn'			, width:"30%"	, sortTable:false, button:{"수정": "modify","삭제": "del"}}
 			]
 		, sortTable:true
 		, sortNm : "board_no"				//정렬 필드
@@ -32,7 +28,7 @@ function pageLoad(){
 		, gridSearch : "searchDiv,searchBtnId"				//검색영역 (검색영역,검색버튼)
 		, isPaging : true					//페이징여부
 		, excel : "/bo/templete/excelDown"
-		, initTable : false
+		//, initTable : false
 		, size : 10
 	});
 
@@ -74,45 +70,44 @@ function detailPop(idx, data){
 }
 </script>
 
-<div class="article_right">
-	<h3  class="article_tit">템플릿 1</h3>
-	<div class="k_search" id="searchDiv">
-		<table class="searchbx" style="width:60%">
-			<colgroup>
-				<col width="5%">
-				<col width="10%">
-				<col width="5%">
-				<col width="10%">
-				<col width="5%">
-				<col width="10%">
-			</colgroup>
-			<tbody>
+<div class="cont_area">
+	<div class="top_box">
+		<div class="title">
+			<h2>템플릿 1</h2>
+		</div>
+		<div class="info_box k_search" id="searchDiv">
+			<table class="info_box_table">
+				<colgroup>
+					<col width="80"/>
+					<col width="200"/>
+					<col width="80"/>
+					<col width="200"/>
+					<col width="80"/>
+					<col width="200"/>
+				</colgroup>
 				<tr>
+					<th>제목</th>
 					<td>
-						<p class="red">제목</p>
+						<input type="text" name="boardTitle"/>
 					</td>
-					<td><input type="text" name="boardTitle" class="" value=""></td>
+					<th>타입</th>
 					<td>
-						<p>타입</p>
+						<input type="text" name="boardType"/>
 					</td>
-					<td><input type="text" name="boardType" class=""></td>
+					<th>내용</th>
 					<td>
-						<p>내용</p>
+						<input type="text" name="boardCnts"/>
 					</td>
-					<td><input type="text" name="boardCnts" class=""></td>
 				</tr>
-			</tbody>
-		</table>
-		<div class="btnbx">
-			<div>
-			<button type="button" class="btn btn_home" id="searchBtnId">조회</button>
-			</div>
-			<div>
-			<button type="button" class="btn btn_home" id="btn_page" >[페이지이동]등록</button>
-			<button type="button" class="btn btn_home" id="btn_pop1" >[레이어]등록</button>
-			<button type="button" class="btn btn_home" id="btn_pop2" >[레이어]파일등록</button>
-			</div>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtnId">조회</a>
+			<!-- 
+			<a href="javascript:void(0);" class="btn_inquiry" id="btn_page">[페이지이동]등록</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="btn_pop1">[레이어]등록</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="btn_pop2">[레이어]파일등록</a>
+			 -->
 		</div>
 	</div>
 	<div id="grid"></div>
 </div>
+

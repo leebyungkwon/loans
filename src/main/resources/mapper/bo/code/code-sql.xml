@@ -30,6 +30,11 @@
 			<include refid="propertyColumns"></include>
 			<include refid="baseColumns"></include>
 		FROM TBL_CODE_MST
+		<where>
+			<if test="codeMstNm != null and codeMstNm != ''">
+				AND CODE_MST_NM = #{codeMstNm}
+			</if>
+		</where>
 	</select>
 	
 	<!-- 코드 마스터 아이디 중복체크 -->

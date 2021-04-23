@@ -22,7 +22,8 @@ function pageLoad(){
 		, sortNm 		: "code_mst_cd"
 		, sort 			: "ASC"
 		, rowClick		: {retFunc : goCodeDtlList}
-		//, gridSearch 	: "search"
+		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
+		, isPaging 		: false					//페이징여부
 	});
 	/*
 	//코드 마스터 등록 버튼
@@ -75,6 +76,8 @@ function goCodeDtlList(idx, data){
 		, sortNm 		: "code_dtl_cd"
 		, sort 			: "ASC"
 		, rowClick		: {retFunc : goCodeDtlInfo}
+		, gridSearch 	: "," 					//검색영역ID,조회버튼ID
+		, isPaging 		: false					//페이징여부
 	});
 }
 
@@ -98,7 +101,7 @@ function goCodeDtlInfo(idx, data){
 		<div class="title">
 			<h2>공통코드관리</h2>
 		</div>
-		<div class="info_box" id="search">
+		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table">
 				<colgroup>
 					<col width="80"/>
@@ -107,13 +110,13 @@ function goCodeDtlInfo(idx, data){
 					<col width="200"/>
 				</colgroup>
 				<tr>
-					<th>코드마스터ID</th>
+					<th>코드마스터명</th>
 					<td>
-						<input type="text"/>
+						<input type="text" name="codeMstNm"/>
 					</td>
 				</tr>
 			</table>
-			<a href="#" class="btn_inquiry">조회</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
 	</div>
 	<div id="codeMstGrid"></div>
