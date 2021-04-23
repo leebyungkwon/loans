@@ -40,14 +40,14 @@ function pageLoad(){
 	document.getElementById('btn_pop1').onclick = function () {
 		let p = {
 			id : 'testReg'
-			, url : "/bo/templete/p/templeteSave"
+			, url : "/system/templete/p/templeteSave"
 		}
 		LibUtil.openPopup(p);
 	};
 	document.getElementById('btn_pop2').onclick = function () {
 		let p = {
 			id : 'testReg'
-			, url : "/bo/templete/p/templeteFileSave"
+			, url : "/system/templete/p/templeteFileSave"
 		}
 		LibUtil.openPopup(p);
 	};
@@ -62,13 +62,13 @@ function del(idx){
 	alert("삭제 "+Grid.gridData[idx].boardNo);
 }
 function detail(idx, data){
-	location.href = "/bo/templete/templeteSave?boardNo="+data.boardNo;
+	location.href = "/system/templete/templeteSave?boardNo="+data.boardNo;
 }
 function detailPop(idx, data){
 	let p = {
 		id : "testReg"
 		, data : data
-		, url : "/bo/templete/p/templeteSave"
+		, url : "/system/templete/p/templeteSave"
 	}
 	LibUtil.openPopup(p);
 }
