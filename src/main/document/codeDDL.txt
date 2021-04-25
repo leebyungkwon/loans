@@ -62,11 +62,12 @@ ALTER TABLE public.tbl_code_dtl ADD CONSTRAINT fksly1icd4bxqqc0cvat87yeb0a FOREI
 -- DROP TABLE public.tbl_members;
 
 CREATE TABLE public.tbl_members (
-	member_no bigserial NOT NULL,
-	email varchar(20) NOT NULL,
+	member_no int8 NOT NULL,
+	login_id varchar(200) NOT NULL,
+	email varchar(200) NOT NULL,
 	member_nm varchar(100) NOT NULL,
 	"password" varchar(100) NOT NULL,
-	dormant bpchar(1) NULL DEFAULT 'N'::bpchar,
+	dormant char(1) NULL DEFAULT 'N'::bpchar,
 	fail_cnt int4 NULL DEFAULT 0,
 	enabled int4 NULL DEFAULT 1,
 	CONSTRAINT tbl_members_pkey PRIMARY KEY (member_no)
