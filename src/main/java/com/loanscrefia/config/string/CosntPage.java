@@ -14,7 +14,8 @@ public class CosntPage {
 	public static String BoRecruitPage = "bo/recruit";
 	
 	
-	// 회원사관리
+	
+	// 협회 > 회원사 담당자
 	public static String BoCompanyPage = "bo/company";
 	
 	// 회원사 시스템 > 관리자 조회 및 변경

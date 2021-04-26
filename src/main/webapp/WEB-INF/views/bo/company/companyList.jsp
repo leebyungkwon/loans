@@ -25,6 +25,7 @@ function pageLoad(){
 		, sortNm : "reg_date"
 		, sort : "DESC"
 		, size : 10
+		, check : true
 		, rowClick	: {color:"#ccc", retFunc : detailPop}
 		, gridSearch : "search,searctBtn"
 		, isPaging : true
@@ -48,7 +49,7 @@ function detailPop(idx, data){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>관리자 조회 및 변경</h2>
+			<h2>회원사 담당자 관리</h2>
 		</div>
 		<div class="info_box" id="search">
 			<table class="info_box_table">

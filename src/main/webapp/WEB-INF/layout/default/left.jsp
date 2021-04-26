@@ -38,7 +38,7 @@
 			<a href="#">(협회)회원사 관리</a>
 		</li>
 		<li>
-			<a href="#">(협회)관리자 관리</a>
+			<a href="/admin/company/companyPage">(협회)관리자 관리</a>
 		</li>
 		</sec:authorize>
 		
