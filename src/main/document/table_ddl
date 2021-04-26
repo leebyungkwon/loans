@@ -231,7 +231,7 @@ commit;
 CREATE TABLE tbl_file_attach (
 	file_id integer	not null default nextval('tbl_file_attach_seq')
 	, file_ext varchar(10) not null
-	, file_ord_nm varchar(50) not null
+	, file_org_nm varchar(50) not null
 	, file_path varchar(100) not null
 	, file_save_nm varchar(50) not null
 	, file_type varchar(10)	null
@@ -245,7 +245,7 @@ CREATE TABLE tbl_file_attach (
 COMMENT ON TABLE tbl_file_attach IS '첨부파일';
 COMMENT ON COLUMN tbl_file_attach.file_id IS '첨부파일ID';
 COMMENT ON COLUMN tbl_file_attach.file_ext IS '파일확장자';
-COMMENT ON COLUMN tbl_file_attach.file_ord_nm IS '원본파일명';
+COMMENT ON COLUMN tbl_file_attach.file_org_nm IS '원본파일명';
 COMMENT ON COLUMN tbl_file_attach.file_path IS '파일경로';
 COMMENT ON COLUMN tbl_file_attach.file_save_nm IS '파일명';
 COMMENT ON COLUMN tbl_file_attach.file_type IS '파일타입';
