@@ -7,33 +7,50 @@
 
 <div class="gnb">
 	<ul>
-		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
-			<li>
-				<a href="/system/templete/templete">모집인 조회 및 변경</a>
-			</li>
+		<!-- class="on" -->
+		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
+		<li>
+			<a href="#">모집인 조회 및 변경</a>
+		</li>
+		<li>
+			<a href="/member/user/userPage">모집인 등록</a>
+		</li>
+		<li>
+			<a href="/member/admin/adminPage">관리자 조회 및 변경</a>
+		</li>
 		</sec:authorize>
-		<li>
-			<a href="/admin/recruit/regList">모집인 승인처리</a>
-		</li>
-		<li>
-			<a href="#">결제 내역</a>
-		</li>
-		<li>
-			<a href="#">타협회 내역 다운로드</a>
-		</li>
-		<li class="on">
-			<a href="/member/company/companyPage">회원사 관리</a>
-		</li>
-		<li>
-			<a href="/system/code/codeList">공통코드관리</a>
-		</li>
-		
-		<li>
-			<a href="/system/templete/templetePage">temp</a>
-		</li>
 		
 		
+		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
+		<li>
+			<a href="/admin/recruit/recruitPage">(협회)모집인 조회 및 변경</a>
+		</li>
+		<li>
+			<a href="#">(협회)모집인 승인처리</a>
+		</li>
+		<li>
+			<a href="#">(협회)결제내역</a>
+		</li>
+		<li>
+			<a href="#">(협회)타협회 내역 다운로드</a>
+		</li>
+		<li>
+			<a href="#">(협회)회원사 관리</a>
+		</li>
+		<li>
+			<a href="#">(협회)관리자 관리</a>
+		</li>
+		</sec:authorize>
 		
+		<li>
+			<a href="/system/templete/templetePage">공지사항</a>
+		</li>
+		
+		<sec:authorize access="hasAnyRole('SYSTEM')">
+		<li>
+			<a href="/system/code/codePage">코드관리</a>
+		</li>
+		</sec:authorize>
 		
 	</ul>
 </div>

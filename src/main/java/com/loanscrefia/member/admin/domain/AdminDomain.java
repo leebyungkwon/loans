@@ -1,4 +1,4 @@
-package com.loanscrefia.member.company.domain;
+package com.loanscrefia.member.admin.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -8,8 +8,8 @@ import com.loanscrefia.common.common.domain.BaseDomain;
 import lombok.Data;
 
 @Data
-@Alias("company")
-public class CompanyDomain extends BaseDomain{
+@Alias("admin")
+public class AdminDomain extends BaseDomain{
 	
 	private long groupNo;					// 회원사그룹코드(key)
 	@NotBlank(message = "회원사를 선택하세요.")

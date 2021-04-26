@@ -9,7 +9,7 @@ var Grid = Object.create(GRID);
 function pageLoad(){
 	Grid.set({
 		  id		: "grid"
-		, url		: "/member/company/companyList"
+		, url		: "/member/admin/adminList"
 	    , width		: "100%"
 		, headCol	: ["회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
 		, bodyCol	: 
@@ -26,18 +26,20 @@ function pageLoad(){
 		, sort : "DESC"
 		, size : 10
 		, rowClick	: {color:"#ccc", retFunc : detailPop}
-		//, gridSearch : "search"
+		, gridSearch : "search,searctBtn"
 		, isPaging : true
 	});
 }
 
 function detailPop(idx, data){
-	let p = {
+/* 	let p = {
 		id : "dtl_save"
 		, data : data
 		, url : "/member/company/p/companyView"
 	}
-	LibUtil.openPopup(p);
+	LibUtil.openPopup(p); */
+	
+	/* submit으로 변경되었습니다. */
 }
 
 </script>
@@ -71,7 +73,7 @@ function detailPop(idx, data){
 					</td>
 				</tr>
 			</table>
-			<a href="#" class="btn_inquiry">조회</a>
+			<a href="#" class="btn_inquiry" id="searctBtn">조회</a>
 		</div>
 	</div>
 	<div id="grid"></div>

@@ -17,6 +17,9 @@ public class CosntPage {
 	// 회원사관리
 	public static String BoCompanyPage = "bo/company";
 	
+	// 회원사 시스템 > 관리자 조회 및 변경
+	public static String BoMemberAdminPage = "bo/admin";
+	
 	//시스템관리 > 공통코드관리
 	public static String BoCodePage = "bo/code";
 }
