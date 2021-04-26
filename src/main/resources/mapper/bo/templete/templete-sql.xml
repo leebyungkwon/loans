@@ -34,7 +34,7 @@
 	
 	<select id="getFile" parameterType="file" resultType="file">
 		select
-			file_attach_id
+			file_id
 			, file_ext
 			, file_org_nm
 			, file_path
@@ -42,8 +42,9 @@
 			, reg_date
 			, upd_date
 			, use_yn
+			, file_type
 		from tbl_file_attach
-		where file_attach_id = #{fileAttachId}
+		where file_id = #{fileId}
 	</select>
 	
 </mapper> 

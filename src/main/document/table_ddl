@@ -67,6 +67,16 @@ CREATE SEQUENCE tbl_member_role_seq
 
 commit;
 
+create table tbl_member_role(
+	role_id integer not null default nextval('tbl_member_role_seq')
+	, member_no INTEGER not null
+	, role_name varchar(20) not null 
+	, PRIMARY KEY (role_id)
+);
+
+commit;
+
+
 -- 사용자 권한 정보
 create table tbl_member_role(
 	role_id integer not null default nextval('tbl_member_role_seq')
@@ -201,5 +211,46 @@ COMMENT ON COLUMN tbl_user.pay_dt IS '결제완료일';
 COMMENT ON COLUMN tbl_user.send_msg IS '전달메세지';
 COMMENT ON COLUMN tbl_user.quit_msg IS '해지사유';
 COMMENT ON COLUMN tbl_user.file_id IS '첨부파일ID';
+
+commit;
+
+
+
+-- 첨부파일 seq
+CREATE SEQUENCE tbl_file_attach_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+-- 첨부파일
+CREATE TABLE tbl_file_attach (
+	file_id integer	not null default nextval('tbl_file_attach_seq')
+	, file_ext varchar(10) not null
+	, file_ord_nm varchar(50) not null
+	, file_path varchar(100) not null
+	, file_save_nm varchar(50) not null
+	, file_type varchar(10)	null
+	, reg_date timestamp not null
+	, upd_date timestamp null
+	, use_yn char(1) not null	
+	, primary key (file_id)
+);
+
+
+COMMENT ON TABLE tbl_file_attach IS '첨부파일';
+COMMENT ON COLUMN tbl_file_attach.file_id IS '첨부파일ID';
+COMMENT ON COLUMN tbl_file_attach.file_ext IS '파일확장자';
+COMMENT ON COLUMN tbl_file_attach.file_ord_nm IS '원본파일명';
+COMMENT ON COLUMN tbl_file_attach.file_path IS '파일경로';
+COMMENT ON COLUMN tbl_file_attach.file_save_nm IS '파일명';
+COMMENT ON COLUMN tbl_file_attach.file_type IS '파일타입';
+COMMENT ON COLUMN tbl_file_attach.reg_date IS '등록일시';
+COMMENT ON COLUMN tbl_file_attach.upd_date IS '변경일시';
+COMMENT ON COLUMN tbl_file_attach.use_yn IS '사용여부';
 
 commit;

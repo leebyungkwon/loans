@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.common.repository.CommonRepository">
-	<insert id="insertFile" parameterType="com.loanscrefia.common.common.domain.FileDomain" useGeneratedKeys="true" keyProperty="fileAttachId">
+	<insert id="insertFile" parameterType="com.loanscrefia.common.common.domain.FileDomain" useGeneratedKeys="true" keyProperty="fileId">
 		<!-- CommonRepository.insertFile -->
 		insert into tbl_file_attach
-		(file_ext, file_org_nm, file_path, file_save_nm, reg_date, upd_date, use_yn)
-		values(#{fileExt}, #{fileOrgNm}, #{filePath}, #{fileSaveNm}, now(), now(), 'Y')
+		(
+			file_ext, file_org_nm, file_path, file_save_nm, reg_date, upd_date, use_yn
+			<if test="fileType != null and fileType != ''">
+				, file_type			
+			</if>	
+		)
+		values(
+			#{fileExt}, #{fileOrgNm}, #{filePath}, #{fileSaveNm}, now(), now(), 'Y'
+			<if test="fileType != null and fileType != ''">
+				#{fileType}
+			</if>
+		)
 	</insert>
 	
 	
