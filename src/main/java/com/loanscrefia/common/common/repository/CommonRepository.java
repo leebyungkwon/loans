@@ -13,4 +13,9 @@ public interface CommonRepository {
 	
 	// 공통코드 조회 selectBox
 	List<CodeDtlDomain> selectCommonCodeList(CodeDtlDomain codeDtlDomain);
+
+	// 공통 회원사 조회 selectBox
+	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
+	
+	
 }

@@ -61,4 +61,12 @@ public class CommonController {
 	}
 	
 	
+	// 2021-04-26 selectCompanyCodeList - selectBox
+	@PostMapping(value="/common/selectCompanyCodeList")
+	public ResponseEntity<ResponseMsg> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+    	responseMsg.setData(commonService.selectCompanyCodeList(codeDtlDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 }

@@ -53,4 +53,15 @@
 			AND PROPERTY05 = #{property05}
 		</if>
 	</select>
+	
+	
+	
+	<!-- 공통코드조회 selectBox -->
+	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">
+		SELECT
+			 COMP_ID		AS CODE_DTL_CD
+			,COMP_NM		AS CODE_DTL_NM
+		FROM tbl_company
+	</select>
+	
 </mapper> 

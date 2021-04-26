@@ -73,7 +73,7 @@ var AjaxUtil = {
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
-console.log("success",status);
+        	
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);

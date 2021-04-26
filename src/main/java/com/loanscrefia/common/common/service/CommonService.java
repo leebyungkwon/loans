@@ -37,5 +37,11 @@ public class CommonService {
 	public List<CodeDtlDomain> selectCommonCodeList(CodeDtlDomain codeDtlDomain){
 		return commonRepository.selectCommonCodeList(codeDtlDomain);
 	}
+	
+	// 공통회원사조회
+	public List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
+		return commonRepository.selectCompanyCodeList(codeDtlDomain);
+	}
+	
 
 }

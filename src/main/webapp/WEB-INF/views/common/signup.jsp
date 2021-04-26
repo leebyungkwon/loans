@@ -36,10 +36,15 @@ function pageLoad(){
 	
 	// 회원사 코드
 	var companyCode = {
-		useCode : true
+		useCode : false
 		,code : 'COM001'
 		,target : '#companyCd'
+		,url : '/common/selectCompanyCodeList'
+		,key : 'codeDtlId'
+		,value : 'codeDtlNm'
+		,updData : ''
 	};
+	
 	DataUtil.selectBox(companyCode);
 
 }
