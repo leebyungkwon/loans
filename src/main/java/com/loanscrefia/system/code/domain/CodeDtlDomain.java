@@ -26,7 +26,7 @@ public class CodeDtlDomain extends BaseDomain {
 	private String codeDtlCd;
 	
 	@NotBlank(message = "코드상세명을 입력해 주세요.")
-	@Pattern(regexp = "^[가-힣]*${1,100}", message = "코드상세명은 한글 1~100자리로 입력해 주세요.")
+	//@Pattern(regexp = "^[가-힣]*${1,100}", message = "코드상세명은 한글 1~100자리로 입력해 주세요.")
 	private String codeDtlNm;
 	
 	private String codeDtlDesc;
