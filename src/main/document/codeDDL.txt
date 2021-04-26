@@ -92,3 +92,26 @@ CREATE TABLE public.tbl_file_attach (
 	use_yn varchar(1) NOT NULL DEFAULT 'Y'::character varying,
 	CONSTRAINT tbl_file_attach_pkey PRIMARY KEY (file_attach_id)
 );
+
+
+
+-- -----------------------------------2021-04-26 추가-----------------------------------
+-- public.tbl_board definition
+
+-- Drop table
+
+-- DROP TABLE public.tbl_board;
+
+CREATE TABLE public.tbl_board (
+	board_no bigserial NOT NULL,
+	reg_date timestamp NOT NULL,
+	upd_date timestamp NULL,
+	use_yn varchar(1) NOT NULL DEFAULT 'Y'::character varying,
+	attch_no1 int8 NULL,
+	attch_no2 int8 NULL,
+	attch_no3 int8 NULL,
+	board_cnts varchar(400) NOT NULL,
+	board_title varchar(20) NOT NULL,
+	board_type varchar(20) NOT NULL,
+	CONSTRAINT tbl_board_pkey PRIMARY KEY (board_no)
+);
