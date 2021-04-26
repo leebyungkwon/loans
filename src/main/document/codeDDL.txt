@@ -44,9 +44,8 @@ CREATE TABLE public.tbl_code_dtl (
 	reg_no int4 NOT NULL,
 	upd_date timestamp NULL,
 	upd_no int4 NULL,
-	CONSTRAINT tbl_code_dtl_pkey PRIMARY KEY (code_dtl_cd)
+	CONSTRAINT tbl_code_dtl_pkey PRIMARY KEY (code_mst_cd, code_dtl_cd)
 );
-
 
 -- public.tbl_code_dtl foreign keys
 
@@ -54,7 +53,7 @@ ALTER TABLE public.tbl_code_dtl ADD CONSTRAINT fksly1icd4bxqqc0cvat87yeb0a FOREI
 
 
 
--- 2021-04-22 추가
+-- -----------------------------------2021-04-22 추가-----------------------------------
 -- public.tbl_members definition
 
 -- Drop table
@@ -71,4 +70,25 @@ CREATE TABLE public.tbl_members (
 	fail_cnt int4 NULL DEFAULT 0,
 	enabled int4 NULL DEFAULT 1,
 	CONSTRAINT tbl_members_pkey PRIMARY KEY (member_no)
+);
+
+
+
+-- -----------------------------------2021-04-26 추가-----------------------------------
+-- public.tbl_file_attach definition
+
+-- Drop table
+
+-- DROP TABLE public.tbl_file_attach;
+
+CREATE TABLE public.tbl_file_attach (
+	file_attach_id bigserial NOT NULL,
+	file_ext varchar(10) NOT NULL,
+	file_org_nm varchar(50) NOT NULL,
+	file_path varchar(100) NOT NULL,
+	file_save_nm varchar(50) NOT NULL,
+	reg_date timestamp NOT NULL,
+	upd_date timestamp NULL,
+	use_yn varchar(1) NOT NULL DEFAULT 'Y'::character varying,
+	CONSTRAINT tbl_file_attach_pkey PRIMARY KEY (file_attach_id)
 );
