@@ -27,6 +27,11 @@
 		<li>
 			<a href="/system/code/codeList">공통코드관리</a>
 		</li>
+		
+		<li>
+			<a href="/system/templete/templetePage">temp</a>
+		</li>
+		
 	</ul>
 </div>
 		

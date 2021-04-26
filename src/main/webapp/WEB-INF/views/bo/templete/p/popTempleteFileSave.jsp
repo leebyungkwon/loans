@@ -36,7 +36,7 @@ var menualFileAttachId;
 				}
     	    }
 		}
- 		$("#docCheck").attr("action", "/bo/templete/docCheck");
+ 		$("#docCheck").attr("action", "/system/templete/docCheck");
 		AjaxUtil.files(p);
 	}); */
 	
@@ -55,7 +55,7 @@ var menualFileAttachId;
 				}
     	    }
 		}
- 		$("#docCheck").attr("action", "/bo/templete/"+docType);
+ 		$("#docCheck").attr("action", "/system/templete/"+docType);
 		AjaxUtil.files(p);
 	});
 	
@@ -69,7 +69,7 @@ var menualFileAttachId;
 				menualFileAttachId = result.data.fileId;
     	    }
 		}
- 		$("#docCheck").attr("action", "/bo/templete/verificationUpload");
+ 		$("#docCheck").attr("action", "/system/templete/verificationUpload");
 		AjaxUtil.files(p);
 		
 	});
@@ -83,7 +83,7 @@ var menualFileAttachId;
 		}
  		var p = {
 			  param : param
-			, url : "/bo/templete/menualCheck"
+			, url : "/system/templete/menualCheck"
 			, success : function (opt,result) {
 				alert("추출된 법인등록번호는 ["+result.data + "] 입니다.");
     	    }
@@ -101,7 +101,7 @@ var menualFileAttachId;
 				alert("문서번호 : "+result.data.cfNo+", \n과정명 : "+result.data.cfCurNm);
     	    }
 		}
- 		$("#docCheck").attr("action", "/bo/templete/"+docType);
+ 		$("#docCheck").attr("action", "/system/templete/"+docType);
 		AjaxUtil.files(p);
 	});
 	
@@ -121,8 +121,8 @@ var menualFileAttachId;
 	<section class="k_inputform">
 			<h3  class="article_tit"><span>팝업템플릿2저장하기</span></h3>
 			<fieldset>
-			<!-- <form name="save" action="/bo/templete/img" method="POST" enctype="multipart/form-data"> -->
-			<form name="save" action="/bo/templete/zip" method="POST" enctype="multipart/form-data" id="docCheck">
+			<!-- <form name="save" action="/system/templete/img" method="POST" enctype="multipart/form-data"> -->
+			<form name="save" action="/system/templete/zip" method="POST" enctype="multipart/form-data" id="docCheck">
 			<input type="hidden" name="boardNo" value=""/>
 			<input type="hidden" name="boardType" value="NOTICE"/>
 			<input type="hidden" name="docType" value=""/>

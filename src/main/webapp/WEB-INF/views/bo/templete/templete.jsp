@@ -101,11 +101,9 @@ function detailPop(idx, data){
 				</tr>
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtnId">조회</a>
-			<!-- 
 			<a href="javascript:void(0);" class="btn_inquiry" id="btn_page">[페이지이동]등록</a>
 			<a href="javascript:void(0);" class="btn_inquiry" id="btn_pop1">[레이어]등록</a>
 			<a href="javascript:void(0);" class="btn_inquiry" id="btn_pop2">[레이어]파일등록</a>
-			 -->
 		</div>
 	</div>
 	<div id="grid"></div>
