@@ -1,0 +1,24 @@
+CREATE TABLE public.tbl_members (
+	member_no bigserial NOT NULL,
+	email varchar(20) NOT NULL,
+	member_nm varchar(100) NOT NULL,
+	"password" varchar(100) NOT NULL,
+	dormant bpchar(1) NULL DEFAULT 'N'::bpchar,
+	fail_cnt int4 NULL DEFAULT 0,
+	enabled int4 NULL DEFAULT 1,
+	CONSTRAINT tbl_members_pkey PRIMARY KEY (member_no)
+);
+
+INSERT INTO public.tbl_members
+(email, member_nm, "password", dormant, fail_cnt, enabled)
+VALUES('test@naver.com', '테스터', '$2a$10$vLWmt0h3QXdQ6Fgajy9XR.KXE17H6.16DMdsFCaslvM3PF95M2ynu', 'N', 0, 1);
+
+
+create table tbl_member_role(
+	role_id integer not null default nextval('tbl_member_role_seq')
+	, member_no INTEGER not null
+	, role_name varchar(20) not null 
+	, PRIMARY KEY (role_id)
+);
+
+commit;

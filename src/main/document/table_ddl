@@ -1,0 +1,205 @@
+-- 사용자정보 seq
+
+CREATE SEQUENCE tbl_member_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+	
+
+-- 사용자 정보
+create table tbl_member(
+	mem_id integer not null default nextval('tbl_member_seq')
+	, login_id varchar(20) not null
+	, password varchar(100) not null
+	, comp_id integer not null
+	, mem_nm varchar(20)
+	, email varchar(100)
+	, mobile_no varchar(20)
+	, dept_nm varchar(30)
+	, position_nm varchar(20)
+	, join_dt varchar(8)
+	, appr_yn char(1) not null default 'N'
+	, file_id integer
+	, fail_cnt integer
+	, cre_yn char(1) not null default 'N'
+	, drop_yn char(1) not null default 'N'
+	, PRIMARY KEY (mem_id)
+);
+
+commit;
+
+COMMENT ON TABLE tbl_member IS '사용자정보';
+COMMENT ON COLUMN tbl_member.mem_id IS '사용자ID';
+COMMENT ON COLUMN tbl_member.login_id IS '로그인ID';
+COMMENT ON COLUMN tbl_member.password IS '비밀번호';
+COMMENT ON COLUMN tbl_member.comp_id IS '회원사ID';
+COMMENT ON COLUMN tbl_member.mem_nm IS '담당자명';
+COMMENT ON COLUMN tbl_member.email IS '이메일';
+COMMENT ON COLUMN tbl_member.mobile_no IS '전화번호';
+COMMENT ON COLUMN tbl_member.dept_nm IS '부서명';
+COMMENT ON COLUMN tbl_member.position_nm IS '직위명';
+COMMENT ON COLUMN tbl_member.join_dt IS '가입일';
+COMMENT ON COLUMN tbl_member.appr_yn IS '승인여부';
+COMMENT ON COLUMN tbl_member.file_id IS '첨부파일ID';
+COMMENT ON COLUMN tbl_member.fail_cnt IS '로그인실패횟수';
+COMMENT ON COLUMN tbl_member.cre_yn IS '협회여부';
+COMMENT ON COLUMN tbl_member.drop_yn IS '탈퇴여부';
+
+
+commit;
+
+select * from TBL_MEMBER;
+
+
+-- 사용자 권한 정보 seq
+CREATE SEQUENCE tbl_member_role_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+-- 사용자 권한 정보
+create table tbl_member_role(
+	role_id integer not null default nextval('tbl_member_role_seq')
+	, mem_id INTEGER not null
+	, role_name varchar(20) not null 
+	, PRIMARY KEY (role_id)
+);
+
+COMMENT ON TABLE tbl_member_role IS '사용자권한정보';
+COMMENT ON COLUMN tbl_member_role.role_id IS '권한ID';
+COMMENT ON COLUMN tbl_member_role.mem_id IS '사용자ID';
+COMMENT ON COLUMN tbl_member_role.role_name IS '권한명';
+
+commit;
+
+
+
+-- 회원사 정보 seq
+CREATE SEQUENCE tbl_company_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+-- 회원사 정보
+create table tbl_company(
+	comp_id integer not null default nextval('tbl_company_seq')
+	, comp_nm varchar(30)
+	, corp_no varchar(30)
+	, business_no varchar(30)
+	, comp_phone_no varchar(20)
+	, PRIMARY KEY (comp_id)
+);
+
+
+COMMENT ON TABLE tbl_company IS '회원사정보';
+COMMENT ON COLUMN tbl_company.comp_id IS '회원사ID';
+COMMENT ON COLUMN tbl_company.comp_nm IS '회원사명';
+COMMENT ON COLUMN tbl_company.corp_no IS '법인등록번호';
+COMMENT ON COLUMN tbl_company.business_no IS '사업자등록번호';
+COMMENT ON COLUMN tbl_company.comp_phone_no IS '회원사대표번호';
+
+commit;
+
+
+
+-- 모집인 정보 seq
+CREATE SEQUENCE tbl_user_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 모집인 정보 
+create table tbl_user(
+	user_id integer not null default nextval('tbl_user_seq')
+	, comp_id integer
+	, mem_id integer
+	, user_typ char(2)
+	, product varchar(30)
+	, user_sts varchar(10)
+	, process_sts varchar(10)
+	, user_reg_no varchar(20)
+	, user_nm varchar(20)
+	, resident_num varchar(20)
+	, mobile_no varchar(20)
+	, addr varchar(200)
+	, edu_fin_no integer
+	, career_start_dt varchar(8)
+	, career_end_dt varchar(8)
+	, entrust_dt varchar(8)
+	, contract_dt varchar(8)
+	, corp_nm varchar(30)
+	, corp_no varchar(30)
+	, business_no varchar(30)
+	, comp_phone_no varchar(20)
+	, corp_addr varchar(200)
+	, corp_found_dt varchar(8)
+	, capital integer
+	, pay_sts varchar(10)
+	, req_dt varchar(8)
+	, appr_dt varchar(8)
+	, license_dt varchar(8)
+	, pay_dt varchar(8)
+	, send_msg varchar(200)
+	, quit_msg varchar(200)
+	, file_id integer
+	, PRIMARY KEY (user_id)
+);
+
+commit;
+
+COMMENT ON TABLE tbl_user IS '모집인정보';
+COMMENT ON COLUMN tbl_user.user_id IS '모집인ID';
+COMMENT ON COLUMN tbl_user.comp_id IS '담당회원사ID';
+COMMENT ON COLUMN tbl_user.mem_id IS '담당자ID';
+COMMENT ON COLUMN tbl_user.user_typ IS '분류';
+COMMENT ON COLUMN tbl_user.product IS '취급상품';
+COMMENT ON COLUMN tbl_user.user_sts IS '모집인상태';
+COMMENT ON COLUMN tbl_user.process_sts IS '처리상태';
+COMMENT ON COLUMN tbl_user.user_reg_no IS '등록번호';
+COMMENT ON COLUMN tbl_user.user_nm IS '모집인이름';
+COMMENT ON COLUMN tbl_user.resident_num IS '모집인주민등록번호';
+COMMENT ON COLUMN tbl_user.mobile_no IS '모집인휴대전화번호';
+COMMENT ON COLUMN tbl_user.addr IS '주소';
+COMMENT ON COLUMN tbl_user.edu_fin_no IS '교육이수번호';
+COMMENT ON COLUMN tbl_user.career_start_dt IS '경력시작일';
+COMMENT ON COLUMN tbl_user.career_end_dt IS '경력종료일';
+COMMENT ON COLUMN tbl_user.entrust_dt IS '위탁예정일';
+COMMENT ON COLUMN tbl_user.contract_dt IS '계약일자';
+COMMENT ON COLUMN tbl_user.corp_nm IS '법인명';
+COMMENT ON COLUMN tbl_user.corp_no IS '법인등록번호';
+COMMENT ON COLUMN tbl_user.business_no IS '사업자등록번호';
+COMMENT ON COLUMN tbl_user.comp_phone_no IS '회원사대표번호';
+COMMENT ON COLUMN tbl_user.corp_addr IS '법인소재지';
+COMMENT ON COLUMN tbl_user.corp_found_dt IS '법인설립일';
+COMMENT ON COLUMN tbl_user.capital IS '자본금';
+COMMENT ON COLUMN tbl_user.pay_sts IS '결제상태';
+COMMENT ON COLUMN tbl_user.req_dt IS '신청일';
+COMMENT ON COLUMN tbl_user.appr_dt IS '승인일';
+COMMENT ON COLUMN tbl_user.license_dt IS '자격취득일';
+COMMENT ON COLUMN tbl_user.pay_dt IS '결제완료일';
+COMMENT ON COLUMN tbl_user.send_msg IS '전달메세지';
+COMMENT ON COLUMN tbl_user.quit_msg IS '해지사유';
+COMMENT ON COLUMN tbl_user.file_id IS '첨부파일ID';
+
+commit;
