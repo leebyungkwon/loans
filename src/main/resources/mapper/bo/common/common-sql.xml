@@ -59,9 +59,9 @@
 	<!-- 공통코드조회 selectBox -->
 	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">
 		SELECT
-			 COMP_ID		AS CODE_DTL_CD
-			,COMP_NM		AS CODE_DTL_NM
-		FROM tbl_company
+			 COM_CODE		AS CODE_DTL_CD
+			,COM_NAME		AS CODE_DTL_NM
+		FROM TB_LC_COMPANY
 	</select>
 	
 </mapper> 

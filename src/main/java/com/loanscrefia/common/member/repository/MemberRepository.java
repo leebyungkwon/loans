@@ -4,26 +4,25 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.loanscrefia.common.board.domain.BoardDomain;
-import com.loanscrefia.common.member.domain.MemberDomain;
+import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 
 
 @Mapper 
 public interface MemberRepository {
 	// email조회(id조회)
-	MemberDomain findByEmail(String email);
+	SignupDomain findByEmail(String email);
 	
 	// 회원정보 저장
-	MemberDomain save(MemberDomain memberEntity);
+	SignupDomain save(SignupDomain signupDomain);
 	
 	// 회원권한정보 저장
-	List<MemberRoleDomain> findRoles(MemberDomain memberDomain);
+	List<MemberRoleDomain> findRoles(SignupDomain signupDomain);
 	
 	// 로그인 실패횟수 증가
 	void loginFailCnt(String email);
 	
 	// 회원정보 조회
-	MemberDomain getMember(MemberDomain memberDomain);
+	SignupDomain getMember(SignupDomain signupDomain);
 	
 }
