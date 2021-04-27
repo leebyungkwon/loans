@@ -8,7 +8,7 @@ import lombok.Data;
 @Alias("file")
 public class FileDomain extends BaseDomain{
 
-    private Long fileId;
+    private Long fileSeq;
     private String fileOrgNm;
     private String fileSaveNm;
     private String filePath;

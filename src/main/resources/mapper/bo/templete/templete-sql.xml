@@ -34,17 +34,17 @@
 	
 	<select id="getFile" parameterType="file" resultType="file">
 		select
-			file_id
+			file_seq
 			, file_ext
 			, file_org_nm
 			, file_path
 			, file_save_nm
-			, reg_date
-			, upd_date
+			, reg_timestamp
+			, upd_timestamp
 			, use_yn
 			, file_type
-		from tbl_file_attach
-		where file_id = #{fileId}
+		from tb_lc_file01
+		where file_seq = #{fileSeq}
 	</select>
 	
 </mapper> 

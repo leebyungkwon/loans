@@ -37,7 +37,7 @@ public class MemberDomain extends BaseDomain{
 	
 	private String positionNm;
 	
-	private Long fileId;
+	private Long fileSeq;
 	
 	private String dormant;
 	private int failCnt;
