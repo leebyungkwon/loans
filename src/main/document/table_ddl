@@ -31,7 +31,7 @@ COMMENT ON COLUMN tb_lc_cod01.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_cod01.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_cod01.upd_timestamp IS '수정일시';
 
-commit
+commit;
 
 CREATE TABLE tb_lc_cod01_detail (
 	code_mst_cd varchar(10) NULL,
@@ -67,6 +67,7 @@ COMMENT ON COLUMN tb_lc_cod01_detail.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_cod01_detail.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_cod01_detail.upd_timestamp IS '수정일시';
 
+commit;
 
 -- 사용자정보 seq
 
@@ -223,31 +224,31 @@ create table tb_lc_mas01(
 	, pl_regist_no varchar(20)
 	, pl_m_name varchar(20)
 	, pl_m_z_id varchar(20)
+	, pl_m_z_id_edu varchar(20)
 	, pl_cellphone varchar(20)
 	, addr varchar(200)
+	, corp_addr varchar(200)
 	, pl_edu_no integer
-	, career_start_dt varchar(8)
-	, career_end_dt varchar(8)
-	, entrust_dt varchar(8)
-	, com_cont_date varchar(8)
+	, career_start_date varchar(8)
+	, career_end_date varchar(8)
+	, entrust_date varchar(8)
 	, pl_merchant_name varchar(30)
 	, pl_merchant_no varchar(13)
 	, pl_business_no varchar(10)
 	, comp_phone_no varchar(20)
-	, corp_addr varchar(200)
-	, corp_found_dt varchar(8)
+	, corp_found_date varchar(8)
 	, capital integer
-	, pl_pay_stat varchar(10)
+	, com_cont_date varchar(8)	
 	, com_reg_date varchar(8)
 	, cre_app_date varchar(8)
-	, license_date varchar(8)
+	, cre_license_date varchar(8)
+	, pl_pay_stat varchar(10)
 	, pay_date varchar(8)
 	, send_msg varchar(200)
 	, pl_hist_cd varchar(200)
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
-	, reg_seq INTEGER NOT NULL
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
@@ -267,31 +268,31 @@ COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
 COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
+COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id_edu IS '교육수료대조(주민등록번호대체값)';
 COMMENT ON COLUMN tb_lc_mas01.pl_cellphone IS '모집인휴대전화번호';
-COMMENT ON COLUMN tb_lc_mas01.addr IS '주소';
+COMMENT ON COLUMN tb_lc_mas01.addr IS '주소(코드)';
+COMMENT ON COLUMN tb_lc_mas01.corp_addr IS '법인소재지(상세주소)';
 COMMENT ON COLUMN tb_lc_mas01.pl_edu_no IS '교육이수번호';
-COMMENT ON COLUMN tb_lc_mas01.career_start_dt IS '경력시작일';
-COMMENT ON COLUMN tb_lc_mas01.career_end_dt IS '경력종료일';
-COMMENT ON COLUMN tb_lc_mas01.entrust_dt IS '위탁예정일';
-COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자';
+COMMENT ON COLUMN tb_lc_mas01.career_start_date IS '경력시작일';
+COMMENT ON COLUMN tb_lc_mas01.career_end_date IS '경력종료일';
+COMMENT ON COLUMN tb_lc_mas01.entrust_date IS '위탁예정일';
 COMMENT ON COLUMN tb_lc_mas01.pl_merchant_name IS '법인명';
 COMMENT ON COLUMN tb_lc_mas01.pl_merchant_no IS '법인등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_business_no IS '사업자등록번호';
 COMMENT ON COLUMN tb_lc_mas01.comp_phone_no IS '회원사대표번호';
-COMMENT ON COLUMN tb_lc_mas01.corp_addr IS '법인소재지';
-COMMENT ON COLUMN tb_lc_mas01.corp_found_dt IS '법인설립일';
+COMMENT ON COLUMN tb_lc_mas01.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
+COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
+COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
+COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일(심사완료일)';
+COMMENT ON COLUMN tb_lc_mas01.cre_license_date IS '자격취득일';
 COMMENT ON COLUMN tb_lc_mas01.pl_pay_stat IS '결제상태';
-COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일';
-COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일';
-COMMENT ON COLUMN tb_lc_mas01.license_date IS '자격취득일';
 COMMENT ON COLUMN tb_lc_mas01.pay_date IS '결제완료일';
 COMMENT ON COLUMN tb_lc_mas01.send_msg IS '전달메세지';
 COMMENT ON COLUMN tb_lc_mas01.pl_hist_cd IS '해지사유';
-COMMENT ON COLUMN tb_lc_mas01.com_haeji_date IS '회원사해지일자';
-COMMENT ON COLUMN tb_lc_mas01.cre_haeji_date IS '협회해지일자';
+COMMENT ON COLUMN tb_lc_mas01.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
+COMMENT ON COLUMN tb_lc_mas01.cre_haeji_date IS '협회해지일자(해지승인날짜)';
 COMMENT ON COLUMN tb_lc_mas01.file_seq IS '첨부파일시퀀스';
-COMMENT ON COLUMN tb_lc_mas01.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.upd_timestamp IS '수정일시';
@@ -323,7 +324,7 @@ CREATE TABLE tb_lc_file01 (
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
-	, primary key (file_seq)
+	, primary key (file_seq, file_type)
 );
 
 
