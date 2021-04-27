@@ -95,7 +95,7 @@ public class RecruitController {
 		
 		RecruitDomain resultRecruit = recruitService.getRecruit(recruitDomain); 
 		FileDomain fileDomain = new FileDomain();
-		fileDomain.setFileId(resultRecruit.getAtchNo());
+		fileDomain.setFileSeq(resultRecruit.getAtchNo());
 		// 첨부파일번호가 하나인 경우
 		FileDomain resultFile = templeteService.getFile(fileDomain);
 		// 첨부파일번호가 여러개인 경우

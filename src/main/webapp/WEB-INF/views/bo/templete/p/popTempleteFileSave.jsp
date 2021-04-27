@@ -66,7 +66,7 @@ var menualFileAttachId;
 			  name : 'save'
 			, success : function (opt,result) {
 				// 파일 업로드 후 수동검증에 필요한 key
-				menualFileAttachId = result.data.fileId;
+				menualFileAttachId = result.data.fileSeq;
     	    }
 		}
  		$("#docCheck").attr("action", "/system/templete/verificationUpload");
@@ -79,7 +79,7 @@ var menualFileAttachId;
 	$("#manualCheck").on("click", function(){
 		console.log("수동검증 클릭했습니다." + menualFileAttachId);
 		var param = {
-				'fileId'	:	menualFileAttachId
+				'fileSeq'	:	menualFileAttachId
 		}
  		var p = {
 			  param : param

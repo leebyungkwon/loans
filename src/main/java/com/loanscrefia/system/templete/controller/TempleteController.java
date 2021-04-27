@@ -144,7 +144,7 @@ public class TempleteController {
 			}
 			if(file.size() > 0) {
 				// 공통영역
-				board.setAttchNo1(file.get(0).getFileId());
+				board.setAttchNo1(file.get(0).getFileSeq());
 				responseMsg = templeteService.templeteSave(board);
 			}
 		}else {
@@ -168,7 +168,7 @@ public class TempleteController {
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
-				board.setAttchNo2(file.get(0).getFileId());
+				board.setAttchNo2(file.get(0).getFileSeq());
 				responseMsg = templeteService.templeteSave(board);
 			}
 		}else {
@@ -191,7 +191,7 @@ public class TempleteController {
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
-				board.setAttchNo2(file.get(0).getFileId());
+				board.setAttchNo2(file.get(0).getFileSeq());
 				responseMsg = templeteService.templeteSave(board);
 			}
 		}else {
@@ -418,7 +418,7 @@ public class TempleteController {
 	public ResponseEntity<ResponseMsg> menualCheck(@ModelAttribute FileDomain fileDomain) throws IOException { 
 		
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		if(fileDomain.getFileId() <= 0) {
+		if(fileDomain.getFileSeq() <= 0) {
 			return new ResponseEntity<>(responseMsg, HttpStatus.OK);
 		}
 		
@@ -590,7 +590,7 @@ public class TempleteController {
 	public ResponseEntity<ResponseMsg> ocrTest(@ModelAttribute FileDomain fileDomain) throws IOException { 
 		
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		if(fileDomain.getFileId() <= 0) {
+		if(fileDomain.getFileSeq() <= 0) {
 			return new ResponseEntity<>(responseMsg, HttpStatus.OK);
 		}
 		

@@ -60,7 +60,7 @@ public class LoginController {
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
-				memberDomain.setFileId(file.get(0).getFileId());
+				memberDomain.setFileSeq(file.get(0).getFileSeq());
 			}
 		}
 		loginService.saveUser(memberDomain);
