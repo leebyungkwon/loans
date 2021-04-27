@@ -129,23 +129,26 @@ var WebUtil = {
     },
 
     getTagInParam: function(tag) {
+		var t = this;
         var result = {};
         var checkName = new Array();
 		$(tag).find('input[name] , select[name]').filter(function(index, selector){
 			var selectorTag = $(selector).prop('tagName');
 			var selectorName = $(selector).prop('name');
-			var selectorType = $(selector).prop('type');
 
-			var value = '';
+			if(t.isNotNull(selectorName)){
+				var selectorType = $(selector).prop('type');
 
-        	var checkData = new Array();
-			if(selectorType == 'radio') 		value = $(tag).find('input[name="'+selectorName+'"]:checked').val();
-	 		else if(selectorType == 'checkbox') ($(this).is(':checked')) ? checkName.push(selectorName) : '';
-	 		else if(selectorTag == 'SELECT') 	value = $(tag).find('select[name="'+selectorName+'"]').val();
-	 		else								value = $(tag).find('input[name='+selectorName+']').val();
+				var value = '';
 
-	 		if(selectorType != 'checkbox')	(value != undefined) ? result[selectorName] = value : '';
+	        	var checkData = new Array();
+				if(selectorType == 'radio') 		value = $(tag).find('input[name="'+selectorName+'"]:checked').val();
+		 		else if(selectorType == 'checkbox') ($(this).is(':checked')) ? checkName.push(selectorName) : '';
+		 		else if(selectorTag == 'SELECT') 	value = $(tag).find('select[name="'+selectorName+'"]').val();
+		 		else								value = $(tag).find('input[name='+selectorName+']').val();
 
+		 		if(selectorType != 'checkbox')	(value != undefined) ? result[selectorName] = value : '';
+			}
 
 			//if(checkData.length > 0) result[checkName] = checkData;
 		});

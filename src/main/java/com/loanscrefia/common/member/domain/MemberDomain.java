@@ -1,5 +1,6 @@
 package com.loanscrefia.common.member.domain;
 
+import java.io.File;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -19,11 +20,24 @@ public class MemberDomain extends BaseDomain{
 
 	@NotBlank(message = "ID를 입력하세요.")
     @Pattern(regexp = "[a-zA-Z0-9]{2,20}", message = "내용은 영문/숫자 2~20자리로 입력해 주세요.")
-    private String email;
-    private String memberNm;
-    
+    private String userId;
+
 	@NotBlank(message = "비밀번호를 입력하세요.")
-    private String password;
+	private String password;
+    
+	private int companyCd;
+	
+	private String memNm;
+	
+	private String email;
+	
+	private String mobileNo;
+	
+	private String deptNm;
+	
+	private String positionNm;
+	
+	private Long fileId;
 	
 	private String dormant;
 	private int failCnt;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.loanscrefia.common.board.domain.BoardDomain;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 
@@ -14,7 +15,7 @@ public interface MemberRepository {
 	MemberDomain findByEmail(String email);
 	
 	// 회원정보 저장
-	long save(MemberDomain memberEntity);
+	MemberDomain save(MemberDomain memberEntity);
 	
 	// 회원권한정보 저장
 	List<MemberRoleDomain> findRoles(MemberDomain memberDomain);

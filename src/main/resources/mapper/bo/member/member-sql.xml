@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.member.repository.MemberRepository">
-    <select id="save" parameterType="member" resultType="long">
+    <select id="save" parameterType="member" resultType="member">
 	    <!-- MemberRepository.save -->
-	    insert into tbl_members
-		(email, member_nm, password)
-		values(#{email}, #{memberNm}, #{password})
-		RETURNING member_no
+		INSERT INTO TBL_MEMBER
+		(
+			 LOGIN_ID						/*로그인ID*/
+			,PASSWORD						/*비밀번호*/
+			,COMP_ID						/*회원사ID*/
+			,MEM_NM							/*담당자명*/
+			,EMAIL							/*이메일*/
+			,MOBILE_NO						/*전화번호*/
+			,DEPT_NM						/*부서명*/
+			,POSITION_NM					/*직위명*/
+			,JOIN_DT						/*가입일*/
+			,FILE_ID						/*첨부파일ID*/
+		)
+		VALUES
+		(
+			 #{userId}                     	/*로그인ID*/ 
+			,#{password}                    /*비밀번호*/  
+			,#{companyCd}                   /*회원사ID*/ 
+			,#{memNm}                       /*담당자명*/  
+			,#{email}                       /*이메일*/   
+			,#{mobileNo}                    /*전화번호*/  
+			,#{deptNm}                      /*부서명*/   
+			,#{positionNm}                  /*직위명*/   
+			,TO_CHAR(NOW(), 'YYYYMMDD')		/*가입일*/   
+			,#{fileId}						/*첨부파일ID*/
+		)	
 	</select>
-    
+	
     <select id="findByEmail" parameterType="member" resultType="member">
 	    <!-- MemberRepository.findByEmail -->
 	    select *

@@ -6,7 +6,7 @@
 
 body, input, textarea, select, table, button{font-family:'dotum', 'gulim', 'Arial', sans-serif;font-size:12px;}
 
-html,body{margin:0;padding:0;color:#444;min-width: 1183px;min-height: 937px;}
+html,body{margin:0;padding:0;color:#444;min-width: 1263px;min-height: 937px;}
 
 img{margin:0;padding:0;border:none;vertical-align:top;}
 
@@ -28,7 +28,13 @@ label{vertical-align:middle;}
 input{color:#444;vertical-align:middle;box-sizing:border-box;}
 input.radio, input.check{width:16px;height:16px;border:none;padding:0;margin:0;background:none;}
 select{
-  color:#444;vertical-align:middle; width: auto; border:1px solid #cac9c9; height:26px; padding:5px; padding-right: 25px; box-sizing:border-box;
+  color:#444;vertical-align:middle; width: auto; border:1px solid #cac9c9; height:28px; padding:5px; padding-right: 25px; box-sizing:border-box;
+
+  background:#fff url('../../images/common/select_arrow.png')no-repeat 92% 52%;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+  -ms-appearance: none;
+	appearance: none;
 }
 select::-ms-expand { display: none; }
 textarea{color:#444;border:1px solid #c3c3c3;padding:5px;box-sizing:border-box;}
@@ -38,8 +44,9 @@ input + img{vertical-align:middle;}
 button{margin:0;padding:0;border:none;background:none;}
 optgroup, option { margin: 0; padding: 0; text-align: left; text-indent: 0; }
 
-input[type="text"]{border:1px solid #c3c3c3;border:1px solid #cac9c9;height:26px;line-height:26px;padding:0 5px;}
-input[type="password"]{border:1px solid #c3c3c3;border:1px solid #cac9c9;height:26px;line-height:26px;padding:0 5px;}
+input[type="text"]{border:1px solid #c3c3c3;border:1px solid #cac9c9;height:28px;line-height:28px;padding:0 5px;}
+input[type="date"]{border:1px solid #c3c3c3;border:1px solid #cac9c9;height:28px;line-height:28px;padding:0 5px;}
+input[type="password"]{border:1px solid #c3c3c3;border:1px solid #cac9c9;height:28px;line-height:28px;padding:0 5px;}
 input[readonly],textarea[readonly]{background:#fff;}
 input[type="text"]:focus{border:1px solid #277acd;}
 input[type="file"]{height:26px;}
@@ -228,6 +235,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .pdl25{padding-left:25px !important}
 .pdl30{padding-left:30px !important}
 
+.pdr0{padding-right:0 !important}
 .pdr10{padding-right:10px !important}
 .pdr15{padding-right:15px !important}
 .pdr20{padding-right:20px !important}
@@ -377,11 +385,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   color: #fff;
 }
 
-#table{
+.long_table{
   overflow-x: auto;
 }
 
-#table table{
+ table{
 	margin:0;
 	padding:0;
 	border:0;
@@ -389,26 +397,37 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	border-collapse:collapse;
 	border-top: 1px solid #ccc;
   width: 100%;
+  table-layout: fixed;
+  word-break: keep-all;
 }
 
-#table table th{
+.long_table table th{
+  width: 100px;
+}
+
+.long_table table td{
+  padding: 5px 10px;
+}
+
+table th{
 	height: 34px;
 	background-color: #f8f8f8;
 	border-bottom: 1px solid #e1e1e1;
-	font:700 12px/20px 'dotum','맑은 고딕';
+	font:700 12px/18px 'dotum','맑은 고딕';
+  padding: 5px 10px;
 	color:#222;
 	letter-spacing: -0.6px;
 	text-align: center;
   background-color: #eee;
 }
 
-#table table td{
+ table td{
 	height: 34px;
 	text-align: center;
-	font:500 12px/20px 'dotum','맑은 고딕';
+	font:500 12px/18px 'dotum','맑은 고딕';
 	color:#222;
 	vertical-align: middle;
-	padding: 0 30px;
+	padding: 5px 30px;
 	border-bottom: 1px solid #e5e5e5;
 }
 
@@ -482,6 +501,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   background-color: #0c4fa0;
 }
 
+.file_input{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .btn_wrap{
   width: 100%;
   margin: 40px auto;
@@ -492,6 +517,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .btn_small{
   font:500 12px/28px 'dotum','맑은 고딕' !important;
   width: 100px !important;
+  height: 28px !important;
+}
+
+.btn_del{
+  font:500 12px/28px 'dotum','맑은 고딕' !important;
+  width: 60px !important;
   height: 28px !important;
 }
 
@@ -537,4 +568,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .btn_right{
   position: absolute;
   right: 0;
+}
+
+.btn_right02{
+  position: absolute;
+  right: 176px;
 }

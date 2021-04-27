@@ -23,7 +23,7 @@ public class CodeController {
 	@Autowired private CodeService codeService;
 	
 	//공통코드관리 리스트 페이지
-	@GetMapping(value="/codeList")
+	@GetMapping(value="/codePage")
 	public String codeList() {
 		return CosntPage.BoCodePage+"/codeList";
 	}

@@ -12,7 +12,7 @@ var DataUtil = {
         		obj.propertie05 = (typeof (obj.propertie05) == "undefined") ? '' : obj.propertie05;
         		obj.defaultMsg = (typeof (obj.defaultMsg) == "undefined") ? '' : obj.defaultMsg;
 				params = {
-					url : '/common/selectCommonCodeList'
+					url : '/common/selectCommonCompanyCodeList'
 					, param : {codeMstCd : obj.code , propertie01 : obj.propertie01, propertie02 : obj.propertie02, propertie03 : obj.propertie03, propertie04 : obj.propertie04, propertie05 : obj.propertie05}
 					, target : obj.target
 					, success : obj.success
