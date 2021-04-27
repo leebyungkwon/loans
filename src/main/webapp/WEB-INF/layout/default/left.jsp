@@ -40,6 +40,9 @@
 		<li>
 			<a href="#">(협회)관리자 관리</a>
 		</li>
+		<li>
+			<a href="/admin/company/companyPage">(협회)회원사 담당자 조회</a>
+		</li>
 		</sec:authorize>
 		
 		<li>
