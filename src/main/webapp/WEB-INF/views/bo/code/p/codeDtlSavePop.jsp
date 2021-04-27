@@ -89,7 +89,7 @@
 	};
 	*/
 	//저장
-	document.getElementById("codeDtlSaveBtn").onclick = function () {
+	$("#codeMstSaveBtn").on("click",function(){
 		/*
 		if(codeDtlCdDupCheckResult == "N"){
 			alert("코드상세ID 중복체크를 해주세요.");
@@ -104,6 +104,6 @@
     	    }
 		}
 		AjaxUtil.form(p);
-	};
+	});
 })();
 </script>	
