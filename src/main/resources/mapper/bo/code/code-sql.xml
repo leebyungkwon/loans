@@ -6,10 +6,10 @@
 	<!-- 공통 -->
 	<sql id="baseColumns">
 		,USE_YN
-		,REG_DATE
-		,REG_NO
-		,UPD_DATE
-		,UPD_NO
+		,REG_TIMESTAMP
+		,REG_SEQ
+		,UPD_TIMESTAMP
+		,UPD_SEQ
 	</sql>
 	
 	<!-- 프로퍼티 컬럼 -->
@@ -29,7 +29,7 @@
 			,CODE_MST_DESC
 			<include refid="propertyColumns"></include>
 			<include refid="baseColumns"></include>
-		FROM TBL_CODE_MST
+		FROM TB_LC_COD01
 		<where>
 			<if test="codeMstNm != null and codeMstNm != ''">
 				AND CODE_MST_NM = #{codeMstNm}
@@ -41,7 +41,7 @@
 	<select id="codeMstCdDupCheck" parameterType="codeMst" resultType="int">
 		SELECT 
 			COUNT(*)
-		FROM TBL_CODE_MST
+		FROM TB_LC_COD01
 		<where>
 			AND CODE_MST_CD = #{codeMstCd}
 		</where>
@@ -49,7 +49,7 @@
 
 	<!-- 코드 마스터 등록 -->
 	<insert id="insertCodeMst" parameterType="codeMst">
-		INSERT INTO TBL_CODE_MST
+		INSERT INTO TB_LC_COD01
 		(
 			 CODE_MST_CD
 			,CODE_MST_NM
@@ -59,8 +59,8 @@
 			,PROPERTY03
 			,PROPERTY04
 			,PROPERTY05
-			,REG_DATE
-			,REG_NO
+			,REG_TIMESTAMP
+			,REG_SEQ
 		)
 		VALUES
 		(
@@ -73,18 +73,18 @@
 			,#{property04}
 			,#{property05}
 			,NOW()
-			,#{regNo}
+			,#{regSeq}
 		)
 	</insert>
 	
 	<!-- 코드 마스터 수정 -->
 	<update id="updateCodeMst" parameterType="codeMst">
-		UPDATE TBL_CODE_MST
+		UPDATE TB_LC_COD01
 		SET 
 			 CODE_MST_NM 	= #{codeMstNm}
 			,CODE_MST_DESC	= #{codeMstDesc}
-			,UPD_DATE		= NOW()
-			,UPD_NO			= #{updNo}
+			,UPD_TIMESTAMP	= NOW()
+			,UPD_SEQ		= #{updSeq}
 		<where>
 			AND CODE_MST_CD = #{codeMstCd}
 		</where>
@@ -99,7 +99,7 @@
 			,CODE_DTL_DESC
 			<include refid="propertyColumns"></include>
 			<include refid="baseColumns"></include>
-		FROM TBL_CODE_DTL
+		FROM TB_LC_COD01_DETAIL
 		<where>
 			AND CODE_MST_CD = #{codeMstCd}
 			<if test="useYn != null and useYn != ''">
@@ -110,8 +110,9 @@
 	
 	<!-- 코드 상세 아이디 중복체크 -->
 	<select id="codeDtlCdDupCheck" parameterType="codeDtl" resultType="int">
-		SELECT COUNT(*)
-		FROM TBL_CODE_DTL
+		SELECT 
+			COUNT(*)
+		FROM TB_LC_COD01_DETAIL
 		<where>
 			AND CODE_MST_CD = #{codeMstCd}
 			AND CODE_DTL_CD = #{codeDtlCd}
@@ -120,7 +121,7 @@
 	
 	<!-- 코드 상세 등록 -->
 	<insert id="insertCodeDtl" parameterType="codeDtl">
-		INSERT INTO TBL_CODE_DTL
+		INSERT INTO TB_LC_COD01_DETAIL
 		(
 			 CODE_MST_CD
 			,CODE_DTL_CD
@@ -131,8 +132,8 @@
 			,PROPERTY03
 			,PROPERTY04
 			,PROPERTY05
-			,REG_DATE
-			,REG_NO
+			,REG_TIMESTAMP
+			,REG_SEQ
 		)
 		VALUES
 		(
@@ -146,18 +147,18 @@
 			,#{property04}
 			,#{property05}
 			,NOW()
-			,#{regNo}
+			,#{regSeq}
 		)
 	</insert>
 	
 	<!-- 코드 상세 수정 -->
 	<update id="updateCodeDtl" parameterType="codeDtl">
-		UPDATE TBL_CODE_DTL
+		UPDATE TB_LC_COD01_DETAIL
 		SET 
 			 CODE_DTL_NM 	= #{codeDtlNm}
 			,CODE_DTL_DESC	= #{codeDtlDesc}
-			,UPD_DATE		= NOW()
-			,UPD_NO			= #{updNo}
+			,UPD_TIMESTAMP	= NOW()
+			,UPD_SEQ		= #{updSeq}
 		<where>
 			AND CODE_MST_CD = #{codeMstCd}
 			AND CODE_DTL_CD = #{codeDtlCd}
