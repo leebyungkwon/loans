@@ -243,7 +243,7 @@ create table tb_lc_mas01(
 	, license_date varchar(8)
 	, pay_date varchar(8)
 	, send_msg varchar(200)
-	, quit_msg varchar(200)
+	, pl_hist_cd varchar(200)
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
@@ -251,7 +251,7 @@ create table tb_lc_mas01(
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
-	, PRIMARY KEY (user_id)
+	, PRIMARY KEY (master_seq)
 );
 
 commit;
@@ -287,7 +287,7 @@ COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일';
 COMMENT ON COLUMN tb_lc_mas01.license_date IS '자격취득일';
 COMMENT ON COLUMN tb_lc_mas01.pay_date IS '결제완료일';
 COMMENT ON COLUMN tb_lc_mas01.send_msg IS '전달메세지';
-COMMENT ON COLUMN tb_lc_mas01.quit_msg IS '해지사유';
+COMMENT ON COLUMN tb_lc_mas01.pl_hist_cd IS '해지사유';
 COMMENT ON COLUMN tb_lc_mas01.com_haeji_date IS '회원사해지일자';
 COMMENT ON COLUMN tb_lc_mas01.cre_haeji_date IS '협회해지일자';
 COMMENT ON COLUMN tb_lc_mas01.file_seq IS '첨부파일시퀀스';
