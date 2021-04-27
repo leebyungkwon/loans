@@ -13,7 +13,7 @@
 			<a href="#">모집인 조회 및 변경</a>
 		</li>
 		<li>
-			<a href="/member/user/userPage">모집인 등록</a>
+			<a href="/member/user/userRegPage">모집인 등록</a>
 		</li>
 		<li>
 			<a href="/member/admin/adminPage">관리자 조회 및 변경</a>
@@ -38,7 +38,7 @@
 			<a href="#">(협회)회원사 관리</a>
 		</li>
 		<li>
-			<a href="/admin/company/companyPage">(협회)관리자 관리</a>
+			<a href="#">(협회)관리자 관리</a>
 		</li>
 		</sec:authorize>
 		
