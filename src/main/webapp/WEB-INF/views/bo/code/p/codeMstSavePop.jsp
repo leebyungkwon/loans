@@ -83,7 +83,7 @@
 	};
 	*/
 	//저장
-	document.getElementById("codeMstSaveBtn").onclick = function () {
+	$("#codeMstSaveBtn").on("click",function(){
 		/*
 		if(codeMstCdDupCheckResult == "N"){
 			alert("코드마스터ID 중복체크를 해주세요.");
@@ -98,6 +98,6 @@
     	    }
 		}
 		AjaxUtil.form(p);
-	};
+	});
 })();
 </script>
