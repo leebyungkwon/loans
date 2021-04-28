@@ -1,0 +1,67 @@
+package com.icheonforum.config;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.icheonforum.common.common.domain.BaseDomain;
+import com.icheonforum.common.common.domain.SessionDomain;
+import com.icheonforum.util.UtilCookie;
+import com.icheonforum.util.UtilRedis;
+
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
+@Component
+@Aspect
+public class ConfigurationForAop {
+
+	@Autowired	UtilRedis utilRedis;
+
+	@Pointcut("execution(* com.icheonforum.bo.repository.*.*Repository.*(..))")
+	public void setBaseData(){ }
+
+    /**
+     * @param joinPoint
+     * @throws Throwable
+     */
+    @Before("setBaseData()")
+    public BaseDomain before(JoinPoint pjp) throws Throwable {
+
+		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
+																				.currentRequestAttributes();
+
+		HttpServletRequest request = requestAttributes.getRequest();
+		Cookie token = UtilCookie.getCookie(request, "token");
+    	if(null == token) return null;
+
+    	SessionDomain session = (SessionDomain) utilRedis.getData(token.getValue());
+    	if(null == session) return null;
+
+		try {
+			Object [] p = pjp.getArgs();
+
+			if(p[0]==null || p[0]=="") return null;
+
+			BaseDomain base = (BaseDomain)p[0];
+	    	if(null != session) {
+	    		base.setInsrtUsr(session.getId());
+	    		base.setModfyUsr(session.getId());
+	    	}
+
+	        return base;
+		}catch(Exception e) {
+
+		}
+		return null;
+    }
+
+}
