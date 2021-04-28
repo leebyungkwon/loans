@@ -28,8 +28,8 @@ public class BoardDomain extends BaseDomain{
 	@NotBlank(message = "내용을 입력하세요.")
     @Pattern(regexp = "[a-zA-Z0-9]{2,20}", message = "내용은 영문/숫자 2~20자리로 입력해 주세요.")
     private String boardCnts;
-    private Long attchNo1;
-    private Long attchNo2;
-    private Long attchNo3;
+    private int attchNo1;
+    private int attchNo2;
+    private int attchNo3;
     
 }

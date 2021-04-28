@@ -22,7 +22,7 @@ public class RecruitDomain extends BaseDomain{
 	private String colTest2;
 	private String colTest3;
 	
-	private long atchNo;
+	private int atchNo;
 	
 	
 }

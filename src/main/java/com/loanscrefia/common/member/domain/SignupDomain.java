@@ -28,7 +28,7 @@ public class SignupDomain extends BaseDomain{
 	private String mobileNo;				// 전화번호
 	private String deptNm;					// 부서명
 	private String positionNm;			// 직위명
-	private Long 	fileSeq;					// 첨부파일ID
+	private int fileSeq;					// 첨부파일ID
 	
     List<MemberRoleDomain> roles;
 	                                     
