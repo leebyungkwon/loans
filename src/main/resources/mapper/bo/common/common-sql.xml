@@ -66,4 +66,10 @@
 		FROM TB_LC_COMPANY
 	</select>
 	
+	
+	<!-- 첨부파일 그룹ID 조회 -->
+	<select id="selectFileGroupId" resultType="int">
+		SELECT NEXTVAL('tb_lc_grp_file01_seq');
+	</select>
+	
 </mapper> 

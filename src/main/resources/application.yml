@@ -45,9 +45,16 @@ logging:
     jdbc.resultset: off
     jdbc.sqlonly: error
 
+
+#upload:
+#filePath: C:\loans\loanscrefia-bo\src\main\resources\static\upload
+
 upload:
-  filePath: C:\loans\loanscrefia-bo\src\main\resources\static\upload
+  filePath: static\upload
 ---
+
+
+
 
 spring:
   profiles: dev

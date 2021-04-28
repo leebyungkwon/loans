@@ -190,7 +190,7 @@ public class UtilFile {
 
 	@Transactional(readOnly = true)
 	private Integer selectFileGroupId() {
-		return 0; //commonRepository.selectFileGroupId();
+		return commonRepository.selectFileGroupId();
 	}
 
 	/*

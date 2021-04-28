@@ -16,6 +16,8 @@ public interface CommonRepository {
 
 	// 공통 회원사 조회 selectBox
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
-	
+
+	// 첨부파일 그룹ID
+	int selectFileGroupId();
 	
 }

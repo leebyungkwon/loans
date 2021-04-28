@@ -168,7 +168,7 @@ public class TempleteController {
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
-				board.setAttchNo1(file.get(0).getId());
+				board.setAttchNo1(file.get(0).getFileSeq());
 				//board.setAttchNo1(file.get(0).getFileGrpId());  --> 다중 저장일 경우 file_grp_id 저장
 				responseMsg = templeteService.templeteSave(board);
 			}
