@@ -2,8 +2,8 @@ let LibUtil = {
 	openPopup: function(opts){
  		if(document.querySelectorAll("#"+opts.id).length >= 1) return false;
  		let url = WebUtil.nvl(opts.url, "/common/openPopup");
-		let p = { url : opts.curl};
-		//p = WebUtil.getParamJson(opts.params , p);
+		let p = { url : opts.page};
+		p = WebUtil.getParamJson(opts.data , p);
 		let params = {
 			url : url
 			, param : p
