@@ -99,8 +99,8 @@ create table tb_lc_members(
 	, fail_cnt integer
 	, cre_yn char(1) not null default 'N'
 	, drop_yn char(1) not null default 'N'
-	, upd_seq INTEGER NULL,
-	, upd_timestamp timestamp NULL,
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp NULL
 	, PRIMARY KEY (member_seq)
 );
 
@@ -219,7 +219,7 @@ create table tb_lc_mas01(
 	, member_seq integer
 	, pl_class char(2)
 	, pl_product varchar(30)
-	, pl_reg_yn char(1)
+	, pl_reg_stat char(1)
 	, pl_stat char(1)
 	, pl_regist_no varchar(20)
 	, pl_m_name varchar(20)
@@ -263,7 +263,7 @@ COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '취급상품(대출, 리스)';
-COMMENT ON COLUMN tb_lc_mas01.pl_reg_yn IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
+COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
 COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';

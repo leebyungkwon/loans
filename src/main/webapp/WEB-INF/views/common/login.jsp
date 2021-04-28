@@ -7,25 +7,6 @@ function pageLoad(){
     	document.getElementById('btn_login').onclick = function () {
 		AjaxUtil.submit('login');
 	};   
-	
-/*     	$("#btn_login").on("click", function(){
-		var param = {
-				'email'			: $("#user_id").val()
-				, 'password'	:  $("#user_password").val()
-		}
- 		var p = {
-			  param : param
-			, url : "/j_spring_security"
-			, success : function (opt,result) {
-				AjaxUtil.submit('login');
-    	    }
-		}
-		
-		AjaxUtil.post(p);
-	});   
-	  */
-	
-	
 }
 </script>
 
@@ -45,13 +26,13 @@ function pageLoad(){
 						<div class="input_box mgt0">
 							<div class="tit">아이디</div>
 							<div class="value">
-								<input type="text" id="user_id" name="email" placeholder="아이디 (이메일)" />
+								<input type="text" id="memberId" name="memberId" placeholder="아이디 (이메일)" />
 							</div>
 						</div>
 						<div class="input_box">
 							<div class="tit">비밀번호</div>
 							<div class="value">
-								<input type="password" id="user_password" name="password" placeholder="비밀번호" />
+								<input type="password" id="password" name="password" placeholder="비밀번호" />
 							</div>
 						</div>
 					</div>

@@ -31,25 +31,23 @@
 		)	
 	</select>
 	
-    <select id="findByEmail" parameterType="signup" resultType="signup">
-	    <!-- MemberRepository.findByEmail -->
+    <select id="findById" parameterType="member" resultType="member">
 	    select *
-	    from TB_LC_MEMBERS
-	    where email = #{findByEmail}
+	    from tb_lc_members
+	    where member_id = #{memberId}
     </select>
    
     
-    <select id="findRoles" parameterType="signup" resultType="memberRole">
-	    <!-- MemberRoleRepository.findRoles -->
+    <select id="findRoles" parameterType="member" resultType="memberRole">
 	    select *
-	    from tbl_member_role
-	    where member_no = #{memberNo}
+	    from tb_lc_member_role
+	    where member_seq = #{memberSeq}
     </select>
     
     <update id="loginFailCnt" parameterType="string" >
-    	UPDATE TB_LC_MEMBERS
+    	UPDATE tb_lc_member_role
     	SET fail_cnt = fail_cnt+1
-    	WHERE email = #{email}
+    	WHERE member_id = #{memberId}
     </update>
     
     

@@ -9,8 +9,7 @@ import lombok.Data;
 @Data
 @Alias("memberRole")
 public class MemberRoleDomain extends BaseDomain{
-    private Long roleNo;
+    private Long roleId;
     private String roleName;
-    private Long memberNo;
-    //MemberDomain member;
+    private Long memberSeq;
 }

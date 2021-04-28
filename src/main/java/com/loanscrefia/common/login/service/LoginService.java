@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.common.login.domain.SecurityMember;
 import com.loanscrefia.common.member.domain.SignupDomain;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.repository.MemberRepository;
 import com.loanscrefia.common.member.repository.MemberRoleRepository;
@@ -32,15 +33,10 @@ public class LoginService implements UserDetailsService {
         return memberRepository.save(signupDomain);
     }
 
-	/*
-	 * public UserDetails loadUserByUsername(String email) throws
-	 * UsernameNotFoundException { return
-	 * Optional.ofNullable(memberRepository.findByEmail(email)).filter(member ->
-	 * member != null) .map(member -> new SecurityMember((MemberDomain)
-	 * member)).get(); }
-	 */ 
-    public UserDetails loadUserByUsername(@Valid String email) throws UsernameNotFoundException {
-    	SignupDomain mem = memberRepository.findByEmail(email);
+
+    // security 로그인
+    public UserDetails loadUserByUsername(@Valid String memberId) throws UsernameNotFoundException {
+    	MemberDomain mem = memberRepository.findById(memberId);
     	List<MemberRoleDomain> role = memberRepository.findRoles(mem);
     	mem.setRoles(role);
 		return 
@@ -48,6 +44,9 @@ public class LoginService implements UserDetailsService {
 			.filter(member -> member!= null)
 			.map(member -> new SecurityMember(mem)).get();
 	}
+    
+    
+    
 	public void saveRole(MemberRoleDomain role) {
 		role.setRoleName("MEMBER");
 		memberRoleRepository.save(role);
@@ -55,8 +54,8 @@ public class LoginService implements UserDetailsService {
 	
 	
 	@Transactional
-	public void loginFailCnt(String email) {
-		memberRepository.loginFailCnt(email);
+	public void loginFailCnt(String memberId) {
+		memberRepository.loginFailCnt(memberId);
 	}
 	
 	public SignupDomain getMember(SignupDomain signupDomain) {
