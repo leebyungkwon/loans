@@ -72,4 +72,21 @@
 		SELECT NEXTVAL('tb_lc_grp_file01_seq');
 	</select>
 	
+	<!-- 첨부파일 단건 조회 -->
+	<select id="getFile" parameterType="file" resultType="file">
+		select
+			file_seq
+			, file_grp_seq
+			, file_type
+			, file_ext
+			, file_org_nm
+			, file_path
+			, file_save_nm
+			, reg_timestamp
+			, upd_timestamp
+			, use_yn
+		from tb_lc_file01
+		where file_seq = #{fileSeq}
+	</select>
+	
 </mapper> 

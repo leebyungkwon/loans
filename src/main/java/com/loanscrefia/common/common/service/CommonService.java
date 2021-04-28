@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.common.common.repository.VersionRepository;
@@ -43,5 +44,9 @@ public class CommonService {
 		return commonRepository.selectCompanyCodeList(codeDtlDomain);
 	}
 	
+	// 첨부파일 단건 조회
+	public FileDomain getFile(FileDomain fileDomain) {
+		return commonRepository.getFile(fileDomain);
+	}
 
 }

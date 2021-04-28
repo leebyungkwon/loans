@@ -20,4 +20,6 @@ public interface CommonRepository {
 	// 첨부파일 그룹ID
 	int selectFileGroupId();
 	
+	// 첨부파일 단건 조회
+	FileDomain getFile(FileDomain fileDomain);
 }

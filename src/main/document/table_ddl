@@ -227,8 +227,8 @@ create table tb_lc_mas01(
 	, pl_m_z_id varchar(20)
 	, pl_m_z_id_edu varchar(20)
 	, pl_cellphone varchar(20)
-	, addr varchar(200)
-	, corp_addr varchar(200)
+	, addr varchar(2)
+	, addr_detail varchar(200)
 	, pl_edu_no integer
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
@@ -272,8 +272,8 @@ COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id_edu IS '교육수료대조(주민등록번호대체값)';
 COMMENT ON COLUMN tb_lc_mas01.pl_cellphone IS '모집인휴대전화번호';
-COMMENT ON COLUMN tb_lc_mas01.addr IS '주소(코드)';
-COMMENT ON COLUMN tb_lc_mas01.corp_addr IS '법인소재지(상세주소)';
+COMMENT ON COLUMN tb_lc_mas01.addr IS '본점소재지(코드)';
+COMMENT ON COLUMN tb_lc_mas01.addr_detail IS '상세주소(법인등기부등본상)';
 COMMENT ON COLUMN tb_lc_mas01.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01.career_end_date IS '경력종료일';
@@ -322,6 +322,8 @@ CREATE SEQUENCE tb_lc_grp_file01_seq
 	START 1
 	CACHE 1
 	NO CYCLE;
+
+commit;
 
 -- 첨부파일
 CREATE TABLE tb_lc_file01 (
