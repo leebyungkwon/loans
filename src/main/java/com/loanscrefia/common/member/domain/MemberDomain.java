@@ -17,15 +17,29 @@ import lombok.Data;
 @Alias("member")
 public class MemberDomain extends BaseDomain{
 	
-	private Long memberSeq;
-    private String memberId;				
-	private String password;				 
-	private int comCode;
-	private String memberName;
-	private String email;
-	private String mobileNo;
-	private String deptNm;
-	private String positionNm;
-	private Long fileSeq;
+	private Long memberSeq;					// 담당자시퀀스
+    private String memberId;				// 담당자ID(로그인ID)
+	private String password;				// 비밀번호
+	private int comCode;					// 회원사코드
+	private String memberName;				// 담당자이름
+	private String email;					// 이메일
+	private String mobileNo;				// 전화번호
+	private String deptNm;					// 부서명
+	private String positionNm;				// 직위명
+	private String joinDt;					// 가입일
+	private String apprYn;					// 승인여부
+	
+	public boolean apprYnCheck() {
+		if("Y".equals(apprYn)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private int fileSeq;					// 첨부파일시퀀스
+	private int fileCnt;					// 로그인실패횟수
+	private String creYn;					// 협회여부
+	private String dropYn;					// 탈퇴여부
     List<MemberRoleDomain> roles;
 }

@@ -4,12 +4,51 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script>
 function pageLoad(){
-   	document.getElementById('btn_login').onclick = function () {
-		AjaxUtil.submit('login');
-	};   
+	
+	// 아이디 저장 cookie 체크
+	var rememberCheck = $.cookie('rememberCheck');
+	if(rememberCheck == "Y"){
+		$("#rememberId").prop("checked", true);
+		$("#memberId").val($.cookie('rememberId'));
+	}
+	
+	var failMsg = "${loginFailMsg}";
+	if(WebUtil.isNotNull(failMsg)){
+		alert(failMsg);
+	}
+	
+	$("#loginBtn").on("click", function(){
+   		var memberId = $("#memberId").val();
+   		var password = $("#password").val();
+   		
+   		if(WebUtil.isNull(memberId)){
+   			alert("아이디를 입력해 주세요.");
+   			$("#memberId").focus();
+   			return false;
+   		}
+   		
+   		if(WebUtil.isNull(password)){
+   			alert("비밀번호를 입력해 주세요.");
+   			$("#password").focus();
+   			return false;
+   		}
+   		
+   		if($("#rememberId").is(":checked")){
+   			// 30일 뒤에 만료되는 쿠키 생성 
+   			$.cookie('rememberCheck', 'Y', { expires: 30 });
+   			$.cookie('rememberId', memberId, { expires: 30 });
+   		}else{
+   			$.removeCookie('rememberCheck');
+   			$.removeCookie('rememberId');
+   		}
+   		
+		AjaxUtil.submit('login');		
+	});
+	
+
+	
 }
 </script>
-
 
 	<div id="container">
 		<div class="page_title">
@@ -36,19 +75,13 @@ function pageLoad(){
 							</div>
 						</div>
 					</div>
-					<a href="javascript:void(0);" class="btn_login" id="btn_login">로그인</a>
+					<a href="javascript:void(0);" class="btn_login" id="loginBtn">로그인</a>
 				</div>
-				
-				<!-- 로그인 실패 관련 메세지 영역 필요함 -->
-				<c:if test="${not empty loginFailMsg}">
-					<span class="txt_warning">${loginFailMsg }</span>
-					<c:remove var="loginFailMsg" scope="session" />
-				</c:if>
 				
 				<div class="bottom_box clfix">
 					<p class="f-left">
-						<input type="checkbox" id="test1" class="check">
-						<label for="test1">아이디 저장</label> <!-- id/for 값 변경하셔도됩니다 -->
+						<input type="checkbox" id="rememberId" class="check">
+						<label for="rememberId">아이디 저장</label>
 					</p>
 					<div class="f-right right_cont">
 						<ul>

@@ -8,7 +8,7 @@
 	<div id="header">
 		<div class="inner">
 			<h1>
-				<a href="#">
+				<a href="/main">
 					<img src="/static/images/common/top_logo_ov.png" alt="" />
 				</a>
 			</h1>

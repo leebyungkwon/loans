@@ -38,7 +38,7 @@ public class LoginFailurHandler implements AuthenticationFailureHandler {
 			req.setAttribute("loginFailMsg", "잠긴 계정입니다..");
 			
 		} else if(exception instanceof DisabledException) {
-			req.setAttribute("loginFailMsg", "휴면 계정입니다..");
+			req.setAttribute("loginFailMsg", "승인이 필요한 계정입니다.");
 			
 		}  else if(exception instanceof CredentialsExpiredException) {
 			req.setAttribute("loginFailMsg", "비밀번호가 만료되었습니다.");
