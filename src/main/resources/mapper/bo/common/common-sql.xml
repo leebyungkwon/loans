@@ -5,16 +5,18 @@
 		<!-- CommonRepository.insertFile -->
 		insert into tb_lc_file01
 		(
-			file_ext, file_org_nm, file_path, file_save_nm, reg_timestamp, upd_timestamp, use_yn
-			<if test="fileType != null and fileType != ''">
-				, file_type			
-			</if>	
+			file_ext, file_org_nm, file_path, file_save_nm, reg_timestamp, upd_timestamp, use_yn, file_type
 		)
 		values(
 			#{fileExt}, #{fileOrgNm}, #{filePath}, #{fileSaveNm}, now(), now(), 'Y'
-			<if test="fileType != null and fileType != ''">
-				#{fileType}
-			</if>
+			<choose>
+				<when test="fileType != null and fileType != ''">
+					,#{fileType}
+				</when>
+				<otherwise>
+					,'0'
+				</otherwise>
+			</choose>
 		)
 	</insert>
 	
