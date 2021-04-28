@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script>
 function pageLoad(){
-    	document.getElementById('btn_login').onclick = function () {
+   	document.getElementById('btn_login').onclick = function () {
 		AjaxUtil.submit('login');
 	};   
 }
