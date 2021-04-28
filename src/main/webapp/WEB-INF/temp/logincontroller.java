@@ -1,4 +1,7 @@
-    @PostMapping("/login")
+
+//컨트롤러
+
+@PostMapping("/login")
     public ResponseEntity<ResponseMsg> login(ManagerMngDomain mem,
                           HttpServletRequest req,
                           HttpServletResponse res) {
@@ -28,3 +31,15 @@
 		return new ResponseEntity<ResponseMsg>(responseMsg, HttpStatus.OK);
 
     }
+
+
+// 서비스
+
+public ManagerMngDomain login(String loginId, String pwd) {
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	ManagerMngDomain mem = managerMngRepository.findByLoginId(loginId);
+		if (mem == null || !passwordEncoder.matches(pwd, mem.getPwd())) {
+    		mem = null;
+		}
+		return mem;
+	}
