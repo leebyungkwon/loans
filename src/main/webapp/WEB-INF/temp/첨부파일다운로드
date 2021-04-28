@@ -32,6 +32,40 @@
 		}
 		//utilFile.setEntity(file).fileDownload(request,response);
 	}
+	
+	
+	//GRADLE
+	
+	
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-devtools:2.4.0'
+	implementation 'org.aspectj:aspectjweaver:1.7.0'
+	implementation 'org.aspectj:aspectjrt:1.7.0'
+	implementation 'aspectj:aspectjtools:1.5.4'
+	implementation 'org.hibernate.validator:hibernate-validator'
+	implementation 'javax.validation:validation-api'
+	implementation 'javax.xml.bind:jaxb-api:2.3.0-b170201.1204'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	implementation 'net.javacrumbs.shedlock:shedlock-spring:3.0.0'
+	implementation 'net.javacrumbs.shedlock:shedlock-provider-jdbc-template:3.0.0'
+	implementation 'javax.servlet:jstl'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'org.apache.tiles:tiles-jsp:3.0.7'
+	implementation 'org.springframework.security:spring-security-taglibs'
+	implementation 'org.apache.poi:poi:3.11'
+	implementation 'org.apache.poi:poi-ooxml:3.11'
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.session:spring-session-data-redis'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.codehaus.jackson:jackson-core-asl:1.9.4'
+	implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.4'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.projectlombok:lombok'
   
   
   //application.yml
