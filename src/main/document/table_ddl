@@ -234,6 +234,7 @@ create table tb_lc_mas01(
 	, career_end_date varchar(8)
 	, entrust_date varchar(8)
 	, pl_merchant_name varchar(30)
+	, pl_ceo_name varchar(10)
 	, pl_merchant_no varchar(13)
 	, pl_business_no varchar(10)
 	, comp_phone_no varchar(20)
@@ -279,6 +280,7 @@ COMMENT ON COLUMN tb_lc_mas01.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01.career_end_date IS '경력종료일';
 COMMENT ON COLUMN tb_lc_mas01.entrust_date IS '위탁예정일';
 COMMENT ON COLUMN tb_lc_mas01.pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_mas01.pl_ceo_name IS '대표이사명';
 COMMENT ON COLUMN tb_lc_mas01.pl_merchant_no IS '법인등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_business_no IS '사업자등록번호';
 COMMENT ON COLUMN tb_lc_mas01.comp_phone_no IS '회원사대표번호';
