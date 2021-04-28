@@ -1,4 +1,4 @@
-package com.icheonforum.util;
+package com.loanscrefia.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -34,16 +34,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.icheonforum.common.common.domain.FileDomain;
-import com.icheonforum.common.common.repository.CommonRepository;
+import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.repository.CommonRepository;
 
 @Component
 public class UtilFile {
 	public UtilFile() {
 	}
 
-	@Autowired private CommonRepository commonRepository;
-	@Autowired ResourceLoader resourceLoader;
+	@Autowired
+	private CommonRepository commonRepository;
+	@Autowired
+	ResourceLoader resourceLoader;
 
 	@Value("${upload.filePath}")
 	public String filePath;
@@ -104,6 +106,7 @@ public class UtilFile {
 		}
 		this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,
 				this.path/* , this.today */).toString();
+
 		File dir = new File(this.uploadPath);
 		if (dir.exists() == false) {
 			dir.mkdirs();
@@ -111,7 +114,8 @@ public class UtilFile {
 
 		int len = files.length;
 		Integer groupId = null;
-		if(len>1) groupId = selectFileGroupId();
+		if (len > 1)
+			groupId = selectFileGroupId();
 
 		for (MultipartFile file : files) {
 			try {
@@ -150,12 +154,14 @@ public class UtilFile {
 				file.transferTo(target);
 
 				FileDomain attach = new FileDomain();
-				attach.setFileNm(orgName);
-				attach.setFileUid(saveName);
+
+				attach.setFileGrpSeq(groupId);
+				attach.setFileExt(extension);
+				attach.setFileOrgNm(orgName);
 				attach.setFilePath(this.path);
-				attach.setExt(extension);
-				attach.setSize((int) target.length());
-				attach.setFileGrpId(groupId);
+				attach.setFileSaveNm(saveName);
+				//attach.setSize((int) target.length());
+
 				if (this.save)
 					this.save(attach);
 				fileList.add(attach);
@@ -178,46 +184,49 @@ public class UtilFile {
 	}
 
 	@Transactional
-	private void save(FileDomain attach) {	commonRepository.insertFile(attach);	}
+	private void save(FileDomain attach) {
+		commonRepository.insertFile(attach);
+	}
+
 	@Transactional(readOnly = true)
-	private Integer selectFileGroupId() {	return commonRepository.selectFileGroupId();	}
+	private Integer selectFileGroupId() {
+		return 0; //commonRepository.selectFileGroupId();
+	}
+
+	/*
 	@Transactional
 	private FileDomain select(FileDomain attach) {
 		FileDomain fileDomain = (FileDomain) commonRepository.selectFile(attach);
 		return fileDomain;
 	}
-	/*
-	public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		FileDomain f = this.select(this.fileDomain);
-		File file = new File(f.getFilePath(), f.getFileUid() + "." + f.getExt());
-		fileDomain = (FileDomain) commonRepository.selectFile(fileDomain);
-		String name = fileDomain.getFileNm()+ "." + fileDomain.getExt();
-	}
-	*/
+
 	public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		FileDomain f = this.select(this.fileDomain);
-		File file = new File(f.getFilePath(), f.getFileUid() + "." + f.getExt());
+		File file = new File(f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
 		fileDomain = (FileDomain) commonRepository.selectFile(fileDomain);
 
-		String name = fileDomain.getFileNm()+ "." + fileDomain.getExt();
-		String filename =  new String(name.getBytes("euc-kr"),"utf-8");
+		String name = fileDomain.getFileOrgNm() + "." + fileDomain.getFileExt();
+		String filename = new String(name.getBytes("euc-kr"), "utf-8");
 
-
-		String mimeType= URLConnection.guessContentTypeFromName(filename);		//--- 파일의 mime타입을 확인합니다.
-        if(mimeType==null){														//--- 마임타입이 없을 경우 application/octet-stream으로 설정합니다.
-            mimeType = "application/octet-stream";
-        }
-        response.setContentType(mimeType);										//--- reponse에 mimetype을 설정합니다.
-		response.setHeader("Content-Disposition", "attachment; filename=\""+filename+"\"");		//--- Content-Disposition를 attachment로 설정하여 다운로드 받을 파일임을 브라우저에게 알려줍니다.
-        response.setContentLength((int)file.length());											//--- response content length를 설정합니다.
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));			//--- inputstream 객체를 얻습니다.
-        FileCopyUtils.copy(inputStream, response.getOutputStream());							//--- inputstream으로 파일을 읽고 outputsream으로 파일을 씁니다.
+		String mimeType = URLConnection.guessContentTypeFromName(filename); // --- 파일의 mime타입을 확인합니다.
+		if (mimeType == null) { // --- 마임타입이 없을 경우 application/octet-stream으로 설정합니다.
+			mimeType = "application/octet-stream";
+		}
+		response.setContentType(mimeType); // --- reponse에 mimetype을 설정합니다.
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\""); // ---
+																								// Content-Disposition를
+																								// attachment로 설정하여 다운로드
+																								// 받을 파일임을 브라우저에게 알려줍니다.
+		response.setContentLength((int) file.length()); // --- response content length를 설정합니다.
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file)); // --- inputstream 객체를 얻습니다.
+		FileCopyUtils.copy(inputStream, response.getOutputStream()); // --- inputstream으로 파일을 읽고 outputsream으로 파일을 씁니다.
 
 	}
+	*/
 
 	private List<FileDomain> unZip(FileDomain attach, MultipartFile file, List<FileDomain> fileList)
 			throws IOException {
-		String zipFile = Paths.get(attach.getFilePath(), attach.getFileUid() + "." + attach.getExt()).toString();
+		String zipFile = Paths.get(attach.getFilePath(), attach.getFileSaveNm() + "." + attach.getFileExt()).toString();
 		ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
 		ZipEntry ze = zis.getNextEntry();
 		while (ze != null) {
@@ -238,10 +247,10 @@ public class UtilFile {
 			fos.close();
 
 			FileDomain unzipFile = new FileDomain();
-			unzipFile.setFileNm(orgName);
-			unzipFile.setFileUid(saveName);
+			unzipFile.setFileOrgNm(orgName);
+			unzipFile.setFileSaveNm(saveName);
 			unzipFile.setFilePath(uploadPath);
-			unzipFile.setExt(extension);
+			unzipFile.setFileExt(extension);
 			if (this.save)
 				this.save(unzipFile);
 			fileList.add(unzipFile);
@@ -254,11 +263,23 @@ public class UtilFile {
 		return fileList;
 	}
 
+	public enum All {
+
+	}
+
 	public enum Excel {
 		xls, xlsx
 	}
 
 	public enum Image {
-		png, jpg, jpeg
+		png, jpg, jpeg, pdf
+	}
+
+	public enum Doc {
+		pdf, hwp, xls, xlsx, txt
+	}
+
+	public enum Zip {
+		zip
 	}
 }
