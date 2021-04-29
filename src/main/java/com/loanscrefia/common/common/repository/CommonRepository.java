@@ -9,17 +9,25 @@ import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
 @Mapper
 public interface CommonRepository {
-	void insertFile(FileDomain attach);
 	
-	// 공통코드 조회 selectBox
-	List<CodeDtlDomain> selectCommonCodeList(CodeDtlDomain codeDtlDomain);
-
-	// 공통 회원사 조회 selectBox
+	//첨부파일 리스트
+	List<FileDomain> selectFileList(FileDomain fileDomain);
+	
+	//첨부파일 그룹 시퀀스 조회
+	int selectFileGrpSeq();
+	
+	//첨부파일 등록
+	void insertFile(FileDomain fileDomain);
+	
+	//첨부파일 단건 조회
+	FileDomain getFile(FileDomain fileDomain);
+	
+	//첨부파일 삭제
+	int deleteFile(FileDomain fileDomain);
+	
+	//회원사 리스트
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
 
-	// 첨부파일 그룹ID
-	int selectFileGroupId();
 	
-	// 첨부파일 단건 조회
-	FileDomain getFile(FileDomain fileDomain);
+	
 }

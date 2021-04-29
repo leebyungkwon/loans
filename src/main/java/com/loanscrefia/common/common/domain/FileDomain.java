@@ -1,5 +1,7 @@
 package com.loanscrefia.common.common.domain;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
@@ -9,7 +11,7 @@ import lombok.Data;
 public class FileDomain extends BaseDomain{
 
     private int fileSeq;
-    private int fileGrpSeq;
+    private Integer fileGrpSeq;
     private String fileExt;
     private String fileOrgNm;
     private String filePath;
@@ -19,4 +21,6 @@ public class FileDomain extends BaseDomain{
     
     //ocrTest
     private String fileDocType;
+    
+    private List<String> fileTypeList;
 }

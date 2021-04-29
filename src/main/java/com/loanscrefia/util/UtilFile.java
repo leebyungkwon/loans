@@ -91,10 +91,10 @@ public class UtilFile {
 	}
 
 	public Map<String, Object> upload() {
-		Map<String, Object> result = new HashMap<String, Object>();
-		String msg = "success";
-		Boolean success = false;
-		List<FileDomain> fileList = new ArrayList<>();
+		Map<String, Object> result 	= new HashMap<String, Object>();
+		String msg 					= "success";
+		Boolean success 			= false;
+		List<FileDomain> fileList 	= new ArrayList<>();
 
 		if (this.files[0].getSize() < 1) {
 			success = true;
@@ -104,75 +104,95 @@ public class UtilFile {
 			result.put("data", Collections.emptyList());
 			return result;
 		}
-		this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,
-				this.path/* , this.today */).toString();
+		
+		this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
 
 		File dir = new File(this.uploadPath);
 		if (dir.exists() == false) {
 			dir.mkdirs();
 		}
 
-		int len = files.length;
-		Integer groupId = null;
-		if (len > 1)
-			groupId = selectFileGroupId();
+		int count 			= 0;
+		int fileLen 		= files.length;
+		Integer fileGrpSeq 	= null;
+		if(fileLen > 1){
+			if(this.fileDomain.getFileGrpSeq() == null) {
+				fileGrpSeq = selectFileGrpSeq();
+			}else {
+				fileGrpSeq = this.fileDomain.getFileGrpSeq();
+			}
+		}
 
 		for (MultipartFile file : files) {
 			try {
-				String fileName = file.getOriginalFilename();
-				final String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+				if(!file.isEmpty()) {
+					String fileName 		= file.getOriginalFilename();
+					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
 
-				if (!UtilString.isStr(this.ext.toLowerCase())) {
-					if ("excel".equals(this.ext)) {
-						for (Excel excel : Excel.values()) {
-							if (excel.toString().equals(extension)) {
-								success = true;
-								break;
+					if (!UtilString.isStr(this.ext.toLowerCase())) {
+						if ("excel".equals(this.ext)) {
+							for (Excel excel : Excel.values()) {
+								if (excel.toString().equals(extension)) {
+									success = true;
+									break;
+								}
+							}
+						}
+						if ("image".equals(this.ext.toLowerCase())) {
+							for (Image img : Image.values()) {
+								if (img.toString().equals(extension)) {
+									success = true;
+									break;
+								}
+							}
+						}
+						if ("doc".equals(this.ext.toLowerCase())) {
+							for (Doc doc : Doc.values()) {
+								if (doc.toString().equals(extension)) {
+									success = true;
+									break;
+								}
 							}
 						}
 					}
-					if ("image".equals(this.ext.toLowerCase())) {
-						for (Image img : Image.values()) {
-							if (img.toString().equals(extension)) {
-								success = true;
-								break;
-							}
-						}
+					if (!success) {
+						msg = "잘못된 확장자의 첨부파일을 등록 하였습니다.[0002]";
+						result.put("message", msg);
+						result.put("success", success);
+						result.put("data", Collections.emptyList());
+						return result;
 					}
+					
+					final String saveName 	= getRandomString();
+					final String orgName 	= fileName.replace("." + extension, "");
+
+					File target = new File(uploadPath, saveName + "." + extension);
+					file.transferTo(target);
+
+					FileDomain attach = new FileDomain();
+
+					attach.setFileGrpSeq(fileGrpSeq);
+					attach.setFileExt(extension);
+					attach.setFileOrgNm(orgName);
+					attach.setFilePath(this.path);
+					attach.setFileSaveNm(saveName);
+					//attach.setSize((int) target.length());
+					if(this.fileDomain.getFileTypeList() != null) {
+						attach.setFileType(this.fileDomain.getFileTypeList().get(count));
+					}
+
+					if (this.save)
+						this.save(attach);
+					fileList.add(attach);
+
+					if ("zip".equals(extension))
+						this.zip = true;
+					if (this.zip)
+						fileList = this.unZip(attach, file, fileList);
+					success = true;
+					count++;
+					// if(this.zip) target.delete();
 				}
-				if (!success) {
-					msg = "잘못된 확장자의 첨부파일을 등록 하였습니다.[0002]";
-					result.put("message", msg);
-					result.put("success", success);
-					result.put("data", Collections.emptyList());
-					return result;
-				}
-				final String saveName = getRandomString();
-				final String orgName = fileName.replace("." + extension, "");
-
-				File target = new File(uploadPath, saveName + "." + extension);
-				file.transferTo(target);
-
-				FileDomain attach = new FileDomain();
-
-				attach.setFileGrpSeq(groupId);
-				attach.setFileExt(extension);
-				attach.setFileOrgNm(orgName);
-				attach.setFilePath(this.path);
-				attach.setFileSaveNm(saveName);
-				//attach.setSize((int) target.length());
-
-				if (this.save)
-					this.save(attach);
-				fileList.add(attach);
-
-				if ("zip".equals(extension))
-					this.zip = true;
-				if (this.zip)
-					fileList = this.unZip(attach, file, fileList);
-				success = true;
-				// if(this.zip) target.delete();
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -189,8 +209,8 @@ public class UtilFile {
 	}
 
 	@Transactional(readOnly = true)
-	private Integer selectFileGroupId() {
-		return commonRepository.selectFileGroupId();
+	private Integer selectFileGrpSeq() {
+		return commonRepository.selectFileGrpSeq();
 	}
 
 	/*

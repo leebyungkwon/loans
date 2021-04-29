@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
@@ -18,9 +19,7 @@ import com.loanscrefia.system.code.domain.CodeDtlDomain;
 public class CommonService {
 
 	@Autowired private VersionRepository verRepo;
-	
-	@Autowired
-	private CommonRepository commonRepository;
+	@Autowired private CommonRepository commonRepository;
 	
 	@CacheEvict(value = "static", allEntries=true)
 	public VersionDomain verSave(VersionDomain versionDomain) {
@@ -32,21 +31,27 @@ public class CommonService {
 		return verRepo.findById(versionDomain.getVerId());
 	}
 	
-	
-	
-	// 공통코드조회
-	public List<CodeDtlDomain> selectCommonCodeList(CodeDtlDomain codeDtlDomain){
-		return commonRepository.selectCommonCodeList(codeDtlDomain);
+	//첨부파일 리스트
+	@Transactional(readOnly=true)
+	public List<FileDomain> selectFileList(FileDomain fileDomain){
+		return commonRepository.selectFileList(fileDomain);
 	}
 	
-	// 공통회원사조회
-	public List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
-		return commonRepository.selectCompanyCodeList(codeDtlDomain);
-	}
-	
-	// 첨부파일 단건 조회
+	//첨부파일 단건 조회
+	@Transactional(readOnly=true)
 	public FileDomain getFile(FileDomain fileDomain) {
 		return commonRepository.getFile(fileDomain);
 	}
+	
+	//첨부파일 삭제
+	@Transactional
+	public int deleteFile(FileDomain fileDomain) {
+		return commonRepository.deleteFile(fileDomain);
+	}
 
+	//회원사 리스트
+	@Transactional(readOnly=true)
+	public List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
+		return commonRepository.selectCompanyCodeList(codeDtlDomain);
+	}
 }

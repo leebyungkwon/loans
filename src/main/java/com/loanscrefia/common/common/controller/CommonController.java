@@ -25,6 +25,7 @@ import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
+import com.loanscrefia.system.code.service.CodeService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommonController {
 	
 	@Autowired private CommonService commonService;
+	@Autowired private CodeService codeService;
 	
 	@GetMapping(value="/isConnecting")
 	public ResponseEntity<ResponseMsg> isConnecting(HttpServletRequest request){
@@ -66,7 +68,7 @@ public class CommonController {
 	@PostMapping(value="/common/selectCommonCodeList")
 	public ResponseEntity<ResponseMsg> selectCommonCodeList(CodeDtlDomain codeDtlDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-    	responseMsg.setData(commonService.selectCommonCodeList(codeDtlDomain));
+    	responseMsg.setData(codeService.selectCodeDtlList(codeDtlDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

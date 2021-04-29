@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.common.repository.CommonRepository">
-	<insert id="insertFile" parameterType="com.loanscrefia.common.common.domain.FileDomain" useGeneratedKeys="true" keyProperty="fileSeq">
-		<!-- CommonRepository.insertFile -->
-		insert into tb_lc_file01
+
+	<!-- 첨부파일 리스트 -->
+	<select id="selectFileList" parameterType="file" resultType="file">
+		SELECT
+			 FILE_SEQ
+			,FILE_GRP_SEQ
+			,FILE_TYPE
+			,FILE_EXT
+			,FILE_ORG_NM
+			,FILE_PATH
+			,FILE_SAVE_NM
+			,USE_YN
+		FROM TB_LC_FILE01
+		<where>
+			AND FILE_GRP_SEQ 	= #{fileGrpSeq}
+			AND USE_YN 			= 'Y'
+		</where>
+	</select>
+
+	<!-- 첨부파일 그룹 시퀀스 조회 -->
+	<select id="selectFileGrpSeq" resultType="int">
+		SELECT NEXTVAL('tb_lc_grp_file01_seq');
+	</select>
+
+	<!-- 첨부파일 등록 -->
+	<insert id="insertFile" parameterType="file" useGeneratedKeys="true" keyProperty="fileSeq">
+		INSERT INTO TB_LC_FILE01
 		(
-			file_ext, file_org_nm, file_path, file_save_nm, reg_timestamp, upd_timestamp, use_yn, file_type
+			 FILE_GRP_SEQ
+			,FILE_TYPE
+			,FILE_EXT
+			,FILE_ORG_NM
+			,FILE_PATH
+			,FILE_SAVE_NM
+			,USE_YN
+			,REG_TIMESTAMP
 		)
-		values(
-			#{fileExt}, #{fileOrgNm}, #{filePath}, #{fileSaveNm}, now(), now(), 'Y'
+		VALUES
+		(
+			#{fileGrpSeq}
 			<choose>
 				<when test="fileType != null and fileType != ''">
 					,#{fileType}
@@ -17,48 +49,41 @@
 					,'0'
 				</otherwise>
 			</choose>
+			,#{fileExt}
+			,#{fileOrgNm}
+			,#{filePath}
+			,#{fileSaveNm}
+			,'Y'
+			,now()
 		)
 	</insert>
 	
-	
-	
-	<!-- 공통코드조회 selectBox -->
-	<select id="selectCommonCodeList" parameterType="codeDtl" resultType="codeDtl">
+	<!-- 첨부파일 단건 조회 -->
+	<select id="getFile" parameterType="file" resultType="file">
 		SELECT
-			 CODE_MST_CD
-			,CODE_DTL_CD
-			,CODE_DTL_NM
-			,CODE_DTL_DESC
-			,PROPERTY01
-			,PROPERTY02
-			,PROPERTY03
-			,PROPERTY04
-			,PROPERTY05
-			,REG_DATE
-			,REG_NO
-		FROM tbl_code_dtl
-		WHERE
-			CODE_MST_CD = #{codeMstCd}
-		<if test="property01 != null and property01 != ''">
-			AND PROPERTY01 = #{property01}
-		</if>
-		<if test="property02 != null and property02 != ''">
-			AND PROPERTY02 = #{property02}
-		</if>
-		<if test="property03 != null and property03 != ''">
-			AND PROPERTY03 = #{property03}
-		</if>
-		<if test="property04 != null and property04 != ''">
-			AND PROPERTY04 = #{property04}
-		</if>
-		<if test="property05 != null and property05 != ''">
-			AND PROPERTY05 = #{property05}
-		</if>
+			 FILE_SEQ
+			,FILE_GRP_SEQ
+			,FILE_TYPE
+			,FILE_EXT
+			,FILE_ORG_NM
+			,FILE_PATH
+			,FILE_SAVE_NM
+			,REG_TIMESTAMP
+			,UPD_TIMESTAMP
+			,USE_YN
+		FROM TB_LC_FILE01
+		WHERE FILE_SEQ = #{fileSeq}
 	</select>
 	
+	<!-- 첨부파일 삭제 -->
+	<delete id="deleteFile" parameterType="file">
+		DELETE FROM TB_LC_FILE01
+		<where>
+			AND FILE_SEQ = #{fileSeq}
+		</where>
+	</delete>
 	
-	
-	<!-- 공통코드조회 selectBox -->
+	<!-- 회원사 리스트 -->
 	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">
 		SELECT
 			 COM_CODE		AS CODE_DTL_CD
@@ -67,26 +92,7 @@
 	</select>
 	
 	
-	<!-- 첨부파일 그룹ID 조회 -->
-	<select id="selectFileGroupId" resultType="int">
-		SELECT NEXTVAL('tb_lc_grp_file01_seq');
-	</select>
 	
-	<!-- 첨부파일 단건 조회 -->
-	<select id="getFile" parameterType="file" resultType="file">
-		select
-			file_seq
-			, file_grp_seq
-			, file_type
-			, file_ext
-			, file_org_nm
-			, file_path
-			, file_save_nm
-			, reg_timestamp
-			, upd_timestamp
-			, use_yn
-		from tb_lc_file01
-		where file_seq = #{fileSeq}
-	</select>
+	
 	
 </mapper> 
