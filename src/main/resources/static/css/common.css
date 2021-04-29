@@ -30,7 +30,7 @@ input.radio, input.check{width:16px;height:16px;border:none;padding:0;margin:0;b
 select{
   color:#444;vertical-align:middle; width: auto; border:1px solid #cac9c9; height:28px; padding:5px; padding-right: 25px; box-sizing:border-box;
 
-  background:#fff url('../../images/common/select_arrow.png')no-repeat 92% 52%;
+  background:url('/static/images/common/select_arrow.png')no-repeat 92% 52%;
 	-webkit-appearance: none;
 	-moz-appearance: none;
   -ms-appearance: none;
@@ -441,7 +441,7 @@ table th{
 #grid_paging .pagination-first{
   width: 11px;
   height: 10px;
-  background: url('../../images/common/sprite.png')no-repeat 0 0;
+  background: url('/static/images/common/sprite.png')no-repeat 0 0;
   display: inline-block;
   vertical-align: top;
   margin-right: 28px;
@@ -451,7 +451,7 @@ table th{
 #grid_paging .pagination-prev{
   width: 6px;
   height: 10px;
-  background: url('../../images/common/sprite.png')no-repeat -18px 0;
+  background: url('/static/images/common/sprite.png')no-repeat -18px 0;
   display: inline-block;
   vertical-align: top;
   margin-right: 17px;
@@ -461,7 +461,7 @@ table th{
 #grid_paging .pagination-next{
   width: 6px;
   height: 10px;
-  background: url('../../images/common/sprite.png')no-repeat -32px 0;
+  background: url('/static/images/common/sprite.png')no-repeat -32px 0;
   display: inline-block;
   vertical-align: top;
   margin-left: 17px;
@@ -471,7 +471,7 @@ table th{
 #grid_paging .pagination-last{
   width: 11px;
   height: 10px;
-  background: url('../../images/common/sprite.png')no-repeat -47px 0;
+  background: url('/static/images/common/sprite.png')no-repeat -47px 0;
   display: inline-block;
   vertical-align: top;
   margin-left: 28px;

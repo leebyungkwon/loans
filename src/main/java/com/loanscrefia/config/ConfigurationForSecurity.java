@@ -37,7 +37,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception
     {
-        web.ignoring().antMatchers("/static/plugin/**", "/static/css/**", "/static/js/**", "/static/img/**", "/static/lib/**", "/static/images/**");
+        web.ignoring().antMatchers("/static/plugin/**", "/static/css/**", "/static/js/**", "/static/img/**", "/static/lib/**", "/static/images/**","/favicon.ico", "/resources/**", "/error");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.anyRequest().authenticated();
 
 		http.formLogin()
-			.loginPage("/login")
+			.loginPage("/login").permitAll()
 			.loginProcessingUrl("/j_spring_security")
 			.usernameParameter("memberId")
 			.passwordParameter("password")
@@ -66,7 +66,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.successHandler(successHandler()).permitAll()
 			.failureHandler(failurHandler()).permitAll();
 
-		http.logout()
+		http.logout().permitAll()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/login")
 			.invalidateHttpSession(true);

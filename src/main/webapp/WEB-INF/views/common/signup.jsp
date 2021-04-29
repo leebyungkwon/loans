@@ -105,7 +105,7 @@ function pageLoad(){
 	});
 	
 	// 회원사 코드
-	var companyCode = {
+ 	var companyCode = {
 		useCode : false
 		,code : 'COM001'
 		,target : '#comCode'
@@ -131,7 +131,7 @@ function pageLoad(){
 				<col width="200"/>
 				<col width="*"/>
 			</colgroup>
-			<tr>
+ 			<tr>
 				<th>회원사 선택</th>
 				<td>
 					<select id="comCode" name="comCode"></select>

@@ -58,7 +58,7 @@
     </select>
     
     <update id="loginFailCnt" parameterType="string" >
-    	UPDATE tb_lc_member_role
+    	UPDATE tb_lc_members
     	SET fail_cnt = fail_cnt+1
     	WHERE member_id = #{memberId}
     </update>
