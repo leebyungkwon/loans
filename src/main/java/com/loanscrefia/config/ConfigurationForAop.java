@@ -34,10 +34,14 @@ public class ConfigurationForAop {
 				SecurityMember mem = (SecurityMember) authentication.getPrincipal();
 				int seq = Integer.parseInt(mem.getUsername());
 				Object [] p = pjp.getArgs();
+				
 				if(p[0]==null || p[0]=="") return null;
-				domain = (BaseDomain)p[0];
-				domain.setRegSeq(seq);
-				domain.setUpdSeq(seq);
+				
+				if(p[0].getClass().isInstance(BaseDomain.class)) {
+					domain = (BaseDomain)p[0];
+					domain.setRegSeq(seq);
+					domain.setUpdSeq(seq);
+				}
 			}
 		}
 		return domain;
