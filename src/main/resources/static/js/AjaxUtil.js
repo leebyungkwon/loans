@@ -5,6 +5,7 @@ var AjaxUtil = {
     get: function(opt) {
         // 응답 유형
         opt.resType = WebUtil.nvl(opt.resType, "json");
+        var contType = WebUtil.nvl(opt.reqType, "application/x-www-form-urlencoded; charset=UTF-8");
 
         // 로그여부
         var loadYn = WebUtil.nvl(opt.loadYn, true);
@@ -16,7 +17,8 @@ var AjaxUtil = {
         axios({
             method: "get",
             url: opt.url,
-            params: opt.param
+            params: opt.param,
+            headers: { "Content-Type": contType }
         }).then(function(response) {
             //AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.successHandler(opt, response.data);
@@ -42,8 +44,7 @@ var AjaxUtil = {
     post: function(opt) {
         var param = null;
         var reqType = WebUtil.nvl(opt.reqType, "text/html");
-        //var contType = "application/x-www-form-urlencoded; charset=UTF-8";
-        var contType = "application/x-www-form-urlencoded; charset=UTF-8";
+        var contType = WebUtil.nvl(opt.reqType, "application/x-www-form-urlencoded; charset=UTF-8");
         var async = WebUtil.nvl(opt.async, true);
         var loadYn = WebUtil.nvl(opt.loadYn, true);
         var responseType = WebUtil.nvl(opt.responseType, "");
@@ -71,24 +72,41 @@ var AjaxUtil = {
             responseType: responseType,
             headers: { "Content-Type": contType }
         }).then(function(response) {
-            //AjaxUtil.closeLoadBar(loadYn);
-        	var status = WebUtil.nvl(response.data.status, 200);
-        	
-        	if(status == 200) {
-            	if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
-            		else alert(messages[response.data.code])
-            	}
-            	AjaxUtil.successHandler(opt, response.data);
-        	}else{
-        		if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
-            		else alert(messages[response.data.code])
-            	}
-        	}
+			if(opt.responseType == "arraybuffer"){
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				const contentDisposition = response.headers['content-disposition']; // 파일 이름
+				let fileName = 'unknown';
+				if (contentDisposition) {
+				  const [ fileNameMatch ] = contentDisposition.split(';').filter(str => str.includes('filename'));
+				  if (fileNameMatch)
+				  	[ , fileName ] = fileNameMatch.split('=');
+				}
+				link.href = url;
+				link.setAttribute('download', `${fileName}`);
+				link.style.cssText = 'display:none';
+				document.body.appendChild(link);
+				link.click();
+				link.remove();
+			}else{
+				 //AjaxUtil.closeLoadBar(loadYn);
+	        	var status = WebUtil.nvl(response.data.status, 200);
+	        	if(status == 200) {
+	            	if(WebUtil.isNotNull(response.data.code)){
+	            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
+	            		else LibUtil.msgOpenPopup(messages[response.data.code])
+	            	}
+	            	AjaxUtil.successHandler(opt, response.data);
+	        	}else{
+	        		if(WebUtil.isNotNull(response.data.code)){
+	            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
+	            		else LibUtil.msgOpenPopup(messages[response.data.code])
+	            	}
+	        	}
+			}
+
         })
         .catch(function(error) {
-console.log("catch",error);
             //AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         })
@@ -144,14 +162,17 @@ console.log("catch",error);
      */
     form: function(opt) {
         let frm = document.getElementsByName(opt.name);
-        if(frm.length!==1) return false;
+        if(frm.length!=1) return false;
 
+		/*
         let f = true;
         $.each(frm[0].querySelectorAll('input'), function(key, value) {
         	f = Valid.set(value);
         	if(!f) return false;
 		});
     	if(!f) return false;
+    	*/
+
         let p =  new URLSearchParams(new FormData(frm[0])).toString();
         let param = {
         	url : frm[0].action
@@ -217,7 +238,6 @@ console.log("catch",error);
 		});
     	if(!f) return false;
         let formData = new FormData(frm[0]);
-        console.log(formData);
         axios({
             method: "post",
             url: frm[0].action,
@@ -230,14 +250,14 @@ console.log("catch",error);
 
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
-            		else alert(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
+            		else LibUtil.msgOpenPopup(messages[response.data.code])
             	}
             	AjaxUtil.successHandler(opt, response.data);
         	}else{
         		if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
-            		else alert(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
+            		else LibUtil.msgOpenPopup(messages[response.data.code])
             	}
         	}
         })
@@ -324,7 +344,7 @@ console.log("catch",error);
         } else {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
-            alert(errMsg);
+            LibUtil.msgOpenPopup(errMsg);
             console.log(errMsg);
         }
     }
