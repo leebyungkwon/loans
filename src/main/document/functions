@@ -1,0 +1,38 @@
+-- 담당자이름 조회
+CREATE OR REPLACE FUNCTION fn_member_name(m_seq INTEGER)
+returns VARCHAR(20) as $$
+declare nm VARCHAR(20);
+begin
+	select into nm member_name
+	from tb_lc_members
+	where member_seq = m_seq;
+	return nm;
+end; $$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+language 'plpgsql';
+
+
+-- 코드 상세조회
+CREATE OR REPLACE FUNCTION fn_cd_dtl(mst VARCHAR(10), dtl VARCHAR(10))
+returns VARCHAR(30) as $$
+declare dtl_nm VARCHAR(30);
+begin
+	select into dtl_nm code_dtl_nm
+	from tb_lc_cod01_detail
+	where code_mst_cd = mst and code_dtl_cd = dtl;
+	return dtl_nm;
+end; $$
+language 'plpgsql';
+commit;
+
+
+-- 회원사명 조회
+CREATE OR REPLACE FUNCTION fn_com_code(com_cd INTEGER)
+returns VARCHAR(30) as $$
+declare nm VARCHAR(30);
+begin
+	select into nm com_name
+	from tb_lc_company
+	where com_code = com_cd;
+	return nm;
+end; $$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+language 'plpgsql';
