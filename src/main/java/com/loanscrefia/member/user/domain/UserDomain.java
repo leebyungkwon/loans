@@ -1,5 +1,8 @@
 package com.loanscrefia.member.user.domain;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.type.Alias;
 
 import com.loanscrefia.common.common.domain.BaseDomain;
@@ -14,7 +17,7 @@ public class UserDomain extends BaseDomain {
 	private int masterSeq;			//시퀀스
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
-	private String plClass;			//분류				-> 개인,법인,법인소속 사용인
+	private String plClass;			//분류				-> 개인,법인
 	private String careerTyp;		//구분(신입/경력)
 	private String plProduct;		//금융상품유형(취급상품)	-> 대출,시설대여 및 연불판매,할부,어음할인,매출채권매입,지급보증,기타 대출성 상품
 	private String plRegStat;		//모집인상태			-> 1.등록,2.정상해지,3.불법해지
@@ -60,7 +63,8 @@ public class UserDomain extends BaseDomain {
 	private String plStatNm;		//처리상태명
 	private String plPayStatNm;		//결제상태명
 	
-	
+	//엑셀 업로드
+	private List<Map<String, Object>> excelParam;
 	
 	
 	

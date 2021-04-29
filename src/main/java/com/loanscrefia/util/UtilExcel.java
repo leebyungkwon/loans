@@ -21,29 +21,29 @@ import com.loanscrefia.util.excel.ExcelFileType;
 
 public class UtilExcel<T> {
 	
+	//참고 : https://eugene-kim.tistory.com/46
 	public List<Map<String, Object>> upload(String path) {
 
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>(); 
-		Workbook wb = ExcelFileType.getWorkbook(path);
-		Sheet sheet = wb.getSheetAt(0);
+		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>(); 
+		Workbook wb 						= ExcelFileType.getWorkbook("C:\\Users\\sohui\\Desktop\\excelTest_corp.xlsx"); //path
+		Sheet sheet 						= wb.getSheetAt(0);
+		int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
 		
-		int numOfCells =sheet.getRow(0).getPhysicalNumberOfCells();
-		for(int i=1; i<sheet.getLastRowNum() + 1; i++) {
-		    Row row = null;
-		    Cell cell = null;
-		    
-		    String cellName = "";
-		    
+		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
+		    Row row 				= null;
+		    Cell cell 				= null;
+		    String cellName 		= "";
 		    Map<String, Object> map = null;
+		    
 	        row = sheet.getRow(i);
 	        
 	        if(row != null) {
 	            map = new HashMap<String, Object>();
 	            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
-	                cell = row.getCell(cellIndex);
-	                cellName = ExcelCellRef.getName(cell, cellIndex);
+	                cell 		= row.getCell(cellIndex);
+	                cellName 	= ExcelCellRef.getName(cell, cellIndex);
 	                
-	                //System.out.println(cellIndex + " :: " + cellName + " :: " + ExcelCellRef.getValue(cell));
+	                System.out.println(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + ExcelCellRef.getValue(cell));
 	                /*
 	                if( !excelReadOption.getOutputColumns().contains(cellName) ) {
 	                    continue;
@@ -54,6 +54,7 @@ public class UtilExcel<T> {
 	            result.add(map);
 		    }
 		}
+		
 		return result;
 	}
 	

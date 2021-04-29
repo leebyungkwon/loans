@@ -54,24 +54,113 @@
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
-	    	AND TLM.PL_STAT IS NULL
-	    	<if test="plRegStat != null and plRegStat != ''">
-				AND TLM.PL_REG_STAT = #{plRegStat}
+	    	<if test="plStat != null and plStat != ''">
+				AND TLM.PL_STAT = #{plStat}
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
    	</select>
    
-   	<!-- 모집인 등록 > 등록 -->
+   	<!-- 모집인 등록 > 개인 등록 -->
+   	<insert id="insertUserRegIndvInfoByExcel" parameterType="user">
+   		INSERT INTO TB_LC_MAS01
+   		(
+			 COM_CODE
+			,MEMBER_SEQ
+			,PL_REG_STAT
+			,PL_STAT
+			,PL_CLASS
+			,CAREER_TYP
+			,PL_M_NAME
+			,PL_M_Z_ID
+			,PL_CELLPHONE
+			,ADDR
+			,PL_PRODUCT
+			,PL_MERCHANT_NAME
+			,PL_MERCHANT_NO
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,COM_CONT_DATE
+			,ENTRUST_DATE
+			,REG_TIMESTAMP
+   		)
+   		VALUES
+   		<foreach collection="excelParam" item="item" separator=",">
+   		(
+   			 #{comCode}
+   			,#{memberSeq}
+   			,'1'				-- 1.등록,2.정상해지,3.불법해지
+   			,'9'				-- 승인미요청
+   			,#{plClass} 		-- 개인,법인
+   			,#{item.A} 			-- 신규,경력
+   			,#{item.B} 			-- 이름
+   			,#{item.C}			-- 주민등록번호
+   			,#{item.D}			-- 휴대폰번호
+   			,#{item.E}			-- 주소
+   			,#{item.F}			-- 금융상품유형
+   			,#{item.G}			-- 법인명
+   			,#{item.H}			-- 법인등록번호
+   			,#{item.I}			-- 교육이수번호/인증서번호
+   			,#{item.J}			-- 경력시작일
+   			,#{item.K}			-- 경력종료일
+   			,#{item.L}			-- 계약일자
+   			,#{item.M}			-- 위탁예정기간
+   			,NOW()
+   		)
+   		</foreach>
+   	</insert>
+   	
+   	<!-- 모집인 등록 > 법인 등록 -->
+   	<insert id="insertUserRegCorpInfoByExcel" parameterType="user">
+   		INSERT INTO TB_LC_MAS01
+   		(
+			 COM_CODE
+			,MEMBER_SEQ
+			,PL_REG_STAT
+			,PL_STAT
+			,PL_CLASS
+			,PL_MERCHANT_NAME
+			,PL_CEO_NAME
+			,PL_MERCHANT_NO
+			,CORP_FOUND_DATE
+			,ADDR
+			,CAPITAL
+			,PL_PRODUCT
+			,COM_CONT_DATE
+			,ENTRUST_DATE
+			,REG_TIMESTAMP
+   		)
+   		VALUES
+   		<foreach collection="excelParam" item="item" separator=",">
+   		(
+   			 #{comCode}
+   			,#{memberSeq}
+   			,'1'				-- 1.등록,2.정상해지,3.불법해지
+   			,'9'				-- 승인미요청
+   			,#{plClass} 		-- 개인,법인
+   			,#{item.A}			-- 상호
+			,#{item.B}			-- 대표이사
+			,#{item.C}			-- 법인등록번호
+			,#{item.D}			-- 설립년월일
+			,#{item.E}			-- 본점소재지
+			,#{item.F}			-- 자본금
+			,#{item.G}			-- 금융상품유형
+			,#{item.H}			-- 계약일자
+			,#{item.I}			-- 위탁예정기간
+   			,NOW()
+   		)
+   		</foreach>
+   	</insert>
    
    	<!-- 모집인 등록 > 승인요청 -->
    	<update id="updatePlRegStat" parameterType="user">
    		UPDATE TB_LC_MAS01
    		SET
-   			PL_REG_STAT = '2'
+   			PL_STAT = '8'
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
-   			AND upd_seq = #{updSeq}
+   			AND MASTER_SEQ 	= #{masterSeq}
+   			AND UPD_SEQ 	= #{updSeq}
    		</where>
    	</update>
     
@@ -146,6 +235,9 @@
    			</if>
    			<if test="addr != null and addr != ''">
    			,ADDR 				= #{addr}
+   			</if>
+   			<if test="addrDetail != null and addrDetail != ''">
+   			,ADDR_DETAIL		= #{addrDetail}
    			</if>
    			<if test="plEduNo != null and plEduNo != ''">
    			,PL_EDU_NO 			= #{plEduNo}

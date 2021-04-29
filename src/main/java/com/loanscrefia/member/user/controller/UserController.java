@@ -57,9 +57,13 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//등록 페이지
-	
-	//등록 처리(엑셀 업로드) -> userTyp에 따라 양식 다름 : 추후 개발
+	//등록 처리(엑셀 업로드)
+	@PostMapping(value="/userRegInfoExcelUpload")
+	public ResponseEntity<ResponseMsg> userRegInfoExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.insertUserRegInfoByExcel(files,userDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	//선택 승인요청 -> 첨부파일 하나라도 없으면 요청 불가
 	@PostMapping(value="/updatePlRegStat")
@@ -72,16 +76,28 @@ public class UserController {
 	//상세 페이지
 	@PostMapping(value="/userRegDetail")
     public ModelAndView userRegDetail(UserDomain userDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserRegPage+"/userRegDetail");
+    	ModelAndView mv 			= new ModelAndView();
+    	
     	//상세
     	UserDomain userRegInfo 		= userService.getUserRegDetail(userDomain);
+    	
     	//첨부파일 리스트
     	FileDomain param 			= new FileDomain();
     	param.setFileGrpSeq(userRegInfo.getFileSeq());
     	List<FileDomain> fileList 	= commonService.selectFileList(param);
+    	
     	//전달
     	mv.addObject("userRegInfo", userRegInfo);
     	mv.addObject("fileList", fileList);
+    	
+    	//페이지 분기
+    	if(userRegInfo.getPlClass().equals("1")) {
+    		//개인
+    		mv.setViewName(CosntPage.BoUserRegPage+"/userRegIndvDetail");
+    	}else {
+    		//법인
+    		mv.setViewName(CosntPage.BoUserRegPage+"/userRegCorpDetail");
+    	}
     	
         return mv;
     }

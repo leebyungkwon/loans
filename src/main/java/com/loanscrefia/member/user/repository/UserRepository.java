@@ -12,7 +12,11 @@ public interface UserRepository {
 	//모집인 등록 > 리스트
 	List<UserDomain> selectUserRegList(UserDomain userDomain);
 	
-	//모집인 등록 > 등록
+	//모집인 등록 > 개인 등록
+	int insertUserRegIndvInfoByExcel(UserDomain userDomain);
+	
+	//모집인 등록 > 법인 등록
+	int insertUserRegCorpInfoByExcel(UserDomain userDomain);
 	
 	//모집인 등록 > 승인요청
 	int updatePlRegStat(UserDomain userDomain);

@@ -1,5 +1,6 @@
 package com.loanscrefia.util.excel;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.util.CellReference;
 
@@ -35,7 +36,9 @@ public class ExcelCellRef {
                 value = cell.getCellFormula();
             }
             else if( cell.getCellType() == cell.CELL_TYPE_NUMERIC ) {
-                value = cell.getNumericCellValue() + "";
+            	//value = cell.getNumericCellValue() + "";
+            	cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+            	value = cell.getStringCellValue();
             }
             else if( cell.getCellType() == Cell.CELL_TYPE_STRING ) {
                 value = cell.getStringCellValue();

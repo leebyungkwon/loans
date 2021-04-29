@@ -35,6 +35,13 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 	});
+	
+	//첨부파일명 보여주기
+	$(".inputFile").on("change", function () {
+		var fileVal 	= $(this).val().split("\\");
+		var fileName 	= fileVal[fileVal.length - 1];
+		$(this).prev().val(fileName);
+	});
 }
 
 //모집인 등록 row 클릭 이벤트
@@ -54,9 +61,25 @@ function goUserRegPopClose() {
 	$("#userRegPopDiv").hide();
 }
 
+//샘플 다운로드
+function goSampleDownload() {
+	var plClass = $('input[name="plClass"]:checked').val();
+	alert("모집인유형이 "+plClass+"인 샘플 다운로드 되야해!");
+}
+
 //모집인 등록하기
-function goUserReg() {
-	
+function goUserRegInfoExcelUpload() {
+	if(!$('input[name="plClass"]').is(":checked")){
+		alert("모집인유형을 선택해 주세요.");
+		return;
+	}
+	var p = {
+		  name 		: "userRegInfoInsertFrm"
+		, success 	: function (opt,result) {
+			alert("호잇");
+ 	    }
+	}
+	AjaxUtil.files(p);	
 }
 
 //선택 승인요청
@@ -209,42 +232,47 @@ function goApplyAccept() {
 			모집인 등록은 등록 유형에 따른 샘플파일을 다운로드 하시고 해당 양식에 따라 등록되어야 합니다.<br />
 			엑셀 업로드 이후에는 각 모집인별로 첨부파일을 등록완료 후에 승인신청을 하셔야 합니다.
 		</p>
-		<table class="popup_table">
-			<colgroup>
-				<col width="170">
-				<col width="*">
-			</colgroup>
-			<tbody>
-				<tr>
-					<th>모집인유형</th>
-					<td>
-						<div class="input_radio_wrap">
-							<input type="radio" id="radio01" name="member_sel">
-							<label for="radio01">개인</label>
-						</div>
-						<div class="input_radio_wrap mgl20">
-							<input type="radio" id="radio02" name="member_sel">
-							<label for="radio02">법인</label>
-						</div>
-						<div class="input_radio_wrap mgl20">
-							<input type="radio" id="radio02" name="member_sel">
-							<label for="radio02">법인소속 사용인</label>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th>엑셀업로드</th>
-					<td class="file">
-						<input type="text"class="w50 file_input"  value="" readonly disabled>
-							<a href="#" class="btn_gray btn_del mgl5">삭제</a>
-							<a href="#" class="btn_black btn_small mgl5">파일찾기</a>
-						<a href="#" class="btn_Lgray btn_small mgl5">샘플 다운로드</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<form name="userRegInfoInsertFrm" id="userRegInfoInsertFrm" action="/member/user/userRegInfoExcelUpload" method="post" enctype="multipart/form-data">
+			<table class="popup_table">
+				<colgroup>
+					<col width="170">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>모집인유형*</th>
+						<td>
+							<div class="input_radio_wrap">
+								<input type="radio" name="plClass" id="radio01" value="1">
+								<label for="radio01">개인</label>
+							</div>
+							<div class="input_radio_wrap mgl20">
+								<input type="radio" name="plClass" id="radio02" value="2">
+								<label for="radio02">법인</label>
+							</div>
+							<!-- 
+							<div class="input_radio_wrap mgl20">
+								<input type="radio" name="plClass" id="radio02" value="3">
+								<label for="radio02">법인소속 사용인</label>
+							</div>
+							 -->
+						</td>
+					</tr>
+					<tr>
+						<th>엑셀업로드*</th>
+						<td class="file">
+							<input type="text"class="w50 file_input" readonly disabled>
+							<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
+							<!-- <a href="#" class="btn_gray btn_del mgl5">삭제</a> -->
+							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
+							<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
 		<div class="popup_btn_wrap">
-			<a href="javascript:goUserReg();" class="pop_btn_black">저장</a>
+			<a href="javascript:goUserRegInfoExcelUpload();" class="pop_btn_black">저장</a>
 			<a href="javascript:goUserRegPopClose();" class="pop_btn_white">취소</a>
 		</div>
 	</div>

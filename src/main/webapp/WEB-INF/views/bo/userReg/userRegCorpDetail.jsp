@@ -27,7 +27,7 @@ function goUserRegInfoUpdt() {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>모집인 등록</h2>
+			<h2>모집인 등록(법인)</h2>
 		</div>
 	</div>
 
@@ -182,7 +182,10 @@ function goUserRegInfoUpdt() {
 			</div>
 			<div class="btn_wrap">
 				<a href="history.back();" class="btn_gray">이전</a>
-				<a href="javascript:goUserRegInfoUpdt();" class="btn_black btn_right">저장</a>
+				<c:if test="${userRegInfo.plRegStat eq '1' }"> 
+					<!-- 승인요청상태가 아닐 때만 수정 가능 -->
+					<a href="javascript:goUserRegInfoUpdt();" class="btn_black btn_right">저장</a>
+				</c:if>
 			</div>
 		</div>
 	</form>
