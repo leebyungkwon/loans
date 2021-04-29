@@ -4,43 +4,43 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script>
 
-var Grid = Object.create(GRID);
+var companyGrid = Object.create(GRID);
 
 function pageLoad(){
-	Grid.set({
-		  id		: "grid"
-		, url		: "/member/admin/adminList"
+	companyGrid.set({
+		  id		: "companyGrid"
+		, url		: "/admin/company/companyList"
 	    , width		: "100%"
-		, headCol	: ["회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
+		, headCol	: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
 		, bodyCol	: 
 			[
-				{type:"string"	, name:'comNm'			, index:'comNm'			, width:"15%"	}
-				,{type:"string"	, name:'comId'			, index:'comId'			, width:"15%"	, align:"center"}
-				,{type:"string"	, name:'comDeptNm'		, index:'comDeptNm'		, width:"15%"	, align:"center"}		
-				,{type:"string"	, name:'managerNm'		, index:'managerNm'		, width:"10%"	, align:"center"}		
-				,{type:"string"	, name:'test1'			, index:'test1'			, width:"10%"	, align:"center"}
-				,{type:"string"	, name:'regDate'		, index:'regDate'		, width:"10%"	, align:"center"}
-				,{type:"string"	, name:'approveCdNm'	, index:'approveCdNm'	, width:"10%"	, align:"center"}
+				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, hidden:true  	, id:true		}
+				,{type:"string"	, name:'comCode'		, index:'comCode'		, width:"15%"					}
+				,{type:"string"	, name:'memberId'		, index:'memberId'		, width:"15%"	, align:"center"}
+				,{type:"string"	, name:'deptNm'			, index:'deptNm'		, width:"15%"	, align:"center"}		
+				,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}		
+				,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'apprYn'			, index:'apprYn'		, width:"10%"	, align:"center"}
 			]
-		, sortNm : "reg_date"
+		, sortNm : "com_code"
 		, sort : "DESC"
 		, size : 10
-		, check : true
-		, rowClick	: {color:"#ccc", retFunc : detailPop}
+		, rowClick	: {color:"#ccc", retFunc : detailPage}
 		, gridSearch : "search,searctBtn"
 		, isPaging : true
 	});
 }
 
-function detailPop(idx, data){
-/* 	let p = {
-		id : "dtl_save"
-		, data : data
-		, url : "/member/company/p/companyView"
-	}
-	LibUtil.openPopup(p); */
-	
+function detailPage(idx, data){
+	var memberSeq 	= companyGrid.gridData[idx].memberSeq;
+	location.href	= "/admin/company/companyDetail?memberSeq="+data.memberSeq;
+			
 	/* submit으로 변경되었습니다. */
+	
+
+	
+
 }
 
 </script>
@@ -59,6 +59,7 @@ function detailPop(idx, data){
 					<col width="80"/>
 					<col width="200"/>
 				</colgroup>
+			
 				<tr>
 					<th>회원사</th>
 					<td>
@@ -70,12 +71,15 @@ function detailPop(idx, data){
 					<td>
 						<select>
 							<option value="">전체</option>
+							<option value="02">미요청</option>
+							<option value="01">승인요청</option>
+							<option value="02">승인완료</option>
 						</select>
 					</td>
 				</tr>
-			</table>
-			<a href="#" class="btn_inquiry" id="searctBtn">조회</a>
+			</table>	
+			<a href="companyPage" class="btn_inquiry" id="searctBtn">조회</a>
 		</div>
 	</div>
-	<div id="grid"></div>
+	<div id="companyGrid"></div>
 </div>

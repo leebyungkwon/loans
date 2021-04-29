@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.admin.company.repository.CompanyRepository">
+
+	<!-- 회원사 담당자 조회  -->
+    <select id="selectCompanyList" parameterType="company" resultType="company">
+	    SELECT 
+	    	<include refid="common.totalPages"/>
+    		TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.PASSWORD
+			,TLM.COM_CODE
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,TLM.MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TLM.JOIN_DT
+			,TLM.APPR_YN
+			,TLM.FILE_SEQ
+			,TLM.FAIL_CNT
+			,TLM.CRE_YN
+			,TLM.DROP_YN
+			,TLM.UPD_SEQ
+			,TLM.UPD_TIMESTAMP
+	    FROM TB_LC_MEMBERS TLM
+	    <include refid="common.pageBottom"/>
+    </select>
+    
+	<!--  <select id="getCompanyDetail" parameterType="company" resultType="company">
+	    SELECT 
+	    		TLM.MEMBER_SEQ
+				,TLM.MEMBER_ID
+				,TLM.PASSWORD
+				,TLM.COM_CODE
+				,TLM.MEMBER_NAME
+				,TLM.EMAIL
+				,TLM.MOBILE_NO
+				,TLM.DEPT_NM
+				,TLM.POSITION_NM
+				,TLM.JOIN_DT
+				,TLM.APPR_YN
+				,TLM.FILE_SEQ
+				,TLM.FAIL_CNT
+				,TLM.CRE_YN
+				,TLM.DROP_YN
+				,TLM.UPD_SEQ
+				,TLM.UPD_TIMESTAMP
+				
+	    FROM TB_LC_MEMBERS TLM
+	    WHERE COM_CODE = #{COMCODE}
+    </select>
+     -->
+     
+   <!-- 코드 상세 리스트 -->
+	<select id="selectCompanyDetail" parameterType="company" resultType="company">
+	  SELECT 
+	    		TLM.MEMBER_SEQ
+				,TLM.MEMBER_ID
+				,TLM.PASSWORD
+				,TLM.COM_CODE
+				,TLM.MEMBER_NAME
+				,TLM.EMAIL
+				,TLM.MOBILE_NO
+				,TLM.DEPT_NM
+				,TLM.POSITION_NM
+				,TLM.JOIN_DT
+				,TLM.APPR_YN
+				,TLM.FILE_SEQ
+				,TLM.FAIL_CNT
+				,TLM.CRE_YN
+				,TLM.DROP_YN
+				,TLM.UPD_SEQ
+				,TLM.UPD_TIMESTAMP
+				
+<!-- 			<include refid="propertyColumns"></include>
+			<include refid="baseColumns"></include>
+ -->		
+ 				FROM TB_LC_MEMBERS TLM
+		<where>
+			AND MEMBER_SEQ = #{memberSeq}
+			<if test="memberId != null and memberId != ''">
+			AND MEMBER_ID = #{memberId}
+			</if>
+		</where>
+	</select>
+	
+</mapper> 
