@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.member.user.repository.UserRepository">
+   
+   	<!-- 모집인 등록 > 리스트 -->
+   	<select id="selectUserRegList" parameterType="user" resultType="user">
+   		SELECT 
+	    	<include refid="common.totalPages"/>
+	    	 TLM.MASTER_SEQ
+			,TLM.COM_CODE
+			,TLM.MEMBER_SEQ
+			,TLM.PL_CLASS
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_CLASS) AS PL_CLASS_NM -->
+			,TLM.CAREER_TYP
+			<!-- ,FN_CD_DTL('A0001',TLM.CAREER_TYP) AS CAREER_TYP_NM -->
+			,TLM.PL_PRODUCT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM -->
+			,TLM.PL_REG_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM -->
+			,TLM.PL_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_STAT) AS PL_STAT_NM -->
+			,TLM.PL_REGIST_NO
+			,TLM.PL_M_NAME
+			,TLM.PL_M_Z_ID
+			,TLM.PL_M_Z_ID_EDU
+			,TLM.PL_CELLPHONE
+			,TLM.ADDR
+			,TLM.ADDR_DETAIL
+			,TLM.PL_EDU_NO
+			,TLM.CAREER_START_DATE
+			,TLM.CAREER_END_DATE
+			,TLM.ENTRUST_DATE
+			,TLM.COM_CONT_DATE
+			,TLM.PL_MERCHANT_NAME
+			,TLM.PL_CEO_NAME
+			,TLM.PL_MERCHANT_NO
+			,TLM.PL_BUSINESS_NO
+			,TLM.COMP_PHONE_NO
+			,TLM.CORP_FOUND_DATE
+			,TLM.CAPITAL
+			,TLM.PL_PAY_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+			,TLM.COM_REG_DATE
+			,TLM.CRE_APP_DATE
+			,TLM.CRE_LICENSE_DATE
+			,TLM.PAY_DATE
+			,TLM.SEND_MSG
+			,TLM.PL_HIST_CD
+			,TLM.COM_HAEJI_DATE
+			,TLM.CRE_HAEJI_DATE
+			,TLM.FILE_SEQ
+			,TLM.REG_TIMESTAMP
+			,TLM.UPD_SEQ
+			,TLM.UPD_TIMESTAMP
+	    FROM TB_LC_MAS01 TLM
+		<where>
+	    	AND TLM.PL_STAT IS NULL
+	    	<if test="plRegStat != null and plRegStat != ''">
+				AND TLM.PL_REG_STAT = #{plRegStat}
+			</if>
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   
+   	<!-- 모집인 등록 > 등록 -->
+   
+   	<!-- 모집인 등록 > 승인요청 -->
+   	<update id="updatePlRegStat" parameterType="user">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			PL_REG_STAT = '2'
+   		<where>
+   			AND MASTER_SEQ = #{masterSeq}
+   		</where>
+   	</update>
+    
+   	<!-- 모집인 등록 > 상세 -->
+   	<select id="getUserRegDetail" parameterType="user" resultType="user">
+   		SELECT 
+	    	 TLM.MASTER_SEQ
+			,TLM.COM_CODE
+			<!-- ,(SELECT TLC.COM_NAME FROM TB_LC_COMPANY TLC WHERE TLC.COM_CODE = TLM.COM_CODE) AS COM_CODE_NM -->
+			,TLM.MEMBER_SEQ
+			<!-- ,(SELECT MEMBER_NM FROM TB) AS MEMBER_NM -->
+			,TLM.PL_CLASS
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_CLASS) AS PL_CLASS_NM -->
+			,TLM.CAREER_TYP
+			<!-- ,FN_CD_DTL('A0001',TLM.CAREER_TYP) AS CAREER_TYP_NM -->
+			,TLM.PL_PRODUCT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM -->
+			,TLM.PL_REG_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM -->
+			,TLM.PL_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_STAT) AS PL_STAT_NM -->
+			,TLM.PL_REGIST_NO
+			,TLM.PL_M_NAME
+			,TLM.PL_M_Z_ID
+			,TLM.PL_CELLPHONE
+			,TLM.ADDR
+			,TLM.ADDR_DETAIL
+			,TLM.PL_EDU_NO
+			,TLM.CAREER_START_DATE
+			,TLM.CAREER_END_DATE
+			,TLM.ENTRUST_DATE
+			,TLM.COM_CONT_DATE
+			,TLM.PL_MERCHANT_NAME
+			,TLM.PL_CEO_NAME
+			,TLM.PL_MERCHANT_NO
+			,TLM.PL_BUSINESS_NO
+			,TLM.COMP_PHONE_NO
+			,TLM.CORP_FOUND_DATE
+			,TLM.CAPITAL
+			,TLM.PL_PAY_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+			,TLM.COM_REG_DATE
+			,TLM.CRE_APP_DATE
+			,TLM.CRE_LICENSE_DATE
+			,TLM.PAY_DATE
+			,TLM.SEND_MSG
+			,TLM.PL_HIST_CD
+			,TLM.COM_HAEJI_DATE
+			,TLM.CRE_HAEJI_DATE
+			,TLM.FILE_SEQ
+			,TLM.REG_TIMESTAMP
+			,TLM.UPD_SEQ
+			,TLM.UPD_TIMESTAMP
+	    FROM TB_LC_MAS01 TLM
+	    <where>
+	    	AND TLM.MASTER_SEQ = #{masterSeq}
+	    </where>
+   	</select>
+   
+	<!-- 모집인 등록 > 수정 -->
+   	<update id="updateUserRegInfo" parameterType="user">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			<if test="plMName != null and plMName != ''">
+   			 PL_M_NAME 			= #{plMName}
+   			</if>
+   			<if test="plMZId != null and plMZId != ''">
+   			,PL_M_Z_ID 			= #{plMZId}
+   			</if>
+   			<if test="plCellphone != null and plCellphone != ''">
+   			,PL_CELLPHONE 		= #{plCellphone}
+   			</if>
+   			<if test="addr != null and addr != ''">
+   			,ADDR 				= #{addr}
+   			</if>
+   			<if test="plEduNo != null and plEduNo != ''">
+   			,PL_EDU_NO 			= #{plEduNo}
+   			</if>
+   			<if test="careerStartDate != null and careerStartDate != ''">
+   			,CAREER_START_DATE 	= #{careerStartDate}
+   			</if>
+   			<if test="careerEndDate != null and careerEndDate != ''">
+   			,CAREER_END_DATE 	= #{careerEndDate}
+   			</if>
+   			<if test="comContDate != null and comContDate != ''">
+   			,COM_CONT_DATE 		= #{comContDate}
+   			</if>
+   			<if test="entrustDate != null and entrustDate != ''">
+   			,ENTRUST_DATE 		= #{entrustDate}
+   			</if>
+   			,FILE_SEQ 			= #{fileSeq}
+   		<where>
+	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
+	    </where>
+   	</update>
+   	
+</mapper> 
