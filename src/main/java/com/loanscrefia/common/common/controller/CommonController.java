@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -85,21 +86,21 @@ public class CommonController {
 	
 	
 	@PostMapping("/common/fileDown")
-	public ResponseEntity<Resource> fileDown(@RequestParam int fileSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public ResponseEntity<Resource> fileDown(@RequestParam int fileSeq, @RequestHeader("User-Agent") String userAgent,  HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(fileSeq);
 
 		// 첨부파일번호가 하나인 경우
 		FileDomain getFile = commonService.getFile(fileDomain);
-		String fileName = fileDomain.getFileSaveNm()+ "." + fileDomain.getFileExt();
+		String fileName = getFile.getFileSaveNm()+ "." + getFile.getFileExt();
  		try {
  			
- 			Resource resource = resourceLoader.getResource("classpath:\\static\\upload\\"+fileDomain.getFilePath()+"\\"+ fileName);
+ 			Resource resource = resourceLoader.getResource("classpath:\\static\\upload\\"+getFile.getFilePath()+"\\"+ fileName);
  			//파일이 없는 경우 fileNotFoundException error가 난다.
  			File resultFile = resource.getFile();
  			
- 			String orgfileName = fileDomain.getFileOrgNm()+ "." + fileDomain.getFileExt();
+ 			String orgfileName = getFile.getFileOrgNm()+ "." + getFile.getFileExt();
 			String downloadName = URLEncoder.encode(orgfileName,"UTF-8").replace("+", "%20");
 
  			return ResponseEntity.ok()

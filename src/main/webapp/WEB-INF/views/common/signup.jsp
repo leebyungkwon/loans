@@ -5,6 +5,7 @@
 
 function pageLoad(){
 	
+	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
 		var test = {
 			name : 'signup'
@@ -15,48 +16,10 @@ function pageLoad(){
 		}		
 		AjaxUtil.files(test);
 	});
-	
-	/* 
-	
-	// 회원 가입 버튼 눌렀을때
-	document.getElementById('btn_signup').onclick = function () {
-		
-		// 아이디 중복체크 
-		var memberId = $("#memberId").val();
-		var	param = {
-			'memberId' : memberId
-		} // end of param
-	    var p = {
-			param: param
-			,url: "/idcheck" // 아이디 즁복 체크하러 다녀옴 (버튼 안눌렀을때 확인).
-			,success: function(opt, result) {    
-				if(result > 0) {
-					alert("아이디 중복체크를 눌러주세요!!!");    
-				} else { // 아이디 중복 없을시 이벤트 태움.
-					var p2 = { // 회원가입 저장 이벤트
-						name : 'signup'
-					   ,success: function(opt, result) {
-							alert("회원가입 성공");
-						} // end of p2 성공시 이벤트 - 회원가입 저장 이벤트
-					} // end of p2 - 회원가입 저장 이벤트		
-					AjaxUtil.files(p2); // 회원가입 저장 이벤트 이다.
-				}            
-			} // end of success - 아이디 중복체크용
-			,error: function(error) {
-				alert("아이디를 입력해주세요.");
-			} // end of error - 아이디 중복체크용        
-   		} // end of p - 아이디 중복체크용
-		AjaxUtil.post(p);
-	}; // end of 회원가입 버튼 눌렀을때
-	 */
-	 
-	 
-	 
-	 
 	 
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
-		$("#fileName").val("memberId");
+		$("#fileName").val("");
 		
 		// IE일 경우
 		//$("#u_file").replaceWith( $("#u_file").clone(true) );
@@ -71,6 +34,16 @@ function pageLoad(){
 	// 양식 다운로드
 	$("#sampleDown").on("click", function(){
 		alert("양식다운로드 실행");
+		var param = {
+				'fileSeq'	:	2
+		}
+ 		var p = {
+			  param : param
+			, url : "/common/fileDown"
+			, contType: 'application/json; charset=UTF-8'
+			, responseType: 'arraybuffer'
+		}
+		AjaxUtil.post(p);
 	});
 	
 	// 아이디 중복체크
