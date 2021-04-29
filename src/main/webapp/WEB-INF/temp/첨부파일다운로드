@@ -1,5 +1,7 @@
 	//CommonController
   
+@Autowired ResourceLoader resourceLoader;
+	
   @PostMapping("/common/fileDown")
 	public ResponseEntity<Resource> fileDown(@RequestParam String id, @RequestHeader("User-Agent") String userAgent, HttpServletRequest request,HttpServletResponse response) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
