@@ -5,11 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URLEncoder;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +36,7 @@ public class CommonController {
 	
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
+	@Autowired ResourceLoader resourceLoader;
 	
 	@GetMapping(value="/isConnecting")
 	public ResponseEntity<ResponseMsg> isConnecting(HttpServletRequest request){
@@ -105,7 +107,7 @@ public class CommonController {
  					.header("Content-Transfer-Encoding", "binary")
  					.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(resultFile.length()))	//파일 사이즈 설정
  					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())	//바이너리 데이터로 받아오기 설정
- 					.body(resource);	//파일 넘기기
+ 					.body(resource);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.badRequest()
@@ -116,6 +118,7 @@ public class CommonController {
 		}
 		//utilFile.setEntity(file).fileDownload(request,response);
 	}
+	
 	  
 	
 }

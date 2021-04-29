@@ -36,12 +36,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		 * 
 		 * }
 		 */
-        SecurityMember mem = (SecurityMember) authentication.getPrincipal();
-        MemberDomain member = new MemberDomain();
-        member.setMemberSeq(Long.parseLong(mem.getUsername()));
-        
-        // db select
-        session.setAttribute("member", member);
         
         if (session != null) {
             String redirectUrl = (String) session.getAttribute("prevPage");

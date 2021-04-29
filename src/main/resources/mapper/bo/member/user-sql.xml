@@ -71,6 +71,7 @@
    			PL_REG_STAT = '2'
    		<where>
    			AND MASTER_SEQ = #{masterSeq}
+   			AND upd_seq = #{updSeq}
    		</where>
    	</update>
     

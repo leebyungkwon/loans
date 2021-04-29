@@ -242,6 +242,7 @@ create table tb_lc_mas01(
 	, capital integer
 	, com_cont_date varchar(8)	
 	, com_reg_date varchar(8)
+	, chk_yn char(1)
 	, cre_app_date varchar(8)
 	, cre_license_date varchar(8)
 	, pl_pay_stat char(2)
@@ -288,6 +289,7 @@ COMMENT ON COLUMN tb_lc_mas01.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
+COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일(심사완료일)';
 COMMENT ON COLUMN tb_lc_mas01.cre_license_date IS '자격취득일';
 COMMENT ON COLUMN tb_lc_mas01.pl_pay_stat IS '결제상태';
@@ -357,3 +359,135 @@ COMMENT ON COLUMN tb_lc_file01.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_file01.upd_timestamp IS '수정일시';
 
 commit;
+
+-- 모집인업무분담정보
+create table tb_lc_work(
+	member_seq integer not null
+	, com_code integer not null
+	, primary key (member_seq, com_code)
+);
+
+COMMENT ON TABLE tb_lc_work IS '모집인업무분담정보';
+COMMENT ON COLUMN tb_lc_work.member_seq IS '담당자시퀀스';
+COMMENT ON COLUMN tb_lc_work.com_code IS '회원사코드';
+
+
+-- 임원 seq
+CREATE SEQUENCE tb_lc_mas01_imwon_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+-- 임원 정보
+create table tb_lc_mas01_imwon(
+	exc_seq integer not null default nextval('tb_lc_mas01_imwon_seq')
+	, master_seq integer not null
+	, career_typ char(1) not null
+	, position_nm varchar(20) not null
+	, exc_name varchar(20) not null
+	, pl_m_z_id varchar(20) not null
+	, pl_edu_no integer not null
+	, career_start_date varchar(8) not null
+	, career_end_date varchar(8) not null
+	, full_tm_yn char(1) not null
+	, expert_yn char(1) not null
+	, file_seq integer
+	, primary key (exc_seq)
+);
+
+COMMENT ON TABLE tb_lc_mas01_imwon IS '임원정보';
+COMMENT ON COLUMN tb_lc_mas01_imwon.exc_seq IS '임원시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_imwon.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_imwon.career_typ IS '구분(신규/경력)';
+COMMENT ON COLUMN tb_lc_mas01_imwon.position_nm IS '직위명';
+COMMENT ON COLUMN tb_lc_mas01_imwon.exc_name IS '이름';
+COMMENT ON COLUMN tb_lc_mas01_imwon.pl_m_z_id IS '주민등록번호';
+COMMENT ON COLUMN tb_lc_mas01_imwon.pl_edu_no IS '교육이수번호';
+COMMENT ON COLUMN tb_lc_mas01_imwon.career_start_date IS '경력시작일';
+COMMENT ON COLUMN tb_lc_mas01_imwon.career_end_date IS '경력종료일';
+COMMENT ON COLUMN tb_lc_mas01_imwon.full_tm_yn IS '상근여부';
+COMMENT ON COLUMN tb_lc_mas01_imwon.expert_yn IS '전문인력여부';
+COMMENT ON COLUMN tb_lc_mas01_imwon.file_seq IS '파일시퀀스';
+
+commit;
+
+
+
+-- 전문인력 seq
+CREATE SEQUENCE tb_lc_mas01_expert_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 전문인력 정보
+create table tb_lc_mas01_expert(
+	exp_seq integer not null default nextval('tb_lc_mas01_imwon_seq')
+	, master_seq integer not null
+	, career_typ char(1) not null
+	, exp_name varchar(20) not null
+	, pl_m_z_id varchar(20) not null
+	, pl_edu_no integer not null
+	, career_start_date varchar(8) not null
+	, career_end_date varchar(8) not null
+	, file_seq integer
+	, primary key (exp_seq)
+);
+
+COMMENT ON TABLE tb_lc_mas01_expert IS '전문인력정보';
+COMMENT ON COLUMN tb_lc_mas01_expert.exp_seq IS '전문인력시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_expert.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_expert.career_typ IS '구분(신규/경력)';
+COMMENT ON COLUMN tb_lc_mas01_expert.exp_name IS '이름';
+COMMENT ON COLUMN tb_lc_mas01_expert.pl_m_z_id IS '주민등록번호';
+COMMENT ON COLUMN tb_lc_mas01_expert.pl_edu_no IS '교육이수번호';
+COMMENT ON COLUMN tb_lc_mas01_expert.career_start_date IS '경력시작일';
+COMMENT ON COLUMN tb_lc_mas01_expert.career_end_date IS '경력종료일';
+COMMENT ON COLUMN tb_lc_mas01_expert.file_seq IS '접수번호시퀀스';
+
+
+-- 전산인력 seq
+CREATE SEQUENCE tb_lc_mas01_it_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 전산인력 정보
+create table tb_lc_mas01_it(
+	oper_seq integer not null default nextval('tb_lc_mas01_it_seq')
+	, master_seq integer not null
+	, oper_name varchar(20) not null
+	, pl_m_z_id varchar(20) not null
+	, file_seq integer
+	, primary key (oper_seq)
+);
+
+
+COMMENT ON TABLE tb_lc_mas01_it IS '전산인력정보';
+COMMENT ON COLUMN tb_lc_mas01_it.oper_seq IS '전산인력시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_it.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_it.oper_name IS '이름';
+COMMENT ON COLUMN tb_lc_mas01_it.pl_m_z_id IS '주민등록번호';
+COMMENT ON COLUMN tb_lc_mas01_it.file_seq IS '접수번호시퀀스';
+
+commit;
+
+
+
+
