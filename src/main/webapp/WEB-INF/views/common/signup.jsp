@@ -11,7 +11,7 @@ function pageLoad(){
  	//};
 	
 	// 변경하고 싶음
-	document.getElementById('btn_signup').onclick = function () {
+/* 	document.getElementById('btn_signup').onclick = function () {
 		var param = {
 				"memberId" : $("#memberId").val()
 			,	"password" : $("#password").val()
@@ -30,8 +30,19 @@ function pageLoad(){
 				AjaxUtil.submit('signup');
 			}
 		}
-			AjaxUtil.post(p);
-	}; 
+		AjaxUtil.post(p);
+	};  */
+	
+	// 회원가입 btn click
+	$("#btn_signup").on("click", function(){
+		var p = {
+			  name : 'signup'
+			, success : function (opt,result) {
+				// 성공 후 처리 영역
+  	   	 	}
+		}
+		AjaxUtil.files(p);
+	});
 
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
@@ -187,6 +198,6 @@ function pageLoad(){
 </form>
 
 <div class="btn_wrap">
-	<a href="#" class="btn_black" id="btn_signup" >회원가입 신청</a>
+	<a href="javascript:void(0);" class="btn_black" id="btn_signup" >회원가입 신청</a>
 </div>
 
