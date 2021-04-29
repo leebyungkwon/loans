@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.login.service.LoginService;
+import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.util.UtilFile;
@@ -22,30 +23,30 @@ import lombok.extern.java.Log;
 @Log
 @RestController
 public class LoginController {
-	
+
 	@Autowired private LoginService loginService;
 	@Autowired UtilFile utilFile;
 
-    @GetMapping("/login")
-    public ModelAndView dispLogin() {
-        ModelAndView mv = new ModelAndView(CosntPage.Common+"/login");
-        return mv;
-    }
-    
-    @PostMapping("/login")
-    public ModelAndView testLogin() {
-        ModelAndView mv = new ModelAndView(CosntPage.Common+"/login");
-        return mv;
-    }
+	@GetMapping("/login")
+	public ModelAndView dispLogin() {
+		ModelAndView mv = new ModelAndView(CosntPage.Common + "/login");
+		return mv;
+	}
 
-    @GetMapping("/signup")
-    public ModelAndView dispSignup() {
-        ModelAndView mv = new ModelAndView(CosntPage.Common+"/signup");
-        return mv;
-    }
+	@PostMapping("/login")
+	public ModelAndView testLogin() {
+		ModelAndView mv = new ModelAndView(CosntPage.Common + "/login");
+		return mv;
+	}
 
-    @PostMapping("/signup")
-    public ModelAndView execSignup(@RequestParam("files") MultipartFile[] files, SignupDomain signupDomain) {
+	@GetMapping("/signup")
+	public ModelAndView dispSignup() {
+		ModelAndView mv = new ModelAndView(CosntPage.Common + "/signup");
+		return mv;
+	}
+
+	@PostMapping("/signup")
+	public ModelAndView execSignup(@RequestParam("files") MultipartFile[] files, SignupDomain signupDomain, MemberRoleDomain memberRoleDomain) {
 		// 파일 업로드 추가
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
@@ -58,10 +59,13 @@ public class LoginController {
 			}
 		}
 		// 회원가입 데이터 저장
-		loginService.saveUser(signupDomain);
-        ModelAndView mv = new ModelAndView(CosntPage.Common+"/login");
-        return mv;
-    }
+		signupDomain.setMemberSeq(loginService.saveUser(signupDomain).getMemberSeq());
+		// Role 권한
+		memberRoleDomain.setMemberSeq(signupDomain.getMemberSeq());
+		loginService.saveRole(memberRoleDomain);
+		ModelAndView mv = new ModelAndView(CosntPage.Common + "/login");
+		return mv;
+	}
 
     @GetMapping("/login/result")
     public ModelAndView dispLoginResult() {
@@ -90,4 +94,17 @@ public class LoginController {
     	return true;
     }
 
+	// 아이디 중복체크
+	@PostMapping("/idcheck")
+	public int idCheck(String memberId) {
+		int count = 0;
+		
+		try {
+			count = loginService.idCheck(memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
 }

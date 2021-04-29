@@ -2,14 +2,40 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script>
+
 function pageLoad(){
-	document.getElementById('btn_signup').onclick = function () {
-		AjaxUtil.submit('signup');
-	};
 	
+	// 기존
+ 	//document.getElementById('btn_signup').onclick = function () {
+ 	//	AjaxUtil.submit('signup');
+ 	//};
+	
+	// 변경하고 싶음
+	document.getElementById('btn_signup').onclick = function () {
+		var param = {
+				"memberId" : $("#memberId").val()
+			,	"password" : $("#password").val()
+			,	"comCode" : $("#comCode").val()
+			,	"memberName" : $("#memberName").val()
+			,	"email" : $("#email").val()
+			,	"mobileNo" : $("#mobileNo").val()
+			,	"deptNm" : $("#deptNm").val()
+			,	"positionNm" : $("#positionNm").val()
+		}
+		var p = {
+				reqType : "multipart/form-data"
+			, 	param: param
+			,	url: "/signup"
+			, 	success: function(opt, result) {
+				AjaxUtil.submit('signup');
+			}
+		}
+			AjaxUtil.post(p);
+	}; 
+
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
-		$("#fileName").val("");
+		$("#fileName").val("memberId");
 		
 		// IE일 경우
 		//$("#u_file").replaceWith( $("#u_file").clone(true) );
@@ -28,9 +54,27 @@ function pageLoad(){
 	
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
-		alert("아이디 중복체크 확인중");
-		url : '/login'
-	});
+		var memberId = $("#memberId").val();
+		var	param = {
+				'memberId' : memberId
+			} // end of param
+	    var p = {
+            	 param: param
+				,url: "/idcheck"
+              	,success: function(opt, result) {    
+                   if(result > 0) {
+                       alert("해당 아이디가 존재합니다.");    
+                       window.location.reload();
+                   } else {
+                       alert("사용가능 아이디 입니다.");
+                   }            
+               }, // end of success
+               error: function(error) {
+                   alert("아이디를 입력해주세요.");
+               } // end of error        
+   		} // end of p
+		AjaxUtil.post(p);
+	}); // end of 아이디 중복체크
 	
 	// 첨부파일 찾기시 file tag 실행
 	$("#u_file").on("change", function(){
@@ -53,6 +97,7 @@ function pageLoad(){
 	DataUtil.selectBox(companyCode);
 
 }
+
 </script>
 
 <div class="page_title">
@@ -74,7 +119,7 @@ function pageLoad(){
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="member_id" name="memberId" placeholder="아이디" />
+					<input type="text" id="memberId" name="memberId" placeholder="아이디" />
 					<a href="javascript:void(0);" id="idcheck" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>
@@ -97,19 +142,19 @@ function pageLoad(){
 			<tr>
 				<th>부서명</th>
 				<td>
-					<input type="text" id="dept_nm" name="deptNm" placeholder="부서명 입력">
+					<input type="text" id="deptNm" name="deptNm" placeholder="부서명 입력">
 				</td>
 			</tr>
 			<tr>
 				<th>담당자명</th>
 				<td>
-					<input type="text" id="member_name" name="memberName" placeholder="이름">
+					<input type="text" id="memberName" name="memberName" placeholder="이름">
 				</td>
 			</tr>
 			<tr>
 				<th>직위</th>
 				<td>
-					<input type="text" id="position_nm" name="positionNm" placeholder="직위 입력">
+					<input type="text" id="positionNm" name="positionNm" placeholder="직위 입력">
 				</td>
 			</tr>
 			<tr>
@@ -124,7 +169,7 @@ function pageLoad(){
 			<tr>
 				<th>전화번호</th>
 				<td>
-					<input type="text" id="mobile_no" name="mobileNo" placeholder="전화번호 입력">
+					<input type="text" id="mobileNo" name="mobileNo" placeholder="전화번호 입력">
 				</td>
 			</tr>
 			<tr>
@@ -142,6 +187,6 @@ function pageLoad(){
 </form>
 
 <div class="btn_wrap">
-	<a href="#" class="btn_black" id="btn_signup">회원가입 신청</a>
+	<a href="#" class="btn_black" id="btn_signup" >회원가입 신청</a>
 </div>
 

@@ -33,7 +33,6 @@ public class LoginService implements UserDetailsService {
         return memberRepository.save(signupDomain);
     }
 
-
     // security 로그인
     public UserDetails loadUserByUsername(@Valid String memberId) throws UsernameNotFoundException {
     	MemberDomain mem = memberRepository.findById(memberId);
@@ -45,17 +44,20 @@ public class LoginService implements UserDetailsService {
 			.map(member -> new SecurityMember(mem)).get();
 	}
     
-    
-    
-	public void saveRole(MemberRoleDomain role) {
-		role.setRoleName("MEMBER");
-		memberRoleRepository.save(role);
+	public void saveRole(MemberRoleDomain memberRoleDomain) {
+		memberRoleDomain.setRoleName("MEMBER");
+		memberRoleRepository.save(memberRoleDomain);
 	}
-	
 	
 	@Transactional
 	public void loginFailCnt(String memberId) {
 		memberRepository.loginFailCnt(memberId);
+	}
+	
+	// 아이디 중복체크
+	@Transactional
+	public int idCheck(String memberId) throws Exception {
+	 	return memberRepository.idCheck(memberId);
 	}
 	
 	public SignupDomain getMember(SignupDomain signupDomain) {

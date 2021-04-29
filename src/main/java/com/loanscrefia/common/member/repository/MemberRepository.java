@@ -32,5 +32,8 @@ public interface MemberRepository {
 	
 	// 회원정보 조회
 	SignupDomain getMember(SignupDomain signupDomain);
+
+	// 아이디 중복 체크
+	public int idCheck(String memberId) throws Exception;
 	
 }

@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.member.repository.MemberRepository">
+
+	<!-- 회원가입 저장 -->
     <select id="save" parameterType="signup" resultType="signup">
-	    <!-- MemberRepository.save -->
+		<!-- MemberRepository.save -->
 		INSERT INTO TB_LC_MEMBERS
 		(
-			 MEMBER_ID                     	/*담당자ID*/
-			,PASSWORD                      	/*비밀번호*/
-			,COM_CODE                      	/*회원사코드*/
-			,MEMBER_NAME                   	/*담당자이름*/
-			,EMAIL                         	/*이메일*/
-			,MOBILE_NO                     	/*전화번호*/
-			,DEPT_NM                       	/*부서명*/
-			,POSITION_NM                  	/*직위명*/
-			,JOIN_DT						/*가입일*/
-			,FILE_SEQ                      	/*첨부파일ID*/
+			 MEMBER_ID                     			/*담당자ID*/
+			,PASSWORD                      			/*비밀번호*/
+			,COM_CODE                     		 	/*회원사코드*/
+			,MEMBER_NAME                   			/*담당자이름*/
+			,EMAIL                         			/*이메일*/
+			,MOBILE_NO                    		 	/*전화번호*/
+			,DEPT_NM                       			/*부서명*/
+			,POSITION_NM                  			/*직위명*/
+			,JOIN_DT								/*가입일*/
+			,FILE_SEQ                      			/*첨부파일ID*/
 		)
 		VALUES
 		(
-		 	 #{memberId}                    /*로그인ID*/ 
-			,#{password}                    /*비밀번호*/  
-			,#{comCode}                   	/*회원사코드*/ 
-			,#{memberName}                  /*담당자이름*/  
-			,#{email}                       /*이메일*/   
-			,#{mobileNo}                    /*전화번호*/  
-			,#{deptNm}                      /*부서명*/   
-			,#{positionNm}                  /*직위명*/   
-			,TO_CHAR(NOW(), 'YYYYMMDD')		/*가입일*/   
-			,#{fileSeq}						/*첨부파일ID*/
+		 	 #{memberId}                    		/*로그인ID*/ 
+			,#{password}                   		 	/*비밀번호*/  
+			,#{comCode}                   			/*회원사코드*/ 
+			,#{memberName}                  		/*담당자이름*/  
+			,#{email}                       		/*이메일*/   
+			,#{mobileNo}                    		/*전화번호*/  
+			,#{deptNm}                      		/*부서명*/   
+			,#{positionNm}                  		/*직위명*/   
+			,TO_CHAR(NOW(), 'YYYYMMDD')				/*가입일*/   
+			,#{fileSeq}								/*첨부파일ID*/
 		)	
+		RETURNING MEMBER_SEQ AS memberSeq
 	</select>
+	
+	<!-- 아이디 중복 체크 -->
+	<select id="idCheck" parameterType="String" resultType="Integer">
+        SELECT count(*)
+        FROM TB_LC_MEMBERS
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="usersNameCheck" resultType="int" >
+        select count(*) from USERS  WHERE  username =#{username}
+    </select>
 	
     <select id="findById" parameterType="member" resultType="member">
 	    select *
@@ -37,7 +51,6 @@
 	    where member_id = #{memberId}
     </select>
    
-    
     <select id="findRoles" parameterType="member" resultType="memberRole">
 	    select *
 	    from tb_lc_member_role
@@ -49,7 +62,6 @@
     	SET fail_cnt = fail_cnt+1
     	WHERE member_id = #{memberId}
     </update>
-    
     
     <select id="getMember" parameterType="signup" resultType="signup">
 	    select *

@@ -3,9 +3,16 @@
 <mapper namespace="com.loanscrefia.common.member.repository.MemberRoleRepository">
    
     <select id="save" parameterType="memberRole">
-	    insert into tbl_member_role
-		(role_name, member_no)
-		values(#{roleName}, #{memberNo})
+  		INSERT INTO TB_LC_MEMBER_ROLE
+		(
+			 MEMBER_SEQ                     		/*담당자시퀀스*/
+			,ROLE_NAME                      		/*권한명*/
+		)
+		VALUES
+		(
+		 	 #{memberSeq}                    		/*담당자시퀀스*/ 
+			,#{roleName}                   		 	/*권한명*/  
+		)
     </select>
     
 </mapper> 
