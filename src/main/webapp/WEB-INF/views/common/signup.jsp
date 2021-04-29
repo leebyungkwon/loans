@@ -5,6 +5,19 @@
 
 function pageLoad(){
 	
+	$("#signupBtn").on("click", function(){
+		var test = {
+			name : 'signup'
+		   ,success: function(opt, result) {
+			   console.log("성공하였습니다.");
+			   location.href="/login";
+			}
+		}		
+		AjaxUtil.files(test);
+	});
+	
+	/* 
+	
 	// 회원 가입 버튼 눌렀을때
 	document.getElementById('btn_signup').onclick = function () {
 		
@@ -24,7 +37,6 @@ function pageLoad(){
 						name : 'signup'
 					   ,success: function(opt, result) {
 							alert("회원가입 성공");
-							location.href="/login";
 						} // end of p2 성공시 이벤트 - 회원가입 저장 이벤트
 					} // end of p2 - 회원가입 저장 이벤트		
 					AjaxUtil.files(p2); // 회원가입 저장 이벤트 이다.
@@ -36,7 +48,12 @@ function pageLoad(){
    		} // end of p - 아이디 중복체크용
 		AjaxUtil.post(p);
 	}; // end of 회원가입 버튼 눌렀을때
-	
+	 */
+	 
+	 
+	 
+	 
+	 
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
 		$("#fileName").val("memberId");
@@ -107,7 +124,7 @@ function pageLoad(){
 <div class="page_title">
 	<h2>회원가입</h2>
 </div>
-<form name="signup" id="signup" action="/signup" method="POST" enctype="multipart/form-data" >
+<form name="signup" id="signup" action="/signupTest" method="POST" enctype="multipart/form-data" >
 	<div class="join_wrap">
 		<table>
 			<colgroup>
@@ -191,6 +208,6 @@ function pageLoad(){
 </form>
 
 <div class="btn_wrap">
-	<a href="javascript:void(0);" class="btn_black" id="btn_signup" >회원가입 신청</a>
+	<a href="javascript:void(0);" class="btn_black" id="signupBtn" >회원가입 신청</a>
 </div>
 

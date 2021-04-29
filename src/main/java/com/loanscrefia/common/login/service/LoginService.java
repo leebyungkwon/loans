@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,8 @@ import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.repository.MemberRepository;
 import com.loanscrefia.common.member.repository.MemberRoleRepository;
+import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.system.code.domain.CodeMstDomain;
 
 @Service
 public class LoginService implements UserDetailsService {
@@ -62,6 +65,23 @@ public class LoginService implements UserDetailsService {
 	
 	public SignupDomain getMember(SignupDomain signupDomain) {
 		return memberRepository.getMember(signupDomain);
+	}
+	
+	
+	
+	
+	
+	
+	@Transactional
+	public ResponseMsg saveUserTest(SignupDomain signupDomain){
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
+    	signupDomain = memberRepository.save(signupDomain);
+    	MemberRoleDomain role = new MemberRoleDomain();
+    	role.setMemberSeq(signupDomain.getMemberSeq());
+    	role.setRoleName("MEMBER");
+		memberRoleRepository.save(role);
+		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입에 성공하였습니다.");
 	}
 
 }

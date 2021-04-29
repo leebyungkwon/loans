@@ -3,7 +3,11 @@ package com.loanscrefia.common.login.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +19,9 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.login.service.LoginService;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.domain.SignupDomain;
+import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.system.code.domain.CodeMstDomain;
 import com.loanscrefia.util.UtilFile;
 
 import lombok.extern.java.Log;
@@ -107,4 +113,24 @@ public class LoginController {
 		
 		return count;
 	}
+	
+	
+	@PostMapping(value="/signupTest")
+	public ResponseEntity<ResponseMsg> signupTest(@RequestParam("files") MultipartFile[] files, @Valid SignupDomain signupDomain){
+		
+		// 파일 업로드 추가
+		Map<String, Object> ret = utilFile.setPath("signup") 
+				.setFiles(files)
+				.setExt("excel") 
+				.upload();
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				signupDomain.setFileSeq(file.get(0).getFileSeq());
+			}
+		}
+		ResponseMsg responseMsg = loginService.saveUserTest(signupDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 }

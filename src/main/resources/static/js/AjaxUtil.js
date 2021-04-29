@@ -76,14 +76,14 @@ var AjaxUtil = {
         	
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-            		else LibUtil.msgOpenPopup(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
             	}
             	AjaxUtil.successHandler(opt, response.data);
         	}else{
         		if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-            		else LibUtil.msgOpenPopup(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
             	}
         	}
         })
@@ -230,14 +230,14 @@ console.log("catch",error);
 
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-            		else LibUtil.msgOpenPopup(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
             	}
             	AjaxUtil.successHandler(opt, response.data);
         	}else{
         		if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-            		else LibUtil.msgOpenPopup(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
             	}
         	}
         })
@@ -324,7 +324,7 @@ console.log("catch",error);
         } else {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
-            LibUtil.msgOpenPopup(errMsg);
+            alert(errMsg);
             console.log(errMsg);
         }
     }
