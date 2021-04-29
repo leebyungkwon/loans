@@ -101,9 +101,24 @@
 			<include refid="baseColumns"></include>
 		FROM TB_LC_COD01_DETAIL
 		<where>
-			AND CODE_MST_CD = #{codeMstCd}
+				AND CODE_MST_CD = #{codeMstCd}
+			<if test="property01 != null and property01 != ''">
+				AND PROPERTY01 = #{property01}
+			</if>
+			<if test="property02 != null and property02 != ''">
+				AND PROPERTY02 = #{property02}
+			</if>
+			<if test="property03 != null and property03 != ''">
+				AND PROPERTY03 = #{property03}
+			</if>
+			<if test="property04 != null and property04 != ''">
+				AND PROPERTY04 = #{property04}
+			</if>
+			<if test="property05 != null and property05 != ''">
+				AND PROPERTY05 = #{property05}
+			</if>
 			<if test="useYn != null and useYn != ''">
-			AND USE_YN = #{useYn}
+				AND USE_YN = #{useYn}
 			</if>
 		</where>
 	</select>
