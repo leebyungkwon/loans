@@ -22,8 +22,8 @@ public class CompanyService {
 	
 	//회원사 당담자 상세 리스트 조회
 	@Transactional(readOnly=true)
-	public List<CompanyDomain> selectCompanyDetail(CompanyDomain companyDomain){
-		return companyRepository.selectCompanyDetail(companyDomain);
+	public CompanyDomain getCompanyDetail(CompanyDomain companyDomain){
+		return companyRepository.getCompanyDetail(companyDomain);
 	}
 	
 	

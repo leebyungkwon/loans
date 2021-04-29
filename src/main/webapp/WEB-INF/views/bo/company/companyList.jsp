@@ -23,28 +23,35 @@ function pageLoad(){
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'apprYn'			, index:'apprYn'		, width:"10%"	, align:"center"}
 			]
-		, sortNm : "com_code"
-		, sort : "DESC"
+		, sortNm : "member_seq"
+		, sort : "ASC"
 		, size : 10
-		, rowClick	: {color:"#ccc", retFunc : detailPage}
+		, rowClick	: {color:"#ccc", retFunc : companyDetail}
 		, gridSearch : "search,searctBtn"
 		, isPaging : true
 	});
 }
 
-function detailPage(idx, data){
-	var memberSeq 	= companyGrid.gridData[idx].memberSeq;
-	location.href	= "/admin/company/companyDetail?memberSeq="+data.memberSeq;
-			
-	/* submit으로 변경되었습니다. */
-	
+function companyDetail(idx, data){
+	var memberSeq = companyGrid.gridData[idx].memberSeq;
+	$("#memberSeq").val(memberSeq);
+	$("#companyDetailFrm").submit();
+}
 
-	
-
+function fn_view(code){
+    
+    var form = document.getElementById("boardForm");
+    var url = "<c:url value='/board/viewContent.do'/>";
+    url = url + "?code=" + code;
+    
+    form.action = url;    
+    form.submit(); 
 }
 
 </script>
-
+<form id="companyDetailFrm" method="post" action="/admin/company/companyDetail">
+	<input type="hidden" name="memberSeq" id="memberSeq"/>
+</form>
 
 <div class="cont_area">
 	<div class="top_box">
@@ -65,20 +72,24 @@ function detailPage(idx, data){
 					<td>
 						<select>
 							<option value="">전체</option>
+							<option value="1">카카오</option>
+							<option value="2">삼성</option>
+							<option value="3">cu</option>
 						</select>
 					</td>
 					<th>승인여부</th>
 					<td>
 						<select>
 							<option value="">전체</option>
-							<option value="02">미요청</option>
-							<option value="01">승인요청</option>
-							<option value="02">승인완료</option>
+							<option value="1">미요청</option>
+							<option value="2">승인요청</option>
+							<option value="3">승인완료</option>
+							<option value="3">반려</option>
 						</select>
 					</td>
 				</tr>
 			</table>	
-			<a href="companyPage" class="btn_inquiry" id="searctBtn">조회</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
 	</div>
 	<div id="companyGrid"></div>
