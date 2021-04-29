@@ -3,7 +3,7 @@ package com.loanscrefia.common.common.domain;
 import lombok.Data;
 
 @Data
-public abstract class BaseDomain extends PagingDomain{
+public class BaseDomain extends PagingDomain{
 
     private String useYn;
     private String regTimestamp;
