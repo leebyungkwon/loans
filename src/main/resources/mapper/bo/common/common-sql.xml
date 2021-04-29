@@ -40,7 +40,14 @@
 		)
 		VALUES
 		(
-			#{fileGrpSeq}
+			<choose>
+				<when test="fileGrpSeq != null and fileGrpSeq != ''">
+					#{fileGrpSeq}
+				</when>
+				<otherwise>
+					0
+				</otherwise>
+			</choose>
 			<choose>
 				<when test="fileType != null and fileType != ''">
 					,#{fileType}

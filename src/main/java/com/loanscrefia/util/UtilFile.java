@@ -115,6 +115,7 @@ public class UtilFile {
 		int count 			= 0;
 		int fileLen 		= files.length;
 		Integer fileGrpSeq 	= null;
+		
 		if(fileLen > 1){
 			if(this.fileDomain.getFileGrpSeq() == null) {
 				fileGrpSeq = selectFileGrpSeq();
@@ -177,7 +178,7 @@ public class UtilFile {
 					attach.setFilePath(this.path);
 					attach.setFileSaveNm(saveName);
 					//attach.setSize((int) target.length());
-					if(this.fileDomain.getFileTypeList() != null) {
+					if(fileLen > 1 && this.fileDomain.getFileTypeList() != null) {
 						attach.setFileType(this.fileDomain.getFileTypeList().get(count));
 					}
 
