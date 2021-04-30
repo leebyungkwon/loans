@@ -53,10 +53,6 @@ function pageLoad(){
 	<div id="container">
 		<div class="page_title">
 			<h2>로그인</h2>
-			<p class="sub">
-				<span>리스할부모집인 등록관리 시스템입니다.</span><br />
-				비밀번호 5회 오류 시, 30분동안 로그인이 제한됩니다.
-			</p>
 		</div>
 		<div class="login_wrap">
 			<form name="login" action="/j_spring_security" method="POST">
@@ -65,7 +61,7 @@ function pageLoad(){
 						<div class="input_box mgt0">
 							<div class="tit">아이디</div>
 							<div class="value">
-								<input type="text" id="memberId" name="memberId" placeholder="아이디 (이메일)" />
+								<input type="text" id="memberId" name="memberId" placeholder="아이디" />
 							</div>
 						</div>
 						<div class="input_box">
