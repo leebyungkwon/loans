@@ -1,27 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.member.admin.repository.AdminRepository">
-   
-   
-   <!-- 회원사 회원 조회 -->
-   <select id="selectAdminList" parameterType="admin" resultType="admin">
-		SELECT
-			'1'			AS com_no
-			, '볼보파이낸셜'	AS com_nm
-			, 'ABC111'	AS com_id
-			, '마케팅부서'	AS com_dept_nm
-			, '홍길동'	AS manager_nm
-			, '과장'		AS test1
-			, TO_CHAR(NOW(), 'YYYY-MM-DD')	AS reg_date
-			, '승인요청'	AS approve_cd_nm
-   </select>
-   
-   <!-- 회원사 회원 상세조회 -->
-   <select id="getAdmin" parameterType="admin" resultType="admin">
-   
-   </select>
-   
-    
-   
-   
+
+	<!-- 회원사 회원 조회 -->
+	<select id="selectAdminList" parameterType="admin" resultType="admin">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.PASSWORD
+			,TLM.COM_CODE
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,TLM.MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TLM.JOIN_DT
+			,TLM.APPR_YN
+			,TLM.FILE_SEQ
+			,TLM.FAIL_CNT
+			,TLM.CRE_YN
+			,TLM.DROP_YN
+			,TLM.UPD_SEQ
+			,TLM.UPD_TIMESTAMP
+			FROM TB_LC_MEMBERS TLM
+			<where>
+				<if test="comCode != 0 and comCode != '0'">
+					AND	TLM.COM_CODE 	    = #{comCode}
+				</if>
+				<if test="apprYn != null and apprYn != ''">
+					AND	TLM.APPR_YN 		= #{apprYn}
+				</if>
+			</where>
+		<include refid="common.pageBottom"/>
+	</select>
+
+	<!-- 회원사 회원 상세, 수정 조회 -->
+	<select id="getAdminDetail" parameterType="admin" resultType="admin">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,TLM.MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TLM.JOIN_DT
+			FROM TB_LC_MEMBERS TLM
+		<where>
+			AND TLM.MEMBER_SEQ = #{memberSeq}
+		</where>
+	</select>
+
+	<!-- 회원사 수정 조회 > 수정 -->
+	<select id="saveAdminUpdate" parameterType="admin">
+		UPDATE TB_LC_MEMBERS
+		SET
+			<if test="memberId != null and memberId != ''">
+				MEMBER_ID 		= #{memberId}
+			</if>
+			<if test="password != null and password != ''">
+				,PASSWORD 		= #{password}
+			</if>
+			<if test="deptNm != null and deptNm != ''">
+				,DEPT_NM 		= #{deptNm}
+			</if>
+			<if test="memberName != null and memberName != ''">
+				,MEMBER_NAME 	= #{memberName}
+			</if>
+			<if test="positionNm != null and positionNm != ''">
+				,POSITION_NM 	= #{positionNm}
+			</if>
+			<if test="email != null and email != ''">
+				,EMAIL 			= #{email}
+			</if>
+			<if test="mobileNo != null and mobileNo != ''">
+				,MOBILE_NO 		= #{mobileNo}
+			</if>
+		<where>
+			AND MEMBER_SEQ 		= #{memberSeq}
+		</where>
+	</select>
+	
 </mapper> 
