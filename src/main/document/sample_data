@@ -2,3 +2,49 @@ INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no)
 	 ('현대카드','12341234','44443330','01031672126'),
 	 ('볼보파이낸셜','55556666','11112345','01031672162'),
 	 ('우체국','45674567','88888888','01031672162');
+	 
+	 
+	 
+INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('CAR001','구분','구분',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:02.734948',NULL,NULL),
+	 ('CLS001','분류','분류',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 12:34:51.014401',NULL,NULL),
+	 ('PRD001','금융상품유형','금융상품유형',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:01:53.406573',NULL,NULL),
+	 ('REG001','모집인상태','모집인상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:06:57.423873',NULL,NULL),
+	 ('ADD001','본점소재지','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 
+	 
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('CLS001','1','개인','개인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
+	 ('CLS001','2','법인','법인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('CAR001','1','신규','신규',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('CAR001','2','경력','경력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('PRD001','1','대출','대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','2','시설대여 및 연불판매','시설대여 및 연불판매',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','3','할부','할부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','4','어음할인','어음할인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:03:14.567466',NULL,NULL),
+	 ('PRD001','5','매출채권 매입','매출채권 매입',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:03:14.567466',NULL,NULL),
+	 ('PRD001','6','지급보증','지급보증',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:03:14.567466',NULL,NULL);
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('PRD001','7','기타 대출성상품','기타 대출성상품',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:04:59.15828',NULL,NULL),
+	 ('REG001','1','등록','등록',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL),
+	 ('REG001','2','정상해지','정상해지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL),
+	 ('REG001','3','불법해지','불법해지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('ADD001','1','서울','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:39.107933',NULL,NULL),
+	 ('ADD001','2','경기','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:45.203197',NULL,NULL),
+	 ('ADD001','3','충청북도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:51.868554',NULL,NULL),
+	 ('ADD001','4','충청남도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:58.553998',NULL,NULL),
+	 ('ADD001','5','강원도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:34:04.505065',0,'2021-04-30 17:34:25.711248'),
+	 ('ADD001','6','경상북도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:34:51.025283',NULL,NULL);
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('ADD001','7','경상남도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:34:58.300918',NULL,NULL),
+	 ('ADD001','8','전라북도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:05.192966',NULL,NULL),
+	 ('ADD001','9','전라남도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:09.959784',NULL,NULL),
+	 ('ADD001','10','인천','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:16.787504',NULL,NULL),
+	 ('ADD001','11','세종','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:21.147813',NULL,NULL),
+	 ('ADD001','12','대전','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:25.378358',NULL,NULL),
+	 ('ADD001','13','대구','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:31.777598',NULL,NULL),
+	 ('ADD001','14','울산','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:41.933598',NULL,NULL),
+	 ('ADD001','15','광주','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:46.527094',NULL,NULL),
+	 ('ADD001','16','부산','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:51.516143',NULL,NULL);
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('ADD001','17','제주','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:55.567005',NULL,NULL);
