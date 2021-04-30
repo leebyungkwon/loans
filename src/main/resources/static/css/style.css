@@ -24,7 +24,7 @@
 }
 
 .cont_area .top_box .title{
-  padding-left: 30px;
+  position: relative;
   height: 60px;
 }
 
@@ -34,7 +34,13 @@
 
 .cont_area .top_box .title h2{
   color:#222;
-	font:700 20px/60px 'Malgun Gothic','맑은 고딕';
+	font:700 20px/60px 'Malgun Gothic','留묒� 怨좊뵓';
+}
+
+.cont_area .top_box .title .right{
+  position: absolute;
+  bottom: 15px;
+  right:0;
 }
 
 .cont_area .top_box .info_box{
@@ -124,7 +130,7 @@
   text-align: center;
   background-color: #666;
   color:#fff;
-  font:700 12px/28px 'dotum','맑은 고딕';
+  font:700 12px/28px 'dotum','留묒� 怨좊뵓';
   width: 100px;
   height: 28px;
   border-radius: 3px;
@@ -147,17 +153,33 @@
   margin: 10px 0;
 }
 
+.view_table.border_table th{
+  border-right: 1px solid #e5e5e5;
+}
+
+.view_table.border_table th:last-child{
+  border-right: none;
+}
+
+.view_table.border_table td{
+  border-right: 1px solid #e5e5e5;
+}
+
+.view_table.border_table td:last-child{
+  border-right: none;
+}
+
 .page_title{
   margin: 60px auto 40px;
 }
 
 .page_title h2{
-  font:700 30px/30px '맑은 고딕','dotum';
+  font:700 30px/30px '留묒� 怨좊뵓','dotum';
   text-align: center;
 }
 
 .page_title .sub{
-  font:700 14px/22px 'dotum','맑은 고딕';
+  font:700 14px/22px 'dotum','留묒� 怨좊뵓';
   text-align: center;
   margin-top: 20px;
 }
@@ -193,7 +215,7 @@
   display: inline-block;
   vertical-align: top;
   text-align: left;
-  font:700 18px/45px '맑은 고딕','dotum';
+  font:700 18px/45px '留묒� 怨좊뵓','dotum';
 }
 
 .login_wrap .input_box .value{
@@ -217,7 +239,7 @@
   display: inline-block;
   text-align: center;
   background-color: #0c4fa0;
-  font:700 18px/116px '맑은 고딕','dotum';
+  font:700 18px/116px '留묒� 怨좊뵓','dotum';
   width: 20%;
   height: 120px;
   float: right;
@@ -273,7 +295,7 @@
 	background-color: #f8f8f8;
 	border-bottom: 1px solid #e1e1e1;
   border-left: 1px solid #e1e1e1;
-	font:700 12px/20px 'dotum','맑은 고딕';
+	font:700 12px/20px 'dotum','留묒� 怨좊뵓';
 	color:#222;
 	letter-spacing: -0.6px;
 	text-align: center;
@@ -282,7 +304,7 @@
 
 .join_wrap table td{
 	text-align: left;
-	font:500 12px/20px 'dotum','맑은 고딕';
+	font:500 12px/20px 'dotum','留묒� 怨좊뵓';
 	color:#222;
 	vertical-align: middle;
 	padding: 15px 30px;
@@ -323,7 +345,7 @@
 }
 
 .sorting_wrap .data p{
-  font:700 12px 'dotum','맑은 고딕';
+  font:700 12px 'dotum','留묒� 怨좊뵓';
   color:#222;
 }
 
@@ -337,7 +359,17 @@
   color:#222;
   display: block;
   margin: 30px 0 20px;
-	font:700 18px/20px 'Malgun Gothic','맑은 고딕';
+	font:700 18px/20px 'Malgun Gothic','留묒� 怨좊뵓';
+}
+
+.contents .box{
+  position: relative;
+}
+
+.contents .box .right{
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .input_wrap{
@@ -414,14 +446,16 @@
 }
 
 .popup_wrap .popup_inner{
-  width: 800px;
-  height: 400px;
+  width: auto;
+  height: auto;
+  min-width: 630px;
+  max-height: 700px;
+  overflow-y: auto;
   box-sizing: border-box;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -200px;
-  margin-left: -400px;
+  transform: translate(-50%, -51%);
   background-color: #fff;
   padding: 30px 30px 40px 30px;
 }
@@ -433,7 +467,7 @@
 }
 
 .popup_wrap .popup_inner .title_wrap h5{
-  font: 700 24px/24px '맑은 고딕','dotum';
+  font: 700 24px/24px '留묒� 怨좊뵓','dotum';
   color:#222222;
   letter-spacing: -0.8px;
   text-align: left;
@@ -449,7 +483,7 @@
 }
 
 .popup_wrap .popup_inner .popup_desc{
-  font: 500 14px/20px '맑은 고딕','dotum';
+  font: 500 14px/20px '留묒� 怨좊뵓','dotum';
   color:#222222;
   letter-spacing: -0.8px;
   text-align: left;
@@ -476,7 +510,7 @@
   color: #fff;
   text-align: center;
   border-radius: 2px;
-  font:300 16px/46px 'dotum','맑은 고딕';
+  font:300 16px/46px 'dotum','留묒� 怨좊뵓';
   vertical-align: middle;
 }
 
@@ -491,19 +525,19 @@
   border: 1px solid #666666;
   border-radius: 2px;
   text-align: center;
-  font:300 16px/46px 'dotum','맑은 고딕';
+  font:300 16px/46px 'dotum','留묒� 怨좊뵓';
   vertical-align: middle;
 }
 
 .popup_wrap .popup_inner .popup_table{
-  width: 740px;
+  width: 100%;
   margin-top: 25px;
   margin-bottom: 30px;
   border-bottom: 1px solid #222;
 }
 
 .popup_wrap .popup_inner .popup_table th{
-  font:700 14px/24px 'dotum','맑은 고딕';
+  font:700 14px/24px 'dotum','留묒� 怨좊뵓';
   color: #222;
   text-align: center;
 }
@@ -511,15 +545,21 @@
 .popup_wrap .popup_inner .popup_table td{
   text-align: left;
   padding: 5px 20px;
-  font-size: 0;
 }
 
 .popup_wrap .popup_inner .popup_table td.file{
   padding: 10px 0 10px 20px;
+  font-size: 0;
 }
 
 .popup_wrap .popup_inner .popup_table td.file a{
   vertical-align: middle;
+}
+
+.popup_wrap .popup_inner .change_cont{
+  min-height: 300px;
+  border-bottom: 1px solid #000;
+  margin-bottom: 30px;
 }
 
 .input_radio_wrap{
@@ -531,7 +571,70 @@
 }
 
 .input_radio_wrap label{
-  font:400 12px 'dotum','맑은 고딕';
+  font:400 12px 'dotum','留묒� 怨좊뵓';
   color: #222;
   margin-left: 5px;
+}
+
+.input_check_wrap{
+  display: inline-block;
+  margin: 3px 0;
+}
+
+.input_check_wrap input{
+  margin: 0;
+}
+
+.input_check_wrap label{
+  font:400 12px 'dotum','留묒� 怨좊뵓';
+  color: #222;
+  margin-left: 5px;
+}
+
+.sub_tit{
+  margin: 0 0 20px 0;
+  position: relative;
+  width: 100%;
+}
+
+.sub_tit h4{
+  text-align: left;
+  font: 700 14px/20px 'Malgun Gothic','留묒� 怨좊뵓';
+}
+
+.sub_tit .sub_txt{
+  position: absolute;
+  top: 0;
+  right: 0;
+  font: 700 14px/20px 'Malgun Gothic','留묒� 怨좊뵓';
+}
+
+.notice_view {
+  width: 100%;
+}
+
+.notice_view .titlebox{
+  position: relative;
+  border-top: 1px solid #222;
+}
+
+.notice_view .titlebox h3{
+  text-align: left;
+  font:700 14px/20px 'Malgun Gothic','留묒� 怨좊뵓';
+}
+
+.notice_view .titlebox .date{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font:700 14px/20px 'Malgun Gothic','留묒� 怨좊뵓';
+}
+
+.notice_view .contbox{
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px;
+  font:400 12px/18px 'dotum','留묒� 怨좊뵓';
 }
