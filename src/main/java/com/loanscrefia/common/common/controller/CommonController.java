@@ -101,10 +101,12 @@ public class CommonController {
  			File resultFile = resource.getFile();
  			
  			String orgfileName = getFile.getFileOrgNm()+ "." + getFile.getFileExt();
-			String downloadName = URLEncoder.encode(orgfileName,"UTF-8").replace("+", "%20");
+			String downloadName = URLEncoder.encode(orgfileName,"UTF-8").replace("\\+", "%20");
+			
+			String test = new String(orgfileName.getBytes("UTF-8"), "ISO-8859-1");
 
  			return ResponseEntity.ok()
- 					.header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" +downloadName+ ";filename*= UTF-8''" + orgfileName)	//다운 받아지는 파일 명 설정
+ 					.header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" +downloadName)	//다운 받아지는 파일 명 설정
  					.header("Content-Transfer-Encoding", "binary")
  					.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(resultFile.length()))	//파일 사이즈 설정
  					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())	//바이너리 데이터로 받아오기 설정

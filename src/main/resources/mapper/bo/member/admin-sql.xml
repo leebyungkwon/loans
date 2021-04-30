@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.member.admin.repository.AdminRepository">
 
-
 	<!-- 회원사 회원 조회 -->
 	<select id="selectAdminList" parameterType="admin" resultType="admin">
 		SELECT 
@@ -42,21 +41,12 @@
 		<include refid="common.totalPages"/>
 			TLM.MEMBER_SEQ
 			,TLM.MEMBER_ID
-			,TLM.PASSWORD
-			,TLM.COM_CODE
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
 			,TLM.MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
 			,TLM.JOIN_DT
-			,TLM.APPR_YN
-			,TLM.FILE_SEQ
-			,TLM.FAIL_CNT
-			,TLM.CRE_YN
-			,TLM.DROP_YN
-			,TLM.UPD_SEQ
-			,TLM.UPD_TIMESTAMP
 			FROM TB_LC_MEMBERS TLM
 		<where>
 			AND TLM.MEMBER_SEQ = #{memberSeq}

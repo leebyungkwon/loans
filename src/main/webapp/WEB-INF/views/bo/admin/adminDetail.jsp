@@ -29,6 +29,7 @@
 		<input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
 	</form>
 
+	
 	<div class="contents">
 		<div id="table">
 			<table class="view_table">
@@ -66,6 +67,10 @@
 
 	<div class="btn_wrap">
 		<a href="javascript:void(0);" id="AdminCancelBtn" class="btn_gray">취소</a>
-		<a href="javascript:void(0);" id="AdminInsertBtn" class="btn_black btn_right">수정</a>
+		<sec:authentication property="principal.username" var="userSeq" />
+		
+		<c:if test="${adminInfo.memberSeq eq userSeq}">
+			<a href="javascript:void(0);" id="AdminInsertBtn" class="btn_black btn_right">수정</a>
+		</c:if>
 	</div>
 </div>	

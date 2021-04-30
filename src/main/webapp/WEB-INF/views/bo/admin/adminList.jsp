@@ -28,7 +28,7 @@
 			, sort : "DESC"
 			, size : 10
 			, rowClick	: {retFunc : detailPop}
-			, gridSearch : "searchDiv,searchBtn" //검색영역ID,조회버튼ID
+			, gridSearch : "" //검색영역ID,조회버튼ID
 			, isPaging : true
 		});
 	}
@@ -49,7 +49,7 @@
 		<div class="title">
 			<h2>관리자 조회 및 변경</h2>
 		</div>
-		<div class="info_box" id="searchDiv">
+	<%-- 	<div class="info_box" id="searchDiv">
 			<form id="searchFrm" method="post" action="/member/admin/adminList">
 				<table class="info_box_table">
 					<colgroup>
@@ -80,7 +80,7 @@
 				</table>
 			</form>
 				<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
-		</div>
+		</div> --%>
 	</div>
 	<div id="adminListGrid"></div>
 </div>
