@@ -29,7 +29,6 @@
 		<input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
 	</form>
 
-	
 	<div class="contents">
 		<div id="table">
 			<table class="view_table">

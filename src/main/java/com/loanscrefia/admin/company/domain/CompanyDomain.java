@@ -28,4 +28,5 @@ public class CompanyDomain extends BaseDomain {
 	private String dropYn;
 	private int updSeq;
 	private String updTimestamp;
+	private int[] memberSeqArr;
 }
