@@ -96,6 +96,7 @@ create table tb_lc_members(
 	, com_code integer not null
 	, member_name varchar(20)
 	, email varchar(100)
+	, extension_no varchar(20)
 	, mobile_no varchar(20)
 	, dept_nm varchar(30)
 	, position_nm varchar(20)
@@ -119,7 +120,8 @@ COMMENT ON COLUMN tb_lc_members.password IS '비밀번호';
 COMMENT ON COLUMN tb_lc_members.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_members.member_name IS '담당자이름';
 COMMENT ON COLUMN tb_lc_members.email IS '이메일';
-COMMENT ON COLUMN tb_lc_members.mobile_no IS '전화번호';
+COMMENT ON COLUMN tb_lc_members.extension_no IS '내선번호';
+COMMENT ON COLUMN tb_lc_members.mobile_no IS '휴대폰번호';
 COMMENT ON COLUMN tb_lc_members.dept_nm IS '부서명';
 COMMENT ON COLUMN tb_lc_members.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_members.join_dt IS '가입일';
