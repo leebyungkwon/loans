@@ -2,6 +2,6 @@
 
 <link rel="stylesheet" type="text/css" href="/static/css/common.css">
 <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-<link rel="stylesheet" type="text/css" href="/static/css/table.css">
+<!-- <link rel="stylesheet" type="text/css" href="/static/css/table.css"> -->
 <link rel="stylesheet" type="text/css" href="/static/css/layout.css">  
   

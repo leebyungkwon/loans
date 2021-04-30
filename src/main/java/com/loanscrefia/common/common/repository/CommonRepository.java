@@ -14,7 +14,7 @@ public interface CommonRepository {
 	List<FileDomain> selectFileList(FileDomain fileDomain);
 	
 	//첨부파일 그룹 시퀀스 조회
-	int selectFileGrpSeq();
+	int selectFileGrpSeq(FileDomain fileDomain);
 	
 	//첨부파일 등록
 	void insertFile(FileDomain fileDomain);

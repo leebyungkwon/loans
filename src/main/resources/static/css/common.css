@@ -30,7 +30,7 @@ input.radio, input.check{width:16px;height:16px;border:none;padding:0;margin:0;b
 select{
   color:#444;vertical-align:middle; width: auto; border:1px solid #cac9c9; height:28px; padding:5px; padding-right: 25px; box-sizing:border-box;
 
-  background:url('/static/images/common/select_arrow.png')no-repeat 92% 52%;
+  background:#fff url('/static/images/common/select_arrow.png')no-repeat 92% 52%;
 	-webkit-appearance: none;
 	-moz-appearance: none;
   -ms-appearance: none;
@@ -213,6 +213,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .w99{width:99%}
 .w100{width:100%}
 
+.w100p{width: 100px !important;}
+
 /* margin, padding */
 .pdt5{padding-top:5px !important}
 .pdt10{padding-top:10px !important}
@@ -268,6 +270,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .mgt0{margin-top:0 !important}
 .mgt5{margin-top:5px !important}
 .mgt7{margin-top:7px !important}
+.mgt8{margin-top:8px !important}
 .mgt9{margin-top:9px !important}
 .mgt10{margin-top:10px !important}
 .mgt15{margin-top:15px !important}
@@ -275,6 +278,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .mgt25{margin-top:25px !important}
 .mgt30{margin-top:30px !important}
 
+.select_position_type2{
+    background-position-x: 98%;
+}
 #warp{
   min-height: 937px;
 }
@@ -431,6 +437,12 @@ table th{
 	border-bottom: 1px solid #e5e5e5;
 }
 
+table td .link{
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
 #grid_paging{
   width: 100%;
   margin: 30px auto;
@@ -526,6 +538,47 @@ table th{
   height: 28px !important;
 }
 
+.btn_add{
+  font: 500 28px/28px 'dotum','맑은 고딕' !important;
+  width: 28px !important;
+  height: 28px !important;
+  vertical-align: middle;
+  margin-top: 7px;
+}
+
+.btn_sort{
+	display: inline-block;
+	font:400 12px/28px 'dotum','맑은 고딕';
+  color:#666;
+  text-align: center;
+  letter-spacing: -0.7px;
+  width: 120px !important;
+  height: 28px !important;
+	background-color: #fff;
+  border: 1px solid #666;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.btn_sort .ico_check{
+  width: 10px;
+  height: 8px;
+  background: url('/static/images/common/check_off.png')no-repeat center;
+  vertical-align: top;
+  display: inline-block;
+  margin: 10px 5px 0 0;
+}
+
+.btn_sort.on{
+  background-color: #666;
+  border: 1px solid #666;
+  color:#fff;
+}
+
+.btn_sort.on .ico_check{
+  background: url('/static/images/common/check_on.png')no-repeat center;
+}
+
 .btn_Lgray{
 	display: inline-block;
 	font:400 16px/46px 'dotum','맑은 고딕';
@@ -565,6 +618,19 @@ table th{
 	box-sizing: border-box;
 }
 
+.btn_blue{
+	display: inline-block;
+	font:400 16px/46px 'dotum','맑은 고딕';
+  color:#fff !important;
+  text-align: center;
+  letter-spacing: -0.7px;
+	width: 166px;
+	height: 46px;
+	background-color: #0b4fa1;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
 .btn_right{
   position: absolute;
   right: 0;
@@ -573,4 +639,14 @@ table th{
 .btn_right02{
   position: absolute;
   right: 176px;
+}
+
+.btn_right_small02{
+  position: absolute;
+  right: 110px;
+}
+
+.btn_right_small03{
+  position: absolute;
+  right: 220px;
 }

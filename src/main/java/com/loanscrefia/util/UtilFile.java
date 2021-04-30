@@ -118,7 +118,7 @@ public class UtilFile {
 		
 		if(fileLen > 1){
 			if(this.fileDomain.getFileGrpSeq() == null) {
-				fileGrpSeq = selectFileGrpSeq();
+				fileGrpSeq = selectFileGrpSeq(this.fileDomain);
 			}else {
 				fileGrpSeq = this.fileDomain.getFileGrpSeq();
 			}
@@ -205,13 +205,13 @@ public class UtilFile {
 	}
 
 	@Transactional
-	private void save(FileDomain attach) {
-		commonRepository.insertFile(attach);
+	private void save(FileDomain fileDomain) {
+		commonRepository.insertFile(fileDomain);
 	}
 
-	@Transactional(readOnly = true)
-	private Integer selectFileGrpSeq() {
-		return commonRepository.selectFileGrpSeq();
+	@Transactional(readOnly=true)
+	private Integer selectFileGrpSeq(FileDomain fileDomain) {
+		return commonRepository.selectFileGrpSeq(fileDomain);
 	}
 
 	/*

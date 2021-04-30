@@ -22,8 +22,8 @@
 	</select>
 
 	<!-- 첨부파일 그룹 시퀀스 조회 -->
-	<select id="selectFileGrpSeq" resultType="int">
-		SELECT NEXTVAL('tb_lc_grp_file01_seq');
+	<select id="selectFileGrpSeq" resultType="int" parameterType="file">
+		SELECT NEXTVAL('tb_lc_grp_file01_seq')
 	</select>
 
 	<!-- 첨부파일 등록 -->
