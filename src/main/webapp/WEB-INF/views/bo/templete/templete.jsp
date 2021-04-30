@@ -80,6 +80,15 @@ function detailPop(idx, data){
 	}
 	LibUtil.openPopup(p);
 }
+function filedown(id){
+	var p = {
+		  url : '/api/common/fileDown'
+		, contType: 'application/json; charset=UTF-8'
+		, responseType: 'arraybuffer'
+		, param : {id:id}
+	}
+	AjaxUtil.post(p);
+}
 </script>
 
 <div class="article_right">
