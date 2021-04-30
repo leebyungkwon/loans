@@ -12,6 +12,7 @@
 			,FILE_ORG_NM
 			,FILE_PATH
 			,FILE_SAVE_NM
+			,CONCAT(FILE_ORG_NM,'.',FILE_EXT) AS FILE_FULL_NM
 			,USE_YN
 		FROM TB_LC_FILE01
 		<where>
@@ -75,11 +76,13 @@
 			,FILE_ORG_NM
 			,FILE_PATH
 			,FILE_SAVE_NM
+			,CONCAT(FILE_ORG_NM,'.',FILE_EXT) AS FILE_FULL_NM
 			,REG_TIMESTAMP
 			,UPD_TIMESTAMP
 			,USE_YN
 		FROM TB_LC_FILE01
-		WHERE FILE_SEQ = #{fileSeq}
+		WHERE FILE_SEQ 	= #{fileSeq}
+		AND USE_YN 		= 'Y'
 	</select>
 	
 	<!-- 첨부파일 삭제 -->

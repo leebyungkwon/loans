@@ -23,4 +23,7 @@ public class FileDomain extends BaseDomain{
     private String fileDocType;
     
     private List<String> fileTypeList;
+    
+    //가공
+    private String fileFullNm;
 }

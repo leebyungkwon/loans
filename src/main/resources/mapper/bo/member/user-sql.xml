@@ -187,6 +187,7 @@
 			,TLM.PL_M_Z_ID
 			,TLM.PL_CELLPHONE
 			,TLM.ADDR
+			<!-- ,FN_CD_DTL('A0001',TLM.ADDR) AS ADDR_NM -->
 			,TLM.ADDR_DETAIL
 			,TLM.PL_EDU_NO
 			,TLM.CAREER_START_DATE
@@ -256,7 +257,7 @@
    			</if>
    			,FILE_SEQ 			= #{fileSeq}
    		<where>
-	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
+	    	AND MASTER_SEQ 		= #{masterSeq}
 	    </where>
    	</update>
    	
