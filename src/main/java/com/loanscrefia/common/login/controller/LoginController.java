@@ -40,8 +40,14 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public ModelAndView testLogin() {
+	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView(CosntPage.Common + "/login");
+		return mv;
+	}
+	
+	@GetMapping("/terms")
+	public ModelAndView terms() {
+		ModelAndView mv = new ModelAndView(CosntPage.Common + "/terms");
 		return mv;
 	}
 

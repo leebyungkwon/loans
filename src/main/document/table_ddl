@@ -101,6 +101,8 @@ create table tb_lc_members(
 	, dept_nm varchar(30)
 	, position_nm varchar(20)
 	, join_dt varchar(8)
+	, terms_yn char(1) not null default 'N'
+	, terms_date varchar(8) not null default 'N'
 	, appr_yn char(1) not null default 'N'
 	, file_seq integer
 	, fail_cnt integer
@@ -125,6 +127,8 @@ COMMENT ON COLUMN tb_lc_members.mobile_no IS '휴대폰번호';
 COMMENT ON COLUMN tb_lc_members.dept_nm IS '부서명';
 COMMENT ON COLUMN tb_lc_members.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_members.join_dt IS '가입일';
+COMMENT ON COLUMN tb_lc_members.terms_yn IS '약관동의';
+COMMENT ON COLUMN tb_lc_members.terms_date IS '약관동의일';
 COMMENT ON COLUMN tb_lc_members.appr_yn IS '승인여부';
 COMMENT ON COLUMN tb_lc_members.file_seq IS '첨부파일ID';
 COMMENT ON COLUMN tb_lc_members.fail_cnt IS '로그인실패횟수';
