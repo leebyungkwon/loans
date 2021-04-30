@@ -14,6 +14,7 @@ public class CompanyDomain extends BaseDomain {
 	private String memberId;
 	private String password;
 	private int comCode;
+	private String comCodeNm;
 	private String memberName;
 	private String email;
 	private String mobileNo;
@@ -27,4 +28,5 @@ public class CompanyDomain extends BaseDomain {
 	private String dropYn;
 	private int updSeq;
 	private String updTimestamp;
+	private int[] memberSeqArr;
 }

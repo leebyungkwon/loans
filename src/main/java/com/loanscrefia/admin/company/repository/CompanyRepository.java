@@ -5,15 +5,33 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
+import com.loanscrefia.common.board.domain.BoardDomain;
+import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
 
 @Mapper
 public interface CompanyRepository {
 	
+	// 협회 - 회원사 담당자 리스트 페이지
 	List<CompanyDomain> selectCompanyList(CompanyDomain companyDomain);
 	
-	List<CompanyDomain> selectCompanyDetail(CompanyDomain companyDomain);
+	//회원사 당담자 상세 리스트 조회
+	CompanyDomain getCompanyDetail(CompanyDomain companyDomain);
 	
-	/*
-	 * void getDetail(CompanyDomain companyDomain) return companyDomain;
-	 */
+	//회원사 당담자 승인요청
+	int updateCompanyStat(CompanyDomain companyDomain);
+	
+	//회원사 당담자 삭제
+	int deleteCompany(CompanyDomain companyDomain);
+	
+	//엑셀 다운로드;;
+	List<BoardDomain> selectCompany(BoardDomain board);
+	void insert(BoardDomain board);
+	void update(BoardDomain board);
+	
+	// 첨부파일 단건 조회
+	FileDomain getFile(FileDomain fileDomain);
+	
+	// 첨부파일 리스트 조회
+	List<FileDomain> getFileList(FileDomain fileDomain);
 }

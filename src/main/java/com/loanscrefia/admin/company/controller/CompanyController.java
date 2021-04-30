@@ -1,5 +1,15 @@
 package com.loanscrefia.admin.company.controller;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,18 +18,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.company.service.CompanyService;
+import com.loanscrefia.common.board.domain.BoardDomain;
+import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.util.UtilExcel;
+import com.loanscrefia.util.UtilFile;
 
+import lombok.extern.java.Log;
+@Log
 @Controller
 @RequestMapping(value="/admin/company")
 public class CompanyController {
 	
+	
 	@Autowired private CompanyService companyService;
+	@Autowired private CommonService commonService;
+	@Autowired UtilFile utilFile;
 	
 	// 협회 - 회원사 담당자 조회 페이지
 	@GetMapping(value="/companyPage")
@@ -35,32 +57,44 @@ public class CompanyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
-	  // 협회= 회원사 당담자 상세 페이지
-//	@PostMapping(value="/companyDetail") 
-//	public ResponseEntity<ResponseMsg> companyDetail(CompanyDomain companyDomain){ 
-//		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-//		responseMsg.setData(companyService.selectCompanyDetail(companyDomain));
-//		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-//	}
-//	
-//	@GetMapping(value="/companyDetail")
-//	public ModelAndView getCompanyDetail(@RequestParam String url) {
-//		ModelAndView mv = new ModelAndView(url);
-//		return mv;
-//	}
-	
-//	@GetMapping("/common/openPopup")
-//    public ModelAndView openPopup(@RequestParam String url) { 
-//    	ModelAndView mv = new ModelAndView(url);
-//        return mv;
-//    }
-	  
+	// 협회= 회원사 당담자 상세 페이지	  
 	@GetMapping(value="/companyDetail")
 	public ModelAndView companyDetail() {
     	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
         return mv;
 	}
-	  
+	
+	@PostMapping(value="/companyDetail")
+    public ModelAndView companyDetail(CompanyDomain companyDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
+    	//상세
+    	CompanyDomain companyDetail	= companyService.getCompanyDetail(companyDomain);
+    	mv.addObject("companyDetail", companyDetail);
+    	
+        return mv;
+    }
+	
+	//선택 승인요청 -> 첨부파일 하나라도 없으면 요청 불가
+	@PostMapping(value="/updateCompanyStat")
+	public ResponseEntity<ResponseMsg> updateCompanyStat(CompanyDomain companyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	//삭제 
+	@PostMapping(value="/deleteCompany")
+	public ResponseEntity<ResponseMsg> deleteCompany(CompanyDomain companyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(companyService.deleteCompany(companyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//엑셀 업로드
+	
+	@PostMapping("/excelDown")
+	public void writeExcel(BoardDomain board, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+ 		List<BoardDomain> b = companyService.selectCompany(board);
+ 		new UtilExcel().downLoad(b, BoardDomain.class, response.getOutputStream());
+	}
 	 
 }

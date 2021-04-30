@@ -122,6 +122,28 @@ public class CommonController {
 		//utilFile.setEntity(file).fileDownload(request,response);
 	}
 	
-	  
+	//첨부파일 삭제
+	@PostMapping(value="/common/fileDelete")
+	public ResponseEntity<ResponseMsg> fileDelete(FileDomain fileDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+    	responseMsg.setData(commonService.deleteFile(fileDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
