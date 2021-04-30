@@ -88,8 +88,9 @@
 		AjaxUtil.post(p);
 	};
 	*/
+	
 	//저장
-	$("#codeMstSaveBtn").on("click",function(){
+	$("#codeDtlSaveBtn").on("click",function(){
 		/*
 		if(codeDtlCdDupCheckResult == "N"){
 			alert("코드상세ID 중복체크를 해주세요.");

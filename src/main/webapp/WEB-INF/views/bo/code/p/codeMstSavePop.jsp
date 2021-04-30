@@ -82,6 +82,7 @@
 		AjaxUtil.post(p);
 	};
 	*/
+	
 	//저장
 	$("#codeMstSaveBtn").on("click",function(){
 		/*
