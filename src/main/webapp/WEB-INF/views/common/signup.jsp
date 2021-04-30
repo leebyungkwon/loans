@@ -7,14 +7,86 @@ function pageLoad(){
 	
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
-		var test = {
-			name : 'signup'
-		   ,success: function(opt, result) {
-			   console.log("성공하였습니다.");
-			   location.href="/login";
+		
+		var companyCode 	= $("#comCode").val();	; 				// 회원사 코드
+		var memberId 		= $("#memberId").val();				// 아이디
+		var password 			= $("#password").val();					// 비밀번호
+		var passwordChk 	= $("#passwordChk").val();			// 비밀번호 확인
+		var deptNm			= $("#deptNm").val();					// 부서명
+		var memberName	= $("#memberName").val();			// 담당자명
+		var positionNm 		= $("#positionNm").val();				// 직위
+		var email 				= $("#email").val();						// 이메일
+		var extensionNo 		= $("#extensionNo").val();				// 회사전화번호
+		var mobileNo 			= $("#mobileNo").val();					// 휴대폰번호
+		
+		if(WebUtil.isNull(companyCode)){
+			alert("회원사를 선택해 주세요.");
+			$("#companyCode").focus();
+			return false;
+		}
+		
+		if(WebUtil.isNull(memberId)){
+			alert("아이디를 입력해 주세요.");
+			$("#memberId").focus();
+			return false;
+		}
+		
+		if( password == passwordChk ){
+			
+			if(WebUtil.isNull(password)){
+				alert("비밀번호를 입력해 주세요.");
+				$("#password").focus();
+				return false;
 			}
-		}		
-		AjaxUtil.files(test);
+			
+			if(WebUtil.isNull(deptNm)){
+				alert("부서명을 한글로 입력해 주세요.");
+				$("#deptNm").focus();
+				return false;
+			}
+
+			if(WebUtil.isNull(memberName)){
+				alert("담당자명을 한글로 입력해 주세요.");
+				$("#memberName").focus();
+				return false;
+			}
+			
+			if(WebUtil.isNull(positionNm)){
+				alert("직위명을 한글로 입력해 주세요.");
+				$("#positionNm").focus();
+				return false;
+			}
+			
+			if(WebUtil.isNull(email)){
+				alert("이메일을 입력해 주세요.");
+				$("#email").focus();
+				return false;
+			}
+			
+			if(WebUtil.isNull(mobileNo)){
+				alert("전화번호를 입력해 주세요.");
+				$("#mobileNo").focus();
+				return false;
+			}
+			
+			if(WebUtil.isNull(extensionNo)){
+				alert("회사전화번호를 입력해 주세요.");
+				$("#extensionNo").focus();
+				return false;
+			}
+			
+			var test = {
+				name : 'signup'
+			   ,success: function(opt, result) {
+				   console.log("성공하였습니다.");
+				   location.href="/login";
+				}
+			}		
+			AjaxUtil.files(test);
+		} else {
+			alert("비밀번호를 다시 입력해 주세요!");
+			return false;
+		}
 	});
 	 
 	// 첨부파일 삭제
@@ -87,11 +159,8 @@ function pageLoad(){
 		,value : 'codeDtlNm'
 		,updData : ''
 	};
-	
 	DataUtil.selectBox(companyCode);
-
 }
-
 </script>
 
 <div class="page_title">
@@ -130,7 +199,7 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" id="password_chk" name="password_chk" placeholder="동일한 비밀번호를 입력" />
+					<input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" />
 				</td>
 			</tr>
 			<tr>
@@ -161,9 +230,15 @@ function pageLoad(){
 				</td>
 			</tr>
 			<tr>
-				<th>전화번호</th>
+				<th>회사 전화번호</th>
 				<td>
-					<input type="text" id="mobileNo" name="mobileNo" placeholder="전화번호 입력">
+					<input type="text" id="extensionNo" name="extensionNo" placeholder="전화번호 입력">
+				</td>
+			</tr>
+			<tr>
+				<th>휴대폰 번호</th>
+				<td>
+					<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰 번호 입력">
 				</td>
 			</tr>
 			<tr>

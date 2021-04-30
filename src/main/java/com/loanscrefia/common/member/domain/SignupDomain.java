@@ -21,7 +21,7 @@ public class SignupDomain extends BaseDomain{
 	private Long memberSeq;
 	
 	@NotBlank(message = "ID를 입력하세요.")
-	@Pattern(regexp = "[a-zA-Z0-9]{1,10}", message = "ID 는 영문/숫자 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "[a-zA-Z0-9]{5,11}", message = "ID 는 영문/숫자 1~20자리로 입력해 주세요.")
     private String memberId;				// 담당자ID
 	
 	@NotBlank(message = "비밀번호를 입력하세요.")
@@ -30,22 +30,27 @@ public class SignupDomain extends BaseDomain{
 	private int 		comCode;				// 회원사코드
 	
 	@NotBlank(message = "담당자이름 을 입력하세요.")
-	@Pattern(regexp = "^[가-힣]*${1,10}", message = "담당자이름 은 한글 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "^[가-힣]*${1,20}", message = "담당자이름 은 한글 1~20자리로 입력해 주세요.")
 	private String memberName;			// 담당자이름
 	
 	@NotBlank(message = "이메일 을 입력해주세요.")
 	@Email
 	private String email;						// 이메일
 	
-	@NotBlank(message = "전화번호 를 입력해주세요.")
-	private String mobileNo;				// 전화번호
+	@NotBlank(message = "휴대폰번호 를 입력해주세요.")
+	@Pattern(regexp = "(\\d{3})(\\d{3,4})(\\d{4})", message = "휴대폰번호는 숫자 1~20자리로 입력해 주세요.")
+	private String mobileNo;				// 휴대폰번호
+	
+	@NotBlank(message = "회사전화번호 를 입력해주세요.")
+	@Pattern(regexp = "(\\d{2,3})(\\d{3,4})(\\d{4})", message = "회사전화번호는 숫자 1~20자리로 입력해 주세요.")
+	private String extensionNo;				// 회사 전화번호
 	
 	@NotBlank(message = "부서명 을 입력해주세요.")
-	@Pattern(regexp = "^[가-힣]*${1,10}", message = "부서명 은 한글 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "^[가-힣]*${1,30}", message = "부서명 은 한글 1~30자리로 입력해 주세요.")
 	private String deptNm;					// 부서명
 	
 	@NotBlank(message = "직위명 을 입력해주세요.")
-	@Pattern(regexp = "^[가-힣]*${1,10}", message = "직위명 은 한글 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "^[가-힣]*${1,10}", message = "직위명 은 한글 1~20자리로 입력해 주세요.")
 	private String positionNm;			// 직위명
 	
 	private int 	fileSeq;					// 첨부파일ID
