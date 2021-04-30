@@ -10,6 +10,7 @@
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
+			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
 			,TLM.MOBILE_NO
@@ -24,65 +25,74 @@
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MEMBERS TLM
+	    <where>
+	    	<if test="comCode != 0 and comCode != '0'">
+					AND	TLM.COM_CODE 	    = #{comCode}
+				</if>
+				<if test="apprYn != null and apprYn != ''">
+					AND	TLM.APPR_YN 		= #{apprYn}
+				</if>
+		</where>
 	    <include refid="common.pageBottom"/>
     </select>
     
-	<!--  <select id="getCompanyDetail" parameterType="company" resultType="company">
-	    SELECT 
-	    		TLM.MEMBER_SEQ
-				,TLM.MEMBER_ID
-				,TLM.PASSWORD
-				,TLM.COM_CODE
-				,TLM.MEMBER_NAME
-				,TLM.EMAIL
-				,TLM.MOBILE_NO
-				,TLM.DEPT_NM
-				,TLM.POSITION_NM
-				,TLM.JOIN_DT
-				,TLM.APPR_YN
-				,TLM.FILE_SEQ
-				,TLM.FAIL_CNT
-				,TLM.CRE_YN
-				,TLM.DROP_YN
-				,TLM.UPD_SEQ
-				,TLM.UPD_TIMESTAMP
-				
-	    FROM TB_LC_MEMBERS TLM
-	    WHERE COM_CODE = #{COMCODE}
-    </select>
-     -->
-     
-   <!-- 코드 상세 리스트 -->
-	<select id="selectCompanyDetail" parameterType="company" resultType="company">
-	  SELECT 
-	    		TLM.MEMBER_SEQ
-				,TLM.MEMBER_ID
-				,TLM.PASSWORD
-				,TLM.COM_CODE
-				,TLM.MEMBER_NAME
-				,TLM.EMAIL
-				,TLM.MOBILE_NO
-				,TLM.DEPT_NM
-				,TLM.POSITION_NM
-				,TLM.JOIN_DT
-				,TLM.APPR_YN
-				,TLM.FILE_SEQ
-				,TLM.FAIL_CNT
-				,TLM.CRE_YN
-				,TLM.DROP_YN
-				,TLM.UPD_SEQ
-				,TLM.UPD_TIMESTAMP
-				
-<!-- 			<include refid="propertyColumns"></include>
-			<include refid="baseColumns"></include>
- -->		
- 				FROM TB_LC_MEMBERS TLM
+   <!-- 회원사 담당자 상세보기 -->
+	<select id="getCompanyDetail" parameterType="company" resultType="company">
+		SELECT 
+    		TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.PASSWORD
+			,TLM.COM_CODE
+			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,TLM.MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TLM.JOIN_DT
+			,TLM.APPR_YN
+			,TLM.FILE_SEQ
+			,TLM.FAIL_CNT
+			,TLM.CRE_YN
+			,TLM.DROP_YN
+			,TLM.UPD_SEQ
+			,TLM.UPD_TIMESTAMP
+		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND MEMBER_SEQ = #{memberSeq}
-			<if test="memberId != null and memberId != ''">
-			AND MEMBER_ID = #{memberId}
-			</if>
 		</where>
+	</select>
+	
+    <update id="updateCompanyStat" parameterType="company">
+   		UPDATE TB_LC_MEMBERS
+   		SET
+   			 APPR_YN = 'Y'
+   			,UPD_SEQ = #{updSeq}
+   		<where>
+   			AND MEMBER_SEQ 	= #{memberSeq}
+   		</where>
+   	</update>
+   	
+   	 <delete id="deleteCompany" parameterType="company">
+   		DELETE FROM TB_LC_MEMBERS
+   		<where>
+   			AND MEMBER_SEQ 	= #{memberSeq}
+   		</where>
+   	</delete>
+   	
+   	<select id="getFile" parameterType="file" resultType="file">
+		SELECT
+			FILE_SEQ
+			, TLF.FILE_EXT
+			, TLF.FILE_ORG_NM
+			, TLF.FILE_PATH
+			, TLF.FILE_SAVE_NM
+			, TLF.REG_TIMESTAMP
+			, TLF.UPD_TIMESTAMP
+			, TLF.USE_YN
+			, TLF.FILE_TYPE
+		FROM TB_LC_FILE01 TLF
+		WHERE FILE_SEQ = #{FILESEQ}
 	</select>
 	
 </mapper> 
