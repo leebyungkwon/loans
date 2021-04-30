@@ -232,6 +232,7 @@ create table tb_lc_mas01(
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
 	, pl_regist_no varchar(20)
+	, ci varchar(50)
 	, pl_m_name varchar(20)
 	, pl_m_z_id varchar(20)
 	, pl_m_z_id_edu varchar(20)
@@ -280,6 +281,7 @@ COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상�
 COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
 COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';
+COMMENT ON COLUMN tb_lc_mas01.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id_edu IS '교육수료대조(주민등록번호대체값)';
 COMMENT ON COLUMN tb_lc_mas01.pl_cellphone IS '모집인휴대전화번호';
