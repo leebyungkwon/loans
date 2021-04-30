@@ -82,7 +82,7 @@ function pageLoad(){
 					<div class="f-right right_cont">
 						<ul>
 							<li>
-								<a href="/signup">회원가입</a>
+								<a href="/terms">회원가입</a>
 							</li>
 						</ul>
 					</div>
