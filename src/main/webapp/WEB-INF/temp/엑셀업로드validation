@@ -1,0 +1,66 @@
+public @interface ExcelColumn {
+	String headerName() default "";
+	String vCell() default "";
+	String vEnum() default "";
+	int vLenMax() default 10000;
+	int vLenMin() default 0;
+}
+
+
+//domain
+	@ExcelColumn(headerName = "숫자", vCell="A", vLenMin=1, vLenMax=99999)
+    private Long recrNo;
+
+	@ExcelColumn(headerName = "이름", vCell="C", vLenMin=4, vLenMax=99999)
+    private String recrNm;
+
+	@ExcelColumn(headerName = "이메일", vCell="D", vLenMin=5, vLenMax=30)
+    private String recrEmail;
+
+    private String recrMobile;
+
+	@ExcelColumn(headerName = "타입", vCell="B", vLenMin=1, vLenMax=99999 , vEnum="01,02,03")
+    private String recrType;
+    
+//controler
+result = new UtilExcel().upload(path, RecruitDomain.class);
+    
+//UtilExcel
+upload(String path, Class<?> clazz )
+Field[] fields = clazz.getDeclaredFields();
+
+		List<String> vCell = new ArrayList<String>();
+		List<String> vEnum = new ArrayList<String>();
+		List<Integer> vLenMax = new ArrayList<Integer>();
+		List<Integer> vLenMin = new ArrayList<Integer>();
+		
+		for (Field field : fields) {
+			if (field.isAnnotationPresent(ExcelColumn.class)) {
+				ExcelColumn columnAnnotation = field.getAnnotation(ExcelColumn.class);
+				vCell.add(columnAnnotation.vCell());
+				vEnum.add(columnAnnotation.vEnum());
+				vLenMax.add(columnAnnotation.vLenMax());
+				vLenMin.add(columnAnnotation.vLenMin());
+			}
+		}
+    
+    System.out.println("#### " + cellIndex + " :: " + cellName + " :: " + ExcelCellRef.getValue(cell));
+        			boolean f = false;
+	                for(int j=0;j<vCell.size();j++) {
+	                	if(cellName.equals(vCell.get(j))) {
+	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
+	                			error += row.getRowNum() + "줄 :: 최저 길이는 " + vLenMin.get(j) + " 입니다.<br>";
+	                		}
+	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
+	                			error += row.getRowNum() + "줄 :: 최대 길이는 " + vLenMax.get(j) + " 입니다.<br>";
+	                		}
+	                		if(!vEnum.get(j).isEmpty()){
+	                			String val[] = vEnum.get(j).split(",");
+	        	                for(int k=0;k<val.length;k++) {
+	        	                	//System.out.println(val[k]+ " , " + ExcelCellRef.getValue(cell) + " = " + val[k].equals(ExcelCellRef.getValue(cell)));
+	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) f=true;
+	        	                }
+	        	                if(!f) error += row.getRowNum() + "줄 :: 필수 값은 ["+vEnum.get(j)+"] 입니다.<br>";
+	                		}
+	                	}
+	                }
