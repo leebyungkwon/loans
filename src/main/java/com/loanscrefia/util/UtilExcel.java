@@ -22,12 +22,33 @@ import com.loanscrefia.util.excel.ExcelFileType;
 public class UtilExcel<T> {
 	
 	//참고 : https://eugene-kim.tistory.com/46
-	public List<Map<String, Object>> upload(String path) {
+	public List<Map<String, Object>> upload(String path, Class<?> dClass) {
 
+		Field[] fields = dClass.getDeclaredFields();
+
+		List<String> vCell 		= new ArrayList<String>();
+		List<String> vEnum 		= new ArrayList<String>();
+		List<Integer> vLenMin 	= new ArrayList<Integer>();
+		List<Integer> vLenMax 	= new ArrayList<Integer>();
+		
+		for(Field field : fields) {
+			if(field.isAnnotationPresent(ExcelColumn.class)) {
+				ExcelColumn columnAnnotation = field.getAnnotation(ExcelColumn.class);
+				
+				vCell.add(columnAnnotation.vCell());
+				vEnum.add(columnAnnotation.vEnum());
+				vLenMax.add(columnAnnotation.vLenMax());
+				vLenMin.add(columnAnnotation.vLenMin());
+			}
+		}
+		
 		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>(); 
-		Workbook wb 						= ExcelFileType.getWorkbook("C:\\Users\\sohui\\Desktop\\excelTest_corp.xlsx"); //path
+		Workbook wb 						= ExcelFileType.getWorkbook(path);
 		Sheet sheet 						= wb.getSheetAt(0);
 		int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
+		
+		Map<String, Object> errorMsgMap		= new HashMap<String, Object>();
+		String errorMsg						= "";
 		
 		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
 		    Row row 				= null;
@@ -43,15 +64,37 @@ public class UtilExcel<T> {
 	                cell 		= row.getCell(cellIndex);
 	                cellName 	= ExcelCellRef.getName(cell, cellIndex);
 	                
-	                System.out.println(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + ExcelCellRef.getValue(cell));
-	                /*
-	                if( !excelReadOption.getOutputColumns().contains(cellName) ) {
-	                    continue;
+	                //System.out.println(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + ExcelCellRef.getValue(cell));
+	                
+	                boolean valChkResult = false;
+	                
+	                for(int j = 0;j < vCell.size();j++) {
+	                	if(cellName.equals(vCell.get(j))) {
+	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
+	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n"; //<br>
+	                		}
+	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
+	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n"; //<br>
+	                		}
+	                		if(!vEnum.get(j).isEmpty()){
+	                			String val[] = vEnum.get(j).split(",");
+	        	                for(int k = 0;k < val.length;k++) {
+	        	                	//System.out.println(val[k]+ " , " + ExcelCellRef.getValue(cell) + " = " + val[k].equals(ExcelCellRef.getValue(cell)));
+	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) valChkResult = true;
+	        	                }
+	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n"; //<br>
+	                		}
+	                	}
 	                }
-	                */
+	                //System.out.println("errorMsg :: " + errorMsg);
 	                map.put(cellName, ExcelCellRef.getValue(cell));
 	            }
-	            result.add(map);
+	            if(errorMsg != null && !errorMsg.equals("")) {
+	            	errorMsgMap.put("errorMsg", errorMsg);
+	            	result.add(errorMsgMap);
+	            }else {
+	            	result.add(map);
+	            }
 		    }
 		}
 		

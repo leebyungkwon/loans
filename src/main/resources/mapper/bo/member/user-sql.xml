@@ -20,6 +20,7 @@
 			,TLM.PL_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_STAT) AS PL_STAT_NM -->
 			,TLM.PL_REGIST_NO
+			,TLM.CI
 			,TLM.PL_M_NAME
 			,TLM.PL_M_Z_ID
 			,TLM.PL_M_Z_ID_EDU
@@ -49,13 +50,20 @@
 			,TLM.COM_HAEJI_DATE
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
+			<!-- ,(SELECT COUNT(1) FROM TB_LC_FILE01 WHERE ) AS FILE_COMP_YN -->
 			,TLM.REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
+			<if test="plClass != null and plClass != ''">
+				AND TLM.PL_CLASS 	= #{plClass}
+			</if>
+			<if test="plProduct != null and plProduct != ''">
+				AND TLM.PL_PRODUCT 	= #{plProduct}
+			</if>
 	    	<if test="plStat != null and plStat != ''">
-				AND TLM.PL_STAT = #{plStat}
+				AND TLM.PL_STAT 	= #{plStat}
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
@@ -88,24 +96,24 @@
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
    		(
-   			 #{comCode}
-   			,#{memberSeq}
-   			,'1'				-- 1.등록,2.정상해지,3.불법해지
-   			,'9'				-- 승인미요청
-   			,#{plClass} 		-- 개인,법인
-   			,#{item.A} 			-- 신규,경력
-   			,#{item.B} 			-- 이름
-   			,#{item.C}			-- 주민등록번호
-   			,#{item.D}			-- 휴대폰번호
-   			,#{item.E}			-- 주소
-   			,#{item.F}			-- 금융상품유형
-   			,#{item.G}			-- 법인명
-   			,#{item.H}			-- 법인등록번호
-   			,#{item.I}			-- 교육이수번호/인증서번호
-   			,#{item.J}			-- 경력시작일
-   			,#{item.K}			-- 경력종료일
-   			,#{item.L}			-- 계약일자
-   			,#{item.M}			-- 위탁예정기간
+   			 (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+   			,#{regSeq}
+   			,'1'							-- 1.등록,2.정상해지,3.불법해지
+   			,'9'							-- 승인미요청
+   			,#{plClass} 					-- 개인,법인
+   			,#{item.A} 						-- 신규,경력
+   			,#{item.B} 						-- 이름
+   			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
+   			,REPLACE(#{item.D}, '-', '')	-- 휴대폰번호
+   			,#{item.E}						-- 주소
+   			,#{item.F}						-- 금융상품유형
+   			,#{item.G}						-- 법인명
+   			,REPLACE(#{item.H}, '-', '')	-- 법인등록번호
+   			,CAST(#{item.I} AS INT4)		-- 교육이수번호/인증서번호
+   			,REPLACE(#{item.J}, '-', '')	-- 경력시작일
+   			,REPLACE(#{item.K}, '-', '')	-- 경력종료일
+   			,REPLACE(#{item.L}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
    			,NOW()
    		)
    		</foreach>
@@ -134,20 +142,20 @@
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
    		(
-   			 #{comCode}
-   			,#{memberSeq}
-   			,'1'				-- 1.등록,2.정상해지,3.불법해지
-   			,'9'				-- 승인미요청
-   			,#{plClass} 		-- 개인,법인
-   			,#{item.A}			-- 상호
-			,#{item.B}			-- 대표이사
-			,#{item.C}			-- 법인등록번호
-			,#{item.D}			-- 설립년월일
-			,#{item.E}			-- 본점소재지
-			,#{item.F}			-- 자본금
-			,#{item.G}			-- 금융상품유형
-			,#{item.H}			-- 계약일자
-			,#{item.I}			-- 위탁예정기간
+   			 (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+   			,#{regSeq}
+   			,'1'							-- 1.등록,2.정상해지,3.불법해지
+   			,'9'							-- 승인미요청
+   			,#{plClass} 					-- 개인,법인
+   			,#{item.A}						-- 상호
+			,#{item.B}						-- 대표이사
+			,REPLACE(#{item.C}, '-', '')	-- 법인등록번호
+   			,REPLACE(#{item.D}, '-', '')	-- 설립년월일
+			,#{item.E}						-- 본점소재지
+			,CAST(#{item.F} AS INT4)		-- 자본금
+			,#{item.G}						-- 금융상품유형
+			,REPLACE(#{item.H}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.I}, '-', '')	-- 위탁예정기간
    			,NOW()
    		)
    		</foreach>
@@ -157,10 +165,10 @@
    	<update id="updatePlRegStat" parameterType="user">
    		UPDATE TB_LC_MAS01
    		SET
-   			PL_STAT = '8'
+   			 PL_STAT = '8'
+   			,UPD_SEQ = #{updSeq}
    		<where>
    			AND MASTER_SEQ 	= #{masterSeq}
-   			AND UPD_SEQ 	= #{updSeq}
    		</where>
    	</update>
     
@@ -183,6 +191,7 @@
 			,TLM.PL_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_STAT) AS PL_STAT_NM -->
 			,TLM.PL_REGIST_NO
+			,TLM.CI
 			,TLM.PL_M_NAME
 			,TLM.PL_M_Z_ID
 			,TLM.PL_CELLPHONE
@@ -256,6 +265,8 @@
    			,ENTRUST_DATE 		= #{entrustDate}
    			</if>
    			,FILE_SEQ 			= #{fileSeq}
+   			,UPD_SEQ 			= #{updSeq}
+   			,UPD_TIMESTAMP 		= NOW()
    		<where>
 	    	AND MASTER_SEQ 		= #{masterSeq}
 	    </where>

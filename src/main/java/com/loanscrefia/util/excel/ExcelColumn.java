@@ -8,6 +8,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelColumn {
-  String headerName() default "";
-  int order() default 0;
+	String headerName() default "";
+	String vCell() default "";
+	String vEnum() default "";
+	int vLenMin() default 0;
+	int vLenMax() default 10000;
+	
+	
+	int order() default 0;
 }

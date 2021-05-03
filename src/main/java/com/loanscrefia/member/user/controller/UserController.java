@@ -1,5 +1,6 @@
 package com.loanscrefia.member.user.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,15 +58,32 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//등록 처리(엑셀 업로드)
-	@PostMapping(value="/userRegInfoExcelUpload")
-	public ResponseEntity<ResponseMsg> userRegInfoExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.insertUserRegInfoByExcel(files,userDomain));
+	//등록 처리(엑셀 업로드) : 개인
+	@PostMapping(value="/indvExcelUpload")
+	public ResponseEntity<ResponseMsg> indvExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+		ResponseMsg responseMsg = userService.indvExcelUpload(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//선택 승인요청 -> 첨부파일 하나라도 없으면 요청 불가
+	//등록 처리(엑셀 업로드) : 법인
+	@PostMapping(value="/corpExcelUpload")
+	public ResponseEntity<ResponseMsg> corpExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+		ResponseMsg responseMsg = userService.corpExcelUpload(files, userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//등록 처리(엑셀 업로드) : 법인 > 대표자 및 임원
+	
+	//등록 처리(엑셀 업로드) : 법인 > 업무 수행이 필요한 전문성을 갖춘 인력에 관한 사항
+	
+	//등록 처리(엑셀 업로드) : 법인 > 전산 설비 운영,유지 및 관리를 전문적으로 수행할 수 있는 인력에 관한 사항
+	
+	
+	
+	
+	
+	
+	//선택 승인요청 -> 첨부파일 하나라도 없으면 요청 불가 *****
 	@PostMapping(value="/updatePlRegStat")
 	public ResponseEntity<ResponseMsg> updatePlRegStat(UserDomain userDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -82,9 +100,14 @@ public class UserController {
     	UserDomain userRegInfo 		= userService.getUserRegDetail(userDomain);
     	
     	//첨부파일 리스트
-    	FileDomain param 			= new FileDomain();
-    	param.setFileGrpSeq(userRegInfo.getFileSeq());
-    	List<FileDomain> fileList 	= commonService.selectFileList(param);
+    	List<FileDomain> fileList 	= new ArrayList<FileDomain>();
+    	
+    	if(userRegInfo.getFileSeq() != null) {
+    		FileDomain param 		= new FileDomain();
+    		
+        	param.setFileGrpSeq(userRegInfo.getFileSeq());
+        	fileList 				= commonService.selectFileList(param);
+    	}
     	
     	//전달
     	mv.addObject("userRegInfo", userRegInfo);
@@ -109,5 +132,22 @@ public class UserController {
     	responseMsg.setData(userService.updateUserRegInfo(files,userDomain,fileDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

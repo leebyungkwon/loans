@@ -72,14 +72,35 @@ function goUserRegInfoExcelUpload() {
 	if(!$('input[name="plClass"]').is(":checked")){
 		alert("모집인유형을 선택해 주세요.");
 		return;
+	}else{
+		var plClass = $('input[name="plClass"]:checked').val();
+		
+		if(plClass == "1"){
+			$("#userRegInfoInsertFrm").attr("action","/member/user/indvExcelUpload");
+		}else if(plClass == "2"){
+			$("#userRegInfoInsertFrm").attr("action","/member/user/corpExcelUpload");
+		}
 	}
-	var p = {
-		  name 		: "userRegInfoInsertFrm"
-		, success 	: function (opt,result) {
-			alert("호잇");
- 	    }
+	if(confirm("모집인을 등록하시겠습니까?")){
+		var p = {
+			  name 		: "userRegInfoInsertFrm"
+			, success 	: function (opt,result) {
+				var msg = result.data;
+				
+				if(msg == "success"){
+					alert("모집인이 등록되었습니다.");
+					location.reload();
+				}else if(msg == "fail"){
+					alert("실패했습니다.");
+					return;
+				}else{
+					alert("[데이터 확인 필요]\n"+msg);
+					location.reload();
+				}
+	 	    }
+		}
+		AjaxUtil.files(p);	
 	}
-	AjaxUtil.files(p);	
 }
 
 //선택 승인요청
@@ -140,16 +161,25 @@ function goApplyAccept() {
 					</td>
 					<th>모집인분류</th>
 					<td class="half_input">
-						<select>
+						<select name="plClass">
 							<option value="">전체</option>
+							<option value="1">개인</option>
+							<option value="2">법인</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<th>취급상품</th>
 					<td class="half_input">
-						<select>
+						<select name="plProduct">
 							<option value="">전체</option>
+							<option value="1">대출</option>
+							<option value="2">시설대여 및 연불판매</option>
+							<option value="3">할부</option>
+							<option value="4">어음할인</option>
+							<option value="5">매출채권매입</option>
+							<option value="6">지급보증</option>
+							<option value="7">기타대출성 상품</option>
 						</select>
 					</td>
 					<th>검색어</th>
@@ -163,15 +193,15 @@ function goApplyAccept() {
 				<tr>
 					<th>첨부상태</th>
 					<td class="half_input">
-						<select>
+						<select name="fileCompYn">
 							<option value="">전체</option>
-							<option value="">완료</option>
-							<option value="">미완료</option>
+							<option value="Y">완료</option>
+							<option value="N">미완료</option>
 						</select>
 					</td>
 					<th>승인상태</th>
 					<td class="half_input">
-						<select name="plRegStat">
+						<select name="plStat">
 							<option value="">전체</option>
 							<option value="1">미요청</option>
 							<option value="2">승인요청</option>
@@ -210,7 +240,7 @@ function goApplyAccept() {
 	<div class="contents">
 		<div class="sorting_wrap">
 			<div class="data">
-				<p>총 : 40건</p>
+				<p>총 : 몇건일까요</p>
 			</div>
 			<div class="action">
 				<a href="javascript:goUserRegPopOpen();" class="btn_black btn_small mgr5">모집인 등록하기</a> <!-- id="userRegPop" -->
@@ -232,7 +262,7 @@ function goApplyAccept() {
 			모집인 등록은 등록 유형에 따른 샘플파일을 다운로드 하시고 해당 양식에 따라 등록되어야 합니다.<br />
 			엑셀 업로드 이후에는 각 모집인별로 첨부파일을 등록완료 후에 승인신청을 하셔야 합니다.
 		</p>
-		<form name="userRegInfoInsertFrm" id="userRegInfoInsertFrm" action="/member/user/userRegInfoExcelUpload" method="post" enctype="multipart/form-data">
+		<form name="userRegInfoInsertFrm" id="userRegInfoInsertFrm" method="post" enctype="multipart/form-data">
 			<table class="popup_table">
 				<colgroup>
 					<col width="170">
@@ -261,7 +291,7 @@ function goApplyAccept() {
 					<tr>
 						<th>엑셀업로드*</th>
 						<td class="file">
-							<input type="text"class="w50 file_input" readonly disabled>
+							<input type="text" class="w50 file_input" readonly disabled>
 							<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
 							<!-- <a href="#" class="btn_gray btn_del mgl5">삭제</a> -->
 							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
