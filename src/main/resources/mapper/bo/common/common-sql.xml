@@ -86,12 +86,14 @@
 	</select>
 	
 	<!-- 첨부파일 삭제 -->
-	<delete id="deleteFile" parameterType="file">
-		DELETE FROM TB_LC_FILE01
-		<where>
-			AND FILE_SEQ = #{fileSeq}
-		</where>
-	</delete>
+	<update id="deleteFile" parameterType="file">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			 USE_YN = 'N'
+   		<where>
+   			AND FILE_SEQ = #{fileSeq}
+   		</where>
+   	</update>
 	
 	<!-- 회원사 리스트 -->
 	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">
