@@ -42,7 +42,6 @@ public class SignupDomain extends BaseDomain{
 	private String mobileNo;				// 휴대폰번호
 	
 	@NotBlank(message = "회사전화번호 를 입력해주세요.")
-	@Pattern(regexp = "(\\d{2,3})(\\d{3,4})(\\d{4})", message = "회사전화번호는 숫자 1~20자리로 입력해 주세요.")
 	private String extensionNo;				// 회사 전화번호
 	
 	@NotBlank(message = "부서명 을 입력해주세요.")

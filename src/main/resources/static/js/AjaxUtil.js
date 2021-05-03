@@ -93,14 +93,14 @@ var AjaxUtil = {
 	        	var status = WebUtil.nvl(response.data.status, 200);
 	        	if(status == 200) {
 	            	if(WebUtil.isNotNull(response.data.code)){
-	            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-	            		else LibUtil.msgOpenPopup(messages[response.data.code])
+	            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+	            		else alert(messages[response.data.code])
 	            	}
 	            	AjaxUtil.successHandler(opt, response.data);
 	        	}else{
 	        		if(WebUtil.isNotNull(response.data.code)){
-	            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-	            		else LibUtil.msgOpenPopup(messages[response.data.code])
+	            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+	            		else alert(messages[response.data.code])
 	            	}
 	        	}
 			}
@@ -250,14 +250,14 @@ var AjaxUtil = {
 
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-            		else LibUtil.msgOpenPopup(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
             	}
             	AjaxUtil.successHandler(opt, response.data);
         	}else{
         		if(WebUtil.isNotNull(response.data.code)){
-            		if(WebUtil.isNotNull(response.data.message)) LibUtil.msgOpenPopup(response.data.message);
-            		else LibUtil.msgOpenPopup(messages[response.data.code])
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
             	}
         	}
         })
@@ -344,7 +344,7 @@ var AjaxUtil = {
         } else {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
-            LibUtil.msgOpenPopup(errMsg);
+            alert(errMsg);
             console.log(errMsg);
         }
     }

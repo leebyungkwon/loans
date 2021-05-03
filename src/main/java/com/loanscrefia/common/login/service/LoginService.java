@@ -79,7 +79,7 @@ public class LoginService implements UserDetailsService {
     	signupDomain = memberRepository.save(signupDomain);
     	MemberRoleDomain role = new MemberRoleDomain();
     	role.setMemberSeq(signupDomain.getMemberSeq());
-    	role.setRoleName("MEMBER");
+    	role.setRoleName("TEMP_MEMBER");
 		memberRoleRepository.save(role);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입에 성공하였습니다.");
 	}

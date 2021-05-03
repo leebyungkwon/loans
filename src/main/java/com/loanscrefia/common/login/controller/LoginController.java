@@ -45,6 +45,15 @@ public class LoginController {
 		return mv;
 	}
 	
+	@GetMapping("/prevLogin")
+	public ModelAndView prevLogin() {
+		
+		// memberSeq 읽어와서 조회 후 던지기
+		ModelAndView mv = new ModelAndView(CosntPage.Common + "/prevLogin");
+		return mv;
+	}
+	
+	
 	@GetMapping("/terms")
 	public ModelAndView terms() {
 		ModelAndView mv = new ModelAndView(CosntPage.Common + "/terms");
