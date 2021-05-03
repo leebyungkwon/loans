@@ -243,7 +243,7 @@ create table tb_lc_mas01(
 	, pl_m_z_id varchar(20)
 	, pl_m_z_id_edu varchar(20)
 	, pl_cellphone varchar(20)
-	, addr varvarchar(2)
+	, addr varchar(2)
 	, addr_detail varchar(200)
 	, pl_edu_no integer
 	, career_start_date varchar(8)
