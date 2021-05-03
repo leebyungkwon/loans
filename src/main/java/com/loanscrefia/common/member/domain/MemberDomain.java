@@ -27,13 +27,13 @@ public class MemberDomain extends BaseDomain{
 	private String deptNm;					// 부서명
 	private String positionNm;				// 직위명
 	private String joinDt;					// 가입일
-	private String apprYn;					// 승인여부
+	private String apprStat;					// 승인여부
 	
 	public boolean apprYnCheck() {
-		if("Y".equals(apprYn)) {
-			return true;
-		}else {
+		if("1".equals(apprStat)) {
 			return false;
+		}else {
+			return true;
 		}
 	}
 	
