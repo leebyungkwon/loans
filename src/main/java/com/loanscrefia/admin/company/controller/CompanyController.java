@@ -40,7 +40,6 @@ public class CompanyController {
 	
 	
 	@Autowired private CompanyService companyService;
-	@Autowired private CommonService commonService;
 	@Autowired UtilFile utilFile;
 	
 	// 협회 - 회원사 담당자 조회 페이지
@@ -90,10 +89,9 @@ public class CompanyController {
 	}
 	
 	//엑셀 업로드
-	
 	@PostMapping("/excelDown")
-	public void writeExcel(BoardDomain board, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
- 		List<BoardDomain> b = companyService.selectCompany(board);
+	public void writeExcel(CompanyDomain companyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+ 		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
  		new UtilExcel().downLoad(b, BoardDomain.class, response.getOutputStream());
 	}
 	 

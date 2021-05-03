@@ -62,21 +62,25 @@
 						<td>${companyDetail.email}</td>
 					</tr>
 					<tr>
-						<th>휴대폰번호</th>
+						<th>직장 전화번호 </th>
 						<td>${companyDetail.mobileNo}</td>
 						<th>회원가입일</th>
 						<td>${companyDetail.joinDt}</td>
+					</tr>
+					<tr>
+						<th>휴대폰번호</th>
+						<td>${companyDetail.mobileNo}</td>
 					</tr>
 					<tr>
 						<th>승인상태</th>
 						<td>${companyDetail.apprYn}</td>
 					</tr>
 					<tr>
-						<th>첨부서류</th>
+						<th>다운로드</th>
 						<td class="file">
 							<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
 							<!-- <a href="#" class="btn_gray btn_del mgl5">삭제</a> -->
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
+							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">다운로드</a>
 						</td>
 					</tr>
 				</table>
