@@ -10,9 +10,13 @@ function pageLoad(){
 
 	var password       = $("#password").val();               // 비밀번호
 	var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
-
+	
+	if($("#checkid").val() == "N"){
+		alert("중복체크를 실행해 주세요.");
+		return false;
+	}
+	
 	if( password == passwordChk ){
-
 		var test = {
 			name : 'signup'
 			,success: function(opt, result) {
@@ -60,27 +64,29 @@ function pageLoad(){
 	
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
-		
 		var memberId = $("#memberId").val();
-		
-		var param = {
-			'memberId' : memberId
-		}
-		
-		var p = {
-			param: param
-			,url: "/idcheck"
-			,success: function(opt, result) {    
-				if(result > 0) {
-					alert("해당 아이디가 존재합니다.");    
-					$("#memberId").val("");
-				} else {
-					alert("사용가능 아이디 입니다.");
-				}            
-			}
-		}
+		var	param = {
+				'memberId' : memberId
+			} // end of param
+	    var p = {
+            	 param: param
+				,url: "/idcheck"
+              	,success: function(opt, result) {    
+                   if(result > 0) {
+                       alert("해당 아이디가 존재합니다.");    
+                       $("#memberId").val("");
+                       $("#checkid").val("N");
+                   } else {
+                       alert("사용가능 아이디 입니다.");
+                       $("#checkid").val("Y");
+                   }            
+               }, // end of success
+               error: function(error) {
+                   alert("아이디를 입력해주세요.");
+               } // end of error        
+   		} // end of p
 		AjaxUtil.post(p);
-	}); 
+	}); // end of 아이디 중복체크
 	
 	// 첨부파일 찾기시 file tag 실행
 	$("#u_file").on("change", function(){
@@ -107,6 +113,8 @@ function pageLoad(){
 	<h2>회원가입</h2>
 </div>
 <form name="signup" id="signup" action="/signupTest" method="POST" enctype="multipart/form-data" >
+<input type="hidden" id="checkid" value="N"/>
+
 	<div class="join_wrap">
 		<table>
 			<colgroup>
