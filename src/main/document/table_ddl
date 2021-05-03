@@ -103,7 +103,7 @@ create table tb_lc_members(
 	, join_dt varchar(8)
 	, terms_yn char(1) not null default 'N'
 	, terms_date varchar(8) not null default 'N'
-	, appr_yn char(1) not null default 'N'
+	, appr_stat char(1) not null default '1'
 	, file_seq integer
 	, fail_cnt integer
 	, cre_yn char(1) not null default 'N'
@@ -129,7 +129,7 @@ COMMENT ON COLUMN tb_lc_members.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_members.join_dt IS '가입일';
 COMMENT ON COLUMN tb_lc_members.terms_yn IS '약관동의';
 COMMENT ON COLUMN tb_lc_members.terms_date IS '약관동의일';
-COMMENT ON COLUMN tb_lc_members.appr_yn IS '승인여부';
+COMMENT ON COLUMN tb_lc_members.appr_stat IS '승인상태(1.미승인,2.가승인,3.승인)';
 COMMENT ON COLUMN tb_lc_members.file_seq IS '첨부파일ID';
 COMMENT ON COLUMN tb_lc_members.fail_cnt IS '로그인실패횟수';
 COMMENT ON COLUMN tb_lc_members.cre_yn IS '협회여부';
