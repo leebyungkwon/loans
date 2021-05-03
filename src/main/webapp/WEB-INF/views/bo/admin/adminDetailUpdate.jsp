@@ -6,16 +6,27 @@
 <script type="text/javascript">
 
 	function pageLoad(){
+		
+		var password         = $("#password").val();             // 비밀번호
+		var passwordChk    = $("#passwordChk").val();        // 비밀번호 확인
 
 		$("#AdminUpdateBtn").on("click", function(){
-			var p = {
-				name       : "saveAdminUpdateFrm"
-				, success    : function (opt,result) {
-					alert("호잇");
-					location.href = "/member/admin/adminPage";
+			
+			if( password == passwordChk ){
+				var p = {
+					name       : "saveAdminUpdateFrm"
+					, success    : function (opt,result) {
+						alert("호잇");
+						location.href = "/member/admin/adminPage";
+					}
 				}
+				AjaxUtil.files(p);
+			} else {
+				alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
+				$("#password").val("");
+				$("#passwordChk").val("");
+				return false;
 			}
-			AjaxUtil.files(p);
 		});
 
 		$("#AdminCancelBtn").on("click", function(){
@@ -56,7 +67,7 @@
                <tr>
                   <th>패스워드 확인</th>
                   <td colspan="3">
-                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" data-vd='{"type":"password","len":"1,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
+                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" data-vd='{"type":"password","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
@@ -86,7 +97,7 @@
                <tr>
                   <th>회사 전화번호</th>
                   <td colspan="3">
-                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"휴대폰 번호를 입력해 주세요"}' />
+                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사 전화번호를 입력해 주세요"}' />
                   </td>
                </tr>
                <tr>

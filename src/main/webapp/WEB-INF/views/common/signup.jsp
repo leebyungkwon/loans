@@ -7,88 +7,28 @@ function pageLoad(){
 	
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
-		
-		var companyCode 	= $("#comCode").val();	; 				// 회원사 코드
-		var memberId 		= $("#memberId").val();				// 아이디
-		var password 			= $("#password").val();					// 비밀번호
-		var passwordChk 	= $("#passwordChk").val();			// 비밀번호 확인
-		var deptNm			= $("#deptNm").val();					// 부서명
-		var memberName	= $("#memberName").val();			// 담당자명
-		var positionNm 		= $("#positionNm").val();				// 직위
-		var email 				= $("#email").val();						// 이메일
-		var extensionNo 		= $("#extensionNo").val();				// 회사전화번호
-		var mobileNo 			= $("#mobileNo").val();					// 휴대폰번호
-		
-		if(WebUtil.isNull(companyCode)){
-			alert("회원사를 선택해 주세요.");
-			$("#companyCode").focus();
-			return false;
-		}
-		
-		if(WebUtil.isNull(memberId)){
-			alert("아이디를 입력해 주세요.");
-			$("#memberId").focus();
-			return false;
-		}
-		
-		if( password == passwordChk ){
-			
-			if(WebUtil.isNull(password)){
-				alert("비밀번호를 입력해 주세요.");
-				$("#password").focus();
-				return false;
-			}
-			
-			if(WebUtil.isNull(deptNm)){
-				alert("부서명을 한글로 입력해 주세요.");
-				$("#deptNm").focus();
-				return false;
-			}
 
-			if(WebUtil.isNull(memberName)){
-				alert("담당자명을 한글로 입력해 주세요.");
-				$("#memberName").focus();
-				return false;
+	var password       = $("#password").val();               // 비밀번호
+	var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
+
+	if( password == passwordChk ){
+
+		var test = {
+			name : 'signup'
+			,success: function(opt, result) {
+				console.log("회원가입에 성공하였습니다.");
+				location.href="/login";
 			}
-			
-			if(WebUtil.isNull(positionNm)){
-				alert("직위명을 한글로 입력해 주세요.");
-				$("#positionNm").focus();
-				return false;
-			}
-			
-			if(WebUtil.isNull(email)){
-				alert("이메일을 입력해 주세요.");
-				$("#email").focus();
-				return false;
-			}
-			
-			if(WebUtil.isNull(mobileNo)){
-				alert("전화번호를 입력해 주세요.");
-				$("#mobileNo").focus();
-				return false;
-			}
-			
-			if(WebUtil.isNull(extensionNo)){
-				alert("회사전화번호를 입력해 주세요.");
-				$("#extensionNo").focus();
-				return false;
-			}
-			
-			var test = {
-				name : 'signup'
-			   ,success: function(opt, result) {
-				   console.log("성공하였습니다.");
-				   location.href="/login";
-				}
-			}		
-			AjaxUtil.files(test);
+		}      
+		AjaxUtil.files(test);
 		} else {
-			alert("비밀번호를 다시 입력해 주세요!");
+			alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
+			$("#password").val("");
+			$("#passwordChk").val("");
 			return false;
 		}
 	});
-	 
+	
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
 		$("#fileName").val("");
@@ -182,14 +122,14 @@ function pageLoad(){
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"text","len":"1,20","req":true,"msg":"아이디를 입력하세요"}'/>
+					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"text","len":"1,20","req":true,"msg":"아이디를 입력해 주세요"}'/>
 					<a href="javascript:void(0);" id="idcheck" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)"/>
+					<input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
  					<p class="noti">
 						알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br />
 						휴대폰 뒤 4자리, 생년월일, 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용불가능합니다.
@@ -199,31 +139,31 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" />
+					<input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>부서명</th>
 				<td>
-					<input type="text" id="deptNm" name="deptNm" placeholder="부서명 입력">
+					<input type="text" id="deptNm" name="deptNm" placeholder="부서명 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"부서명을 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>담당자명</th>
 				<td>
-					<input type="text" id="memberName" name="memberName" placeholder="이름">
+					<input type="text" id="memberName" name="memberName" placeholder="이름" data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>직위</th>
 				<td>
-					<input type="text" id="positionNm" name="positionNm" placeholder="직위 입력">
+					<input type="text" id="positionNm" name="positionNm" placeholder="직위 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"직위명을 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
 				<td>
-					<input type="text" id="email" name="email" placeholder="이메일 입력">
+					<input type="text" id="email" name="email" placeholder="이메일 입력" data-vd='{"type":"email","len":"1,20","req":true,"msg":"이메일을 입력해 주세요"}'/>
 					<p class="noti">
 						가입 승인여부는 입력하신 이메일로 전송됩니다. 정확히 기입해 주세요.
 					</p>
@@ -232,13 +172,13 @@ function pageLoad(){
 			<tr>
 				<th>회사 전화번호</th>
 				<td>
-					<input type="text" id="extensionNo" name="extensionNo" placeholder="전화번호 입력">
+					<input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사 전화번호를 입력해 주세요"}' />
 				</td>
 			</tr>
 			<tr>
 				<th>휴대폰 번호</th>
 				<td>
-					<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰 번호 입력">
+					<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" />
 				</td>
 			</tr>
 			<tr>
@@ -258,4 +198,3 @@ function pageLoad(){
 <div class="btn_wrap">
 	<a href="javascript:void(0);" class="btn_black" id="signupBtn" >회원가입 신청</a>
 </div>
-

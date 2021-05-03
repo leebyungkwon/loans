@@ -9,8 +9,8 @@
 
    function pageLoad(){
       adminListGrid.set({
-         id      : "adminListGrid"
-         , url      : "/member/admin/adminList"
+           id       	: "adminListGrid"
+         , url      	: "/member/admin/adminList"
          , width      : "100%"
          , headCol   : ["","아이디", "부서명", "담당자명", "직위", "이메일", "회사전화번호", "휴대폰번호", "가입일"]
          , bodyCol   : 
