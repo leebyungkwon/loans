@@ -2,10 +2,7 @@ package com.loanscrefia.member.admin.repository;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-
-import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.member.admin.domain.AdminDomain;
-import com.loanscrefia.member.user.domain.UserDomain;
 
 @Mapper 
 public interface AdminRepository {
@@ -18,4 +15,7 @@ public interface AdminRepository {
 	
 	// 관리자 수정 저장
 	AdminDomain saveAdminUpdate(AdminDomain AdminDomain);
+
+	// 회원사 조회 (체크박스 선택시) - > 삭제 
+	int adminCheckDelete(AdminDomain AdminDomain);
 }

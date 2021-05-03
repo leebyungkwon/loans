@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.member.admin.domain.AdminDomain;
-import com.loanscrefia.member.admin.repository.AdminRepository;
 import com.loanscrefia.member.admin.service.AdminService;
 
 @Controller
@@ -59,6 +58,14 @@ public class AdminController {
 	@PostMapping(value="/saveAdminUpdate")
 	public ResponseEntity<ResponseMsg> saveAdminUpdate(@Valid AdminDomain adminDomain) {
 		ResponseMsg responseMsg = adminService.saveAdminUpdate(adminDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 체크박스 선택시 삭제
+	@PostMapping(value="/adminCheckDelete")
+	public ResponseEntity<ResponseMsg> adminCheckDelete(AdminDomain adminDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(adminService.adminCheckDelete(adminDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 }
