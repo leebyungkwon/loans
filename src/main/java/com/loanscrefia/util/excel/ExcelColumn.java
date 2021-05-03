@@ -11,6 +11,7 @@ public @interface ExcelColumn {
 	String headerName() default "";
 	String vCell() default "";
 	String vEnum() default "";
+	String chkDb() default "";
 	int vLenMin() default 0;
 	int vLenMax() default 10000;
 	

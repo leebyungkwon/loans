@@ -10,9 +10,8 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('CLS001','분류','분류',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 12:34:51.014401',NULL,NULL),
 	 ('PRD001','금융상품유형','금융상품유형',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:01:53.406573',NULL,NULL),
 	 ('REG001','모집인상태','모집인상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:06:57.423873',NULL,NULL),
-	 ('ADD001','본점소재지','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:29.498153',NULL,NULL);
-	 
-	 
+	 ('ADD001','본점소재지','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('MAS001','처리상태','모집인처리상태',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-05-03 16:23:07.059548',NULL,NULL);
 	 
 	 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
@@ -49,4 +48,10 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('REG001','1','승인완료','승인완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL),
 	 ('REG001','2','해지완료','해지완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
-	 ('REG001','3','자격취득','자격취득',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL);
+	 ('REG001','3','자격취득','자격취득',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('MAS001','1','미요청','미요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:06.985935',NULL,NULL),
+	 ('MAS001','2','승인요청','승인요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
+	 ('MAS001','4','해지요청','해지요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
+	 ('MAS001','5','보완요청','보완요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
+	 ('MAS001','6','취소','취소',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
+	 ('MAS001','7','완료','완료',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL);
