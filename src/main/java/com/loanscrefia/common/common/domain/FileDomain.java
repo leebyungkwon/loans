@@ -26,4 +26,5 @@ public class FileDomain extends BaseDomain{
     
     //가공
     private String fileFullNm;
+    private String fileFullPath;
 }

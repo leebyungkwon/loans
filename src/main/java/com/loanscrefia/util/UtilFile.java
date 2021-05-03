@@ -177,6 +177,7 @@ public class UtilFile {
 					attach.setFileOrgNm(orgName);
 					attach.setFilePath(this.path);
 					attach.setFileSaveNm(saveName);
+					attach.setFileFullPath(this.uploadPath);
 					//attach.setSize((int) target.length());
 					if(fileLen > 1 && this.fileDomain.getFileTypeList() != null) {
 						attach.setFileType(this.fileDomain.getFileTypeList().get(count));
