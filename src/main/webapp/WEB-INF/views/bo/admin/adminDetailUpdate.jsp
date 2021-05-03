@@ -19,18 +19,22 @@
 		});
 
 		$("#AdminCancelBtn").on("click", function(){
-			location.href = "/member/admin/adminPage";
+			$("#adminDetailFrm").submit();
 		});
 	}
 
 </script>
 
 <div class="cont_area">
-   <div class="top_box">
-      <div class="title type2">
-         <h2>관리자 수정</h2>
-      </div>
-   </div>
+	<div class="top_box">
+		<div class="title type2">
+			<h2>관리자 수정</h2>
+		</div>
+	</div>
+		
+	<form id="adminDetailFrm" method="post" action="/member/admin/adminDetail">
+		<input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
+	</form>
    
    <form name="saveAdminUpdateFrm" id="saveAdminUpdateFrm" action="/member/admin/saveAdminUpdate" method="post" enctype="multipart/form-data">
       <input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>

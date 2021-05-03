@@ -59,28 +59,4 @@ public class CompanyService {
 		return result;
 	}
 	
-	//templete 엑셀 업로드
-	
-	@Transactional
-	public List<BoardDomain> selectCompany(BoardDomain board) {
-		return companyRepository.selectCompany(board);
-	}
-	
-	public FileDomain getFile(FileDomain fileDomain) {
-		return companyRepository.getFile(fileDomain);
-	}
-	
-	public List<FileDomain> getFileList(FileDomain fileDomain) {
-		return companyRepository.getFileList(fileDomain);
-	}
-	
-	@Transactional
-	public ResponseMsg companySave(BoardDomain board) {
-		if(null == board.getBoardNo())	companyRepository.insert(board);
-		else							companyRepository.update(board);
-		if (null == board.getBoardNo())
-			return new ResponseMsg(HttpStatus.BAD_REQUEST, "COM0002");
-		return new ResponseMsg(HttpStatus.OK, "COM0001", board, "저장</br>저장하였습니다.");
-	}
-	
 }

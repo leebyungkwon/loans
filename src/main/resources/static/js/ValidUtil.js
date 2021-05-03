@@ -60,10 +60,16 @@ var Valid = {
 	            break;
 	        case 'pw' :
 	        	regexp=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-	    		if(!regexp.test(val) )	alert('최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.');
+	    		if(!regexp.test(val) )	alert('비밀번호는 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.');
 	    		else return true;
 	    		return false;
 	            break;
+	        case 'extensionNo' :
+	        	regexp=/^\d{2,3}\d{3,4}\d{4}$/;
+	        	if(!regexp.test(val) )	alert('회사 전화번호를 다시 입력해 주세요.');
+	        	else return true;
+	        	return false;
+	        	break;
 	        case 'text' :
 	    		return true;
 	            break;

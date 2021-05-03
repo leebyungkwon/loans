@@ -19,7 +19,7 @@
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
          ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
-         ,TLM.APPR_YN
+         ,TLM.APPR_STAT
          ,TLM.FILE_SEQ
          ,TLM.FAIL_CNT
          ,TLM.CRE_YN
@@ -31,8 +31,8 @@
             <if test="comCode != 0 and comCode != '0'">
                AND   TLM.COM_CODE        = #{comCode}
             </if>
-            <if test="apprYn != null and apprYn != ''">
-               AND   TLM.APPR_YN       = #{apprYn}
+            <if test="apprStat != null and apprStat != ''">
+               AND   TLM.APPR_STAT       = #{apprStat}
             </if>
          </where>
       <include refid="common.pageBottom"/>

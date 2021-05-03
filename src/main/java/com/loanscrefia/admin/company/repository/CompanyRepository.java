@@ -24,14 +24,4 @@ public interface CompanyRepository {
 	//회원사 당담자 삭제
 	int deleteCompany(CompanyDomain companyDomain);
 	
-	//엑셀 다운로드;;
-	List<BoardDomain> selectCompany(BoardDomain board);
-	void insert(BoardDomain board);
-	void update(BoardDomain board);
-	
-	// 첨부파일 단건 조회
-	FileDomain getFile(FileDomain fileDomain);
-	
-	// 첨부파일 리스트 조회
-	List<FileDomain> getFileList(FileDomain fileDomain);
 }

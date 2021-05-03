@@ -25,7 +25,7 @@ language 'plpgsql';
 commit;
 
 
--- 회원사명 조회
+-- 회원사명 조회		
 CREATE OR REPLACE FUNCTION fn_com_code(com_cd INTEGER)
 returns VARCHAR(30) as $$
 declare nm VARCHAR(30);

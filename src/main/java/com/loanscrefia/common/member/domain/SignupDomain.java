@@ -21,7 +21,7 @@ public class SignupDomain extends BaseDomain{
 	private Long memberSeq;
 	
 	@NotBlank(message = "ID를 입력하세요.")
-	@Pattern(regexp = "[a-zA-Z]{5,11}", message = "ID 는 영문 1~10 자리로 입력해 주세요.")
+	@Pattern(regexp = "[a-zA-Z0-9]{5,11}", message = "ID 는 영문/숫자 1~20자리로 입력해 주세요.")
     private String memberId;				// 담당자ID
 	
 	@NotBlank(message = "비밀번호를 입력하세요.")
@@ -37,6 +37,8 @@ public class SignupDomain extends BaseDomain{
 	@Email
 	private String email;						// 이메일
 	
+	@NotBlank(message = "휴대폰번호 를 입력해주세요.")
+	@Pattern(regexp = "(\\d{3})(\\d{3,4})(\\d{4})", message = "휴대폰번호는 숫자 1~20자리로 입력해 주세요.")
 	private String mobileNo;				// 휴대폰번호
 	
 	@NotBlank(message = "회사전화번호 를 입력해주세요.")

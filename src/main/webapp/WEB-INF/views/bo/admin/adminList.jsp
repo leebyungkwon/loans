@@ -108,7 +108,7 @@
 						</td>
 						<th>승인여부</th>
 						<td>
-							<select name="apprYn">
+							<select name="apprStat">
 								<option value="">전체</option>
 								<option value="N">승인요청</option>
 								<option value="Y">승인완료</option>
