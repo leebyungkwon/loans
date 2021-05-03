@@ -15,7 +15,7 @@
          , headCol   : ["","아이디", "부서명", "담당자명", "직위", "이메일", "회사전화번호", "휴대폰번호", "가입일"]
          , bodyCol   : 
                   [
-                   {type:"string"   , name:'memberSeq'    	, index:'memberSeq'     	, hidden:true     , id:true 	      }
+                   {type:"string"   , name:'memberSeq'    	, index:'memberSeq'     	, hidden:false     , id:true 	      }
                   ,{type:"string"   , name:'memberId'      		, index:'memberId'      		, width:"10%"   , align:"center"}      // 아이디
                   ,{type:"string"   , name:'deptNm'         	, index:'deptNm'      		, width:"10%"   , align:"center"}      // 부서명      
                   ,{type:"string"   , name:'memberName'     , index:'memberName'   	, width:"10%"   , align:"center"}      // 담당자명
@@ -29,7 +29,6 @@
          , sort : "DESC"
          , size : 10
          , rowClick   : {retFunc : detailPop}
-         , gridSearch : "" //검색영역ID,조회버튼ID
          , isPaging : true
       });
    }

@@ -49,6 +49,8 @@ public class LoginController {
 	public ModelAndView prevLogin() {
 		
 		// memberSeq 읽어와서 조회 후 던지기
+		
+		
 		ModelAndView mv = new ModelAndView(CosntPage.Common + "/prevLogin");
 		return mv;
 	}
@@ -66,6 +68,7 @@ public class LoginController {
 		return mv;
 	}
 
+	/*
 	@PostMapping("/signup")
 	public ModelAndView execSignup(@RequestParam("files") MultipartFile[] files, SignupDomain signupDomain, MemberRoleDomain memberRoleDomain) {
 		// 파일 업로드 추가
@@ -87,6 +90,7 @@ public class LoginController {
 		ModelAndView mv = new ModelAndView(CosntPage.Common + "/login");
 		return mv;
 	}
+	*/
 
     @GetMapping("/login/result")
     public ModelAndView dispLoginResult() {

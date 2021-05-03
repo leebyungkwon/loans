@@ -21,11 +21,11 @@ public class SecurityMember extends User {
 	private static final long serialVersionUID = 1L;
 	
 	public SecurityMember(MemberDomain memberDomain) {
-		super(memberDomain.getMemberSeq().toString(), memberDomain.getPassword(), memberDomain.apprYnCheck(),true,true,true, makeGrantedAuthority(memberDomain.getRoles()));
+		super(memberDomain.getMemberSeq().toString(), memberDomain.getPassword(), memberDomain.apprYnCheck(),true,true,true, makeGrantedAuthority(memberDomain.getRoleName()));
 	}
-	private static List<GrantedAuthority> makeGrantedAuthority(List<MemberRoleDomain> roles){
+	private static List<GrantedAuthority> makeGrantedAuthority(String roleName){
 		List<GrantedAuthority> list = new ArrayList<>();
-		roles.forEach(role -> list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getRoleName())));
+		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + roleName));
 		return list;
 	}
 	
