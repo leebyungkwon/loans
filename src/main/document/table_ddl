@@ -101,6 +101,7 @@ create table tb_lc_members(
 	, dept_nm varchar(30)
 	, position_nm varchar(20)
 	, join_dt varchar(8)
+	, role_name varchar(20)
 	, terms_yn char(1) not null default 'N'
 	, terms_date varchar(8) not null default 'N'
 	, appr_stat char(1) not null default '1'
@@ -127,6 +128,7 @@ COMMENT ON COLUMN tb_lc_members.mobile_no IS '휴대폰번호';
 COMMENT ON COLUMN tb_lc_members.dept_nm IS '부서명';
 COMMENT ON COLUMN tb_lc_members.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_members.join_dt IS '가입일';
+COMMENT ON COLUMN tb_lc_members.role_name IS '권한명';
 COMMENT ON COLUMN tb_lc_members.terms_yn IS '약관동의';
 COMMENT ON COLUMN tb_lc_members.terms_date IS '약관동의일';
 COMMENT ON COLUMN tb_lc_members.appr_stat IS '승인상태(1.미승인,2.가승인,3.승인)';
@@ -139,47 +141,6 @@ COMMENT ON COLUMN tb_lc_members.upd_timestamp IS '수정일시';
 
 
 commit;
-
-
--- 사용자 권한 정보 seq
-CREATE SEQUENCE tb_lc_member_role_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START 1
-	CACHE 1
-	NO CYCLE;
-
-commit;
-
-/*create table tb_lc_member_role(
-	role_id integer not null default nextval('tb_lc_member_role_seq')
-	, member_no INTEGER not null
-	, role_name varchar(20) not null 
-	, PRIMARY KEY (role_id)
-);
-
-commit;*/
-
-
--- 사용자 권한 정보
-create table tb_lc_member_role(
-	role_id integer not null default nextval('tb_lc_member_role_seq')
-	, member_seq INTEGER not null
-	, role_name varchar(20) not null 
-	, PRIMARY KEY (role_id)
-);
-
-COMMENT ON TABLE tb_lc_member_role IS '사용자권한정보';
-COMMENT ON COLUMN tb_lc_member_role.role_id IS '권한ID';
-COMMENT ON COLUMN tb_lc_member_role.member_seq IS '담당자시퀀스';
-COMMENT ON COLUMN tb_lc_member_role.role_name IS '권한명';
-
-commit;
-
-
-
-
 
 
 -- 회원사 정보 seq

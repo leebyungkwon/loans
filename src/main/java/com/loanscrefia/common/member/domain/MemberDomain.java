@@ -27,8 +27,8 @@ public class MemberDomain extends BaseDomain{
 	private String deptNm;					// 부서명
 	private String positionNm;				// 직위명
 	private String joinDt;					// 가입일
-	private String apprStat;					// 승인여부
-	
+	private String roleName;				// 권한명
+	private String apprStat;				// 승인여부
 	public boolean apprYnCheck() {
 		if("1".equals(apprStat)) {
 			return false;
@@ -36,10 +36,10 @@ public class MemberDomain extends BaseDomain{
 			return true;
 		}
 	}
-	
 	private int fileSeq;					// 첨부파일시퀀스
 	private int fileCnt;					// 로그인실패횟수
 	private String creYn;					// 협회여부
 	private String dropYn;					// 탈퇴여부
-    List<MemberRoleDomain> roles;
+    
+    
 }

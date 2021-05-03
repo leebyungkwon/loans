@@ -39,8 +39,6 @@ public class LoginService implements UserDetailsService {
     // security 로그인
     public UserDetails loadUserByUsername(@Valid String memberId) throws UsernameNotFoundException {
     	MemberDomain mem = memberRepository.findById(memberId);
-    	List<MemberRoleDomain> role = memberRepository.findRoles(mem);
-    	mem.setRoles(role);
 		return 
 			Optional.ofNullable(mem)
 			.filter(member -> member!= null)
@@ -77,10 +75,6 @@ public class LoginService implements UserDetailsService {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
     	signupDomain = memberRepository.save(signupDomain);
-    	MemberRoleDomain role = new MemberRoleDomain();
-    	role.setMemberSeq(signupDomain.getMemberSeq());
-    	role.setRoleName("TEMP_MEMBER");
-		memberRoleRepository.save(role);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입에 성공하였습니다.");
 	}
 

@@ -10,31 +10,33 @@
 			 MEMBER_ID                     			/*담당자ID*/
 			,PASSWORD                      			/*비밀번호*/
 			,COM_CODE                     		 	/*회원사코드*/
-			,MEMBER_NAME                   		/*담당자이름*/
-			,EMAIL                         				/*이메일*/
+			,MEMBER_NAME                   			/*담당자이름*/
+			,EMAIL                         			/*이메일*/
 			,EXTENSION_NO                    		/*회사전화번호*/
 			,MOBILE_NO                    		 	/*휴대폰번호*/
 			,DEPT_NM                       			/*부서명*/
 			,POSITION_NM                  			/*직위명*/
-			,JOIN_DT									/*가입일*/
-			,FILE_SEQ                      				/*첨부파일ID*/
-			,TERMS_YN									/*약관동의*/
+			,JOIN_DT								/*가입일*/
+			,ROLE_NAME								/*권한명*/
+			,FILE_SEQ                      			/*첨부파일ID*/
+			,TERMS_YN								/*약관동의*/
 			,TERMS_DATE								/*약관동의일*/
 		)
 		VALUES
 		(
-		 	 #{memberId}                    			/*로그인ID*/ 
+		 	 #{memberId}                    		/*로그인ID*/ 
 			,#{password}                   		 	/*비밀번호*/  
 			,#{comCode}                   			/*회원사코드*/ 
 			,#{memberName}                  		/*담당자이름*/  
-			,#{email}                       				/*이메일*/   
+			,#{email}                       		/*이메일*/   
 			,#{extensionNo}                    		/*회사전화번호*/  
-			,#{mobileNo}                    			/*휴대폰번호*/  
-			,#{deptNm}                      			/*부서명*/   
-			,#{positionNm}                  			/*직위명*/   
-			,TO_CHAR(NOW(), 'YYYYMMDD')	/*가입일*/   
-			,#{fileSeq}									/*첨부파일ID*/
-			,'Y'											/*약관동의*/
+			,#{mobileNo}                    		/*휴대폰번호*/  
+			,#{deptNm}                      		/*부서명*/   
+			,#{positionNm}                  		/*직위명*/   
+			,TO_CHAR(NOW(), 'YYYYMMDD')				/*가입일*/
+			,#{roleName}							/*권한명*/   
+			,#{fileSeq}								/*첨부파일ID*/
+			,'Y'									/*약관동의*/
 			,TO_CHAR(NOW(), 'YYYYMMDD')	/*약관동의일*/   
 		)	
 		RETURNING MEMBER_SEQ AS memberSeq

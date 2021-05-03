@@ -64,9 +64,13 @@ let GRID = {
 		if (this.initTable) this.getData();
 		else this.returnData("");
 
-		let searchBtn = (obj.gridSearch.split(",")[1] == undefined) ? "" : obj.gridSearch.split(",")[1];
-		if (this.gridSearch != "" && searchBtn != "") {
-			document.getElementById(this.gridSearch).querySelector("#" + searchBtn).onclick = function() { _this.getData('init'); };
+
+		let searchBtn = "";
+		if (this.gridSearch != "" ){
+			searchBtn = (this.gridSearch.split(",")[1] == undefined) ? "" : obj.gridSearch.split(",")[1];
+			if (this.gridSearch != "" && searchBtn != "") {
+				document.getElementById(this.gridSearch).querySelector("#" + searchBtn).onclick = function() { _this.getData('init'); };
+			}
 		}
 
 		if (this.excel != "") {
@@ -96,9 +100,8 @@ let GRID = {
 			if (type != "undefined" && type == "init") {
 				this.params.page = 0;
 			}
-
-			param = Object.assign({}, this.params, WebUtil.getTagInParam(document.getElementById(this.gridSearch)));
 		}
+		param = Object.assign({}, this.params, WebUtil.getTagInParam(document.getElementById(this.gridSearch)));
 		let p = {
 			url: this.url
 			, param: param
@@ -278,16 +281,21 @@ let GRID = {
 		tag.className = "custom-pagination";
 		tag.id = page_id;
 		let s_tag = "";
-		let start = (parseInt((current - 1) / 10) * 10) + 1;
-
-		let end = this.pageCnt;
-		end = (this.pageCnt < end) ? this.pageCnt : end;
+		let start = (parseInt((current - 1) / this.size) * this.size) + 1;
+		let end = Math.floor((start+this.size) / 10) * 10;
+		end = (this.pageCnt>end) ? end : this.pageCnt; 
 		if (this.pageCnt > 1) {
-			if (1 < current) s_tag += '<span  class="pagination-previous"><a class=""><</a></span>';
+			if (1 < current){
+				s_tag += '<span  class="pagination-first"><a class=""><</a></span>';
+				s_tag += '<span  class="pagination-prev"><a class=""><</a></span>';
+			} 
 			for (let i = start; i <= end; i++) {
 				s_tag += '<span class="num num' + i + '"><a class="page_num">' + i + '</a></span>';
 			}
-			if (this.pageCnt > current) s_tag += '<span  class="pagination-next"><a class="">></a></span>';
+			if (this.pageCnt > current) {
+				s_tag += '<span  class="pagination-next"><a class="">></a></span>';
+				s_tag += '<span  class="pagination-last"><a class="">></a></span>';
+			}
 		} else {
 			s_tag += '<span class="num num1"><a class="page_num">1</a></span>';
 		}
@@ -296,8 +304,19 @@ let GRID = {
 
 
 		let page = document.getElementById(page_id).querySelectorAll(".page_num");
-		let prev = document.getElementById(page_id).querySelector(".pagination-previous");
+		let first = document.getElementById(page_id).querySelector(".pagination-first");
+		let prev = document.getElementById(page_id).querySelector(".pagination-prev");
 		let next = document.getElementById(page_id).querySelector(".pagination-next");
+		let last = document.getElementById(page_id).querySelector(".pagination-last");
+		if (null != first) {
+			first.addEventListener('click', function(event) {
+				for (let __page = 0; __page < page; __page++) {
+					__page.parentElement.classList.remove("current");
+				}
+				_this.params.page = 0;
+				_this.getData();
+			});
+		}
 		if (null != prev) {
 			prev.addEventListener('click', function(event) {
 				for (let __page = 0; __page < page; __page++) {
@@ -313,6 +332,15 @@ let GRID = {
 					__page.parentElement.classList.remove("current");
 				}
 				_this.params.page = _this.params.page + 1;
+				_this.getData();
+			});
+		}
+		if (null != last) {
+			last.addEventListener('click', function(event) {
+				for (let __page = 0; __page < page; __page++) {
+					__page.parentElement.classList.remove("current");
+				}
+				_this.params.page = _this.pageCnt-1;
 				_this.getData();
 			});
 		}
@@ -449,17 +477,17 @@ let GRID = {
 
 					if (typeof dataStr == 'string') dataStr = dataStr.unescapeHtml();
 					let classNm = "tbodyTd";
-					if(bodyCol[j].button != undefined) classNm = "noClick";
-					tag += "<td class='"+classNm+"' style='";
+					if (bodyCol[j].button != undefined) classNm = "noClick";
+					tag += "<td class='" + classNm + "' style='";
 
 					for (k in hiddenCol) if (hiddenCol[k] == j) tag += hiddenStr;
 
 					let align = (bodyCol[j].align == undefined) ? "center" : bodyCol[j].align;
 					tag += "text-align:" + align + ";" + "width:" + bodyCol[j].width + ";'>";
 					tag += (typ == "text") ? "<input type='text' id='" + name + "' value='" + dataStr + "'/>" : dataStr;
-					if(bodyCol[j].button != undefined){
-						for(key in bodyCol[j].button) {
-							tag += "<button onclick="+bodyCol[j].button[key]+"("+i+");>"+key+"</button>";
+					if (bodyCol[j].button != undefined) {
+						for (key in bodyCol[j].button) {
+							tag += "<button onclick=" + bodyCol[j].button[key] + "(" + i + ");>" + key + "</button>";
 						}
 
 					}
