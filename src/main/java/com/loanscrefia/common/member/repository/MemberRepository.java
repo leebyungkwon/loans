@@ -19,7 +19,7 @@ public interface MemberRepository {
 	List<MemberRoleDomain> findRoles(MemberDomain memberDomain);
 	
 	// 로그인 실패횟수 증가
-	void loginFailCnt(String memberId);
+	void loginFailCnt(MemberDomain memberDomain);
 	
 	
 	
@@ -34,6 +34,6 @@ public interface MemberRepository {
 	SignupDomain getMember(SignupDomain signupDomain);
 
 	// 아이디 중복 체크
-	public int idCheck(String memberId) throws Exception;
+	public int idCheck(SignupDomain signupDomain);
 	
 }

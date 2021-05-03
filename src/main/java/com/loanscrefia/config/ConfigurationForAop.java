@@ -37,11 +37,15 @@ public class ConfigurationForAop {
 				
 				if(p[0]==null || p[0]=="") return null;
 				
-				if(p[0].getClass().isInstance(BaseDomain.class)) {
-					domain = (BaseDomain)p[0];
-					domain.setRegSeq(seq);
-					domain.setUpdSeq(seq);
-				}
+				// p.getClass에 상속받은 class가 있는지 확인
+//				if(p[0].getClass().isInstance(BaseDomain.class)) {
+//					domain = (BaseDomain)p[0];
+//					domain.setRegSeq(seq);
+//					domain.setUpdSeq(seq);
+//				}
+				domain = (BaseDomain)p[0];
+				domain.setRegSeq(seq);
+				domain.setUpdSeq(seq);
 			}
 		}
 		return domain;

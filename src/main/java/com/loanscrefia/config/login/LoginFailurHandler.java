@@ -16,6 +16,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import com.loanscrefia.common.login.service.LoginService;
+import com.loanscrefia.common.member.domain.MemberDomain;
 
 public class LoginFailurHandler implements AuthenticationFailureHandler {    
 	
@@ -31,8 +32,10 @@ public class LoginFailurHandler implements AuthenticationFailureHandler {
 			
 		} else if(exception instanceof BadCredentialsException) {
 			String memberId = req.getParameter("memberId").toString();
+			MemberDomain memberDomain = new MemberDomain();
+			memberDomain.setMemberId(memberId);
 			// 로그인 실패횟수 증가
-			loginService.loginFailCnt(memberId);
+			loginService.loginFailCnt(memberDomain);
 			req.setAttribute("loginFailMsg", "아이디 또는 비밀번호가 틀립니다.");
 		} else if(exception instanceof LockedException) {
 			req.setAttribute("loginFailMsg", "잠긴 계정입니다..");

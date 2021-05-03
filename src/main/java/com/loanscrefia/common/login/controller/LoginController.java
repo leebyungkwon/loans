@@ -121,11 +121,11 @@ public class LoginController {
 
 	// 아이디 중복체크
 	@PostMapping("/idcheck")
-	public int idCheck(String memberId) {
+	public int idCheck(SignupDomain signupDomain) {
 		int count = 0;
 		
 		try {
-			count = loginService.idCheck(memberId);
+			count = loginService.idCheck(signupDomain);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

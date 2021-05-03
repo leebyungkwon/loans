@@ -1,12 +1,19 @@
-plugins {
+ plugins {
 	id 'org.springframework.boot' version '2.4.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
 }
 
 group = 'loanscrefia'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+apply plugin: 'war'
+war {
+	baseName = 'loanscrefia-bo'
+}
+
 
 configurations {
 	compileOnly {
@@ -39,12 +46,10 @@ dependencies {
 	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'javax.validation:validation-api'
-	
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.aspectj:aspectjweaver:1.7.0'
 	implementation 'org.aspectj:aspectjrt:1.7.0'
 	implementation 'aspectj:aspectjtools:1.5.4'
-	
-	
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'

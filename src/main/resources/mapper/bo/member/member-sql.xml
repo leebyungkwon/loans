@@ -43,7 +43,7 @@
 	</select>
 	
 	<!-- 아이디 중복 체크 -->
-	<select id="idCheck" parameterType="String" resultType="Integer">
+	<select id="idCheck" parameterType="signup" resultType="Integer">
         SELECT count(*)
         FROM TB_LC_MEMBERS
         WHERE MEMBER_ID = #{memberId}
@@ -65,7 +65,7 @@
 	    where member_seq = #{memberSeq}
     </select>
     
-    <update id="loginFailCnt" parameterType="string" >
+    <update id="loginFailCnt" parameterType="member" >
     	UPDATE tb_lc_members
     	SET fail_cnt = fail_cnt+1
     	WHERE member_id = #{memberId}

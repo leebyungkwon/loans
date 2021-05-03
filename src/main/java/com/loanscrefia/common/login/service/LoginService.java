@@ -51,14 +51,14 @@ public class LoginService implements UserDetailsService {
 	}
 	
 	@Transactional
-	public void loginFailCnt(String memberId) {
-		memberRepository.loginFailCnt(memberId);
+	public void loginFailCnt(MemberDomain memberDomain) {
+		memberRepository.loginFailCnt(memberDomain);
 	}
 	
 	// 아이디 중복체크
 	@Transactional
-	public int idCheck(String memberId) throws Exception {
-	 	return memberRepository.idCheck(memberId);
+	public int idCheck(SignupDomain signupDomain) throws Exception {
+	 	return memberRepository.idCheck(signupDomain);
 	}
 	
 	public SignupDomain getMember(SignupDomain signupDomain) {

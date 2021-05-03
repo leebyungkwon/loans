@@ -63,7 +63,7 @@ spring:
       enabled: true
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:log4jdbc:postgresql://192.168.170.102:5432/postgres
     username: postgres
     password: 1234
       
@@ -73,6 +73,9 @@ logging:
     com.skm.sso: info
     org.hibernate.type: trace
     jdbc.sqlonly: DEBUG 
+   
+upload:
+  filePath: static\upload
     
 ---
 
