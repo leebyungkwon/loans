@@ -13,7 +13,7 @@
          ,TLM.MEMBER_NAME
          ,TLM.EMAIL
       <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|05|.{2})(.+)(.{4})', '\1-\2-\3') AS   extensionNo
+         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|.{2})(.+)(.{4})', '\1-\2-\3') AS extensionNo
       <!--,TLM.MOBILE_NO -->
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM
@@ -47,7 +47,7 @@
          ,TLM.MEMBER_NAME
          ,TLM.EMAIL
       <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|05|.{2})(.+)(.{4})', '\1-\2-\3') AS   extensionNo
+         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|.{2})(.+)(.{4})', '\1-\2-\3') AS extensionNo
       <!--,TLM.MOBILE_NO -->
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM

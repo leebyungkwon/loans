@@ -17,7 +17,7 @@ function pageLoad(){
 			name : 'signup'
 			,success: function(opt, result) {
 				console.log("회원가입에 성공하였습니다.");
-				location.href="/login";
+ 				location.href="/login";
 			}
 		}      
 		AjaxUtil.files(test);
@@ -60,27 +60,27 @@ function pageLoad(){
 	
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
+		
 		var memberId = $("#memberId").val();
-		var	param = {
-				'memberId' : memberId
-			} // end of param
-	    var p = {
-            	 param: param
-				,url: "/idcheck"
-              	,success: function(opt, result) {    
-                   if(result > 0) {
-                       alert("해당 아이디가 존재합니다.");    
-                       $("#memberId").val("");
-                   } else {
-                       alert("사용가능 아이디 입니다.");
-                   }            
-               }, // end of success
-               error: function(error) {
-                   alert("아이디를 입력해주세요.");
-               } // end of error        
-   		} // end of p
+		
+		var param = {
+			'memberId' : memberId
+		}
+		
+		var p = {
+			param: param
+			,url: "/idcheck"
+			,success: function(opt, result) {    
+				if(result > 0) {
+					alert("해당 아이디가 존재합니다.");    
+					$("#memberId").val("");
+				} else {
+					alert("사용가능 아이디 입니다.");
+				}            
+			}
+		}
 		AjaxUtil.post(p);
-	}); // end of 아이디 중복체크
+	}); 
 	
 	// 첨부파일 찾기시 file tag 실행
 	$("#u_file").on("change", function(){
@@ -129,7 +129,7 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
+					<input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
  					<p class="noti">
 						알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br />
 						휴대폰 뒤 4자리, 생년월일, 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용불가능합니다.
@@ -139,7 +139,7 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
+					<input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
 				</td>
 			</tr>
 			<tr>
