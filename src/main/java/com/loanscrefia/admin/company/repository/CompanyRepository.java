@@ -5,9 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
-import com.loanscrefia.common.board.domain.BoardDomain;
-import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.member.user.domain.UserDomain;
 
 @Mapper
 public interface CompanyRepository {

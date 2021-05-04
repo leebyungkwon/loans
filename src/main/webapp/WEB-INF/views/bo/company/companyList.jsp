@@ -2,75 +2,74 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <script type="text/javascript">
+var companyGrid = Object.create(GRID);
 
-	var companyGrid = Object.create(GRID);
+function pageLoad(){
 	
-	function pageLoad(){
+	companyGrid.set({
+		  id		: "companyGrid"
+		, url		: "/admin/company/companyList"
+	    , width		: "100%" 
+	    , check		: true
+		, headCol	: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
+		, bodyCol	: 
+			[
+				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, hidden:true  	, id:true		}
+				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'		, width:"15%"					}
+				,{type:"string"	, name:'memberId'		, index:'memberId'		, width:"15%"	, align:"center"}
+				,{type:"string"	, name:'deptNm'			, index:'deptNm'		, width:"15%"	, align:"center"}		
+				,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}		
+				,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'apprStat'		, index:'apprStat'		, width:"10%"	, align:"center"}
+			]
+		, sortNm : "member_seq"
+		, sort : "ASC"
+		, rowClick	: {color:"#ccc", retFunc : companyDetail}
+		, gridSearch : "search,searctBtn"
+		, excel : "/admin/company/excelDown"
+		, isPaging : true
+		, size : 10
+	});
+}
+
+function companyDetail(idx, data){
+	var memberSeq = companyGrid.gridData[idx].memberSeq;
+	$("#memberSeq").val(memberSeq);
+	$("#companyDetailFrm").submit();
+}
+
+function deleteCompany() {
+	var chekedelete 	= $("input:checkbox:checked").length;
 		
-		companyGrid.set({
-			  id		: "companyGrid"
-			, url		: "/admin/company/companyList"
-		    , width		: "100%" 
-		    , check		: true
-			, headCol	: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
-			, bodyCol	: 
-				[
-					 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, hidden:true  	, id:true		}
-					,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'		, width:"15%"					}
-					,{type:"string"	, name:'memberId'		, index:'memberId'		, width:"15%"	, align:"center"}
-					,{type:"string"	, name:'deptNm'			, index:'deptNm'		, width:"15%"	, align:"center"}		
-					,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}		
-					,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
-					,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
-					,{type:"string"	, name:'apprStat'		, index:'apprStat'		, width:"10%"	, align:"center"}
-				]
-			, sortNm : "member_seq"
-			, sort : "ASC"
-			, rowClick	: {color:"#ccc", retFunc : companyDetail}
-			, gridSearch : "search,searctBtn"
-			, excel : "/admin/company/excelDown"
-			, isPaging : true
-			, size : 10
-		});
+	if(chekedelete == 0){
+		alert("담당자를 선택해 주세요.");
+		return;
 	}
 	
-	function companyDetail(idx, data){
-		var memberSeq = companyGrid.gridData[idx].memberSeq;
-		$("#memberSeq").val(memberSeq);
-		$("#companyDetailFrm").submit();
+	var chekeData		= companyGrid.getChkData();
+	var memberSeqArr		= [];
+	
+	for(var i = 0;i < chekedelete;i++){
+		memberSeqArr.push(chekeData[i].memberSeq);
 	}
 	
-	function deleteCompany() {
-		var chekedelete 	= $("input:checkbox:checked").length;
-			
-		if(chekedelete == 0){
-			alert("담당자를 선택해 주세요.");
-			return;
+	var p = {
+		  url		: "/admin/company/deleteCompany"	
+		, param		: {
+			memberSeqArr : memberSeqArr  
 		}
-		
-		var chekeData		= companyGrid.getChkData();
-		var memberSeqArr		= [];
-		
-		for(var i = 0;i < chekedelete;i++){
-			memberSeqArr.push(chekeData[i].memberSeq);
-		}
-		
-		var p = {
-			  url		: "/admin/company/deleteCompany"	
-			, param		: {
-				memberSeqArr : memberSeqArr  
+		, success 	: function (opt,result) {
+			if(result.data > 0){
+				alert("삭제 되었습니다.");
+				companyGrid.refresh();
 			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("삭제 되었습니다.");
-					companyGrid.refresh();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
+	    }
 	}
-
+	AjaxUtil.post(p);
+}
 </script>
 
 <form id="companyDetailFrm" method="post" action="/admin/company/companyDetail">

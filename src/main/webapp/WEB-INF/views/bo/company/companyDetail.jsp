@@ -2,50 +2,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<script type="text/javascript">
 
-	function pageLoad(){
-		//첨부파일명 보여주기
-		$(".inputFile").on("change", function () {
-			var fileVal 	= $(this).val().split("\\");
-			var fileName 	= fileVal[fileVal.length - 1];
-			$(this).prev().val(fileName);
-		});
-	}
-	
-	function goCompanyStatUpdt(apprStat) {
-		;
-		var p = {
-			  url		: "/admin/company/updateCompanyStat"	
-			, param		: {
-				 memberSeq : $("#memberSeq").val()
-				,apprStat  : apprStat 
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("수정 되었습니다.");
-					location.reload();
-				}
-		    }
+<script type="text/javascript">
+function pageLoad(){
+	//첨부파일명 보여주기
+	$(".inputFile").on("change", function () {
+		var fileVal 	= $(this).val().split("\\");
+		var fileName 	= fileVal[fileVal.length - 1];
+		$(this).prev().val(fileName);
+	});
+}
+
+function goCompanyStatUpdt(apprStat) {
+	;
+	var p = {
+		  url		: "/admin/company/updateCompanyStat"	
+		, param		: {
+			 memberSeq : $("#memberSeq").val()
+			,apprStat  : apprStat 
 		}
-		AjaxUtil.post(p);
-	}	
-	
-	function filedown(fileSeq){
-		var p = {
-			  url : '/common/fileDown'
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-			, param : {
-				fileSeq : fileSeq
+		, success 	: function (opt,result) {
+			if(result.data > 0){
+				alert("수정 되었습니다.");
+				location.reload();
 			}
+	    }
+	}
+	AjaxUtil.post(p);
+}	
+
+function filedown(fileSeq){
+	var p = {
+		  url : '/common/fileDown'
+		, contType: 'application/json; charset=UTF-8'
+		, responseType: 'arraybuffer'
+		, param : {
+			fileSeq : fileSeq
 		}
-		AjaxUtil.post(p);
 	}
-	
-	function companylist(){
-		location.href="/admin/company/companyPage"
-	}
+	AjaxUtil.post(p);
+}
+
+function companylist(){
+	location.href="/admin/company/companyPage"
+}
 </script>
 
 <div class="cont_area">
@@ -54,8 +54,10 @@
 			<h2>회원사 담당자 관리</h2>
 		</div>
 	</div>
+	
 	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/company/updateCompanyStat" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
+		
 	<div class="contents">
 		<h3> </h3>
 			<div id="table">
@@ -104,6 +106,7 @@
 					</tr>
 				</table>
 			</div>
+			
 			<div class="btn_wrap">	
 				 <c:if test="${companyDetail.apprStat eq 1}">
 				  	 <a href="javascript:companylist();" class="btn_gray">목록</a>
