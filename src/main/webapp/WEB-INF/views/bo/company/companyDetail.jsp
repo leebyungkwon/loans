@@ -14,7 +14,6 @@ function pageLoad(){
 }
 
 function goCompanyStatUpdt(apprStat) {
-	;
 	var p = {
 		  url		: "/admin/company/updateCompanyStat"	
 		, param		: {
