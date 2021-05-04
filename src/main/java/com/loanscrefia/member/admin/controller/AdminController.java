@@ -49,7 +49,7 @@ public class AdminController {
 	@PostMapping(value="/adminDetailUpdate")
 	public ModelAndView adminDetailUpdate(AdminDomain adminDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetailUpdate");
-		AdminDomain adminInfo = adminService.getAdminDetail(adminDomain);
+		AdminDomain adminInfo = adminService.getAdminDetailUpd(adminDomain);
 		mv.addObject("adminInfo", adminInfo);
 		return mv;
 	}

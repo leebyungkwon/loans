@@ -23,10 +23,16 @@ public class AdminService {
 		return AdminRepository.selectAdminList(AdminDomain);
 	}
 	
-	// 회원사 조회 -> 상세, 수정
+	// 회원사 조회 -> 상세
 	@Transactional(readOnly=true)
 	public AdminDomain getAdminDetail(AdminDomain AdminDomain){
 		return AdminRepository.getAdminDetail(AdminDomain);
+	}
+	
+	// 회원사 상세 -> 수정
+	@Transactional(readOnly=true)
+	public AdminDomain getAdminDetailUpd(AdminDomain AdminDomain){
+		return AdminRepository.getAdminDetailUpd(AdminDomain);
 	}
 	
 	// 회원사 수정 -> Insert

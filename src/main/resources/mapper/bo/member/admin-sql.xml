@@ -13,7 +13,7 @@
          ,TLM.MEMBER_NAME
          ,TLM.EMAIL
       <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|.{2})(.+)(.{4})', '\1-\2-\3') AS extensionNo
+         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
       <!--,TLM.MOBILE_NO -->
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM
@@ -38,7 +38,7 @@
       <include refid="common.pageBottom"/>
    </select>
 
-   <!-- 회원사 회원 상세, 수정 조회 -->
+   <!-- 회원사 회원 상세 조회 -->
    <select id="getAdminDetail" parameterType="admin" resultType="admin">
       SELECT 
       <include refid="common.totalPages"/>
@@ -47,9 +47,28 @@
          ,TLM.MEMBER_NAME
          ,TLM.EMAIL
       <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|.{2})(.+)(.{4})', '\1-\2-\3') AS extensionNo
+         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
       <!--,TLM.MOBILE_NO -->
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+         ,TLM.DEPT_NM
+         ,TLM.POSITION_NM
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         FROM TB_LC_MEMBERS TLM
+      <where>
+         AND TLM.MEMBER_SEQ = #{memberSeq}
+      </where>
+   </select>
+   
+      <!-- 회원사 회원 수정 조회 -->
+   <select id="getAdminDetailUpd" parameterType="admin" resultType="admin">
+      SELECT 
+      <include refid="common.totalPages"/>
+         TLM.MEMBER_SEQ
+         ,TLM.MEMBER_ID
+         ,TLM.MEMBER_NAME
+         ,TLM.EMAIL
+	     ,TLM.EXTENSION_NO
+	     ,TLM.MOBILE_NO
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
          ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt

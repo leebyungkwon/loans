@@ -16,7 +16,6 @@
 				var p = {
 					name       : "saveAdminUpdateFrm"
 					, success    : function (opt,result) {
-						alert("호잇");
 						location.href = "/member/admin/adminPage";
 					}
 				}
@@ -55,55 +54,55 @@
                <tr>
                   <th>아이디</th>
                   <td colspan="3">
-                     <input type="text" name="memberId" value="${adminInfo.memberId}" readonly="readonly">
+                     <input type="text" name="memberId" value="${adminInfo.memberId}" readonly="readonly" class="w40" />
                   </td>
                </tr>
                <tr>
                   <th>패스워드</th>
                   <td colspan="3">
-                     <input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" data-vd='{"type":"password","len":"8,20","req":true,"msg":"비밀번호를 입력해 주세요"}'/>
+                     <input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>패스워드 확인</th>
                   <td colspan="3">
-                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" data-vd='{"type":"password","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
+                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
                   </td>
                </tr>
                <tr>
                   <th>부서명</th>
                   <td colspan="3">
-                     <input type="text" id="deptNm" name="deptNm" placeholder="부서명 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"부서명을 입력해 주세요"}'/>
+                     <input type="text" id="deptNm" name="deptNm" placeholder="부서명 입력" value="${adminInfo.deptNm}" class="w40" data-vd='{"type":"text","len":"1,20","req":true,"msg":"부서명을 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>담당자명</th>
                   <td colspan="3">
-                     <input type="text" id="memberName" name="memberName" placeholder="이름" data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'/>
+                     <input type="text" id="memberName" name="memberName" placeholder="이름" value="${adminInfo.memberName}" class="w40" data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>직위</th>
                   <td colspan="3">
-                     <input type="text" id="positionNm" name="positionNm" placeholder="직위 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"직위명을 입력해 주세요"}'/>
+                     <input type="text" id="positionNm" name="positionNm" placeholder="직위 입력" value="${adminInfo.positionNm}" class="w40" data-vd='{"type":"text","len":"1,20","req":true,"msg":"직위명을 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>이메일</th>
                   <td colspan="3">
-                     <input type="text" id="email" name="email" placeholder="이메일 입력" data-vd='{"type":"email","len":"1,20","req":true,"msg":"이메일을 입력해 주세요"}'/>
+                     <input type="text" id="email" name="email" placeholder="이메일 입력" value="${adminInfo.email}" class="w40" data-vd='{"type":"email","len":"1,20","req":true,"msg":"이메일을 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>회사 전화번호</th>
                   <td colspan="3">
-                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사 전화번호를 입력해 주세요"}' />
+                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" value="${adminInfo.extensionNo}" class="w40"/>
                   </td>
                </tr>
                <tr>
                   <th>휴대폰번호</th>
                   <td colspan="3">
-                     <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력"  />
+                     <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" value="${adminInfo.mobileNo}" class="w40"/>
                   </td>
                </tr>
             </table>

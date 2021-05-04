@@ -64,12 +64,6 @@ var Valid = {
 	    		else return true;
 	    		return false;
 	            break;
-	        case 'extensionNo' :
-	        	regexp=/^(01[016789]{1}|02|0[3-9]{1})?[0-9]{3,4}?[0-9]{4}$/;
-	        	if(!regexp.test(val) )	alert('회사 전화번호를 다시 입력해 주세요.');
-	        	else return true;
-	        	return false;
-	        	break;
 	        case 'text' :
 	    		return true;
 	            break;
