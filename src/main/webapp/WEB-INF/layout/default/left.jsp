@@ -45,9 +45,11 @@
 		</li>
 		</sec:authorize>
 		
+		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
 		<li>
 			<a href="/system/templete/templetePage">공지사항</a>
 		</li>
+		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('SYSTEM')">
 		<li>

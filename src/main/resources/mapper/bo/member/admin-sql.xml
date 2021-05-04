@@ -41,7 +41,6 @@
    <!-- 회원사 회원 상세 조회 -->
    <select id="getAdminDetail" parameterType="admin" resultType="admin">
       SELECT 
-      <include refid="common.totalPages"/>
          TLM.MEMBER_SEQ
          ,TLM.MEMBER_ID
          ,TLM.MEMBER_NAME
@@ -62,7 +61,6 @@
       <!-- 회원사 회원 수정 조회 -->
    <select id="getAdminDetailUpd" parameterType="admin" resultType="admin">
       SELECT 
-      <include refid="common.totalPages"/>
          TLM.MEMBER_SEQ
          ,TLM.MEMBER_ID
          ,TLM.MEMBER_NAME
@@ -103,9 +101,7 @@
          <if test="extensionNo != null and extensionNo != ''">
             ,EXTENSION_NO       = #{extensionNo}
          </if>
-         <if test="mobileNo != null and mobileNo != ''">
             ,MOBILE_NO       = #{mobileNo}
-         </if>
       <where>
          AND MEMBER_SEQ       = #{memberSeq}
       </where>

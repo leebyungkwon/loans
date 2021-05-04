@@ -66,15 +66,6 @@ public class LoginController {
     	ModelAndView mv = new ModelAndView(CosntPage.Error+"/denied");
         return mv;
     }
-    
-	// 가승인된 회원 정보수정 진입
-	@GetMapping("/proAppr")
-	public ModelAndView proAppr() {
-		// memberSeq 읽어와서 조회 후 던지기
-		
-		ModelAndView mv = new ModelAndView(CosntPage.Common + "/prevLogin");
-		return mv;
-	}
 	
 	// 약관동의 페이지
 	@GetMapping("/terms")
