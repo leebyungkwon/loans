@@ -42,11 +42,12 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
     	
     	// 권한체크/
 		http.authorizeRequests()
 			.antMatchers("/admin/**").hasAnyRole("ADMIN","SYSTEM")
+			.antMatchers("/member/admin/adminDetailUpdate").hasAnyRole("TEMP_MEMBER", "MEMBER","SYSTEM")
+			.antMatchers("/member/admin/saveAdminUpdate").hasAnyRole("TEMP_MEMBER", "MEMBER","SYSTEM")
 			.antMatchers("/member/**").hasAnyRole("MEMBER","SYSTEM")
 			.antMatchers("/system/**").hasAnyRole("SYSTEM")
 			// .antMatchers("/bo/mem/boardList").permitAll()
@@ -54,7 +55,6 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/idcheck").permitAll()
 			.antMatchers("/terms").permitAll()
 			.antMatchers("/common/**").permitAll()
-			.antMatchers("/proAppr").hasAnyRole("TEMP_MEMBER")
 			.antMatchers("/**").hasAnyRole("ADMIN","SYSTEM","MEMBER")
 			.anyRequest().authenticated();
 

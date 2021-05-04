@@ -57,6 +57,8 @@ public class AdminDomain extends BaseDomain{
 	private String updTimestamp;	// 	수정일시
 	private Long memberSeq;			// 	담당자 시퀀스
 	
+	private String tempMemberCheck;
+	
 	//가공
 	private int[] memberSeqArr;
 	

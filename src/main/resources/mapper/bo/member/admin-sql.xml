@@ -62,7 +62,6 @@
       <!-- 회원사 회원 수정 조회 -->
    <select id="getAdminDetailUpd" parameterType="admin" resultType="admin">
       SELECT 
-      <include refid="common.totalPages"/>
          TLM.MEMBER_SEQ
          ,TLM.MEMBER_ID
          ,TLM.MEMBER_NAME

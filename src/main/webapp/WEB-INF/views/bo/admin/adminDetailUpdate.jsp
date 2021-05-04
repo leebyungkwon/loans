@@ -111,7 +111,10 @@
    </form>
    
    <div class="btn_wrap">
-      <a href="javascript:void(0);" id="AdminCancelBtn" class="btn_gray">취소</a>
+		<c:if test="${adminInfo.tempMemberCheck ne 'Y' }">
+			<a href="javascript:void(0);" id="AdminCancelBtn" class="btn_gray">취소</a>
+		</c:if>
+      
       <a href="javascript:void(0);" id="AdminUpdateBtn" class="btn_black btn_right">저장</a>
    </div>
 </div>

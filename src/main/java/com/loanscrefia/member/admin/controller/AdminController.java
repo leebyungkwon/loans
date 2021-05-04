@@ -50,6 +50,10 @@ public class AdminController {
 	public ModelAndView adminDetailUpdate(AdminDomain adminDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetailUpdate");
 		AdminDomain adminInfo = adminService.getAdminDetailUpd(adminDomain);
+		
+		// denied 페이지에서 진입시 가승인 회원 체크
+		adminInfo.setTempMemberCheck(adminDomain.getTempMemberCheck());
+		
 		mv.addObject("adminInfo", adminInfo);
 		return mv;
 	}
