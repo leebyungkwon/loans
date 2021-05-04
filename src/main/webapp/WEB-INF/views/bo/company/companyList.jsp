@@ -23,7 +23,7 @@
 					,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}		
 					,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
 					,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
-					,{type:"string"	, name:'apprYn'			, index:'apprYn'		, width:"10%"	, align:"center"}
+					,{type:"string"	, name:'apprStat'		, index:'apprStat'		, width:"10%"	, align:"center"}
 				]
 			, sortNm : "member_seq"
 			, sort : "ASC"
@@ -81,7 +81,7 @@
 		<div class="title">
 			<h2>회원사 담당자 관리</h2>
 		</div>
-			<div class="info_box" id="search">
+			<div class="info_box k_search" id="search">
 				<table class="info_box_table">
 					<colgroup>
 						<col width="80"/>
@@ -94,17 +94,18 @@
 						<td>
 							<select name="comCode">
 								<option value="0">전체</option>
-								<option value="1">카카오</option>
-								<option value="2">삼성</option>
-								<option value="3">cu</option>
+								<option value="1">여신</option>
+								<option value="2">대출</option>
+								<option value="3">모집</option>
 							</select>
 						</td>
 						<th>승인여부</th>
 						<td>
-							<select name="apprYn">
+							<select name="apprStat">
 								<option value="">전체</option>
-								<option value="N">승인요청</option>
-								<option value="Y">승인완료</option>
+								<option value="1">미승인</option>
+								<option value="2">가승인</option>
+								<option value="3">승인</option>
 							</select>
 						</td>
 					</tr>
@@ -113,8 +114,7 @@
 			</div>
 			<div class="sorting_wrap">
 			<div class="action">
-					<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
-				<a href="javascript:void(0);" class="btn_gray btn_small mgl5" onclick="$('#userRegFile').click();">다운로드</a>
+				<a href="javascript:alert('붙여야해!~');" class="btn_gray btn_small mgl5">다운로드</a>
 			</div>
 		</div>
 	</div>

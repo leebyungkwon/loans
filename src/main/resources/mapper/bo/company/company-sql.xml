@@ -12,13 +12,17 @@
 			,TLM.COM_CODE
 			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
-			,TLM.EXTENSION_NO
 			,TLM.EMAIL
+			,TLM.EXTENSION_NO
 			,TLM.MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
 			,TLM.JOIN_DT
-			,TLM.APPR_YN
+			,TLM.ROLE_NAME
+			,TLM.TERMS_YN
+			,TLM.TERMS_DATE
+			,TLM.APPR_STAT
+			<!-- ,fn_appr_stat(TLM.APPR_STAT) AS APPR_STAT_NM -->
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
 			,TLM.CRE_YN
@@ -30,8 +34,8 @@
 	    	<if test="comCode != 0 and comCode != '0'">
 					AND	TLM.COM_CODE 	    = #{comCode}
 				</if>
-				<if test="apprYn != null and apprYn != ''">
-					AND	TLM.APPR_YN 		= #{apprYn}
+				<if test="apprStat != null and apprStat != ''">
+					AND	TLM.APPR_STAT 		= #{apprStat}
 				</if>
 		</where>
 	    <include refid="common.pageBottom"/>
@@ -46,13 +50,17 @@
 			,TLM.COM_CODE
 			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
-			,TLM.EXTENSION_NO
 			,TLM.EMAIL
+			,TLM.EXTENSION_NO
 			,TLM.MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
 			,TLM.JOIN_DT
-			,TLM.APPR_YN
+			,TLM.ROLE_NAME
+			,TLM.TERMS_YN
+			,TLM.TERMS_DATE
+			,TLM.APPR_STAT
+			<!-- ,fn_appr_stat(TLM.APPR_STAT) AS APPR_STAT_NM -->
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
 			,TLM.CRE_YN
@@ -67,9 +75,9 @@
 	
     <update id="updateCompanyStat" parameterType="company">
    		UPDATE TB_LC_MEMBERS
-   		SET
-   			 APPR_YN = 'Y'
-   			,UPD_SEQ = #{updSeq}
+   		SET	
+   			 APPR_STAT = #{apprStat}
+   			,UPD_SEQ   = #{updSeq}
    		<where>
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
@@ -81,20 +89,5 @@
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
    	</delete>
-   	
-   	<select id="getFile" parameterType="file" resultType="file">
-		SELECT
-			FILE_SEQ
-			, TLF.FILE_EXT
-			, TLF.FILE_ORG_NM
-			, TLF.FILE_PATH
-			, TLF.FILE_SAVE_NM
-			, TLF.REG_TIMESTAMP
-			, TLF.UPD_TIMESTAMP
-			, TLF.USE_YN
-			, TLF.FILE_TYPE
-		FROM TB_LC_FILE01 TLF
-		WHERE FILE_SEQ = #{FILESEQ}
-	</select>
 	
 </mapper> 

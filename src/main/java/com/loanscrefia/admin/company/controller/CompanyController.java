@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
+import com.loanscrefia.admin.company.repository.CompanyRepository;
 import com.loanscrefia.admin.company.service.CompanyService;
 import com.loanscrefia.common.board.domain.BoardDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
@@ -40,6 +41,7 @@ public class CompanyController {
 	
 	
 	@Autowired private CompanyService companyService;
+	@Autowired private CommonService commonService;
 	@Autowired UtilFile utilFile;
 	
 	// 협회 - 회원사 담당자 조회 페이지
@@ -70,16 +72,23 @@ public class CompanyController {
     	CompanyDomain companyDetail	= companyService.getCompanyDetail(companyDomain);
     	mv.addObject("companyDetail", companyDetail);
     	
+    	
+    	FileDomain file = new FileDomain();
+    	file.setFileSeq(companyDetail.getFileSeq());
+    	file = commonService.getFile(file);
+    	mv.addObject("file", file);
+    	
         return mv;
     }
 	
-	//선택 승인요청 -> 첨부파일 하나라도 없으면 요청 불가
+	//
 	@PostMapping(value="/updateCompanyStat")
 	public ResponseEntity<ResponseMsg> updateCompanyStat(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
 	//삭제 
 	@PostMapping(value="/deleteCompany")
 	public ResponseEntity<ResponseMsg> deleteCompany(CompanyDomain companyDomain){
@@ -92,7 +101,7 @@ public class CompanyController {
 	@PostMapping("/excelDown")
 	public void writeExcel(CompanyDomain companyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
  		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
- 		new UtilExcel().downLoad(b, BoardDomain.class, response.getOutputStream());
+ 		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}
 	 
 }

@@ -13,17 +13,32 @@
 		});
 	}
 	
-	function goCompanyStatUpdt() {
+	function goCompanyStatUpdt(apprStat) {
+		;
 		var p = {
-			  name 		: "companyStatUpdt"
+			  url		: "/admin/company/updateCompanyStat"	
+			, param		: {
+				 memberSeq : $("#memberSeq").val()
+				,apprStat  : apprStat 
+			}
 			, success 	: function (opt,result) {
-				alert("호잇");
-				location.href="/admin/company/companyPage";
-	 	    }
+				if(result.data > 0){
+					alert("수정 되었습니다.");
+					location.reload();
+				}
+		    }
 		}
-		AjaxUtil.files(p);
-	} 
+		AjaxUtil.post(p);
 	
+	}	
+	//샘플 다운로드
+	function goSampleDownload() {
+		var plClass = $('input[name="plClass"]:checked').val();
+		alert("샘플 다운로드 "+plClass+"인 샘플 다운로드 되야해!");
+	}
+	function companylist(){
+		location.href="/admin/company/companyPage"
+	}
 </script>
 
 <div class="cont_area">
@@ -34,7 +49,7 @@
 
 	</div>
 	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/company/updateCompanyStat" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="memberSeq" value="${companyDetail.memberSeq }"/>
+		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
 	<div class="contents">
 		<h3> </h3>
 			<div id="table">
@@ -62,30 +77,42 @@
 						<td>${companyDetail.email}</td>
 					</tr>
 					<tr>
-						<th>휴대폰번호</th>
-						<td>${companyDetail.mobileNo}</td>
+						<th>직장 번화번호</th>
+						<td>${companyDetail.extensionNo}</td>
 						<th>회원가입일</th>
 						<td>${companyDetail.joinDt}</td>
 					</tr>
 					<tr>
-						<th>승인상태</th>
-						<td>${companyDetail.apprYn}</td>
+						<th>휴대폰번호</th>
+						<td>${companyDetail.mobileNo}</td>
 					</tr>
 					<tr>
-						<th>첨부서류</th>
-						<td class="file">
-							<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
-							<!-- <a href="#" class="btn_gray btn_del mgl5">삭제</a> -->
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
+						<th>승인상태</th>
+						<td colspan="3">${companyDetail.apprStat}</td>
+					</tr>
+					<tr>
+						<th class="acenter">첨부서류</th>
+						<td colspan="3">
+							<input type="file" name="file" id="authFile" class="inputFile" style="display: none;"/>
+							<input type="hidden" name="fileList" value="7"/>
+							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#authFile').click();">파일찾기</a>
 						</td>
 					</tr>
 				</table>
 			</div>
-		
-			<div class="btn_wrap">
-				<a href="javascript:history.back();" class="btn_gray">목록</a>
-				<a href="javascript:goCompanyStatUpdt()" class="btn_black">승인</a>
-				<a href="javascript:history.back();" id="updateCompanyStt"class="btn_black btn_right">가승인</a>
+			<div class="btn_wrap">	
+				 <c:if test="${companyDetail.apprStat eq 1}">
+				  	 <a href="javascript:companylist();" class="btn_gray" name="companylist">목록</a>
+   		 		 	 <a href="javascript:goCompanyStatUpdt('2')" class="btn_black btn_right">가승인</a>
+   		 		 	 <a href="javascript:goCompanyStatUpdt('3')" class="btn_black">승인</a>
+     			 </c:if>
+				 <c:if test="${companyDetail.apprStat eq 2}">
+					  <a href="javascript:companylist();" class="btn_gray" name="companylist">목록</a>
+      		 		  <a href="javascript:goCompanyStatUpdt('3')" class="btn_black">승인</a>
+     			 </c:if>
+     			  <c:if test="${companyDetail.apprStat eq 3}">
+      		 		  <a href="javascript:companylist();" class="btn_gray" name="companylist">목록</a>
+     			 </c:if>
 			</div>
 		</div>
 	</form>
