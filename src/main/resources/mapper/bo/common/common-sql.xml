@@ -87,7 +87,7 @@
 	
 	<!-- 첨부파일 삭제 -->
 	<update id="deleteFile" parameterType="file">
-   		UPDATE TB_LC_MAS01
+   		UPDATE TB_LC_FILE01
    		SET
    			 USE_YN = 'N'
    		<where>

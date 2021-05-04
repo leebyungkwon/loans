@@ -8,17 +8,19 @@
 	    	<include refid="common.totalPages"/>
 	    	 TLM.MASTER_SEQ
 			,TLM.COM_CODE
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
+			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,TLM.PL_CLASS
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_CLASS) AS PL_CLASS_NM -->
+			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
 			,TLM.CAREER_TYP
-			<!-- ,FN_CD_DTL('A0001',TLM.CAREER_TYP) AS CAREER_TYP_NM -->
+			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 			,TLM.PL_PRODUCT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM -->
+			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
 			,TLM.PL_REG_STAT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM -->
+			,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
 			,TLM.PL_STAT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_STAT) AS PL_STAT_NM -->
+			,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
@@ -50,12 +52,16 @@
 			,TLM.COM_HAEJI_DATE
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
-			<!-- ,(SELECT COUNT(1) FROM TB_LC_FILE01 WHERE ) AS FILE_COMP_YN -->
+			,CASE 
+				WHEN TLM.FILE_SEQ IS NOT NULL THEN '완료'
+				ELSE '미완료'
+			 END AS FILE_COMP_TXT
 			,TLM.REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
+			AND TLM.PL_STAT != '6'								-- 처리상태가 완료가 아닌 것만 리스트에 보여짐(완료건은 모집인 조회 및 변경 메뉴에서 보여짐)
 			<if test="plClass != null and plClass != ''">
 				AND TLM.PL_CLASS 	= #{plClass}
 			</if>
@@ -75,7 +81,6 @@
    		(
 			 COM_CODE
 			,MEMBER_SEQ
-			,PL_REG_STAT
 			,PL_STAT
 			,PL_CLASS
 			,CAREER_TYP
@@ -98,8 +103,7 @@
    		(
    			 (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    			,#{regSeq}
-   			,'1'							-- 1.등록,2.정상해지,3.불법해지
-   			,'9'							-- 승인미요청
+   			,'1'							-- 승인미요청
    			,#{plClass} 					-- 개인,법인
    			,#{item.A} 						-- 신규,경력
    			,#{item.B} 						-- 이름
@@ -125,7 +129,6 @@
    		(
 			 COM_CODE
 			,MEMBER_SEQ
-			,PL_REG_STAT
 			,PL_STAT
 			,PL_CLASS
 			,PL_MERCHANT_NAME
@@ -144,8 +147,7 @@
    		(
    			 (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    			,#{regSeq}
-   			,'1'							-- 1.등록,2.정상해지,3.불법해지
-   			,'9'							-- 승인미요청
+   			,'1'							-- 승인미요청
    			,#{plClass} 					-- 개인,법인
    			,#{item.A}						-- 상호
 			,#{item.B}						-- 대표이사
@@ -161,11 +163,11 @@
    		</foreach>
    	</insert>
    
-   	<!-- 모집인 등록 > 승인요청 -->
+   	<!-- 모집인 등록 > 처리상태 변경 -->
    	<update id="updatePlRegStat" parameterType="user">
    		UPDATE TB_LC_MAS01
    		SET
-   			 PL_STAT = '8'
+   			 PL_STAT = #{plStat}
    			,UPD_SEQ = #{updSeq}
    		<where>
    			AND MASTER_SEQ 	= #{masterSeq}
@@ -177,26 +179,28 @@
    		SELECT 
 	    	 TLM.MASTER_SEQ
 			,TLM.COM_CODE
-			<!-- ,(SELECT TLC.COM_NAME FROM TB_LC_COMPANY TLC WHERE TLC.COM_CODE = TLM.COM_CODE) AS COM_CODE_NM -->
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
-			<!-- ,(SELECT MEMBER_NM FROM TB) AS MEMBER_NM -->
+			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+			,(SELECT EMAIL FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS EMAIL
+			,(SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS MOBILE_NO
 			,TLM.PL_CLASS
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_CLASS) AS PL_CLASS_NM -->
+			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
 			,TLM.CAREER_TYP
-			<!-- ,FN_CD_DTL('A0001',TLM.CAREER_TYP) AS CAREER_TYP_NM -->
+			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 			,TLM.PL_PRODUCT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM -->
+			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
 			,TLM.PL_REG_STAT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM -->
+			,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
 			,TLM.PL_STAT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_STAT) AS PL_STAT_NM -->
+			,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
 			,TLM.PL_M_Z_ID
 			,TLM.PL_CELLPHONE
 			,TLM.ADDR
-			<!-- ,FN_CD_DTL('A0001',TLM.ADDR) AS ADDR_NM -->
+			,FN_CD_DTL('ADD001',TLM.ADDR) AS ADDR_NM
 			,TLM.ADDR_DETAIL
 			,TLM.PL_EDU_NO
 			,TLM.CAREER_START_DATE
@@ -238,10 +242,10 @@
    			 PL_M_NAME 			= #{plMName}
    			</if>
    			<if test="plMZId != null and plMZId != ''">
-   			,PL_M_Z_ID 			= #{plMZId}
+   			,PL_M_Z_ID 			= REPLACE(#{plMZId}, '-', '')
    			</if>
    			<if test="plCellphone != null and plCellphone != ''">
-   			,PL_CELLPHONE 		= #{plCellphone}
+   			,PL_CELLPHONE 		= REPLACE(#{plCellphone}, '-', '')
    			</if>
    			<if test="addr != null and addr != ''">
    			,ADDR 				= #{addr}
@@ -253,22 +257,23 @@
    			,PL_EDU_NO 			= #{plEduNo}
    			</if>
    			<if test="careerStartDate != null and careerStartDate != ''">
-   			,CAREER_START_DATE 	= #{careerStartDate}
+   			,CAREER_START_DATE 	= REPLACE(#{careerStartDate}, '-', '')
    			</if>
    			<if test="careerEndDate != null and careerEndDate != ''">
-   			,CAREER_END_DATE 	= #{careerEndDate}
+   			,CAREER_END_DATE 	= REPLACE(#{careerEndDate}, '-', '')
    			</if>
    			<if test="comContDate != null and comContDate != ''">
-   			,COM_CONT_DATE 		= #{comContDate}
+   			,COM_CONT_DATE 		= REPLACE(#{comContDate}, '-', '')
    			</if>
    			<if test="entrustDate != null and entrustDate != ''">
-   			,ENTRUST_DATE 		= #{entrustDate}
+   			,ENTRUST_DATE 		= REPLACE(#{entrustDate}, '-', '')
    			</if>
    			,FILE_SEQ 			= #{fileSeq}
    			,UPD_SEQ 			= #{updSeq}
    			,UPD_TIMESTAMP 		= NOW()
    		<where>
 	    	AND MASTER_SEQ 		= #{masterSeq}
+	    	AND PL_STAT			!= '2'			-- 승인요청상태가 아닐 때만 수정 가능
 	    </where>
    	</update>
    	

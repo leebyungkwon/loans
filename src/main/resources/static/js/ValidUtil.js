@@ -48,24 +48,30 @@ var Valid = {
     	switch (el.type){
 	        case 'num' :
 	        	regexp = /^[0-9]*$/;
-	    		if(!regexp.test(val) )	alert('숫자만 입력하세요');
+	    		if(!regexp.test(val))	alert('숫자만 입력하세요.');
 	    		else return true;
 	    		return false;
 	            break;
 	        case 'email' :
 	        	regexp=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
-	    		if(!regexp.test(val) )	alert('이메일 형식으로 입력하세요');
+	    		if(!regexp.test(val))	alert('이메일 형식으로 입력하세요.');
 	    		else return true;
 	    		return false;
 	            break;
 	        case 'pw' :
 	        	regexp=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-	    		if(!regexp.test(val) )	alert('비밀번호는 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.');
+	    		if(!regexp.test(val))	alert('비밀번호는 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.');
 	    		else return true;
 	    		return false;
 	            break;
 	        case 'text' :
 	    		return true;
+	            break;
+			case 'mobileNo' :
+				regexp=/(01[016789])-([0-9]{1}[0-9]{2,3})-([0-9]{4})$/;
+				if(!regexp.test(val))	alert('휴대폰번호 형식을 확인해 주세요.');
+	    		else return true;
+				return false;
 	            break;
 	        default :
 	        	alert('유효성검사 TYPE을 확인 하세요');

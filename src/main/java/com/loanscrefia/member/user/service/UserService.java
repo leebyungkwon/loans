@@ -2,6 +2,7 @@ package com.loanscrefia.member.user.service;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.excel.UserCorpExcelDomain;
@@ -24,6 +26,7 @@ import com.loanscrefia.util.UtilFile;
 public class UserService {
 
 	@Autowired private UserRepository userRepo;
+	@Autowired private CommonRepository commonRepo;
 	@Autowired private UtilFile utilFile;
 	
 	//모집인 등록 > 리스트
@@ -113,10 +116,9 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
-					System.out.println("전 userDomain.getRegSeq() >>>>>>>>>>>>>>>>>>>>>> "+userDomain.getRegSeq());
 					userDomain.setExcelParam(excelResult);
 					int insertResult = userRepo.insertUserRegIndvInfoByExcel(userDomain);
-					System.out.println("후 userDomain.getRegSeq() >>>>>>>>>>>>>>>>>>>>>> "+userDomain.getRegSeq());
+					
 					if(insertResult > 0) {
 						return new ResponseMsg(HttpStatus.OK, "", "success", "");
 					}
@@ -187,10 +189,63 @@ public class UserService {
 		return result;
 	}
 	
-	//모집인 등록 > 상세
+	//모집인 등록 > 상세 -> 첨부파일 이렇게 하면 걍 나눠
 	@Transactional(readOnly=true)
-	public UserDomain getUserRegDetail(UserDomain userDomain){
-		return userRepo.getUserRegDetail(userDomain);
+	public Map<String,Object> getUserRegDetail(UserDomain userDomain){
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		//상세
+		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+		
+		//첨부파일
+		FileDomain fileType1 = null;
+		FileDomain fileType2 = null;
+		FileDomain fileType3 = null;
+		FileDomain fileType4 = null;
+		FileDomain fileType5 = null;
+		FileDomain fileType6 = null;
+		FileDomain fileType7 = null;
+		
+    	if(userRegInfo.getFileSeq() != null) {
+    		FileDomain param = new FileDomain();
+    		
+        	param.setFileGrpSeq(userRegInfo.getFileSeq());
+        	List<FileDomain> fileList = commonRepo.selectFileList(param);
+        	
+        	if(fileList.size() > 0) {
+        		for(int i = 0;i < fileList.size();i++) {
+        			if(fileList.get(i).getFileType().equals("1")) {
+        				fileType1 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("2")) {
+        				fileType2 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("3")) {
+        				fileType3 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("4")) {
+        				fileType4 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("5")) {
+        				fileType5 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("6")) {
+        				fileType6 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("7")) {
+        				fileType7 = fileList.get(i);
+        			}
+        		}
+        	}
+    	}
+    	
+    	//전달
+    	result.put("plClass", userRegInfo.getPlClass());
+    	result.put("userRegInfo", userRegInfo);
+    	result.put("fileType1", fileType1);
+    	result.put("fileType2", fileType2);
+    	result.put("fileType3", fileType3);
+    	result.put("fileType4", fileType4);
+    	result.put("fileType5", fileType5);
+    	result.put("fileType6", fileType6);
+    	result.put("fileType7", fileType7);
+		
+		return result;
 	}
 	
 	//모집인 등록 > 수정

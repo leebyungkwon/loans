@@ -1,7 +1,6 @@
 package com.loanscrefia.member.user.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -26,7 +24,6 @@ import com.loanscrefia.member.user.service.UserService;
 public class UserController {
 	
 	@Autowired private UserService userService;
-	@Autowired private CommonService commonService;
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 조회 및 변경
@@ -83,7 +80,7 @@ public class UserController {
 	
 	
 	
-	//선택 승인요청 -> 첨부파일 하나라도 없으면 요청 불가 *****
+	//처리상태 변경
 	@PostMapping(value="/updatePlRegStat")
 	public ResponseEntity<ResponseMsg> updatePlRegStat(UserDomain userDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -97,24 +94,13 @@ public class UserController {
     	ModelAndView mv 			= new ModelAndView();
     	
     	//상세
-    	UserDomain userRegInfo 		= userService.getUserRegDetail(userDomain);
-    	
-    	//첨부파일 리스트
-    	List<FileDomain> fileList 	= new ArrayList<FileDomain>();
-    	
-    	if(userRegInfo.getFileSeq() != null) {
-    		FileDomain param 		= new FileDomain();
-    		
-        	param.setFileGrpSeq(userRegInfo.getFileSeq());
-        	fileList 				= commonService.selectFileList(param);
-    	}
+    	Map<String, Object> result = userService.getUserRegDetail(userDomain);
     	
     	//전달
-    	mv.addObject("userRegInfo", userRegInfo);
-    	mv.addObject("fileList", fileList);
+    	mv.addObject("result", result);
     	
     	//페이지 분기
-    	if(userRegInfo.getPlClass().equals("1")) {
+    	if(result.get("plClass").equals("1")) {
     		//개인
     		mv.setViewName(CosntPage.BoUserRegPage+"/userRegIndvDetail");
     	}else {

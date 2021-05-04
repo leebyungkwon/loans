@@ -16,17 +16,18 @@ function pageLoad(){
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'		, id:true}
-				,{type:"string"	, name:'memberSeq'		, index:'memberSeq'		, align:"center"}
-				,{type:"string"	, name:'plClass'		, index:'plClass'		, align:"center"}
-				,{type:"string"	, name:'plProduct'		, index:'plProduct'		, align:"center"}
+				,{type:"string"	, name:'memberNm'		, index:'memberNm'		, align:"center"}
+				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'		, align:"center"}
+				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'	, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'		, align:"center"}
 				,{type:"string"	, name:'plMZId'			, index:'plMZId'		, align:"center"}
 				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'	, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName', align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'	, align:"center"}
 				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, align:"center"}
-				,{type:"string"	, name:'fileSeq'		, index:'fileSeq'		, align:"center"}
-				,{type:"string"	, name:'plRegStat'		, index:'plRegStat'		, align:"center"}
+				,{type:"string"	, name:'fileSeq'		, index:'fileSeq'		, align:"center" , hidden:true}
+				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'	, align:"center"}
+				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
@@ -103,9 +104,9 @@ function goUserRegInfoExcelUpload() {
 	}
 }
 
-//선택 승인요청
+//선택 승인요청 -> 필수 첨부파일 하나라도 없으면 요청 불가 *****
 function goApplyAccept() {
-	var chkedLen 	= $("input:checkbox:checked").length;
+	var chkedLen 	= $("tbody > tr > td > input:checkbox:checked").length;
 	
 	if(chkedLen == 0){
 		alert("모집인을 선택해 주세요.");
@@ -114,15 +115,26 @@ function goApplyAccept() {
 	
 	var chkData 		= userRegGrid.getChkData();
 	var masterSeqArr	= [];
+	var fileChk			= 0;
 	
 	for(var i = 0;i < chkedLen;i++){
 		masterSeqArr.push(chkData[i].masterSeq);
+		
+		if(chkData[i].fileSeq == null || chkData[i].fileSeq == ""){
+			fileChk++;
+		}
+	}
+	
+	if(fileChk > 0){
+		alert("필수첨부서류 업로드 미완료 건이 존재합니다.");
+		return;
 	}
 	
 	var p = {
 		  url		: "/member/user/updatePlRegStat"	
 		, param		: {
-			masterSeqArr : masterSeqArr  
+			 masterSeqArr 	: masterSeqArr  
+			,plStat			: '2'
 		}
 		, success 	: function (opt,result) {
 			if(result.data > 0){
@@ -243,8 +255,8 @@ function goApplyAccept() {
 				<p>총 : 몇건일까요</p>
 			</div>
 			<div class="action">
-				<a href="javascript:goUserRegPopOpen();" class="btn_black btn_small mgr5">모집인 등록하기</a> <!-- id="userRegPop" -->
-				<a href="javascript:goApplyAccept();" class="btn_gray btn_small">선택 승인요청</a> <!-- id="applyAccept" -->
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록하기</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goApplyAccept();">선택 승인요청</a>
 			</div>
 		</div>
 		<div id="userRegGrid" class="long_table"></div>
@@ -293,7 +305,6 @@ function goApplyAccept() {
 						<td class="file">
 							<input type="text" class="w50 file_input" readonly disabled>
 							<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
-							<!-- <a href="#" class="btn_gray btn_del mgl5">삭제</a> -->
 							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
 							<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
 						</td>
@@ -302,8 +313,8 @@ function goApplyAccept() {
 			</table>
 		</form>
 		<div class="popup_btn_wrap">
-			<a href="javascript:goUserRegInfoExcelUpload();" class="pop_btn_black">저장</a>
-			<a href="javascript:goUserRegPopClose();" class="pop_btn_white">취소</a>
+			<a href="javascript:void(0);" class="pop_btn_black" onclick="goUserRegInfoExcelUpload();">저장</a>
+			<a href="javascript:void(0);" class="pop_btn_white" onclick="goUserRegPopClose();">취소</a>
 		</div>
 	</div>
 </div>

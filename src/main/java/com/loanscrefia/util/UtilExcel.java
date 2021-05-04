@@ -14,12 +14,24 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.loanscrefia.member.edu.domain.EduDomain;
+import com.loanscrefia.member.edu.repository.EduRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
 import com.loanscrefia.util.excel.ExcelFileType;
 
+@Component
 public class UtilExcel<T> {
+	
+	public UtilExcel() {
+		
+	}
+	
+	@Autowired private EduRepository eduRepo; 
 	
 	//참고 : https://eugene-kim.tistory.com/46
 	public List<Map<String, Object>> upload(String path, Class<?> dClass) {
@@ -30,6 +42,7 @@ public class UtilExcel<T> {
 		List<String> vEnum 		= new ArrayList<String>();
 		List<Integer> vLenMin 	= new ArrayList<Integer>();
 		List<Integer> vLenMax 	= new ArrayList<Integer>();
+		List<String> chkDb 		= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -39,6 +52,7 @@ public class UtilExcel<T> {
 				vEnum.add(columnAnnotation.vEnum());
 				vLenMax.add(columnAnnotation.vLenMax());
 				vLenMin.add(columnAnnotation.vLenMin());
+				chkDb.add(columnAnnotation.chkDb());
 			}
 		}
 		
@@ -71,10 +85,10 @@ public class UtilExcel<T> {
 	                for(int j = 0;j < vCell.size();j++) {
 	                	if(cellName.equals(vCell.get(j))) {
 	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
-	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n"; //<br>
+	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
 	                		}
 	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
-	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n"; //<br>
+	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
 	                		}
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
@@ -82,7 +96,24 @@ public class UtilExcel<T> {
 	        	                	//System.out.println(val[k]+ " , " + ExcelCellRef.getValue(cell) + " = " + val[k].equals(ExcelCellRef.getValue(cell)));
 	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) valChkResult = true;
 	        	                }
-	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n"; //<br>
+	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	                		}
+	                		if(!chkDb.get(j).isEmpty()){
+	                			//String chkDbVal = chkDb.get(j);
+	                			int cellEduNo 	= Integer.parseInt(ExcelCellRef.getValue(cell));
+	                			System.out.println("cellEduNo :: "+cellEduNo);
+	                			
+	                			/*
+	                			EduDomain param = new EduDomain();
+	                			
+	                			param.setPlEduNo(cellEduNo);
+	                			int chkResult 	= plEduNoCheck(param);
+	                			
+	                			if(chkResult > 0) {
+	                				valChkResult = true;
+	                			}
+	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 교육이수번호/인증서번호 체크가 필요합니다.\n";
+	        	                */
 	                		}
 	                	}
 	                }
@@ -139,6 +170,11 @@ public class UtilExcel<T> {
 		wb.close();
 		wb.dispose();
 		stream.close();
+	}
+	
+	@Transactional(readOnly=true)
+	private int plEduNoCheck(EduDomain eduDomain) {
+		return eduRepo.plEduNoCheck(eduDomain);
 	}
 
 }
