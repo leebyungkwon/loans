@@ -627,7 +627,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_timestamp IS '수정일시';
 
-commit;
+commit; 
 
 
 
