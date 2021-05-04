@@ -142,7 +142,6 @@ COMMENT ON COLUMN tb_lc_members.upd_timestamp IS '수정일시';
 
 commit;
 
-
 -- 회원사 정보 seq
 CREATE SEQUENCE tb_lc_company_seq
 	INCREMENT BY 1
@@ -451,7 +450,7 @@ create table tb_lc_mas01_it(
 	oper_seq integer not null default nextval('tb_lc_mas01_it_seq')
 	, master_seq integer not null
 	, oper_name varchar(20) not null
-	, pl_m_z_id varchar(20) not null
+	, pl_m_z_id varchar(20) not null0
 	, file_seq integer
 	, primary key (oper_seq)
 );
@@ -465,8 +464,6 @@ COMMENT ON COLUMN tb_lc_mas01_it.pl_m_z_id IS '주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01_it.file_seq IS '접수번호시퀀스';
 
 commit;
-
-
 
 
 
@@ -489,5 +486,148 @@ COMMENT ON COLUMN tb_lc_edu01.pl_class IS '구분(신입/경력)';
 COMMENT ON COLUMN tb_lc_edu01.pl_product IS '취급상품 교육분류(대출, 리스)';
 COMMENT ON COLUMN tb_lc_edu01.pl_edu_no IS '수료번호';
 COMMENT ON COLUMN tb_lc_edu01.pl_edu_date IS '수료일자';
+
+
+
+-- 모집인단계이력 seq
+CREATE SEQUENCE tb_lc_mas01_step_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 모집인단계이력
+create table tb_lc_mas01_step(
+	master_step_seq integer not null default nextval('tb_lc_mas01_step_seq')
+	, master_seq integer not null
+	, pl_reg_yn varchar(10) not null
+	, mod_date varchar(8) not null
+	, msg varchar(200) not null
+	, primary key (user_step_seq)
+);
+
+COMMENT ON TABLE tb_lc_mas01_step IS '모집인단계이력';
+COMMENT ON COLUMN tb_lc_mas01_step.master_step_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_step.pl_reg_yn IS '모집인상태';
+COMMENT ON COLUMN tb_lc_mas01_step.mod_date IS '변경일';
+COMMENT ON COLUMN tb_lc_mas01_step.msg IS '전달메세지';
+
+commit;
+
+
+-- 모집인 변경이력 정보 seq
+CREATE SEQUENCE tb_lc_mas01_hist_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 모집인 변경이력 정보
+create table tb_lc_mas01_hist(
+	master_hist_seq integer not null default nextval('tb_lc_mas01_hist_seq')
+	, master_seq integer
+	, com_code integer
+	, member_seq integer
+	, pl_class varchar(2)
+	, career_typ varchar(2)
+	, pl_product varchar(30)
+	, pl_reg_stat varchar(2)
+	, pl_stat varchar(2)
+	, pl_regist_no varchar(20)
+	, ci varchar(50)
+	, pl_m_name varchar(20)
+	, pl_m_z_id varchar(20)
+	, pl_m_z_id_edu varchar(20)
+	, pl_cellphone varchar(20)
+	, addr varchar(2)
+	, addr_detail varchar(200)
+	, pl_edu_no integer
+	, career_start_date varchar(8)
+	, career_end_date varchar(8)
+	, entrust_date varchar(8)
+	, pl_merchant_name varchar(30)
+	, pl_ceo_name varchar(10)
+	, pl_merchant_no varchar(13)
+	, pl_business_no varchar(10)
+	, comp_phone_no varchar(20)
+	, corp_found_date varchar(8)
+	, capital integer
+	, com_cont_date varchar(8)	
+	, com_reg_date varchar(8)
+	, chk_yn char(1)
+	, cre_app_date varchar(8)
+	, cre_license_date varchar(8)
+	, pl_pay_stat varchar(2)
+	, pay_date varchar(8)
+	, send_msg varchar(200)
+	, pl_hist_cd varchar(200)
+	, com_haeji_date varchar(8)
+	, cre_haeji_date varchar(8)
+	, file_seq integer
+	, reg_timestamp timestamp NOT NULL
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp NULL
+	, PRIMARY KEY (master_hist_seq)
+);
+
+commit;
+
+COMMENT ON TABLE tb_lc_mas01_hist IS '모집인정보';
+COMMENT ON COLUMN tb_lc_mas01_hist.master_hist_seq IS '모집인변경이력시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
+COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
+COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat IS '처리상태';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_regist_no IS '등록번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_name IS '모집인이름';
+COMMENT ON COLUMN tb_lc_mas01_hist.ci IS 'CI값';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id IS '모집인주민등록번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id_edu IS '교육수료대조(주민등록번호대체값)';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_cellphone IS '모집인휴대전화번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.addr IS '본점소재지(코드)';
+COMMENT ON COLUMN tb_lc_mas01_hist.addr_detail IS '상세주소(법인등기부등본상)';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_edu_no IS '교육이수번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.career_start_date IS '경력시작일';
+COMMENT ON COLUMN tb_lc_mas01_hist.career_end_date IS '경력종료일';
+COMMENT ON COLUMN tb_lc_mas01_hist.entrust_date IS '위탁예정일';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_ceo_name IS '대표이사명';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_merchant_no IS '법인등록번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_business_no IS '사업자등록번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.comp_phone_no IS '회원사대표번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.corp_found_date IS '법인설립일';
+COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
+COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
+COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
+COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
+COMMENT ON COLUMN tb_lc_mas01_hist.cre_app_date IS '승인일(심사완료일)';
+COMMENT ON COLUMN tb_lc_mas01_hist.cre_license_date IS '자격취득일';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_pay_stat IS '결제상태';
+COMMENT ON COLUMN tb_lc_mas01_hist.pay_date IS '결제완료일';
+COMMENT ON COLUMN tb_lc_mas01_hist.send_msg IS '전달메세지';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_hist_cd IS '해지사유';
+COMMENT ON COLUMN tb_lc_mas01_hist.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
+COMMENT ON COLUMN tb_lc_mas01_hist.cre_haeji_date IS '협회해지일자(해지승인날짜)';
+COMMENT ON COLUMN tb_lc_mas01_hist.file_seq IS '첨부파일시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_mas01_hist.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.upd_timestamp IS '수정일시';
+
+commit;
+
 
 
