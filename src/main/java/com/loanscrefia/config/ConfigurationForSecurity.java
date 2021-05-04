@@ -54,8 +54,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/idcheck").permitAll()
 			.antMatchers("/terms").permitAll()
 			.antMatchers("/common/**").permitAll()
-			.antMatchers("/signupTest").permitAll() 
-			.antMatchers("/prevLogin").hasAnyRole("TEMP_MEMBER")
+			.antMatchers("/proAppr").hasAnyRole("TEMP_MEMBER")
 			.antMatchers("/**").hasAnyRole("ADMIN","SYSTEM","MEMBER")
 			.anyRequest().authenticated();
 

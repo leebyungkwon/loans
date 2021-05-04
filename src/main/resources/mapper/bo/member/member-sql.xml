@@ -3,41 +3,40 @@
 <mapper namespace="com.loanscrefia.common.member.repository.MemberRepository">
 
 	<!-- 회원가입 저장 -->
-    <select id="save" parameterType="signup" resultType="signup">
-		<!-- MemberRepository.save -->
+    <select id="insertSignup" parameterType="signup" resultType="signup">
 		INSERT INTO TB_LC_MEMBERS
 		(
 			 MEMBER_ID                     			/*담당자ID*/
 			,PASSWORD                      			/*비밀번호*/
 			,COM_CODE                     		 	/*회원사코드*/
-			,MEMBER_NAME                   		/*담당자이름*/
-			,EMAIL                         				/*이메일*/
+			,MEMBER_NAME                   			/*담당자이름*/
+			,EMAIL                         			/*이메일*/
 			,EXTENSION_NO                    		/*회사전화번호*/
 			,MOBILE_NO                    		 	/*휴대폰번호*/
 			,DEPT_NM                       			/*부서명*/
 			,POSITION_NM                  			/*직위명*/
-			,JOIN_DT									/*가입일*/
+			,JOIN_DT								/*가입일*/
 			,ROLE_NAME								/*권한명*/
-			,FILE_SEQ                      				/*첨부파일ID*/
-			,TERMS_YN									/*약관동의*/
+			,FILE_SEQ                      			/*첨부파일ID*/
+			,TERMS_YN								/*약관동의*/
 			,TERMS_DATE								/*약관동의일*/
 		)
 		VALUES
 		(
-		 	 #{memberId}                    			/*로그인ID*/ 
+		 	 #{memberId}                    		/*로그인ID*/ 
 			,#{password}                   		 	/*비밀번호*/  
 			,#{comCode}                   			/*회원사코드*/ 
 			,#{memberName}                  		/*담당자이름*/  
-			,#{email}                       				/*이메일*/   
+			,#{email}                       		/*이메일*/   
 			,#{extensionNo}                    		/*회사전화번호*/  
-			,#{mobileNo}                    			/*휴대폰번호*/  
-			,#{deptNm}                      			/*부서명*/   
-			,#{positionNm}                  			/*직위명*/   
-			,TO_CHAR(NOW(), 'YYYYMMDD')	/*가입일*/
+			,#{mobileNo}                    		/*휴대폰번호*/  
+			,#{deptNm}                      		/*부서명*/   
+			,#{positionNm}                  		/*직위명*/   
+			,TO_CHAR(NOW(), 'YYYYMMDD')				/*가입일*/
 			,'NO_MEMBER'							/*권한명*/   
-			,#{fileSeq}									/*첨부파일ID*/
-			,'Y'											/*약관동의*/
-			,TO_CHAR(NOW(), 'YYYYMMDD')	/*약관동의일*/
+			,#{fileSeq}								/*첨부파일ID*/
+			,'Y'									/*약관동의*/
+			,TO_CHAR(NOW(), 'YYYYMMDD')				/*약관동의일*/
 		)	
 		RETURNING MEMBER_SEQ AS memberSeq
 	</select>
@@ -48,21 +47,11 @@
         FROM TB_LC_MEMBERS
         WHERE MEMBER_ID = #{memberId}
     </select>
-
-    <select id="usersNameCheck" resultType="int" >
-        select count(*) from USERS  WHERE  username =#{username}
-    </select>
 	
     <select id="findById" parameterType="member" resultType="member">
 	    select *
 	    from tb_lc_members
 	    where member_id = #{memberId}
-    </select>
-   
-    <select id="findRoles" parameterType="member" resultType="memberRole">
-	    select *
-	    from tb_lc_member_role
-	    where member_seq = #{memberSeq}
     </select>
     
     <update id="loginFailCnt" parameterType="member" >
@@ -70,11 +59,5 @@
     	SET fail_cnt = fail_cnt+1
     	WHERE member_id = #{memberId}
     </update>
-    
-    <select id="getMember" parameterType="signup" resultType="signup">
-	    select *
-	    from TB_LC_MEMBERS
-	    where member_no = #{memberNo}
-    </select>
-    
+
 </mapper> 

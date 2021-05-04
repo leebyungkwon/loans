@@ -244,7 +244,6 @@ var AjaxUtil = {
             data: formData,
             headers: { "Content-Type": "multipart/form-data" }
         }).then(function(response) {
-        	console.log(response);
             //AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
 
@@ -261,12 +260,12 @@ var AjaxUtil = {
             	}
         	}
         })
-        /*
+        
         .catch(function(error) {
             //AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         })
-        */
+        
         .then(function () {
             // 로딩바 닫기
             //AjaxUtil.closeLoadBar(loadYn);

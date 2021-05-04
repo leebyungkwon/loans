@@ -7,28 +7,26 @@ function pageLoad(){
 	
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
-
-	var password       = $("#password").val();               // 비밀번호
-	var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
+		var password       = $("#password").val();               // 비밀번호
+		var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
 	
-	if($("#checkid").val() == "N"){
-		alert("중복체크를 실행해 주세요.");
-		return false;
-	}
+		if($("#checkId").val() == "N"){
+			alert("중복체크를 실행해 주세요.");
+			return false;
+		}
 	
-	if( password == passwordChk ){
-		var test = {
-			name : 'signup'
-			,success: function(opt, result) {
-				console.log("회원가입에 성공하였습니다.");
- 				location.href="/login";
-			}
-		}      
-		AjaxUtil.files(test);
-		} else {
-			alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
+		if( password == passwordChk ){
+			var signupParam = {
+				name : 'signup'
+				,success: function(opt, result) {
+	 				location.href="/login";
+				}
+			}      
+			AjaxUtil.files(signupParam);
+		}else{
 			$("#password").val("");
 			$("#passwordChk").val("");
+			alert("아이디 패스워드를 확인해 주세요.");
 			return false;
 		}
 	});
@@ -49,9 +47,9 @@ function pageLoad(){
 	
 	// 양식 다운로드
 	$("#sampleDown").on("click", function(){
-		alert("양식다운로드 실행");
+		// 추후 양식 관련 템플 정리 후 번호 책정
 		var param = {
-				'fileSeq'	:	2
+			'fileSeq'	:	2
 		}
  		var p = {
 			  param : param
@@ -65,28 +63,35 @@ function pageLoad(){
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
 		var memberId = $("#memberId").val();
+		if(WebUtil.isNull(memberId)){
+			alert("아이디를 입력해 주세요.");
+			return false;
+		}
+		
 		var	param = {
 				'memberId' : memberId
-			} // end of param
+		}
 	    var p = {
-            	 param: param
-				,url: "/idcheck"
-              	,success: function(opt, result) {    
-                   if(result > 0) {
-                       alert("해당 아이디가 존재합니다.");    
-                       $("#memberId").val("");
-                       $("#checkid").val("N");
-                   } else {
-                       alert("사용가능 아이디 입니다.");
-                       $("#checkid").val("Y");
-                   }            
-               }, // end of success
-               error: function(error) {
-                   alert("아이디를 입력해주세요.");
-               } // end of error        
-   		} // end of p
+			param: param
+			,url: "/idcheck"
+            ,success: function(opt, result) {
+            	if(result > 0){
+                    $("#memberId").val("");
+                    $("#checkId").val("N");
+                    alert("해당 아이디가 존재합니다.");    
+            	}else{
+            		$("#checkId").val("Y");
+            		alert("사용가능 아이디 입니다.");
+            	}        
+   			}
+		}
 		AjaxUtil.post(p);
-	}); // end of 아이디 중복체크
+	});
+	
+	// 아이디 수정시 중복체크 value 변경
+	$("#memberId").on("change", function(){
+		$("#checkId").val("N");
+	});
 	
 	// 첨부파일 찾기시 file tag 실행
 	$("#u_file").on("change", function(){
@@ -112,9 +117,8 @@ function pageLoad(){
 <div class="page_title">
 	<h2>회원가입</h2>
 </div>
-<form name="signup" id="signup" action="/signupTest" method="POST" enctype="multipart/form-data" >
-<input type="hidden" id="checkid" value="N"/>
-
+<form name="signup" id="signup" action="/signup" method="POST" enctype="multipart/form-data" >
+	<input type="hidden" id="checkId" value="N"/>
 	<div class="join_wrap">
 		<table>
 			<colgroup>
@@ -137,11 +141,7 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
- 					<p class="noti">
-						알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br />
-						휴대폰 뒤 4자리, 생년월일, 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용불가능합니다.
-					</p>
+					<input type="password" id="password" name="password" placeholder="최소8자, 문자/숫자/특수문자를 입력하세요."  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
@@ -180,7 +180,7 @@ function pageLoad(){
 			<tr>
 				<th>회사 전화번호</th>
 				<td>
-					<input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사 전화번호를 입력해 주세요"}' />
+					<input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"회사 전화번호를 입력해 주세요"}' />
 				</td>
 			</tr>
 			<tr>
@@ -192,7 +192,7 @@ function pageLoad(){
 			<tr>
 				<th>첨부파일 (신청서)</th>
 				<td id="fileTag">
-					<input type="text" id="fileName" name="fileName"><!-- readonly disabled -->
+					<input type="text" id="fileName" name="fileName">
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="sampleDown">양식다운로드</a>

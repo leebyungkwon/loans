@@ -469,3 +469,25 @@ commit;
 
 
 
+
+-- 교육이수정보
+create table tb_lc_edu01(
+	pl_m_name varchar(20) not null
+	, pl_m_z_id varchar(20)	not null
+	, pl_class varchar(2) not null
+	, pl_product varchar(30) not null
+	, pl_edu_no integer	not null
+	, pl_edu_date varchar(8) not null
+);
+
+commit;
+
+COMMENT ON TABLE tb_lc_edu01 IS '교육이수정보';
+COMMENT ON COLUMN tb_lc_edu01.pl_m_name IS '모집인이름';
+COMMENT ON COLUMN tb_lc_edu01.pl_m_z_id IS '모집인주민등록번호';
+COMMENT ON COLUMN tb_lc_edu01.pl_class IS '구분(신입/경력)';
+COMMENT ON COLUMN tb_lc_edu01.pl_product IS '취급상품 교육분류(대출, 리스)';
+COMMENT ON COLUMN tb_lc_edu01.pl_edu_no IS '수료번호';
+COMMENT ON COLUMN tb_lc_edu01.pl_edu_date IS '수료일자';
+
+

@@ -27,14 +27,6 @@ import com.loanscrefia.system.code.domain.CodeMstDomain;
 public class LoginService implements UserDetailsService {
     
 	@Autowired private MemberRepository memberRepository;
-	@Autowired private MemberRoleRepository memberRoleRepository;
-    
-    @Transactional
-    public SignupDomain saveUser(SignupDomain signupDomain) {
-    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
-        return memberRepository.save(signupDomain);
-    }
 
     // security 로그인
     public UserDetails loadUserByUsername(@Valid String memberId) throws UsernameNotFoundException {
@@ -44,12 +36,8 @@ public class LoginService implements UserDetailsService {
 			.filter(member -> member!= null)
 			.map(member -> new SecurityMember(mem)).get();
 	}
-    
-	public void saveRole(MemberRoleDomain memberRoleDomain) {
-		memberRoleDomain.setRoleName("MEMBER");
-		memberRoleRepository.save(memberRoleDomain);
-	}
 	
+    // 로그인 실패 횟수 증가
 	@Transactional
 	public void loginFailCnt(MemberDomain memberDomain) {
 		memberRepository.loginFailCnt(memberDomain);
@@ -61,20 +49,11 @@ public class LoginService implements UserDetailsService {
 	 	return memberRepository.idCheck(signupDomain);
 	}
 	
-	public SignupDomain getMember(SignupDomain signupDomain) {
-		return memberRepository.getMember(signupDomain);
-	}
-	
-	
-	
-	
-	
-	
 	@Transactional
-	public ResponseMsg saveUserTest(SignupDomain signupDomain){
+	public ResponseMsg insertSignup(SignupDomain signupDomain){
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
-    	signupDomain = memberRepository.save(signupDomain);
+    	memberRepository.insertSignup(signupDomain);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입에 성공하였습니다.");
 	}
 

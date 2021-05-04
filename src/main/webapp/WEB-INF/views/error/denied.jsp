@@ -7,15 +7,9 @@
 
 <script>
 	function pageLoad(){
-		
-		
 		<sec:authorize access="hasAnyRole('TEMP_MEMBER')">
-			alert("???");
-			location.href="/prevLogin";
+			location.href="/proAppr";
 		</sec:authorize>
-		
 	}
 </script>
-
-	접근 할 수 없는 페이지
 
