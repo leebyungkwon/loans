@@ -72,7 +72,6 @@ public class CompanyController {
     	CompanyDomain companyDetail	= companyService.getCompanyDetail(companyDomain);
     	mv.addObject("companyDetail", companyDetail);
     	
-    	
     	FileDomain file = new FileDomain();
     	file.setFileSeq(companyDetail.getFileSeq());
     	file = commonService.getFile(file);

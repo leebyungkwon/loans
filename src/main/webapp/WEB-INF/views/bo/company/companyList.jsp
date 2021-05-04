@@ -72,6 +72,7 @@
 	}
 
 </script>
+
 <form id="companyDetailFrm" method="post" action="/admin/company/companyDetail">
 	<input type="hidden" name="memberSeq" id="memberSeq"/>
 </form>

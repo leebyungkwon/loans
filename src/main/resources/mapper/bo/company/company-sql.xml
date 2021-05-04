@@ -6,7 +6,7 @@
     <select id="selectCompanyList" parameterType="company" resultType="company">
 	    SELECT 
 	    	<include refid="common.totalPages"/>
-    		TLM.MEMBER_SEQ
+    		 TLM.MEMBER_SEQ
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
@@ -17,7 +17,7 @@
 			,TLM.MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TLM.JOIN_DT
+			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
@@ -32,11 +32,11 @@
 	    FROM TB_LC_MEMBERS TLM
 	    <where>
 	    	<if test="comCode != 0 and comCode != '0'">
-					AND	TLM.COM_CODE 	    = #{comCode}
-				</if>
-				<if test="apprStat != null and apprStat != ''">
-					AND	TLM.APPR_STAT 		= #{apprStat}
-				</if>
+				AND	TLM.COM_CODE 	    = #{comCode}
+			</if>
+			<if test="apprStat != null and apprStat != ''">
+				AND	TLM.APPR_STAT 		= #{apprStat}
+			</if>
 		</where>
 	    <include refid="common.pageBottom"/>
     </select>
@@ -44,7 +44,7 @@
    <!-- 회원사 담당자 상세보기 -->
 	<select id="getCompanyDetail" parameterType="company" resultType="company">
 		SELECT 
-    		TLM.MEMBER_SEQ
+    		 TLM.MEMBER_SEQ
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
@@ -55,7 +55,7 @@
 			,TLM.MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TLM.JOIN_DT
+			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE

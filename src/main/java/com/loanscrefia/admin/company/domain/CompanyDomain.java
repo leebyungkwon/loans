@@ -20,7 +20,7 @@ public class CompanyDomain extends BaseDomain {
 	private String comCodeNm;									//코드 이름
 	@ExcelColumn(headerName = "담당자 이름", order = 3)
 	private String memberName;									//담당자 이름
-	@ExcelColumn(headerName = "이메일", order = 6)
+	@ExcelColumn(headerName = "이메일", order = 8)
 	private String email;										//이메일
 	private String extensionNo;									//내선번호
 	@ExcelColumn(headerName = "휴대폰번호", order = 7)
@@ -29,11 +29,12 @@ public class CompanyDomain extends BaseDomain {
 	private String deptNm;										//부서명
 	@ExcelColumn(headerName = "직위명", order = 4)
 	private String positionNm;									//직위명
-	@ExcelColumn(headerName = "가입일", order = 5)
+	@ExcelColumn(headerName = "회원가입일", order = 5)
 	private String joinDt;										//가입일
 	private String roleName;									//권한명
 	private String termsYn;										//약관동의
 	private String termsDate;									//약관동의일
+	@ExcelColumn(headerName = "승인상태", order = 6)
 	private String apprStat;									//승인상태(1.미승인, 2. 가승인, 3. 승인)
 	/* private String apprStatNm; */ 							//승인상태이름(1.미승인, 2. 가승인, 3. 승인)
 	private int fileSeq;										//첨부파일시퀀스
