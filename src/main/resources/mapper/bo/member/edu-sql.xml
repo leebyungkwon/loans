@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.member.edu.repository.EduRepository">
+   
+   	<!-- 모집인 등록 > 리스트 -->
+   	<select id="plEduNoCheck" parameterType="edu" resultType="int">
+   		SELECT COUNT(1)
+   		FROM TB_LC_EDU01
+   		<where>
+   			AND PL_EDU_NO = #{plEduNo}
+   		</where>
+   	</select>
+   
+</mapper> 
