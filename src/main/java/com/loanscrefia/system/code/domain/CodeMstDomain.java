@@ -22,7 +22,7 @@ public class CodeMstDomain extends BaseDomain {
 	private String codeMstCd;
 	
 	@NotBlank(message = "코드마스터명을 입력해 주세요.")
-	@Pattern(regexp = "^[가-힣]*${1,100}", message = "코드마스터명은 한글 1~100자리로 입력해 주세요.")
+	@Pattern(regexp = "^[가-힣0-9]*${1,100}", message = "코드마스터명은 한글 1~100자리로 입력해 주세요.")
 	private String codeMstNm;
 	
 	private String codeMstDesc;
