@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.common.board.repository.BoardRepository">
+
+   <!-- 공지사항 글 조회, 상세 -->
+   <select id="selectNoticeList2" parameterType="board" resultType="board">
+      SELECT 
+      <include refid="common.totalPages"/>
+         FROM 
+      <include refid="common.pageBottom"/> 
+   </select>
+
+      <!-- 회원사 회원 조회 (테스트중)-->
+   <select id="selectNoticeList" parameterType="board" resultType="board">
+      SELECT 
+      <include refid="common.totalPages"/>
+          TLM.MEMBER_SEQ
+         ,TLM.MEMBER_ID
+         ,TLM.PASSWORD
+         ,TLM.COM_CODE
+         ,TLM.MEMBER_NAME
+         ,TLM.EMAIL
+      <!--,TLM.EXTENSION_NO -->
+         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
+      <!--,TLM.MOBILE_NO -->
+         ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+         ,TLM.DEPT_NM
+         ,TLM.POSITION_NM
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         ,TLM.APPR_STAT
+         ,TLM.FILE_SEQ
+         ,TLM.FAIL_CNT
+         ,TLM.CRE_YN
+         ,TLM.DROP_YN
+         ,TLM.UPD_SEQ
+         ,TLM.UPD_TIMESTAMP
+         FROM TB_LC_MEMBERS TLM
+      <include refid="common.pageBottom"/>
+   </select>
+   
+     <!-- 회원사 회원 조회 (테스트중)-->
+   <select id="getNoticeDetail" parameterType="board" resultType="board">
+      SELECT 
+         TLM.MEMBER_SEQ
+         ,TLM.MEMBER_ID
+         ,TLM.MEMBER_NAME
+         ,TLM.EMAIL
+      <!--,TLM.EXTENSION_NO -->
+         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
+      <!--,TLM.MOBILE_NO -->
+         ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+         ,TLM.DEPT_NM
+         ,TLM.POSITION_NM
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         FROM TB_LC_MEMBERS TLM
+      <where>
+         AND TLM.MEMBER_SEQ = #{memberSeq}
+      </where>
+   </select>
+   
+</mapper> 

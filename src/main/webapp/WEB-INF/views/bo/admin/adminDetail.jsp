@@ -30,6 +30,7 @@ function pageLoad(){
    </form>
 
    <div class="contents">
+	 <h3> </h3>
       <div id="table">
          <table class="view_table">
             <tr>

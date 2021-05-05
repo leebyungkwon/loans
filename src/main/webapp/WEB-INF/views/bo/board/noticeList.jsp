@@ -1,78 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<script type="text/javascript">
-var Grid = Object.create(GRID); 
-function pageLoad(){
-	Grid.set({
-		  id		: "grid"
-  		, url		: "/bo/board/list"
-	    , width		: "100%"
-  		, headCol	: ["번호", "타입", "제목", "등록시간"]
-  		, bodyCol	: 
-  			[
-				{type:"string"	, name:'id'			, index:'id'			, width:"10px"	}
-				,{type:"string"	, name:'boardType'	, index:'boardType'		, width:"20%"	, align:"center"}
-				,{type:"string"	, name:'boardTitle'	, index:'boardTitle'	, width:"40%"	, align:"center"}		
-				,{type:"string"	, name:'regDate'	, index:'regDate'		, width:"30%"	, sortable:false}	
-			]
-		, sortNm : "id"
-		, sort : "DESC"
-		, rowClick	: {color:"#ff9716c2", retFunc : move}
-		, gridSearch : "search"
-	});
-	
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
-	document.getElementById('btn_reg').onclick = function () {
-		let p = {
-			id : 'testReg'
-			, url : "/bo/board/p/noticeReg"
-		}
-		LibUtil.openPopup(p);
-	};
-}
-function move(idx, data){
-	
-	//location.href = "/bo/board/noticeReg?id="+data.id;
-}
+<script type="text/javascript">
+
+   var NoticeListGrid = Object.create(GRID);
+
+   function pageLoad(){
+      NoticeListGrid.set({
+         id      : "NoticeListGrid"
+         , url      : "/admin/board/noticeList"
+         , width      : "100%"
+         , headCol   : ["No.", "제목", "조회수", "등록일"]
+         , bodyCol   : 
+                  [
+                   {type:"string"   , name:'memberSeq'       , index:'memberSeq'        , width:"10%"   , align:"center" 	}
+                  ,{type:"string"   , name:'extensionNo'     , index:'extensionNo'      , width:"60%"   , align:"left"	}      // 회사전화번호
+                  ,{type:"string"   , name:'mobileNo'        , index:'mobileNo'         , width:"15%"   , align:"center"	}      // 휴대폰번호
+                  ,{type:"string"   , name:'joinDt'          , index:'joinDt'           , width:"15%"   , align:"center"	}      // 가입일
+                  ]
+         , sortNm : "member_seq"
+         , sort : "DESC"
+         , size : 10
+         , rowClick   : {retFunc : detailPop}
+         , isPaging : true
+      });
+   }
+   
+   // AdminDetail 페이지로 이동
+   function detailPop(idx, data){
+      var memberSeq = NoticeListGrid.gridData[idx].memberSeq;
+      $("#hMemberSeq").val(memberSeq);
+      $("#noticeDetailFrm").submit();
+   }
+   
+   // 글쓰기 페이지로 이동
+   function noticeWrite(){
+	   alert("나는 글쓰기 버튼!");
+   }
+   
 </script>
 
-<div class="article_right">
-	<h3  class="article_tit">공지사항</h3>
-	<div class="k_search" id="search">
-		<table class="searchbx">
-			<colgroup>
-				<col width="9%">
-				<col width="13%">
-				<col width="9%">
-				<col width="13%">
-				<col width="9%">
-				<col width="13%">
-				<col width="9%">
-				<col width="13%">
-			</colgroup>
-			<tbody>
-				<tr>
-					<td>
-						<p class="red">제목</p>
-					</td>
-					<td><input type="text" name="boardTitle" class="" value=""></td>
-					<td>
-						<p>타입</p>
-					</td>
-					<td><input type="text" name="boardType" class=""></td>
-					<td>
-						<p>내용</p>
-					</td>
-					<td><input type="text" name="boardCnts" class=""></td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="btnbx">
-			<button type="button" class="btn btn_home gridSearch">조회</button>
-			<a class="btn btn_home" href="/bo/board/noticeReg">등록</a>
-			<a class="btn btn_home" id="btn_reg" >등록2</a>
-		</div>
-	</div>
-	<div id="grid"></div>
+<form id="noticeDetailFrm" method="post" action="/admin/board/noticeDetail">
+   <input type="hidden" name="memberSeq" id="hMemberSeq"/>
+</form>
+
+<div class="cont_area">
+   <div class="top_box">
+      <div class="title">
+         <h2>공지사항</h2>
+      </div>
+   <a href="javascript:noticeWrite();" class="btn_inquiry">글쓰기</a>
+   </div>
+   <div id="NoticeListGrid"></div>
 </div>
