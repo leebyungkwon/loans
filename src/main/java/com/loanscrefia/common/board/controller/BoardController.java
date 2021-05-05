@@ -19,30 +19,29 @@ import com.loanscrefia.config.string.CosntPage;
 @RequestMapping(value="/admin/board")
 public class BoardController {
    
-   @Autowired private BoardService boardService;
-   
-   // 공지사항 이동
-   @GetMapping(value="/noticePage")
-   public String Notice() {
-      return CosntPage.BoBoardPage+"/noticeList";
-   }
+	@Autowired private BoardService boardService;
 
-   // 공지사항 - 리스트
-   @PostMapping(value="/noticeList")
-   public ResponseEntity<ResponseMsg> NoticeList(BoardDomain boardDomain){
-      ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-       responseMsg.setData(boardService.selectNoticeList(boardDomain));
-      return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-   }
-   
+	// 공지사항 이동
+	@GetMapping(value="/noticePage")
+	public String Notice() {
+		return CosntPage.BoBoardPage+"/noticeList";
+	}
+
+	// 공지사항 - 리스트
+	@PostMapping(value="/noticeList")
+	public ResponseEntity<ResponseMsg> NoticeList(BoardDomain boardDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		responseMsg.setData(boardService.selectNoticeList(boardDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+
 	// 공지사항 - 상세 페이지
 	@PostMapping(value="/noticeDetail")
-   public ModelAndView NoticeDetail(BoardDomain boardDomain) {
-   	ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeDetail");
-   	BoardDomain boardInfo = boardService.getNoticeDetail(boardDomain);
-   	mv.addObject("boardInfo", boardInfo);
-    return mv;
-   }
-   
+	public ModelAndView NoticeDetail(BoardDomain boardDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeDetail");
+		BoardDomain boardInfo = boardService.getNoticeDetail(boardDomain);
+		mv.addObject("boardInfo", boardInfo);
+		return mv;
+	}
 
 }

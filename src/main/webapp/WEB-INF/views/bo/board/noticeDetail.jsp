@@ -21,13 +21,10 @@
 	<div class="contents">
 		<div class="notice_view">
 			<div class="titlebox">
-			
 				<h3>[필독] 리스할부 모집인 등록 파일명 규칙</h3>
-				
 				<div class="date">
 					2021.03.11
 				</div>
-				
 			</div>
 				
 			<div class="contbox">
@@ -54,7 +51,6 @@
 				기관코드(2자리) : 여신금융회사 코드 (여신금융사별 코드는 공지사항에서 확인 가능)<br />
 				확장자(3자리) : zip
 			</div>
-				
 			<div class="btn_wrap">
 				<a href="#" class="btn_gray">목록</a>								
 			</div>

@@ -12,15 +12,15 @@ import com.loanscrefia.common.board.repository.BoardRepository;
 @Service
 public class BoardService {
    
-   @Autowired private BoardRepository boardRepository;
+	@Autowired private BoardRepository boardRepository;
+	   
+	// 공지사항 리스트
+	@Transactional(readOnly=true)
+	public List<BoardDomain> selectNoticeList(BoardDomain boardDomain){
+		return boardRepository.selectNoticeList(boardDomain);
+	}
    
-   // 회원사 회원 조회
-   @Transactional(readOnly=true)
-   public List<BoardDomain> selectNoticeList(BoardDomain boardDomain){
-      return boardRepository.selectNoticeList(boardDomain);
-   }
-   
-	// 회원사 조회 -> 상세
+	// 공지사항 리스트 -> 상세
 	@Transactional(readOnly=true)
 	public BoardDomain getNoticeDetail(BoardDomain boardDomain){
 		return boardRepository.getNoticeDetail(boardDomain);

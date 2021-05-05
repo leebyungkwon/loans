@@ -76,7 +76,7 @@
       </where>
    </select>
 
-   <!-- 회원사 수정 조회 > 수정 -->
+   <!-- 회원사 수정 조회 -> 수정 -->
    <select id="saveAdminUpdate" parameterType="admin">
       UPDATE TB_LC_MEMBERS
       SET

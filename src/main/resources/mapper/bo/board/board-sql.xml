@@ -10,7 +10,7 @@
       <include refid="common.pageBottom"/> 
    </select>
 
-      <!-- 회원사 회원 조회 (테스트중)-->
+   <!-- 회원사 회원 조회 (테스트중 - 삭제 가능 O)-->
    <select id="selectNoticeList" parameterType="board" resultType="board">
       SELECT 
       <include refid="common.totalPages"/>
@@ -38,7 +38,7 @@
       <include refid="common.pageBottom"/>
    </select>
    
-     <!-- 회원사 회원 조회 (테스트중)-->
+   <!-- 회원사 회원 조회 (테스트중 - 삭제 가능 O)-->
    <select id="getNoticeDetail" parameterType="board" resultType="board">
       SELECT 
          TLM.MEMBER_SEQ

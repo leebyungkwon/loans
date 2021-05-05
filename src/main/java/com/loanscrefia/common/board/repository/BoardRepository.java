@@ -10,8 +10,8 @@ import com.loanscrefia.common.board.domain.BoardDomain;
 public interface BoardRepository {
 
 	// 공지사항 리스트
-   List<BoardDomain> selectNoticeList(BoardDomain boardDomain);
+	List<BoardDomain> selectNoticeList(BoardDomain boardDomain);
    
 	// 공지사항 - 상세보기
-   BoardDomain getNoticeDetail(BoardDomain boardDomain);
+	BoardDomain getNoticeDetail(BoardDomain boardDomain);
 }

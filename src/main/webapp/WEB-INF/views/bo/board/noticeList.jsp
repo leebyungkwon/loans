@@ -9,21 +9,21 @@
 
    function pageLoad(){
       NoticeListGrid.set({
-         id      : "NoticeListGrid"
-         , url      : "/admin/board/noticeList"
-         , width      : "100%"
+		   id      	 : "NoticeListGrid"
+         , url       : "/admin/board/noticeList"
+         , width     : "100%"
          , headCol   : ["No.", "제목", "조회수", "등록일"]
          , bodyCol   : 
                   [
-                   {type:"string"   , name:'memberSeq'       , index:'memberSeq'        , width:"10%"   , align:"center" 	}
-                  ,{type:"string"   , name:'extensionNo'     , index:'extensionNo'      , width:"60%"   , align:"left"	}      // 회사전화번호
-                  ,{type:"string"   , name:'mobileNo'        , index:'mobileNo'         , width:"15%"   , align:"center"	}      // 휴대폰번호
-                  ,{type:"string"   , name:'joinDt'          , index:'joinDt'           , width:"15%"   , align:"center"	}      // 가입일
+                   {type:"string"   , name:'memberSeq'       , index:'memberSeq'        , width:"10%"   , align:"center" 	}		// No.
+                  ,{type:"string"   , name:'extensionNo'     , index:'extensionNo'      , width:"60%"   , align:"left"		}      	// 제목
+                  ,{type:"string"   , name:'mobileNo'        , index:'mobileNo'         , width:"15%"   , align:"center"	}      	// 조회수
+                  ,{type:"string"   , name:'joinDt'          , index:'joinDt'           , width:"15%"   , align:"center"	}      	// 등록일
                   ]
-         , sortNm : "member_seq"
-         , sort : "DESC"
-         , size : 10
-         , rowClick   : {retFunc : detailPop}
+         , sortNm 	: "member_seq"
+         , sort 	: "DESC"
+         , size 	: 10
+         , rowClick : {retFunc : detailPop}
          , isPaging : true
       });
    }
@@ -47,11 +47,11 @@
 </form>
 
 <div class="cont_area">
-   <div class="top_box">
-      <div class="title">
-         <h2>공지사항</h2>
-      </div>
-   <a href="javascript:noticeWrite();" class="btn_inquiry">글쓰기</a>
-   </div>
-   <div id="NoticeListGrid"></div>
+	<div class="top_box">
+		<div class="title">
+			<h2>공지사항</h2>
+		</div>
+		<a href="javascript:noticeWrite();" class="btn_inquiry">글쓰기</a>
+	</div>
+	<div id="NoticeListGrid"></div>
 </div>

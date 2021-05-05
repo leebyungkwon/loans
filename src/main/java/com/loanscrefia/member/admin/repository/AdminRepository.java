@@ -21,4 +21,5 @@ public interface AdminRepository {
 
 	// 회원사 조회 (체크박스 선택시) - > 삭제 
 	int adminCheckDelete(AdminDomain AdminDomain);
+	
 }
