@@ -9,9 +9,8 @@ group = 'loanscrefia'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-apply plugin: 'war'
 war {
-	baseName = 'loanscrefia-bo'
+	baseName = 'loanscrefia'
 }
 
 
@@ -24,6 +23,10 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
+
+bootWar.enabled = false
+war.enabled = true
 
 dependencies {
 
@@ -46,7 +49,9 @@ dependencies {
 	implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'javax.validation:validation-api'
-	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	
 	implementation 'org.aspectj:aspectjweaver:1.7.0'
 	implementation 'org.aspectj:aspectjrt:1.7.0'
 	implementation 'aspectj:aspectjtools:1.5.4'
