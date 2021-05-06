@@ -31,7 +31,7 @@ public class CompanyDomain extends BaseDomain {
 	private String positionNm;									//직위명
 	@ExcelColumn(headerName = "회원가입일", order = 5)
 	private String joinDt;										//가입일
-	private String roleName;									//권한명
+	private String roleName;									//권한명(1.미승인: NO_MEMBER, 2.가승인: TEMP_MEMEBER 3. 승인: MEMBER)
 	private String termsYn;										//약관동의
 	private String termsDate;									//약관동의일
 	@ExcelColumn(headerName = "승인상태", order = 6)

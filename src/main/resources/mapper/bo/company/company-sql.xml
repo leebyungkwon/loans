@@ -13,8 +13,10 @@
 			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			,TLM.EXTENSION_NO
-			,TLM.MOBILE_NO
+			<!--,TLM.EXTENSION_NO -->
+      	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
+    		<!--,TLM.MOBILE_NO -->
+      		,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
 			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
@@ -51,8 +53,10 @@
 			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			,TLM.EXTENSION_NO
-			,TLM.MOBILE_NO
+			<!--,TLM.EXTENSION_NO -->
+     	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
+			<!--,TLM.MOBILE_NO -->
+     	    ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
 			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
@@ -73,17 +77,20 @@
 		</where>
 	</select>
 	
+	<!-- 회원사 담당자 승인 상태 수정 -->
     <update id="updateCompanyStat" parameterType="company">
    		UPDATE TB_LC_MEMBERS
    		SET	
    			 APPR_STAT = #{apprStat}
+   			,ROLE_NAME = #{roleName}
    			,UPD_SEQ   = #{updSeq}
    		<where>
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
    	</update>
    	
-   	 <delete id="deleteCompany" parameterType="company">
+    <!-- 회원사 담당자 삭제 -->
+   	<delete id="deleteCompany" parameterType="company">
    		DELETE FROM TB_LC_MEMBERS
    		<where>
    			AND MEMBER_SEQ 	= #{memberSeq}

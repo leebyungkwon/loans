@@ -81,37 +81,37 @@ function deleteCompany() {
 		<div class="title">
 			<h2>회원사 담당자 관리</h2>
 		</div>
-			<div class="info_box k_search" id="search">
-				<table class="info_box_table">
-					<colgroup>
-						<col width="80"/>
-						<col width="200"/>
-						<col width="80"/>
-						<col width="200"/>
-					</colgroup>
-					<tr>
-						<th>회원사</th>
-						<td>
-							<select name="comCode">
-								<option value="0">전체</option>
-								<option value="1">여신</option>
-								<option value="2">대출</option>
-								<option value="3">모집</option>
-							</select>
-						</td>
-						<th>승인여부</th>
-						<td>
-							<select name="apprStat">
-								<option value="">전체</option>
-								<option value="1">미승인</option>
-								<option value="2">가승인</option>
-								<option value="3">승인</option>
-							</select>
-						</td>
-					</tr>
-				</table>	
-				<a href="javascript:void(0);" class="btn_inquiry" id="searctBtn">조회</a>
-			</div>
+		<div class="info_box k_search" id="search">
+			<table class="info_box_table">
+				<colgroup>
+					<col width="80"/>
+					<col width="200"/>
+					<col width="80"/>
+					<col width="200"/>
+				</colgroup>
+				<tr>
+					<th>회원사</th>
+					<td>
+						<select name="comCode">
+							<option value="0">전체</option>
+							<option value="1">여신</option>
+							<option value="2">대출</option>
+							<option value="3">모집</option>
+						</select>
+					</td>
+					<th>승인여부</th>
+					<td>
+						<select name="apprStat">
+							<option value="">전체</option>
+							<option value="1">미승인</option>
+							<option value="2">가승인</option>
+							<option value="3">승인</option>
+						</select>
+					</td>
+				</tr>
+			</table>	
+			<a href="javascript:void(0);" class="btn_inquiry" id="searctBtn">조회</a>
+		</div>
 			<div class="sorting_wrap">
 			<div class="action">
 				<a href="javascript:alert('붙여야해!~');" class="btn_gray btn_small mgl5">다운로드</a>
@@ -121,7 +121,7 @@ function deleteCompany() {
 		<div id="companyGrid"></div>
 	<div class="sorting_wrap">
 		<div class="action">
-			<a href="javascript:deleteCompany();" class="btn_gray btn_del mgl5">삭제</a>
+			<a href="javascript:void(0);" class="btn_gray btn_small mgl5" onclick="deleteCompany();">삭제</a>
 		</div>
 	</div>
 </div>

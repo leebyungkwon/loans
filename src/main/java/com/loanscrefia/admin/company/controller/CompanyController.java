@@ -46,20 +46,21 @@ public class CompanyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 협회= 회원사 당담자 상세 페이지	  
+	// 협회 - 회원사 당담자 상세 페이지	  
 	@GetMapping(value="/companyDetail")
 	public ModelAndView companyDetail() {
     	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
         return mv;
 	}
 	
+	// 협회 - 회원사 당담자 상세 페이지
 	@PostMapping(value="/companyDetail")
     public ModelAndView companyDetail(CompanyDomain companyDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
+    	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
     	//상세
     	CompanyDomain companyDetail	= companyService.getCompanyDetail(companyDomain);
     	mv.addObject("companyDetail", companyDetail);
-    	
+    	//파일 업로드
     	FileDomain file = new FileDomain();
     	file.setFileSeq(companyDetail.getFileSeq());
     	file = commonService.getFile(file);
@@ -68,7 +69,7 @@ public class CompanyController {
         return mv;
     }
 	
-	//
+	//처리 상태변경
 	@PostMapping(value="/updateCompanyStat")
 	public ResponseEntity<ResponseMsg> updateCompanyStat(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
