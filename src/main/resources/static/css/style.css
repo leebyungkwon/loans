@@ -355,6 +355,19 @@
   right: 0;
 }
 
+.btn_wrap02{
+  width: 100%;
+  height: 46px;
+  margin: 30px auto 30px;
+  position: relative;
+}
+
+.btn_wrap02 .right{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .contents h3{
   color:#222;
   display: block;
@@ -661,4 +674,55 @@
 .clause_wrap p span{
   font-weight: bold;
   line-height: 25px;
+}
+
+.tap_wrap{
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 30px;
+}
+
+.tap_wrap ul{
+  font-size: 0;
+}
+
+.tap_wrap ul li{
+  width: 20%;
+  height: 64px;
+  display: inline-block;
+  box-sizing: border-box;
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  vertical-align: top;
+}
+
+.tap_wrap ul li:last-child{
+  border-right: 1px solid #ccc;
+}
+
+.tap_wrap ul li.on{
+  border: 1px solid #0b4fa1;
+  background-color: #0b4fa1;
+}
+
+.tap_wrap ul li a{
+  display: block;
+  font: 500 16px '맑은 고딕','dotum';
+  text-align: center;
+  color:#666;
+  word-break: keep-all;
+  vertical-align: middle;
+  letter-spacing: -0.8px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+
+.tap_wrap ul li a.single{
+  line-height: 42px;
+}
+
+.tap_wrap ul li.on a{
+  color:#fff;
 }

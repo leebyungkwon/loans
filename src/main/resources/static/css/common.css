@@ -212,6 +212,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .w98{width:98%}
 .w99{width:99%}
 .w100{width:100%}
+.top_file_input{
+  width: calc(100% - 292px);
+}
 
 .w100p{width: 100px !important;}
 .w900p{width: 900px !important;}
@@ -531,6 +534,11 @@ table td .link{
   font:500 12px/28px 'dotum','맑은 고딕' !important;
   width: 100px !important;
   height: 28px !important;
+}
+
+.btn_middle{  
+  width: 137px !important;
+  height: 46px !important;
 }
 
 .btn_del{
