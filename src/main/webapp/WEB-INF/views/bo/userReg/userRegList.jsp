@@ -12,11 +12,12 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "첨부서류", "승인상태"] /*"사용인이름", "사용인주민번호",*/
+  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"] /*"사용인이름", "사용인주민번호",*/
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'		, id:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'		, align:"center"}
+				,{type:"string"	, name:'plClass'		, index:'plClass'		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'	, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'		, align:"center"}
@@ -47,61 +48,28 @@ function pageLoad(){
 
 //모집인 등록 row 클릭 이벤트
 function goUserRegDetail(idx, data){
-	var masterSeq = userRegGrid.gridData[idx].masterSeq;
+	var masterSeq 	= userRegGrid.gridData[idx].masterSeq;
+	var plClass		= userRegGrid.gridData[idx].plClass;
+	
+	if(plClass == "1"){
+		//개인
+		$("#userRegDetailFrm").attr("action","/member/user/userRegIndvDetail");
+	}else if(plClass == "2"){
+		//법인
+		$("#userRegDetailFrm").attr("action","/member/user/userRegCorpDetail");
+	}
+	
 	$("#hMasterSeq").val(masterSeq);
 	$("#userRegDetailFrm").submit();
 }
 
 //모집인 등록하기 팝업 열기
 function goUserRegPopOpen() {
-	$("#userRegPopDiv").show();
-}
-
-//모집인 등록하기 팝업 닫기
-function goUserRegPopClose() {
-	$("#userRegPopDiv").hide();
-}
-
-//샘플 다운로드
-function goSampleDownload() {
-	var plClass = $('input[name="plClass"]:checked').val();
-	alert("모집인유형이 "+plClass+"인 샘플 다운로드 되야해!");
-}
-
-//모집인 등록하기
-function goUserRegInfoExcelUpload() {
-	if(!$('input[name="plClass"]').is(":checked")){
-		alert("모집인유형을 선택해 주세요.");
-		return;
-	}else{
-		var plClass = $('input[name="plClass"]:checked').val();
-		
-		if(plClass == "1"){
-			$("#userRegInfoInsertFrm").attr("action","/member/user/indvExcelUpload");
-		}else if(plClass == "2"){
-			$("#userRegInfoInsertFrm").attr("action","/member/user/corpExcelUpload");
-		}
+	let p = {
+		  id 		: "userRegExcelUploadPop"
+		, url 		: "/member/user/userRegExcelPopup"
 	}
-	if(confirm("모집인을 등록하시겠습니까?")){
-		var p = {
-			  name 		: "userRegInfoInsertFrm"
-			, success 	: function (opt,result) {
-				var msg = result.data;
-				
-				if(msg == "success"){
-					alert("모집인이 등록되었습니다.");
-					location.reload();
-				}else if(msg == "fail"){
-					alert("실패했습니다.");
-					return;
-				}else{
-					alert("[데이터 확인 필요]\n"+msg);
-					location.reload();
-				}
-	 	    }
-		}
-		AjaxUtil.files(p);	
-	}
+	PopUtil.openPopup(p);
 }
 
 //선택 승인요청 -> 필수 첨부파일 하나라도 없으면 요청 불가 *****
@@ -126,7 +94,7 @@ function goApplyAccept() {
 	}
 	
 	if(fileChk > 0){
-		alert("필수첨부서류 업로드 미완료 건이 존재합니다.");
+		alert("필수첨부서류 업로드가 미완료된 건이 존재합니다.");
 		return;
 	}
 	
@@ -147,7 +115,7 @@ function goApplyAccept() {
 }
 </script>
 
-<form id="userRegDetailFrm" method="post" action="/member/user/userRegDetail">
+<form id="userRegDetailFrm" method="post">
 	<input type="hidden" name="masterSeq" id="hMasterSeq"/>
 </form>
 
@@ -262,60 +230,3 @@ function goApplyAccept() {
 		<div id="userRegGrid" class="long_table"></div>
 	</div>
 </div>
-
-<!-- 모집인 등록 팝업 -->
-<div class="popup_wrap" id="userRegPopDiv">
-	<div class="popup_inner">
-		<div class="title_wrap">
-			<h5>모집인 등록</h5>
-			<a href="javascript:goUserRegPopClose();" class="pop_close"></a>
-		</div>
-		<p class="popup_desc">
-			모집인 등록은 등록 유형에 따른 샘플파일을 다운로드 하시고 해당 양식에 따라 등록되어야 합니다.<br />
-			엑셀 업로드 이후에는 각 모집인별로 첨부파일을 등록완료 후에 승인신청을 하셔야 합니다.
-		</p>
-		<form name="userRegInfoInsertFrm" id="userRegInfoInsertFrm" method="post" enctype="multipart/form-data">
-			<table class="popup_table">
-				<colgroup>
-					<col width="170">
-					<col width="*">
-				</colgroup>
-				<tbody>
-					<tr>
-						<th>모집인유형*</th>
-						<td>
-							<div class="input_radio_wrap">
-								<input type="radio" name="plClass" id="radio01" value="1">
-								<label for="radio01">개인</label>
-							</div>
-							<div class="input_radio_wrap mgl20">
-								<input type="radio" name="plClass" id="radio02" value="2">
-								<label for="radio02">법인</label>
-							</div>
-							<!-- 
-							<div class="input_radio_wrap mgl20">
-								<input type="radio" name="plClass" id="radio02" value="3">
-								<label for="radio02">법인소속 사용인</label>
-							</div>
-							 -->
-						</td>
-					</tr>
-					<tr>
-						<th>엑셀업로드*</th>
-						<td class="file">
-							<input type="text" class="w50 file_input" readonly disabled>
-							<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
-							<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-		<div class="popup_btn_wrap">
-			<a href="javascript:void(0);" class="pop_btn_black" onclick="goUserRegInfoExcelUpload();">저장</a>
-			<a href="javascript:void(0);" class="pop_btn_white" onclick="goUserRegPopClose();">취소</a>
-		</div>
-	</div>
-</div>
-

@@ -179,7 +179,14 @@ function goUserRegInfoCancel() {
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td colspan="3"><input type="text" name="addrDetail" class="w100" value="${result.userRegInfo.addrDetail }"></td>
+						<td colspan="3">
+							<select name="addr">
+								<c:forEach var="addrCodeList" items="${result.addrCodeList }">
+									<option value="${addrCodeList.codeDtlCd }" <c:if test="${addrCodeList.codeDtlCd eq result.userRegInfo.addr }">selected="selected"</c:if>>${addrCodeList.codeDtlNm }</option>
+								</c:forEach>
+							</select>
+							<input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }">
+						</td>
 					</tr>
 					<tr>
 						<th>교육이수번호</th>
@@ -199,7 +206,7 @@ function goUserRegInfoCancel() {
 						<th>위탁예정기간</th>
 						<td colspan="3"><input type="text" name="entrustDate" class="w50" value="${result.userRegInfo.entrustDate }"></td>
 					</tr>
-					<c:if test="${result.userRegInfo.plStat eq '5' }">
+					<c:if test="${result.userRegInfo.plStat eq '4' }">
 						<tr>
 							<th>반려사유</th>
 							<td colspan="3">${result.userRegInfo.sendMsg }</td>

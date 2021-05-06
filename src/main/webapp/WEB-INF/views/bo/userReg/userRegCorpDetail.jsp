@@ -4,6 +4,8 @@
 
 <script type="text/javascript">
 function pageLoad(){
+	//newForm.append($('<input/>', {type: 'hidden', name: 'data1', value:'value1' }));
+
 	//파일찾기
 	$(".goFileUpload").on("click", function () {
 		$(this).prev().prev().click();
@@ -162,8 +164,14 @@ function goUserRegInfoUpdt() {
 						<td colspan="3"><input type="text" name="corpFoundDate" class="w100" value="${result.userRegInfo.corpFoundDate }"></td>
 					</tr>
 					<tr>
-						<th>본점소재지 -> selectBox로 해야겠어</th>
-						<td colspan="3"><input type="text" name="addr" class="w100" value="${result.userRegInfo.addr }"></td>
+						<th>본점소재지</th>
+						<td colspan="3">
+							<select name="addr">
+								<c:forEach var="addrCodeList" items="${result.addrCodeList }">
+									<option value="${addrCodeList.codeDtlCd }" <c:if test="${addrCodeList.codeDtlCd eq result.userRegInfo.addr }">selected="selected"</c:if>>${addrCodeList.codeDtlNm }</option>
+								</c:forEach>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<th>상세주소(법인등기부본상)</th>

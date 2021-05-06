@@ -55,6 +55,13 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//엑셀 업로드 팝업창
+	@GetMapping(value="/userRegExcelPopup")
+	public ModelAndView userRegExcelPopup() {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/userRegExcelPopup");
+        return mav;
+	}
+	
 	//등록 처리(엑셀 업로드) : 개인
 	@PostMapping(value="/indvExcelUpload")
 	public ResponseEntity<ResponseMsg> indvExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
@@ -88,26 +95,21 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//상세 페이지
-	@PostMapping(value="/userRegDetail")
-    public ModelAndView userRegDetail(UserDomain userDomain) {
-    	ModelAndView mv 			= new ModelAndView();
-    	
-    	//상세
-    	Map<String, Object> result = userService.getUserRegDetail(userDomain);
-    	
-    	//전달
+	//상세 페이지 : 개인
+	@PostMapping(value="/userRegIndvDetail")
+    public ModelAndView userRegIndvDetail(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserRegPage+"/userRegIndvDetail");
+    	Map<String, Object> result 	= userService.getUserRegIndvDetail(userDomain);
     	mv.addObject("result", result);
-    	
-    	//페이지 분기
-    	if(result.get("plClass").equals("1")) {
-    		//개인
-    		mv.setViewName(CosntPage.BoUserRegPage+"/userRegIndvDetail");
-    	}else {
-    		//법인
-    		mv.setViewName(CosntPage.BoUserRegPage+"/userRegCorpDetail");
-    	}
-    	
+        return mv;
+    }
+	
+	//상세 페이지 : 법인
+	@PostMapping(value="/userRegCorpDetail")
+    public ModelAndView userRegCorpDetail(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserRegPage+"/userRegCorpDetail");
+    	Map<String, Object> result 	= userService.getUserRegCorpDetail(userDomain);
+    	mv.addObject("result", result);
         return mv;
     }
 	
