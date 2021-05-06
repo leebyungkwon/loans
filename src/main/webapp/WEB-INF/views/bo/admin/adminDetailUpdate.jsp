@@ -31,6 +31,28 @@
 		$("#AdminCancelBtn").on("click", function(){
 			$("#adminDetailFrm").submit();
 		});
+		
+		// 첨부파일 삭제
+		$("#fileDelete").on("click", function(){
+			$("#fileName").val("");
+			
+			// IE일 경우
+			//$("#u_file").replaceWith( $("#u_file").clone(true) );
+			$("#u_file").val("");
+		});
+		
+		// 첨부파일 찾기
+		$("#fileSearch").on("click", function(){
+			$("#u_file").click();
+		});
+
+		// 첨부파일 찾기시 file tag 실행
+		$("#u_file").on("change", function(){
+			var fileValue = $("#u_file").val().split("\\");
+			var fileName = fileValue[fileValue.length-1];
+			$("#fileName").val(fileName);
+		});
+		
 	}
 
 </script>
@@ -105,6 +127,16 @@
                      <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
                   </td>
                </tr>
+            	<tr>
+					<th>첨부 파일</th>
+					<td id="fileTag">
+						<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly" data-vd='{"type":"text","len":"1,60","req":true,"msg":"파일을 첨부해 주세요."}'>
+						<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
+						<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
+						<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:no
+						ne;">
+					</td>
+			</tr>
             </table>
          </div>
       </div>

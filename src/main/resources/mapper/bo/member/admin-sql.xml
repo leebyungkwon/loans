@@ -18,7 +18,7 @@
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
          ,TLM.APPR_STAT
          ,TLM.FILE_SEQ
          ,TLM.FAIL_CNT
@@ -51,7 +51,8 @@
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+         ,TLM.FILE_SEQ
          FROM TB_LC_MEMBERS TLM
       <where>
          AND TLM.MEMBER_SEQ = #{memberSeq}
@@ -69,7 +70,8 @@
 	     ,TLM.MOBILE_NO
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+         ,TLM.FILE_SEQ
          FROM TB_LC_MEMBERS TLM
       <where>
          AND TLM.MEMBER_SEQ = #{memberSeq}
@@ -102,6 +104,9 @@
             ,EXTENSION_NO       = #{extensionNo}
          </if>
             ,MOBILE_NO       = #{mobileNo}
+         <if test="fileSeq != null and fileSeq != ''">
+         	,FILE_SEQ				=	#{fileSeq}
+         </if>
       <where>
          AND MEMBER_SEQ       = #{memberSeq}
       </where>

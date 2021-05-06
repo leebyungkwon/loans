@@ -37,7 +37,7 @@
    
    // 글쓰기 페이지로 이동
    function noticeWrite(){
-	   alert("나는 글쓰기 버튼!");
+	   $("#noticeRegFrm").submit();
    }
    
 </script>
@@ -46,12 +46,18 @@
    <input type="hidden" name="memberSeq" id="hMemberSeq"/>
 </form>
 
+<form id="noticeRegFrm" method="post" action="/admin/board/noticeReg">
+   <input type="hidden" name="memberSeq" id="hMemberSeq"/>
+</form>
+
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
 			<h2>공지사항</h2>
 		</div>
-		<a href="javascript:noticeWrite();" class="btn_inquiry">글쓰기</a>
 	</div>
 	<div id="NoticeListGrid"></div>
+	<div class="btn_wrap">
+		<a href="javascript:noticeWrite();" class="btn_gray btn_right">글 등록</a>
+	</div>
 </div>

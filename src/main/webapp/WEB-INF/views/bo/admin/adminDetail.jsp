@@ -5,16 +5,37 @@
 
 <script type="text/javascript">
 
-function pageLoad(){
+	function pageLoad(){
+	
+		$("#AdminInsertBtn").on("click", function(){
+			$("#adminDetailFrm").submit();
+		});
+	
+		$("#AdminCancelBtn").on("click", function(){
+			location.href = "/member/admin/adminPage";
+		});
+		
+		//첨부파일명 보여주기
+		$(".inputFile").on("change", function () {
+			var fileVal 	= $(this).val().split("\\");
+			var fileName 	= fileVal[fileVal.length - 1];
+			$(this).prev().val(fileName);
+		});
+	
+	}
 
-	$("#AdminInsertBtn").on("click", function(){
-		$("#adminDetailFrm").submit();
-	});
-
-	$("#AdminCancelBtn").on("click", function(){
-		location.href = "/member/admin/adminPage";
-	});
-}
+	function filedown(fileSeq){
+		var p = {
+			  url : '/common/fileDown'
+			, contType: 'application/json; charset=UTF-8'
+			, responseType: 'arraybuffer'
+			, param : {
+				fileSeq : fileSeq
+			}
+		}
+		AjaxUtil.post(p);
+	}
+	
    
 </script>
 
@@ -65,6 +86,12 @@ function pageLoad(){
                <th>가입일</th>
                <td colspan="3">${adminInfo.joinDt}</td>
             </tr>
+		<tr>
+			<th class="acenter">첨부 파일</th>
+			<td colspan="3">
+				<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
+			</td>
+		</tr>
          </table>
       </div>
    </div>

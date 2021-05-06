@@ -26,7 +26,7 @@
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
          ,TLM.APPR_STAT
          ,TLM.FILE_SEQ
          ,TLM.FAIL_CNT
@@ -51,7 +51,7 @@
          ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
          ,TLM.DEPT_NM
          ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
          FROM TB_LC_MEMBERS TLM
       <where>
          AND TLM.MEMBER_SEQ = #{memberSeq}

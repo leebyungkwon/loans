@@ -107,10 +107,12 @@
 						</td>
 						<th>승인여부</th>
 						<td>
+							// 승인상태 (1.미승인 2.가승인 3.승인)
 							<select name="apprStat">
 								<option value="">전체</option>
-								<option value="N">승인요청</option>
-								<option value="Y">승인완료</option>
+								<option value="1">미승인</option>
+								<option value="2">가승인</option>
+								<option value="3">승인완료</option>
 							</select>
 						</td>
 					</tr>

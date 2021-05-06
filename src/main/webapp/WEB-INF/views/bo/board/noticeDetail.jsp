@@ -6,6 +6,30 @@
 <script type="text/javascript">
 
 	function pageLoad(){
+
+		// 글 목록 버튼
+		$("#NoticeCancelBtn").on("click", function(){
+			location.href = "/admin/board/noticePage";
+		});
+		
+		// 글 수정 버튼
+		$("#NoticeUpdBtn").on("click", function(){
+			alert("글 수정 버튼 클릭 !!...")
+			// 	$("#noticeRegFrm").submit();
+		});
+		
+		// 글 삭제 버튼
+		$("#NoticeDelBtn").on("click", function(){
+			alert("글 삭제 버튼 클릭 !!...")
+		// 	$("#noticeRegFrm").submit();
+		});
+		
+		//첨부파일명 보여주기
+		$(".inputFile").on("change", function () {
+			var fileVal 	= $(this).val().split("\\");
+			var fileName 	= fileVal[fileVal.length - 1];
+			$(this).prev().val(fileName);
+		});
 		
 	}
 
@@ -51,8 +75,27 @@
 				기관코드(2자리) : 여신금융회사 코드 (여신금융사별 코드는 공지사항에서 확인 가능)<br />
 				확장자(3자리) : zip
 			</div>
+			
+			<div class="titlebox">
+				<table>
+					<colgroup>
+						<col width="150"/>
+						<col width="*"/>
+					</colgroup>
+					<tr>
+						<th class="acenter">첨부 파일 : </th>
+						<td class="aleft" colspan="3">
+							<a href="javascript:filedown('${file.fileSeq}')">안뇽안뇽.xlsx</a>
+<%-- 						<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a> --%>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
 			<div class="btn_wrap">
-				<a href="#" class="btn_gray">목록</a>								
+				<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
+				<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
+				<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
 			</div>
 		</div>
 	</div>
