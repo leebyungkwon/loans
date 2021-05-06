@@ -10,5 +10,6 @@
 <script type="text/javascript" src="/static/js/ValidUtil.js"></script>
 <script type="text/javascript" src="/static/js/TableUtil.js"></script>
 <script type="text/javascript" src="/static/js/LibUtil.js"></script>
+<script type="text/javascript" src="/static/js/PopUtil.js"></script>
 <script type="text/javascript" src="/static/plugin/jquery.cookie.js"></script>
 

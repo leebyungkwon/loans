@@ -9,8 +9,7 @@
        <put-attribute name="js"		value="/WEB-INF/layout/default/js.jsp" />
        <put-attribute name="css"	value="/WEB-INF/layout/default/css.jsp" />
        <put-attribute name="header" value="/WEB-INF/layout/default/header.jsp" />
-       <!-- <put-attribute name="category" value="/WEB-INF/layout/default/category.jsp" /> -->
-       <put-attribute name="left" value="/WEB-INF/layout/default/left.jsp" />
+       <put-attribute name="left" 	value="/WEB-INF/layout/default/left.jsp" />
        <put-attribute name="body"	value="" />
        <put-attribute name="footer" value="/WEB-INF/layout/default/footer.jsp" />
    </definition>
