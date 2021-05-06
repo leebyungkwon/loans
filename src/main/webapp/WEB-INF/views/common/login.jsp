@@ -50,7 +50,7 @@ function pageLoad(){
 }
 </script>
 
-	<div id="container">
+	<div class="container">
 		<div class="page_title">
 			<h2>로그인</h2>
 		</div>

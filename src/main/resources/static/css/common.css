@@ -30,7 +30,7 @@ input.radio, input.check{width:16px;height:16px;border:none;padding:0;margin:0;b
 select{
   color:#444;vertical-align:middle; width: auto; border:1px solid #cac9c9; height:28px; padding:5px; padding-right: 25px; box-sizing:border-box;
 
-  background:#fff url('/static/images/common/select_arrow.png')no-repeat 92% 52%;
+  background:#fff url('../../images/common/select_arrow.png')no-repeat 92% 52%;
 	-webkit-appearance: none;
 	-moz-appearance: none;
   -ms-appearance: none;
@@ -454,7 +454,7 @@ table td .link{
 .custom-pagination .pagination-first{
   width: 11px;
   height: 10px;
-  background: url('/static/images/common/sprite.png')no-repeat 0 0;
+  background: url('../../images/common/sprite.png')no-repeat 0 0;
   display: inline-block;
   vertical-align: top;
   margin-right: 28px;
@@ -464,7 +464,7 @@ table td .link{
 .custom-pagination .pagination-prev{
   width: 6px;
   height: 10px;
-  background: url('/static/images/common/sprite.png')no-repeat -18px 0;
+  background: url('../../images/common/sprite.png')no-repeat -18px 0;
   display: inline-block;
   vertical-align: top;
   margin-right: 17px;
@@ -474,7 +474,7 @@ table td .link{
 .custom-pagination .pagination-next{
   width: 6px;
   height: 10px;
-  background: url('/static/images/common/sprite.png')no-repeat -32px 0;
+  background: url('../../images/common/sprite.png')no-repeat -32px 0;
   display: inline-block;
   vertical-align: top;
   margin-left: 17px;
@@ -484,7 +484,7 @@ table td .link{
 .custom-pagination .pagination-last{
   width: 11px;
   height: 10px;
-  background: url('/static/images/common/sprite.png')no-repeat -47px 0;
+  background: url('../../images/common/sprite.png')no-repeat -47px 0;
   display: inline-block;
   vertical-align: top;
   margin-left: 28px;
@@ -564,7 +564,7 @@ table td .link{
 .btn_sort .ico_check{
   width: 10px;
   height: 8px;
-  background: url('/static/images/common/check_off.png')no-repeat center;
+  background: url('../../images/common/check_off.png')no-repeat center;
   vertical-align: top;
   display: inline-block;
   margin: 10px 5px 0 0;
@@ -577,7 +577,7 @@ table td .link{
 }
 
 .btn_sort.on .ico_check{
-  background: url('/static/images/common/check_on.png')no-repeat center;
+  background: url('../../images/common/check_on.png')no-repeat center;
 }
 
 .btn_Lgray{
