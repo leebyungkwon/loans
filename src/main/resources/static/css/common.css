@@ -214,6 +214,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .w100{width:100%}
 
 .w100p{width: 100px !important;}
+.w900p{width: 900px !important;}
 
 /* margin, padding */
 .pdt5{padding-top:5px !important}
@@ -281,16 +282,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .select_position_type2{
     background-position-x: 98%;
 }
-#warp{
+.warp{
   min-height: 937px;
 }
 
-#header{
+.header{
   width: 100%;
   border-bottom: 1px solid #ccc;
 }
 
-#header .inner{
+.header .inner{
   position: relative;
   height: 80px;
   margin: 0 auto;
@@ -299,28 +300,28 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   box-sizing: border-box;
 }
 
-#header h1{
+.header h1{
   width: 180px;
   height: 44px;
   text-align: left;
   margin-left: 40px;
 }
 
-#header h1 a{
+.header h1 a{
   display: block;
 }
 
-#header h1 a img{
+.header h1 a img{
   display: block;
 }
 
-#header .log_menu{
+.header .log_menu{
 	position: absolute;
 	top: 0;
 	right: 0;
 }
 
-#header .log_menu span{
+.header .log_menu span{
 	font:14px/80px 'Malgun Gothic','맑은 고딕';
 	font-weight: bold;
 	color:#444;
@@ -328,11 +329,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	margin-right: 20px;
 }
 
-#header .log_menu .logout{
+.header .log_menu .logout{
 	display: inline-block;
 }
 
-#header .log_menu .logout a{
+.header .log_menu .logout a{
 	display: block;
 	text-align: center;
 	width: 120px;
@@ -343,7 +344,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	font-weight: bold;
 }
 
-#container {
+.container {
   font-size: 0;
   position: relative;
   overflow: hidden;
@@ -357,7 +358,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   background-color: #eee;
 } */
 
-#container .gnb{
+.container .gnb{
   display: inline-block;
   width: 270px;
   background-color: #eee;
@@ -370,11 +371,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 
 
 
-#container .gnb li{
+.container .gnb li{
   display: block;
 }
 
-#container .gnb li a{
+.container .gnb li a{
   width: 100%;
   height: 50px;
   display: block;
@@ -385,7 +386,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   padding-left: 40px;
 }
 
-#container .gnb li.on a{
+.container .gnb li.on a{
   background-color: #0b4fa1;
   border-bottom: 1px solid #0b4fa1;
   color: #fff;

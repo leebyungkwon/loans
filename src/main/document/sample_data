@@ -13,7 +13,6 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('ADD001','본점소재지','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('MAS001','처리상태','모집인처리상태',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-05-03 16:23:07.059548',NULL,NULL);
 	 
-	 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('CLS001','1','개인','개인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
 	 ('CLS001','2','법인','법인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
