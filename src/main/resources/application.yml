@@ -69,10 +69,11 @@ spring:
       
 logging:
   level:
-    org.springframework: error
-    com.skm.sso: info
-    org.hibernate.type: trace
-    jdbc.sqlonly: DEBUG 
+    org.springframework: debug
+    jdbc.audit: off
+    jdbc.connection: off
+    jdbc.resultset: off
+    jdbc.sqlonly: error
    
 upload:
   filePath: static\upload
