@@ -450,7 +450,7 @@ create table tb_lc_mas01_it(
 	oper_seq integer not null default nextval('tb_lc_mas01_it_seq')
 	, master_seq integer not null
 	, oper_name varchar(20) not null
-	, pl_m_z_id varchar(20) not null0
+	, pl_m_z_id varchar(20) not null
 	, file_seq integer
 	, primary key (oper_seq)
 );
@@ -508,7 +508,7 @@ create table tb_lc_mas01_step(
 	, pl_reg_yn varchar(10) not null
 	, mod_date varchar(8) not null
 	, msg varchar(200) not null
-	, primary key (user_step_seq)
+	, primary key (master_step_seq)
 );
 
 COMMENT ON TABLE tb_lc_mas01_step IS '모집인단계이력';
