@@ -61,7 +61,8 @@
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
-			AND TLM.PL_STAT != '6'								-- 처리상태가 완료가 아닌 것만 리스트에 보여짐(완료건은 모집인 조회 및 변경 메뉴에서 보여짐)
+			AND TLM.PL_STAT != '6'								-- 처리상태가 취소가 아닌 것
+			AND TLM.PL_STAT != '7'								-- 처리상태가 완료가 아닌 것(완료건은 모집인 조회 및 변경 메뉴에서 보여짐)
 			<if test="plClass != null and plClass != ''">
 				AND TLM.PL_CLASS 	= #{plClass}
 			</if>
@@ -162,6 +163,82 @@
    		)
    		</foreach>
    	</insert>
+   	
+   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 등록 -->
+   	<insert id="insertUserRegCorpImwonInfoByExcel" parameterType="userImwon">
+   		INSERT INTO TB_LC_MAS01_IMWON
+   		(
+   			 MASTER_SEQ
+			,CAREER_TYP
+			,POSITION_NM
+			,EXC_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,FULL_TM_YN
+			,EXPERT_YN
+   		)
+   		VALUES
+   		<foreach collection="excelParam" item="item" separator=",">
+   		(
+   			 #{masterSeq}
+   			,#{item.A}						-- 구분(신규,경력)
+   			,#{item.B}						-- 직위
+   			,#{item.C}						-- 성명
+   			,REPLACE(#{item.D}, '-', '')	-- 주민등록번호
+   			,CAST(#{item.E} AS INT4)		-- 교육이수번호/인증서번호
+   			,REPLACE(#{item.F}, '-', '')	-- 경력시작일
+   			,REPLACE(#{item.G}, '-', '')	-- 경력종료일
+   			,#{item.H}						-- 상근여부
+   			,#{item.I}						-- 전문인력여부
+   		)
+   		</foreach>
+   	</insert>
+   	
+   	<!-- 모집인 등록 > 법인 : 전문인력 정보 등록 -->
+   	<insert id="insertUserRegCorpExpertInfoByExcel" parameterType="userExpert">
+   		INSERT INTO TB_LC_MAS01_EXPERT
+   		(
+   			 MASTER_SEQ
+			,CAREER_TYP
+			,EXP_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+   		)
+   		VALUES
+   		<foreach collection="excelParam" item="item" separator=",">
+   		(
+   			 #{masterSeq}
+   			,#{item.A}						-- 구분(신규,경력)
+   			,#{item.B}						-- 성명
+   			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
+   			,CAST(#{item.D} AS INT4)		-- 교육이수번호/인증서번호
+   			,REPLACE(#{item.E}, '-', '')	-- 경력시작일
+   			,REPLACE(#{item.F}, '-', '')	-- 경력종료일
+   		)
+   		</foreach>
+   	</insert>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 정보 등록 -->
+   	<insert id="insertUserRegCorpItInfoByExcel" parameterType="userIt">
+   		INSERT INTO TB_LC_MAS01_IT
+   		(
+   			 MASTER_SEQ
+			,OPER_NAME
+			,PL_M_Z_ID
+   		)
+   		VALUES
+   		<foreach collection="excelParam" item="item" separator=",">
+   		(
+   			 #{masterSeq}
+   			,#{item.A}						-- 성명
+   			,REPLACE(#{item.B}, '-', '')	-- 주민등록번호
+   		)
+   		</foreach>
+   	</insert>
    
    	<!-- 모집인 등록 > 처리상태 변경 -->
    	<update id="updatePlRegStat" parameterType="user">
@@ -233,6 +310,15 @@
 	    	AND TLM.MASTER_SEQ = #{masterSeq}
 	    </where>
    	</select>
+   	
+   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 상세 -->
+   	<select id="selectUserRegCorpImwonList" parameterType="userImwon" resultType="userImwon"></select>
+   	
+   	<!-- 모집인 등록 > 법인 : 전문인력 상세 -->
+   	<select id="selectUserRegCorpExpertList" parameterType="userExpert" resultType="userExpert"></select>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 상세 -->
+   	<select id="selectUserRegCorpItList" parameterType="userIt" resultType="userIt"></select>
    
 	<!-- 모집인 등록 > 수정 -->
    	<update id="updateUserRegInfo" parameterType="user">
@@ -276,5 +362,14 @@
 	    	AND PL_STAT			!= '2'			-- 승인요청상태가 아닐 때만 수정 가능
 	    </where>
    	</update>
+   	
+   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 수정 -->
+	<update id="updateUserRegCorpImwonInfo" parameterType="userImwon"></update>
+   	
+   	<!-- 모집인 등록 > 법인 : 전문인력 정보 수정 -->
+   	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert"></update>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 정보 수정 -->
+   	<update id="updateUserRegCorpItInfo" parameterType="userIt"></update>
    	
 </mapper> 

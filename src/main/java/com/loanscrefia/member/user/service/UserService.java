@@ -13,12 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.repository.CommonRepository;
+import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.domain.UserExpertDomain;
+import com.loanscrefia.member.user.domain.UserImwonDomain;
+import com.loanscrefia.member.user.domain.UserItDomain;
 import com.loanscrefia.member.user.domain.excel.UserCorpExcelDomain;
 import com.loanscrefia.member.user.domain.excel.UserIndvExcelDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
+import com.loanscrefia.system.code.domain.CodeDtlDomain;
+import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
@@ -26,7 +31,8 @@ import com.loanscrefia.util.UtilFile;
 public class UserService {
 
 	@Autowired private UserRepository userRepo;
-	@Autowired private CommonRepository commonRepo;
+	@Autowired private CommonService commonService;
+	@Autowired private CodeService codeService;
 	@Autowired private UtilFile utilFile;
 	
 	//모집인 등록 > 리스트
@@ -34,59 +40,6 @@ public class UserService {
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){
 		return userRepo.selectUserRegList(userDomain);
 	}
-	
-	//모집인 등록 > 등록
-	/*
-	@Transactional
-	public int insertUserRegInfoByExcel(MultipartFile[] files, UserDomain userDomain){
-		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
-		Map<String, Object> ret = utilFile.setPath("excel")
-				.setFiles(files)
-				.setExt("excel")
-				//.setEntity(fileDomain)
-				.upload();
-		
-		List<Map<String, Object>> excelResult = new ArrayList<Map<String, Object>>();
-		
-		if((boolean) ret.get("success")) {
-			List<FileDomain> file = (List<FileDomain>) ret.get("data");
-			if(file.size() > 0) {
-				String filePath = Paths.get(file.get(0).getFilePath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= new UtilExcel().upload(filePath,UserIndvExcelDomain.class);
-				
-				String errorMsg = (String)excelResult.get(0).get("errorMsg");
-				
-				if(errorMsg != null && !errorMsg.equals("")) {
-					//에러메세지 있음
-				}else {
-					
-				}
-				
-				//System.out.println("userService >>>>> excelResult.size() >>>>> "+excelResult.size());
-				System.out.println("userService >>>>> excelResult.get(0) >>>>> "+excelResult.get(0).get("errorMsgMap"));
-				System.out.println("userService >>>>> excelResult.get(1) >>>>> "+excelResult.get(1));
-				
-				//userDomain.setExcelParam(this.excelParamValid(userDomain.getPlClass(),excelParam));
-				//userDomain.setExcelParam(excelParam);
-			}
-		}
-		//등록
-		int result= 0;
-		
-		if(userDomain.getPlClass() != null && !userDomain.getPlClass().equals("")) {
-			if(userDomain.getPlClass().equals("1")) {
-				//개인
-				userDomain.setComCode(1);
-				
-				result = userRepo.insertUserRegIndvInfoByExcel(userDomain);
-			}else {
-				//법인
-				result = userRepo.insertUserRegCorpInfoByExcel(userDomain);
-			}
-		}
-		return result;
-	}
-	*/
 	
 	//모집인 등록 > 개인
 	@Transactional
@@ -168,11 +121,125 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
-	//모집인 등록 > 법인 : 대표자 및 임원
+	//모집인 등록 > 법인 : 대표자 및 임원 정보 등록
+	@Transactional
+	public ResponseMsg corpImwonExcelUpload(MultipartFile[] files, UserImwonDomain userImwonDomain){
+		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
+		Map<String, Object> ret = utilFile.setPath("excel")
+				.setFiles(files)
+				.setExt("excel")
+				//.setEntity(fileDomain)
+				.upload();
+		
+		List<Map<String, Object>> excelResult = new ArrayList<Map<String, Object>>();
+		
+		//첨부파일 저장에 성공하면
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				//엑셀 업로드
+				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
+				excelResult 	= new UtilExcel().upload(filePath, UserImwonDomain.class);
+				
+				//엑셀 업로드 후 에러메세지
+				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				
+				if(errorMsg != null && !errorMsg.equals("")) {
+					//에러메세지 있음
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
+				}else {
+					//에러메세지 없음 -> 저장
+					userImwonDomain.setExcelParam(excelResult);
+					int insertResult = userRepo.insertUserRegCorpImwonInfoByExcel(userImwonDomain);
+					
+					if(insertResult > 0) {
+						return new ResponseMsg(HttpStatus.OK, "", "success", "");
+					}
+				}
+			}
+		}
+		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
+	}
 	
-	//모집인 등록 > 법인 : 업무 수행이 필요한 전문성을 갖춘 인력에 관한 사항
+	//모집인 등록 > 법인 : 전문인력 정보 등록
+	@Transactional
+	public ResponseMsg corpExpertExcelUpload(MultipartFile[] files, UserExpertDomain userExpertDomain){
+		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
+		Map<String, Object> ret = utilFile.setPath("excel")
+				.setFiles(files)
+				.setExt("excel")
+				//.setEntity(fileDomain)
+				.upload();
+		
+		List<Map<String, Object>> excelResult = new ArrayList<Map<String, Object>>();
+		
+		//첨부파일 저장에 성공하면
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				//엑셀 업로드
+				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
+				excelResult 	= new UtilExcel().upload(filePath, UserExpertDomain.class);
+				
+				//엑셀 업로드 후 에러메세지
+				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				
+				if(errorMsg != null && !errorMsg.equals("")) {
+					//에러메세지 있음
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
+				}else {
+					//에러메세지 없음 -> 저장
+					userExpertDomain.setExcelParam(excelResult);
+					int insertResult = userRepo.insertUserRegCorpExpertInfoByExcel(userExpertDomain);
+					
+					if(insertResult > 0) {
+						return new ResponseMsg(HttpStatus.OK, "", "success", "");
+					}
+				}
+			}
+		}
+		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
+	}
 	
-	//모집인 등록 > 법인 : 전산 설비 운영,유지 및 관리를 전문적으로 수행할 수 있는 인력에 관한 사항
+	//모집인 등록 > 법인 : 전산인력 정보 등록
+	@Transactional
+	public ResponseMsg corpItExcelUpload(MultipartFile[] files, UserItDomain userItDomain){
+		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
+		Map<String, Object> ret = utilFile.setPath("excel")
+				.setFiles(files)
+				.setExt("excel")
+				//.setEntity(fileDomain)
+				.upload();
+		
+		List<Map<String, Object>> excelResult = new ArrayList<Map<String, Object>>();
+		
+		//첨부파일 저장에 성공하면
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				//엑셀 업로드
+				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
+				excelResult 	= new UtilExcel().upload(filePath, UserItDomain.class);
+				
+				//엑셀 업로드 후 에러메세지
+				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				
+				if(errorMsg != null && !errorMsg.equals("")) {
+					//에러메세지 있음
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
+				}else {
+					//에러메세지 없음 -> 저장
+					userItDomain.setExcelParam(excelResult);
+					int insertResult = userRepo.insertUserRegCorpItInfoByExcel(userItDomain);
+					
+					if(insertResult > 0) {
+						return new ResponseMsg(HttpStatus.OK, "", "success", "");
+					}
+				}
+			}
+		}
+		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
+	}
 	
 	//모집인 등록 > 승인요청
 	@Transactional
@@ -189,11 +256,16 @@ public class UserService {
 		return result;
 	}
 	
-	//모집인 등록 > 상세 -> 첨부파일 이렇게 하면 걍 나눠
+	//모집인 등록 > 상세 : 개인
 	@Transactional(readOnly=true)
-	public Map<String,Object> getUserRegDetail(UserDomain userDomain){
+	public Map<String,Object> getUserRegIndvDetail(UserDomain userDomain){
 		
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		//주소 코드 리스트
+		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("ADD001");
+		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
 		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
@@ -208,10 +280,10 @@ public class UserService {
 		FileDomain fileType7 = null;
 		
     	if(userRegInfo.getFileSeq() != null) {
-    		FileDomain param = new FileDomain();
+    		FileDomain fileParam = new FileDomain();
     		
-        	param.setFileGrpSeq(userRegInfo.getFileSeq());
-        	List<FileDomain> fileList = commonRepo.selectFileList(param);
+    		fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
+        	List<FileDomain> fileList = commonService.selectFileList(fileParam);
         	
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
@@ -235,7 +307,7 @@ public class UserService {
     	}
     	
     	//전달
-    	result.put("plClass", userRegInfo.getPlClass());
+    	result.put("addrCodeList", addrCodeList);
     	result.put("userRegInfo", userRegInfo);
     	result.put("fileType1", fileType1);
     	result.put("fileType2", fileType2);
@@ -248,6 +320,48 @@ public class UserService {
 		return result;
 	}
 	
+	//모집인 등록 > 상세 : 법인
+	@Transactional(readOnly=true)
+	public Map<String,Object> getUserRegCorpDetail(UserDomain userDomain){
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		//주소 코드 리스트
+		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("ADD001");
+		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
+		
+		//상세
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		int masterSeq			= userRegInfo.getMasterSeq();
+		
+		//대표자 및 임원 리스트
+		UserImwonDomain imwonParam 		= new UserImwonDomain();
+		imwonParam.setMasterSeq(masterSeq);
+		List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(imwonParam);
+		
+		//전문인력 리스트
+		UserExpertDomain expertParam 		= new UserExpertDomain();
+		expertParam.setMasterSeq(masterSeq);
+		List<UserExpertDomain> expertList 	= userRepo.selectUserRegCorpExpertList(expertParam);
+		
+		//전산인력 리스트
+		UserItDomain itParam			= new UserItDomain();
+		itParam.setMasterSeq(masterSeq);
+		List<UserItDomain> itList 		= userRepo.selectUserRegCorpItList(itParam);
+		
+		//첨부파일
+		
+		//전달
+		result.put("addrCodeList", addrCodeList);
+		result.put("userRegInfo", userRegInfo);
+		result.put("imwonList", imwonList);
+		result.put("expertList", expertList);
+		result.put("itList", itList);
+		
+		return result;
+	}
+		
 	//모집인 등록 > 수정
 	public int updateUserRegInfo(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		//첨부파일 저장

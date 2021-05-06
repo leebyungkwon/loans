@@ -1,5 +1,21 @@
 var PopUtil = {
 	openPopup: function(opts){
+		var p = WebUtil.getParamJson(opts.params);
+		var params = {
+			  url 		: opts.url
+			, param 	: p
+			, success 	: function(opt,data){
+		    	const Element = document.querySelector('.popup_wrap');
+				
+				Element.id 				= opts.id;
+				Element.style.display 	= 'block';
+				Element.querySelector('.popup_inner').innerHTML = data;
+	        }
+		};
+		
+		AjaxUtil.get(params);
+		/*
+		//기존
 		var p = { url : opts.url};
 		//p = WebUtil.getParamJson(opts.params , p);
 		var params = {
@@ -24,9 +40,12 @@ var PopUtil = {
 	        }
 		};
 		AjaxUtil.post(params);
+		*/
     }
     , closePopup: function(){
-    	alert(this.id);
+    	const Element = document.querySelector('.popup_wrap');
+    	Element.style.display = 'none';
+		Element.querySelector('.popup_inner').innerHTML = "";
     }
     ,openWinPopup: function(opts){
    		var win = window.open(opts.popupUrl, "PopupWin", "width=500,height=600");

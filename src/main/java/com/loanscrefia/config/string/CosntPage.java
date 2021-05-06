@@ -3,7 +3,8 @@ package com.loanscrefia.config.string;
 public class CosntPage {
 	
 	public static String Common = "/common";
-	public static String Error = "/error";
+	public static String Error 	= "/error";
+	public static String Popup 	= "/popup";
 
 	public static String BoTempletePage = "bo/templete"; 
 	

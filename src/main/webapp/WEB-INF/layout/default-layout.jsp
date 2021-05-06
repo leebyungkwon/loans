@@ -19,13 +19,16 @@
 		</script>
 	</head>
 	<body>
+		<div class="popup_wrap">
+			<div class="popup_inner"></div>
+		</div>
 		
 		<tiles:insertAttribute name="header" />
-		<%-- <tiles:insertAttribute name="category" /> --%>
 		<tiles:insertAttribute name="left" />
 		<tiles:insertAttribute name="body" />
 		<tiles:insertAttribute name="footer" />
 		
+		<!-- 
 		<div class="layerPopupBase" style="display:none;">
 			<button type="button" class="pop_btn_close closeLayer">X</button>
 	    	<div class="layerContent">
@@ -36,6 +39,8 @@
 	    	<div class="layerContent">
 	    	</div>
 		</div>
+		 -->
+		
 		<div class="viewLoading" id="viewLoading" style="display: none;"></div>
 		<div class="loading-bar" id="loading-bar" style="display: none;">
 			<div class="loading-dot1 loading-dot"></div>
@@ -52,6 +57,6 @@
 			<div class="loading-dot12 loading-dot"></div>
 		</div>
 		
-		<div class="wrapperModal"></div>
+		<!-- <div class="wrapperModal"></div> -->
 	</body>
 </html>
