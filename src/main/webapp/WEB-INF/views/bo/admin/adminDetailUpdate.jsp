@@ -133,8 +133,7 @@
 						<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly" data-vd='{"type":"text","len":"1,60","req":true,"msg":"파일을 첨부해 주세요."}'>
 						<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 						<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
-						<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:no
-						ne;">
+						<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
 					</td>
 			</tr>
             </table>
