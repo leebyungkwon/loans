@@ -9,7 +9,7 @@
 
 		// 글 목록 버튼
 		$("#NoticeCancelBtn").on("click", function(){
-			location.href = "/admin/board/noticePage";
+			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 수정 버튼
@@ -92,11 +92,14 @@
 				</table>
 			</div>
 			
-			<div class="btn_wrap">
-				<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
-				<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
-				<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
-			</div>
+			<sec:authorize access="hasRole('SYSTEM')" >
+				<div class="btn_wrap">
+					<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
+					<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
+					<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
+				</div>
+			</sec:authorize>
+			
 		</div>
 	</div>
 </div>

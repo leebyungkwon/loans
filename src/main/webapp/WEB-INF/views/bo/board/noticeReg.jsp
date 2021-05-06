@@ -9,7 +9,7 @@
 		
 		// 글 목록 버튼
 		$("#NoticeCancelBtn").on("click", function(){
-			location.href = "/admin/board/noticePage";
+			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 등록 버튼
@@ -62,7 +62,7 @@
 		</div>
 	</div>
 	
-	<form name="noticeRegFrm" id="noticeRegFrm" action="/noticeReg" method="POST" enctype="multipart/form-data">
+	<form name="noticeRegFrm" id="noticeRegFrm" action="/common/board/noticeReg" method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="noticeSeq"/>
 			<div class="contents">
 				<div id="table">
@@ -93,13 +93,14 @@
 			</div>
 	</form>
 	
-	<div class="btn_wrap">
-		<a href="javascript:void(0);" id="NoticeInsBtn"  class="btn_gray btn_right02">글 등록</a>								
-		<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right">글 수정</a>								
-		<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
-		<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray">글 삭제</a>								
-	</div>
-		
+	<sec:authorize access="hasRole('SYSTEM')" >
+		<div class="btn_wrap">
+			<a href="javascript:void(0);" id="NoticeInsBtn"  class="btn_gray btn_right02">글 등록</a>								
+			<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right">글 수정</a>								
+			<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
+			<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray">글 삭제</a>								
+		</div>
+	</sec:authorize>
 </div>
 
 

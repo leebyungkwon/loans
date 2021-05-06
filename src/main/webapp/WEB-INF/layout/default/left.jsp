@@ -47,7 +47,7 @@
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
 		<li>
-			<a href="/admin/board/noticePage">공지사항</a>
+			<a href="/common/board/noticePage">공지사항</a>
 		</li>
 		</sec:authorize>
 		

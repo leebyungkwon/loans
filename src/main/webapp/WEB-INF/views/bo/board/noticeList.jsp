@@ -10,7 +10,7 @@
    function pageLoad(){
       NoticeListGrid.set({
 		   id      	 : "NoticeListGrid"
-         , url       : "/admin/board/noticeList"
+         , url       : "/common/board/noticeList"
          , width     : "100%"
          , headCol   : ["No.", "제목", "조회수", "등록일"]
          , bodyCol   : 
@@ -42,11 +42,11 @@
    
 </script>
 
-<form id="noticeDetailFrm" method="post" action="/admin/board/noticeDetail">
+<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetail">
    <input type="hidden" name="memberSeq" id="hMemberSeq"/>
 </form>
 
-<form id="noticeRegFrm" method="post" action="/admin/board/noticeReg">
+<form id="noticeRegFrm" method="post" action="/common/board/noticeReg">
    <input type="hidden" name="memberSeq" id="hMemberSeq"/>
 </form>
 
@@ -56,8 +56,13 @@
 			<h2>공지사항</h2>
 		</div>
 	</div>
+	
 	<div id="NoticeListGrid"></div>
-	<div class="btn_wrap">
-		<a href="javascript:noticeWrite();" class="btn_gray btn_right">글 등록</a>
-	</div>
+	
+	<sec:authorize access="hasRole('SYSTEM')" >
+		<div class="btn_wrap">
+				<a href="javascript:noticeWrite();" class="btn_gray btn_right">글 등록</a>
+		</div>
+	</sec:authorize>
+	
 </div>

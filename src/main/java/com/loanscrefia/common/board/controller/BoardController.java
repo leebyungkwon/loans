@@ -26,7 +26,7 @@ import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.util.UtilFile;
 
 @Controller
-@RequestMapping(value="/admin/board")
+@RequestMapping(value="/common/board")
 public class BoardController {
    
 	
