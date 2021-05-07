@@ -42,38 +42,38 @@ public class CompanyController {
 	@PostMapping(value="/companyList")
 	public ResponseEntity<ResponseMsg> companyList(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(companyService.selectCompanyList(companyDomain));
+		responseMsg.setData(companyService.selectCompanyList(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	// 협회 - 회원사 당담자 상세 페이지	  
 	@GetMapping(value="/companyDetail")
 	public ModelAndView companyDetail() {
-    	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
-        return mv;
+		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
+		return mv;
 	}
 	
 	// 협회 - 회원사 당담자 상세 페이지
 	@PostMapping(value="/companyDetail")
-    public ModelAndView companyDetail(CompanyDomain companyDomain) {
-    	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
-    	//상세
-    	CompanyDomain companyDetail	= companyService.getCompanyDetail(companyDomain);
-    	mv.addObject("companyDetail", companyDetail);
-    	//파일 업로드
-    	FileDomain file = new FileDomain();
-    	file.setFileSeq(companyDetail.getFileSeq());
-    	file = commonService.getFile(file);
-    	mv.addObject("file", file);
-    	
-        return mv;
-    }
+	public ModelAndView companyDetail(CompanyDomain companyDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
+		//상세
+		CompanyDomain companyDetail	= companyService.getCompanyDetail(companyDomain);
+		mv.addObject("companyDetail", companyDetail);
+		//파일 업로드
+		FileDomain file = new FileDomain();
+		file.setFileSeq(companyDetail.getFileSeq());
+		file = commonService.getFile(file);
+		mv.addObject("file", file);
+		
+		return mv;
+	}
 	
 	//처리 상태변경
 	@PostMapping(value="/updateCompanyStat")
 	public ResponseEntity<ResponseMsg> updateCompanyStat(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
+		responseMsg.setData(companyService.updateCompanyStat(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -81,15 +81,15 @@ public class CompanyController {
 	@PostMapping(value="/deleteCompany")
 	public ResponseEntity<ResponseMsg> deleteCompany(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(companyService.deleteCompany(companyDomain));
+		responseMsg.setData(companyService.deleteCompany(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//엑셀 업로드
 	@PostMapping("/excelDown")
 	public void writeExcel(CompanyDomain companyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
- 		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
- 		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
+		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
+		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}
-	 
+	
 }

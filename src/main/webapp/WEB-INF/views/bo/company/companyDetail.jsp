@@ -1,41 +1,41 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <script type="text/javascript">
 function goCompanyStatUpdt(apprStat,roleName) {
 	var p = {
-		  url		: "/admin/company/updateCompanyStat"	
-		, param		: {
-			 memberSeq : $("#memberSeq").val()
-			,apprStat  : apprStat
-			,roleName  : roleName
+		  url 			: "/admin/company/updateCompanyStat"
+		, param			: {
+			 memberSeq	: $("#memberSeq").val()
+			,apprStat	: apprStat
+			,roleName	: roleName
 		}
-		, success 	: function (opt,result) {
+		, success 		: function(opt, result) {
 			if(result.data > 0){
 				alert("수정 되었습니다.");
-				location.href="/admin/company/companyPage"
+				location.href = "/admin/company/companyPage"
 			}
-	    }
-	}
-	AjaxUtil.post(p);
-}	
-
-function filedown(fileSeq){
-	var p = {
-		  url : '/common/fileDown'
-		, contType: 'application/json; charset=UTF-8'
-		, responseType: 'arraybuffer'
-		, param : {
-			fileSeq : fileSeq
 		}
 	}
 	AjaxUtil.post(p);
 }
 
-function companyList(){
-	location.href="/admin/company/companyPage"
+function filedown(fileSeq) {
+	var p = {
+		  url 			: '/common/fileDown'
+		, contType 		: 'application/json; charset=UTF-8'
+		, responseType	: 'arraybuffer'
+		, param 		: {
+				fileSeq : fileSeq
+		}
+	}
+	AjaxUtil.post(p);
+}
+
+function companyList() {
+	location.href = "/admin/company/companyPage"
 }
 </script>
 
@@ -45,12 +45,11 @@ function companyList(){
 			<h2>회원사 담당자 관리</h2>
 		</div>
 	</div>
-	
+
 	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/company/updateCompanyStat" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
-		
-	<div class="contents">
-		<h3> </h3>
+		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }" />
+
+		<div class="contents">
 			<div id="table">
 				<table class="view_table">
 					<tr>
@@ -92,25 +91,25 @@ function companyList(){
 					<tr>
 						<th class="acenter">첨부서류</th>
 						<td colspan="3">
-							<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
+						<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
 						</td>
 					</tr>
 				</table>
 			</div>
-			
-			<div class="btn_wrap">	
-				 <c:if test="${companyDetail.apprStat eq 1}">
-				  	 <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right" onclick="goCompanyStatUpdt('2','TEMP_MEMBER');">가승인</a>
-   		 		 	 <a href="javascript:void(0);" class="btn_black" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
-     			 </c:if>
-				 <c:if test="${companyDetail.apprStat eq 2}">
-					  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-      		 		  <a href="javascript:void(0);" class="btn_black" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
-     			 </c:if>
-     			  <c:if test="${companyDetail.apprStat eq 3}">
-      		 		  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-     			 </c:if>
+
+			<div class="btn_wrap">
+				<c:if test="${companyDetail.apprStat eq 1}">
+					<a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
+					<a href="javascript:void(0);" class="btn_black btn_right" onclick="goCompanyStatUpdt('2','TEMP_MEMBER');">가승인</a>
+					<a href="javascript:void(0);" class="btn_black btn_right02" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+				</c:if>
+				<c:if test="${companyDetail.apprStat eq 2}">
+					<a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
+					<a href="javascript:void(0);" class="btn_black btn_right" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+				</c:if>
+				<c:if test="${companyDetail.apprStat eq 3}">
+					<a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
+				</c:if>
 			</div>
 		</div>
 	</form>
