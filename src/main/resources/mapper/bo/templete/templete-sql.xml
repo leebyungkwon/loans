@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.system.templete.repository.TempleteRepository">
-    <select id="selectTemplete" parameterType="board" resultType="board">
+    <select id="selectTemplete" parameterType="temp" resultType="temp">
 	    <!-- TempleteRepository.selectTemplete -->
 	    select 
 	    	<include refid="common.totalPages"/>
 	    	b.* 
-	    from tbl_board b
+	    from tbl_temp b
 	    <include refid="common.pageBottom"/>
     </select>
-	<insert id="insert" parameterType="board" useGeneratedKeys="true" keyProperty="boardNo">
+	<insert id="insert" parameterType="temp" useGeneratedKeys="true" keyProperty="tempNo">
 		<!-- TempleteRepository.insert -->
-		insert into tbl_board
-		(reg_date, upd_date, use_yn, attch_no1, attch_no2, attch_no3, board_cnts, board_title, board_type)
-		values(now(), now(), 'Y', #{attchNo1}, #{attchNo2}, #{attchNo3}, #{boardCnts}, #{boardTitle}, #{boardType})
+		insert into tbl_temp
+		(reg_date, upd_date, use_yn, attch_no1, attch_no2, attch_no3, temp_cnts, temp_title, temp_type)
+		values(now(), now(), 'Y', #{attchNo1}, #{attchNo2}, #{attchNo3}, #{tempCnts}, #{tempTitle}, #{tempType})
 	</insert>
-	<update id="update" parameterType="board">
+	<update id="update" parameterType="temp">
 		<!-- TempleteRepository.update -->
-		update tbl_board
+		update tbl_temp
 		set upd_date = now()
-		,	board_type = #{boardType}
-		,	board_title = #{boardTitle}
-		,	board_cnts = #{boardCnts}
+		,	temp_type = #{tempType}
+		,	temp_title = #{tempTitle}
+		,	temp_cnts = #{tempCnts}
 		,	use_yn = #{useYn}
-		where board_no = #{boardNo}
+		where temp_no = #{tempNo}
 	</update>
 	
 	
