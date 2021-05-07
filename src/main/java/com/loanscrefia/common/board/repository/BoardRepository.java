@@ -23,5 +23,8 @@ public interface BoardRepository {
 	
 	// 공지사항 - 글 쓰기 페이지 -> Delete (글 삭제)
 	BoardDomain DelNoticeReg(BoardDomain boardDomain);
+	
+	// 공지사항 - 글 쓰기 페이지 - 조회수 증가
+	BoardDomain updNoticeCnt(BoardDomain boardDomain);
 
 }

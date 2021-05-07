@@ -2,60 +2,90 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.board.repository.BoardRepository">
 
-   <!-- 공지사항 글 조회, 상세 -->
-   <select id="selectNoticeList2" parameterType="board" resultType="board">
-      SELECT 
-      <include refid="common.totalPages"/>
-         FROM 
-      <include refid="common.pageBottom"/> 
-   </select>
+	<!-- 공지사항 글 조회, 상세 -->
+	<select id="selectNoticeList" parameterType="board" resultType="board">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLN.NOTICE_SEQ																					/*공지사항 시퀀스*/
+			,TLN.TITLE																							/*제목*/
+			,TLN.INFO																							/*내용*/
+			,TLN.VIEW_CNT																					/*조회수*/
+			,TLN.FILE_SEQ																						/*첨부파일 시퀀스*/
+			,TLN.REG_TIMESTAMP																			/*등록일시*/
+			,TLN.REG_SEQ																						/*등록자 시퀀스*/
+			,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD')		AS		regTimestamp		/*수정일시*/
+			,TLN.UPD_SEQ																						/*수정자 시퀀스*/
+			FROM TB_LC_NOTICE TLN
+			<where>
+				AND TLN.DEL_YN 			= 'N'
+			</where>
+		<include refid="common.pageBottom"/> 
+	</select>
 
-   <!-- 회원사 회원 조회 (테스트중 - 삭제 가능 O)-->
-   <select id="selectNoticeList" parameterType="board" resultType="board">
-      SELECT 
-      <include refid="common.totalPages"/>
-          TLM.MEMBER_SEQ
-         ,TLM.MEMBER_ID
-         ,TLM.PASSWORD
-         ,TLM.COM_CODE
-         ,TLM.MEMBER_NAME
-         ,TLM.EMAIL
-      <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-      <!--,TLM.MOBILE_NO -->
-         ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
-         ,TLM.DEPT_NM
-         ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
-         ,TLM.APPR_STAT
-         ,TLM.FILE_SEQ
-         ,TLM.FAIL_CNT
-         ,TLM.CRE_YN
-         ,TLM.DROP_YN
-         ,TLM.UPD_SEQ
-         ,TLM.UPD_TIMESTAMP
-         FROM TB_LC_MEMBERS TLM
-      <include refid="common.pageBottom"/>
-   </select>
-   
-   <!-- 회원사 회원 조회 (테스트중 - 삭제 가능 O)-->
-   <select id="getNoticeDetail" parameterType="board" resultType="board">
-      SELECT 
-         TLM.MEMBER_SEQ
-         ,TLM.MEMBER_ID
-         ,TLM.MEMBER_NAME
-         ,TLM.EMAIL
-      <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-      <!--,TLM.MOBILE_NO -->
-         ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
-         ,TLM.DEPT_NM
-         ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
-         FROM TB_LC_MEMBERS TLM
-      <where>
-         AND TLM.MEMBER_SEQ = #{memberSeq}
-      </where>
-   </select>
-   
+	<!-- 공지사항 글 조회수-->
+	<select id="updNoticeCnt" parameterType="board">
+		UPDATE TB_LC_NOTICE
+			SET VIEW_CNT = VIEW_CNT+1
+				WHERE NOTICE_SEQ = #{noticeSeq}
+	</select>
+
+	<!-- 공지사항 상세 조회 -->
+	<select id="getNoticeDetail" parameterType="board" resultType="board">
+		SELECT 
+		TLN.NOTICE_SEQ																					/*공지사항 시퀀스*/
+		,TLN.TITLE																							/*제목*/
+		,TLN.INFO																							/*내용*/
+		,TLN.VIEW_CNT																					/*조회수*/
+		,TLN.FILE_SEQ																						/*첨부파일 시퀀스*/
+		,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD')		AS		regTimestamp		/*등록일시*/
+		FROM TB_LC_NOTICE TLN
+		<where>
+			AND TLN.NOTICE_SEQ = #{noticeSeq}
+		</where>
+	</select>
+
+	<!-- 공지사항 글 등록  -->
+	<select id="SaveNoticeReg" parameterType="board" resultType="board">
+		INSERT INTO TB_LC_NOTICE
+		(
+				TITLE												/*제목*/
+				,INFO												/*내용*/
+				,FILE_SEQ										/*첨부파일 시퀀스*/
+				,REG_TIMESTAMP							/*등록일시*/
+				,REG_SEQ										/*등록자 시퀀스*/
+		)
+		VALUES
+		(
+				#{title}											/*제목*/ 
+				,#{info}											/*제목*/ 
+				,#{fileSeq}										/*첨부파일 시퀀스*/
+				,NOW()											/*등록일시*/
+				,#{regSeq}										/*등록자 시퀀스*/
+		)	
+	</select>
+
+	<!-- 공지사항 글 수정  -->
+	<select id="UpdNoticeReg" parameterType="board" resultType="board">
+		UPDATE TB_LC_NOTICE
+			SET 
+				TITLE 					= #{title}
+				,INFO						= #{info}
+				,FILE_SEQ				= #{fileSeq}
+				,UPD_TIMESTAMP	= NOW()
+				,UPD_SEQ				= #{updSeq}
+		<where>
+			AND NOTICE_SEQ 	= #{noticeSeq}
+		</where>
+	</select>
+
+	<!-- 공지사항 글 삭제  -->
+	<select id="DelNoticeReg" parameterType="board" resultType="board">
+		UPDATE TB_LC_NOTICE
+			SET 
+				DEL_YN	= 'Y'
+		<where>
+			AND NOTICE_SEQ	=	#{noticeSeq}
+		</where>
+	</select>
+
 </mapper> 

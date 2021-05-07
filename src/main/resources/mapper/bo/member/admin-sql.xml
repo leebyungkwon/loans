@@ -28,16 +28,14 @@
          ,TLM.UPD_TIMESTAMP
          FROM TB_LC_MEMBERS TLM
          <where>
-            <if test="comCode != 0 and comCode != '0'">
-               AND   TLM.COM_CODE        = #{comCode}
-            </if>
+               AND   TLM.COM_CODE        = (select COM_CODE from tb_lc_members where MEMBER_SEQ = #{regSeq})
             <if test="apprStat != null and apprStat != ''">
                AND   TLM.APPR_STAT       = #{apprStat}
             </if>
          </where>
       <include refid="common.pageBottom"/>
    </select>
-
+   
    <!-- 회원사 회원 상세 조회 -->
    <select id="getAdminDetail" parameterType="admin" resultType="admin">
       SELECT 

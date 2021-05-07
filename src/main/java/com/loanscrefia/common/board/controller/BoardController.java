@@ -4,8 +4,6 @@ package com.loanscrefia.common.board.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +26,7 @@ import com.loanscrefia.util.UtilFile;
 @Controller
 @RequestMapping(value="/common/board")
 public class BoardController {
-   
-	
+
 	@Autowired private BoardService boardService;
 	@Autowired private CommonService commonService;
 	@Autowired UtilFile utilFile;
@@ -52,58 +49,95 @@ public class BoardController {
 	@PostMapping(value="/noticeDetail")
 	public ModelAndView NoticeDetail(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeDetail");
-		BoardDomain boardInfo = boardService.getNoticeDetail(boardDomain);
-		mv.addObject("boardInfo", boardInfo);
+		
+		// 방문자 수 조회
+		boardService.updNoticeCnt(boardDomain);
+		
+		BoardDomain noticeInfo = boardService.getNoticeDetail(boardDomain);
+		mv.addObject("noticeInfo", noticeInfo);
+		
+		FileDomain file = new FileDomain();
+		file.setFileSeq(noticeInfo.getFileSeq());
+		file = commonService.getFile(file);
+		mv.addObject("file", file);
+		
 		return mv;
 	}
-	
-	// 공지사항 - 글 쓰기 페이지, 수정 페이지
-	@PostMapping(value="/noticeReg")
-	public ModelAndView NoticeReg(BoardDomain boardDomain) {
+
+	// 공지사항 - 글 쓰기 페이지
+	@PostMapping(value="/WritenoticeReg")
+	public ModelAndView WriteNoticeReg(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeReg");
-		BoardDomain boardInfo = boardService.NoticeReg(boardDomain);
-		mv.addObject("boardInfo", boardInfo);
 		
-//    	FileDomain file = new FileDomain();
-//    	file.setFileSeq(boardInfo.getFileSeq());
-//    	file = commonService.getFile(file);
-//    	mv.addObject("file", file);
+		BoardDomain noticeInfo = boardService.NoticeReg(boardDomain);
+		mv.addObject("noticeInfo", noticeInfo);
 		
 		return mv;
 	}
-	
+
+	// 공지사항 - 수정 페이지
+	@PostMapping(value="/InsnoticeReg")
+	public ModelAndView InsNoticeReg(BoardDomain boardDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeReg");
+		
+		BoardDomain noticeInfo = boardService.NoticeReg(boardDomain);
+		mv.addObject("noticeInfo", noticeInfo);
+		
+		FileDomain file = new FileDomain();
+		file.setFileSeq(noticeInfo.getFileSeq());
+		file = commonService.getFile(file);
+		mv.addObject("file", file);
+		
+		//		if(noticeInfo.getFileSeq() > 0) {
+		//	    	FileDomain file = new FileDomain();
+		//	    	file.setFileGrpSeq(noticeInfo.getFileSeq());
+		//	    	noticeInfo.setFileList(commonService.selectFileList(file));
+		//		}
+		
+		return mv;
+	}
+
 	// 공지사항 - 글 쓰기 페이지 -> Insert (글 등록)
 	@PostMapping(value="/SaveNoticeReg")
-	public ResponseEntity<ResponseMsg> SaveNoticeReg(@RequestParam("files") MultipartFile[] files, @Valid BoardDomain boardDomain) {
+	public ResponseEntity<ResponseMsg> SaveNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
 		Map<String, Object> ret = utilFile.setPath("notice") 
-				.setFiles(files)
-				.setExt("excel") 
-				.upload();
-		if((boolean) ret.get("success")) {
-			
-			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+		.setFiles(files)
+		.setExt("excel") 
+		.upload();
+			if((boolean) ret.get("success")) {
+				List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				boardDomain.setFileSeq(file.get(0).getFileSeq());
+				}
 			}
-		}
 		ResponseMsg responseMsg = boardService.SaveNoticeReg(boardDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	
+
 	// 공지사항 - 글 쓰기 페이지 -> Update (글 수정)
 	@PostMapping(value="/UpdNoticeReg")
-	public ResponseEntity<ResponseMsg> UpdNoticeReg(BoardDomain boardDomain) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-		responseMsg.setData(boardService.UpdNoticeReg(boardDomain));
+	public ResponseEntity<ResponseMsg> UpdNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
+		Map<String, Object> ret = utilFile.setPath("notice") 
+		.setFiles(files)
+		.setExt("excel") 
+		.upload();
+		
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+		if(file.size() > 0) {
+				boardDomain.setFileSeq(file.get(0).getFileSeq());
+			}
+		}
+		ResponseMsg responseMsg = boardService.UpdNoticeReg(boardDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	
+
 	// 공지사항 - 글 쓰기 페이지 -> Delete (글 삭제)
 	@PostMapping(value="/DelNoticeReg")
 	public ResponseEntity<ResponseMsg> DelNoticeReg(BoardDomain boardDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(boardService.DelNoticeReg(boardDomain));
+		responseMsg.setData(boardService.DelNoticeReg(boardDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	
+
 }

@@ -8,26 +8,37 @@
 	function pageLoad(){
 		
 		// 글 목록 버튼
-		$("#NoticeCancelBtn").on("click", function(){
+		$("#NoticeBtn").on("click", function(){
 			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 등록 버튼
-		$("#NoticeInsBtn").on("click", function(){
-			alert("글 등록 버튼 클릭 !!...")
-			// 	$("#noticeRegFrm").submit();
+		$("#NoticeSaveBtn").on("click", function(){
+			$("#noticeRegFrm").attr("action","/common/board/SaveNoticeReg");
+			var noticeInsParam = {
+				name : 'noticeRegFrm'
+				,success: function(opt, result) {
+	 				location.href="/common/board/noticePage";
+				}
+			}      
+			AjaxUtil.files(noticeInsParam);
 		});
 		
 		// 글 수정 버튼
 		$("#NoticeUpdBtn").on("click", function(){
-			alert("글 수정 버튼 클릭 !!...")
-			// 	$("#noticeRegFrm").submit();
+			$("#noticeRegFrm").attr("action","/common/board/UpdNoticeReg");
+			var noticeInsParam = {
+				name : 'noticeRegFrm'
+				,success: function(opt, result) {
+	 				$("#noticeDetailFrm").submit();
+				}
+			}      
+			AjaxUtil.files(noticeInsParam);
 		});
 		
-		// 글 삭제 버튼
-		$("#NoticeDelBtn").on("click", function(){
-			alert("글 삭제 버튼 클릭 !!...")
-		// 	$("#noticeRegFrm").submit();
+		// 글 취소 버튼
+		$("#NoticeCancelBtn").on("click", function(){
+			$("#noticeDetailFrm").submit();
 		});
 		
 		// 첨부파일 삭제
@@ -62,43 +73,54 @@
 		</div>
 	</div>
 	
-	<form name="noticeRegFrm" id="noticeRegFrm" action="/common/board/noticeReg" method="POST" enctype="multipart/form-data">
-		<input type="hidden" name="noticeSeq"/>
-			<div class="contents">
-				<div id="table">
-					<table class="view_table">
-						<tr>
-							<th>제목</th>
-							<td colspan="3">
-								<input type="text" id="noticeTitle" name="noticeTitle" placeholder="제목을 입력해 주세요!..." class="w60" data-vd='{"type":"text","len":"1,100","req":true,"msg":"제목을 입력해 주세요"}'/>
-							</td>
-						</tr>
-						<tr>
-							<th>내용</th>
-							<td colspan="3">
-								<textarea name="content" cols="110" rows="15" placeholder="내용을 입력해 주세요!..." data-vd='{"type":"text","len":"1,100","req":true,"msg":"내용을 입력해 주세요"}'></textarea>
-							</td>
-						</tr>
-						<tr>
-							<th>첨부파일</th>
-							<td id="fileTag">
-								<input type="text" id="fileName" name="fileName" class="w60" readonly="readonly" />
-								<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
-								<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
-								<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
-							</td>
-						</tr>
-					</table>
-				</div>
+	<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetail">
+		<input type="hidden" name="noticeSeq" value="${noticeInfo.noticeSeq}"/>
+	</form>
+	
+	<form name="noticeRegFrm" id="noticeRegFrm" method="POST" enctype="multipart/form-data">
+	<input type="hidden" name="noticeSeq" value="${noticeInfo.noticeSeq}"/>
+		<div class="contents">
+			<div id="table">
+				<table class="view_table">
+					<tr>
+						<th>제목</th>
+						<td colspan="3">
+							<input type="text" id="title" name="title" placeholder="제목을 입력해 주세요!..."  value="${noticeInfo.title}" class="w60" data-vd='{"type":"text","len":"1,100","req":true,"msg":"제목을 입력해 주세요"}'/>
+						</td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td colspan="3">
+							<textarea name="info" cols="110" rows="30" placeholder="내용을 입력해 주세요!..."  data-vd='{"type":"text","len":"1,100","req":true,"msg":"내용을 입력해 주세요"}'>${noticeInfo.info}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>첨부파일</th>
+						<td id="fileTag">
+							<input type="text" id="fileName" name="fileName" class="w60" readonly="readonly" value="${file.fileFullNm}" />
+							<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
+							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
+							<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
+						</td>
+					</tr>
+				</table>
 			</div>
+		</div>
 	</form>
 	
 	<sec:authorize access="hasRole('SYSTEM')" >
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" id="NoticeInsBtn"  class="btn_gray btn_right02">글 등록</a>								
-			<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right">글 수정</a>								
-			<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
-			<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray">글 삭제</a>								
+			<a href="javascript:void(0);" id="NoticeBtn"  class="btn_gray">글 목록</a>								
+		
+			<c:choose>
+				<c:when test="${!empty noticeInfo}">
+					<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
+					<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
+				</c:when>
+				<c:otherwise>
+					<a href="javascript:void(0);" id="NoticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</sec:authorize>
 </div>
