@@ -627,7 +627,51 @@ COMMENT ON COLUMN tb_lc_mas01_hist.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_timestamp IS '수정일시';
 
-commit; 
+commit;
 
+
+
+
+
+-- 공지사항 seq
+CREATE SEQUENCE tb_lc_notice_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 공지사항
+create table tb_lc_notice(
+	notice_seq integer not null default nextval('tb_lc_notice_seq')
+	, title varchar(100) not null
+	, info text not null 
+	, view_cnt integer not null default 0
+	, file_seq integer
+	, del_yn char(1) not null default 'N'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
+	, primary key (notice_seq)
+);
+
+COMMENT ON TABLE tb_lc_notice IS '공지사항';
+COMMENT ON COLUMN tb_lc_notice.notice_seq IS '공지사항시퀀스';
+COMMENT ON COLUMN tb_lc_notice.title IS '제목';
+COMMENT ON COLUMN tb_lc_notice.info IS '내용';
+COMMENT ON COLUMN tb_lc_notice.view_cnt IS '조회수';
+COMMENT ON COLUMN tb_lc_notice.file_seq IS '첨부파일시퀀스';
+COMMENT ON COLUMN tb_lc_notice.del_yn IS '삭제여부';
+COMMENT ON COLUMN tb_lc_notice.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_notice.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_notice.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_notice.upd_seq IS '수정자시퀀스';
+
+commit;
 
 
