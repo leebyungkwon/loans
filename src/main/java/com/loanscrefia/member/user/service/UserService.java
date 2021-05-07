@@ -368,12 +368,43 @@ public class UserService {
 		
 		Map<String, Object> result 	= new HashMap<String, Object>();
 		
+		//구분(신규,경력) 코드 리스트
+		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("CAR001");
+		List<CodeDtlDomain> careerTypList = codeService.selectCodeDtlList(codeDtlParam);
+		
+		//상세
+		UserDomain dtlParam			= new UserDomain();
+		dtlParam.setMasterSeq(userExpertDomain.getMasterSeq());
+		UserDomain userRegInfo 		= userRepo.getUserRegDetail(dtlParam);
+		
 		//전문인력 리스트
-		List<UserExpertDomain> expertList 	= userRepo.selectUserRegCorpExpertList(userExpertDomain);
+		List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(userExpertDomain);
 		
 		//첨부파일
+		if(expertList.size() > 0) {
+			for(int i = 0;i < expertList.size();i++) {
+				if(expertList.get(i).getFileSeq() != null) {
+					FileDomain fileParam 		= new FileDomain();
+					fileParam.setFileGrpSeq(expertList.get(i).getFileSeq());
+					List<FileDomain> fileList 	= commonService.selectFileList(fileParam);
+					
+					for(int j = 0;j < fileList.size();j++) {
+						if(fileList.get(j).getFileType().equals("16")) {
+							expertList.get(i).setFileType16(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("17")) {
+							expertList.get(i).setFileType17(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("18")) {
+							expertList.get(i).setFileType18(fileList.get(j));
+						}
+					}
+				}
+			}
+		}
 		
 		//전달
+		result.put("careerTypList", careerTypList);
+		result.put("userRegInfo", userRegInfo);
 		result.put("expertList", expertList);
 		
 		return result;

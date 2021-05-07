@@ -100,7 +100,11 @@ public class UtilExcel<T> {
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
 	                			//String chkDbVal = chkDb.get(j);
-	                			int cellEduNo 	= Integer.parseInt(ExcelCellRef.getValue(cell));
+	                			int cellEduNo = 0;
+	                			
+	                			if(ExcelCellRef.getValue(cell) != null && !ExcelCellRef.getValue(cell).equals("")) {
+	                				cellEduNo = Integer.parseInt(ExcelCellRef.getValue(cell));
+	                			}
 	                			System.out.println("cellEduNo :: "+cellEduNo);
 	                			
 	                			/*

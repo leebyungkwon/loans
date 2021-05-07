@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.type.Alias;
 
 import com.loanscrefia.common.common.domain.BaseDomain;
+import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.util.excel.ExcelColumn;
 
 import lombok.Data;
@@ -40,8 +41,12 @@ public class UserExpertDomain extends BaseDomain {
 	
 	//가공
 	private String careerTypNm;		//구분명
-	private String plProductNm;		//취급상품명 				-> tb_lc_mas01테이블의 pl_product 컬럼 참조
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
+	
+	//전문인력 첨부파일 가공
+	private FileDomain fileType16;
+	private FileDomain fileType17;
+	private FileDomain fileType18;
 }

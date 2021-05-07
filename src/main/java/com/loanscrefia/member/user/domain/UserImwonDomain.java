@@ -49,7 +49,6 @@ public class UserImwonDomain extends BaseDomain {
 	
 	//가공
 	private String careerTypNm;		//구분명
-	private String plProductNm;		//취급상품명 				-> tb_lc_mas01테이블의 pl_product 컬럼 참조
 	private String fullTmYnNm;		//상근여부명
 	private String expertYnNm;		//전문인력여부명
 	
