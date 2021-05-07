@@ -45,7 +45,7 @@ public class UserImwonDomain extends BaseDomain {
 	@ExcelColumn(headerName="전문인력여부", vCell="I", vLenMin=1, vLenMax=1, vEnum="1,2")
 	private String expertYn;		//전문인력여부				-> []전문인력,비전문인력
 	
-	private int fileSeq;			//첨부파일 그룹 시퀀스
+	private Integer fileSeq;		//첨부파일 그룹 시퀀스
 	
 	//가공
 	private String careerTypNm;		//구분명

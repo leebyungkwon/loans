@@ -36,7 +36,7 @@ public class UserExpertDomain extends BaseDomain {
 	@ExcelColumn(headerName="경력종료일", vCell="F", vLenMin=10, vLenMax=10)
 	private String careerEndDt;		//경력종료일
 	
-	private int fileSeq;			//첨부파일 그룹 시퀀스
+	private Integer fileSeq;		//첨부파일 그룹 시퀀스
 	
 	//가공
 	private String careerTypNm;		//구분명

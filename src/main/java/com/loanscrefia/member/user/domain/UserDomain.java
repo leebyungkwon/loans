@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.type.Alias;
 
 import com.loanscrefia.common.common.domain.BaseDomain;
+import com.loanscrefia.common.common.domain.FileDomain;
 
 import lombok.Data;
 
@@ -71,7 +72,15 @@ public class UserDomain extends BaseDomain {
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
-	
-	
+	//개인 첨부파일 가공
+	private FileDomain fileType1;
+	private FileDomain fileType2;
+	private FileDomain fileType3;
+	private FileDomain fileType4;
+	private FileDomain fileType5;
+	private FileDomain fileType6;
+	private FileDomain fileType7;
+	private FileDomain fileType8;
+	private FileDomain fileType9;
 	
 }

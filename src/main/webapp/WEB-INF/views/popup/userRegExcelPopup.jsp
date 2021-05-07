@@ -1,49 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<script type="text/javascript">
-//샘플 다운로드
-function goSampleDownload() {
-	var plClass = $('input[name="plClass"]:checked').val();
-	alert("모집인유형이 "+plClass+"인 샘플 다운로드 되야해!");
-}
-
-//모집인 등록하기
-function goUserRegInfoExcelUpload() {
-	if(!$('input[name="plClass"]').is(":checked")){
-		alert("모집인유형을 선택해 주세요.");
-		return;
-	}else{
-		var plClass = $('input[name="plClass"]:checked').val();
-		
-		if(plClass == "1"){
-			$("#userRegInfoInsertFrm").attr("action","/member/user/indvExcelUpload");
-		}else if(plClass == "2"){
-			$("#userRegInfoInsertFrm").attr("action","/member/user/corpExcelUpload");
-		}
-	}
-	if(confirm("모집인을 등록하시겠습니까?")){
-		var p = {
-			  name 		: "userRegInfoInsertFrm"
-			, success 	: function (opt,result) {
-				var msg = result.data;
-				
-				if(msg == "success"){
-					alert("모집인이 등록되었습니다.");
-					location.reload();
-				}else if(msg == "fail"){
-					alert("실패했습니다.");
-					return;
-				}else{
-					alert("[데이터 확인 필요]\n"+msg);
-					location.reload();
-				}
-	 	    }
-		}
-		AjaxUtil.files(p);	
-	}
-}
-</script>
-
 <div class="title_wrap">
 	<h5>모집인 등록</h5>
 	<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopup();"></a>
@@ -60,7 +16,7 @@ function goUserRegInfoExcelUpload() {
 		</colgroup>
 		<tbody>
 			<tr>
-				<th>모집인유형*</th>
+				<th>모집인유형 *</th>
 				<td>
 					<div class="input_radio_wrap">
 						<input type="radio" name="plClass" id="radio01" value="1">
@@ -73,7 +29,7 @@ function goUserRegInfoExcelUpload() {
 				</td>
 			</tr>
 			<tr>
-				<th>엑셀업로드*</th>
+				<th>엑셀업로드 *</th>
 				<td class="file">
 					<input type="text" class="w50 file_input" readonly disabled>
 					<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>

@@ -1,5 +1,6 @@
 package com.loanscrefia.member.user.service;
 
+import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class UserService {
 		return userRepo.selectUserRegList(userDomain);
 	}
 	
-	//모집인 등록 > 개인
+	//모집인 등록(엑셀) > 개인
 	@Transactional
 	public ResponseMsg indvExcelUpload(MultipartFile[] files, UserDomain userDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
@@ -81,7 +82,7 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
-	//모집인 등록 > 법인
+	//모집인 등록(엑셀) > 법인
 	@Transactional
 	public ResponseMsg corpExcelUpload(MultipartFile[] files, UserDomain userDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
@@ -121,7 +122,7 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
-	//모집인 등록 > 법인 : 대표자 및 임원 정보 등록
+	//모집인 등록(엑셀) > 법인 : 대표자 및 임원 정보 등록
 	@Transactional
 	public ResponseMsg corpImwonExcelUpload(MultipartFile[] files, UserImwonDomain userImwonDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
@@ -161,7 +162,9 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
-	//모집인 등록 > 법인 : 전문인력 정보 등록
+	//모집인 등록(수동) > 법인 : 대표자 및 임원 정보 등록
+	
+	//모집인 등록(엑셀) > 법인 : 전문인력 정보 등록
 	@Transactional
 	public ResponseMsg corpExpertExcelUpload(MultipartFile[] files, UserExpertDomain userExpertDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
@@ -201,7 +204,9 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
-	//모집인 등록 > 법인 : 전산인력 정보 등록
+	//모집인 등록(수동) > 법인 : 전문인력 정보 등록
+	
+	//모집인 등록(엑셀) > 법인 : 전산인력 정보 등록
 	@Transactional
 	public ResponseMsg corpItExcelUpload(MultipartFile[] files, UserItDomain userItDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
@@ -241,6 +246,8 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
+	//모집인 등록(수동) > 법인 : 전산인력 정보 등록
+	
 	//모집인 등록 > 승인요청
 	@Transactional
 	public int updatePlRegStat(UserDomain userDomain){
@@ -271,14 +278,6 @@ public class UserService {
 		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
 		
 		//첨부파일
-		FileDomain fileType1 = null;
-		FileDomain fileType2 = null;
-		FileDomain fileType3 = null;
-		FileDomain fileType4 = null;
-		FileDomain fileType5 = null;
-		FileDomain fileType6 = null;
-		FileDomain fileType7 = null;
-		
     	if(userRegInfo.getFileSeq() != null) {
     		FileDomain fileParam = new FileDomain();
     		
@@ -288,19 +287,23 @@ public class UserService {
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
         			if(fileList.get(i).getFileType().equals("1")) {
-        				fileType1 = fileList.get(i);
+        				userRegInfo.setFileType1(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("2")) {
-        				fileType2 = fileList.get(i);
+        				userRegInfo.setFileType2(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("3")) {
-        				fileType3 = fileList.get(i);
+        				userRegInfo.setFileType3(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("4")) {
-        				fileType4 = fileList.get(i);
+        				userRegInfo.setFileType4(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("5")) {
-        				fileType5 = fileList.get(i);
+        				userRegInfo.setFileType5(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("6")) {
-        				fileType6 = fileList.get(i);
+        				userRegInfo.setFileType6(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("7")) {
-        				fileType7 = fileList.get(i);
+        				userRegInfo.setFileType7(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("8")) {
+        				userRegInfo.setFileType8(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("9")) {
+        				userRegInfo.setFileType9(fileList.get(i));
         			}
         		}
         	}
@@ -309,18 +312,11 @@ public class UserService {
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("userRegInfo", userRegInfo);
-    	result.put("fileType1", fileType1);
-    	result.put("fileType2", fileType2);
-    	result.put("fileType3", fileType3);
-    	result.put("fileType4", fileType4);
-    	result.put("fileType5", fileType5);
-    	result.put("fileType6", fileType6);
-    	result.put("fileType7", fileType7);
 		
 		return result;
 	}
 	
-	//모집인 등록 > 상세 : 법인
+	//모집인 등록 > 상세 : 법인(등록정보 탭)
 	@Transactional(readOnly=true)
 	public Map<String,Object> getUserRegCorpDetail(UserDomain userDomain){
 		
@@ -333,36 +329,166 @@ public class UserService {
 		
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
-		int masterSeq			= userRegInfo.getMasterSeq();
-		
-		//대표자 및 임원 리스트
-		UserImwonDomain imwonParam 		= new UserImwonDomain();
-		imwonParam.setMasterSeq(masterSeq);
-		List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(imwonParam);
-		
-		//전문인력 리스트
-		UserExpertDomain expertParam 		= new UserExpertDomain();
-		expertParam.setMasterSeq(masterSeq);
-		List<UserExpertDomain> expertList 	= userRepo.selectUserRegCorpExpertList(expertParam);
-		
-		//전산인력 리스트
-		UserItDomain itParam			= new UserItDomain();
-		itParam.setMasterSeq(masterSeq);
-		List<UserItDomain> itList 		= userRepo.selectUserRegCorpItList(itParam);
 		
 		//첨부파일
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
 		result.put("userRegInfo", userRegInfo);
+		
+		return result;
+	}
+	
+	//모집인 등록 > 상세 : 법인(대표자 및 임원관련사항 탭)
+	@Transactional(readOnly=true)
+	public Map<String,Object> getUserRegCorpImwonDetail(UserImwonDomain userImwonDomain){
+		
+		Map<String, Object> result 	= new HashMap<String, Object>();
+
+		//상세
+		UserDomain dtlParam			= new UserDomain();
+		dtlParam.setMasterSeq(userImwonDomain.getMasterSeq());
+		UserDomain userRegInfo 		= userRepo.getUserRegDetail(dtlParam);
+		
+		//대표자 및 임원 리스트
+		List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(userImwonDomain);
+		
+		//첨부파일
+		
+		//전달
+		result.put("userRegInfo", userRegInfo);
 		result.put("imwonList", imwonList);
+		
+		return result;
+	}
+	
+	//모집인 등록 > 상세 : 법인(전문인력 탭)
+	@Transactional(readOnly=true)
+	public Map<String,Object> getUserRegCorpExpertDetail(UserExpertDomain userExpertDomain){
+		
+		Map<String, Object> result 	= new HashMap<String, Object>();
+		
+		//전문인력 리스트
+		List<UserExpertDomain> expertList 	= userRepo.selectUserRegCorpExpertList(userExpertDomain);
+		
+		//첨부파일
+		
+		//전달
 		result.put("expertList", expertList);
+		
+		return result;
+	}
+	
+	//모집인 등록 > 상세 : 법인(전산인력 탭)
+	@Transactional(readOnly=true)
+	public Map<String,Object> getUserRegCorpItDetail(UserItDomain userItDomain){
+		
+		Map<String, Object> result 	= new HashMap<String, Object>();
+		
+		//상세
+		UserDomain dtlParam			= new UserDomain();
+		dtlParam.setMasterSeq(userItDomain.getMasterSeq());
+		UserDomain userRegInfo 		= userRepo.getUserRegDetail(dtlParam);
+		
+		//전산인력 리스트
+		List<UserItDomain> itList 	= userRepo.selectUserRegCorpItList(userItDomain);
+		
+		//첨부파일
+		if(itList.size() > 0) {
+			for(int i = 0;i < itList.size();i++) {
+				if(itList.get(i).getFileSeq() != null) {
+					FileDomain fileParam 		= new FileDomain();
+					fileParam.setFileGrpSeq(itList.get(i).getFileSeq());
+					List<FileDomain> fileList 	= commonService.selectFileList(fileParam);
+					
+					for(int j = 0;j < fileList.size();j++) {
+						if(fileList.get(j).getFileType().equals("1")) {
+							itList.get(i).setFileType1(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("2")) {
+							itList.get(i).setFileType2(fileList.get(j));
+						}
+					}
+					/*
+					for(FileDomain fileDomain : fileList){
+						for(Field field : fileDomain.getClass().getDeclaredFields()){
+				            field.setAccessible(true);
+				            String name = field.getName();
+				            String tt = name.substring(9);
+				            System.out.println(tt);
+				            
+				            if(tt.equals(fileDomain.getFileType())) {
+				            	
+				            }
+				        }    
+			        }    
+					*/
+				}
+			}
+		}
+		
+		//전달
+		result.put("userRegInfo", userRegInfo);
 		result.put("itList", itList);
 		
 		return result;
 	}
+	
+	//모집인 등록 > 상세 : 법인(기타 탭)
+	@Transactional(readOnly=true)
+	public Map<String,Object> getUserRegCorpEtcDetail(UserDomain userDomain){
 		
+		Map<String, Object> result 	= new HashMap<String, Object>();
+		
+		//상세
+		UserDomain userRegInfo 		= userRepo.getUserRegDetail(userDomain);
+		
+		//첨부파일
+		FileDomain fileType21 = null;
+		FileDomain fileType22 = null;
+		FileDomain fileType23 = null;
+		FileDomain fileType24 = null;
+		FileDomain fileType25 = null;
+		FileDomain fileType26 = null;
+		
+    	if(userRegInfo.getFileSeq() != null) {
+    		FileDomain fileParam = new FileDomain();
+    		
+    		fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
+        	List<FileDomain> fileList = commonService.selectFileList(fileParam);
+        	
+        	if(fileList.size() > 0) {
+        		for(int i = 0;i < fileList.size();i++) {
+        			if(fileList.get(i).getFileType().equals("21")) {
+        				fileType21 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("22")) {
+        				fileType22 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("23")) {
+        				fileType23 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("24")) {
+        				fileType24 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("25")) {
+        				fileType25 = fileList.get(i);
+        			}else if(fileList.get(i).getFileType().equals("26")) {
+        				fileType26 = fileList.get(i);
+        			}
+        		}
+        	}
+    	}
+    	
+		//전달
+		result.put("userRegInfo", userRegInfo);
+		result.put("fileType21", fileType21);
+		result.put("fileType22", fileType22);
+		result.put("fileType23", fileType23);
+		result.put("fileType24", fileType24);
+		result.put("fileType25", fileType25);
+		result.put("fileType26", fileType26);
+		
+		return result;
+	}
+	
 	//모집인 등록 > 수정
+	@Transactional
 	public int updateUserRegInfo(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -373,7 +499,7 @@ public class UserService {
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
-				System.out.println("userService > fileGrpSeq :::: "+file.get(0).getFileGrpSeq());
+				System.out.println("userService > updateUserRegInfo > fileGrpSeq :::: "+file.get(0).getFileGrpSeq());
 				userDomain.setFileSeq(file.get(0).getFileGrpSeq());
 			}
 		}
@@ -382,4 +508,39 @@ public class UserService {
 		
 		return result;
 	}
+	
+	//모집인 등록 > 수정 : 법인(대표자 및 임원관련사항 탭)
+	@Transactional
+	public int updateUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
+		return 0;
+	}
+	
+	//모집인 등록 > 수정 : 법인(전문인력)
+	@Transactional
+	public int updateUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
+		return 0;
+	}
+	
+	//모집인 등록 > 수정 : 법인(전산인력)
+	@Transactional
+	public int updateUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
+		//첨부파일 저장
+		Map<String, Object> ret = utilFile.setPath("userReg")
+				.setFiles(files)
+				.setExt("doc")
+				.setEntity(fileDomain)
+				.upload();
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				System.out.println("userService > updateUserRegCorpItInfo > fileGrpSeq :::: "+file.get(0).getFileGrpSeq());
+				userItDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}
+		}
+		//수정
+		int result = userRepo.updateUserRegCorpItInfo(userItDomain);
+		
+		return result;
+	}
+	
 }

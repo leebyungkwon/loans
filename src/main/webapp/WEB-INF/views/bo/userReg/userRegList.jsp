@@ -15,20 +15,20 @@ function pageLoad(){
   		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"] /*"사용인이름", "사용인주민번호",*/
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'		, id:true}
-				,{type:"string"	, name:'memberNm'		, index:'memberNm'		, align:"center"}
-				,{type:"string"	, name:'plClass'		, index:'plClass'		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'		, align:"center"}
-				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'	, align:"center"}
-				,{type:"string"	, name:'plMName'		, index:'plMName'		, align:"center"}
-				,{type:"string"	, name:'plMZId'			, index:'plMZId'		, align:"center"}
-				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'	, align:"center"}
-				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName', align:"center"}
-				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'	, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, align:"center"}
-				,{type:"string"	, name:'fileSeq'		, index:'fileSeq'		, align:"center" , hidden:true}
-				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'	, align:"center"}
-				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'		, align:"center"}
+				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
+				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'fileSeq'		, index:'fileSeq'			, width:"10%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
@@ -70,6 +70,54 @@ function goUserRegPopOpen() {
 		, url 		: "/member/user/userRegExcelPopup"
 	}
 	PopUtil.openPopup(p);
+}
+
+//샘플 다운로드
+function goSampleDownload() {
+	var plClass = $('input[name="plClass"]:checked').val();
+	alert("모집인유형이 "+plClass+"인 샘플 다운로드 되야해!");
+}
+
+//모집인 등록하기
+function goUserRegInfoExcelUpload() {
+	if(!$('input[name="plClass"]').is(":checked")){
+		alert("모집인유형을 선택해 주세요.");
+		return;
+	}else{
+		var plClass = $('input[name="plClass"]:checked').val();
+		
+		if(plClass == "1"){
+			$("#userRegInfoInsertFrm").attr("action","/member/user/indvExcelUpload");
+		}else if(plClass == "2"){
+			$("#userRegInfoInsertFrm").attr("action","/member/user/corpExcelUpload");
+		}
+	}
+	/*
+	if(){
+		alert("엑셀 파일을 업로드해 주세요.");
+		return;
+	}
+	*/
+	if(confirm("모집인을 등록하시겠습니까?")){
+		var p = {
+			  name 		: "userRegInfoInsertFrm"
+			, success 	: function (opt,result) {
+				var msg = result.data;
+				
+				if(msg == "success"){
+					alert("모집인이 등록되었습니다.");
+					location.reload();
+				}else if(msg == "fail"){
+					alert("실패했습니다.");
+					return;
+				}else{
+					alert("[데이터 확인 필요]\n"+msg);
+					location.reload();
+				}
+	 	    }
+		}
+		AjaxUtil.files(p);	
+	}
 }
 
 //선택 승인요청 -> 필수 첨부파일 하나라도 없으면 요청 불가 *****

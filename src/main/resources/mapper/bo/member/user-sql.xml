@@ -312,20 +312,72 @@
    	</select>
    	
    	<!-- 모집인 등록 > 법인 : 대표자 및 임원 상세 -->
-   	<select id="selectUserRegCorpImwonList" parameterType="userImwon" resultType="userImwon"></select>
+   	<select id="selectUserRegCorpImwonList" parameterType="userImwon" resultType="userImwon">
+   		SELECT 
+			 EXC_SEQ
+			,MASTER_SEQ
+			,CAREER_TYP
+			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
+			,POSITION_NM
+			,EXC_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,FULL_TM_YN
+			<!-- ,FN_CD_DTL('CAR001',FULL_TM_YN) AS FULL_TM_YN_NM -->
+			,EXPERT_YN
+			<!-- ,FN_CD_DTL('CAR001',EXPERT_YN) AS EXPERT_YN_NM -->
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IMWON
+   		<where>
+   			AND MASTER_SEQ = #{masterSeq}
+   		</where>
+   		ORDER BY EXC_SEQ ASC
+   	</select>
    	
    	<!-- 모집인 등록 > 법인 : 전문인력 상세 -->
-   	<select id="selectUserRegCorpExpertList" parameterType="userExpert" resultType="userExpert"></select>
+   	<select id="selectUserRegCorpExpertList" parameterType="userExpert" resultType="userExpert">
+   		SELECT
+			 EXP_SEQ
+			,MASTER_SEQ
+			,CAREER_TYP
+			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
+			,EXP_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_EXPERT
+   		<where>
+   			AND MASTER_SEQ = #{masterSeq}
+   		</where>
+   		ORDER BY EXP_SEQ ASC
+   	</select>
    	
    	<!-- 모집인 등록 > 법인 : 전산인력 상세 -->
-   	<select id="selectUserRegCorpItList" parameterType="userIt" resultType="userIt"></select>
+   	<select id="selectUserRegCorpItList" parameterType="userIt" resultType="userIt">
+   		SELECT
+	   		 OPER_SEQ
+			,MASTER_SEQ
+			,OPER_NAME
+			,PL_M_Z_ID
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IT
+   		<where>
+   			AND MASTER_SEQ = #{masterSeq}
+   		</where>
+   		ORDER BY OPER_SEQ ASC
+   	</select>
    
 	<!-- 모집인 등록 > 수정 -->
    	<update id="updateUserRegInfo" parameterType="user">
    		UPDATE TB_LC_MAS01
    		SET
+   			  FILE_SEQ 			= #{fileSeq}
    			<if test="plMName != null and plMName != ''">
-   			 PL_M_NAME 			= #{plMName}
+   			 ,PL_M_NAME 		= #{plMName}
    			</if>
    			<if test="plMZId != null and plMZId != ''">
    			,PL_M_Z_ID 			= REPLACE(#{plMZId}, '-', '')
@@ -354,7 +406,22 @@
    			<if test="entrustDate != null and entrustDate != ''">
    			,ENTRUST_DATE 		= REPLACE(#{entrustDate}, '-', '')
    			</if>
-   			,FILE_SEQ 			= #{fileSeq}
+   			
+   			<if test="plMerchantName != null and plMerchantName != ''">
+   			,PL_MERCHANT_NAME	= #{plMerchantName}
+   			</if>
+   			<if test="plCeoName != null and plCeoName != ''">
+   			,PL_CEO_NAME 		= #{plCeoName}
+   			</if>
+   			<if test="plMerchantNo != null and plMerchantNo != ''">
+   			,PL_MERCHANT_NO 	= REPLACE(#{plMerchantNo}, '-', '')
+   			</if>
+   			<if test="corpFoundDate != null and corpFoundDate != ''">
+   			,CORP_FOUND_DATE 	= REPLACE(#{corpFoundDate}, '-', '')
+   			</if>
+   			<if test="capital != null and capital != ''">
+   			,CAPITAL 			= #{capital}
+   			</if>
    			,UPD_SEQ 			= #{updSeq}
    			,UPD_TIMESTAMP 		= NOW()
    		<where>
@@ -364,12 +431,28 @@
    	</update>
    	
    	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 수정 -->
-	<update id="updateUserRegCorpImwonInfo" parameterType="userImwon"></update>
+	<update id="updateUserRegCorpImwonInfo" parameterType="userImwon">
+		UPDATE TB_LC_MAS01_IMWON
+		SET
+			
+		<where>
+	    	AND EXC_SEQ = #{excSeq}
+	    </where>
+	</update>
    	
    	<!-- 모집인 등록 > 법인 : 전문인력 정보 수정 -->
    	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert"></update>
    	
    	<!-- 모집인 등록 > 법인 : 전산인력 정보 수정 -->
-   	<update id="updateUserRegCorpItInfo" parameterType="userIt"></update>
+   	<update id="updateUserRegCorpItInfo" parameterType="userIt">
+   		UPDATE TB_LC_MAS01_IT
+   		SET
+   			 OPER_NAME		= #{operName}
+			,PL_M_Z_ID		= #{plMZId}
+			,FILE_SEQ		= #{fileSeq}
+   		<where>
+	    	AND OPER_SEQ 	= #{operSeq}
+	    </where>
+   	</update>
    	
 </mapper> 
