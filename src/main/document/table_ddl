@@ -9,7 +9,7 @@ CREATE TABLE tb_lc_cod01 (
 	property04 varchar(100) NULL,
 	property05 varchar(100) NULL,
 	use_yn char(1) NOT NULL DEFAULT 'Y'::character varying,
-	reg_seq INTEGER NOT NULL,
+	reg_seq INTEGER NOT NULL,   
 	reg_timestamp timestamp NOT NULL,
 	upd_seq INTEGER NULL,
 	upd_timestamp timestamp NULL, 
