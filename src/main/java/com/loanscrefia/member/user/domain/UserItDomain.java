@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.type.Alias;
 
 import com.loanscrefia.common.common.domain.BaseDomain;
+import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.util.excel.ExcelColumn;
 
 import lombok.Data;
@@ -24,8 +25,11 @@ public class UserItDomain extends BaseDomain {
 	@ExcelColumn(headerName="주민등록번호", vCell="B", vLenMin=14, vLenMax=14)
 	private String plMZId;			//주민등록번호
 	
-	private int fileSeq;			//첨부파일 그룹 시퀀스
+	private Integer fileSeq;		//첨부파일 그룹 시퀀스
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
+	
+	//가공
+	private List<FileDomain> fileTest;
 }
