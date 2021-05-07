@@ -12,7 +12,7 @@ CREATE TABLE tb_lc_cod01 (
 	reg_seq INTEGER NOT NULL,
 	reg_timestamp timestamp NOT NULL,
 	upd_seq INTEGER NULL,
-	upd_timestamp timestamp NULL,
+	upd_timestamp timestamp NULL, 
 	PRIMARY KEY (code_mst_cd)
 );
 
