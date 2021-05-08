@@ -32,7 +32,7 @@
 				<th>엑셀업로드 *</th>
 				<td class="file">
 					<input type="text" class="w50 file_input" readonly disabled>
-					<input type="file" name="files" id="userRegFile" class="inputFile" style="display: none;"/>
+					<input type="file" name="files" id="userRegFile" onchange="goFileNmShow();" style="display: none;"/>
 					<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
 					<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
 				</td>

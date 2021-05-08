@@ -7,8 +7,6 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	//newForm.append($('<input/>', {type: 'hidden', name: 'data1', value:'value1' }));
-	
 	//전산인력 엑셀 업로드
 	$("#userRegItFile").on("change", function () {
 		var p = {
@@ -35,6 +33,13 @@ function pageLoad(){
 //추가
 function goDataAreaAdd() {
 	alert("영역 추가해야해!");
+	
+	
+	/*
+	//초기화,이벤트..
+	var html = $(".cloneTarget").clone();
+	$("#target").before(html);
+	*/
 }
 
 //수정
@@ -54,7 +59,9 @@ function goCorpItInfoUpdt(operSeq) {
 
 //삭제
 function goCorpItInfoDel(operSeq) {
-	alert("삭제해야해!");
+	if(confirm("정말 삭제하시겠습니까?")){
+		alert("삭제해야해!");
+	}
 }
 
 /*
@@ -102,7 +109,7 @@ function goCorpItDel(operSeq) {
 	</div>
 	
 	<div id="file_table" class="mgt30">
-		<form name="userRegCorpItInfoInsertFrm" id="userRegCorpItInfoInsertFrm" action="/member/user/corpItExcelUpload" method="post" enctype="multipart/form-data">
+		<form name="userRegCorpItInfoInsertFrm" id="userRegCorpItInfoInsertFrm" action="/member/user/insertUserRegCorpItInfoByExcel" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 			
 			<table class="view_table">
@@ -165,19 +172,35 @@ function goCorpItDel(operSeq) {
 										<tr>
 											<th class="acenter">경력증명서 (전산인력)</th>
 											<td>
-												<input type="text" class="w50 file_input" readonly disabled>
-												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-												<input type="hidden" name="fileTypeList" value="19"/>
-												<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+												<c:choose>
+													<c:when test="${corpItList.fileType19 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType19.fileSeq }">${corpItList.fileType19.fileFullNm }</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType19.fileSeq }" data-fileType="19" data-essential="N">삭제</a>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="19"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+													</c:otherwise>
+												</c:choose>
 											</td>
 										</tr>
 										<tr>
 											<th class="acenter">자격확인 서류(전산인력)</th>
 											<td>
-												<input type="text" class="w50 file_input" readonly disabled>
-												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-												<input type="hidden" name="fileTypeList" value="20"/>
-												<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+												<c:choose>
+													<c:when test="${corpItList.fileType20 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType20.fileSeq }">${corpItList.fileType20.fileFullNm }</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType20.fileSeq }" data-fileType="20" data-essential="N">삭제</a>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="20"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+													</c:otherwise>
+												</c:choose>
 											</td>
 										</tr>
 									</tbody>
@@ -195,7 +218,7 @@ function goCorpItDel(operSeq) {
 				</c:forEach>
 			</c:when>
 			<c:otherwise>
-				<form name="userRegInfoUpdFrm" action="" method="post" enctype="multipart/form-data">
+				<form name="userRegInfoInsertFrm" action="" method="post" enctype="multipart/form-data">
 					<div class="data_wrap">
 						<div id="table">
 							<table class="view_table">
@@ -215,7 +238,7 @@ function goCorpItDel(operSeq) {
 								</tbody>
 							</table>
 						</div>
-				
+					
 						<h3>전산인력관련 서류</h3>
 						<div id="table10">
 							<table class="view_table">
@@ -248,8 +271,8 @@ function goCorpItDel(operSeq) {
 						
 						<div class="btn_wrap02">
 							<div class="right">
-								<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpItReg('');">저장</a>
-								<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpItDel('');">삭제</a>
+								<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpItReg();">저장</a>
+								<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpItDel();">삭제</a>
 							</div>
 						</div>
 					</div>
@@ -257,7 +280,7 @@ function goCorpItDel(operSeq) {
 			</c:otherwise>
 		</c:choose>
 		
-		<div class="btn_wrap">
+		<div class="btn_wrap" id="target">
 			<a href="javascript:void(0);" class="btn_gray" onclick="">목록</a>
 		</div>
 	</div>

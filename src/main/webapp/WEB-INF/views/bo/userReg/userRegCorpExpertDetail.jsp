@@ -67,7 +67,7 @@ function goUserRegInfoUpdt() {
 	</div>
 
 	<div id="file_table" class="mgt30">
-		<form name="userRegCorpExpertInfoInsertFrm" id="userRegCorpExpertInfoInsertFrm" action="/member/user/corpExpertExcelUpload" method="post" enctype="multipart/form-data">
+		<form name="userRegCorpExpertInfoInsertFrm" id="userRegCorpExpertInfoInsertFrm" action="/member/user/insertUserRegCorpExpertInfoByExcel" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 			
 			<table class="view_table">

@@ -58,6 +58,14 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//처리상태 변경
+	@PostMapping(value="/updatePlRegStat")
+	public ResponseEntity<ResponseMsg> updatePlRegStat(UserDomain userDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.updatePlRegStat(userDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	//엑셀 업로드 팝업창
 	@GetMapping(value="/userRegExcelPopup")
 	public ModelAndView userRegExcelPopup() {
@@ -66,47 +74,66 @@ public class UserController {
 	}
 	
 	//등록 처리(엑셀 업로드) : 개인
-	@PostMapping(value="/indvExcelUpload")
-	public ResponseEntity<ResponseMsg> indvExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
-		ResponseMsg responseMsg = userService.indvExcelUpload(files, userDomain);
+	@PostMapping(value="/insertUserRegIndvInfoByExcel")
+	public ResponseEntity<ResponseMsg> insertUserRegIndvInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+		ResponseMsg responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//등록 처리(엑셀 업로드) : 법인
-	@PostMapping(value="/corpExcelUpload")
-	public ResponseEntity<ResponseMsg> corpExcelUpload(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
-		ResponseMsg responseMsg = userService.corpExcelUpload(files, userDomain);
+	@PostMapping(value="/insertUserRegCorpInfoByExcel")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//등록 처리(엑셀 업로드) : 법인 > 대표자 및 임원
-	@PostMapping(value="/corpImwonExcelUpload")
-	public ResponseEntity<ResponseMsg> corpImwonExcelUpload(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain){
-		ResponseMsg responseMsg = userService.corpImwonExcelUpload(files, userImwonDomain);
+	@PostMapping(value="/insertUserRegCorpImwonInfoByExcel")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfoByExcel(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpImwonInfoByExcel(files, userImwonDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	/*
+	//등록 처리(수동) : 법인 > 대표자 및 임원
+	@PostMapping(value="/insertUserRegCorpImwonInfo")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpImwonInfo(files, userImwonDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	*/
 	
 	//등록 처리(엑셀 업로드) : 법인 > 전문인력
-	@PostMapping(value="/corpExpertExcelUpload")
-	public ResponseEntity<ResponseMsg> corpExpertExcelUpload(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain){
-		ResponseMsg responseMsg = userService.corpExpertExcelUpload(files, userExpertDomain);
+	@PostMapping(value="/insertUserRegCorpExpertInfoByExcel")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfoByExcel(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpExpertInfoByExcel(files, userExpertDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	/*
+	//등록 처리(수동) : 법인 > 전문인력
+	@PostMapping(value="/insertUserRegCorpExpertInfo")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpExpertInfo(files, userExpertDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	*/
 	
 	//등록 처리(엑셀 업로드) : 법인 > 전산인력
-	@PostMapping(value="/corpItExcelUpload")
-	public ResponseEntity<ResponseMsg> corpItExcelUpload(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain){
-		ResponseMsg responseMsg = userService.corpItExcelUpload(files, userItDomain);
+	@PostMapping(value="/insertUserRegCorpItInfoByExcel")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfoByExcel(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpItInfoByExcel(files, userItDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//처리상태 변경
-	@PostMapping(value="/updatePlRegStat")
-	public ResponseEntity<ResponseMsg> updatePlRegStat(UserDomain userDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updatePlRegStat(userDomain));
+	/*
+	//등록 처리(수동) : 법인 > 전산인력
+	@PostMapping(value="/insertUserRegCorpItInfo")
+	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpItInfo(files, userItDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	*/
 	
 	//상세 페이지 : 개인
 	@PostMapping(value="/userRegIndvDetail")
@@ -193,15 +220,6 @@ public class UserController {
     	responseMsg.setData(userService.updateUserRegCorpItInfo(files,userItDomain,fileDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

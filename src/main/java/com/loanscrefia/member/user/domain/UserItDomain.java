@@ -31,6 +31,6 @@ public class UserItDomain extends BaseDomain {
 	private List<Map<String, Object>> excelParam;
 	
 	//전산인력 첨부파일 가공
-	private FileDomain fileType1;
-	private FileDomain fileType2;
+	private FileDomain fileType19;
+	private FileDomain fileType20;
 }

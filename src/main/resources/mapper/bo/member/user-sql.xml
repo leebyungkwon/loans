@@ -53,7 +53,8 @@
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
 			,CASE 
-				WHEN TLM.FILE_SEQ IS NOT NULL THEN '완료'
+				WHEN TLM.PL_CLASS = '1' AND TLM.FILE_SEQ IS NOT NULL AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y') > 5 THEN '완료'
+				WHEN TLM.PL_CLASS = '2' AND TLM.FILE_SEQ IS NOT NULL AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y') > 5 THEN '완료'
 				ELSE '미완료'
 			 END AS FILE_COMP_TXT
 			,TLM.REG_TIMESTAMP
@@ -82,6 +83,7 @@
    		(
 			 COM_CODE
 			,MEMBER_SEQ
+			,PL_REG_STAT
 			,PL_STAT
 			,PL_CLASS
 			,CAREER_TYP
@@ -104,6 +106,7 @@
    		(
    			 (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    			,#{regSeq}
+   			,'1'							-- 승인전
    			,'1'							-- 승인미요청
    			,#{plClass} 					-- 개인,법인
    			,#{item.A} 						-- 신규,경력
@@ -130,6 +133,7 @@
    		(
 			 COM_CODE
 			,MEMBER_SEQ
+			,PL_REG_STAT
 			,PL_STAT
 			,PL_CLASS
 			,PL_MERCHANT_NAME
@@ -148,6 +152,7 @@
    		(
    			 (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    			,#{regSeq}
+   			,'1'							-- 승인전
    			,'1'							-- 승인미요청
    			,#{plClass} 					-- 개인,법인
    			,#{item.A}						-- 상호
@@ -196,6 +201,36 @@
    		</foreach>
    	</insert>
    	
+   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 등록 -->
+   	<insert id="insertUserRegCorpImwonInfo" parameterType="userImwon">
+   		INSERT INTO TB_LC_MAS01_IMWON
+   		(
+   			 MASTER_SEQ
+			,CAREER_TYP
+			,POSITION_NM
+			,EXC_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,FULL_TM_YN
+			,EXPERT_YN
+   		)
+   		VALUES
+   		(
+   			 #{masterSeq}
+   			,#{careerTyp}
+   			,#{positionNm}
+   			,#{excName}
+   			,#{plMZId}
+   			,#{plEduNo}
+   			,#{careerStartDate}
+   			,#{careerEndDate}
+   			,#{fullTmYn}
+   			,#{ExpertYn}
+   		)
+   	</insert>
+   	
    	<!-- 모집인 등록 > 법인 : 전문인력 정보 등록 -->
    	<insert id="insertUserRegCorpExpertInfoByExcel" parameterType="userExpert">
    		INSERT INTO TB_LC_MAS01_EXPERT
@@ -222,6 +257,30 @@
    		</foreach>
    	</insert>
    	
+   	<!-- 모집인 등록 > 법인 : 전문인력 정보 등록 -->
+   	<insert id="insertUserRegCorpExpertInfo" parameterType="userExpert">
+   		INSERT INTO TB_LC_MAS01_EXPERT
+   		(
+   			 MASTER_SEQ
+			,CAREER_TYP
+			,EXP_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+   		)
+   		VALUES
+   		(
+   			 #{masterSeq}
+   			,#{careerTyp}
+   			,#{expName}
+   			,#{plMZId}
+   			,#{plEduNo}
+   			,#{careerStartDate}
+   			,#{careerEndDate}
+   		)
+   	</insert>
+   	
    	<!-- 모집인 등록 > 법인 : 전산인력 정보 등록 -->
    	<insert id="insertUserRegCorpItInfoByExcel" parameterType="userIt">
    		INSERT INTO TB_LC_MAS01_IT
@@ -238,6 +297,22 @@
    			,REPLACE(#{item.B}, '-', '')	-- 주민등록번호
    		)
    		</foreach>
+   	</insert>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 정보 등록 -->
+   	<insert id="insertUserRegCorpItInfo" parameterType="userIt">
+   		INSERT INTO TB_LC_MAS01_IT
+   		(
+   			 MASTER_SEQ
+			,OPER_NAME
+			,PL_M_Z_ID
+   		)
+   		VALUES
+   		(
+   			 #{masterSeq}
+   			,#{operName}
+   			,#{plMZId}
+   		)
    	</insert>
    
    	<!-- 모집인 등록 > 처리상태 변경 -->

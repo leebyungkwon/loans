@@ -1,6 +1,5 @@
 package com.loanscrefia.member.user.service;
 
-import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 개인
 	@Transactional
-	public ResponseMsg indvExcelUpload(MultipartFile[] files, UserDomain userDomain){
+	public ResponseMsg insertUserRegIndvInfoByExcel(MultipartFile[] files, UserDomain userDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -84,7 +83,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 법인
 	@Transactional
-	public ResponseMsg corpExcelUpload(MultipartFile[] files, UserDomain userDomain){
+	public ResponseMsg insertUserRegCorpInfoByExcel(MultipartFile[] files, UserDomain userDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -124,7 +123,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 법인 : 대표자 및 임원 정보 등록
 	@Transactional
-	public ResponseMsg corpImwonExcelUpload(MultipartFile[] files, UserImwonDomain userImwonDomain){
+	public ResponseMsg insertUserRegCorpImwonInfoByExcel(MultipartFile[] files, UserImwonDomain userImwonDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -166,7 +165,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 법인 : 전문인력 정보 등록
 	@Transactional
-	public ResponseMsg corpExpertExcelUpload(MultipartFile[] files, UserExpertDomain userExpertDomain){
+	public ResponseMsg insertUserRegCorpExpertInfoByExcel(MultipartFile[] files, UserExpertDomain userExpertDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -208,7 +207,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 법인 : 전산인력 정보 등록
 	@Transactional
-	public ResponseMsg corpItExcelUpload(MultipartFile[] files, UserItDomain userItDomain){
+	public ResponseMsg insertUserRegCorpItInfoByExcel(MultipartFile[] files, UserItDomain userItDomain){
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -345,6 +344,16 @@ public class UserService {
 		
 		Map<String, Object> result 	= new HashMap<String, Object>();
 
+		//상근여부 코드 리스트
+		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("FTM001");
+		List<CodeDtlDomain> fullTmTypList = codeService.selectCodeDtlList(codeDtlParam);
+		
+		//전문인력여부 코드 리스트
+		codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("EXP001");
+		List<CodeDtlDomain> expertTypList = codeService.selectCodeDtlList(codeDtlParam);
+		
 		//상세
 		UserDomain dtlParam			= new UserDomain();
 		dtlParam.setMasterSeq(userImwonDomain.getMasterSeq());
@@ -356,6 +365,8 @@ public class UserService {
 		//첨부파일
 		
 		//전달
+		result.put("fullTmTypList", fullTmTypList);
+		result.put("expertTypList", expertTypList);
 		result.put("userRegInfo", userRegInfo);
 		result.put("imwonList", imwonList);
 		
@@ -433,10 +444,10 @@ public class UserService {
 					List<FileDomain> fileList 	= commonService.selectFileList(fileParam);
 					
 					for(int j = 0;j < fileList.size();j++) {
-						if(fileList.get(j).getFileType().equals("1")) {
-							itList.get(i).setFileType1(fileList.get(j));
-						}else if(fileList.get(j).getFileType().equals("2")) {
-							itList.get(i).setFileType2(fileList.get(j));
+						if(fileList.get(j).getFileType().equals("19")) {
+							itList.get(i).setFileType19(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("20")) {
+							itList.get(i).setFileType20(fileList.get(j));
 						}
 					}
 					/*
@@ -474,13 +485,6 @@ public class UserService {
 		UserDomain userRegInfo 		= userRepo.getUserRegDetail(userDomain);
 		
 		//첨부파일
-		FileDomain fileType21 = null;
-		FileDomain fileType22 = null;
-		FileDomain fileType23 = null;
-		FileDomain fileType24 = null;
-		FileDomain fileType25 = null;
-		FileDomain fileType26 = null;
-		
     	if(userRegInfo.getFileSeq() != null) {
     		FileDomain fileParam = new FileDomain();
     		
@@ -490,17 +494,17 @@ public class UserService {
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
         			if(fileList.get(i).getFileType().equals("21")) {
-        				fileType21 = fileList.get(i);
+        				userRegInfo.setFileType21(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("22")) {
-        				fileType22 = fileList.get(i);
+        				userRegInfo.setFileType22(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("23")) {
-        				fileType23 = fileList.get(i);
+        				userRegInfo.setFileType23(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("24")) {
-        				fileType24 = fileList.get(i);
+        				userRegInfo.setFileType24(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("25")) {
-        				fileType25 = fileList.get(i);
+        				userRegInfo.setFileType25(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("26")) {
-        				fileType26 = fileList.get(i);
+        				userRegInfo.setFileType26(fileList.get(i));
         			}
         		}
         	}
@@ -508,12 +512,6 @@ public class UserService {
     	
 		//전달
 		result.put("userRegInfo", userRegInfo);
-		result.put("fileType21", fileType21);
-		result.put("fileType22", fileType22);
-		result.put("fileType23", fileType23);
-		result.put("fileType24", fileType24);
-		result.put("fileType25", fileType25);
-		result.put("fileType26", fileType26);
 		
 		return result;
 	}
@@ -573,5 +571,41 @@ public class UserService {
 		
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public String userRegValidation(int masterSeq) {
+		
+		UserDomain param = new UserDomain();
+		
+		//상세
+		param.setMasterSeq(masterSeq);
+		UserDomain userRegInfo = userRepo.getUserRegDetail(param);
+		
+		if(userRegInfo.getPlStat().equals("")) {
+			
+		}
+		
+		return "";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

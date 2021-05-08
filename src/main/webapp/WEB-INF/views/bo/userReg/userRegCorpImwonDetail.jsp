@@ -2,69 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+
 <script type="text/javascript">
 function pageLoad(){
 	//newForm.append($('<input/>', {type: 'hidden', name: 'data1', value:'value1' }));
 
-	//파일찾기
-	$(".goFileUpload").on("click", function () {
-		$(this).prev().prev().click();
-	});
-	
-	//첨부파일명 보여주기
-	$(".inputFile").on("change", function () {
-		var fileVal 	= $(this).val().split("\\");
-		var fileName 	= fileVal[fileVal.length - 1];
-		$(this).prev().val(fileName);
-	});
-	
-	//첨부파일 삭제
-	$(".goFileDel").on("click", function () {
-		var fileSeq 	= $(this).attr("data-fileSeq");
-		var fileType 	= $(this).attr("data-fileType");
-		var essential 	= $(this).attr("data-essential");
-		var targetArea 	= $(this).parent();
-		
-		if(confirm("삭제하시겠습니까?")){
-			var p = {
-				  url		: "/common/fileDelete"
-				, param		: {
-					fileSeq : fileSeq
-				}
-				, success	: function(opt,result) {
-					if(result.data > 0){
-						alert("삭제되었습니다.");
-						
-						var html = '';
-						
-						html += '<input type="text" class="w50 file_input" readonly disabled>';
-						html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
-						html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
-						html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>';
-						
-						targetArea.html(html);
-					}
-				}
-			}
-			AjaxUtil.post(p);
-		}
-	});
-	
-	//첨부파일 다운로드
-	$(".goFileDownload").on("click", function () {
-		var fileSeq 	= $(this).attr("data-fileSeq");
-		
-		var p = {
-			  url 			: "/common/fileDown"
-			, contType		: "application/json; charset=UTF-8"
-			, responseType	: "arraybuffer"
-			, param 		: {
-				fileSeq : fileSeq
-			}
-		}
-		AjaxUtil.post(p);
-	});
-	
 	//대표자 및 임원관련 사항 엑셀 업로드
 	$("#userRegImwonFile").on("change", function () {
 		alert("대표자 및 임원관련 사항 엑셀 업로드 시작");
@@ -100,6 +43,10 @@ function goUserRegInfoUpdt() {
 }
 </script>
 
+<form name="pageFrm" id="pageFrm" method="post">
+	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+</form>
+
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
@@ -118,16 +65,22 @@ function goUserRegInfoUpdt() {
 	</div>
 
 	<div id="file_table" class="mgt30">
-		<table class="view_table">
-			<tbody><tr>
-				<td class="pdr0">
-					<input type="text" class="top_file_input file_input" readonly disabled>
-					<input type="file" name="files" id="userRegImwonFile" class="inputFile" style="display: none;"/>
-					<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegImwonFile').click();">파일찾기</a>
-					<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
-				</td>
-			</tr>
-		</tbody></table>
+		<form name="userRegCorpImwonInfoInsertFrm" id="userRegCorpImwonInfoInsertFrm" action="/member/user/insertUserRegCorpImwonInfoByExcel" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+			
+			<table class="view_table">
+				<tbody>
+					<tr>
+						<td class="pdr0">
+							<input type="text" class="top_file_input file_input" readonly disabled>
+							<input type="file" name="files" id="userRegImwonFile" class="inputFile" style="display: none;"/>
+							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegImwonFile').click();">파일찾기</a>
+							<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
 	</div>
 
 	<div class="btn_wrap02">
@@ -177,9 +130,21 @@ function goUserRegInfoUpdt() {
 							</tr>
 							<tr>
 								<th>상근여부</th>
-								<td><input type="text" class="w100" value="상근"></td>
+								<td>
+									<select name="fullTmYn">
+										<c:forEach var="fullTmTypList" items="${result.fullTmTypList }">
+											<option value="${fullTmTypList.codeDtlCd }" <c:if test="">selected="selected"</c:if>>${fullTmTypList.codeDtlNm }</option>
+										</c:forEach>
+									</select>
+								</td>
 								<th>전문인력여부</th>
-								<td><input type="text" class="w100" value="비상근"></td>
+								<td><input type="text" class="w100" value="비상근">
+									<select name="expertYn">
+										<c:forEach var="expertTypList" items="${result.expertTypList }">
+											<option value="${expertTypList.codeDtlCd }" <c:if test="">selected="selected"</c:if>>${expertTypList.codeDtlNm }</option>
+										</c:forEach>
+									</select>
+								</td>
 							</tr>
 						</tbody>
 					</table>

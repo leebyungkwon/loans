@@ -40,10 +40,10 @@ public class UserImwonDomain extends BaseDomain {
 	private String careerEndDt;		//경력종료일
 	
 	@ExcelColumn(headerName="상근여부", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2")
-	private String fullTmYn;		//상근여부					-> []상근,비상근
+	private String fullTmYn;		//상근여부					-> [FTM001]상근,비상근
 	
 	@ExcelColumn(headerName="전문인력여부", vCell="I", vLenMin=1, vLenMax=1, vEnum="1,2")
-	private String expertYn;		//전문인력여부				-> []전문인력,비전문인력
+	private String expertYn;		//전문인력여부				-> [EXP001]전문인력,비전문인력
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
 	
