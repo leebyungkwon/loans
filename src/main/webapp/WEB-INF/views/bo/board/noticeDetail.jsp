@@ -79,7 +79,7 @@
 					</div>
 				</div>
 				<div class="contbox">
-					${noticeInfo.info}
+					<pre>${noticeInfo.info}</pre>
 				</div>
 				<div class="titlebox">
 					<table>

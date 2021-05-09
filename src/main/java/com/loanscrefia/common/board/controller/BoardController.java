@@ -69,8 +69,8 @@ public class BoardController {
 	public ModelAndView WriteNoticeReg(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeReg");
 		
-		BoardDomain noticeInfo = boardService.NoticeReg(boardDomain);
-		mv.addObject("noticeInfo", noticeInfo);
+		//BoardDomain noticeInfo = boardService.NoticeReg(boardDomain);
+		//mv.addObject("noticeInfo", noticeInfo);
 		
 		return mv;
 	}
