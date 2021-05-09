@@ -77,7 +77,7 @@
    
 </script>
 
-<form id="adminDetailFrm" method="post" action="/member/admin/adminDetail">
+<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailPage">
 	<input type="hidden" name="memberSeq" id="hMemberSeq"/>
 </form>
 

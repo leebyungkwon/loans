@@ -8,25 +8,25 @@
 	function pageLoad(){
 		
 		// 글 목록 버튼
-		$("#NoticeBtn").on("click", function(){
+		$("#noticeBtn").on("click", function(){
 			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 등록 버튼
-		$("#NoticeSaveBtn").on("click", function(){
-			$("#noticeRegFrm").attr("action","/common/board/SaveNoticeReg");
-			var noticeInsParam = {
+		$("#noticeSaveBtn").on("click", function(){
+			$("#noticeRegFrm").attr("action","/common/board/saveNoticeReg");
+			var noticeSaveParam = {
 				name : 'noticeRegFrm'
 				,success: function(opt, result) {
 	 				location.href="/common/board/noticePage";
 				}
 			}      
-			AjaxUtil.files(noticeInsParam);
+			AjaxUtil.files(noticeSaveParam);
 		});
 		
 		// 글 수정 버튼
-		$("#NoticeUpdBtn").on("click", function(){
-			$("#noticeRegFrm").attr("action","/common/board/UpdNoticeReg");
+		$("#noticeUpdBtn").on("click", function(){
+			$("#noticeRegFrm").attr("action","/common/board/updNoticeReg");
 			var noticeInsParam = {
 				name : 'noticeRegFrm'
 				,success: function(opt, result) {
@@ -37,7 +37,7 @@
 		});
 		
 		// 글 취소 버튼
-		$("#NoticeCancelBtn").on("click", function(){
+		$("#noticeCancelBtn").on("click", function(){
 			$("#noticeDetailFrm").submit();
 		});
 		
@@ -73,7 +73,7 @@
 		</div>
 	</div>
 	
-	<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetail">
+	<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetailPage">
 		<input type="hidden" name="noticeSeq" value="${noticeInfo.noticeSeq}"/>
 	</form>
 	
@@ -110,15 +110,15 @@
 	
 	<sec:authorize access="hasRole('SYSTEM')" >
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" id="NoticeBtn"  class="btn_gray">글 목록</a>								
+			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>								
 		
 			<c:choose>
 				<c:when test="${!empty noticeInfo}">
-					<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
-					<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
+					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
+					<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
 				</c:when>
 				<c:otherwise>
-					<a href="javascript:void(0);" id="NoticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
+					<a href="javascript:void(0);" id="noticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
 				</c:otherwise>
 			</c:choose>
 		</div>

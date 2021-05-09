@@ -47,7 +47,7 @@ public class AdminController {
 	}
 	
 	// 회원사 시스템 - 상세 페이지
-	@PostMapping(value="/adminDetail")
+	@PostMapping(value="/adminDetailPage")
     public ModelAndView adminDetail(AdminDomain adminDomain) {
     	ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetail");
     	
@@ -63,7 +63,7 @@ public class AdminController {
     }
 	
 	// 회원사 시스템 - 관리자 수정 페이지
-	@PostMapping(value="/adminDetailUpdate")
+	@PostMapping(value="/adminDetailUpdPage")
 	public ModelAndView adminDetailUpdate(AdminDomain adminDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetailUpdate");
 	

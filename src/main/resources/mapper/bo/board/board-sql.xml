@@ -6,18 +6,18 @@
 	<select id="selectNoticeList" parameterType="board" resultType="board">
 		SELECT 
 		<include refid="common.totalPages"/>
-			TLN.NOTICE_SEQ																					/*공지사항 시퀀스*/
-			,TLN.TITLE																							/*제목*/
-			,TLN.INFO																							/*내용*/
-			,TLN.VIEW_CNT																					/*조회수*/
-			,TLN.FILE_SEQ																						/*첨부파일 시퀀스*/
+			TLN.NOTICE_SEQ																				/*공지사항 시퀀스*/
+			,TLN.TITLE																					/*제목*/
+			,TLN.INFO																					/*내용*/
+			,TLN.VIEW_CNT																				/*조회수*/
+			,TLN.FILE_SEQ																				/*첨부파일 시퀀스*/
 			,TLN.REG_TIMESTAMP																			/*등록일시*/
-			,TLN.REG_SEQ																						/*등록자 시퀀스*/
-			,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD')		AS		regTimestamp		/*수정일시*/
-			,TLN.UPD_SEQ																						/*수정자 시퀀스*/
+			,TLN.REG_SEQ																				/*등록자 시퀀스*/
+			,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD') AS regTimestamp									/*수정일시*/
+			,TLN.UPD_SEQ																				/*수정자 시퀀스*/
 			FROM TB_LC_NOTICE TLN
 			<where>
-				AND TLN.DEL_YN 			= 'N'
+				AND TLN.DEL_YN = 'N'
 			</where>
 		<include refid="common.pageBottom"/> 
 	</select>
@@ -45,19 +45,19 @@
 	</select>
 
 	<!-- 공지사항 글 등록  -->
-	<select id="SaveNoticeReg" parameterType="board" resultType="board">
+	<select id="saveNoticeReg" parameterType="board" resultType="board">
 		INSERT INTO TB_LC_NOTICE
 		(
-				TITLE												/*제목*/
-				,INFO												/*내용*/
+				TITLE											/*제목*/
+				,INFO											/*내용*/
 				,FILE_SEQ										/*첨부파일 시퀀스*/
-				,REG_TIMESTAMP							/*등록일시*/
+				,REG_TIMESTAMP									/*등록일시*/
 				,REG_SEQ										/*등록자 시퀀스*/
 		)
 		VALUES
 		(
-				#{title}											/*제목*/ 
-				,#{info}											/*제목*/ 
+				#{title}										/*제목*/ 
+				,#{info}										/*제목*/ 
 				,#{fileSeq}										/*첨부파일 시퀀스*/
 				,NOW()											/*등록일시*/
 				,#{regSeq}										/*등록자 시퀀스*/
@@ -65,13 +65,13 @@
 	</select>
 
 	<!-- 공지사항 글 수정  -->
-	<select id="UpdNoticeReg" parameterType="board" resultType="board">
+	<select id="updNoticeReg" parameterType="board" resultType="board">
 		UPDATE TB_LC_NOTICE
 			SET 
 				TITLE 					= #{title}
-				,INFO						= #{info}
+				,INFO					= #{info}
 				,FILE_SEQ				= #{fileSeq}
-				,UPD_TIMESTAMP	= NOW()
+				,UPD_TIMESTAMP			= NOW()
 				,UPD_SEQ				= #{updSeq}
 		<where>
 			AND NOTICE_SEQ 	= #{noticeSeq}
@@ -79,7 +79,7 @@
 	</select>
 
 	<!-- 공지사항 글 삭제  -->
-	<select id="DelNoticeReg" parameterType="board" resultType="board">
+	<select id="delNoticeReg" parameterType="board" resultType="board">
 		UPDATE TB_LC_NOTICE
 			SET 
 				DEL_YN	= 'Y'

@@ -16,13 +16,13 @@ public interface BoardRepository {
 	BoardDomain getNoticeDetail(BoardDomain boardDomain);
 	
 	// 공지사항 - 글 쓰기 페이지 -> Insert (글 등록)
-	BoardDomain SaveNoticeReg(BoardDomain boardDomain);
+	BoardDomain saveNoticeReg(BoardDomain boardDomain);
 	
 	// 공지사항 - 글 쓰기 페이지 -> Update (글 수정)
-	BoardDomain UpdNoticeReg(BoardDomain boardDomain);
+	BoardDomain updNoticeReg(BoardDomain boardDomain);
 	
 	// 공지사항 - 글 쓰기 페이지 -> Delete (글 삭제)
-	BoardDomain DelNoticeReg(BoardDomain boardDomain);
+	BoardDomain delNoticeReg(BoardDomain boardDomain);
 	
 	// 공지사항 - 글 쓰기 페이지 - 조회수 증가
 	BoardDomain updNoticeCnt(BoardDomain boardDomain);

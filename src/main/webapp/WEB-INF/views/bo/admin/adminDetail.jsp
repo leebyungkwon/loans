@@ -7,11 +7,11 @@
 
 	function pageLoad(){
 	
-		$("#AdminInsertBtn").on("click", function(){
+		$("#adminInsertBtn").on("click", function(){
 			$("#adminDetailFrm").submit();
 		});
 	
-		$("#AdminCancelBtn").on("click", function(){
+		$("#adminCancelBtn").on("click", function(){
 			location.href = "/member/admin/adminPage";
 		});
 		
@@ -46,7 +46,7 @@
       </div>
    </div>
 
-   <form id="adminDetailFrm" method="post" action="/member/admin/adminDetailUpdate">
+   <form id="adminDetailFrm" method="post" action="/member/admin/adminDetailUpdPage">
       <input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
    </form>
 
@@ -97,10 +97,10 @@
    </div>
 
    <div class="btn_wrap">
-      <a href="javascript:void(0);" id="AdminCancelBtn" class="btn_gray">취소</a>
+      <a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray">취소</a>
       <sec:authentication property="principal.username" var="userSeq" />
       <c:if test="${adminInfo.memberSeq eq userSeq}">
-         <a href="javascript:void(0);" id="AdminInsertBtn" class="btn_black btn_right">수정</a>
+         <a href="javascript:void(0);" id="adminInsertBtn" class="btn_black btn_right">수정</a>
       </c:if>
    </div>
    

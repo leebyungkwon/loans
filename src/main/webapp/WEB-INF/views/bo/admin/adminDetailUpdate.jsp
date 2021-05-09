@@ -64,7 +64,7 @@
 		</div>
 	</div>
 		
-	<form id="adminDetailFrm" method="post" action="/member/admin/adminDetail">
+	<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailPage">
 		<input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
 	</form>
    

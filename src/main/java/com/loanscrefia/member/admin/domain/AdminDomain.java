@@ -17,8 +17,6 @@ public class AdminDomain extends BaseDomain{
 	private int 	comCode;			// 회원사 코드
 	private String 	comCodeNm;			// 회원사 코드명
 	
-	@NotBlank(message = "ID를 입력하세요.")
-	@Pattern(regexp = "[a-zA-Z]{1,10}", message = "ID 는 영문 1~10 자리로 입력해 주세요.")
 	private String 	memberId;			// ID
 	
 	@NotBlank(message = "비밀번호를 입력하세요.")

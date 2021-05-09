@@ -12,7 +12,7 @@
 		</sec:authorize>
 	}
 </script>
-<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailUpdate">
+<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailUpdPage">
 	<input type="hidden" name="memberSeq" value="${tempMemberSeq}"/>
 	<input type="hidden" name="tempMemberCheck" value="Y"/>
 </form>
