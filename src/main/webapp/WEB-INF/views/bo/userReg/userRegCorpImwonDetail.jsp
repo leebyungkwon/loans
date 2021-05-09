@@ -131,17 +131,17 @@ function goUserRegInfoUpdt() {
 							<tr>
 								<th>상근여부</th>
 								<td>
-									<select name="fullTmYn">
-										<c:forEach var="fullTmTypList" items="${result.fullTmTypList }">
-											<option value="${fullTmTypList.codeDtlCd }" <c:if test="">selected="selected"</c:if>>${fullTmTypList.codeDtlNm }</option>
+									<select name="fullTmStat">
+										<c:forEach var="fullTmStatList" items="${result.fullTmStatList }">
+											<option value="${fullTmStatList.codeDtlCd }" <c:if test="">selected="selected"</c:if>>${fullTmStatList.codeDtlNm }</option>
 										</c:forEach>
 									</select>
 								</td>
 								<th>전문인력여부</th>
 								<td><input type="text" class="w100" value="비상근">
 									<select name="expertYn">
-										<c:forEach var="expertTypList" items="${result.expertTypList }">
-											<option value="${expertTypList.codeDtlCd }" <c:if test="">selected="selected"</c:if>>${expertTypList.codeDtlNm }</option>
+										<c:forEach var="expertStatList" items="${result.expertStatList }">
+											<option value="${expertStatList.codeDtlCd }" <c:if test="">selected="selected"</c:if>>${expertStatList.codeDtlNm }</option>
 										</c:forEach>
 									</select>
 								</td>

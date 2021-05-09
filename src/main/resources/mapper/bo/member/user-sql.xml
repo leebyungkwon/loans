@@ -181,8 +181,8 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
-			,FULL_TM_YN
-			,EXPERT_YN
+			,FULL_TM_STAT
+			,EXPERT_STAT
    		)
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
@@ -213,8 +213,8 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
-			,FULL_TM_YN
-			,EXPERT_YN
+			,FULL_TM_STAT
+			,EXPERT_STAT
    		)
    		VALUES
    		(
@@ -226,8 +226,8 @@
    			,#{plEduNo}
    			,#{careerStartDate}
    			,#{careerEndDate}
-   			,#{fullTmYn}
-   			,#{ExpertYn}
+   			,#{fullTmStat}
+   			,#{ExpertStat}
    		)
    	</insert>
    	
@@ -399,10 +399,10 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
-			,FULL_TM_YN
-			<!-- ,FN_CD_DTL('CAR001',FULL_TM_YN) AS FULL_TM_YN_NM -->
-			,EXPERT_YN
-			<!-- ,FN_CD_DTL('CAR001',EXPERT_YN) AS EXPERT_YN_NM -->
+			,FULL_TM_STAT
+			,FN_CD_DTL('FTM001',FULL_TM_STAT) AS FULL_TM_STAT_NM
+			,EXPERT_STAT
+			,FN_CD_DTL('EXP001',EXPERT_STAT) AS EXPERT_STAT_NM
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IMWON
    		<where>

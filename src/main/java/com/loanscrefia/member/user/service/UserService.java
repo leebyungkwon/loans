@@ -347,12 +347,12 @@ public class UserService {
 		//상근여부 코드 리스트
 		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
 		codeDtlParam.setCodeMstCd("FTM001");
-		List<CodeDtlDomain> fullTmTypList = codeService.selectCodeDtlList(codeDtlParam);
+		List<CodeDtlDomain> fullTmStatList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//전문인력여부 코드 리스트
 		codeDtlParam = new CodeDtlDomain();
 		codeDtlParam.setCodeMstCd("EXP001");
-		List<CodeDtlDomain> expertTypList = codeService.selectCodeDtlList(codeDtlParam);
+		List<CodeDtlDomain> expertStatList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
 		UserDomain dtlParam			= new UserDomain();
@@ -365,8 +365,8 @@ public class UserService {
 		//첨부파일
 		
 		//전달
-		result.put("fullTmTypList", fullTmTypList);
-		result.put("expertTypList", expertTypList);
+		result.put("fullTmStatList", fullTmStatList);
+		result.put("expertStatList", expertStatList);
 		result.put("userRegInfo", userRegInfo);
 		result.put("imwonList", imwonList);
 		
@@ -552,7 +552,9 @@ public class UserService {
 	
 	//모집인 등록 > 수정 : 법인(전산인력)
 	@Transactional
-	public int updateUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
+	public ResponseMsg updateUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
+		//법인 정보 상태값 체크*****
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -569,7 +571,11 @@ public class UserService {
 		//수정
 		int result = userRepo.updateUserRegCorpItInfo(userItDomain);
 		
-		return result;
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "", "success", "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "", "fail", "");
 	}
 	
 	

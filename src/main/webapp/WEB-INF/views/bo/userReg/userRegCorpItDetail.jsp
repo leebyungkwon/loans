@@ -48,7 +48,7 @@ function goCorpItInfoUpdt(operSeq) {
 	var p = {
 		  name 		: formNm
 		, success 	: function (opt,result) {
-			if(result.data > 0){
+			if(result.data == "success"){
 				alert("저장되었습니다.");
 				location.reload();
 			}

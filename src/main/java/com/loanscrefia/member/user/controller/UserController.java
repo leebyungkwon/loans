@@ -216,10 +216,16 @@ public class UserController {
 	//수정 처리 : 법인 > 전산인력 탭
 	@PostMapping(value="/updateUserRegCorpItInfo")
 	public ResponseEntity<ResponseMsg> updateUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updateUserRegCorpItInfo(files,userItDomain,fileDomain));
+		ResponseMsg responseMsg = userService.updateUserRegCorpItInfo(files,userItDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
