@@ -10,7 +10,7 @@
 		var password         = $("#password").val();             // 비밀번호
 		var passwordChk    = $("#passwordChk").val();        // 비밀번호 확인
 
-		$("#AdminUpdateBtn").on("click", function(){
+		$("#adminUpdateBtn").on("click", function(){
 			
 			if( password == passwordChk ){
 				var p = {
@@ -28,7 +28,7 @@
 			}
 		});
 
-		$("#AdminCancelBtn").on("click", function(){
+		$("#adminCancelBtn").on("click", function(){
 			$("#adminDetailFrm").submit();
 		});
 		
@@ -144,9 +144,9 @@
    
    <div class="btn_wrap">
 		<c:if test="${adminInfo.tempMemberCheck ne 'Y' }">
-			<a href="javascript:void(0);" id="AdminCancelBtn" class="btn_gray">취소</a>
+			<a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray">취소</a>
 		</c:if>
       
-      <a href="javascript:void(0);" id="AdminUpdateBtn" class="btn_black btn_right">저장</a>
+      <a href="javascript:void(0);" id="adminUpdateBtn" class="btn_black btn_right">저장</a>
    </div>
 </div>
