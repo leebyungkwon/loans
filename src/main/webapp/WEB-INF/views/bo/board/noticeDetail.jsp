@@ -8,24 +8,24 @@
 	function pageLoad(){
 
 		// 글 목록 버튼
-		$("#NoticeCancelBtn").on("click", function(){
+		$("#noticeCancelBtn").on("click", function(){
 			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 수정 버튼
-		$("#NoticeUpdBtn").on("click", function(){
+		$("#noticeUpdBtn").on("click", function(){
 			$("#noticeDetailFrm").submit();
 		});
 		
 		// 글 삭제 버튼
-		$("#NoticeDelBtn").on("click", function(){
+		$("#noticeDelBtn").on("click", function(){
 			var noticeSeq = $("#noticeSeq").val();
 			var param = {
 				'noticeSeq' : noticeSeq
 			}
 			var p = {
 				param: param
-				,url: "/common/board/DelNoticeReg"
+				,url: "/common/board/delNoticeReg"
 				,success: function(opt, result) {
 					if(result > 0) {
 					alert("삭제를 실패하셨습니다.");
@@ -68,7 +68,7 @@
 		</div>
 	</div>
 
-	<form name="noticeDetailFrm" id="noticeDetailFrm" action="/common/board/InsnoticeReg" method="POST" enctype="multipart/form-data" >
+	<form name="noticeDetailFrm" id="noticeDetailFrm" action="/common/board/noticeRegInsPage" method="POST" enctype="multipart/form-data" >
 	<input type="hidden" name="noticeSeq" id="noticeSeq" value="${noticeInfo.noticeSeq}"/>
 		<div class="contents">
 			<div class="notice_view">
@@ -90,7 +90,7 @@
 						<tr>
 							<th class="acenter">첨부 파일 : </th>
 							<td class="aleft" colspan="3">
-								<a href="javascript:filedown(' ${file.fileSeq}')">${file.fileFullNm}</a>
+								<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
 							</td>
 						</tr>
 					</table>
@@ -98,9 +98,9 @@
 			
 			<sec:authorize access="hasRole('SYSTEM')" >
 				<div class="btn_wrap">
-					<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
-					<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
-					<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
+					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
+					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
+					<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray">글 목록</a>								
 				</div>
 			</sec:authorize>
 			
