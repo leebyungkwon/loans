@@ -4,6 +4,8 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <script type="text/javascript">
+
+// 가승인 or 승인처리
 function goCompanyStatUpdt(apprStat,roleName) {
 	var apprStatNm = apprStat == "2" ? "가승인" : "승인";
 	if(confirm(apprStatNm + "처리 하시겠습니까?")){
@@ -25,6 +27,7 @@ function goCompanyStatUpdt(apprStat,roleName) {
 	}
 }	
 
+// 첨부파일 다운로드
 function filedown(fileSeq){
 	var p = {
 		  url : '/common/fileDown'
@@ -37,9 +40,11 @@ function filedown(fileSeq){
 	AjaxUtil.post(p);
 }
 
+// 리스트 페이지 이동
 function companyList(){
 	location.href="/admin/company/companyPage"
 }
+
 </script>
 
 <div class="cont_area">

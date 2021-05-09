@@ -28,7 +28,7 @@ function pageLoad(){
 		, sortNm : "member_seq"
 		, sort : "ASC"
 		, rowClick	: {color:"#ccc", retFunc : companyDetail}
-		, gridSearch : "search,searctBtn"
+		, gridSearch : "search,searchBtn"
 		, excel : "/admin/company/excelDown"
 		, isPaging : true
 		, size : 10
@@ -96,8 +96,8 @@ function deleteCompany() {
 							<option value="0">전체</option>
 							<option value="1">여신</option>
 							<option value="2">대출</option>
-							<option value="3">모집</option>
-						</select>
+							<option value="3">모집</option>						
+</select>
 					</td>
 					<th>승인여부</th>
 					<td>
@@ -105,12 +105,12 @@ function deleteCompany() {
 							<option value="">전체</option>
 							<option value="1">미승인</option>
 							<option value="2">가승인</option>
-							<option value="3">승인</option>
-						</select>
+							<option value="3">승인</option>						
+</select>
 					</td>
 				</tr>
 			</table>	
-			<a href="javascript:void(0);" class="btn_inquiry" id="searctBtn">조회</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
 			<div class="sorting_wrap">
 			<div class="action">

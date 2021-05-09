@@ -371,8 +371,8 @@ create table tb_lc_mas01_imwon(
 	, pl_edu_no integer not null
 	, career_start_date varchar(8) not null
 	, career_end_date varchar(8) not null
-	, full_tm_yn char(1) not null
-	, expert_yn char(1) not null
+	, full_tm_stat char(1) not null
+	, expert_stat char(1) not null
 	, file_seq integer
 	, primary key (exc_seq)
 );
@@ -387,8 +387,8 @@ COMMENT ON COLUMN tb_lc_mas01_imwon.pl_m_z_id IS '주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01_imwon.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_end_date IS '경력종료일';
-COMMENT ON COLUMN tb_lc_mas01_imwon.full_tm_yn IS '상근여부';
-COMMENT ON COLUMN tb_lc_mas01_imwon.expert_yn IS '전문인력여부';
+COMMENT ON COLUMN tb_lc_mas01_imwon.full_tm_stat IS '상근상태';
+COMMENT ON COLUMN tb_lc_mas01_imwon.expert_stat IS '전문인력상태';
 COMMENT ON COLUMN tb_lc_mas01_imwon.file_seq IS '파일시퀀스';
 
 commit;
