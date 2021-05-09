@@ -70,6 +70,7 @@
    
    <form name="saveAdminUpdateFrm" id="saveAdminUpdateFrm" action="/member/admin/saveAdminUpdate" method="post" enctype="multipart/form-data">
       <input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
+      <input type="hidden" name="tempMemberCheck" value="${adminInfo.tempMemberCheck}"/>
       <div class="contents">
          <div id="table">
             <table class="view_table">

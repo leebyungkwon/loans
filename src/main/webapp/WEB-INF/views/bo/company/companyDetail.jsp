@@ -5,21 +5,24 @@
 
 <script type="text/javascript">
 function goCompanyStatUpdt(apprStat,roleName) {
-	var p = {
-		  url		: "/admin/company/updateCompanyStat"	
-		, param		: {
-			 memberSeq : $("#memberSeq").val()
-			,apprStat  : apprStat
-			,roleName  : roleName
-		}
-		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("수정 되었습니다.");
-				location.href="/admin/company/companyPage"
+	var apprStatNm = apprStat == "2" ? "가승인" : "승인";
+	if(confirm(apprStatNm + "처리 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/company/updateCompanyStat"	
+			, param		: {
+				 memberSeq : $("#memberSeq").val()
+				,apprStat  : apprStat
+				,roleName  : roleName
 			}
-	    }
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("수정 되었습니다.");
+					location.href="/admin/company/companyPage"
+				}
+		    }
+		}
+		AjaxUtil.post(p);
 	}
-	AjaxUtil.post(p);
 }	
 
 function filedown(fileSeq){
@@ -49,8 +52,7 @@ function companyList(){
 	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/company/updateCompanyStat" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
 		
-	<div class="contents">
-		<h3> </h3>
+		<div class="contents">
 			<div id="table">
 				<table class="view_table">
 					<tr>
@@ -102,11 +104,11 @@ function companyList(){
 				 <c:if test="${companyDetail.apprStat eq 1}">
 				  	 <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
    		 		 	 <a href="javascript:void(0);" class="btn_black btn_right" onclick="goCompanyStatUpdt('2','TEMP_MEMBER');">가승인</a>
-   		 		 	 <a href="javascript:void(0);" class="btn_black" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right02" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
      			 </c:if>
 				 <c:if test="${companyDetail.apprStat eq 2}">
 					  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-      		 		  <a href="javascript:void(0);" class="btn_black" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+      		 		  <a href="javascript:void(0);" class="btn_black btn_right02" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
      			 </c:if>
      			  <c:if test="${companyDetail.apprStat eq 3}">
       		 		  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>

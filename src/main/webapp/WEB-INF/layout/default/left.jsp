@@ -23,7 +23,7 @@
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
 		<li>
-			<a href="/admin/recruit/recruitPage">(협회)모집인 조회 및 변경</a>
+			<a href="#">(협회)모집인 조회 및 변경</a>
 		</li>
 		<li>
 			<a href="#">(협회)모집인 승인처리</a>
