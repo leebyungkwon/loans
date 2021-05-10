@@ -12,8 +12,8 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('REG001','모집인상태','모집인상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:06:57.423873',NULL,NULL),
 	 ('MEM001','관리자승인상태','관리자승인상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-07 09:56:23.139039',NULL,NULL),
 	 ('MAS001','처리상태','모집인처리상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-03 16:23:07.059548',NULL,NULL),
-	 ('ADD001','본점소재지','본점소재지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
-	 ('FTM001','상근여부','상근여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 ('ADD001','본점소재지','본점소재지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('FTM001','상근여부','상근여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('EXP001','전문인력여부','전문인력여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES

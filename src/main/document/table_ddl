@@ -160,6 +160,11 @@ create table tb_lc_company(
 	, pl_merchant_no varchar(30)
 	, pl_business_no varchar(30)
 	, comp_phone_no varchar(20)
+	, del_yn char(1) not null default 'N'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
 	, PRIMARY KEY (com_code)
 );
 
@@ -170,6 +175,12 @@ COMMENT ON COLUMN tb_lc_company.com_name IS '회원사명';
 COMMENT ON COLUMN tb_lc_company.pl_merchant_no IS '법인등록번호';
 COMMENT ON COLUMN tb_lc_company.pl_business_no IS '사업자등록번호';
 COMMENT ON COLUMN tb_lc_company.comp_phone_no IS '회원사대표번호';
+COMMENT ON COLUMN tb_lc_company.del_yn IS '삭제여부';
+COMMENT ON COLUMN tb_lc_company.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_company.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_company.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_company.upd_seq IS '수정자시퀀스';
+
 
 commit;
 
