@@ -16,6 +16,10 @@
 		$("#noticeSaveBtn").on("click", function(){
 			if(confirm("글을 등록 하시겠습니까?")){
 				$("#noticeRegFrm").attr("action","/common/board/saveNoticeReg");
+					// 파일이 없을시 실행
+					if($("#fileName").val() == ""){
+						$("#fileSeq").val("0");
+					}
 				var noticeSaveParam = {
 					name : 'noticeRegFrm'
 					,success: function(opt, result) {
@@ -102,7 +106,7 @@
 					<tr>
 						<th>첨부파일</th>
 						<td id="fileTag">
-							<input type="text" id="fileName" name="fileName" class="w60"  value="${file.fileFullNm}" />
+							<input type="text" id="fileName" name="fileName" class="w60" readonly="readonly" value="${file.fileFullNm}" />
 							<input type="hidden" id="fileSeq"  name="fileSeq" value=" ${noticeInfo.fileSeq}"/>
 							<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
