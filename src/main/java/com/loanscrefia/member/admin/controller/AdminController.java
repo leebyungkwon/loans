@@ -108,4 +108,12 @@ public class AdminController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	
+	// 재승인 요청
+	@PostMapping(value="/reAppr")
+	public ResponseEntity<ResponseMsg> reAppr(AdminDomain adminDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(adminService.reAppr(adminDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 }

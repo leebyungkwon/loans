@@ -18,7 +18,7 @@ function goCompanyStatUpdt(apprStat,roleName) {
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
-					alert("수정 되었습니다.");
+					alert("처리 되었습니다.");
 					location.href="/admin/company/companyPage"
 				}
 		    }

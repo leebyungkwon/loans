@@ -54,6 +54,29 @@
 			$("#fileName").val(fileName);
 		});
 		
+		
+		// 재승인요청
+		$("#reApprBtn").on("click", function(){
+			var memSeq = "${adminInfo.memberSeq}";
+			if(WebUtil.isNull(memSeq)){
+				alert("오류가 발생하였습니다.");
+				return false;
+			}else{
+				if(confirm("재승인 요청을 하시겠습니까?")){
+					var param = {'memberSeq' : memSeq}
+			 		var p = {
+						  param : param
+						, url : "/member/admin/reAppr"
+						, success : function (opt,result) {
+							alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
+							location.href="/logout";
+			    	    }
+					}
+					AjaxUtil.post(p);
+				}
+			}
+		});
+		
 	}
 
 </script>
@@ -146,6 +169,9 @@
    <div class="btn_wrap">
 		<c:if test="${adminInfo.tempMemberCheck ne 'Y' }">
 			<a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray">취소</a>
+		</c:if>
+		<c:if test="${adminInfo.tempMemberCheck eq 'Y' }">
+			<a href="javascript:void(0);" id="reApprBtn" class="btn_gray">재승인요청</a>
 		</c:if>
       
       <a href="javascript:void(0);" id="adminUpdBtn" class="btn_black btn_right">저장</a>

@@ -63,4 +63,12 @@ public class AdminService {
 		
 		return result;
 	}
+	
+	// 재승인 요청
+	@Transactional
+	public int reAppr(AdminDomain adminDomain) {
+		return AdminRepository.reAppr(adminDomain);
+	}
+	
+	
 }

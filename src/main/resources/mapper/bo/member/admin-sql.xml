@@ -110,4 +110,14 @@
       </where>
    </select>
    
+
+	<!-- 재승인 요청 -->
+	<update id="reAppr" parameterType="admin">
+		UPDATE tb_lc_members
+		SET
+			role_name = 'NO_MEMBER'
+			, appr_stat = '1'
+		WHERE
+			member_seq = #{memberSeq}
+	</update>
 </mapper> 
