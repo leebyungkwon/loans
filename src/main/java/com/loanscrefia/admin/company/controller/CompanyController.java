@@ -91,5 +91,17 @@ public class CompanyController {
  		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
  		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}
+	
+	
+	
+	
+	// ------------------------------- 회원사 관리 영역 --------------------------------------- //
+	
+	// 회원사 코드 관리
+	@GetMapping(value="/companyCodePage")
+	public String companyCodePage() {
+		return CosntPage.BoCompanyCodePage+"/companyCodeList";
+	}
+	
 	 
 }

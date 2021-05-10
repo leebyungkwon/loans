@@ -24,8 +24,11 @@ public class CosntPage {
 	
 	//타협회 내역 다운로드
 	
-	//회원사관리
+	// 회원사관리
 	public static String BoCompanyPage = "bo/company";
+	
+	// 회원사관리
+	public static String BoCompanyCodePage = "bo/companyCode";
 	
 	//권한 관리
 	

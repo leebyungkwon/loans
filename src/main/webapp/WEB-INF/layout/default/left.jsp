@@ -35,7 +35,7 @@
 			<a href="#">(협회)타협회 내역 다운로드</a>
 		</li>
 		<li>
-			<a href="#">(협회)회원사 관리</a>
+			<a href="/admin/company/companyCodePage">(협회)회원사 관리</a>
 		</li>
 		<li>
 			<a href="#">(협회)관리자 관리</a>
