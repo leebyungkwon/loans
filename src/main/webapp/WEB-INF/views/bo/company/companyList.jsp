@@ -36,9 +36,11 @@ function pageLoad(){
 }
 
 function companyDetail(idx, data){
-	var memberSeq = companyGrid.gridData[idx].memberSeq;
-	$("#memberSeq").val(memberSeq);
-	$("#companyDetailFrm").submit();
+	if(confirm("ID : "+data.memberId + " Detail 페이지로 이동 하시겠습니까?")){
+		var memberSeq = companyGrid.gridData[idx].memberSeq;
+		$("#memberSeq").val(memberSeq);
+		$("#companyDetailFrm").submit();
+	}
 }
 
 function deleteCompany() {
@@ -56,19 +58,21 @@ function deleteCompany() {
 		memberSeqArr.push(chekeData[i].memberSeq);
 	}
 	
-	var p = {
-		  url		: "/admin/company/deleteCompany"	
-		, param		: {
-			memberSeqArr : memberSeqArr  
-		}
-		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("삭제 되었습니다.");
-				companyGrid.refresh();
+	if(confirm(memberSeqArr+" 삭제 처리 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/company/deleteCompany"	
+			, param		: {
+				memberSeqArr : memberSeqArr  
 			}
-	    }
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("삭제 되었습니다.");
+					companyGrid.refresh();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
 	}
-	AjaxUtil.post(p);
 }
 </script>
 
@@ -97,7 +101,7 @@ function deleteCompany() {
 							<option value="1">여신</option>
 							<option value="2">대출</option>
 							<option value="3">모집</option>						
-</select>
+						</select>
 					</td>
 					<th>승인여부</th>
 					<td>
