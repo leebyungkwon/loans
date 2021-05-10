@@ -9,50 +9,62 @@
 		
 		// 글 목록 버튼
 		$("#noticeBtn").on("click", function(){
-			location.href = "/common/board/noticePage";
+			if(confirm("글 목록 페이지로 이동 하시겠습니까?")){
+				location.href = "/common/board/noticePage";
+			}
 		});
 		
 		// 글 등록 버튼
 		$("#noticeSaveBtn").on("click", function(){
-			$("#noticeRegFrm").attr("action","/common/board/saveNoticeReg");
-			var noticeSaveParam = {
-				name : 'noticeRegFrm'
-				,success: function(opt, result) {
-	 				location.href="/common/board/noticePage";
-				}
-			}      
-			AjaxUtil.files(noticeSaveParam);
+			if(confirm("글을 등록 하시겠습니까?")){
+				$("#noticeRegFrm").attr("action","/common/board/saveNoticeReg");
+				var noticeSaveParam = {
+					name : 'noticeRegFrm'
+					,success: function(opt, result) {
+		 				location.href="/common/board/noticePage";
+					}
+				}      
+				AjaxUtil.files(noticeSaveParam);
+			}
 		});
 		
 		// 글 수정 버튼
 		$("#noticeUpdBtn").on("click", function(){
-			$("#noticeRegFrm").attr("action","/common/board/updNoticeReg");
-			var noticeInsParam = {
-				name : 'noticeRegFrm'
-				,success: function(opt, result) {
-	 				$("#noticeDetailFrm").submit();
-				}
-			}      
-			AjaxUtil.files(noticeInsParam);
+			if(confirm("글을 수정 하시겠습니까?")){
+				$("#noticeRegFrm").attr("action","/common/board/updNoticeReg");
+				var noticeInsParam = {
+					name : 'noticeRegFrm'
+					,success: function(opt, result) {
+		 				$("#noticeDetailFrm").submit();
+					}
+				}      
+				AjaxUtil.files(noticeInsParam);
+			}
 		});
 		
 		// 글 취소 버튼
 		$("#noticeCancelBtn").on("click", function(){
-			$("#noticeDetailFrm").submit();
+			if(confirm("글을 취소 하시겠습니까?")){
+				$("#noticeDetailFrm").submit();
+			}
 		});
 		
 		// 첨부파일 삭제
 		$("#fileDelete").on("click", function(){
-			$("#fileName").val("");
-			
-			// IE일 경우
-			//$("#u_file").replaceWith( $("#u_file").clone(true) );
-			$("#u_file").val("");
+			if(confirm("첨부파일을 삭제 하시겠습니까?")){
+				$("#fileName").val("");
+				
+				// IE일 경우
+				//$("#u_file").replaceWith( $("#u_file").clone(true) );
+				$("#u_file").val("");
+			}
 		});
 		
 		// 첨부파일 찾기
 		$("#fileSearch").on("click", function(){
-			$("#u_file").click();
+			if(confirm("첨부파일을 찾으시겠습니까?")){
+				$("#u_file").click();
+			}
 		});
 
 		// 첨부파일 찾기시 file tag 실행

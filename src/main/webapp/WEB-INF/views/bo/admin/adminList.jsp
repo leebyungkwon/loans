@@ -34,11 +34,13 @@
    }
    
    // AdminDetail 페이지로 이동
-   function detailPop(idx, data){
-      var memberSeq = adminListGrid.gridData[idx].memberSeq;
-      $("#hMemberSeq").val(memberSeq);
-      $("#adminDetailFrm").submit();
-   }
+	function detailPop(idx, data){
+		if(confirm("No."+data.memberSeq + "Detail 페이지로 이동 하시겠습니까?")){
+			var memberSeq = adminListGrid.gridData[idx].memberSeq;
+			$("#hMemberSeq").val(memberSeq);
+			$("#adminDetailFrm").submit();
+		}
+	}
    
    	/*	 
  	// 체크박스 선택 삭제

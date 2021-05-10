@@ -8,34 +8,40 @@
 	function pageLoad(){
 
 		// 글 목록 버튼
-		$("#noticeCancelBtn").on("click", function(){
-			location.href = "/common/board/noticePage";
+		$("#noticeBtn").on("click", function(){
+			if(confirm("글 목록 페이지로 이동 하시겠습니까?")){
+				location.href = "/common/board/noticePage";
+			}
 		});
 		
 		// 글 수정 버튼
 		$("#noticeUpdBtn").on("click", function(){
-			$("#noticeDetailFrm").submit();
+			if(confirm("글 수정 페이지로 이동 하시겠습니까?")){
+				$("#noticeDetailFrm").submit();
+			}
 		});
 		
 		// 글 삭제 버튼
 		$("#noticeDelBtn").on("click", function(){
-			var noticeSeq = $("#noticeSeq").val();
-			var param = {
-				'noticeSeq' : noticeSeq
-			}
-			var p = {
-				param: param
-				,url: "/common/board/delNoticeReg"
-				,success: function(opt, result) {
-					if(result > 0) {
-					alert("삭제를 실패하셨습니다.");
-					} else {
-					alert("삭제를 성공적으로 완료하였습니다.");
-					location.href = "/common/board/noticePage";
-					}             
+			if(confirm("글을 삭제 하시겠습니까?")){
+				var noticeSeq = $("#noticeSeq").val();
+				var param = {
+					'noticeSeq' : noticeSeq
 				}
+				var p = {
+					param: param
+					,url: "/common/board/delNoticeReg"
+					,success: function(opt, result) {
+						if(result > 0) {
+						alert("삭제를 실패하셨습니다.");
+						} else {
+						alert("삭제를 성공적으로 완료하였습니다.");
+						location.href = "/common/board/noticePage";
+						}             
+					}
+				}
+				AjaxUtil.post(p);
 			}
-			AjaxUtil.post(p);
 		});
 		
 		//첨부파일명 보여주기
@@ -48,15 +54,17 @@
 	}
 	
 	function filedown(fileSeq){
-		var p = {
-			url : '/common/fileDown'
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-			, param : {
-				fileSeq : fileSeq
+		if(confirm("첨부파일을 다운로드 하시겠습니까?")){
+			var p = {
+				url : '/common/fileDown'
+				, contType: 'application/json; charset=UTF-8'
+				, responseType: 'arraybuffer'
+				, param : {
+					fileSeq : fileSeq
+				}
 			}
+			AjaxUtil.post(p);
 		}
-		AjaxUtil.post(p);
 	}
 
 </script>
@@ -100,7 +108,7 @@
 				<div class="btn_wrap">
 					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
 					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
-					<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray">글 목록</a>								
+					<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>								
 				</div>
 			</sec:authorize>
 			

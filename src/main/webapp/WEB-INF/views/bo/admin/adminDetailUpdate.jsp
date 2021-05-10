@@ -9,41 +9,48 @@
 		
 		var password         = $("#password").val();             // 비밀번호
 		var passwordChk    = $("#passwordChk").val();        // 비밀번호 확인
-
-		$("#adminUpdateBtn").on("click", function(){
-			
-			if( password == passwordChk ){
-				var p = {
-					name       : "saveAdminUpdateFrm"
-					, success    : function (opt,result) {
-						location.href = "/member/admin/adminPage";
+		$("#adminUpdBtn").on("click", function(){
+			if(confirm("정보를 수정 하시겠습니까?")){
+				if( password == passwordChk ){
+					var p = {
+						name       : "saveAdminUpdateFrm"
+						, success    : function (opt,result) {
+							location.href = "/member/admin/adminPage";
+						}
 					}
+					AjaxUtil.files(p);
+				} else {
+					alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
+					$("#password").val("");
+					$("#passwordChk").val("");
+					return false;
 				}
-				AjaxUtil.files(p);
-			} else {
-				alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
-				$("#password").val("");
-				$("#passwordChk").val("");
-				return false;
 			}
 		});
-
+		
+		// 취소 버튼
 		$("#adminCancelBtn").on("click", function(){
-			$("#adminDetailFrm").submit();
+			if(confirm("정보 수정을 취소 하시겠습니까?")){
+				$("#adminDetailFrm").submit();
+			}
 		});
 		
 		// 첨부파일 삭제
 		$("#fileDelete").on("click", function(){
-			$("#fileName").val("");
-			
-			// IE일 경우
-			//$("#u_file").replaceWith( $("#u_file").clone(true) );
-			$("#u_file").val("");
+			if(confirm("첨부파일을 삭제 하시겠습니까?")){
+				$("#fileName").val("");
+				
+				// IE일 경우
+				//$("#u_file").replaceWith( $("#u_file").clone(true) );
+				$("#u_file").val("");
+			}
 		});
 		
 		// 첨부파일 찾기
 		$("#fileSearch").on("click", function(){
-			$("#u_file").click();
+			if(confirm("첨부파일을 찾으시겠습니까?")){
+				$("#u_file").click();
+			}
 		});
 
 		// 첨부파일 찾기시 file tag 실행
@@ -147,6 +154,6 @@
 			<a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray">취소</a>
 		</c:if>
       
-      <a href="javascript:void(0);" id="adminUpdateBtn" class="btn_black btn_right">저장</a>
+      <a href="javascript:void(0);" id="adminUpdBtn" class="btn_black btn_right">저장</a>
    </div>
 </div>

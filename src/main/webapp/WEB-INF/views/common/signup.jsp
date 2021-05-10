@@ -7,90 +7,100 @@ function pageLoad(){
 	
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
-		var password       = $("#password").val();               // 비밀번호
-		var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
-	
-		if($("#checkId").val() == "N"){
-			alert("중복체크를 실행해 주세요.");
-			return false;
-		}
-	
-		if( password == passwordChk ){
-			var signupParam = {
-				name : 'signup'
-				,success: function(opt, result) {
-	 				location.href="/login";
-				}
-			}      
-			AjaxUtil.files(signupParam);
-		}else{
-			$("#password").val("");
-			$("#passwordChk").val("");
-			alert("아이디 패스워드를 확인해 주세요.");
-			return false;
+		if(confirm("회원가입을 진행 하시겠습니까?")){
+			var password       = $("#password").val();               // 비밀번호
+			var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
+		
+			if($("#checkId").val() == "N"){
+				alert("중복체크를 실행해 주세요.");
+				return false;
+			}
+		
+			if( password == passwordChk ){
+				var signupParam = {
+					name : 'signup'
+					,success: function(opt, result) {
+		 				location.href="/login";
+					}
+				}      
+				AjaxUtil.files(signupParam);
+			}else{
+				$("#password").val("");
+				$("#passwordChk").val("");
+				alert("아이디 패스워드를 확인해 주세요.");
+				return false;
+			}
 		}
 	});
 	
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
-		$("#fileName").val("");
-		
-		// IE일 경우
-		//$("#u_file").replaceWith( $("#u_file").clone(true) );
-		$("#u_file").val("");
+		if(confirm("첨부파일을 삭제 하시겠습니까?")){
+			$("#fileName").val("");
+			
+			// IE일 경우
+			//$("#u_file").replaceWith( $("#u_file").clone(true) );
+			$("#u_file").val("");
+		}
 	});
 	
 	// 첨부파일 찾기
 	$("#fileSearch").on("click", function(){
-		$("#u_file").click();
+		if(confirm("첨부파일을 찾으시겠습니까?")){
+			$("#u_file").click();
+		}
 	});
 	
 	// 양식 다운로드
 	$("#sampleDown").on("click", function(){
-		// 추후 양식 관련 템플 정리 후 번호 책정
-		var param = {
-			'fileSeq'	:	2
+		if(confirm("양식을 다운로드 하시겠습니까?")){
+			// 추후 양식 관련 템플 정리 후 번호 책정
+			var param = {
+				'fileSeq'	:	2
+			}
+	 		var p = {
+				  param : param
+				, url : "/common/fileDown"
+				, contType: 'application/json; charset=UTF-8'
+				, responseType: 'arraybuffer'
+			}
+			AjaxUtil.post(p);
 		}
- 		var p = {
-			  param : param
-			, url : "/common/fileDown"
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-		}
-		AjaxUtil.post(p);
 	});
 	
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
-		var memberId = $("#memberId").val();
-		if(WebUtil.isNull(memberId)){
-			alert("아이디를 입력해 주세요.");
-			return false;
+		if(confirm("아이디 중복체크 하시겠습니까?")){
+			var memberId = $("#memberId").val();
+			if(WebUtil.isNull(memberId)){
+				alert("아이디를 입력해 주세요.");
+				return false;
+			}
+			
+			var	param = {
+					'memberId' : memberId
+			}
+		    var p = {
+				param: param
+				,url: "/idcheck"
+	            ,success: function(opt, result) {
+	            	if(result > 0){
+	                    $("#memberId").val("");
+	                    $("#checkId").val("N");
+	                    alert("해당 아이디가 존재합니다.");    
+	            	}else{
+	            		$("#checkId").val("Y");
+	            		alert("사용가능 아이디 입니다.");
+	            	}        
+	   			}
+			}
+			AjaxUtil.post(p);
 		}
-		
-		var	param = {
-				'memberId' : memberId
-		}
-	    var p = {
-			param: param
-			,url: "/idcheck"
-            ,success: function(opt, result) {
-            	if(result > 0){
-                    $("#memberId").val("");
-                    $("#checkId").val("N");
-                    alert("해당 아이디가 존재합니다.");    
-            	}else{
-            		$("#checkId").val("Y");
-            		alert("사용가능 아이디 입니다.");
-            	}        
-   			}
-		}
-		AjaxUtil.post(p);
 	});
 	
 	// 아이디 수정시 중복체크 value 변경
 	$("#memberId").on("change", function(){
-		$("#checkId").val("N");
+			$("#checkId").val("N");
 	});
 	
 	// 첨부파일 찾기시 file tag 실행
