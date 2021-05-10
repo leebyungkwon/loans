@@ -757,9 +757,6 @@ public class UserService {
 	
 	/* ================================================
 	 * (공통)모집인 등록 > 상태값 체크
-	 * [return]
-	 * 	- E1 : 승인요청중일 때는 수정 불가
-	 * 	-
 	 * ================================================
 	 */
 	public ResponseMsg userRegValidation(int masterSeq) {
@@ -773,7 +770,8 @@ public class UserService {
 		//반환 코드
 		String code = "";
 		
-		if(userRegInfo.getPlStat().equals("2")) {
+		if(userRegInfo.getPlStat().equals("2") || userRegInfo.getPlStat().equals("3") || userRegInfo.getPlStat().equals("4") || 
+		   userRegInfo.getPlStat().equals("6") || userRegInfo.getPlStat().equals("7")) {
 			code = "E1";
 		}
 		
