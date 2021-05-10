@@ -12,7 +12,7 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"] /*"사용인이름", "사용인주민번호",*/
+  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
@@ -100,18 +100,7 @@ function goUserRegInfoExcelUpload() {
 		var p = {
 			  name 		: "userRegInfoInsertFrm"
 			, success 	: function (opt,result) {
-				var msg = result.data;
-				
-				if(msg == "success"){
-					alert("모집인이 등록되었습니다.");
-					location.reload();
-				}else if(msg == "fail"){
-					alert("실패했습니다.");
-					return;
-				}else{
-					alert("[데이터 확인 필요]\n"+msg);
-					location.reload();
-				}
+				location.reload();
 	 	    }
 		}
 		AjaxUtil.files(p);	

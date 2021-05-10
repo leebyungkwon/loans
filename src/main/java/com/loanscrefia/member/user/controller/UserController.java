@@ -2,6 +2,8 @@ package com.loanscrefia.member.user.controller;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,14 +96,12 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	/*
 	//등록 처리(수동) : 법인 > 대표자 및 임원
 	@PostMapping(value="/insertUserRegCorpImwonInfo")
 	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain){
 		ResponseMsg responseMsg = userService.insertUserRegCorpImwonInfo(files, userImwonDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	*/
 	
 	//등록 처리(엑셀 업로드) : 법인 > 전문인력
 	@PostMapping(value="/insertUserRegCorpExpertInfoByExcel")
@@ -110,14 +110,12 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	/*
 	//등록 처리(수동) : 법인 > 전문인력
 	@PostMapping(value="/insertUserRegCorpExpertInfo")
 	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain){
 		ResponseMsg responseMsg = userService.insertUserRegCorpExpertInfo(files, userExpertDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	*/
 	
 	//등록 처리(엑셀 업로드) : 법인 > 전산인력
 	@PostMapping(value="/insertUserRegCorpItInfoByExcel")
@@ -126,14 +124,12 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	/*
 	//등록 처리(수동) : 법인 > 전산인력
 	@PostMapping(value="/insertUserRegCorpItInfo")
 	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain){
 		ResponseMsg responseMsg = userService.insertUserRegCorpItInfo(files, userItDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	*/
 	
 	//상세 페이지 : 개인
 	@PostMapping(value="/userRegIndvDetail")
@@ -192,38 +188,54 @@ public class UserController {
 	//수정 처리
 	@PostMapping(value="/updateUserRegInfo")
 	public ResponseEntity<ResponseMsg> updateUserRegInfo(@RequestParam("files") MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updateUserRegInfo(files,userDomain,fileDomain));
+		ResponseMsg responseMsg = userService.updateUserRegInfo(files,userDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//수정 처리 : 법인 > 대표자 및 임원관련사항 탭
 	@PostMapping(value="/updateUserRegCorpImwonInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updateUserRegCorpImwonInfo(files,userImwonDomain,fileDomain));
+	public ResponseEntity<ResponseMsg> updateUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, @Valid UserImwonDomain userImwonDomain, FileDomain fileDomain){
+		ResponseMsg responseMsg = userService.updateUserRegCorpImwonInfo(files,userImwonDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//수정 처리 : 법인 > 전문인력 탭
 	@PostMapping(value="/updateUserRegCorpExpertInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updateUserRegCorpExpertInfo(files,userExpertDomain,fileDomain));
+	public ResponseEntity<ResponseMsg> updateUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, @Valid UserExpertDomain userExpertDomain, FileDomain fileDomain){
+		ResponseMsg responseMsg = userService.updateUserRegCorpExpertInfo(files,userExpertDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//수정 처리 : 법인 > 전산인력 탭
 	@PostMapping(value="/updateUserRegCorpItInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> updateUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, @Valid UserItDomain userItDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.updateUserRegCorpItInfo(files,userItDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//작성 영역 추가 : 법인 > 대표자 및 임원관련사항 탭
+	@GetMapping(value="/callUserRegCorpImwonForm")
+	public ModelAndView callUserRegCorpImwonForm(UserImwonDomain userImwonDomain){
+		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpImwon");
+    	Map<String, Object> result 	= userService.getUserRegCorpImwonDetail(userImwonDomain);
+    	mv.addObject("result", result);
+        return mv;
+	}
 	
+	//작성 영역 추가 : 법인 > 전문인력 탭
+	@GetMapping(value="/callUserRegCorpExpertForm")
+	public ModelAndView callUserRegCorpExpertForm(UserExpertDomain userExpertDomain){
+		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpExpert");
+    	Map<String, Object> result 	= userService.getUserRegCorpExpertDetail(userExpertDomain);
+    	mv.addObject("result", result);
+        return mv;
+	}
 	
-	
-	
+	//작성 영역 추가 : 법인 > 전산인력 탭
+	@GetMapping(value="/callUserRegCorpItForm")
+	public String callUserRegCorpItForm(){
+		return CosntPage.Include+"/userRegCorpIt";
+	}
 	
 	
 	

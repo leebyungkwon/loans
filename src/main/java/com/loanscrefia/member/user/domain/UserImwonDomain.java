@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.type.Alias;
 
 import com.loanscrefia.common.common.domain.BaseDomain;
+import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.util.excel.ExcelColumn;
 
 import lombok.Data;
@@ -54,4 +55,16 @@ public class UserImwonDomain extends BaseDomain {
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
+	
+	//임원 첨부파일 가공
+	private FileDomain fileType7;
+	private FileDomain fileType8;
+	private FileDomain fileType9;
+	private FileDomain fileType10;
+	private FileDomain fileType11;
+	private FileDomain fileType12;
+	private FileDomain fileType13;
+	private FileDomain fileType14;
+	private FileDomain fileType15;
+	
 }

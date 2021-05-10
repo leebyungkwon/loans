@@ -2,13 +2,13 @@ package com.loanscrefia.config.string;
 
 public class CosntPage {
 	
-	public static String Common = "/common";
-	public static String Error 	= "/error";
-	public static String Popup 	= "/popup";
-
-	public static String BoTempletePage = "bo/templete"; 
+	public static String Common 	= "/common";
+	public static String Error 		= "/error";
+	public static String Popup 		= "/popup";
+	public static String Include 	= "/include";
 	
-	public static String BoMainPage = "bo/"; 
+	public static String BoTempletePage = "bo/templete"; 
+	public static String BoMainPage 	= "bo/"; 
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 여신금융협회

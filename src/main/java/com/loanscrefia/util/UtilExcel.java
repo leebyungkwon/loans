@@ -121,17 +121,19 @@ public class UtilExcel<T> {
 	                		}
 	                	}
 	                }
-	                //System.out.println("errorMsg :: " + errorMsg);
 	                map.put(cellName, ExcelCellRef.getValue(cell));
 	            }
-	            if(errorMsg != null && !errorMsg.equals("")) {
-	            	errorMsgMap.put("errorMsg", errorMsg);
-	            	result.add(errorMsgMap);
-	            }else {
-	            	result.add(map);
-	            }
+	            result.add(map);
 		    }
 		}
+		
+		//System.out.println("errorMsg :: " + errorMsg);
+        
+        if(errorMsg != null && !errorMsg.equals("")) {
+        	errorMsgMap.put("errorMsg", errorMsg);
+        	result.clear();
+        	result.add(errorMsgMap);
+        }
 		
 		return result;
 	}
