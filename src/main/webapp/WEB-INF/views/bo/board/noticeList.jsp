@@ -29,20 +29,16 @@
 		});
 		
 		$("#noticeWriteBtn").on("click", function(){
-			if(confirm("글쓰기 페이지로 이동 하시겠습니까?")){
-				$("#noticeRegFrm").submit();
-			}
+			$("#noticeRegFrm").submit();
 		});
 
 	}
 
 	// AdminDetail 페이지로 이동
 	function detailPop(idx, data){
-		if(confirm("No."+data.noticeSeq + "Detail 페이지로 이동 하시겠습니까?")){
-			var noticeSeq = noticeListGrid.gridData[idx].noticeSeq;
-			$("#hNoticeSeq").val(noticeSeq);
-			$("#noticeDetailFrm").submit();
-		}
+		var noticeSeq = noticeListGrid.gridData[idx].noticeSeq;
+		$("#hNoticeSeq").val(noticeSeq);
+		$("#noticeDetailFrm").submit();
 	}
 
 </script>

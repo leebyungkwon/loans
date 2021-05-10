@@ -9,9 +9,7 @@
 		
 		// 글 목록 버튼
 		$("#noticeBtn").on("click", function(){
-			if(confirm("글 목록 페이지로 이동 하시겠습니까?")){
-				location.href = "/common/board/noticePage";
-			}
+			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 등록 버튼
@@ -44,27 +42,21 @@
 		
 		// 글 취소 버튼
 		$("#noticeCancelBtn").on("click", function(){
-			if(confirm("글을 취소 하시겠습니까?")){
 				$("#noticeDetailFrm").submit();
-			}
 		});
 		
 		// 첨부파일 삭제
 		$("#fileDelete").on("click", function(){
-			if(confirm("첨부파일을 삭제 하시겠습니까?")){
-				$("#fileName").val("");
-				
-				// IE일 경우
-				//$("#u_file").replaceWith( $("#u_file").clone(true) );
-				$("#u_file").val("");
-			}
+			$("#fileName").val("");
+			
+			// IE일 경우
+			//$("#u_file").replaceWith( $("#u_file").clone(true) );
+			$("#u_file").val("");
 		});
 		
 		// 첨부파일 찾기
 		$("#fileSearch").on("click", function(){
-			if(confirm("첨부파일을 찾으시겠습니까?")){
-				$("#u_file").click();
-			}
+			$("#u_file").click();
 		});
 
 		// 첨부파일 찾기시 file tag 실행

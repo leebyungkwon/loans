@@ -36,11 +36,9 @@ function pageLoad(){
 }
 
 function companyDetail(idx, data){
-	if(confirm("ID : "+data.memberId + " Detail 페이지로 이동 하시겠습니까?")){
 		var memberSeq = companyGrid.gridData[idx].memberSeq;
 		$("#memberSeq").val(memberSeq);
 		$("#companyDetailFrm").submit();
-	}
 }
 
 function deleteCompany() {

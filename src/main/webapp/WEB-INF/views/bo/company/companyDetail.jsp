@@ -29,7 +29,6 @@ function goCompanyStatUpdt(apprStat,roleName) {
 
 // 첨부파일 다운로드
 function filedown(fileSeq){
-	if(confirm("첨부파일을 다운로드 하시겠습니까?")){
 		var p = {
 			  url : '/common/fileDown'
 			, contType: 'application/json; charset=UTF-8'
@@ -39,14 +38,11 @@ function filedown(fileSeq){
 			}
 		}
 		AjaxUtil.post(p);
-	}
 }
 
 // 리스트 페이지 이동
 function companyList(){
-	if(confirm("목록 페이지로 이동 하시겠습니까?")){
-		location.href="/admin/company/companyPage"
-	}
+	location.href="/admin/company/companyPage"
 }
 
 </script>

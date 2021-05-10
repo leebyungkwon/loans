@@ -8,21 +8,15 @@
 	function pageLoad(){
 	
 		$("#adminBtn").on("click", function(){
-			if(confirm("목록 페이지로 이동 하시겠습니까?")){
-				location.href = "/member/admin/adminPage";
-			}
+			location.href = "/member/admin/adminPage";
 		});
 	
 		$("#adminInsBtn").on("click", function(){
-			if(confirm("정보 수정 페이지로 이동 하시겠습니까?")){
-				$("#adminDetailFrm").submit();
-			}
+			$("#adminDetailFrm").submit();
 		});
 	
 		$("#adminCancelBtn").on("click", function(){
-			if(confirm("정보 수정을 취소 하시겠습니까?")){
-				location.href = "/member/admin/adminPage";
-			}
+			location.href = "/member/admin/adminPage";
 		});
 		
 		//첨부파일명 보여주기
@@ -35,17 +29,15 @@
 	}
 
 	function filedown(fileSeq){
-		if(confirm("첨부파일을 다운로드 하시겠습니까?")){
-			var p = {
-				  url : '/common/fileDown'
-				, contType: 'application/json; charset=UTF-8'
-				, responseType: 'arraybuffer'
-				, param : {
-					fileSeq : fileSeq
-				}
+		var p = {
+			  url : '/common/fileDown'
+			, contType: 'application/json; charset=UTF-8'
+			, responseType: 'arraybuffer'
+			, param : {
+				fileSeq : fileSeq
 			}
-			AjaxUtil.post(p);
 		}
+		AjaxUtil.post(p);
 	}
 	
    

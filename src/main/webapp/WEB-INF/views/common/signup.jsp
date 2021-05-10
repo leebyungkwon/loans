@@ -35,67 +35,59 @@ function pageLoad(){
 	
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
-		if(confirm("첨부파일을 삭제 하시겠습니까?")){
-			$("#fileName").val("");
-			
-			// IE일 경우
-			//$("#u_file").replaceWith( $("#u_file").clone(true) );
-			$("#u_file").val("");
-		}
+		$("#fileName").val("");
+		
+		// IE일 경우
+		//$("#u_file").replaceWith( $("#u_file").clone(true) );
+		$("#u_file").val("");
 	});
 	
 	// 첨부파일 찾기
 	$("#fileSearch").on("click", function(){
-		if(confirm("첨부파일을 찾으시겠습니까?")){
-			$("#u_file").click();
-		}
+		$("#u_file").click();
 	});
 	
 	// 양식 다운로드
 	$("#sampleDown").on("click", function(){
-		if(confirm("양식을 다운로드 하시겠습니까?")){
-			// 추후 양식 관련 템플 정리 후 번호 책정
-			var param = {
-				'fileSeq'	:	2
-			}
-	 		var p = {
-				  param : param
-				, url : "/common/fileDown"
-				, contType: 'application/json; charset=UTF-8'
-				, responseType: 'arraybuffer'
-			}
-			AjaxUtil.post(p);
+		// 추후 양식 관련 템플 정리 후 번호 책정
+		var param = {
+			'fileSeq'	:	2
 		}
+ 		var p = {
+			  param : param
+			, url : "/common/fileDown"
+			, contType: 'application/json; charset=UTF-8'
+			, responseType: 'arraybuffer'
+		}
+		AjaxUtil.post(p);
 	});
 	
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
-		if(confirm("아이디 중복체크 하시겠습니까?")){
-			var memberId = $("#memberId").val();
-			if(WebUtil.isNull(memberId)){
-				alert("아이디를 입력해 주세요.");
-				return false;
-			}
-			
-			var	param = {
-					'memberId' : memberId
-			}
-		    var p = {
-				param: param
-				,url: "/idcheck"
-	            ,success: function(opt, result) {
-	            	if(result > 0){
-	                    $("#memberId").val("");
-	                    $("#checkId").val("N");
-	                    alert("해당 아이디가 존재합니다.");    
-	            	}else{
-	            		$("#checkId").val("Y");
-	            		alert("사용가능 아이디 입니다.");
-	            	}        
-	   			}
-			}
-			AjaxUtil.post(p);
+		var memberId = $("#memberId").val();
+		if(WebUtil.isNull(memberId)){
+			alert("아이디를 입력해 주세요.");
+			return false;
 		}
+		
+		var	param = {
+				'memberId' : memberId
+		}
+	    var p = {
+			param: param
+			,url: "/idcheck"
+            ,success: function(opt, result) {
+            	if(result > 0){
+                    $("#memberId").val("");
+                    $("#checkId").val("N");
+                    alert("해당 아이디가 존재합니다.");    
+            	}else{
+            		$("#checkId").val("Y");
+            		alert("사용가능 아이디 입니다.");
+            	}        
+   			}
+		}
+		AjaxUtil.post(p);
 	});
 	
 	// 아이디 수정시 중복체크 value 변경

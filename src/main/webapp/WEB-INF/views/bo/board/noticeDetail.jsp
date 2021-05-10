@@ -9,16 +9,12 @@
 
 		// 글 목록 버튼
 		$("#noticeBtn").on("click", function(){
-			if(confirm("글 목록 페이지로 이동 하시겠습니까?")){
 				location.href = "/common/board/noticePage";
-			}
 		});
 		
 		// 글 수정 버튼
 		$("#noticeUpdBtn").on("click", function(){
-			if(confirm("글 수정 페이지로 이동 하시겠습니까?")){
 				$("#noticeDetailFrm").submit();
-			}
 		});
 		
 		// 글 삭제 버튼
@@ -54,17 +50,15 @@
 	}
 	
 	function filedown(fileSeq){
-		if(confirm("첨부파일을 다운로드 하시겠습니까?")){
-			var p = {
-				url : '/common/fileDown'
-				, contType: 'application/json; charset=UTF-8'
-				, responseType: 'arraybuffer'
-				, param : {
-					fileSeq : fileSeq
-				}
+		var p = {
+			url : '/common/fileDown'
+			, contType: 'application/json; charset=UTF-8'
+			, responseType: 'arraybuffer'
+			, param : {
+				fileSeq : fileSeq
 			}
-			AjaxUtil.post(p);
 		}
+		AjaxUtil.post(p);
 	}
 
 </script>
