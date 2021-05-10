@@ -52,6 +52,7 @@
 			// IE일 경우
 			//$("#u_file").replaceWith( $("#u_file").clone(true) );
 			$("#u_file").val("");
+			$("#fileSeq").val("0");
 		});
 		
 		// 첨부파일 찾기
@@ -101,8 +102,8 @@
 					<tr>
 						<th>첨부파일</th>
 						<td id="fileTag">
-							<input type="text" id="fileName" name="fileName" class="w60" readonly="readonly" value="${file.fileFullNm}" />
-							<input type="hidden" name="fileSeq" value=" ${noticeInfo.fileSeq}"/>
+							<input type="text" id="fileName" name="fileName" class="w60"  value="${file.fileFullNm}" />
+							<input type="hidden" id="fileSeq"  name="fileSeq" value=" ${noticeInfo.fileSeq}"/>
 							<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 							<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
