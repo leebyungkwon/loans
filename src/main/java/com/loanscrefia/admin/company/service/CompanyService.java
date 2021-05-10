@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.company.repository.CompanyRepository;
+import com.loanscrefia.common.board.domain.BoardDomain;
 import com.loanscrefia.util.UtilFile;
 
 @Service
@@ -48,5 +49,16 @@ public class CompanyService {
 		
 		return result;
 	}
+
+	//회원사 관리 리스트 조회
+	@Transactional(readOnly = true)
+	public List<CompanyDomain> selectCompanyCodeList(CompanyDomain companyDomain){
+		return companyRepository.selectCompanyCodeList(companyDomain);
+	}
 	
+	//회원사 관리 상세 조회
+	@Transactional(readOnly=true)
+	public CompanyDomain getCompanyCodeDetail(CompanyDomain companyDomain){
+		return companyRepository.getCompanyCodeDetail(companyDomain);
+	}
 }

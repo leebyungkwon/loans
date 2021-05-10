@@ -45,4 +45,11 @@ public class CompanyDomain extends BaseDomain {
 	private String updTimestamp;								//수정일시
 	private int[] memberSeqArr;									//멤버시퀀스어레이
 	
+	/*========================== [회원사 관리] ==============================*/
+	
+	private String comName;									//코드 이름
+	private String plMerchantNo;									//코드 이름
+	private String plBusinessNo;									//코드 이름
+	private String compPhoneNo;									//코드 이름
+	
 }

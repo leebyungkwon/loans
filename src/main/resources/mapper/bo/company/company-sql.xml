@@ -96,5 +96,39 @@
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
    	</delete>
+   	
+   	<!-- ============== 회원사 관리 테이블 =====================-->
+   	
+	<!-- 회원사 관리 조회  -->
+	<select id="selectCompanyCodeList" parameterType="company" resultType="company">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLC.COM_CODE
+			,TLC.COM_NAME
+			,TLC.PL_MERCHANT_NO
+			,TLC.PL_BUSINESS_NO
+			,TLC.COMP_PHONE_NO
+		FROM TB_LC_COMPANY TLC
+		<where>
+			<if test="comCode != 0 and comCode != '0'">
+				AND	TLM.COM_CODE 	    = #{comCode}
+			</if>
+		</where>
+		<include refid="common.pageBottom"/>
+	</select>
 	
+	<!-- 회원사 관리 상세 조회 -->
+	<select id="getCompanyCodeDetail" parameterType="company" resultType="company">
+		SELECT 
+			TLC.COM_CODE
+			,TLC.COM_NAME
+			,TLC.PL_MERCHANT_NO
+			,TLC.PL_BUSINESS_NO
+			,TLC.COMP_PHONE_NO
+		FROM TB_LC_COMPANY TLC
+		<where>
+			AND TLC.COM_CODE = #{comCode}
+		</where>
+	</select>
+
 </mapper> 

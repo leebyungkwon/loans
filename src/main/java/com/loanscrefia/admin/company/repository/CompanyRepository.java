@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
+import com.loanscrefia.common.board.domain.BoardDomain;
 
 @Mapper
 public interface CompanyRepository {
@@ -20,5 +21,10 @@ public interface CompanyRepository {
 	
 	//회원사 당담자 삭제
 	int deleteCompany(CompanyDomain companyDomain);
-	
+
+	// 협회 - 회원사 관리 리스트 페이지
+	List<CompanyDomain> selectCompanyCodeList(CompanyDomain companyDomain);
+
+	// 회원사 관리 상세 페이지
+	CompanyDomain getCompanyCodeDetail(CompanyDomain companyDomain);
 }
