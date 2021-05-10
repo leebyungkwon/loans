@@ -112,14 +112,16 @@ function goHtmlAdd(callUrl,formUrl,masterSeq,dataWrapLen) {
 
 //등록
 function goCorpInfoReg(obj) {
-	var formNm = $(obj).closest("form").attr("name");
-	var p = {
-		  name 		: formNm
-		, success 	: function (opt,result) {
-			location.reload();
- 	    }
+	if(confirm("저장하시겠습니까?")){
+		var formNm = $(obj).closest("form").attr("name");
+		var p = {
+			  name 		: formNm
+			, success 	: function (opt,result) {
+				location.reload();
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
-	AjaxUtil.files(p);
 }
 
 //영역 삭제
