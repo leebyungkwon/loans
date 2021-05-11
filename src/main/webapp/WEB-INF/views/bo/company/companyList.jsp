@@ -10,7 +10,7 @@ function pageLoad(){
 	
 	companyGrid.set({
 		  id		: "companyGrid"
-		, url		: "/admin/company/companyList"
+		, url		: "/admin/mng/companyList"
 	    , width		: "100%" 
 	    , check		: true
 		, headCol	: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
@@ -29,7 +29,7 @@ function pageLoad(){
 		, sort : "ASC"
 		, rowClick	: {color:"#ccc", retFunc : companyDetail}
 		, gridSearch : "search,searchBtn"
-		, excel : "/admin/company/excelDown"
+		, excel : "/admin/mng/excelDown"
 		, isPaging : true
 		, size : 10
 	});
@@ -58,7 +58,7 @@ function deleteCompany() {
 	
 	if(confirm(memberSeqArr+" 삭제 처리 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/company/deleteCompany"	
+			  url		: "/admin/mng/deleteCompany"	
 			, param		: {
 				memberSeqArr : memberSeqArr  
 			}
@@ -74,7 +74,7 @@ function deleteCompany() {
 }
 </script>
 
-<form id="companyDetailFrm" method="post" action="/admin/company/companyDetail">
+<form id="companyDetailFrm" method="post" action="/admin/mng/companyDetail">
 	<input type="hidden" name="memberSeq" id="memberSeq"/>
 </form>
 

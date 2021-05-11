@@ -8,8 +8,9 @@
 <script type="text/javascript">
 	function menuActiveFunction(){
 		var pathName = location.pathname;
-		console.log("왜 지워지냐", pathName);
-		var cnt = 0;
+		var tt = pathName.split("/");
+		console.log("tt == " + tt[1]);
+		
 		$(".gnb > ul > li > a").each(function() {
 			var path = $(this).attr("href");
 			if(path == pathName){
@@ -58,7 +59,7 @@
 			<a href="/admin/crefia/crefiaPage">(협회)관리자 관리</a>
 		</li>
 		<li>
-			<a href="/admin/company/companyPage">(협회)회원사 담당자 조회</a>
+			<a href="/admin/mng/companyPage">(협회)회원사 담당자 조회</a>
 		</li>
 		</sec:authorize>
 		

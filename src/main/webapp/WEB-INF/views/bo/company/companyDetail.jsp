@@ -10,7 +10,7 @@ function goCompanyStatUpdt(apprStat,roleName) {
 	var apprStatNm = apprStat == "2" ? "가승인" : "승인";
 	if(confirm(apprStatNm + "처리 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/company/updateCompanyStat"	
+			  url		: "/admin/mng/updateCompanyStat"	
 			, param		: {
 				 memberSeq : $("#memberSeq").val()
 				,apprStat  : apprStat
@@ -19,7 +19,7 @@ function goCompanyStatUpdt(apprStat,roleName) {
 			, success 	: function (opt,result) {
 				if(result.data > 0){
 					alert("처리 되었습니다.");
-					location.href="/admin/company/companyPage"
+					location.href="/admin/mng/companyPage"
 				}
 		    }
 		}
@@ -42,7 +42,7 @@ function filedown(fileSeq){
 
 // 리스트 페이지 이동
 function companyList(){
-	location.href="/admin/company/companyPage"
+	location.href="/admin/mng/companyPage"
 }
 
 </script>
@@ -54,7 +54,7 @@ function companyList(){
 		</div>
 	</div>
 	
-	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/company/updateCompanyStat" method="post" enctype="multipart/form-data">
+	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/mng/updateCompanyStat" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
 		
 		<div class="contents">

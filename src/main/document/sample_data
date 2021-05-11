@@ -1,3 +1,11 @@
+INSERT INTO public.tb_lc_members (member_id,"password",com_code,member_name,email,extension_no,mobile_no,dept_nm,position_nm,join_dt,role_name,terms_yn,terms_date,appr_stat,file_seq,fail_cnt,cre_yn,drop_yn,upd_seq,upd_timestamp,cre_grp) VALUES
+	 ('sabio','$2a$10$DM5/OPUAJDeJfNdRHWXAqej89DQnENCjtPXa8h/RqBe8NgEQSjBaC',1,'신동환','sabio@kakao.com','01031672126','01031672126','테스트부서','과장','20210507','SYSTEM','Y','20210507','3',4,NULL,'N','N',NULL,NULL,NULL),
+	 ('sabio1','$2a$10$13aLjErMLmjHXiTp5.jrf.mem3RvBfNZLMgSMH/lkQOAOZOZX8AmW',2,'김승인','kakao@kakao.com','0215885588','01031672126','승인','사원','20210510','MEMBER','Y','20210510','3',13,NULL,'N','N',143,NULL,NULL),
+	 ('sabio11','$2a$10$OOIjJnhR6GQ6QFSKimhSL.l/UYbm1PFSkEEjz62cShbyCHFAi6wwO',2,'신동환','sabio@kakao.com','0215775577','01031672126','개발','차장','20210510','NO_MEMBER','Y','20210510','1',14,NULL,'N','N',143,NULL,NULL),
+	 ('system','$2a$10$BMFzpALSjbKXDsfX24ePSuc0aD2XJao7whocppX7E0QWVABGOH91.',1,'시스템','system@system.com','01031672126','01031672126','시스템','시스템','20210511','SYSTEM','Y','20210511','3',25,NULL,'Y','N',NULL,NULL,NULL),
+	 ('admin','$2a$10$Ip100z0l/6fyRfvS.0GxNujpKCoRCcNSK1gaKJrtXxG5K0OFvWIZq',1,'관리자','admin@admin.com','01031672126','01031672126','관리자','관리자','20210511','ADMIN','Y','20210511','3',26,NULL,'Y','N',NULL,NULL,NULL);
+
+
 INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no) VALUES
 	 ('현대카드','12341234','44443330','01031672126'),
 	 ('볼보파이낸셜','55556666','11112345','01031672162'),

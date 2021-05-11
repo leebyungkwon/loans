@@ -193,7 +193,8 @@
 	<select id="plMerchantNoCheck" parameterType="company" resultType="int">
         SELECT count(*)
         FROM TB_LC_COMPANY
-        WHERE PL_MERCHANT_NO = #{plMerchantNo}
+        WHERE pl_business_no != (select pl_business_no from tb_lc_company b where b.COM_CODE = #{comCode})
+        AND pl_business_no = #{plBusinessNo}
     </select>
 
 </mapper>

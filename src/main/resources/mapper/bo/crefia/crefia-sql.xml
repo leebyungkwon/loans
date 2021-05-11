@@ -7,14 +7,15 @@
 	    SELECT 
 	    	<include refid="common.totalPages"/>
     		 MEM.MEMBER_SEQ
-			,MEM.MEMBER_ID
-			,MEM.PASSWORD
-			,MEM.MEMBER_NAME
-			,MEM.EMAIL
-      	    ,REGEXP_REPLACE(MEM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS EXTENSION_NO
-      		,REGEXP_REPLACE(MEM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS MOBILE_NO
-			,TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
-			,MEM.CRE_YN
+			, MEM.MEMBER_ID
+			, MEM.PASSWORD
+			, MEM.MEMBER_NAME
+			, MEM.EMAIL
+      	    , fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO
+      		, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO
+			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
+			, MEM.CRE_YN
+			, MEM.CRE_GRP
 	    FROM TB_LC_MEMBERS MEM
 	    WHERE MEM.COM_CODE = 1
 	    <if test="memberId != null and memberId != ''">
@@ -32,17 +33,18 @@
     <select id="crefiaDetail" parameterType="crefia" resultType="crefia">
 	    SELECT 
     		 MEM.MEMBER_SEQ
-			,MEM.MEMBER_ID
-			,MEM.PASSWORD
-			,MEM.MEMBER_NAME
-			,MEM.EMAIL
-      	    ,REGEXP_REPLACE(MEM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS EXTENSION_NO
-      		,REGEXP_REPLACE(MEM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS MOBILE_NO
-			,TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
-			,MEM.CRE_YN
+			, MEM.MEMBER_ID
+			, MEM.PASSWORD
+			, MEM.MEMBER_NAME
+			, MEM.EMAIL
+      	    , fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO
+      		, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO
+			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
+			, MEM.CRE_YN
+			, MEM.CRE_GRP
 	    FROM TB_LC_MEMBERS MEM
 	    WHERE MEM.COM_CODE = 1
-	    <if test="memberId != null and memberId != ''">
+	    <if test="memberSeq != null and memberSeq != ''">
 	    	AND MEMBER_SEQ = #{memberSeq}
 	    </if>
     </select>
