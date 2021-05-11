@@ -9,36 +9,36 @@ var companyGrid = Object.create(GRID);
 function pageLoad(){
 	
 	companyGrid.set({
-		  id			: "companyGrid"
-		, url			: "/admin/company/companyList"
-	    , width			: "100%" 
-	    , check			: true
-		, headCol		: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
-		, bodyCol		: 
+		  id		: "companyGrid"
+		, url		: "/admin/company/companyList"
+	    , width		: "100%" 
+	    , check		: true
+		, headCol	: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
+		, bodyCol	: 
 			[
 				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, hidden:true  	, id:true		}
-				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'		, width:"15%"	, align:"center"}
+				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'		, width:"15%"					}
 				,{type:"string"	, name:'memberId'		, index:'memberId'		, width:"15%"	, align:"center"}
-				,{type:"string"	, name:'deptNm'			, index:'deptNm'		, width:"15%"	, align:"center"}
-				,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'deptNm'			, index:'deptNm'		, width:"15%"	, align:"center"}		
+				,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}		
 				,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'apprStat'		, index:'apprStat'		, width:"10%"	, align:"center"}
 			]
-		, sortNm 		: "member_seq"
-		, sort 			: "ASC"
-		, rowClick		: {color:"#ccc", retFunc : companyDetail}
-		, gridSearch 	: "search,searctBtn"
-		, excel 		: "/admin/company/excelDown"
-		, isPaging 		: true
-		, size 			: 10
+		, sortNm : "member_seq"
+		, sort : "ASC"
+		, rowClick	: {color:"#ccc", retFunc : companyDetail}
+		, gridSearch : "search,searchBtn"
+		, excel : "/admin/company/excelDown"
+		, isPaging : true
+		, size : 10
 	});
 }
 
 function companyDetail(idx, data){
-	var memberSeq = companyGrid.gridData[idx].memberSeq;
-	$("#memberSeq").val(memberSeq);
-	$("#companyDetailFrm").submit();
+		var memberSeq = companyGrid.gridData[idx].memberSeq;
+		$("#memberSeq").val(memberSeq);
+		$("#companyDetailFrm").submit();
 }
 
 function deleteCompany() {
@@ -50,25 +50,27 @@ function deleteCompany() {
 	}
 	
 	var chekeData		= companyGrid.getChkData();
-	var memberSeqArr	= [];
+	var memberSeqArr		= [];
 	
 	for(var i = 0;i < chekedelete;i++){
 		memberSeqArr.push(chekeData[i].memberSeq);
 	}
 	
-	var p = {
-		  url			: "/admin/company/deleteCompany"	
-		, param			: {
-			memberSeqArr : memberSeqArr  
-		}
-		, success 		: function (opt,result) {
-			if(result.data > 0){
-				alert("삭제 되었습니다.");
-				companyGrid.refresh();
+	if(confirm(memberSeqArr+" 삭제 처리 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/company/deleteCompany"	
+			, param		: {
+				memberSeqArr : memberSeqArr  
 			}
-	    }
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("삭제 되었습니다.");
+					companyGrid.refresh();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
 	}
-	AjaxUtil.post(p);
 }
 </script>
 
@@ -94,9 +96,9 @@ function deleteCompany() {
 					<td>
 						<select name="comCode">
 							<option value="0">전체</option>
-							<option value="1">현대카드</option>
-							<option value="2">볼보파이낸셜</option>
-							<option value="3">우체국</option>
+							<option value="1">여신</option>
+							<option value="2">대출</option>
+							<option value="3">모집</option>						
 						</select>
 					</td>
 					<th>승인여부</th>
@@ -105,12 +107,12 @@ function deleteCompany() {
 							<option value="">전체</option>
 							<option value="1">미승인</option>
 							<option value="2">가승인</option>
-							<option value="3">승인</option>
-						</select>
+							<option value="3">승인</option>						
+</select>
 					</td>
 				</tr>
 			</table>	
-			<a href="javascript:void(0);" class="btn_inquiry" id="searctBtn">조회</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
 			<div class="sorting_wrap">
 			<div class="action">

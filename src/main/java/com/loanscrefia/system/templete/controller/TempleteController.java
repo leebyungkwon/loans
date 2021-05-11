@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.loanscrefia.common.board.domain.BoardDomain;
+import com.loanscrefia.common.board.domain.TempleteDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -73,18 +73,18 @@ public class TempleteController {
 	}
 	
 	@PostMapping(value="/list")
-	public ResponseEntity<ResponseMsg> list(HttpServletRequest request, BoardDomain board){
+	public ResponseEntity<ResponseMsg> list(HttpServletRequest request, TempleteDomain board){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
     	responseMsg.setData(templeteService.selectTemplete(board));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/templeteSave")
-	public ModelAndView templeteSavePage(BoardDomain board) {
+	public ModelAndView templeteSavePage(TempleteDomain board) {
     	ModelAndView mv = new ModelAndView(CosntPage.BoTempletePage+"/templeteSave");
     	String type = "NOTICE";
     	if(null != board.getBoardNo()) {
-    		BoardDomain b = templeteService.findById(board);
+    		TempleteDomain b = templeteService.findById(board);
     		mv.addObject("board", b);
     		type = b.getBoardType();
     	}
@@ -105,14 +105,14 @@ public class TempleteController {
     }
 	
 	@PostMapping("/templeteSave")
-	public ResponseEntity<ResponseMsg> templeteSave(@Valid BoardDomain board) {
+	public ResponseEntity<ResponseMsg> templeteSave(@Valid TempleteDomain board) {
 		ResponseMsg responseMsg = templeteService.templeteSave(board);
 		return new ResponseEntity<>(responseMsg, HttpStatus.OK);
 	}
 
 	
 	@PostMapping("/templeteFileSave")
-	public ResponseEntity<ResponseMsg> templeteFileSave(BoardDomain board, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) 
+	public ResponseEntity<ResponseMsg> templeteFileSave(TempleteDomain board, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) 
 			throws IllegalStateException, IOException {
 		
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
@@ -127,7 +127,7 @@ public class TempleteController {
 	}
 	
 	@PostMapping("/excel")
-	public ResponseEntity<ResponseMsg> readExcel(@RequestParam("files") MultipartFile[] files, BoardDomain board) throws IOException { 
+	public ResponseEntity<ResponseMsg> readExcel(@RequestParam("files") MultipartFile[] files, TempleteDomain board) throws IOException { 
 
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 
@@ -140,7 +140,7 @@ public class TempleteController {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			for(FileDomain exc : file) {
 				String path = Paths.get(exc.getFilePath(), exc.getFileSaveNm()+"."+exc.getFileExt()).toString();
-				result = new UtilExcel().upload(path,BoardDomain.class);
+				result = new UtilExcel().upload(path,TempleteDomain.class);
 			}
 			if(file.size() > 0) {
 				// 공통영역
@@ -157,7 +157,7 @@ public class TempleteController {
 	}
 	
 	@PostMapping("/img")
-	public ResponseEntity<ResponseMsg> img(@RequestParam("files") MultipartFile[] files, BoardDomain board) throws IOException { 
+	public ResponseEntity<ResponseMsg> img(@RequestParam("files") MultipartFile[] files, TempleteDomain board) throws IOException { 
 
 		ResponseMsg responseMsg = null;
 
@@ -181,7 +181,7 @@ public class TempleteController {
 	
 	
 	@PostMapping("/zip")
-	public ResponseEntity<ResponseMsg> zip(@RequestParam("files") MultipartFile[] files, BoardDomain board) throws IOException { 
+	public ResponseEntity<ResponseMsg> zip(@RequestParam("files") MultipartFile[] files, TempleteDomain board) throws IOException { 
 
 		ResponseMsg responseMsg = null;
 
@@ -207,9 +207,9 @@ public class TempleteController {
 	
 	
 	@PostMapping("/excelDown")
-	public void writeExcel(BoardDomain board, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
- 		List<BoardDomain> b = templeteService.selectTemplete(board);
- 		new UtilExcel().downLoad(b, BoardDomain.class, response.getOutputStream());
+	public void writeExcel(TempleteDomain board, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+ 		List<TempleteDomain> b = templeteService.selectTemplete(board);
+ 		new UtilExcel().downLoad(b, TempleteDomain.class, response.getOutputStream());
 	}
 	
 	

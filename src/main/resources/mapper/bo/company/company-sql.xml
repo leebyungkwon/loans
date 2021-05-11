@@ -3,10 +3,10 @@
 <mapper namespace="com.loanscrefia.admin.company.repository.CompanyRepository">
 
 	<!-- 회원사 담당자 조회  -->
-	<select id="selectCompanyList" parameterType="company" resultType="company">
-		SELECT 
-			<include refid="common.totalPages"/>
-			 TLM.MEMBER_SEQ
+    <select id="selectCompanyList" parameterType="company" resultType="company">
+	    SELECT 
+	    	<include refid="common.totalPages"/>
+    		 TLM.MEMBER_SEQ
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
@@ -14,12 +14,12 @@
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
 			<!--,TLM.EXTENSION_NO -->
-			,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-			<!--,TLM.MOBILE_NO -->
-			,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+      	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
+    		<!--,TLM.MOBILE_NO -->
+      		,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
@@ -31,23 +31,22 @@
 			,TLM.DROP_YN
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
-		FROM TB_LC_MEMBERS TLM
-		<where>
-			<if test="comCode != 0 and comCode != '0'">
-				AND	TLM.COM_CODE  = #{comCode}
+	    FROM TB_LC_MEMBERS TLM
+	    <where>
+	    	<if test="comCode != 0 and comCode != '0'">
+				AND	TLM.COM_CODE 	    = #{comCode}
 			</if>
 			<if test="apprStat != null and apprStat != ''">
-				AND	TLM.APPR_STAT = #{apprStat}
+				AND	TLM.APPR_STAT 		= #{apprStat}
 			</if>
-				AND TLM.DROP_YN   = 'N'
 		</where>
-		<include refid="common.pageBottom"/>
-	</select>
-
-	<!-- 회원사 담당자 상세보기 -->
+	    <include refid="common.pageBottom"/>
+    </select>
+    
+   <!-- 회원사 담당자 상세보기 -->
 	<select id="getCompanyDetail" parameterType="company" resultType="company">
 		SELECT 
-			 TLM.MEMBER_SEQ
+    		 TLM.MEMBER_SEQ
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
@@ -55,12 +54,12 @@
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
 			<!--,TLM.EXTENSION_NO -->
-			,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
+     	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
 			<!--,TLM.MOBILE_NO -->
-			,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+     	    ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
@@ -79,24 +78,57 @@
 	</select>
 	
 	<!-- 회원사 담당자 승인 상태 수정 -->
-	<update id="updateCompanyStat" parameterType="company">
-		UPDATE TB_LC_MEMBERS
-		SET	
-			 APPR_STAT = #{apprStat}
-			,ROLE_NAME = #{roleName}
-			,UPD_SEQ   = #{updSeq}
-			,DROP_YN   = N
+    <update id="updateCompanyStat" parameterType="company">
+   		UPDATE TB_LC_MEMBERS
+   		SET	
+   			 APPR_STAT = #{apprStat}
+   			,ROLE_NAME = #{roleName}
+   			,UPD_SEQ   = #{updSeq}
+   		<where>
+   			AND MEMBER_SEQ 	= #{memberSeq}
+   		</where>
+   	</update>
+   	
+    <!-- 회원사 담당자 삭제 -->
+   	<delete id="deleteCompany" parameterType="company">
+   		DELETE FROM TB_LC_MEMBERS
+   		<where>
+   			AND MEMBER_SEQ 	= #{memberSeq}
+   		</where>
+   	</delete>
+   	
+   	<!-- ============== 회원사 관리 테이블 =====================-->
+   	
+	<!-- 회원사 관리 조회  -->
+	<select id="selectCompanyCodeList" parameterType="company" resultType="company">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLC.COM_CODE
+			,TLC.COM_NAME
+			,TLC.PL_MERCHANT_NO
+			,TLC.PL_BUSINESS_NO
+			,TLC.COMP_PHONE_NO
+		FROM TB_LC_COMPANY TLC
 		<where>
-			AND MEMBER_SEQ 	= #{memberSeq}
+			<if test="comCode != 0 and comCode != '0'">
+				AND	TLM.COM_CODE 	    = #{comCode}
+			</if>
 		</where>
-	</update>
+		<include refid="common.pageBottom"/>
+	</select>
 	
-	<!-- 회원사 담당자 삭제 -->
-	<delete id="deleteCompany" parameterType="company">
-		DELETE FROM TB_LC_MEMBERS
+	<!-- 회원사 관리 상세 조회 -->
+	<select id="getCompanyCodeDetail" parameterType="company" resultType="company">
+		SELECT 
+			TLC.COM_CODE
+			,TLC.COM_NAME
+			,TLC.PL_MERCHANT_NO
+			,TLC.PL_BUSINESS_NO
+			,TLC.COMP_PHONE_NO
+		FROM TB_LC_COMPANY TLC
 		<where>
-			AND MEMBER_SEQ 	= #{memberSeq}
+			AND TLC.COM_CODE = #{comCode}
 		</where>
-	</delete>
-	
+	</select>
+
 </mapper> 
