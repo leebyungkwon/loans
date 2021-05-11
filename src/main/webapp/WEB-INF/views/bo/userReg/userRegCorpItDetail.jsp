@@ -7,6 +7,12 @@
 
 <script type="text/javascript">
 function pageLoad(){
+	//승인요청상태이면 첨부파일 수정 불가
+	var plStat = "${result.userRegInfo.plStat}";
+	if(plStat == "2"){
+		$(".goFileDel").remove();
+	}
+	
 	//전산인력 엑셀 업로드
 	$("#userRegItFile").on("change", function () {
 		var p = {
@@ -21,14 +27,18 @@ function pageLoad(){
 
 //수정
 function goCorpItInfoUpdt(operSeq) {
-	var formNm = "userRegInfoUpdFrm"+operSeq;
-	var p = {
-		  name 		: formNm
-		, success 	: function (opt,result) {
-			location.reload();
- 	    }
+	if(confirm("저장하시겠습니까?")){
+		goFileTypeListDisabled();
+		
+		var formNm = "userRegInfoUpdFrm"+operSeq;
+		var p = {
+			  name 		: formNm
+			, success 	: function (opt,result) {
+				location.reload();
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
-	AjaxUtil.files(p);
 }
 
 //삭제 -> 진짜 삭제인지 확인 필요*****
@@ -39,11 +49,11 @@ function goCorpItInfoDel(operSeq) {
 }
 
 //추가
-function goDataAreaAdd(masterSeq) {
+function goDataAreaAdd() {
 	var callUrl = "/member/user/callUserRegCorpItForm";
 	var formUrl	= "/member/user/insertUserRegCorpItInfo";
 	
-	goHtmlAdd(callUrl,formUrl,masterSeq,$(".data_wrap").length);
+	goHtmlAdd(callUrl,formUrl,$(".data_wrap").length);
 }
 </script>
 
@@ -68,31 +78,34 @@ function goDataAreaAdd(masterSeq) {
 		</ul>
 	</div>
 	
-	<div id="file_table" class="mgt30">
-		<form name="userRegCorpItInfoInsertFrm" id="userRegCorpItInfoInsertFrm" action="/member/user/insertUserRegCorpItInfoByExcel" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
-			
-			<table class="view_table">
-				<tbody>
-					<tr>
-						<td class="pdr0">
-							<input type="text" class="top_file_input file_input" readonly disabled>
-							<input type="file" name="files" id="userRegItFile" class="inputFile" style="display: none;"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegItFile').click();">파일찾기</a>
-							<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-	</div>
-
-	<div class="btn_wrap02">
-		<div class="right">
-			<a href="javascript:void(0);" class="btn_gray btn_middle" onclick="goDataAreaAdd('${result.userRegInfo.masterSeq}');">추가</a>
+	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+		<div id="file_table" class="mgt30">
+			<form name="userRegCorpItInfoInsertFrm" id="userRegCorpItInfoInsertFrm" action="/member/user/insertUserRegCorpItInfoByExcel" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+				
+				<table class="view_table">
+					<tbody>
+						<tr>
+							<td class="pdr0">
+								<input type="text" class="top_file_input file_input" readonly disabled>
+								<input type="file" name="files" id="userRegItFile" class="inputFile" style="display: none;"/>
+								<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegItFile').click();">파일찾기</a>
+								<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
 		</div>
-	</div>
-
+	
+		<div class="btn_wrap02">
+			<div class="right">
+				<a href="javascript:void(0);" class="btn_gray btn_middle" onclick="goDataAreaAdd();">추가</a>
+			</div>
+		</div>
+	</c:if>
+	
 	<div class="contents">
 		<c:choose>
 			<c:when test="${fn:length(result.itList) > 0 }">
@@ -167,12 +180,15 @@ function goDataAreaAdd(masterSeq) {
 								</table>
 							</div>
 							
-							<div class="btn_wrap02">
-								<div class="right">
-									<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpItInfoUpdt('${corpItList.operSeq }');">저장</a>
-									<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpItInfoDel('${corpItList.operSeq }');">삭제</a>
+							<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+								<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+								<div class="btn_wrap02">
+									<div class="right">
+										<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpItInfoUpdt('${corpItList.operSeq }');">저장</a>
+										<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpItInfoDel('${corpItList.operSeq }');">삭제</a>
+									</div>
 								</div>
-							</div>
+							</c:if>
 						</div>
 					</form>
 				</c:forEach>
@@ -180,6 +196,7 @@ function goDataAreaAdd(masterSeq) {
 			<c:otherwise>
 				<form name="userRegInfoInsertFrm1" action="/member/user/insertUserRegCorpItInfo" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+					<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
 					
 					<jsp:include page="/WEB-INF/views/include/userRegCorpIt.jsp"></jsp:include>
 				</form>
