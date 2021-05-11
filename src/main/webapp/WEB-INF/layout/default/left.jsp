@@ -8,10 +8,12 @@
 <script type="text/javascript">
 	function menuActiveFunction(){
 		var pathName = location.pathname;
+		console.log("왜 지워지냐", pathName);
+		var cnt = 0;
 		$(".gnb > ul > li > a").each(function() {
 			var path = $(this).attr("href");
-			$(this).parent().removeClass("on");
 			if(path == pathName){
+				$(this).parent().removeClass("on");
 				$(this).parent().addClass("on");
 			}
 		});
