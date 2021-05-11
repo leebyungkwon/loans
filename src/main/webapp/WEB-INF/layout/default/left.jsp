@@ -6,7 +6,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <script type="text/javascript">
-	//ttFunction();
 	function menuActiveFunction(){
 		var pathName = location.pathname;
 		$(".gnb > ul > li > a").each(function() {
