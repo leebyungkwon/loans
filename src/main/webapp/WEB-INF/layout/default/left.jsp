@@ -7,7 +7,7 @@
 
 <script type="text/javascript">
 	//ttFunction();
-	function ttFunction(){
+	function menuActiveFunction(){
 		var pathName = location.pathname;
 		$(".gnb > ul > li > a").each(function() {
 			var path = $(this).attr("href");
@@ -17,18 +17,11 @@
 			}
 		});
 	}
-	
-	//ttFunction();
-
 </script>
 
 
 
 <div class="gnb">
-	<input type="hidden" class="test_aa" value="123123" />
-	<input type="hidden" class="test_aa" value="123123" />
-	<input type="hidden" class="test_aa" value="123123" />
-	<input type="hidden" class="test_aa" value="123123" />
 	<ul>
 		<!-- class="on" -->
 		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">

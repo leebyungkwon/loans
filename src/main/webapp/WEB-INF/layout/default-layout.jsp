@@ -15,6 +15,7 @@
 		<script>
 		window.onload = function() {
 			pageLoad();
+			menuActiveFunction();
 		}
 		</script>
 	</head>
