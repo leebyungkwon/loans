@@ -13,11 +13,11 @@
 			, headCol	: ["번호","회원사(상호)", "법인등록번호", "사업자등록번호", "회사대표번호"]
 			, bodyCol	: 
 			[
-				{type:"string"	,name:'comCode'			,index:'comCode'			,width:"8%"	,id:true			}
-				,{type:"string"	,name:'comName'		,index:'comName'		,width:"20%"						}
+				{type:"string"	,name:'comCode'			,index:'comCode'		,width:"8%"		,id:true		}
+				,{type:"string"	,name:'comName'			,index:'comName'		,width:"20%"	,align:"center"	}
 				,{type:"string"	,name:'plMerchantNo'	,index:'plMerchantNo'	,width:"15%"	,align:"center" }
 				,{type:"string"	,name:'plBusinessNo'	,index:'plBusinessNo'	,width:"15%"	,align:"center" }		
-				,{type:"string"	,name:'compPhoneNo'	,index:'compPhoneNo'	,width:"10%"	,align:"center" }		
+				,{type:"string"	,name:'compPhoneNo'		,index:'compPhoneNo'	,width:"10%"	,align:"center" }		
 			]
 			, sortNm : "com_code"
 			, sort : "DESC"
@@ -28,21 +28,24 @@
 		});
 		
 		$("#companySaveBtn").on("click", function(){
-			$("#companyCodeDetailFrm").submit();
+			$("#companyCodeDetailFrm2").submit();
 		});
 		
 	}
 	
 	function companyCodeDetail(idx, data){
-		var memberSeq = companyCodeGrid.gridData[idx].memberSeq;
-		$("#memberSeq").val(memberSeq);
-		$("#companyDetailFrm").submit();
+		var comCode = companyCodeGrid.gridData[idx].comCode;
+		$("#comCode").val(comCode);
+		$("#companyCodeDetailFrm").submit();
 	}
 
 </script>
 
-<form id="companyCodeDetailFrm" method="post" action="/admin/company/companyCodeDetailPage">
-	<input type="hidden" name="comCodeSeq" id="comCodeSeq"/>
+<form id="companyCodeDetailFrm2" method="post" action="/admin/company/companyCodeDetailPage">
+</form>
+
+<form id="companyCodeDetailFrm" method="post" action="/admin/company/companyCodeDetailInsPage">
+	<input type="hidden" name="comCode" id="comCode"/>
 </form>
 
 <div class="cont_area">
@@ -74,8 +77,9 @@
 	
 	<div id="companyCodeGrid"></div>
 	
-	<div class="sorting_wrap">
-			<a href="javascript:void(0);" id="companySaveBtn"  class="btn_gray btn_right">등록</a>
-			<a href="javascript:void(0);" id="companyUpdBtn"  class="btn_gray btn_right02">수정</a>		
-	</div>
+	<sec:authorize access="hasRole('SYSTEM')" >
+		<div class="sorting_wrap">
+				<a href="javascript:void(0);" id="companySaveBtn"  class="btn_gray btn_right">등록</a>
+		</div>
+	</sec:authorize>
 </div>

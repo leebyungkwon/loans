@@ -2,7 +2,6 @@ package com.loanscrefia.admin.company.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,16 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.company.service.CompanyService;
-import com.loanscrefia.common.board.domain.BoardDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
-import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.util.UtilExcel;
@@ -119,7 +114,14 @@ public class CompanyController {
 	// 회원사 코드 관리 - 디테일 리스트
 	@PostMapping(value="/companyCodeDetailPage")
 	public ModelAndView getCompanyCodeDetail(CompanyDomain companyDomain) {
-		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeDetail");
+		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
+		return mv;
+	}
+	
+	// 회원사 코드 관리 - 디테일 수정 리스트
+	@PostMapping(value="/companyCodeDetailInsPage")
+	public ModelAndView companyCodeDetailIns(CompanyDomain companyDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
 		
 		CompanyDomain companyCodeInfo = companyService.getCompanyCodeDetail(companyDomain);
 		mv.addObject("companyCodeInfo", companyCodeInfo);
@@ -127,39 +129,39 @@ public class CompanyController {
 		return mv;
 	}
 	
-//	// 법인등록번호 중복체크
-//	@PostMapping("/idcheck")
-//	public int idCheck(CompanyDomain companyDomain) {
-//		int count = 0;
-//		try {
-//			count = companyService.Check(companyDomain);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return count;
-//	}
-//	
-//	// 회원사 코드 관리 - 디테일 리스트 -> Insert (글 등록)
-//	@PostMapping(value="/saveCompanyCodeDetail")
-//	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(@RequestParam("files") MultipartFile[] files, CompanyDomain companyDomain) {
-//		ResponseMsg responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
-//		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-//	}
-//
-//	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
-//	@PostMapping(value="/updCompanyCodeDetail")
-//	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@RequestParam("files") MultipartFile[] files, CompanyDomain companyDomain) {
-//		ResponseMsg responseMsg = companyService.updCompanyCodeDetail(companyDomain);
-//		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-//	}
-//
-//	// 회원사 코드 관리 - 디테일 리스트 -> Delete (글 삭제)
-//	@PostMapping(value="/delCompanyCodeDetail")
-//	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(CompanyDomain companyDomain) {
-//		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-//		responseMsg.setData(companyService.delCompanyCodeDetail(companyDomain));
-//		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-//	}
+	// 법인등록번호 중복체크
+	@PostMapping("/plMerchantNoCheck")
+	public int plMerchantNoCheck(CompanyDomain companyDomain) {
+		int count = 0;
+		try {
+			count = companyService.plMerchantNoCheck(companyDomain);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	// 회원사 코드 관리 - 디테일 리스트 -> Insert (글 등록)
+	@PostMapping(value="/saveCompanyCodeDetail")
+	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+
+	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
+	@PostMapping(value="/updCompanyCodeDetail")
+	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = companyService.updCompanyCodeDetail(companyDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+
+	// 회원사 코드 관리 - 디테일 리스트 -> Delete (글 삭제)
+	@PostMapping(value="/delCompanyCodeDetail")
+	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		responseMsg.setData(companyService.delCompanyCodeDetail(companyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	 
 }
