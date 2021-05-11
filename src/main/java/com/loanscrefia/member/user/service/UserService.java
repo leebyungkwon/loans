@@ -162,7 +162,7 @@ public class UserService {
 	}
 	
 	//모집인 등록(수동) > 법인 : 대표자 및 임원 정보 등록
-	public ResponseMsg insertUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain){
+	public ResponseMsg insertUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		//상태값 체크*****
 		this.userRegValidation(userImwonDomain.getMasterSeq());
 		
@@ -170,11 +170,14 @@ public class UserService {
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
 				.setExt("doc")
+				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userImwonDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정
@@ -228,7 +231,7 @@ public class UserService {
 	}
 	
 	//모집인 등록(수동) > 법인 : 전문인력 정보 등록
-	public ResponseMsg insertUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain){
+	public ResponseMsg insertUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		//상태값 체크*****
 		this.userRegValidation(userExpertDomain.getMasterSeq());
 				
@@ -236,11 +239,14 @@ public class UserService {
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
 				.setExt("doc")
+				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userExpertDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정
@@ -294,7 +300,7 @@ public class UserService {
 	}
 	
 	//모집인 등록(수동) > 법인 : 전산인력 정보 등록
-	public ResponseMsg insertUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain){
+	public ResponseMsg insertUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
 		//상태값 체크*****
 		this.userRegValidation(userItDomain.getMasterSeq());
 		
@@ -302,11 +308,14 @@ public class UserService {
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
 				.setExt("doc")
+				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userItDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userItDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정
@@ -663,6 +672,8 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정
@@ -691,6 +702,8 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userImwonDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정
@@ -719,6 +732,8 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userExpertDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정
@@ -747,6 +762,8 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				userItDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userItDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
 		//수정

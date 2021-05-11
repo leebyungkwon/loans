@@ -41,7 +41,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=10, chkDb="edu")
-	private int plEduNo;			//교육이수번호
+	private String plEduNo;			//교육이수번호
 	
 	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10)
 	private String careerStartDate;	//경력시작일

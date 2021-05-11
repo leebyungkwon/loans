@@ -14,6 +14,23 @@ $(document).on("change",".inputFile",function(){
 	$(this).prev().val(fileName);
 });
 
+//첨부파일 초기화
+$(document).on("click",".goFileReset",function(){
+	var fileType 	= $(this).attr("data-fileType");
+	var essential 	= $(this).attr("data-essential");
+	var targetArea 	= $(this).parent();
+	
+	var html = '';
+					
+	html += '<input type="text" class="w50 file_input" readonly disabled> '; //공백 제거 금지
+	html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
+	html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
+	html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
+	html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
+	
+	targetArea.html(html);
+});
+
 //첨부파일 삭제
 $(document).on("click",".goFileDel",function(){
 	var fileSeq 	= $(this).attr("data-fileSeq");
@@ -33,10 +50,14 @@ $(document).on("click",".goFileDel",function(){
 					
 					var html = '';
 					
-					html += '<input type="text" class="w50 file_input" readonly disabled> ';
+					html += '<input type="text" class="w50 file_input" readonly disabled> '; //공백 제거 금지
 					html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
 					html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
-					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>';
+					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
+					
+					if(essential == "N"){
+						html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
+					}
 					
 					targetArea.html(html);
 				}
@@ -96,7 +117,7 @@ function goUserRegInfoList() {
 //작성 영역 추가
 function goHtmlAdd(callUrl,formUrl,dataWrapLen) {
 	$.ajax({
-		 type 		: "POST"
+		 type 		: "GET"
 		,url 		: callUrl
 		,dataType 	: "html"
 		,error 		: function() {

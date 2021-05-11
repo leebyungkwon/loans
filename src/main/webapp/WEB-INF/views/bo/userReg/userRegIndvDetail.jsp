@@ -44,21 +44,22 @@ function goUserRegInfoUpdt() {
 
 //모집인 등록 삭제(=취소) -> 등록신청취소건으로 은행연합회에 공유되고 해당 내용은 삭제되야 한다.
 function goUserRegInfoCancel() {
-	
-	var p = {
-		  url		: "/member/user/updatePlRegStat"	
-		, param		: {
-			 masterSeq 	: $("#masterSeq").val()
-			,plStat		: '6'
-		}
-		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("취소되었습니다.");
-				location.reload();
+	if(confirm("삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/updatePlRegStat"	
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '6'
 			}
-	    }
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("취소되었습니다.");
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
 	}
-	AjaxUtil.post(p);
 }
 </script>
 
@@ -85,7 +86,7 @@ function goUserRegInfoCancel() {
 					</tr>
 					<tr>
 						<th>모집인 상태</th>
-						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
 						<th>결제여부</th>
 						<td>
 							<c:choose>
@@ -123,14 +124,14 @@ function goUserRegInfoCancel() {
 									${result.userRegInfo.plMZId }
 								</c:when>
 								<c:otherwise>
-									<input type="text" name="plMZId" class="w100" value="${result.userRegInfo.plMZId }" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"주민등록번호를 입력해 주세요."}'>
+									<input type="text" name="plMZId" class="w100" value="${result.userRegInfo.plMZId }" maxlength="14" placeholder="- 포함" data-vd='{"type":"text","len":"14,14","req":true,"msg":"주민등록번호(- 포함)를 입력해 주세요."}'>
 								</c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
 					<tr>
 						<th>휴대폰번호</th>
-						<td colspan="3"><input type="text" name="plCellphone" class="w100" value="${result.userRegInfo.plCellphone }" maxlength="13" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호를 입력해 주세요."}'></td>
+						<td colspan="3"><input type="text" name="plCellphone" class="w100" value="${result.userRegInfo.plCellphone }" maxlength="13" placeholder="- 포함" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호(- 포함)를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>주소</th>
@@ -140,26 +141,26 @@ function goUserRegInfoCancel() {
 									<option value="${addrCodeList.codeDtlCd }" <c:if test="${addrCodeList.codeDtlCd eq result.userRegInfo.addr }">selected="selected"</c:if>>${addrCodeList.codeDtlNm }</option>
 								</c:forEach>
 							</select>
-							<input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }">
+							<input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }" maxlength="200" data-vd='{"type":"text","len":"1,200","req":true,"msg":"상세주소를 입력해 주세요."}'>
 						</td>
 					</tr>
 					<tr>
 						<th>교육이수번호</th>
-						<td colspan="3"><input type="text" name="plEduNo" class="w100" value="${result.userRegInfo.plEduNo }"></td>
+						<td colspan="3"><input type="text" name="plEduNo" class="w100" value="${result.userRegInfo.plEduNo }" maxlength="10" data-vd='{"type":"text","len":"10,10","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>경력시작일</th>
-						<td><input type="text" name="careerStartDate" class="w100" value="${result.userRegInfo.careerStartDate }"></td>
+						<td><input type="text" name="careerStartDate" class="w100" value="${result.userRegInfo.careerStartDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}'></td>
 						<th>경력종료일</th>
-						<td><input type="text" name="careerEndDate" class="w100" value="${result.userRegInfo.careerEndDate }"></td>
+						<td><input type="text" name="careerEndDate" class="w100" value="${result.userRegInfo.careerEndDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>계약일자</th>
-						<td colspan="3"><input type="text" name="comContDate" class="w50" value="${result.userRegInfo.comContDate }"></td>
+						<td colspan="3"><input type="text" name="comContDate" class="w50" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>위탁예정기간</th>
-						<td colspan="3"><input type="text" name="entrustDate" class="w50" value="${result.userRegInfo.entrustDate }"></td>
+						<td colspan="3"><input type="text" name="entrustDate" class="w50" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}'></td>
 					</tr>
 					<c:if test="${result.userRegInfo.plStat eq '4' }">
 						<tr>
@@ -224,6 +225,7 @@ function goUserRegInfoCancel() {
 									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="3"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="3" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -241,6 +243,7 @@ function goUserRegInfoCancel() {
 									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="4"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="4" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -309,6 +312,7 @@ function goUserRegInfoCancel() {
 									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="8"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -326,6 +330,7 @@ function goUserRegInfoCancel() {
 									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="9"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="9" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -336,8 +341,8 @@ function goUserRegInfoCancel() {
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
 				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
 					<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
-					<a href="javascript:void(0);" class="btn_black btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
-					<a href="javascript:void(0);" class="btn_black btn_right" onclick="goUserRegInfoCancel();">삭제</a>
+					<a href="javascript:void(0);" class="btn_blue btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
+					<a href="javascript:void(0);" class="btn_Lgray btn_right" onclick="goUserRegInfoCancel();">삭제</a>
 				</c:if>
 			</div>
 		</div>

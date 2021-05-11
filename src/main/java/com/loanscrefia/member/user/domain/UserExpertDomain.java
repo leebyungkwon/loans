@@ -29,13 +29,13 @@ public class UserExpertDomain extends BaseDomain {
 	private String plMZId;			//주민등록번호
 	
 	@ExcelColumn(headerName="교육이수번호", vCell="D", vLenMin=10, vLenMax=10, chkDb="edu")
-	private int plEduNo;			//교육이수번호
+	private String plEduNo;			//교육이수번호
 	
 	@ExcelColumn(headerName="경력시작일", vCell="E", vLenMin=10, vLenMax=10)
-	private String careerStartDt;	//경력시작일
+	private String careerStartDate;	//경력시작일
 	
 	@ExcelColumn(headerName="경력종료일", vCell="F", vLenMin=10, vLenMax=10)
-	private String careerEndDt;		//경력종료일
+	private String careerEndDate;	//경력종료일
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
 	
