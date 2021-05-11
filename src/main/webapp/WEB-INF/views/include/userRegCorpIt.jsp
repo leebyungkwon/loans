@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <div class="data_wrap">
+	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+	<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
+
 	<div id="table">
 		<table class="view_table">
 			<colgroup>

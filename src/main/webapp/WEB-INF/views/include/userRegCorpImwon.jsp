@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="data_wrap">
+	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+	<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
+
 	<div id="table02">
 		<table class="view_table">
 			<colgroup>

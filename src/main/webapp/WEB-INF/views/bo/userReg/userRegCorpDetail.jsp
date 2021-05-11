@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	//승인요청상태이면 수정 불가
+	//승인요청상태이면 첨부파일 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";
 	if(plStat == "2"){
 		$(".goFileDel").remove();
@@ -28,13 +28,17 @@ function goUserRegInfoUpdt() {
 		return;
 	}
 	//수정
-	var p = {
-		  name 		: "userRegInfoUpdFrm"
-		, success 	: function (opt,result) {
-			location.reload();
- 	    }
+	if(confirm("저장하시겠습니까?")){
+		goFileTypeListDisabled();
+		
+		var p = {
+			  name 		: "userRegInfoUpdFrm"
+			, success 	: function (opt,result) {
+				location.reload();
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
-	AjaxUtil.files(p);
 }
 </script>
 

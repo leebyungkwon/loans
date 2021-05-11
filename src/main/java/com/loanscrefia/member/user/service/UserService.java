@@ -163,11 +163,14 @@ public class UserService {
 	
 	//모집인 등록(수동) > 법인 : 대표자 및 임원 정보 등록
 	public ResponseMsg insertUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain){
+		//상태값 체크*****
+		this.userRegValidation(userImwonDomain.getMasterSeq());
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
 				.setExt("doc")
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -226,11 +229,14 @@ public class UserService {
 	
 	//모집인 등록(수동) > 법인 : 전문인력 정보 등록
 	public ResponseMsg insertUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain){
+		//상태값 체크*****
+		this.userRegValidation(userExpertDomain.getMasterSeq());
+				
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
 				.setExt("doc")
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -289,11 +295,14 @@ public class UserService {
 	
 	//모집인 등록(수동) > 법인 : 전산인력 정보 등록
 	public ResponseMsg insertUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain){
+		//상태값 체크*****
+		this.userRegValidation(userItDomain.getMasterSeq());
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
 				.setExt("doc")
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -641,7 +650,7 @@ public class UserService {
 	//모집인 등록 > 수정
 	@Transactional
 	public ResponseMsg updateUserRegInfo(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
-		//법인 정보 상태값 체크*****
+		//상태값 체크*****
 		this.userRegValidation(userDomain.getMasterSeq());
 				
 		//첨부파일 저장
@@ -649,7 +658,7 @@ public class UserService {
 				.setFiles(files)
 				.setExt("doc")
 				.setEntity(fileDomain)
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -669,7 +678,7 @@ public class UserService {
 	//모집인 등록 > 수정 : 법인(대표자 및 임원관련사항 탭)
 	@Transactional
 	public ResponseMsg updateUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
-		//법인 정보 상태값 체크*****
+		//상태값 체크*****
 		this.userRegValidation(userImwonDomain.getMasterSeq());
 		
 		//첨부파일 저장
@@ -677,7 +686,7 @@ public class UserService {
 				.setFiles(files)
 				.setExt("doc")
 				.setEntity(fileDomain)
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -697,7 +706,7 @@ public class UserService {
 	//모집인 등록 > 수정 : 법인(전문인력)
 	@Transactional
 	public ResponseMsg updateUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
-		//법인 정보 상태값 체크*****
+		//상태값 체크*****
 		this.userRegValidation(userExpertDomain.getMasterSeq());
 		
 		//첨부파일 저장
@@ -705,7 +714,7 @@ public class UserService {
 				.setFiles(files)
 				.setExt("doc")
 				.setEntity(fileDomain)
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -725,7 +734,7 @@ public class UserService {
 	//모집인 등록 > 수정 : 법인(전산인력)
 	@Transactional
 	public ResponseMsg updateUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
-		//법인 정보 상태값 체크*****
+		//상태값 체크*****
 		this.userRegValidation(userItDomain.getMasterSeq());
 		
 		//첨부파일 저장
@@ -733,7 +742,7 @@ public class UserService {
 				.setFiles(files)
 				.setExt("doc")
 				.setEntity(fileDomain)
-				.upload();
+				.multiUpload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -775,7 +784,7 @@ public class UserService {
 			code = "E1";
 		}
 		
-		return new ResponseMsg(HttpStatus.OK, code, "수정이 불가능한 상태입니다.");
+		return new ResponseMsg(HttpStatus.OK, code, "등록 또는 수정이 불가능한 상태입니다.");
 	}
 	
 	

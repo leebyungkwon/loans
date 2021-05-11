@@ -7,7 +7,11 @@
 
 <script type="text/javascript">
 function pageLoad(){
-
+	//승인요청상태이면 첨부파일 수정 불가
+	var plStat = "${result.userRegInfo.plStat}";
+	if(plStat == "2"){
+		$(".goFileDel").remove();
+	}
 }
 
 //수정
@@ -25,13 +29,17 @@ function goUserRegInfoUpdt() {
 		return;
 	}
 	//수정
-	var p = {
-		  name 		: "userRegInfoUpdFrm"
-		, success 	: function (opt,result) {
-			location.reload();
- 	    }
+	if(confirm("저장하시겠습니까?")){
+		goFileTypeListDisabled();
+		
+		var p = {
+			  name 		: "userRegInfoUpdFrm"
+			, success 	: function (opt,result) {
+				location.reload();
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
-	AjaxUtil.files(p);
 }
 
 //모집인 등록 삭제(=취소) -> 등록신청취소건으로 은행연합회에 공유되고 해당 내용은 삭제되야 한다.
@@ -79,7 +87,14 @@ function goUserRegInfoCancel() {
 						<th>모집인 상태</th>
 						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5">이력보기</a></td>
 						<th>결제여부</th>
-						<td>${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.plPayStat ne null }">
+									${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th>처리상태</th>
