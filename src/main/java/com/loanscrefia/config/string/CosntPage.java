@@ -27,10 +27,11 @@ public class CosntPage {
 	// 회원사관리
 	public static String BoCompanyPage = "bo/company";
 	
-	// 회원사관리
+	// 회원사 코드 관리
 	public static String BoCompanyCodePage = "bo/companyCode";
 	
-	//권한 관리
+	// 협회 관리자 관리
+	public static String BoCrefiaPage = "bo/crefia";
 	
 	//public static String BoMemPage = "bo/mem";
 	//public static String BoManagePage = "bo/manage";

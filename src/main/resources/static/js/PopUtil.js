@@ -10,6 +10,9 @@ var PopUtil = {
 				Element.id 				= opts.id;
 				Element.style.display 	= 'block';
 				Element.querySelector('.popup_inner').innerHTML = data;
+	            if (typeof opts.success === "function") {
+	                opts.success(opt,data);
+	            }
 	        }
 		};
 		

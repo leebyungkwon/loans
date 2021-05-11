@@ -38,7 +38,7 @@
 			<a href="/admin/company/companyCodePage">(협회)회원사 관리</a>
 		</li>
 		<li>
-			<a href="#">(협회)관리자 관리</a>
+			<a href="/admin/crefia/crefiaPage">(협회)관리자 관리</a>
 		</li>
 		<li>
 			<a href="/admin/company/companyPage">(협회)회원사 담당자 조회</a>

@@ -214,7 +214,7 @@ public class UserController {
 	}
 	
 	//작성 영역 추가 : 법인 > 대표자 및 임원관련사항 탭
-	@GetMapping(value="/callUserRegCorpImwonForm")
+	@PostMapping(value="/callUserRegCorpImwonForm")
 	public ModelAndView callUserRegCorpImwonForm(UserImwonDomain userImwonDomain){
 		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpImwon");
     	Map<String, Object> result 	= userService.getUserRegCorpImwonDetail(userImwonDomain);
@@ -223,7 +223,7 @@ public class UserController {
 	}
 	
 	//작성 영역 추가 : 법인 > 전문인력 탭
-	@GetMapping(value="/callUserRegCorpExpertForm")
+	@PostMapping(value="/callUserRegCorpExpertForm")
 	public ModelAndView callUserRegCorpExpertForm(UserExpertDomain userExpertDomain){
 		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpExpert");
     	Map<String, Object> result 	= userService.getUserRegCorpExpertDetail(userExpertDomain);
@@ -232,7 +232,7 @@ public class UserController {
 	}
 	
 	//작성 영역 추가 : 법인 > 전산인력 탭
-	@GetMapping(value="/callUserRegCorpItForm")
+	@PostMapping(value="/callUserRegCorpItForm")
 	public String callUserRegCorpItForm(){
 		return CosntPage.Include+"/userRegCorpIt";
 	}

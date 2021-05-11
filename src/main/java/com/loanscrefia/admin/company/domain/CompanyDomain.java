@@ -15,7 +15,7 @@ public class CompanyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "담당자 아이디", order = 1)
 	private String memberId;									//담당자 ID
 	private String password;									//비밀번호
-	private int comCode;										//회원사 코드
+	private Long comCode;										//회원사 코드
 	@ExcelColumn(headerName = "회원사", order = 0)
 	private String comCodeNm;									//코드 이름
 	@ExcelColumn(headerName = "담당자 이름", order = 3)

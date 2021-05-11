@@ -108,6 +108,7 @@ create table tb_lc_members(
 	, file_seq integer
 	, fail_cnt integer
 	, cre_yn char(1) not null default 'N'
+	, cre_grp char(1)
 	, drop_yn char(1) not null default 'N'
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
@@ -135,6 +136,7 @@ COMMENT ON COLUMN tb_lc_members.appr_stat IS '승인상태(1.미승인,2.가승�
 COMMENT ON COLUMN tb_lc_members.file_seq IS '첨부파일ID';
 COMMENT ON COLUMN tb_lc_members.fail_cnt IS '로그인실패횟수';
 COMMENT ON COLUMN tb_lc_members.cre_yn IS '협회여부';
+COMMENT ON COLUMN tb_lc_members.cre_grp IS '협회그룹';
 COMMENT ON COLUMN tb_lc_members.drop_yn IS '탈퇴여부';
 COMMENT ON COLUMN tb_lc_members.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_members.upd_timestamp IS '수정일시';
@@ -358,6 +360,8 @@ create table tb_lc_work(
 COMMENT ON TABLE tb_lc_work IS '모집인업무분담정보';
 COMMENT ON COLUMN tb_lc_work.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_work.com_code IS '회원사코드';
+
+commit;
 
 
 -- 임원 seq

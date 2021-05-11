@@ -105,13 +105,16 @@
 		<include refid="common.totalPages"/>
 			TLC.COM_CODE
 			,TLC.COM_NAME
-			,TLC.PL_MERCHANT_NO
-			,TLC.PL_BUSINESS_NO
+		<!-- ,TLC.PL_MERCHANT_NO -->
+			,REGEXP_REPLACE(TLC.PL_MERCHANT_NO, '(\d{6})(\d{7})', '\1-\2') AS plMerchantNo
+		<!-- ,TLC.PL_BUSINESS_NO -->
+			,REGEXP_REPLACE(TLC.PL_BUSINESS_NO, '(\d{3})(\d{2})(\d{5})', '\1-\2-\3') AS plBusinessNo
 			,TLC.COMP_PHONE_NO
 		FROM TB_LC_COMPANY TLC
 		<where>
+				AND TLC.DEL_YN = 'N'
 			<if test="comCode != 0 and comCode != '0'">
-				AND	TLM.COM_CODE 	    = #{comCode}
+				,AND	TLC.COM_CODE 	    = #{comCode}
 			</if>
 		</where>
 		<include refid="common.pageBottom"/>
@@ -130,5 +133,59 @@
 			AND TLC.COM_CODE = #{comCode}
 		</where>
 	</select>
+	
+	<!-- 회원사 관리 등록  --> 
+	<select id="saveCompanyCodeDetail" parameterType="company" resultType="company">
+		INSERT INTO TB_LC_COMPANY
+			(
+				COM_NAME						/*회원사(상호명)*/
+				,PL_MERCHANT_NO				/*법인등록번호*/
+				,PL_BUSINESS_NO				/*사업자등록번호*/
+				,COMP_PHONE_NO				/*회사대표번호*/
+				,REG_TIMESTAMP				/*등록일시*/
+				,REG_SEQ							/*등록자 시퀀스*/
+			)
+		VALUES
+			(
+				#{comName}						/*회원사(상호명)*/      
+				,#{plMerchantNo}				/*법인등록번호*/            
+				,#{plBusinessNo}					/*사업자등록번호*/         
+				,#{compPhoneNo}				/*회사대표번호*/            
+				,NOW()								/*등록일시*/           
+				,#{regSeq}							/*등록자 시퀀스*/   
+			)	
+	</select>
+	
+	<!-- 회원사 관리 수정  -->
+	<select id="updCompanyCodeDetail" parameterType="company" resultType="company">
+		UPDATE TB_LC_COMPANY
+		SET 
+			 COM_NAME				= #{comName}					/*회원사(상호명)*/  
+			,PL_MERCHANT_NO		= #{plMerchantNo}				/*법인등록번호*/ 
+			,PL_BUSINESS_NO		= #{plBusinessNo}				/*사업자등록번호*/
+			,COMP_PHONE_NO		= #{compPhoneNo}				/*회사대표번호*/ 
+			,UPD_TIMESTAMP		= NOW()							/*수정일시*/ 
+			,UPD_SEQ					= #{updSeq}						/*수정자 시퀀스*/ 
+		<where>
+			AND COM_CODE			= #{comCode}
+		</where>
+	</select>
+	
+	<!-- 회원사 관리 삭제  -->
+	<select id="delCompanyCodeDetail" parameterType="company" resultType="company">
+		UPDATE TB_LC_COMPANY
+		SET 
+			DEL_YN	= 'Y'
+		<where>
+			AND COM_CODE	=	#{comCode}
+		</where>
+	</select>
+	
+	<!-- 회원사 관리 중복 체크 -->
+	<select id="plMerchantNoCheck" parameterType="company" resultType="Integer">
+        SELECT count(*)
+        FROM TB_LC_COMPANY
+        WHERE PL_MERCHANT_NO = #{plMerchantNo}
+    </select>
 
-</mapper> 
+</mapper>

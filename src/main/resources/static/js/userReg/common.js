@@ -2,66 +2,73 @@
  * 회원사 시스템 > 모집인 등록 공통 스크립트
  */
 
-$(document).ready(function(){
-	//파일찾기
-	$(".goFileUpload").on("click", function () {
-		$(this).prev().prev().click();
-	});
+//파일찾기
+$(document).on("click",".goFileUpload",function(){
+	$(this).prev().prev().click();
+});
+
+//첨부파일명 보여주기
+$(document).on("change",".inputFile",function(){
+	var fileVal 	= $(this).val().split("\\");
+	var fileName 	= fileVal[fileVal.length - 1];
+	$(this).prev().val(fileName);
+});
+
+//첨부파일 삭제
+$(document).on("click",".goFileDel",function(){
+	var fileSeq 	= $(this).attr("data-fileSeq");
+	var fileType 	= $(this).attr("data-fileType");
+	var essential 	= $(this).attr("data-essential");
+	var targetArea 	= $(this).parent();
 	
-	//첨부파일명 보여주기
-	$(".inputFile").on("change", function () {
-		var fileVal 	= $(this).val().split("\\");
-		var fileName 	= fileVal[fileVal.length - 1];
-		$(this).prev().val(fileName);
-	});
-	
-	//첨부파일 삭제
-	$(".goFileDel").on("click", function () {
-		var fileSeq 	= $(this).attr("data-fileSeq");
-		var fileType 	= $(this).attr("data-fileType");
-		var essential 	= $(this).attr("data-essential");
-		var targetArea 	= $(this).parent();
-		
-		if(confirm("삭제하시겠습니까?")){
-			var p = {
-				  url		: "/common/fileDelete"
-				, param		: {
-					fileSeq : fileSeq
-				}
-				, success	: function(opt,result) {
-					if(result.data > 0){
-						alert("삭제되었습니다.");
-						
-						var html = '';
-						
-						html += '<input type="text" class="w50 file_input" readonly disabled>';
-						html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
-						html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
-						html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>';
-						
-						targetArea.html(html);
-					}
-				}
-			}
-			AjaxUtil.post(p);
-		}
-	});
-	
-	//첨부파일 다운로드
-	$(".goFileDownload").on("click", function () {
-		var fileSeq 	= $(this).attr("data-fileSeq");
-		
+	if(confirm("삭제하시겠습니까?")){
 		var p = {
-			  url 			: "/common/fileDown"
-			, contType		: "application/json; charset=UTF-8"
-			, responseType	: "arraybuffer"
-			, param 		: {
+			  url		: "/common/fileDelete"
+			, param		: {
 				fileSeq : fileSeq
+			}
+			, success	: function(opt,result) {
+				if(result.data > 0){
+					alert("삭제되었습니다.");
+					
+					var html = '';
+					
+					html += '<input type="text" class="w50 file_input" readonly disabled> ';
+					html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
+					html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
+					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>';
+					
+					targetArea.html(html);
+				}
 			}
 		}
 		AjaxUtil.post(p);
-	});
+	}
 });
+
+//첨부파일 다운로드
+$(document).on("click",".goFileDownload",function(){
+	var p = {
+		  url 			: "/common/fileDown"
+		, contType		: "application/json; charset=UTF-8"
+		, responseType	: "arraybuffer"
+		, param 		: {
+			fileSeq : $(this).attr("data-fileSeq")
+		}
+	}
+	AjaxUtil.post(p);
+});
+
+//fileTypeList hidden disabled
+function goFileTypeListDisabled(){
+	$(".inputFile").each(function(){
+		if(WebUtil.isNull($(this).val())){
+			$(this).next().prop("disabled",true);
+		}else{
+			$(this).next().prop("disabled",false);
+		}
+	});
+}
 
 //탭이동
 function goTab(gubun) {
@@ -87,9 +94,9 @@ function goUserRegInfoList() {
 }
 
 //작성 영역 추가
-function goHtmlAdd(callUrl,formUrl,masterSeq,dataWrapLen) {
+function goHtmlAdd(callUrl,formUrl,dataWrapLen) {
 	$.ajax({
-		 type 		: "GET"
+		 type 		: "POST"
 		,url 		: callUrl
 		,dataType 	: "html"
 		,error 		: function() {
@@ -105,7 +112,7 @@ function goHtmlAdd(callUrl,formUrl,masterSeq,dataWrapLen) {
 			//form 태그 감싸기
 			var formNm = "userRegInfoInsertFrm"+formNo;
 			$(".data_wrap:last").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
-			$(".data_wrap:last").before('<input type="hidden" name="masterSeq" value="'+masterSeq+'"/>');
+			//$(".data_wrap:last").before('<input type="hidden" name="masterSeq" value="'+masterSeq+'"/>');
 		}
 	});
 }
@@ -113,6 +120,8 @@ function goHtmlAdd(callUrl,formUrl,masterSeq,dataWrapLen) {
 //등록
 function goCorpInfoReg(obj) {
 	if(confirm("저장하시겠습니까?")){
+		goFileTypeListDisabled();
+		
 		var formNm = $(obj).closest("form").attr("name");
 		var p = {
 			  name 		: formNm

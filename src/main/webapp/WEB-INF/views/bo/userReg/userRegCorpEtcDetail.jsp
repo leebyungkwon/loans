@@ -6,18 +6,26 @@
 
 <script type="text/javascript">
 function pageLoad(){
-
+	//승인요청상태이면 첨부파일 수정 불가
+	var plStat = "${result.userRegInfo.plStat}";
+	if(plStat == "2"){
+		$(".goFileDel").remove();
+	}
 }
 
 //수정
 function goUserRegInfoUpdt() {
-	var p = {
-		  name 		: "userRegInfoUpdFrm"
-		, success 	: function (opt,result) {
-			location.reload();
- 	    }
+	if(confirm("저장하시겠습니까?")){
+		goFileTypeListDisabled();
+		
+		var p = {
+			  name 		: "userRegInfoUpdFrm"
+			, success 	: function (opt,result) {
+				location.reload();
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
-	AjaxUtil.files(p);
 }
 </script>
 
@@ -42,11 +50,14 @@ function goUserRegInfoUpdt() {
 		</ul>
 	</div>
 
-	<div class="btn_wrap02">
-		<div class="right">
-			<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
+	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+		<div class="btn_wrap02">
+			<div class="right">
+				<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
+			</div>
 		</div>
-	</div>
+	</c:if>
 
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
