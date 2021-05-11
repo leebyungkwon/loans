@@ -7,17 +7,24 @@
 
 <script type="text/javascript">
 	function menuActiveFunction(){
+		$(".gnb > ul > li").removeClass("on");
 		var pathName = location.pathname;
-		var tt = pathName.split("/");
-		console.log("tt == " + tt[1]);
-		
-		$(".gnb > ul > li > a").each(function() {
-			var path = $(this).attr("href");
-			if(path == pathName){
-				$(this).parent().removeClass("on");
-				$(this).parent().addClass("on");
-			}
-		});
+		var menuUrl = pathName.split("/");
+		if(menuUrl[2] == "user"){
+			$("#menuUser").addClass("on");
+		}else if(menuUrl[2] == "admin"){
+			$("#menuAdmin").addClass("on");
+		}else if(menuUrl[2] == "company"){
+			$("#menuCompany").addClass("on");
+		}else if(menuUrl[2] == "crefia"){
+			$("#menuCrefia").addClass("on");
+		}else if(menuUrl[2] == "mng"){
+			$("#menuMng").addClass("on");
+		}else if(menuUrl[2] == "board"){
+			$("#menuBoard").addClass("on");
+		}else if(menuUrl[2] == "code"){
+			$("#menuCode").addClass("on");
+		}
 	}
 </script>
 
@@ -27,50 +34,50 @@
 	<ul>
 		<!-- class="on" -->
 		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
-		<li>
+		<li id="">
 			<a href="#">모집인 조회 및 변경</a>
 		</li>
-		<li>
+		<li id="menuUser">
 			<a href="/member/user/userRegPage">모집인 등록</a>
 		</li>
-		<li>
+		<li id="menuAdmin">
 			<a href="/member/admin/adminPage">관리자 조회 및 변경</a>
 		</li>
 		</sec:authorize>
 		
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
-		<li>
+		<li id="">
 			<a href="#">(협회)모집인 조회 및 변경</a>
 		</li>
-		<li>
+		<li id="">
 			<a href="#">(협회)모집인 승인처리</a>
 		</li>
-		<li>
+		<li id="">
 			<a href="#">(협회)결제내역</a>
 		</li>
-		<li>
+		<li id="">
 			<a href="#">(협회)타협회 내역 다운로드</a>
 		</li>
-		<li>
+		<li id="menuCompany">
 			<a href="/admin/company/companyCodePage">(협회)회원사 관리</a>
 		</li>
-		<li>
+		<li id="menuCrefia">
 			<a href="/admin/crefia/crefiaPage">(협회)관리자 관리</a>
 		</li>
-		<li>
+		<li id="menuMng">
 			<a href="/admin/mng/companyPage">(협회)회원사 담당자 조회</a>
 		</li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
-		<li>
+		<li id="menuBoard">
 			<a href="/common/board/noticePage">공지사항</a>
 		</li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('SYSTEM')">
-		<li>
+		<li id="menuCode">
 			<a href="/system/code/codePage">코드관리</a>
 		</li>
 		</sec:authorize>
