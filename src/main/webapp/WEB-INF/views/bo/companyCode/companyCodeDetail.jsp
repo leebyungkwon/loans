@@ -44,6 +44,11 @@
 				var updCompanyCodeDetailParam = {
 					name : 'companyCodeRegFrm'
 					,success: function(opt, result) {
+						if(result.data == 0) {
+							$("#plMerchantNo").val("");
+						} else {
+							location.href = "/admin/company/companyCodePage";
+						}
 					}
 				}      
 				AjaxUtil.files(updCompanyCodeDetailParam);
@@ -82,7 +87,7 @@
 			<h2>회원사 관리</h2>
 		</div>
 	</div>
-	<form name="companyCodeRegFrm" id="companyCodeRegFrm" method="POST">
+	<form name="companyCodeRegFrm" id="companyCodeRegFrm" method="POST" >
 		<input type="hidden" name="comCode" value="${companyCodeInfo.comCode}"/>
 		<div class="contents">
 			<div id="table">
@@ -107,25 +112,25 @@
 					<tr>
 						<th>회원사(상호명11)</th>
 						<td colspan="3">
-							<input type="text" id="comName" name="comName" placeholder="회원사(상호명)을 입력해 주세요!"  value="${companyCodeInfo.comName}" class="w60" data-vd='{"type":"text","len":"1,10", "msg":"회원사(상호명)을 입력해 주세요"}'  />
+							<input type="text" id="comName" name="comName" placeholder="회원사(상호명)을 입력해 주세요!"  value="${companyCodeInfo.comName}" class="w60" data-vd='{"type":"text","len":"1,20","req":true,"msg":"회원사(상호명)을 입력해 주세요"}' />
 						</td>
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
 						<td colspan="3">
-							<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인등록번호 13자리를 입력해 주세요!"   value="${companyCodeInfo.plMerchantNo}" class="w60" data-vd='{"type":"email","len":"13,13", "msg":"법인등록번호 13자리를 입력해 주세요!"}' />
+							<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인등록번호 13자리를 입력해 주세요!"   value="${companyCodeInfo.plMerchantNo}" class="w60" data-vd='{"type":"num","len":"13,13","req":true,"msg":"법인등록번호 13자리를 입력해 주세요"}'  />
 						</td>
 					</tr>
 					<tr>
 						<th>사업자등록번호</th>
 						<td colspan="3">
-							<input type="text" id="plBusinessNo" name="plBusinessNo"  value="${companyCodeInfo.plBusinessNo}" class="w60" placeholder="사업자등록번호 10자리를 입력해 주세요!"   data-vd='{"type":"email","len":"10,10", "msg":"사업자등록번호 10자리를 입력해 주세요!"}' />
+							<input type="text" id="plBusinessNo" name="plBusinessNo"  value="${companyCodeInfo.plBusinessNo}" class="w60" placeholder="사업자등록번호 10자리를 입력해 주세요!"  data-vd='{"type":"num","len":"10,10","req":true,"msg":"사업자등록번호 10자리를 입력해 주세요"}'  />
 						</td>
 					</tr>
 					<tr>
 						<th>회사대표번호</th>
 						<td colspan="3">
-							<input type="text" id="compPhoneNo" name="compPhoneNo" placeholder="회사대표번호를 입력해 주세요!"   value="${companyCodeInfo.compPhoneNo}" class="w60"  data-vd='{"type":"num","len":"1,20", "msg":"회사대표번호를 입력해 주세요"}' />
+							<input type="text" id="compPhoneNo" name="compPhoneNo" placeholder="회사대표번호를 입력해 주세요!"   value="${companyCodeInfo.compPhoneNo}" class="w60"  data-vd='{"type":"num","len":"1,20","req":true,"msg":"회사대표번호를 입력해 주세요"}'  />
 						</td>
 					</tr>
 				</table>

@@ -138,7 +138,7 @@ public class CompanyController {
 		int count = companyService.plMerchantNoCheck(companyDomain);
 		
 		if(count > 0) {
-			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "법인등록번호를 확인해 주세요.");
+			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
 			responseMsg.setData("0");
 		}else {
 			responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
@@ -150,8 +150,19 @@ public class CompanyController {
 
 	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
 	@PostMapping(value="/updCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
-		ResponseMsg responseMsg = companyService.updCompanyCodeDetail(companyDomain);
+	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		
+		int count = companyService.plMerchantNoCheck(companyDomain);
+		
+		if(count > 0) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
+			responseMsg.setData("0");
+		}else {
+			responseMsg = companyService.updCompanyCodeDetail(companyDomain);
+			responseMsg.setData("1");
+		}
+		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
