@@ -30,7 +30,7 @@ function goCorpExpertInfoUpdt(expSeq) {
 	if(confirm("저장하시겠습니까?")){
 		goFileTypeListDisabled();
 		
-		var formNm = "userRegInfoUpdFrm"+operSeq;
+		var formNm = "userRegInfoUpdFrm"+expSeq;
 		var p = {
 			  name 		: formNm
 			, success 	: function (opt,result) {
@@ -42,7 +42,7 @@ function goCorpExpertInfoUpdt(expSeq) {
 }
 
 //삭제 -> 진짜 삭제인지 확인 필요*****
-function goCorpExpertInfoDel(operSeq) {
+function goCorpExpertInfoDel(expSeq) {
 	if(confirm("정말 삭제하시겠습니까?")){
 		alert("삭제해야해!");
 	}
