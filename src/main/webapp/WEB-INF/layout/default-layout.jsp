@@ -13,7 +13,7 @@
 		<tiles:insertAttribute name="css" />
 		<tiles:insertAttribute name="js" />
 		<script>
-		window.onload = function() { 
+		window.onload = function() {
 			pageLoad();
 		}
 		</script>

@@ -5,7 +5,30 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
+<script type="text/javascript">
+	//ttFunction();
+	function ttFunction(){
+		var pathName = location.pathname;
+		$(".gnb > ul > li > a").each(function() {
+			var path = $(this).attr("href");
+			$(this).parent().removeClass("on");
+			if(path == pathName){
+				$(this).parent().addClass("on");
+			}
+		});
+	}
+	
+	//ttFunction();
+
+</script>
+
+
+
 <div class="gnb">
+	<input type="hidden" class="test_aa" value="123123" />
+	<input type="hidden" class="test_aa" value="123123" />
+	<input type="hidden" class="test_aa" value="123123" />
+	<input type="hidden" class="test_aa" value="123123" />
 	<ul>
 		<!-- class="on" -->
 		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
