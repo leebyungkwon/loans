@@ -12,13 +12,11 @@
 			,TLM.COM_CODE
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			<!--,TLM.EXTENSION_NO -->
-			,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-			<!--,TLM.MOBILE_NO -->
-			,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.APPR_STAT
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
@@ -28,7 +26,7 @@
 			,TLM.UPD_TIMESTAMP
 		FROM TB_LC_MEMBERS TLM
 		<where>
-			AND	TLM.COM_CODE = (select COM_CODE from tb_lc_members where MEMBER_SEQ = #{regSeq})
+			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
 			<if test="apprStat != null and apprStat != ''">
 				AND	TLM.APPR_STAT = #{apprStat}
 			</if>
@@ -43,13 +41,11 @@
 			,TLM.MEMBER_ID
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			<!--,TLM.EXTENSION_NO -->
-			,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-			<!--,TLM.MOBILE_NO -->
-			,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.FILE_SEQ
 		FROM TB_LC_MEMBERS TLM
 		<where>
@@ -68,7 +64,7 @@
 			,TLM.MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.FILE_SEQ
 		FROM TB_LC_MEMBERS TLM
 		<where>
@@ -80,7 +76,7 @@
 	<select id="saveAdminUpdate" parameterType="admin">
 		UPDATE TB_LC_MEMBERS
 		SET
-				UPD_TIMESTAMP = now()
+				UPD_TIMESTAMP 		= NOW()
 				,MOBILE_NO				= #{mobileNo}
 			<if test="memberId != null and memberId != ''">
 				,MEMBER_ID				= #{memberId}
@@ -113,12 +109,12 @@
 	
 	<!-- 재승인 요청 -->
 	<update id="reAppr" parameterType="admin">
-		UPDATE tb_lc_members
+		UPDATE TB_LC_MEMBERS
 		SET
-			role_name = 'NO_MEMBER'
-			, appr_stat = '1'
+			ROLE_NAME = 'NO_MEMBER'
+			, APPR_STAT = '1'
 		WHERE
-			member_seq = #{memberSeq}
+			MEMBER_SEQ = #{memberSeq}
 	</update>
 	
 </mapper> 

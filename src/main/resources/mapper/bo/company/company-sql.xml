@@ -10,16 +10,14 @@
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
-			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			<!--,TLM.EXTENSION_NO -->
-      	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-    		<!--,TLM.MOBILE_NO -->
-      		,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
@@ -50,16 +48,14 @@
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
-			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			<!--,TLM.EXTENSION_NO -->
-     	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-			<!--,TLM.MOBILE_NO -->
-     	    ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMNDD') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
@@ -105,11 +101,9 @@
 		<include refid="common.totalPages"/>
 			TLC.COM_CODE
 			,TLC.COM_NAME
-		<!-- ,TLC.PL_MERCHANT_NO -->
-			,REGEXP_REPLACE(TLC.PL_MERCHANT_NO, '(\d{6})(\d{7})', '\1-\2') AS plMerchantNo
-		<!-- ,TLC.PL_BUSINESS_NO -->
-			,REGEXP_REPLACE(TLC.PL_BUSINESS_NO, '(\d{3})(\d{2})(\d{5})', '\1-\2-\3') AS plBusinessNo
-			,TLC.COMP_PHONE_NO
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,FN_BIZ_NO(TLC.PL_BUSINESS_NO) AS PL_BUSINESS_NO
+			,FN_CELLPHONE(TLC.COMP_PHONE_NO) AS COMP_PHONE_NO
 		FROM TB_LC_COMPANY TLC
 		<where>
 				AND TLC.DEL_YN = 'N'
@@ -191,10 +185,10 @@
 	
 	<!-- 회원사 관리 중복 체크 -->
 	<select id="plMerchantNoCheck" parameterType="company" resultType="int">
-        SELECT count(*)
+        SELECT COUNT(*)
         FROM TB_LC_COMPANY
-        WHERE pl_business_no != (select pl_business_no from tb_lc_company b where b.COM_CODE = #{comCode})
-        AND pl_business_no = #{plBusinessNo}
+        WHERE PL_BUSINESS_NO != (SELECT PL_BUSINESS_NO FROM TB_LC_COMPANY B WHERE B.COM_CODE = #{comCode})
+        AND PL_BUSINESS_NO = #{plBusinessNo}
     </select>
 
 </mapper>
