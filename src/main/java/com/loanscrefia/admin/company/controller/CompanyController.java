@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -129,35 +130,34 @@ public class CompanyController {
 		return mv;
 	}
 	
-	// 법인등록번호 중복체크
-	@PostMapping("/plMerchantNoCheck")
-	public int plMerchantNoCheck(CompanyDomain companyDomain) {
-		int count = 0;
-		try {
-			count = companyService.plMerchantNoCheck(companyDomain);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return count;
-	}
-	
 	// 회원사 코드 관리 - 디테일 리스트 -> Insert (글 등록)
 	@PostMapping(value="/saveCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(CompanyDomain companyDomain) {
-		ResponseMsg responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
+	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		
+		int count = companyService.plMerchantNoCheck(companyDomain);
+		
+		if(count > 0) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "법인등록번호를 확인해 주세요.");
+			responseMsg.setData("0");
+		}else {
+			responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
+			responseMsg.setData("1");
+		}
+		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
 	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
 	@PostMapping(value="/updCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(CompanyDomain companyDomain) {
+	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
 		ResponseMsg responseMsg = companyService.updCompanyCodeDetail(companyDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
 	// 회원사 코드 관리 - 디테일 리스트 -> Delete (글 삭제)
 	@PostMapping(value="/delCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(CompanyDomain companyDomain) {
+	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		responseMsg.setData(companyService.delCompanyCodeDetail(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

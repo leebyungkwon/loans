@@ -11,53 +11,69 @@
 		$("#companyCodeBtn").on("click", function(){
 			location.href = "/admin/company/companyCodePage";
 		});
-		
+
 		// 글 등록 버튼
 		$("#companyCodeSaveBtn").on("click", function(){
 			if(confirm("등록 하시겠습니까?")){
-				$("#companyCodeRegFrm").attr("action","/admin/company/saveCompanyCodeDetail");
 				$("#comCode").val("0"); // 기존 시퀀스 초기화
-				var companyCodeSaveParam = {
-					name : 'companyCodeRegFrm'
+				var param = {
+					'comName' : $("#comName").val()
+					,'plMerchantNo' : $("#plMerchantNo").val()
+					,'plBusinessNo' : $("#plBusinessNo").val()
+					,'compPhoneNo' : $("#compPhoneNo").val()
+				}
+				var p = {
+					param: param
+					,url: "/admin/company/saveCompanyCodeDetail"
 					,success: function(opt, result) {
-		 				location.href="/admin/company/companyCodePage";
+						if(result.data == 0) {
+							$("#plMerchantNo").val("");
+						} else {
+							location.href = "/admin/company/companyCodePage";
+						}  
 					}
 				}      
-				AjaxUtil.files(companyCodeSaveParam);
+				AjaxUtil.post(p);
 			}
 		});
-		
+
 		// 글 수정 버튼
 		$("#companyCodeUpdBtn").on("click", function(){
 			if(confirm("수정 하시겠습니까?")){
 				$("#companyCodeRegFrm").attr("action","/admin/company/updCompanyCodeDetail");
-				var companyCodeInsParam = {
+				var updCompanyCodeDetailParam = {
 					name : 'companyCodeRegFrm'
 					,success: function(opt, result) {
-		 				$("#companyCodeDetailFrm").submit();
 					}
 				}      
-				AjaxUtil.files(companyCodeInsParam);
+				AjaxUtil.files(updCompanyCodeDetailParam);
 			}
 		});
-		
+
 		// 글 삭제 버튼
 		$("#companyCodeDelBtn").on("click", function(){
 			if(confirm("삭제 하시겠습니까?")){
-				$("#companyCodeRegFrm").attr("action","/admin/company/delCompanyCodeDetail");
-				var companyCodeInsParam = {
-					name : 'companyCodeRegFrm'
+				var param = {
+					'comCode' : $("#comCode").val()
+				}
+				var p = {
+					param: param
+					,url: "/admin/company/delCompanyCodeDetail"
 					,success: function(opt, result) {
-						alert("삭제를 성공적으로 완료하였습니다.");
-		 				location.href="/admin/company/companyCodePage";
+						if(result > 0) {
+							alert("삭제를 실패하셨습니다.");
+						} else {
+							alert("삭제를 성공적으로 완료하였습니다.");
+							location.href = "/admin/company/companyCodePage";
+						}  
 					}
 				}      
-				AjaxUtil.files(companyCodeInsParam);
+				AjaxUtil.post(p);
 			}
 		});
-		
-	}
 
+	}
+	
 </script>
 
 <div class="cont_area">
@@ -66,7 +82,7 @@
 			<h2>회원사 관리</h2>
 		</div>
 	</div>
-	<form name="companyCodeRegFrm" id="companyCodeRegFrm" method="POST" enctype="multipart/form-data">
+	<form name="companyCodeRegFrm" id="companyCodeRegFrm" method="POST">
 		<input type="hidden" name="comCode" value="${companyCodeInfo.comCode}"/>
 		<div class="contents">
 			<div id="table">
@@ -89,27 +105,27 @@
 						</tr>
 					<tr>
 					<tr>
-						<th>회원사(상호명)</th>
+						<th>회원사(상호명11)</th>
 						<td colspan="3">
-							<input type="text" id="comName" name="comName" placeholder="회원사(상호명)을 입력해 주세요!"  value="${companyCodeInfo.comName}" class="w60" data-vd='{"type":"text","len":"1,100","req":true,"msg":"회원사(상호명)을 입력해 주세요"}'/>
+							<input type="text" id="comName" name="comName" placeholder="회원사(상호명)을 입력해 주세요!"  value="${companyCodeInfo.comName}" class="w60" data-vd='{"type":"text","len":"1,10", "msg":"회원사(상호명)을 입력해 주세요"}'  />
 						</td>
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
 						<td colspan="3">
-							<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인등록번호 13자리를 입력해 주세요!"  value="${companyCodeInfo.plMerchantNo}" class="w60" data-vd='{"type":"num","len":"13,13","req":true,"msg":"법인등록번호 13자리를 확인해 주세요"}'/>
+							<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인등록번호 13자리를 입력해 주세요!"   value="${companyCodeInfo.plMerchantNo}" class="w60" data-vd='{"type":"email","len":"13,13", "msg":"법인등록번호 13자리를 입력해 주세요!"}' />
 						</td>
 					</tr>
 					<tr>
 						<th>사업자등록번호</th>
 						<td colspan="3">
-							<input type="text" id="plBusinessNo" name="plBusinessNo" placeholder="사업자등록번호 10자리를 입력해 주세요!"  value="${companyCodeInfo.plBusinessNo}" class="w60" data-vd='{"type":"num","len":"10,10","req":true,"msg":"사업자등록번호 10자리를 확인해 주세요"}'/>
+							<input type="text" id="plBusinessNo" name="plBusinessNo"  value="${companyCodeInfo.plBusinessNo}" class="w60" placeholder="사업자등록번호 10자리를 입력해 주세요!"   data-vd='{"type":"email","len":"10,10", "msg":"사업자등록번호 10자리를 입력해 주세요!"}' />
 						</td>
 					</tr>
 					<tr>
 						<th>회사대표번호</th>
 						<td colspan="3">
-							<input type="text" id="compPhoneNo" name="compPhoneNo" placeholder="회사대표번호를 입력해 주세요!"  value="${companyCodeInfo.compPhoneNo}" class="w60" data-vd='{"type":"num","len":"8,13","req":true,"msg":"회사대표번호를 확인해 주세요"}'/>
+							<input type="text" id="compPhoneNo" name="compPhoneNo" placeholder="회사대표번호를 입력해 주세요!"   value="${companyCodeInfo.compPhoneNo}" class="w60"  data-vd='{"type":"num","len":"1,20", "msg":"회사대표번호를 입력해 주세요"}' />
 						</td>
 					</tr>
 				</table>
