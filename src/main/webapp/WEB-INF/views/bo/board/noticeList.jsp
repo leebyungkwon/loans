@@ -5,12 +5,12 @@
 
 <script type="text/javascript">
 
-	var NoticeListGrid = Object.create(GRID);
+	var noticeListGrid = Object.create(GRID);
 	
 	function pageLoad(){
 	
-		NoticeListGrid.set({
-			  id      	 	: "NoticeListGrid"
+		noticeListGrid.set({
+			  id      	 	: "noticeListGrid"
 			, url      	 	: "/common/board/noticeList"
 			, width     	: "100%"
 			, headCol   : ["No.", "제목", "조회수", "등록일"]
@@ -36,7 +36,7 @@
 
 	// AdminDetail 페이지로 이동
 	function detailPop(idx, data){
-		var noticeSeq = NoticeListGrid.gridData[idx].noticeSeq;
+		var noticeSeq = noticeListGrid.gridData[idx].noticeSeq;
 		$("#hNoticeSeq").val(noticeSeq);
 		$("#noticeDetailFrm").submit();
 	}
@@ -44,28 +44,28 @@
 </script>
 
 <!-- 글 상세보기 -->
-<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetail">
-<input type="hidden" name="noticeSeq" id="hNoticeSeq"/>
+<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetailPage">
+	<input type="hidden" name="noticeSeq" id="hNoticeSeq"/>
 </form>
 
 <!-- 글 등록 -->
-<form id="noticeRegFrm" method="post" action="/common/board/WritenoticeReg">
-<input type="hidden" name="noticeSeq" id="hNoticeSeq"/>
+<form id="noticeRegFrm" method="post" action="/common/board/noticeRegPage">
+	<input type="hidden" name="noticeSeq" id="hNoticeSeq"/>
 </form>
 
 <div class="cont_area">
-<div class="top_box">
-<div class="title">
-<h2>공지사항</h2>
-</div>
-</div>
-
-<div id="NoticeListGrid"></div>
-
-<sec:authorize access="hasRole('SYSTEM')" >
-<div class="btn_wrap">
-<a href="javascript:void(0);" id="noticeWriteBtn" class="btn_gray btn_right">글 등록</a>
-</div>
-</sec:authorize>
+	<div class="top_box">
+		<div class="title">
+			<h2>공지사항</h2>
+		</div>
+	</div>
+	
+	<div id="noticeListGrid"></div>
+	
+	<sec:authorize access="hasRole('SYSTEM')" >
+		<div class="btn_wrap">
+			<a href="javascript:void(0);" id="noticeWriteBtn" class="btn_gray btn_right">글 쓰기</a>
+		</div>
+	</sec:authorize>
 
 </div>

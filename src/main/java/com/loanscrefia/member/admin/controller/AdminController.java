@@ -47,7 +47,7 @@ public class AdminController {
 	}
 	
 	// 회원사 시스템 - 상세 페이지
-	@PostMapping(value="/adminDetail")
+	@PostMapping(value="/adminDetailPage")
     public ModelAndView adminDetail(AdminDomain adminDomain) {
     	ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetail");
     	
@@ -63,7 +63,7 @@ public class AdminController {
     }
 	
 	// 회원사 시스템 - 관리자 수정 페이지
-	@PostMapping(value="/adminDetailUpdate")
+	@PostMapping(value="/adminDetailUpdPage")
 	public ModelAndView adminDetailUpdate(AdminDomain adminDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetailUpdate");
 	
@@ -108,4 +108,12 @@ public class AdminController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	
+	// 재승인 요청
+	@PostMapping(value="/reAppr")
+	public ResponseEntity<ResponseMsg> reAppr(AdminDomain adminDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(adminService.reAppr(adminDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 }

@@ -19,29 +19,29 @@ public class AdminService {
 	
 	// 회원사 회원 조회
 	@Transactional(readOnly=true)
-	public List<AdminDomain> selectAdminList(AdminDomain AdminDomain){
-		return AdminRepository.selectAdminList(AdminDomain);
+	public List<AdminDomain> selectAdminList(AdminDomain adminDomain){
+		return AdminRepository.selectAdminList(adminDomain);
 	}
 	
 	// 회원사 조회 -> 상세
 	@Transactional(readOnly=true)
-	public AdminDomain getAdminDetail(AdminDomain AdminDomain){
-		return AdminRepository.getAdminDetail(AdminDomain);
+	public AdminDomain getAdminDetail(AdminDomain adminDomain){
+		return AdminRepository.getAdminDetail(adminDomain);
 	}
 	
 	// 회원사 상세 -> 수정
 	@Transactional(readOnly=true)
-	public AdminDomain getAdminDetailUpd(AdminDomain AdminDomain){
-		return AdminRepository.getAdminDetailUpd(AdminDomain);
+	public AdminDomain getAdminDetailUpd(AdminDomain adminDomain){
+		return AdminRepository.getAdminDetailUpd(adminDomain);
 	}
 	
 	// 회원사 수정 -> Insert
 	@Transactional
-	public ResponseMsg saveAdminUpdate(AdminDomain AdminDomain){
+	public ResponseMsg saveAdminUpdate(AdminDomain adminDomain){
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    	AdminDomain.setPassword(passwordEncoder.encode(AdminDomain.getPassword()));
-    	String memCheck = AdminDomain.getTempMemberCheck();
-    	AdminDomain = AdminRepository.saveAdminUpdate(AdminDomain);
+    	adminDomain.setPassword(passwordEncoder.encode(adminDomain.getPassword()));
+    	String memCheck = adminDomain.getTempMemberCheck();
+    	adminDomain = AdminRepository.saveAdminUpdate(adminDomain);
     	if("Y".equals(memCheck)) {
     		return new ResponseMsg(HttpStatus.OK, "COM0001", "정보변경이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
     	}else {
@@ -52,15 +52,23 @@ public class AdminService {
 
 	// 회원사 조회 (체크박스 선택시) - > 삭제 
 	@Transactional
-	public int adminCheckDelete(AdminDomain AdminDomain){
+	public int adminCheckDelete(AdminDomain adminDomain){
 		int result 			= 0;
 		
 		try {
-			result = AdminRepository.adminCheckDelete(AdminDomain);
+			result = AdminRepository.adminCheckDelete(adminDomain);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return result;
 	}
+	
+	// 재승인 요청
+	@Transactional
+	public int reAppr(AdminDomain adminDomain) {
+		return AdminRepository.reAppr(adminDomain);
+	}
+	
+	
 }

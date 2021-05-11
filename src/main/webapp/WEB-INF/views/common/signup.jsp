@@ -7,27 +7,29 @@ function pageLoad(){
 	
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
-		var password       = $("#password").val();               // 비밀번호
-		var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
-	
-		if($("#checkId").val() == "N"){
-			alert("중복체크를 실행해 주세요.");
-			return false;
-		}
-	
-		if( password == passwordChk ){
-			var signupParam = {
-				name : 'signup'
-				,success: function(opt, result) {
-	 				location.href="/login";
-				}
-			}      
-			AjaxUtil.files(signupParam);
-		}else{
-			$("#password").val("");
-			$("#passwordChk").val("");
-			alert("아이디 패스워드를 확인해 주세요.");
-			return false;
+		if(confirm("회원가입을 진행 하시겠습니까?")){
+			var password       = $("#password").val();               // 비밀번호
+			var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
+		
+			if($("#checkId").val() == "N"){
+				alert("중복체크를 실행해 주세요.");
+				return false;
+			}
+		
+			if( password == passwordChk ){
+				var signupParam = {
+					name : 'signup'
+					,success: function(opt, result) {
+		 				location.href="/login";
+					}
+				}      
+				AjaxUtil.files(signupParam);
+			}else{
+				$("#password").val("");
+				$("#passwordChk").val("");
+				alert("아이디 패스워드를 확인해 주세요.");
+				return false;
+			}
 		}
 	});
 	
@@ -90,7 +92,7 @@ function pageLoad(){
 	
 	// 아이디 수정시 중복체크 value 변경
 	$("#memberId").on("change", function(){
-		$("#checkId").val("N");
+			$("#checkId").val("N");
 	});
 	
 	// 첨부파일 찾기시 file tag 실행
@@ -134,7 +136,7 @@ function pageLoad(){
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"text","len":"1,20","req":true,"msg":"아이디를 입력해 주세요"}'/>
+					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"text","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
 					<a href="javascript:void(0);" id="idcheck" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>

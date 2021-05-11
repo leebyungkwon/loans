@@ -34,11 +34,11 @@
    }
    
    // AdminDetail 페이지로 이동
-   function detailPop(idx, data){
-      var memberSeq = adminListGrid.gridData[idx].memberSeq;
-      $("#hMemberSeq").val(memberSeq);
-      $("#adminDetailFrm").submit();
-   }
+	function detailPop(idx, data){
+		var memberSeq = adminListGrid.gridData[idx].memberSeq;
+		$("#hMemberSeq").val(memberSeq);
+		$("#adminDetailFrm").submit();
+	}
    
    	/*	 
  	// 체크박스 선택 삭제
@@ -77,7 +77,7 @@
    
 </script>
 
-<form id="adminDetailFrm" method="post" action="/member/admin/adminDetail">
+<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailPage">
 	<input type="hidden" name="memberSeq" id="hMemberSeq"/>
 </form>
 

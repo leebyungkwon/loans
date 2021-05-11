@@ -2,13 +2,13 @@ package com.loanscrefia.config.string;
 
 public class CosntPage {
 	
-	public static String Common = "/common";
-	public static String Error 	= "/error";
-	public static String Popup 	= "/popup";
-
-	public static String BoTempletePage = "bo/templete"; 
+	public static String Common 	= "/common";
+	public static String Error 		= "/error";
+	public static String Popup 		= "/popup";
+	public static String Include 	= "/include";
 	
-	public static String BoMainPage = "bo/"; 
+	public static String BoTempletePage = "bo/templete"; 
+	public static String BoMainPage 	= "bo/"; 
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 여신금융협회
@@ -24,8 +24,11 @@ public class CosntPage {
 	
 	//타협회 내역 다운로드
 	
-	//회원사관리
+	// 회원사관리
 	public static String BoCompanyPage = "bo/company";
+	
+	// 회원사관리
+	public static String BoCompanyCodePage = "bo/companyCode";
 	
 	//권한 관리
 	

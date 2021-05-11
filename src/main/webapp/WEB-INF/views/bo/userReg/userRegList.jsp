@@ -12,7 +12,7 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"] /*"사용인이름", "사용인주민번호",*/
+  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
@@ -36,13 +36,6 @@ function pageLoad(){
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
-	});
-	
-	//첨부파일명 보여주기
-	$(".inputFile").on("change", function () {
-		var fileVal 	= $(this).val().split("\\");
-		var fileName 	= fileVal[fileVal.length - 1];
-		$(this).prev().val(fileName);
 	});
 }
 
@@ -72,6 +65,13 @@ function goUserRegPopOpen() {
 	PopUtil.openPopup(p);
 }
 
+//첨부파일명 보여주기
+function goFileNmShow() {
+	var fileVal 	= $("#userRegFile").val().split("\\");
+	var fileName 	= fileVal[fileVal.length - 1];
+	$("#userRegFile").prev().val(fileName);
+}
+
 //샘플 다운로드
 function goSampleDownload() {
 	var plClass = $('input[name="plClass"]:checked').val();
@@ -87,33 +87,20 @@ function goUserRegInfoExcelUpload() {
 		var plClass = $('input[name="plClass"]:checked').val();
 		
 		if(plClass == "1"){
-			$("#userRegInfoInsertFrm").attr("action","/member/user/indvExcelUpload");
+			$("#userRegInfoInsertFrm").attr("action","/member/user/insertUserRegIndvInfoByExcel");
 		}else if(plClass == "2"){
-			$("#userRegInfoInsertFrm").attr("action","/member/user/corpExcelUpload");
+			$("#userRegInfoInsertFrm").attr("action","/member/user/insertUserRegCorpInfoByExcel");
 		}
 	}
-	/*
-	if(){
+	if(WebUtil.isNull($("#userRegFile").val())){
 		alert("엑셀 파일을 업로드해 주세요.");
 		return;
 	}
-	*/
 	if(confirm("모집인을 등록하시겠습니까?")){
 		var p = {
 			  name 		: "userRegInfoInsertFrm"
 			, success 	: function (opt,result) {
-				var msg = result.data;
-				
-				if(msg == "success"){
-					alert("모집인이 등록되었습니다.");
-					location.reload();
-				}else if(msg == "fail"){
-					alert("실패했습니다.");
-					return;
-				}else{
-					alert("[데이터 확인 필요]\n"+msg);
-					location.reload();
-				}
+				location.reload();
 	 	    }
 		}
 		AjaxUtil.files(p);	

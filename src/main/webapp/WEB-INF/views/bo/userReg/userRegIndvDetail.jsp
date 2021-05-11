@@ -28,10 +28,7 @@ function goUserRegInfoUpdt() {
 	var p = {
 		  name 		: "userRegInfoUpdFrm"
 		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("저장되었습니다.");
-				location.reload();
-			}
+			location.reload();
  	    }
 	}
 	AjaxUtil.files(p);

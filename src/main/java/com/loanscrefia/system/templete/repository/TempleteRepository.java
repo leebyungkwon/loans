@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.loanscrefia.common.board.domain.BoardDomain;
+import com.loanscrefia.common.board.domain.TempleteDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 
 @Mapper
 public interface TempleteRepository  {
-	List<BoardDomain> selectTemplete(BoardDomain board);
-	Long save(BoardDomain board);
-	BoardDomain findById(Long boardNo);
-	void insert(BoardDomain board);
-	void update(BoardDomain board);
+	List<TempleteDomain> selectTemplete(TempleteDomain board);
+	Long save(TempleteDomain board);
+	TempleteDomain findById(Long boardNo);
+	void insert(TempleteDomain board);
+	void update(TempleteDomain board);
 	
 	
 	// 첨부파일 단건 조회

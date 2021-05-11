@@ -27,23 +27,14 @@ function goUserRegInfoUpdt() {
 		alert("필수 첨부서류가 누락되었습니다.");
 		return;
 	}
-	
 	//수정
 	var p = {
 		  name 		: "userRegInfoUpdFrm"
 		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("저장되었습니다.");
-				location.reload();
-			}
+			location.reload();
  	    }
 	}
 	AjaxUtil.files(p);
-}
-
-//모집인 등록 목록
-function goUserRegInfoList() {
-	location.href = "/member/user/userRegPage";
 }
 </script>
 
@@ -75,7 +66,7 @@ function goUserRegInfoList() {
 	</div>
 
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="masterSeq" id="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 		<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
 		
 		<div class="contents">
@@ -193,11 +184,11 @@ function goUserRegInfoList() {
 							<c:choose>
 								<c:when test="${result.fileType3 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType3.fileSeq }">${result.fileType3.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType3.fileSeq }" data-fileType="3" data-essential="N">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="3"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 								</c:otherwise>

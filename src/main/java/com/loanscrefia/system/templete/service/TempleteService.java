@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.loanscrefia.common.board.domain.BoardDomain;
+import com.loanscrefia.common.board.domain.TempleteDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.system.templete.repository.TempleteRepository;
@@ -20,7 +20,7 @@ public class TempleteService {
 	@Autowired private TempleteRepository templeteRepository;
 
 	@Transactional
-	public ResponseMsg templeteSave(BoardDomain board) {
+	public ResponseMsg templeteSave(TempleteDomain board) {
 		if(null == board.getBoardNo())	templeteRepository.insert(board);
 		else							templeteRepository.update(board);
 		if (null == board.getBoardNo())
@@ -29,13 +29,13 @@ public class TempleteService {
 	}
 
 	@Transactional(readOnly=true)
-	public BoardDomain findById(BoardDomain board) {
+	public TempleteDomain findById(TempleteDomain board) {
 		//return templeteRepository.findById(board.getBoardNo());
 		return null;
 	}
 
 	@Transactional
-	public List<BoardDomain> selectTemplete(BoardDomain board) {
+	public List<TempleteDomain> selectTemplete(TempleteDomain board) {
 		return templeteRepository.selectTemplete(board);
 	}
 

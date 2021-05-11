@@ -24,11 +24,20 @@ public interface UserRepository {
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 등록
 	int insertUserRegCorpImwonInfoByExcel(UserImwonDomain userImwonDomain);
 	
+	//모집인 등록 > 법인 : 대표자 및 임원 정보 등록
+	int insertUserRegCorpImwonInfo(UserImwonDomain userImwonDomain);
+	
 	//모집인 등록 > 법인 : 전문인력 정보 등록
 	int insertUserRegCorpExpertInfoByExcel(UserExpertDomain userExpertDomain);
 	
+	//모집인 등록 > 법인 : 전문인력 정보 등록
+	int insertUserRegCorpExpertInfo(UserExpertDomain userExpertDomain);
+	
 	//모집인 등록 > 법인 : 전산인력 정보 등록
 	int insertUserRegCorpItInfoByExcel(UserItDomain userItDomain);
+	
+	//모집인 등록 > 법인 : 전산인력 정보 등록
+	int insertUserRegCorpItInfo(UserItDomain userItDomain);
 	
 	//모집인 등록 > 승인요청
 	int updatePlRegStat(UserDomain userDomain);

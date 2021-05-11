@@ -34,25 +34,25 @@ public class BoardService {
 	}
 
 	// 공지사항 리스트 -> 글쓰기 / 수정 페이지
-	public BoardDomain NoticeReg(BoardDomain boardDomain){
+	public BoardDomain noticeReg(BoardDomain boardDomain){
 		return boardRepository.getNoticeDetail(boardDomain);
 	}
 
 	// 공지사항 - 글 쓰기 페이지 -> Insert (글 등록)
-	public ResponseMsg SaveNoticeReg(BoardDomain boardDomain) {
-		boardRepository.SaveNoticeReg(boardDomain);
+	public ResponseMsg saveNoticeReg(BoardDomain boardDomain) {
+		boardRepository.saveNoticeReg(boardDomain);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "글이 등록 되었습니다.");
 	}
 	
 	// 공지사항 - 글 쓰기 페이지 -> Update (글 수정)
-	public ResponseMsg UpdNoticeReg(BoardDomain boardDomain) {
-		boardRepository.UpdNoticeReg(boardDomain);
+	public ResponseMsg updNoticeReg(BoardDomain boardDomain) {
+		boardRepository.updNoticeReg(boardDomain);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "글이 수정 되었습니다.");
 	}
 	
 	// 공지사항 - 글 쓰기 페이지 -> Delete (글 삭제)
-	public ResponseMsg DelNoticeReg(BoardDomain boardDomain) {
-		boardRepository.DelNoticeReg(boardDomain);
+	public ResponseMsg delNoticeReg(BoardDomain boardDomain) {
+		boardRepository.delNoticeReg(boardDomain);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "글이 삭제 되었습니다.");
 	}
 	

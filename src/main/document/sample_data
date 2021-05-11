@@ -12,7 +12,9 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('REG001','모집인상태','모집인상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:06:57.423873',NULL,NULL),
 	 ('MEM001','관리자승인상태','관리자승인상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-07 09:56:23.139039',NULL,NULL),
 	 ('MAS001','처리상태','모집인처리상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-03 16:23:07.059548',NULL,NULL),
-	 ('ADD001','본점소재지','본점소재지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 ('ADD001','본점소재지','본점소재지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('FTM001','상근여부','상근여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('EXP001','전문인력여부','전문인력여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('CLS001','1','개인','개인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
@@ -45,12 +47,14 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('ADD001','15','광주','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:46.527094',NULL,NULL),
 	 ('ADD001','16','부산','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:51.516143',NULL,NULL),
 	 ('ADD001','17','제주','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:55.567005',NULL,NULL),
-	 ('REG001','1','승인완료','승인완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL),
-	 ('REG001','2','해지완료','해지완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL);
+	 ('REG001','1','승인전','승인전',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL),
+	 ('REG001','2','승인완료','승인완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('REG001','3','자격취득','자격취득',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('REG001','4','해지완료','해지완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('MAS001','1','미요청','미요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:06.985935',NULL,NULL),
 	 ('MAS001','2','승인요청','승인요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
+	 ('MAS001','3','변경요청','변경요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
 	 ('MAS001','4','해지요청','해지요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
 	 ('MAS001','5','보완요청','보완요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
 	 ('MAS001','6','취소','취소',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
@@ -58,3 +62,8 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('MEM001','1','미승인','미승인',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-07 09:57:26.875467',NULL,NULL),
 	 ('MEM001','3','승인','승인',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-07 09:57:26.875467',NULL,NULL),
 	 ('MEM001','2','가승인','가승인',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-07 09:57:26.875467',NULL,NULL);
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('FTM001','1','상근','상근',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('FTM001','2','비상근','비상근',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('EXP001','1','전문인력','전문인력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('EXP001','2','비전문인력','비전문인력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL);

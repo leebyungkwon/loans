@@ -11,14 +11,10 @@ function pageLoad(){
 
 //수정
 function goUserRegInfoUpdt() {
-	//수정
 	var p = {
 		  name 		: "userRegInfoUpdFrm"
 		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("저장되었습니다.");
-				location.reload();
-			}
+			location.reload();
  	    }
 	}
 	AjaxUtil.files(p);
@@ -70,9 +66,9 @@ function goUserRegInfoUpdt() {
 								<th class="acenter">물적 설비내역에 대한 증빙서류</th>
 								<td>
 									<c:choose>
-										<c:when test="${result.fileType21 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType21.fileSeq }">${result.fileType21.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType21.fileSeq }" data-fileType="21" data-essential="N">삭제</a>
+										<c:when test="${result.userRegInfo.fileType21 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType21.fileSeq }">${result.userRegInfo.fileType21.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType21.fileSeq }" data-fileType="21" data-essential="N">삭제</a>
 										</c:when>
 										<c:otherwise>
 											<input type="text" class="w50 file_input" readonly disabled>
@@ -87,9 +83,9 @@ function goUserRegInfoUpdt() {
 								<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본</th>
 								<td>
 									<c:choose>
-										<c:when test="${result.fileType22 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType22.fileSeq }">${result.fileType22.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType22.fileSeq }" data-fileType="22" data-essential="N">삭제</a>
+										<c:when test="${result.userRegInfo.fileType22 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType22.fileSeq }">${result.userRegInfo.fileType22.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType22.fileSeq }" data-fileType="22" data-essential="N">삭제</a>
 										</c:when>
 										<c:otherwise>
 											<input type="text" class="w50 file_input" readonly disabled>
@@ -104,9 +100,9 @@ function goUserRegInfoUpdt() {
 								<th class="acenter">부동산 등기부등본</th>
 								<td>
 									<c:choose>
-										<c:when test="${result.fileType23 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType23.fileSeq }">${result.fileType23.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType23.fileSeq }" data-fileType="23" data-essential="N">삭제</a>
+										<c:when test="${result.userRegInfo.fileType23 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType23.fileSeq }">${result.userRegInfo.fileType23.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType23.fileSeq }" data-fileType="23" data-essential="N">삭제</a>
 										</c:when>
 										<c:otherwise>
 											<input type="text" class="w50 file_input" readonly disabled>
@@ -133,9 +129,9 @@ function goUserRegInfoUpdt() {
 								<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</th>
 								<td>
 									<c:choose>
-										<c:when test="${result.fileType24 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType24.fileSeq }">${result.fileType24.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType24.fileSeq }" data-fileType="24" data-essential="N">삭제</a>
+										<c:when test="${result.userRegInfo.fileType24 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType24.fileSeq }">${result.userRegInfo.fileType24.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType24.fileSeq }" data-fileType="24" data-essential="N">삭제</a>
 										</c:when>
 										<c:otherwise>
 											<input type="text" class="w50 file_input" readonly disabled>
@@ -162,9 +158,9 @@ function goUserRegInfoUpdt() {
 								<th class="acenter">대리인 신청 위임장 (위임인 인감날인)</th>
 								<td>
 									<c:choose>
-										<c:when test="${result.fileType25 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType25.fileSeq }">${result.fileType25.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType25.fileSeq }" data-fileType="25" data-essential="N">삭제</a>
+										<c:when test="${result.userRegInfo.fileType25 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType25.fileSeq }">${result.userRegInfo.fileType25.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType25.fileSeq }" data-fileType="25" data-essential="N">삭제</a>
 										</c:when>
 										<c:otherwise>
 											<input type="text" class="w50 file_input" readonly disabled>
@@ -179,9 +175,9 @@ function goUserRegInfoUpdt() {
 								<th class="acenter">위임인 인감증명서</th>
 								<td>
 									<c:choose>
-										<c:when test="${result.fileType26 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType26.fileSeq }">${result.fileType26.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType26.fileSeq }" data-fileType="26" data-essential="N">삭제</a>
+										<c:when test="${result.userRegInfo.fileType26 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType26.fileSeq }">${result.userRegInfo.fileType26.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType26.fileSeq }" data-fileType="26" data-essential="N">삭제</a>
 										</c:when>
 										<c:otherwise>
 											<input type="text" class="w50 file_input" readonly disabled>

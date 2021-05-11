@@ -86,9 +86,53 @@ function goUserRegInfoList() {
 	location.href = "/member/user/userRegPage";
 }
 
+//작성 영역 추가
+function goHtmlAdd(callUrl,formUrl,masterSeq,dataWrapLen) {
+	$.ajax({
+		 type 		: "GET"
+		,url 		: callUrl
+		,dataType 	: "html"
+		,error 		: function() {
+			alert("jsp include fail");
+		}
+		,success : function(data){
+			//dataWrapLen
+			var formNo = dataWrapLen + 1;
+			
+			//추가
+			$("#target").before(data);
+			
+			//form 태그 감싸기
+			var formNm = "userRegInfoInsertFrm"+formNo;
+			$(".data_wrap:last").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
+			$(".data_wrap:last").before('<input type="hidden" name="masterSeq" value="'+masterSeq+'"/>');
+		}
+	});
+}
 
+//등록
+function goCorpInfoReg(obj) {
+	if(confirm("저장하시겠습니까?")){
+		var formNm = $(obj).closest("form").attr("name");
+		var p = {
+			  name 		: formNm
+			, success 	: function (opt,result) {
+				location.reload();
+	 	    }
+		}
+		AjaxUtil.files(p);
+	}
+}
 
-
+//영역 삭제
+function goCorpInfoRemove(obj) {
+	var dataWrapLen = $(".data_wrap").length;
+	if(dataWrapLen == 1){
+		alert("더 이상 삭제할 수 없습니다.");
+		return;
+	}
+	$(obj).closest("form").remove();
+}
 
 
 
