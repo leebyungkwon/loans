@@ -100,11 +100,13 @@ public class UtilExcel<T> {
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
 	                			//String chkDbVal = chkDb.get(j);
-	                			int cellEduNo = 0;
+	                			String cellEduNo = ExcelCellRef.getValue(cell);
 	                			
+	                			/*
 	                			if(ExcelCellRef.getValue(cell) != null && !ExcelCellRef.getValue(cell).equals("")) {
-	                				cellEduNo = Integer.parseInt(ExcelCellRef.getValue(cell));
+	                				cellEduNo = Integer.parseInt(ExcelCellRef.getValue(cell)); //int의 최대값 : 2147483647
 	                			}
+	                			*/
 	                			System.out.println("cellEduNo :: "+cellEduNo);
 	                			
 	                			/*

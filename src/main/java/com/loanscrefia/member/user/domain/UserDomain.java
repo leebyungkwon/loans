@@ -31,7 +31,7 @@ public class UserDomain extends BaseDomain {
 	private String plCellphone;		//모집인휴대전화번호
 	private String addr;			//본점소재지						-> [ADD001]1~17
 	private String addrDetail;		//상세주소(법인등기부등본상)
-	private int plEduNo;			//교육이수번호
+	private String plEduNo;			//교육이수번호
 	private String careerStartDate;	//경력시작일
 	private String careerEndDate;	//경력종료일 
 	private String entrustDate;		//위탁예정일
@@ -67,6 +67,7 @@ public class UserDomain extends BaseDomain {
 	private String plStatNm;		//처리상태명
 	private String addrNm;			//주소명
 	private String plPayStatNm;		//결제상태명
+	private String fileCompYn;		//첨부상태							-> Y,N
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	
 	//엑셀 업로드

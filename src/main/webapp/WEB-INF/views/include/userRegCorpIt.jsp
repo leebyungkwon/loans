@@ -15,9 +15,9 @@
 			<tbody>
 				<tr>
 					<th>이름</th>
-					<td><input type="text" name="operName" class="w100" maxlength="10"></td>
+					<td><input type="text" name="operName" class="w100" maxlength="10" data-vd='{"type":"text","len":"1,20","req":true,"msg":"이름을 입력해 주세요."}'></td>
 					<th>주민번호</th>
-					<td><input type="text" name="plMZId" class="w100" maxlength="14" placeholder="- 포함"></td>
+					<td><input type="text" name="plMZId" class="w100" maxlength="14" placeholder="- 포함" data-vd='{"type":"text","len":"14,14","req":true,"msg":"주민등록번호(- 포함)를 입력해 주세요."}'></td>
 				</tr>
 			</tbody>
 		</table>
@@ -38,6 +38,7 @@
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="19"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="19" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<tr>
@@ -47,6 +48,7 @@
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="20"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="20" data-essential="N">초기화</a>
 					</td>
 				</tr>
 			</tbody>

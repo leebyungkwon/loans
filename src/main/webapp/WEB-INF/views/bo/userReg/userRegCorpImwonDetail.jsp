@@ -50,7 +50,7 @@ function goCorpImwonInfoDel(excSeq) {
 
 //추가
 function goDataAreaAdd() {
-	var callUrl = "/member/user/callUserRegCorpImwonForm";
+	var callUrl = "/member/user/callUserRegCorpImwonForm?masterSeq="+"${result.userRegInfo.masterSeq }";
 	var formUrl	= "/member/user/insertUserRegCorpImwonInfo";
 	
 	goHtmlAdd(callUrl,formUrl,$(".data_wrap").length);
@@ -110,8 +110,9 @@ function goDataAreaAdd() {
 		<c:choose>
 			<c:when test="${fn:length(result.imwonList) > 0 }">
 				<c:forEach var="corpImwonList" items="${result.imwonList }" varStatus="status">
-					<form name="userRegInfoUpdFrm${corpImwonList.excSeq }" action="/member/user/updateUserRegCorpImwon" method="post" enctype="multipart/form-data">
-						<input type="hidden" name="operSeq" value="${corpImwonList.excSeq }"/>
+					<form name="userRegInfoUpdFrm${corpImwonList.excSeq }" action="/member/user/updateUserRegCorpImwonInfo" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+						<input type="hidden" name="excSeq" value="${corpImwonList.excSeq }"/>
 						<input type="hidden" name="fileGrpSeq" value="${corpImwonList.fileSeq }"/>
 						
 						<div class="data_wrap">
@@ -136,25 +137,25 @@ function goDataAreaAdd() {
 										</tr>
 										<tr>
 											<th>이름</th>
-											<td><input type="text" name="excName" value="${corpImwonList.excName }" class="w100" maxlength="20"></td>
+											<td><input type="text" name="excName" value="${corpImwonList.excName }" class="w100" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"이름을 입력해 주세요."}'></td>
 											<th>주민번호</th>
-											<td><input type="text" name="plMZId" value="${corpImwonList.plMZId }" class="w100" maxlength="14" placeholder="- 포함"></td>
+											<td><input type="text" name="plMZId" value="${corpImwonList.plMZId }" class="w100" maxlength="14" placeholder="- 포함" data-vd='{"type":"text","len":"14,14","req":true,"msg":"주민등록번호(- 포함)를 입력해 주세요."}'></td>
 										</tr>
 										<tr>
 											<th>직위</th>
-											<td><input type="text" name="positionNm" value="${corpImwonList.positionNm }" class="w100"></td>
+											<td><input type="text" name="positionNm" value="${corpImwonList.positionNm }" class="w100" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"직위를 입력해 주세요."}'></td>
 											<th>금융상품유형</th>
 											<td>${result.userRegInfo.plProductNm }</td>
 										</tr>
 										<tr>
 											<th>교육이수번호</th>
-											<td colspan="3"><input type="text" name="plEduNo" value="${corpImwonList.plEduNo }" class="w100"></td>
+											<td colspan="3"><input type="text" name="plEduNo" value="${corpImwonList.plEduNo }" class="w100" maxlength="10" data-vd='{"type":"text","len":"10,10","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
 										</tr>
 										<tr>
 											<th>경력시작일</th>
-											<td><input type="text" name="careerStartDt" value="${corpImwonList.careerStartDt }" class="w100"></td>
+											<td><input type="text" name="careerStartDate" value="${corpImwonList.careerStartDate }" class="w100" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}'></td>
 											<th>경력종료일</th>
-											<td><input type="text" name="careerEndDt" value="${corpImwonList.careerEndDt }" class="w100"></td>
+											<td><input type="text" name="careerEndDate" value="${corpImwonList.careerEndDate }" class="w100" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}'></td>
 										</tr>
 										<tr>
 											<th>상근여부</th>
@@ -166,8 +167,8 @@ function goDataAreaAdd() {
 												</select>
 											</td>
 											<th>전문인력여부</th>
-											<td><input type="text" class="w100" value="비상근">
-												<select name="expertYn">
+											<td>
+												<select name="expertStat">
 													<c:forEach var="expertStatList" items="${result.expertStatList }">
 														<option value="${expertStatList.codeDtlCd }" <c:if test="${corpImwonList.expertStat eq expertStatList.codeDtlCd }">selected="selected"</c:if>>${expertStatList.codeDtlNm }</option>
 													</c:forEach>
@@ -199,6 +200,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="7"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="7" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -216,6 +218,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="8"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -233,6 +236,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="9"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="9" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -250,6 +254,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="10"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -279,6 +284,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="11"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="11" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -308,6 +314,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="12"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="12" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -325,6 +332,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="13"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="13" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -342,6 +350,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="14"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="14" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -371,6 +380,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="15"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="15" data-essential="N">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -394,9 +404,6 @@ function goDataAreaAdd() {
 			</c:when>
 			<c:otherwise>
 				<form name="userRegInfoInsertFrm1" action="/member/user/insertUserRegCorpImwonInfo" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
-					<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
-					
 					<jsp:include page="/WEB-INF/views/include/userRegCorpImwon.jsp"></jsp:include>
 				</form>
 			</c:otherwise>

@@ -17,17 +17,17 @@ function pageLoad(){
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10px"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'fileSeq'		, index:'fileSeq'			, width:"10%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'fileCompYn'		, index:'fileCompYn'		, width:"10px"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"5%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -123,7 +123,7 @@ function goApplyAccept() {
 	for(var i = 0;i < chkedLen;i++){
 		masterSeqArr.push(chkData[i].masterSeq);
 		
-		if(chkData[i].fileSeq == null || chkData[i].fileSeq == ""){
+		if(chkData[i].fileCompYn == "N"){
 			fileChk++;
 		}
 	}

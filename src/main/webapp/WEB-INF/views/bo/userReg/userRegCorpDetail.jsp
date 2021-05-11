@@ -62,12 +62,15 @@ function goUserRegInfoUpdt() {
 			<li><a href="javascript:void(0);" class="single" onclick="goTab('5');">기타 첨부할 서류</a></li>
 		</ul>
 	</div>
-
-	<div class="btn_wrap02">
-		<div class="right">
-			<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
+	
+	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+		<div class="btn_wrap02">
+			<div class="right">
+				<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
+			</div>
 		</div>
-	</div>
+	</c:if>
 
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
@@ -84,9 +87,16 @@ function goUserRegInfoUpdt() {
 					</tr>
 					<tr>
 						<th>모집인 상태</th>
-						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
 						<th>결제여부</th>
-						<td>${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.plPayStat ne null }">
+									${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th>처리상태</th>
@@ -102,17 +112,17 @@ function goUserRegInfoUpdt() {
 					</tr>
 					<tr>
 						<th>상호</th>
-						<td><input type="text" name="plMerchantName" class="w100" value="${result.userRegInfo.plMerchantName }"></td>
+						<td><input type="text" name="plMerchantName" class="w100" value="${result.userRegInfo.plMerchantName }" maxlength="30" data-vd='{"type":"text","len":"1,30","req":true,"msg":"상호를 입력해 주세요."}'></td>
 						<th>대표이사</th>
-						<td><input type="text" name="plCeoName" class="w100" value="${result.userRegInfo.plCeoName }"></td>
+						<td><input type="text" name="plCeoName" class="w100" value="${result.userRegInfo.plCeoName }" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"대표이사명을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
-						<td colspan="3"><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }"></td>
+						<td colspan="3"><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }" maxlength="13" placeholder="- 포함" data-vd='{"type":"text","len":"1,13","req":true,"msg":"법인등록번호(- 포함)를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>설립년월일</th>
-						<td colspan="3"><input type="text" name="corpFoundDate" class="w100" value="${result.userRegInfo.corpFoundDate }"></td>
+						<td colspan="3"><input type="text" name="corpFoundDate" class="w100" value="${result.userRegInfo.corpFoundDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"설립년월일(- 포함)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>본점소재지</th>
@@ -126,17 +136,17 @@ function goUserRegInfoUpdt() {
 					</tr>
 					<tr>
 						<th>상세주소(법인등기부본상)</th>
-						<td colspan="3"><input type="text" name="addrDetail" class="w100" value="${result.userRegInfo.addrDetail }"></td>
+						<td colspan="3"><input type="text" name="addrDetail" class="w100" value="${result.userRegInfo.addrDetail }" maxlength="200" data-vd='{"type":"text","len":"1,200","req":true,"msg":"상세주소(법인등기부본상)를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>자본금(백만원)</th>
-						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }"></td>
+						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" data-vd='{"type":"text","len":"1,200","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>계약일자</th>
-						<td><input type="text" name="comContDate" class="w50" value="${result.userRegInfo.comContDate }"></td>
+						<td><input type="text" name="comContDate" class="w50" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}'></td>
 						<th>위탁예정기간</th>
-						<td><input type="text" name="entrustDate" class="w50" value="${result.userRegInfo.entrustDate }"></td>
+						<td><input type="text" name="entrustDate" class="w50" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}'></td>
 					</tr>
 				</table>
 			</div>
@@ -152,9 +162,9 @@ function goUserRegInfoUpdt() {
 						<th class="acenter">정관 *</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.fileType1 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType1.fileSeq }">${result.fileType1.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType1.fileSeq }" data-fileType="1" data-essential="Y">삭제</a>
+								<c:when test="${result.userRegInfo.fileType1 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }">${result.userRegInfo.fileType1.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }" data-fileType="1" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -169,9 +179,9 @@ function goUserRegInfoUpdt() {
 						<th class="acenter">법인등기부등본 *</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.fileType2 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType2.fileSeq }">${result.fileType2.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType2.fileSeq }" data-fileType="2" data-essential="Y">삭제</a>
+								<c:when test="${result.userRegInfo.fileType2 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }">${result.userRegInfo.fileType2.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }" data-fileType="2" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -186,9 +196,9 @@ function goUserRegInfoUpdt() {
 						<th class="acenter">설립, 등록 신청의 의사결정을 증명하는 서류 *<br />(등록신청 관련 발기인총회, 창립주주총회 또는 이사회의 공증을 받은 의사록)</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.fileType3 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType3.fileSeq }">${result.fileType3.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
+								<c:when test="${result.userRegInfo.fileType3 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -203,15 +213,16 @@ function goUserRegInfoUpdt() {
 						<th class="acenter">본점의 위치 및 명칭을 기재한 서류<br />(법인등기부에서 확인되지 않는 경우 제출)</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.fileType4 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType4.fileSeq }">${result.fileType4.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType4.fileSeq }" data-fileType="4" data-essential="N">삭제</a>
+								<c:when test="${result.userRegInfo.fileType4 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="N">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
 									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="4"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="4" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -220,9 +231,9 @@ function goUserRegInfoUpdt() {
 						<th class="acenter">주주명부 *</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.fileType5 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType5.fileSeq }">${result.fileType5.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType5.fileSeq }" data-fileType="5" data-essential="Y">삭제</a>
+								<c:when test="${result.userRegInfo.fileType5 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }">${result.userRegInfo.fileType5.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }" data-fileType="5" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -237,9 +248,9 @@ function goUserRegInfoUpdt() {
 						<th class="acenter">영위하는 다른 업종에 대한 증빙서류 *</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.fileType6 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.fileType6.fileSeq }">${result.fileType6.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.fileType6.fileSeq }" data-fileType="6" data-essential="Y">삭제</a>
+								<c:when test="${result.userRegInfo.fileType6 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">${result.userRegInfo.fileType6.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }" data-fileType="6" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>

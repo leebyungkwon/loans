@@ -98,8 +98,8 @@ public class UserController {
 	
 	//등록 처리(수동) : 법인 > 대표자 및 임원
 	@PostMapping(value="/insertUserRegCorpImwonInfo")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain){
-		ResponseMsg responseMsg = userService.insertUserRegCorpImwonInfo(files, userImwonDomain);
+	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpImwonInfo(files, userImwonDomain, fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -112,8 +112,8 @@ public class UserController {
 	
 	//등록 처리(수동) : 법인 > 전문인력
 	@PostMapping(value="/insertUserRegCorpExpertInfo")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain){
-		ResponseMsg responseMsg = userService.insertUserRegCorpExpertInfo(files, userExpertDomain);
+	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpExpertInfo(files, userExpertDomain, fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -126,8 +126,8 @@ public class UserController {
 	
 	//등록 처리(수동) : 법인 > 전산인력
 	@PostMapping(value="/insertUserRegCorpItInfo")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain){
-		ResponseMsg responseMsg = userService.insertUserRegCorpItInfo(files, userItDomain);
+	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
+		ResponseMsg responseMsg = userService.insertUserRegCorpItInfo(files, userItDomain, fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -214,7 +214,7 @@ public class UserController {
 	}
 	
 	//작성 영역 추가 : 법인 > 대표자 및 임원관련사항 탭
-	@PostMapping(value="/callUserRegCorpImwonForm")
+	@GetMapping(value="/callUserRegCorpImwonForm")
 	public ModelAndView callUserRegCorpImwonForm(UserImwonDomain userImwonDomain){
 		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpImwon");
     	Map<String, Object> result 	= userService.getUserRegCorpImwonDetail(userImwonDomain);
@@ -223,7 +223,7 @@ public class UserController {
 	}
 	
 	//작성 영역 추가 : 법인 > 전문인력 탭
-	@PostMapping(value="/callUserRegCorpExpertForm")
+	@GetMapping(value="/callUserRegCorpExpertForm")
 	public ModelAndView callUserRegCorpExpertForm(UserExpertDomain userExpertDomain){
 		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpExpert");
     	Map<String, Object> result 	= userService.getUserRegCorpExpertDetail(userExpertDomain);
@@ -232,13 +232,13 @@ public class UserController {
 	}
 	
 	//작성 영역 추가 : 법인 > 전산인력 탭
-	@PostMapping(value="/callUserRegCorpItForm")
-	public String callUserRegCorpItForm(){
-		return CosntPage.Include+"/userRegCorpIt";
+	@GetMapping(value="/callUserRegCorpItForm")
+	public ModelAndView callUserRegCorpItForm(UserItDomain userItDomain){
+		ModelAndView mv 			= new ModelAndView(CosntPage.Include+"/userRegCorpIt");
+    	Map<String, Object> result 	= userService.getUserRegCorpItDetail(userItDomain);
+    	mv.addObject("result", result);
+        return mv;
 	}
-	
-	
-	
 	
 	
 	

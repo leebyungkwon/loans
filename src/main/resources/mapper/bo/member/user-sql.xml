@@ -24,9 +24,9 @@
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
-			,TLM.PL_M_Z_ID
+			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
 			,TLM.PL_M_Z_ID_EDU
-			,TLM.PL_CELLPHONE
+			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 			,TLM.ADDR
 			,TLM.ADDR_DETAIL
 			,TLM.PL_EDU_NO
@@ -36,7 +36,7 @@
 			,TLM.COM_CONT_DATE
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
-			,TLM.PL_MERCHANT_NO
+			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
 			,TLM.CORP_FOUND_DATE
@@ -53,17 +53,39 @@
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
 			,CASE 
-				WHEN TLM.PL_CLASS = '1' AND TLM.FILE_SEQ IS NOT NULL AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y') >= 5 THEN '완료'
-				WHEN TLM.PL_CLASS = '2' AND TLM.FILE_SEQ IS NOT NULL AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y') >= 5 THEN '완료'
+				WHEN 
+					TLM.PL_CLASS = '1' 
+						AND TLM.FILE_SEQ IS NOT NULL 
+						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
+				THEN 'Y'
+				WHEN 
+					TLM.PL_CLASS = '2' 
+						AND TLM.FILE_SEQ IS NOT NULL 
+						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
+				THEN 'Y'
+				ELSE 'N'
+			 END AS FILE_COMP_YN
+			,CASE 
+				WHEN 
+					TLM.PL_CLASS = '1' 
+						AND TLM.FILE_SEQ IS NOT NULL 
+						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
+				THEN '완료'
+				WHEN 
+					TLM.PL_CLASS = '2' 
+						AND TLM.FILE_SEQ IS NOT NULL 
+						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
+				THEN '완료'
 				ELSE '미완료'
 			 END AS FILE_COMP_TXT
-			,TLM.REG_TIMESTAMP
+			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
-			,TLM.UPD_TIMESTAMP
+			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
-			AND TLM.PL_STAT != '6'								-- 처리상태가 취소가 아닌 것
-			AND TLM.PL_STAT != '7'								-- 처리상태가 완료가 아닌 것(완료건은 모집인 조회 및 변경 메뉴에서 보여짐)
+			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+			AND TLM.PL_STAT != '6'																	-- 처리상태가 취소가 아닌 것
+			AND TLM.PL_STAT != '7'																	-- 처리상태가 완료가 아닌 것(완료건은 모집인 조회 및 변경 메뉴에서 보여짐)
 			<if test="plClass != null and plClass != ''">
 				AND TLM.PL_CLASS 	= #{plClass}
 			</if>
@@ -117,7 +139,7 @@
    			,#{item.F}						-- 금융상품유형
    			,#{item.G}						-- 법인명
    			,REPLACE(#{item.H}, '-', '')	-- 법인등록번호
-   			,CAST(#{item.I} AS INT4)		-- 교육이수번호/인증서번호
+   			,#{item.I}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.J}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.K}, '-', '')	-- 경력종료일
    			,REPLACE(#{item.L}, '-', '')	-- 계약일자
@@ -192,7 +214,7 @@
    			,#{item.B}						-- 직위
    			,#{item.C}						-- 성명
    			,REPLACE(#{item.D}, '-', '')	-- 주민등록번호
-   			,CAST(#{item.E} AS INT4)		-- 교육이수번호/인증서번호
+   			,#{item.E}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.F}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.G}, '-', '')	-- 경력종료일
    			,#{item.H}						-- 상근여부
@@ -215,6 +237,7 @@
 			,CAREER_END_DATE
 			,FULL_TM_STAT
 			,EXPERT_STAT
+			,FILE_SEQ
    		)
    		VALUES
    		(
@@ -222,12 +245,13 @@
    			,#{careerTyp}
    			,#{positionNm}
    			,#{excName}
-   			,#{plMZId}
+   			,REPLACE(#{plMZId}, '-', '')
    			,#{plEduNo}
-   			,#{careerStartDate}
-   			,#{careerEndDate}
+   			,REPLACE(#{careerStartDate}, '-', '')
+   			,REPLACE(#{careerEndDate}, '-', '')
    			,#{fullTmStat}
-   			,#{ExpertStat}
+   			,#{expertStat}
+   			,#{fileSeq}
    		)
    	</insert>
    	
@@ -250,7 +274,7 @@
    			,#{item.A}						-- 구분(신규,경력)
    			,#{item.B}						-- 성명
    			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
-   			,CAST(#{item.D} AS INT4)		-- 교육이수번호/인증서번호
+   			,#{item.D}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.E}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.F}, '-', '')	-- 경력종료일
    		)
@@ -268,16 +292,18 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
+			,FILE_SEQ
    		)
    		VALUES
    		(
    			 #{masterSeq}
    			,#{careerTyp}
    			,#{expName}
-   			,#{plMZId}
+   			,REPLACE(#{plMZId}, '-', '')
    			,#{plEduNo}
-   			,#{careerStartDate}
-   			,#{careerEndDate}
+   			,REPLACE(#{careerStartDate}, '-', '')
+   			,REPLACE(#{careerEndDate}, '-', '')
+   			,#{fileSeq}
    		)
    	</insert>
    	
@@ -306,12 +332,14 @@
    			 MASTER_SEQ
 			,OPER_NAME
 			,PL_M_Z_ID
+			,FILE_SEQ
    		)
    		VALUES
    		(
    			 #{masterSeq}
    			,#{operName}
-   			,#{plMZId}
+   			,REPLACE(#{plMZId}, '-', '')
+   			,#{fileSeq}
    		)
    	</insert>
    
@@ -349,22 +377,22 @@
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
-			,TLM.PL_M_Z_ID
-			,TLM.PL_CELLPHONE
+			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 			,TLM.ADDR
 			,FN_CD_DTL('ADD001',TLM.ADDR) AS ADDR_NM
 			,TLM.ADDR_DETAIL
 			,TLM.PL_EDU_NO
-			,TLM.CAREER_START_DATE
-			,TLM.CAREER_END_DATE
-			,TLM.ENTRUST_DATE
-			,TLM.COM_CONT_DATE
+			,TO_DATE(TLM.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(TLM.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,TO_DATE(TLM.ENTRUST_DATE,'YYYYMMDD') AS ENTRUST_DATE
+			,TO_DATE(TLM.COM_CONT_DATE,'YYYYMMDD') AS COM_CONT_DATE
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
-			,TLM.PL_MERCHANT_NO
+			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
-			,TLM.CORP_FOUND_DATE
+			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
 			,TLM.CAPITAL
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
@@ -377,9 +405,9 @@
 			,TLM.COM_HAEJI_DATE
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
-			,TLM.REG_TIMESTAMP
+			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
-			,TLM.UPD_TIMESTAMP
+			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ = #{masterSeq}
@@ -395,10 +423,10 @@
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
 			,POSITION_NM
 			,EXC_NAME
-			,PL_M_Z_ID
+			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
 			,PL_EDU_NO
-			,CAREER_START_DATE
-			,CAREER_END_DATE
+			,TO_DATE(CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
 			,FULL_TM_STAT
 			,FN_CD_DTL('FTM001',FULL_TM_STAT) AS FULL_TM_STAT_NM
 			,EXPERT_STAT
@@ -419,10 +447,10 @@
 			,CAREER_TYP
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
 			,EXP_NAME
-			,PL_M_Z_ID
+			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
 			,PL_EDU_NO
-			,CAREER_START_DATE
-			,CAREER_END_DATE
+			,TO_DATE(CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
 			,FILE_SEQ
    		FROM TB_LC_MAS01_EXPERT
    		<where>
@@ -437,7 +465,7 @@
 	   		 OPER_SEQ
 			,MASTER_SEQ
 			,OPER_NAME
-			,PL_M_Z_ID
+			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IT
    		<where>
@@ -509,25 +537,67 @@
 	<update id="updateUserRegCorpImwonInfo" parameterType="userImwon">
 		UPDATE TB_LC_MAS01_IMWON
 		SET
-			
+			 CAREER_TYP			= #{careerTyp}
+			,POSITION_NM		= #{positionNm}
+			,EXC_NAME			= #{excName}
+			,PL_M_Z_ID			= REPLACE(#{plMZId}, '-', '')
+			,PL_EDU_NO			= #{plEduNo}
+			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
+			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
+			,FULL_TM_STAT		= #{fullTmStat}
+			,EXPERT_STAT		= #{expertStat}
+			,FILE_SEQ			= #{fileSeq}
 		<where>
 	    	AND EXC_SEQ = #{excSeq}
 	    </where>
 	</update>
    	
    	<!-- 모집인 등록 > 법인 : 전문인력 정보 수정 -->
-   	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert"></update>
+   	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert">
+   		UPDATE TB_LC_MAS01_EXPERT
+		SET
+			 CAREER_TYP			= #{careerTyp}
+			,EXP_NAME			= #{expName}
+			,PL_M_Z_ID			= REPLACE(#{plMZId}, '-', '')
+			,PL_EDU_NO			= #{plEduNo}
+			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
+			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
+			,FILE_SEQ			= #{fileSeq}
+		<where>
+	    	AND EXP_SEQ = #{expSeq}
+	    </where>
+   	</update>
    	
    	<!-- 모집인 등록 > 법인 : 전산인력 정보 수정 -->
    	<update id="updateUserRegCorpItInfo" parameterType="userIt">
    		UPDATE TB_LC_MAS01_IT
    		SET
    			 OPER_NAME		= #{operName}
-			,PL_M_Z_ID		= #{plMZId}
+			,PL_M_Z_ID		= REPLACE(#{plMZId}, '-', '')
 			,FILE_SEQ		= #{fileSeq}
    		<where>
 	    	AND OPER_SEQ 	= #{operSeq}
 	    </where>
    	</update>
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
    	
 </mapper> 

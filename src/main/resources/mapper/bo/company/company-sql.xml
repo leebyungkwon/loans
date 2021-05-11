@@ -160,12 +160,20 @@
 	<select id="updCompanyCodeDetail" parameterType="company" resultType="company">
 		UPDATE TB_LC_COMPANY
 		SET 
-			 COM_NAME				= #{comName}					/*회원사(상호명)*/  
-			,PL_MERCHANT_NO		= #{plMerchantNo}				/*법인등록번호*/ 
-			,PL_BUSINESS_NO		= #{plBusinessNo}				/*사업자등록번호*/
-			,COMP_PHONE_NO		= #{compPhoneNo}				/*회사대표번호*/ 
-			,UPD_TIMESTAMP		= NOW()							/*수정일시*/ 
+			UPD_TIMESTAMP		= NOW()							/*수정일시*/ 
 			,UPD_SEQ					= #{updSeq}						/*수정자 시퀀스*/ 
+			<if test="comName != null and comName != ''">
+				 ,COM_NAME				= #{comName}					/*회원사(상호명)*/  
+			 </if>
+ 			<if test="plMerchantNo != null and plMerchantNo != ''">
+				,PL_MERCHANT_NO		= #{plMerchantNo}				/*법인등록번호*/ 
+			</if>
+ 			<if test="plBusinessNo != null and plBusinessNo != ''">			
+				,PL_BUSINESS_NO		= #{plBusinessNo}				/*사업자등록번호*/
+			</if>
+ 			<if test="compPhoneNo != null and compPhoneNo != ''">			
+				,COMP_PHONE_NO		= #{compPhoneNo}				/*회사대표번호*/ 
+			</if>
 		<where>
 			AND COM_CODE			= #{comCode}
 		</where>
@@ -182,7 +190,7 @@
 	</select>
 	
 	<!-- 회원사 관리 중복 체크 -->
-	<select id="plMerchantNoCheck" parameterType="company" resultType="Integer">
+	<select id="plMerchantNoCheck" parameterType="company" resultType="int">
         SELECT count(*)
         FROM TB_LC_COMPANY
         WHERE PL_MERCHANT_NO = #{plMerchantNo}

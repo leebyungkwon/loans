@@ -213,13 +213,28 @@ public class UtilFile {
 		Boolean success 			= false;
 		List<FileDomain> fileList 	= new ArrayList<>();
 
-		if (this.files[0].getSize() < 1) {
+		if(this.files.length <= 0) {
 			success = true;
-			msg = "첨부파일이 잘못 되었습니다.[0001]";
+			msg = "첨부된 파일이 존재하지 않습니다.[0001]";
 			result.put("message", msg);
 			result.put("success", success);
 			result.put("data", Collections.emptyList());
 			return result;
+		}else {
+			long fileSizeChk = 0;
+			
+			for(int i = 0;i < this.files.length;i++) {
+				fileSizeChk += files[i].getSize();
+			}
+			
+			if(fileSizeChk < 1) {
+				success = true;
+				msg = "첨부파일이 잘못 되었습니다.[0002]";
+				result.put("message", msg);
+				result.put("success", success);
+				result.put("data", Collections.emptyList());
+				return result;
+			}
 		}
 		
 		this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
@@ -271,7 +286,7 @@ public class UtilFile {
 						}
 					}
 					if (!success) {
-						msg = "잘못된 확장자의 첨부파일을 등록 하였습니다.[0002]";
+						msg = "잘못된 확장자의 첨부파일을 등록 하였습니다.[0003]";
 						result.put("message", msg);
 						result.put("success", success);
 						result.put("data", Collections.emptyList());
