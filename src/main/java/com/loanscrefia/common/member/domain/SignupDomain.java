@@ -54,4 +54,6 @@ public class SignupDomain extends BaseDomain{
 	private String 	roleName;				// 권한명
 	private int 	fileSeq;				// 첨부파일ID
 	
+	private String optionTermsYn;			// 선택적약관동의
+	
 }
