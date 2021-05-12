@@ -98,7 +98,7 @@
 					</table>
 				</div>
 			
-			<sec:authorize access="hasRole('SYSTEM', 'ADMIN')" >
+			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 				<div class="btn_wrap">
 					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
 					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
