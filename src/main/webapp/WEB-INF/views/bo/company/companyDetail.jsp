@@ -94,7 +94,7 @@ function companyList(){
 					</tr>
 					<tr>
 						<th>승인상태</th>
-						<td colspan="3">${companyDetail.apprStat}</td>
+						<td colspan="3">${companyDetail.apprStatNm}</td>
 					</tr>
 					<tr>
 						<th class="acenter">첨부서류</th>

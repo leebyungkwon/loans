@@ -37,11 +37,11 @@ public class CompanyDomain extends BaseDomain {
 	private String roleName;								//권한명(1.미승인: NO_MEMBER, 2.가승인: TEMP_MEMEBER 3. 승인: MEMBER)
 	private String termsYn;									//약관동의
 	private String termsDate;								//약관동의일
-	@ExcelColumn(headerName = "승인상태", order = 6)
 	private String apprStat;								//승인상태(1.미승인, 2. 가승인, 3. 승인)
-	/* private String apprStatNm; */					//승인상태이름(1.미승인, 2. 가승인, 3. 승인)
-	private int fileSeq;										//첨부파일시퀀스
-	private int failCnt;										//로그인실패횟수
+	@ExcelColumn(headerName = "승인상태", order = 6)
+	private String apprStatNm;								//승인상태이름(1.미승인, 2. 가승인, 3. 승인)
+	private int fileSeq;									//첨부파일시퀀스
+	private int failCnt;									//로그인실패횟수
 	private String creYn;									//협회여부
 	private String dropYn;									//탈퇴여부
 	private int updSeq;										//수정자시퀀스

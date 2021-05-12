@@ -22,7 +22,7 @@
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
 			,TLM.APPR_STAT
-			<!-- ,fn_appr_stat(TLM.APPR_STAT) AS APPR_STAT_NM -->
+			,FN_CD_DTL('MEM001',TLM.APPR_STAT) AS APPR_STAT_NM
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
 			,TLM.CRE_YN
@@ -31,7 +31,7 @@
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MEMBERS TLM
 	    <where>
-	    	<if test="comCode != 0 and comCode != '0'">
+	    	<if test="comCode != null and comCode != ''">
 				AND	TLM.COM_CODE 	    = #{comCode}
 			</if>
 			<if test="apprStat != null and apprStat != ''">
@@ -60,7 +60,7 @@
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
 			,TLM.APPR_STAT
-			<!-- ,fn_appr_stat(TLM.APPR_STAT) AS APPR_STAT_NM -->
+			,FN_CD_DTL('MEM001',TLM.APPR_STAT) AS APPR_STAT_NM
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
 			,TLM.CRE_YN
@@ -107,8 +107,8 @@
 		FROM TB_LC_COMPANY TLC
 		<where>
 				AND TLC.DEL_YN = 'N'
-			<if test="comCode != null and comCode != '' ">
-				AND	TLC.COM_CODE 	    = #{comCode}
+			<if test="comCode != 0 and comCode != '0'">
+				,AND	TLC.COM_CODE 	    = #{comCode}
 			</if>
 		</where>
 		<include refid="common.pageBottom"/>

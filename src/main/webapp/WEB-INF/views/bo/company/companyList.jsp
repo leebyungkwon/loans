@@ -23,7 +23,7 @@ function pageLoad(){
 				,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}		
 				,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
-				,{type:"string"	, name:'apprStat'		, index:'apprStat'		, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'apprStatNm'		, index:'apprStatNm'		, width:"10%"	, align:"center"}
 			]
 		, sortNm : "member_seq"
 		, sort : "ASC"
@@ -116,7 +116,7 @@ function deleteCompany() {
 		</div>
 			<div class="sorting_wrap">
 			<div class="action">
-				<a href="javascript:alert('붙여야해!~');" class="btn_gray btn_small mgl5">다운로드</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small mgl5" onclick="$('#excelDown').trigger('click');">다운로드</a>
 			</div>
 		</div>
 	</div>
