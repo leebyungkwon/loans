@@ -40,21 +40,6 @@ function pageLoad(){
 	
 	//
 	//LibUtil.setDatePicker("range","startDate","endDate");
-	
-	$('input:radio[name="plClass"]').on("click", function(){
-		alert("변경");
-		var indv = '<a href="/static/sample/모집인등록_개인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="indvSample">샘플 다운로드</a>';
-		var corp = '<a href="/static/sample/모집인등록_법인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="corpSample">샘플 다운로드</a>';
-		if($('input:radio[name="plClass"]:checked').val() == "1"){
-			$("#indvSample").remove();
-			$("#corpSample").remove();
-			$("#sampleCheck").append(indv);	
-		}else{
-			$("#indvSample").remove();
-			$("#corpSample").remove();
-			$("#sampleCheck").append(corp);
-		}
-	});
 }
 
 //모집인 등록 row 클릭 이벤트
@@ -168,6 +153,22 @@ function goGetDate(opt) {
 	var result = WebUtil.getDate(opt);
 	$("#srchDate2").val(result);
 }
+
+// 모집인 유형에 따른 첨부파일 변환
+function sampleDownPop(){
+	var indv = '<a href="/static/sample/모집인등록_개인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="indvSample">샘플 다운로드</a>';
+	var corp = '<a href="/static/sample/모집인등록_법인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="corpSample">샘플 다운로드</a>';
+	if($('input:radio[name="plClass"]:checked').val() == "1"){
+		$("#indvSample").remove();
+		$("#corpSample").remove();
+		$("#sampleCheck").append(indv);	
+	}else{
+		$("#indvSample").remove();
+		$("#corpSample").remove();
+		$("#sampleCheck").append(corp);
+	}
+}
+
 </script>
 
 <form id="userRegDetailFrm" method="post">

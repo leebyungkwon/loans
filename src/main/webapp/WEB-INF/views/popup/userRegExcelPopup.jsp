@@ -19,11 +19,11 @@
 				<th>모집인유형 *</th>
 				<td>
 					<div class="input_radio_wrap">
-						<input type="radio" name="plClass" id="radio01" value="1">
+						<input type="radio" name="plClass" id="radio01" value="1" onclick="sampleDownPop()">
 						<label for="radio01">개인</label>
 					</div>
 					<div class="input_radio_wrap mgl20">
-						<input type="radio" name="plClass" id="radio02" value="2">
+						<input type="radio" name="plClass" id="radio02" value="2" onclick="sampleDownPop()">
 						<label for="radio02">법인</label>
 					</div>
 				</td>
