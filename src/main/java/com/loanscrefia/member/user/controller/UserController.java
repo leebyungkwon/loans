@@ -36,10 +36,80 @@ public class UserController {
 	 */
 	
 	//리스트 페이지
+	@GetMapping(value="/confirm/userConfirmPage")
+	public String userConfirmPage() {
+		return CosntPage.BoUserConfirmPage+"/userConfirmList";
+	}
 	
 	//리스트
+	@PostMapping(value="/confirm/userConfirmList")
+	public ResponseEntity<ResponseMsg> userConfirmListAjax(UserDomain userDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.selectUserConfirmList(userDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
+	//엑셀 다운로드
 	
+	//상세 페이지 : 개인
+	@PostMapping(value="/confirm/userConfirmIndvDetail")
+    public ModelAndView userConfirmIndvDetail(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmIndvDetail");
+    	Map<String, Object> result 	= userService.getUserRegIndvDetail(userDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//상세 페이지 : 법인 > 등록정보 탭
+	@PostMapping(value="/confirm/userConfirmCorpDetail")
+    public ModelAndView userConfirmCorpDetail(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpDetail");
+    	Map<String, Object> result 	= userService.getUserRegCorpDetail(userDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//상세 페이지 : 법인 > 대표자 및 임원관련사항 탭
+	@PostMapping(value="/confirm/userConfirmCorpImwonDetail")
+    public ModelAndView userConfirmCorpImwonDetail(UserImwonDomain userImwonDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpImwonDetail");
+    	Map<String, Object> result 	= userService.getUserRegCorpImwonDetail(userImwonDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//상세 페이지 : 법인 > 전문인력 탭
+	@PostMapping(value="/confirm/userConfirmCorpExpertDetail")
+    public ModelAndView userConfirmCorpExpertDetail(UserExpertDomain userExpertDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpExpertDetail");
+    	Map<String, Object> result 	= userService.getUserRegCorpExpertDetail(userExpertDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//상세 페이지 : 법인 > 전산인력 탭
+	@PostMapping(value="/confirm/userConfirmCorpItDetail")
+    public ModelAndView userConfirmCorpItDetail(UserItDomain userItDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpItDetail");
+    	Map<String, Object> result 	= userService.getUserRegCorpItDetail(userItDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//상세 페이지 : 법인 > 기타 탭
+	@PostMapping(value="/confirm/userConfirmCorpEtcDetail")
+    public ModelAndView userConfirmCorpEtcDetail(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpEtcDetail");
+    	Map<String, Object> result 	= userService.getUserRegCorpEtcDetail(userDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//취소요청
+	
+	//변경요청
+	
+	//해지요청
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 등록

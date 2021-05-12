@@ -35,6 +35,29 @@ public class UserService {
 	@Autowired private CodeService codeService;
 	@Autowired private UtilFile utilFile;
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 회원사 시스템 > 모집인 조회 및 변경
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//모집인 조회 및 변경 > 리스트
+	@Transactional(readOnly=true)
+	public List<UserDomain> selectUserConfirmList(UserDomain userDomain){
+		return userRepo.selectUserConfirmList(userDomain);
+	}
+	
+	//모집인 조회 및 변경 > 
+	
+	//모집인 조회 및 변경 > 
+	
+	//모집인 조회 및 변경 > 
+	
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 회원사 시스템 > 모집인 등록
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
 	//모집인 등록 > 리스트
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){

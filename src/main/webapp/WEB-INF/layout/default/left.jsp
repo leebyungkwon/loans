@@ -37,7 +37,7 @@
 	<ul>
 		<!-- class="on" -->
 		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
-		<li id="">
+		<li id="menuConfirm">
 			<a href="/member/confirm/userConfirmPage">모집인 조회 및 변경</a>
 		</li>
 		<li id="menuUser">

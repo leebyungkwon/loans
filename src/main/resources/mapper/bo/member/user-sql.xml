@@ -1,8 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.member.user.repository.UserRepository">
-   
-   	<!-- 모집인 등록 > 리스트 -->
+   	
+   	<!-- ====================================================================================================== -->
+   	<!-- [회원사 시스템 > 모집인 조회 및 변경] -->
+   	<!-- ====================================================================================================== -->
+   	
+   	<!-- 모집인 조회 및 변경 > 리스트 -->
+   	<select id="selectUserConfirmList" parameterType="user" resultType="user">
+   		SELECT 
+	    	<include refid="common.totalPages"/>
+	    	 TLM.MASTER_SEQ
+			,TLM.COM_CODE
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+			,TLM.MEMBER_SEQ
+			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+			,TLM.PL_CLASS
+			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+			,TLM.PL_PRODUCT
+			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+			,TLM.PL_REG_STAT
+			,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+			,TLM.PL_STAT
+			,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+			,TLM.PL_REGIST_NO
+			,TLM.CI
+			,TLM.PL_M_NAME
+			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+			,TLM.PL_M_Z_ID_EDU
+			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+			,TLM.ADDR
+			,TLM.ADDR_DETAIL
+			,TLM.PL_EDU_NO
+			,TLM.CAREER_START_DATE
+			,TLM.CAREER_END_DATE
+			,TLM.ENTRUST_DATE
+			,TLM.COM_CONT_DATE
+			,TLM.PL_MERCHANT_NAME
+			,TLM.PL_CEO_NAME
+			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLM.PL_BUSINESS_NO
+			,TLM.COMP_PHONE_NO
+			,TLM.CORP_FOUND_DATE
+			,TLM.CAPITAL
+			,TLM.PL_PAY_STAT
+			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+			,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
+			,TO_DATE(TLM.CRE_LICENSE_DATE,'YYYYMMDD') AS CRE_LICENSE_DATE
+			,TO_DATE(TLM.PAY_DATE,'YYYYMMDD') AS PAY_DATE
+			,TLM.SEND_MSG
+			,TLM.PL_HIST_CD
+			,TLM.COM_HAEJI_DATE
+			,TLM.CRE_HAEJI_DATE
+			,TLM.FILE_SEQ
+			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+			,TLM.UPD_SEQ
+			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+	    FROM TB_LC_MAS01 TLM
+		<where>
+			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+			AND TLM.PL_STAT != '1'																	-- 처리상태가 미요청이 아닌 것
+			AND TLM.PL_STAT != '2'																	-- 처리상태가 승인요청이 아닌 것
+			AND TLM.PL_STAT != '6'																	-- 처리상태가 취소가 아닌 것
+			<if test="plClass != null and plClass != ''">
+				AND TLM.PL_CLASS 	= #{plClass}
+			</if>
+			<if test="plProduct != null and plProduct != ''">
+				AND TLM.PL_PRODUCT 	= #{plProduct}
+			</if>
+	    	<if test="plStat != null and plStat != ''">
+				AND TLM.PL_STAT 	= #{plStat}
+			</if>
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	
+   	
+   	
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	
+   	
+   	<!-- ====================================================================================================== -->
+   	<!-- [회원사 시스템 > 모집인 등록] -->
+   	<!-- ====================================================================================================== -->
+   	
+	<!-- 모집인 등록 > 리스트 -->
    	<select id="selectUserRegList" parameterType="user" resultType="user">
    		SELECT 
 	    	<include refid="common.totalPages"/>
@@ -163,6 +253,7 @@
 			,PL_MERCHANT_NO
 			,CORP_FOUND_DATE
 			,ADDR
+			,ADDR_DETAIL
 			,CAPITAL
 			,PL_PRODUCT
 			,COM_CONT_DATE
@@ -182,10 +273,11 @@
 			,REPLACE(#{item.C}, '-', '')	-- 법인등록번호
    			,REPLACE(#{item.D}, '-', '')	-- 설립년월일
 			,#{item.E}						-- 본점소재지
-			,CAST(#{item.F} AS INT4)		-- 자본금
-			,#{item.G}						-- 금융상품유형
-			,REPLACE(#{item.H}, '-', '')	-- 계약일자
-   			,REPLACE(#{item.I}, '-', '')	-- 위탁예정기간
+			,#{item.F}						-- 상세주소(법인등기부본상)
+			,CAST(#{item.G} AS INT4)		-- 자본금
+			,#{item.H}						-- 금융상품유형
+			,REPLACE(#{item.I}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.J}, '-', '')	-- 위탁예정기간
    			,NOW()
    		)
    		</foreach>

@@ -42,7 +42,7 @@ public class CosntPage {
 	 */
 	
 	//모집인 조회 및 변경
-	public static String BoUserPage 		= "bo/user";
+	public static String BoUserConfirmPage 	= "bo/userConfirm";
 	
 	//모집인 등록
 	public static String BoUserRegPage 		= "bo/userReg";

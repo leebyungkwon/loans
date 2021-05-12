@@ -31,15 +31,18 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="본점소재지", vCell="E", vLenMin=1, vLenMax=2, vEnum="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17")
 	private String addr;			//본점소재지
 	
-	@ExcelColumn(headerName="자본금", vCell="F", vLenMin=0, vLenMax=1000000)
+	@ExcelColumn(headerName="상세주소", vCell="F", vLenMin=1, vLenMax=200)
+	private String addrDetail;		//상세주소
+	
+	@ExcelColumn(headerName="자본금", vCell="G", vLenMin=1, vLenMax=1000000)
 	private int capital;			//자본금
 	
-	@ExcelColumn(headerName="금융상품유형", vCell="G", vLenMin=1, vLenMax=1, vEnum="1,2,3,4,5,6,7")
+	@ExcelColumn(headerName="금융상품유형", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2,3,4,5,6,7")
 	private String plProduct;		//금융상품유형(취급상품)
 	
-	@ExcelColumn(headerName="계약일자", vCell="H", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="계약일자", vCell="I", vLenMin=10, vLenMax=10)
 	private String comContDate;		//계약일자
 	
-	@ExcelColumn(headerName="위탁예정기간", vCell="I", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="위탁예정기간", vCell="J", vLenMin=10, vLenMax=10)
 	private String entrustDate;		//위탁예정일
 }
