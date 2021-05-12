@@ -3,7 +3,7 @@
 
 <div class="data_wrap">
 	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
-	<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
+	<input type="hidden" name="fileGrpSeq" value=""/>
 
 	<div id="table03">
 		<table class="view_table">

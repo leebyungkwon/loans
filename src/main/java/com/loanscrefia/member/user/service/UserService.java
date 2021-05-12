@@ -222,7 +222,7 @@ public class UserService {
 					int insertResult = userRepo.insertUserRegCorpExpertInfoByExcel(userExpertDomain);
 					
 					if(insertResult > 0) {
-						return new ResponseMsg(HttpStatus.OK, "success", "대표자 및 임원이 등록되었습니다.");
+						return new ResponseMsg(HttpStatus.OK, "success", "전문인력이 등록되었습니다.");
 					}
 				}
 			}
