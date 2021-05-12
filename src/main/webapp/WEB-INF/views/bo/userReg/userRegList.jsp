@@ -37,6 +37,9 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 	});
+	
+	//
+	//LibUtil.setDatePicker("range","startDate","endDate");
 }
 
 //모집인 등록 row 클릭 이벤트
@@ -148,6 +151,12 @@ function goApplyAccept() {
 	}
 	AjaxUtil.post(p);
 }
+
+//날짜 가져오기
+function goGetDate(opt) {
+	var result = WebUtil.getDate(opt);
+	$("#srchDate2").val(result);
+}
 </script>
 
 <form id="userRegDetailFrm" method="post">
@@ -220,7 +229,7 @@ function goApplyAccept() {
 							<option value="">전체</option>
 							<option value="1">미요청</option>
 							<option value="2">승인요청</option>
-							<option value="3">승인반려</option>
+							<option value="5">승인반려</option>
 						</select>
 					</td>
 				</tr>
@@ -228,22 +237,22 @@ function goApplyAccept() {
 					<th>등록기간 조회</th>
 					<td colspan="3" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" value="2020.05.19" class="input_calendar">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" value="2020.05.19" class="input_calendar">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
 							<div id="date_cal02" class="calendar02"></div>
 						</div>
 						<div class="date_btn">
-							<a href="#">오늘</a>
-							<a href="#">어제</a>
-							<a href="#">1주일</a>
-							<a href="#">15일</a>
-							<a href="#">1개월</a>
+							<a href="javascript:void(0);" onclick="goGetDate('today');">오늘</a>
+							<a href="javascript:void(0);" onclick="goGetDate('1');">어제</a>
+							<a href="javascript:void(0);" onclick="goGetDate('7');">1주일</a>
+							<a href="javascript:void(0);" onclick="goGetDate('15');">15일</a>
+							<a href="javascript:void(0);" onclick="goGetDate('oneMonthAgo');">1개월</a>
 						</div>
 					</td>
 				</tr>

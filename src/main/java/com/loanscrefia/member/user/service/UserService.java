@@ -169,7 +169,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
@@ -238,7 +238,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
@@ -307,7 +307,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
@@ -665,7 +665,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
@@ -695,7 +695,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
@@ -725,7 +725,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {
@@ -755,7 +755,7 @@ public class UserService {
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
-				.setExt("doc")
+				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
 		if((boolean) ret.get("success")) {

@@ -260,7 +260,15 @@ public class UtilFile {
 					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
 
 					if (!UtilString.isStr(this.ext.toLowerCase())) {
-						if ("excel".equals(this.ext)) {
+						if ("all".equals(this.ext.toLowerCase())) {
+							for (All all : All.values()) {
+								if (all.toString().equals(extension)) {
+									success = true;
+									break;
+								}
+							}
+						}
+						if ("excel".equals(this.ext.toLowerCase())) {
 							for (Excel excel : Excel.values()) {
 								if (excel.toString().equals(extension)) {
 									success = true;
@@ -415,7 +423,7 @@ public class UtilFile {
 	}
 
 	public enum All {
-
+		png, jpg, jpeg, pdf, hwp, xls, xlsx, txt
 	}
 
 	public enum Excel {
