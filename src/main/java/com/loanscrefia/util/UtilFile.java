@@ -132,6 +132,14 @@ public class UtilFile {
 					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
 
 					if (!UtilString.isStr(this.ext.toLowerCase())) {
+						if ("all".equals(this.ext.toLowerCase())) {
+							for (All all : All.values()) {
+								if (all.toString().equals(extension)) {
+									success = true;
+									break;
+								}
+							}
+						}
 						if ("excel".equals(this.ext)) {
 							for (Excel excel : Excel.values()) {
 								if (excel.toString().equals(extension)) {
