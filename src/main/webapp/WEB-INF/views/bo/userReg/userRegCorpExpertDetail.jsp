@@ -127,7 +127,13 @@ function goDataAreaAdd() {
 									<tbody>
 										<tr>
 											<th>신규경력 구분</th>
-											<td colspan="3">${corpExpertList.careerTypNm }</td>
+											<td colspan="3">
+												<select name="careerTyp">
+													<c:forEach var="careerTypList" items="${result.careerTypList }">
+														<option value="${careerTypList.codeDtlCd }" <c:if test="${corpExpertList.careerTyp eq careerTypList.codeDtlCd }">selected="selected"</c:if>>${careerTypList.codeDtlNm }</option>
+													</c:forEach>
+												</select>
+											</td>
 										</tr>
 										<tr>
 											<th>이름</th>
