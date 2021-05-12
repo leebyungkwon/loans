@@ -7,6 +7,7 @@ INSERT INTO public.tb_lc_members (member_id,"password",com_code,member_name,emai
 
 
 INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no) VALUES
+	 ('여신금융협회','12341234','44443330','01031672126'),
 	 ('현대카드','12341234','44443330','01031672126'),
 	 ('볼보파이낸셜','55556666','11112345','01031672162'),
 	 ('우체국','45674567','88888888','01031672162');
