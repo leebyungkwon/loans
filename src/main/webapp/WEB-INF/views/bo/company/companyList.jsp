@@ -8,6 +8,18 @@ var companyGrid = Object.create(GRID);
 
 function pageLoad(){
 	
+	var companyCode = {
+			useCode : false
+			,code : 'COM001'
+			,target : '#comCode'
+			,url : '/common/selectCompanyCodeList'
+			,key : 'codeDtlCd'
+			,value : 'codeDtlNm'
+			,updData : ''
+		};
+		DataUtil.selectBox(companyCode);
+	
+	
 	companyGrid.set({
 		  id		: "companyGrid"
 		, url		: "/admin/mng/companyList"
@@ -34,6 +46,7 @@ function pageLoad(){
 		, size : 10
 	});
 }
+
 
 function companyDetail(idx, data){
 		var memberSeq = companyGrid.gridData[idx].memberSeq;
@@ -72,6 +85,8 @@ function deleteCompany() {
 		AjaxUtil.post(p);
 	}
 }
+
+
 </script>
 
 <form id="companyDetailFrm" method="post" action="/admin/mng/companyDetail">
@@ -94,13 +109,7 @@ function deleteCompany() {
 				<tr>
 					<th>회원사</th>
 					<td>
-						<select name="comCode">
-							<option value="0">전체</option>
-							<option value="9">현대카드</option>
-							<option value="10">볼보파이낸셜</option>
-							<option value="11">우체국</option>						
-							<option value="8">여신금융협회</option>						
-						</select>
+						<select id="comCode" name="comCode"></select>
 					</td>
 					<th>승인여부</th>
 					<td>
