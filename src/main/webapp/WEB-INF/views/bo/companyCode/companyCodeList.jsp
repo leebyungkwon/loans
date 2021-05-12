@@ -35,7 +35,7 @@
 	 	var companyCode = {
 			useCode : false
 			,code : 'COM001'
-			,target : '#scomCode'
+			,target : '#comCode'
 			,url : '/common/selectCompanyCodeList'
 			,key : 'codeDtlCd'
 			,value : 'codeDtlNm'
@@ -46,7 +46,7 @@
 	
 	function companyCodeDetail(idx, data){
 		var comCode = companyCodeGrid.gridData[idx].comCode;
-		$("#comCode").val(comCode);
+		$("#comCodeDetail").val(comCode);
 		$("#companyCodeDetailFrm").submit();
 	}
 
@@ -56,7 +56,7 @@
 </form>
 
 <form id="companyCodeDetailFrm" method="post" action="/admin/company/companyCodeDetailInsPage">
-	<input type="hidden" name="comCode" id="comCode"/>
+	<input type="hidden" name="comCode" id="comCodeDetail"/>
 </form>
 
 <div class="cont_area">
@@ -73,7 +73,7 @@
 				<tr>
 					<th>회원사</th>
 					<td>
-						<select id="scomCode" name="scomCode"></select>
+						<select id="comCode" name="comCode"></select>
 					</td>
 				</tr>
 			</table>	

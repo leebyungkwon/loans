@@ -130,20 +130,4 @@ public class CommonController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
