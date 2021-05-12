@@ -96,9 +96,10 @@ function deleteCompany() {
 					<td>
 						<select name="comCode">
 							<option value="0">전체</option>
-							<option value="1">현대카드</option>
-							<option value="2">볼보파이낸셜</option>
-							<option value="3">우체국</option>						
+							<option value="9">현대카드</option>
+							<option value="10">볼보파이낸셜</option>
+							<option value="11">우체국</option>						
+							<option value="8">여신금융협회</option>						
 						</select>
 					</td>
 					<th>승인여부</th>
