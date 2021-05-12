@@ -30,16 +30,10 @@
 			</tr>
 			<tr>
 				<th>엑셀업로드 *</th>
-				<td class="file">
+				<td class="file" id="sampleCheck">
 					<input type="text" class="w50 file_input" readonly disabled>
 					<input type="file" name="files" id="userRegFile" onchange="goFileNmShow();" style="display: none;"/>
 					<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
-					
-					
-					<a href="/static/sample/모집인등록_개인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
-					<a href="/static/sample/모집인등록_법인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
-					
-					
 				</td>
 			</tr>
 		</tbody>

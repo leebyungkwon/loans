@@ -40,6 +40,21 @@ function pageLoad(){
 	
 	//
 	//LibUtil.setDatePicker("range","startDate","endDate");
+	
+	$('input:radio[name="plClass"]').on("click", function(){
+		alert("변경");
+		var indv = '<a href="/static/sample/모집인등록_개인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="indvSample">샘플 다운로드</a>';
+		var corp = '<a href="/static/sample/모집인등록_법인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="corpSample">샘플 다운로드</a>';
+		if($('input:radio[name="plClass"]:checked').val() == "1"){
+			$("#indvSample").remove();
+			$("#corpSample").remove();
+			$("#sampleCheck").append(indv);	
+		}else{
+			$("#indvSample").remove();
+			$("#corpSample").remove();
+			$("#sampleCheck").append(corp);
+		}
+	});
 }
 
 //모집인 등록 row 클릭 이벤트
@@ -73,12 +88,6 @@ function goFileNmShow() {
 	var fileVal 	= $("#userRegFile").val().split("\\");
 	var fileName 	= fileVal[fileVal.length - 1];
 	$("#userRegFile").prev().val(fileName);
-}
-
-//샘플 다운로드
-function goSampleDownload() {
-	var plClass = $('input[name="plClass"]:checked').val();
-	alert("모집인유형이 "+plClass+"인 샘플 다운로드 되야해!");
 }
 
 //모집인 등록하기
