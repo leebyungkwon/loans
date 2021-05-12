@@ -110,7 +110,7 @@
 						</tr>
 					<tr>
 					<tr>
-						<th>회원사(상호명11)</th>
+						<th>회원사(상호명)</th>
 						<td colspan="3">
 							<input type="text" id="comName" name="comName" placeholder="회원사(상호명)을 입력해 주세요!"  value="${companyCodeInfo.comName}" class="w60" data-vd='{"type":"text","len":"1,20","req":true,"msg":"회원사(상호명)을 입력해 주세요"}' />
 						</td>
