@@ -121,7 +121,7 @@ function pageLoad(){
 </div>
 <form name="signup" id="signup" action="/signup" method="POST" enctype="multipart/form-data" >
 	<input type="hidden" id="checkId" value="N"/>
-	<input type="hidden" id="optionTermsYn" value="${termsData.optionTermsYn }"/>
+	<input type="hidden" name="optionTermsYn" id="optionTermsYn" value="${termsData.optionTermsYn }"/>
 	<div class="join_wrap">
 		<table>
 			<colgroup>
