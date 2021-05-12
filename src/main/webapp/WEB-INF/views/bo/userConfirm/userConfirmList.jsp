@@ -42,8 +42,8 @@ function pageLoad(){
 
 //모집인 조회 및 변경 row 클릭 이벤트
 function goUserConfirmDetail(idx, data){
-	var masterSeq 	= userRegGrid.gridData[idx].masterSeq;
-	var plClass		= userRegGrid.gridData[idx].plClass;
+	var masterSeq 	= userConfirmGrid.gridData[idx].masterSeq;
+	var plClass		= userConfirmGrid.gridData[idx].plClass;
 	
 	if(plClass == "1"){
 		//개인

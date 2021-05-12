@@ -109,6 +109,24 @@ function goTab(gubun) {
 	$("#pageFrm").submit();
 }
 
+//탭이동
+function goTab2(gubun) {
+	
+	if(gubun == "1"){
+		$("#pageFrm").attr("action","/member/confirm/userConfirmCorpDetail");
+	}else if(gubun == "2"){
+		$("#pageFrm").attr("action","/member/confirm/userConfirmCorpImwonDetail");
+	}else if(gubun == "3"){
+		$("#pageFrm").attr("action","/member/confirm/userConfirmCorpExpertDetail");
+	}else if(gubun == "4"){
+		$("#pageFrm").attr("action","/member/confirm/userConfirmCorpItDetail");
+	}else if(gubun == "5"){
+		$("#pageFrm").attr("action","/member/confirm/userConfirmCorpEtcDetail");
+	}
+	
+	$("#pageFrm").submit();
+}
+
 //모집인 등록 목록
 function goUserRegInfoList() {
 	location.href = "/member/user/userRegPage";

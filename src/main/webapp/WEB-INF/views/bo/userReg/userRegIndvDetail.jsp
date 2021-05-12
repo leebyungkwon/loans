@@ -63,6 +63,10 @@ function goUserRegInfoCancel() {
 }
 </script>
 
+<form name="pageFrm" id="pageFrm" method="post">
+	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+</form>
+
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">

@@ -53,7 +53,7 @@ function goUserRegInfoUpdt() {
 		</div>
 	</div>
 
-	<div class="tap_wrap">
+	<div class="tap_wrap" style="margin-bottom: 30px;">
 		<ul>
 			<li class="on"><a href="javascript:void(0);" class="single" onclick="goTab('1');">등록정보</a></li>
 			<li><a href="javascript:void(0);" onclick="goTab('2');">대표자 및 임원관련<br />사항</a></li>
@@ -63,15 +63,6 @@ function goUserRegInfoUpdt() {
 		</ul>
 	</div>
 	
-	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
-		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
-		<div class="btn_wrap02">
-			<div class="right">
-				<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
-			</div>
-		</div>
-	</c:if>
-
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 		<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
@@ -266,6 +257,10 @@ function goUserRegInfoUpdt() {
 	
 			<div class="btn_wrap">
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
+				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+					<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+					<a href="javascript:void(0);" class="btn_blue btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
+				</c:if>
 			</div>
 		</div>
 	</form>

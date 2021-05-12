@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
@@ -25,12 +24,21 @@ function pageLoad(){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>모집인 조회 및 변경 - 개인</h2>
+			<h2>모집인 조회 및 변경 - 법인</h2>
 		</div>
 	</div>
 
+	<div class="tap_wrap" style="margin-bottom: 30px;">
+		<ul>
+			<li class="on"><a href="javascript:void(0);" class="single" onclick="goTab2('1');">등록정보</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab2('2');">대표자 및 임원관련<br />사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab2('3');">전문성 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab2('4');">전산설비 관리 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" class="single" onclick="goTab2('5');">기타 첨부할 서류</a></li>
+		</ul>
+	</div>
+	
 	<div class="contents">
-		<h3>등록정보</h3>
 		<div id="table">
 			<table class="view_table">
 				<tr>
@@ -61,67 +69,53 @@ function pageLoad(){
 					<td colspan="3">${result.userRegInfo.plClassNm }</td>
 				</tr>
 				<tr>
-					<th>신규경력구분</th>
-					<td colspan="3">${result.userRegInfo.careerTypNm }</td>
-				</tr>
-				<tr>
 					<th>금융상품유형</th>
 					<td colspan="3">${result.userRegInfo.plProductNm }</td>
 				</tr>
 				<tr>
-					<th>이름</th>
-					<td>${result.userRegInfo.plMName }</td>
-					<th>주민번호</th>
-					<td>${result.userRegInfo.plMZId }</td>
+					<th>상호</th>
+					<td>${result.userRegInfo.plMerchantName }</td>
+					<th>대표이사</th>
+					<td>${result.userRegInfo.plCeoName }</td>
 				</tr>
 				<tr>
-					<th>휴대폰번호</th>
-					<td colspan="3">${result.userRegInfo.plCellphone }</td>
+					<th>법인등록번호</th>
+					<td colspan="3">${result.userRegInfo.plMerchantNo }</td>
 				</tr>
 				<tr>
-					<th>주소</th>
+					<th>설립년월일</th>
+					<td colspan="3">${result.userRegInfo.corpFoundDate }</td>
+				</tr>
+				<tr>
+					<th>본점소재지</th>
 					<td colspan="3">${result.userRegInfo.addrNm }</td>
 				</tr>
 				<tr>
-					<th>상세주소</th>
+					<th>상세주소(법인등기부본상)</th>
 					<td colspan="3">${result.userRegInfo.addrDetail }</td>
 				</tr>
 				<tr>
-					<th>교육이수번호</th>
-					<td colspan="3">${result.userRegInfo.plEduNo }</td>
-				</tr>
-				<tr>
-					<th>경력시작일</th>
-					<td>${result.userRegInfo.careerStartDate }</td>
-					<th>경력종료일</th>
-					<td>${result.userRegInfo.careerEndDate }</td>
+					<th>자본금(백만원)</th>
+					<td colspan="3">${result.userRegInfo.capital }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>
-					<td colspan="3">${result.userRegInfo.comContDate }</td>
-				</tr>
-				<tr>
+					<td>${result.userRegInfo.comContDate }</td>
 					<th>위탁예정기간</th>
-					<td colspan="3">${result.userRegInfo.entrustDate }</td>
+					<td>${result.userRegInfo.entrustDate }</td>
 				</tr>
-				<c:if test="${result.userRegInfo.plStat eq '4' }">
-					<tr>
-						<th>반려사유</th>
-						<td colspan="3">${result.userRegInfo.sendMsg }</td>
-					</tr>
-				</c:if>
 			</table>
 		</div>
 
-		<h3>첨부서류</h3>
-		<div id="table02">
+		<h3>신청인 관련 서류</h3>
+		<div id="table05">
 			<table class="view_table">
 				<colgroup>
-					<col width="50%"/>
-					<col width="50%"/>
+					<col width="38%"/>
+					<col width="62%"/>
 				</colgroup>
 				<tr>
-					<th class="acenter">사진 (등록증 게시용) *</th>
+					<th class="acenter">정관 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType1 ne null }">
@@ -132,7 +126,7 @@ function pageLoad(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">주민등록증사본, 여권사본 및 여권정보증명서, 운전면허증 사본 중 택1일 *</th>
+					<th class="acenter">법인등기부등본 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType2 ne null }">
@@ -143,7 +137,7 @@ function pageLoad(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">교육과정 이수확인서 (경력)</th>
+					<th class="acenter">설립, 등록 신청의 의사결정을 증명하는 서류 *<br />(등록신청 관련 발기인총회, 창립주주총회 또는 이사회의 공증을 받은 의사록)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType3 ne null }">
@@ -154,7 +148,7 @@ function pageLoad(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">인증서(신규)</th>
+					<th class="acenter">본점의 위치 및 명칭을 기재한 서류<br />(법인등기부에서 확인되지 않는 경우 제출)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType4 ne null }">
@@ -165,7 +159,7 @@ function pageLoad(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">경력증명서 *</th>
+					<th class="acenter">주주명부 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType5 ne null }">
@@ -176,44 +170,11 @@ function pageLoad(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">금융상품 유형, 내용에 대한 설명자료(계약서) *</th>
+					<th class="acenter">영위하는 다른 업종에 대한 증빙서류 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType6 ne null }">
 								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">${result.userRegInfo.fileType6.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<th class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType7 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType7.fileSeq }">${result.userRegInfo.fileType7.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<th class="acenter">대리인 신청 위임장(위임인 인간날인)</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType8 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType8.fileSeq }">${result.userRegInfo.fileType8.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<th class="acenter">위임인 인감증명서</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType9 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType9.fileSeq }">${result.userRegInfo.fileType9.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
