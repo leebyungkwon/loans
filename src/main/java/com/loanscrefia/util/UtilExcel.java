@@ -3,9 +3,11 @@ package com.loanscrefia.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -166,7 +168,12 @@ public class UtilExcel<T> {
 							f.setAccessible(true);
 							Object value = f.get(target); 
 							Cell cell = row.createCell(f.getAnnotation(ExcelColumn.class).order());
-							cell.setCellValue(StringEscapeUtils.unescapeHtml3(value.toString()));
+							
+							if(value == null || value.equals("")) {
+								cell.setCellValue("");
+							}else {
+								cell.setCellValue(StringEscapeUtils.unescapeHtml3(value.toString()));
+							}
 						}
 					}
 				}
@@ -184,5 +191,19 @@ public class UtilExcel<T> {
 	private int plEduNoCheck(EduDomain eduDomain) {
 		return eduRepo.plEduNoCheck(eduDomain);
 	}
+	
+	//날짜 형식 및 값 체크
+	public boolean dateCheck(String date, String format) {
+		SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
+		dateFormatParser.setLenient(false);
+		try {
+			dateFormatParser.parse(date);
+			return true;
+		}catch(Exception exception) {
+			return false;
+		}
+	}
+	
+
 
 }
