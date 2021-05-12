@@ -49,6 +49,7 @@ let GRID = {
 		this.isPaging = (obj.isPaging == undefined) ? true : obj.isPaging;
 		this.page = (obj.page == undefined) ? 0 : obj.page;
 		this.size = (obj.size == undefined) ? 10 : obj.size;
+		this.searchBtn = (obj.gridSearch == undefined) ? "" : obj.gridSearch.split(",")[1];
 		this.gridSearch = (obj.gridSearch == undefined) ? "" : obj.gridSearch.split(",")[0];
 		this.check = (obj.check == undefined) ? false : obj.check;
 		this.excel = (obj.excel == undefined) ? false : obj.excel;
@@ -65,22 +66,22 @@ let GRID = {
 		else this.returnData("");
 
 
-		let searchBtn = "";
+
 		if (this.gridSearch != "" ){
-			searchBtn = (this.gridSearch.split(",")[1] == undefined) ? "" : obj.gridSearch.split(",")[1];
-			if (this.gridSearch != "" && searchBtn != "") {
-				document.getElementById(this.gridSearch).querySelector("#" + searchBtn).onclick = function() { _this.getData('init'); };
+			if (this.gridSearch != "" && this.searchBtn != "") {
+				document.getElementById(this.searchBtn).onclick = function() { _this.getData('init'); };
 			}
 		}
-
 		if (this.excel != "") {
-			let button = document.createElement("button");
+			let button = document.createElement("a");
 			button.append("엑셀다운로드");
 			button.className = "btn btn_home";
-			document.getElementById(this.gridSearch).querySelector("#" + searchBtn).after(button);
+			button.id = "excelDown";
+			button.style.display = "none";
+			document.getElementById(this.searchBtn).after(button);
 			button.onclick = function() {
 				let param = "";
-				if (_this.gridSearch != "") {
+				if (this.gridSearch != "") {
 					param = Object.assign({}, _this.params, WebUtil.getTagInParam(document.getElementById(this.closest(".k_search").id)));
 				}
 				let p = {
