@@ -31,6 +31,17 @@
 			$("#companyCodeDetailFrm2").submit();
 		});
 		
+		// 회원사 코드
+	 	var companyCode = {
+			useCode : false
+			,code : 'COM001'
+			,target : '#scomCode'
+			,url : '/common/selectCompanyCodeList'
+			,key : 'codeDtlCd'
+			,value : 'codeDtlNm'
+			,updData : ''
+		};
+		DataUtil.selectBox(companyCode);
 	}
 	
 	function companyCodeDetail(idx, data){
@@ -62,12 +73,7 @@
 				<tr>
 					<th>회원사</th>
 					<td>
-					<select name="comCode">
-						<option value="0">전체</option>
-						<option value="1">현대카드</option>
-						<option value="2">볼보파이낸셜</option>
-						<option value="3">우체국</option>						
-					</select>
+						<select id="scomCode" name="scomCode"></select>
 					</td>
 				</tr>
 			</table>	
