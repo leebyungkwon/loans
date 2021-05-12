@@ -150,7 +150,7 @@ public class CompanyController {
 
 	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
 	@PostMapping(value="/company/updCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(CompanyDomain companyDomain) {
+	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		
 		int count = companyService.plMerchantNoCheck(companyDomain);
@@ -168,7 +168,7 @@ public class CompanyController {
 
 	// 회원사 코드 관리 - 디테일 리스트 -> Delete (글 삭제)
 	@PostMapping(value="/company/delCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
+	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(CompanyDomain companyDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		responseMsg.setData(companyService.delCompanyCodeDetail(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
