@@ -136,20 +136,22 @@ function goApplyAccept() {
 		return;
 	}
 	
-	var p = {
-		  url		: "/member/user/updatePlRegStat"	
-		, param		: {
-			 masterSeqArr 	: masterSeqArr  
-			,plStat			: '2'
-		}
-		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("승인요청되었습니다.");
-				userRegGrid.refresh();
+	if(confirm("승인요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/updatePlRegStat"	
+			, param		: {
+				 masterSeqArr 	: masterSeqArr  
+				,plStat			: '2'
 			}
-	    }
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("승인요청되었습니다.");
+					userRegGrid.refresh();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
 	}
-	AjaxUtil.post(p);
 }
 
 //날짜 가져오기

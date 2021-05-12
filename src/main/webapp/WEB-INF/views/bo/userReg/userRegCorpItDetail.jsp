@@ -41,10 +41,19 @@ function goCorpItInfoUpdt(operSeq) {
 	}
 }
 
-//삭제 -> 진짜 삭제인지 확인 필요*****
+//삭제 -> 일단 delete로(2021.05.12)
 function goCorpItInfoDel(operSeq) {
 	if(confirm("정말 삭제하시겠습니까?")){
-		alert("삭제해야해!");
+		var p = {
+			  url		: "/member/user/deleteUserRegCorpItInfo"	
+			, param		: {
+				operSeq 	: operSeq  
+			}
+			, success 	: function (opt,result) {
+				location.reload();
+		    }
+		}
+		AjaxUtil.post(p);
 	}
 }
 

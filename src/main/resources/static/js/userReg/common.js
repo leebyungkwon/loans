@@ -128,12 +128,13 @@ function goHtmlAdd(callUrl,formUrl,dataWrapLen) {
 			var formNo = dataWrapLen + 1;
 			
 			//추가
-			$("#target").before(data);
+			$(".data_wrap:first").closest("form").before(data);
+			//$("#target").before(data);
 			
 			//form 태그 감싸기
 			var formNm = "userRegInfoInsertFrm"+formNo;
-			$(".data_wrap:last").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
-			//$(".data_wrap:last").before('<input type="hidden" name="masterSeq" value="'+masterSeq+'"/>');
+			$(".data_wrap:first").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
+			//$(".data_wrap:last").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
 		}
 	});
 }

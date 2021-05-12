@@ -776,8 +776,53 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
 	}
 	
+	//모집인 등록 > 삭제 : 법인(대표자 및 임원관련사항 탭)
+	@Transactional
+	public ResponseMsg deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain){
+		//상태값 체크*****
+		this.userRegValidation(userImwonDomain.getMasterSeq());
+		
+		//삭제
+		int result = userRepo.deleteUserRegCorpImwonInfo(userImwonDomain);
+		
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "COM0006", "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
 	
+	//모집인 등록 > 삭제 : 법인(전문인력 탭)
+	@Transactional
+	public ResponseMsg deleteUserRegCorpExpertInfo(UserExpertDomain userExpertDomain){
+		//상태값 체크*****
+		this.userRegValidation(userExpertDomain.getMasterSeq());
+		
+		//삭제
+		int result = userRepo.deleteUserRegCorpExpertInfo(userExpertDomain);
+		
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "COM0006", "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
 	
+	//모집인 등록 > 삭제 : 법인(전산인력 탭)
+	@Transactional
+	public ResponseMsg deleteUserRegCorpItInfo(UserItDomain userItDomain){
+		//상태값 체크*****
+		this.userRegValidation(userItDomain.getMasterSeq());
+		
+		//삭제
+		int result = userRepo.deleteUserRegCorpItInfo(userItDomain);
+		
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "COM0006", "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
 	
 	
 	
@@ -801,7 +846,7 @@ public class UserService {
 			code = "E1";
 		}
 		
-		return new ResponseMsg(HttpStatus.OK, code, "등록 또는 수정이 불가능한 상태입니다.");
+		return new ResponseMsg(HttpStatus.OK, code, "등록,수정,삭제가 불가능한 상태입니다.");
 	}
 	
 	

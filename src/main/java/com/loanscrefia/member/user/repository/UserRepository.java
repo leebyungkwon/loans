@@ -65,5 +65,22 @@ public interface UserRepository {
 	
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 수정
 	int updateUserRegCorpItInfo(UserItDomain userItDomain);
+	
+	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제
+	int deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain);
+	
+	//모집인 등록 > 법인 : 전문인력 정보 삭제
+	int deleteUserRegCorpExpertInfo(UserExpertDomain userExpertDomain);
+	
+	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제
+	int deleteUserRegCorpItInfo(UserItDomain userItDomain);
 
+	
+	
+	
+	
+	
+	
+	
+	
 }

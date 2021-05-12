@@ -580,21 +580,29 @@
 	    </where>
    	</update>
    	
+	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 삭제 -->
+	<delete id="deleteUserRegCorpImwonInfo" parameterType="userImwon">
+		DELETE FROM TB_LC_MAS01_IMWON
+		<where>
+	    	AND EXC_SEQ = #{excSeq}
+	    </where>
+	</delete>
+ 	
+   	<!-- 모집인 등록 > 법인 : 전문인력 정보 삭제 -->
+   	<delete id="deleteUserRegCorpExpertInfo" parameterType="userExpert">
+   		DELETE FROM TB_LC_MAS01_EXPERT
+		<where>
+	    	AND EXP_SEQ = #{expSeq}
+	    </where>
+	</delete>
    	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
-   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 정보 삭제 -->
+   	<delete id="deleteUserRegCorpItInfo" parameterType="userIt">
+   		DELETE FROM TB_LC_MAS01_IT
+		<where>
+	    	AND OPER_SEQ 	= #{operSeq}
+	    </where>
+	</delete>
    	
    	
    	
