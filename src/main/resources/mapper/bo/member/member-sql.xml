@@ -20,6 +20,8 @@
 			,FILE_SEQ                      			/*첨부파일ID*/
 			,TERMS_YN								/*약관동의*/
 			,TERMS_DATE								/*약관동의일*/
+			,OPTION_TERMS_YN						/*선택적약관동의*/
+			,OPTION_TERMS_DATE						/*선택적약관관동의일*/
 		)
 		VALUES
 		(
@@ -36,6 +38,8 @@
 			,'NO_MEMBER'							/*권한명*/   
 			,#{fileSeq}								/*첨부파일ID*/
 			,'Y'									/*약관동의*/
+			,TO_CHAR(NOW(), 'YYYYMMDD')				/*약관동의일*/
+			,#{optionTermsYn}						/*선택적약관동의*/
 			,TO_CHAR(NOW(), 'YYYYMMDD')				/*약관동의일*/
 		)	
 		RETURNING MEMBER_SEQ AS memberSeq

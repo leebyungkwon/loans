@@ -76,8 +76,9 @@ public class LoginController {
 	
 	// 회원가입 페이지
 	@GetMapping("/signup")
-	public ModelAndView dispSignup() {
+	public ModelAndView dispSignup(SignupDomain signupDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.Common + "/signup");
+		mv.addObject("termsData", signupDomain);
 		return mv;
 	}
 

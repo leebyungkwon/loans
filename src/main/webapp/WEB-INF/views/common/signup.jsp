@@ -121,6 +121,7 @@ function pageLoad(){
 </div>
 <form name="signup" id="signup" action="/signup" method="POST" enctype="multipart/form-data" >
 	<input type="hidden" id="checkId" value="N"/>
+	<input type="hidden" id="optionTermsYn" value="${termsData.optionTermsYn }"/>
 	<div class="join_wrap">
 		<table>
 			<colgroup>
@@ -188,7 +189,14 @@ function pageLoad(){
 			<tr>
 				<th>휴대폰 번호</th>
 				<td>
-					<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+					<c:choose>
+						<c:when test="${termsData.optionTermsYn eq 'N'}">
+							<input type="text" id="mobileNo" name="mobileNo" placeholder="선택적약관 미동의" disabled/>
+						</c:when>
+						<c:otherwise>
+							<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 			<tr>
