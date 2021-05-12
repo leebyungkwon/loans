@@ -125,7 +125,7 @@
 		</div>
 	</form>
 	
-	<sec:authorize access="hasRole('SYSTEM', 'ADMIN')" >
+	<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" id="companyCodeBtn"  class="btn_gray">목록</a>								
 			<c:choose>

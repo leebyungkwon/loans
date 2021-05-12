@@ -83,7 +83,7 @@
 	
 	<div id="companyCodeGrid"></div>
 	
-	<sec:authorize access="hasRole('SYSTEM', 'ADMIN')" >
+	<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 		<div class="sorting_wrap">
 				<a href="javascript:void(0);" id="companySaveBtn"  class="btn_gray btn_right">등록</a>
 		</div>
