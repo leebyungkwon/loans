@@ -10,6 +10,7 @@
 		$(".gnb > ul > li").removeClass("on");
 		var pathName = location.pathname;
 		var menuUrl = pathName.split("/");
+		console.log("??" + menuUrl[2]);
 		if(menuUrl[2] == "user"){
 			$("#menuUser").addClass("on");
 		}else if(menuUrl[2] == "admin"){
@@ -24,6 +25,8 @@
 			$("#menuBoard").addClass("on");
 		}else if(menuUrl[2] == "code"){
 			$("#menuCode").addClass("on");
+		}else if(menuUrl[2] == "confirm"){
+			$("#menuConfirm").addClass("on");
 		}
 	}
 </script>
@@ -35,7 +38,7 @@
 		<!-- class="on" -->
 		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
 		<li id="">
-			<a href="#">모집인 조회 및 변경</a>
+			<a href="/member/confirm/userConfirmPage">모집인 조회 및 변경</a>
 		</li>
 		<li id="menuUser">
 			<a href="/member/user/userRegPage">모집인 등록</a>
@@ -45,28 +48,27 @@
 		</li>
 		</sec:authorize>
 		
-		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
 		<li id="">
-			<a href="#">(협회)모집인 조회 및 변경</a>
+			<a href="#">모집인 조회 및 변경</a>
 		</li>
 		<li id="">
-			<a href="#">(협회)모집인 승인처리</a>
+			<a href="#">모집인 승인처리</a>
 		</li>
 		<li id="">
-			<a href="#">(협회)결제내역</a>
+			<a href="#">결제내역</a>
 		</li>
 		<li id="">
-			<a href="#">(협회)타협회 내역 다운로드</a>
+			<a href="#">타협회 내역 다운로드</a>
 		</li>
-		<li id="menuCompany">
-			<a href="/admin/company/companyCodePage">(협회)회원사 관리</a>
-		</li>
-		<li id="menuCrefia">
-			<a href="/admin/crefia/crefiaPage">(협회)관리자 관리</a>
-		</li>
+<!-- 		<li id="menuCompany">
+			<a href="/admin/company/companyCodePage">회원사 관리</a>
+		</li> -->
+<!-- 		<li id="menuCrefia">
+			<a href="/admin/crefia/crefiaPage">관리자 관리</a>
+		</li> -->
 		<li id="menuMng">
-			<a href="/admin/mng/companyPage">(협회)회원사 담당자 조회</a>
+			<a href="/admin/mng/companyPage">회원사 담당자 조회</a>
 		</li>
 		</sec:authorize>
 		

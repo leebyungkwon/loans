@@ -4,17 +4,17 @@
 
 <script>
 function pageLoad(){
-	$("#radio02").on("click", function(){
-		alert("필수적 개인정보 수집‧이용 동의서에 동의하지 않는 경우\n협회의 대출성상품 모집인 등록 시스템을 이용할 수 없습니다.");
-		location.href="/login";
-	});
 
 	$("#termsCheck").on("click", function(){
 		if($("input:radio:checked").length == 2){
+			if($("#radio02").is(":checked")){
+				alert("필수적 개인정보 수집‧이용 동의서에 동의하지 않는 경우\n협회의 대출성상품 모집인 등록 시스템을 이용할 수 없습니다.");
+				return false;
+			}
 			var optionTermsYn = $('input:radio[name="optionTermsYn"]:checked').val();
 			location.href="/signup?optionTermsYn="+optionTermsYn;
 		}else{
-			alert("약관동의를 확인해 주세요.");
+			alert("약관동의를 선택해 주세요.");	
 		}
 	});
 }

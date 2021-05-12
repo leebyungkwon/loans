@@ -47,21 +47,6 @@ function pageLoad(){
 		$("#u_file").click();
 	});
 	
-	// 양식 다운로드
-	$("#sampleDown").on("click", function(){
-		// 추후 양식 관련 템플 정리 후 번호 책정
-		var param = {
-			'fileSeq'	:	2
-		}
- 		var p = {
-			  param : param
-			, url : "/common/fileDown"
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-		}
-		AjaxUtil.post(p);
-	});
-	
 	// 아이디 중복체크
 	$("#idcheck").on("click", function(){
 		var memberId = $("#memberId").val();
@@ -205,7 +190,7 @@ function pageLoad(){
 					<input type="text" id="fileName" name="fileName" readonly="readonly"  data-vd='{"type":"text","len":"1,60","req":true,"msg":"파일을 첨부해 주세요"}' />
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
-					<a href="javascript:void(0);" class="btn_gray btn_small" id="sampleDown">양식다운로드</a>
+					<a href="/static/sample/담당자신청서_샘플.png" download class="btn_gray btn_small" id="">샘플다운로드</a>
 					<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
 				</td>
 			</tr>

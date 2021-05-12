@@ -84,7 +84,7 @@ public class CommonController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
+	// 첨부파일 다운로드
 	@PostMapping("/common/fileDown")
 	public ResponseEntity<Resource> fileDown(@RequestParam int fileSeq, @RequestHeader("User-Agent") String userAgent,  HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
@@ -103,10 +103,10 @@ public class CommonController {
  			String orgfileName = getFile.getFileOrgNm()+ "." + getFile.getFileExt();
 			String downloadName = URLEncoder.encode(orgfileName,"UTF-8").replace("\\+", "%20");
 			
-			String test = new String(orgfileName.getBytes("UTF-8"), "ISO-8859-1");
+			String tempFileName = "test_download."+ getFile.getFileExt();
 
  			return ResponseEntity.ok()
- 					.header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" +downloadName)	//다운 받아지는 파일 명 설정
+ 					.header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" +tempFileName)	//다운 받아지는 파일 명 설정
  					.header("Content-Transfer-Encoding", "binary")
  					.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(resultFile.length()))	//파일 사이즈 설정
  					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())	//바이너리 데이터로 받아오기 설정

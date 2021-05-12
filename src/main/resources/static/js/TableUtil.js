@@ -76,6 +76,8 @@ let GRID = {
 			let button = document.createElement("a");
 			button.append("엑셀다운로드");
 			button.className = "btn btn_home";
+			button.id = "excelDown";
+			button.style.display = "none";
 			document.getElementById(this.searchBtn).after(button);
 			button.onclick = function() {
 				let param = "";

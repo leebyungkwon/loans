@@ -62,7 +62,7 @@
 	
 	<div id="noticeListGrid"></div>
 	
-	<sec:authorize access="hasRole('SYSTEM')" >
+	<sec:authorize access="hasRole('SYSTEM', 'ADMIN')" >
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" id="noticeWriteBtn" class="btn_gray btn_right">글 쓰기</a>
 		</div>

@@ -115,7 +115,7 @@
 		</div>
 	</form>
 	
-	<sec:authorize access="hasRole('SYSTEM')" >
+	<sec:authorize access="hasRole('SYSTEM', 'ADMIN')" >
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>								
 		
