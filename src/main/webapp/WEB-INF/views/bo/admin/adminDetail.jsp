@@ -15,10 +15,6 @@
 			$("#adminDetailFrm").submit();
 		});
 	
-		$("#adminCancelBtn").on("click", function(){
-			location.href = "/member/admin/adminPage";
-		});
-		
 		//첨부파일명 보여주기
 		$(".inputFile").on("change", function () {
 			var fileVal 	= $(this).val().split("\\");
@@ -104,7 +100,6 @@
 		<a href="javascript:void(0);" id="adminBtn" class="btn_gray">목록</a>
 		<sec:authentication property="principal.username" var="userSeq" />
 			<c:if test="${adminInfo.memberSeq eq userSeq}">
-				<a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray btn_right02">취소</a>
 				<a href="javascript:void(0);" id="adminInsBtn" class="btn_black btn_right">수정</a>
 			</c:if>
 	</div>
