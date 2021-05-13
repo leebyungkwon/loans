@@ -47,7 +47,8 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('ADD001','본점소재지','본점소재지',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('CRE001','협회그룹','협회그룹',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 10:23:54.118611',NULL,NULL),
 	 ('FTM001','상근여부','상근여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
-	 ('EXP001','전문인력여부','전문인력여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 ('EXP001','전문인력여부','전문인력여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('CPT001','등록경로','등록경로',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
 	 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('CLS001','1','개인','개인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
@@ -101,4 +102,6 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('EXP001','1','전문인력','전문인력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('EXP001','2','비전문인력','비전문인력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('CRE001','1','실무자','실무자',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:17.163737',NULL,NULL),
-	 ('CRE001','2','관리자','관리자',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL);
+	 ('CRE001','2','관리자','관리자',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL),
+	 ('CPT001','1','엑셀','엑셀',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL),
+	 ('CPT001','2','수동','수동',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL);
