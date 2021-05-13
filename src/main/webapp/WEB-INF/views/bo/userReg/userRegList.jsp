@@ -201,7 +201,7 @@ function goApplyAccept() {
 function goGetDate(opt) {
 	var result = WebUtil.getDate(opt);
 	$("#srchDate1").val(result);
-	$("#srchDate2").val(result);
+	$("#srchDate2").val(WebUtil.getDate("today"));
 }
 
 </script>
