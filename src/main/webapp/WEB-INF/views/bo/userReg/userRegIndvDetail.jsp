@@ -53,13 +53,13 @@ function goUserRegInfoCancel() {
 		var p = {
 			  url		: "/member/user/updatePlRegStat"	
 			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
+				 masterSeqArr 	: $("#masterSeq").val()
+				,plStat			: '6'
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
 					alert("삭제되었습니다.");
-					location.reload();
+					goUserRegInfoList();
 				}
 		    }
 		}
