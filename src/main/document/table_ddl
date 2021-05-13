@@ -696,3 +696,53 @@ COMMENT ON COLUMN tb_lc_notice.upd_seq IS '수정자시퀀스';
 commit;
 
 
+-- 법인 seq
+CREATE SEQUENCE tb_lc_corp_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 법인정보
+create table tb_lc_corp(
+	corp_seq integer not null default nextval('tb_lc_corp_seq')
+	, pl_merchant_name varchar(30) not null
+	, pl_merchant_no varchar(13) not null 
+	, path_typ char(1) not null default '1'
+	, use_yn char(1) not null default 'Y'
+	, reg_timestamp timestamp
+	, reg_seq integer NOT NULL
+	, upd_timestamp timestamp NOT NULL
+	, upd_seq integer
+	, primary key (corp_seq)
+);
+
+COMMENT ON TABLE tb_lc_corp IS '법인정보';
+COMMENT ON COLUMN tb_lc_corp.corp_seq IS '법인시퀀스';
+COMMENT ON COLUMN tb_lc_corp.pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_corp.pl_merchant_no IS '법인등록번호';
+COMMENT ON COLUMN tb_lc_corp.path_typ IS '등록경로';
+COMMENT ON COLUMN tb_lc_corp.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_corp.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_corp.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_corp.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_corp.upd_seq IS '수정자시퀀스';
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
