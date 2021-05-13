@@ -200,6 +200,7 @@ function goApplyAccept() {
 //날짜 가져오기
 function goGetDate(opt) {
 	var result = WebUtil.getDate(opt);
+	$("#srchDate1").val(result);
 	$("#srchDate2").val(result);
 }
 
