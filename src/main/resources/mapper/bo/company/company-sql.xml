@@ -107,7 +107,7 @@
 		<where>
 				AND TLC.DEL_YN = 'N'
 			<if test="comCode != null and comCode != ''">
-				,AND	TLC.COM_CODE 	    = #{comCode}
+				AND	TLC.COM_CODE 	    = #{comCode}
 			</if>
 		</where>
 		<include refid="common.pageBottom"/>
