@@ -132,6 +132,11 @@ function goUserRegInfoList() {
 	location.href = "/member/user/userRegPage";
 }
 
+//모집인 조회 및 변경 목록
+function goUserConfirmList(){
+	location.href = "/member/confirm/userConfirmPage";
+}
+
 //작성 영역 추가
 function goHtmlAdd(callUrl,formUrl,dataWrapLen) {
 	$.ajax({

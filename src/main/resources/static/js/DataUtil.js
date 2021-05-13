@@ -5,15 +5,15 @@ var DataUtil = {
         	obj.success = (typeof (obj.success) === "function") ? obj.success : this.successSelectBox;
         	var param = {}
         	if(obj.useCode){
-        		obj.propertie01 = (typeof (obj.propertie01) == "undefined") ? '' : obj.propertie01;
-        		obj.propertie02 = (typeof (obj.propertie02) == "undefined") ? '' : obj.propertie02;
-        		obj.propertie03 = (typeof (obj.propertie03) == "undefined") ? '' : obj.propertie03;
-        		obj.propertie04 = (typeof (obj.propertie04) == "undefined") ? '' : obj.propertie04;
-        		obj.propertie05 = (typeof (obj.propertie05) == "undefined") ? '' : obj.propertie05;
+        		obj.property01 = (typeof (obj.property01) == "undefined") ? '' : obj.property01;
+        		obj.property02 = (typeof (obj.property02) == "undefined") ? '' : obj.property02;
+        		obj.property03 = (typeof (obj.property03) == "undefined") ? '' : obj.property03;
+        		obj.property04 = (typeof (obj.property04) == "undefined") ? '' : obj.property04;
+        		obj.property05 = (typeof (obj.property05) == "undefined") ? '' : obj.property05;
         		obj.defaultMsg = (typeof (obj.defaultMsg) == "undefined") ? '' : obj.defaultMsg;
 				params = {
-					url : '/common/selectCommonCompanyCodeList'
-					, param : {codeMstCd : obj.code , propertie01 : obj.propertie01, propertie02 : obj.propertie02, propertie03 : obj.propertie03, propertie04 : obj.propertie04, propertie05 : obj.propertie05}
+					url : '/common/selectCommonCodeList'
+					, param : {codeMstCd : obj.code , property01 : obj.property01, property02 : obj.property02, property03 : obj.property03, property04 : obj.property04, property05 : obj.property05}
 					, target : obj.target
 					, success : obj.success
 					, updData : obj.updData

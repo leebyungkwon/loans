@@ -1,7 +1,10 @@
 package com.loanscrefia.member.user.controller;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.loanscrefia.common.board.domain.TempleteDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -23,6 +27,7 @@ import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
 import com.loanscrefia.member.user.domain.UserItDomain;
 import com.loanscrefia.member.user.service.UserService;
+import com.loanscrefia.util.UtilExcel;
 
 @Controller
 @RequestMapping(value="/member")
@@ -50,6 +55,11 @@ public class UserController {
 	}
 	
 	//엑셀 다운로드
+	@PostMapping("/confirm/userConfirmListExcelDown")
+	public void userConfirmListExcelDown(UserDomain userDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+ 		List<UserDomain> excelDownList = userService.selectUserConfirmList(userDomain);
+ 		new UtilExcel().downLoad(excelDownList, UserDomain.class, response.getOutputStream());
+	}
 	
 	//상세 페이지 : 개인
 	@PostMapping(value="/confirm/userConfirmIndvDetail")
@@ -104,6 +114,15 @@ public class UserController {
     	mv.addObject("result", result);
         return mv;
     }
+	
+	//처리상태 변경
+	@PostMapping(value="/confirm/updatePlRegConfirmStat")
+	public ResponseEntity<ResponseMsg> updatePlRegConfirmStat(UserDomain userDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.updatePlRegConfirmStat(userDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	
 	//취소요청
 	

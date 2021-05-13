@@ -9,15 +9,15 @@ var companyGrid = Object.create(GRID);
 function pageLoad(){
 	
 	var companyCode = {
-			useCode : false
-			,code : 'COM001'
-			,target : '#comCode'
-			,url : '/common/selectCompanyCodeList'
-			,key : 'codeDtlCd'
-			,value : 'codeDtlNm'
-			,updData : ''
-		};
-		DataUtil.selectBox(companyCode);
+		useCode : false
+		,code : 'COM001'
+		,target : '#comCode'
+		,url : '/common/selectCompanyCodeList'
+		,key : 'codeDtlCd'
+		,value : 'codeDtlNm'
+		,updData : ''
+	};
+	DataUtil.selectBox(companyCode);
 	
 	
 	companyGrid.set({

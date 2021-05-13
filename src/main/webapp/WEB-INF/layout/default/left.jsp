@@ -49,7 +49,7 @@
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
-		<li id="">
+<!-- 		<li id="">
 			<a href="#">모집인 조회 및 변경</a>
 		</li>
 		<li id="">
@@ -60,7 +60,7 @@
 		</li>
 		<li id="">
 			<a href="#">타협회 내역 다운로드</a>
-		</li>
+		</li> -->
 <!-- 		<li id="menuCompany">
 			<a href="/admin/company/companyCodePage">회원사 관리</a>
 		</li> -->

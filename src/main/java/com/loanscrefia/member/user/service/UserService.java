@@ -46,8 +46,11 @@ public class UserService {
 		return userRepo.selectUserConfirmList(userDomain);
 	}
 	
-	//모집인 조회 및 변경 > 
-	
+	//모집인 조회 및 변경 > 처리상태 변경 
+	@Transactional
+	public int updatePlRegConfirmStat(UserDomain userDomain){
+		return userRepo.updatePlRegConfirmStat(userDomain);
+	}
 	//모집인 조회 및 변경 > 
 	
 	//모집인 조회 및 변경 > 

@@ -30,14 +30,13 @@
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MEMBERS TLM
-	    <where>
+	    WHERE COM_CODE != 1
 	    	<if test="comCode != null and comCode != ''">
 				AND	TLM.COM_CODE 	    = #{comCode}
 			</if>
 			<if test="apprStat != null and apprStat != ''">
 				AND	TLM.APPR_STAT 		= #{apprStat}
 			</if>
-		</where>
 	    <include refid="common.pageBottom"/>
     </select>
     
