@@ -37,6 +37,7 @@ function pageLoad(){
 			<c:when test="${fn:length(result.expertList) > 0 }">
 				<c:forEach var="corpExpertList" items="${result.expertList }" varStatus="status">
 					<div class="data_wrap">
+						<h3>기본정보</h3>
 						<div id="table03">
 							<table class="view_table">
 								<colgroup>
