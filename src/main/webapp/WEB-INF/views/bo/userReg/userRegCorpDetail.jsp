@@ -6,10 +6,15 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	//승인요청상태이면 첨부파일 수정 불가
+	//승인요청상태이면 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";
 	if(plStat == "2"){
+		$("input").prop("readonly",true);
+		$("option").attr("disabled",true);
 		$(".goFileDel").remove();
+		$(".inputFile").each(function(){
+			$(this).parent("td").html("-");
+		});
 	}
 }
 
@@ -259,7 +264,7 @@ function goUserRegInfoUpdt() {
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
 				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
 					<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
-					<a href="javascript:void(0);" class="btn_blue btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
+					<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goUserRegInfoUpdt();">저장</a>
 				</c:if>
 			</div>
 		</div>

@@ -3,7 +3,8 @@
 <div class="data_wrap">
 	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 	<input type="hidden" name="fileGrpSeq" value=""/>
-
+	
+	<h3>기본정보</h3>
 	<div id="table">
 		<table class="view_table">
 			<colgroup>

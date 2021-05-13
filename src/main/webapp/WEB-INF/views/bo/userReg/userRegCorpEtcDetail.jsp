@@ -6,10 +6,13 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	//승인요청상태이면 첨부파일 수정 불가
+	//승인요청상태이면 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";
 	if(plStat == "2"){
 		$(".goFileDel").remove();
+		$(".inputFile").each(function(){
+			$(this).parent("td").html("-");
+		});
 	}
 }
 

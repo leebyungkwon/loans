@@ -7,10 +7,15 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	//승인요청상태이면 첨부파일 수정 불가
+	//승인요청상태이면 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";
 	if(plStat == "2"){
+		$("input").prop("readonly",true);
+		$("option").attr("disabled",true);
 		$(".goFileDel").remove();
+		$(".inputFile").each(function(){
+			$(this).parent("td").html("-");
+		});
 	}
 }
 
@@ -53,7 +58,7 @@ function goUserRegInfoCancel() {
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
-					alert("취소되었습니다.");
+					alert("삭제되었습니다.");
 					location.reload();
 				}
 		    }
@@ -145,7 +150,7 @@ function goUserRegInfoCancel() {
 									<option value="${addrCodeList.codeDtlCd }" <c:if test="${addrCodeList.codeDtlCd eq result.userRegInfo.addr }">selected="selected"</c:if>>${addrCodeList.codeDtlNm }</option>
 								</c:forEach>
 							</select>
-							<input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }" maxlength="200" data-vd='{"type":"text","len":"1,200","req":true,"msg":"상세주소를 입력해 주세요."}'>
+							<input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }" maxlength="200">
 						</td>
 					</tr>
 					<tr>

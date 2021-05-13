@@ -38,8 +38,41 @@ function pageLoad(){
 		, size 			: 10
 	});
 	
-	//
-	//LibUtil.setDatePicker("range","startDate","endDate");
+	//모집인 분류
+	var plClassCode = {
+		 useCode 	: true
+		,code 		: 'CLS001'
+		,target 	: '#plClass'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plClassCode);
+	
+	//취급상품
+	var plProductCode = {
+		 useCode 	: true
+		,code 		: 'PRD001'
+		,target 	: '#plProduct'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plProductCode);
+	
+	//datepicker
+	$("#date_cal01").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate1").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal02").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate2").val(dateText1);
+			$(this).hide();
+		}
+	});
 }
 
 //모집인 등록 row 클릭 이벤트
@@ -192,39 +225,26 @@ function goGetDate(opt) {
 				<tr>
 					<th>담당자</th>
 					<td class="half_input">
-						<select>
-							<option value="">전체</option>
-						</select>
+						<input type="text" name="memberNm">
 					</td>
-					<th>모집인분류</th>
+					<th>모집인 분류</th>
 					<td class="half_input">
-						<select name="plClass">
-							<option value="">전체</option>
-							<option value="1">개인</option>
-							<option value="2">법인</option>
-						</select>
+						<select name="plClass" id="plClass"></select>
 					</td>
 				</tr>
 				<tr>
 					<th>취급상품</th>
 					<td class="half_input">
-						<select name="plProduct">
-							<option value="">전체</option>
-							<option value="1">대출</option>
-							<option value="2">시설대여 및 연불판매</option>
-							<option value="3">할부</option>
-							<option value="4">어음할인</option>
-							<option value="5">매출채권매입</option>
-							<option value="6">지급보증</option>
-							<option value="7">기타대출성 상품</option>
-						</select>
+						<select name="plProduct" id="plProduct"></select>
 					</td>
 					<th>검색어</th>
 					<td class="half_input pdr0">
-						<select>
+						<select name="srchSelect1">
 							<option value="">전체</option>
+							<option value="name">이름</option>
+							<option value="corp">법인명</option>
 						</select>
-						<input type="text" name="ttt">
+						<input type="text" name="srchInput1">
 					</td>
 				</tr>
 				<tr>
@@ -250,13 +270,13 @@ function goGetDate(opt) {
 					<th>등록기간 조회</th>
 					<td colspan="3" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
 							<div id="date_cal02" class="calendar02"></div>
 						</div>

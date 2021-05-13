@@ -86,6 +86,12 @@ public class UserDomain extends BaseDomain {
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	private String plHistCdNm;		//해지사유코드명
 	
+	private String originCreAppDate;
+	private String originPayDate;
+	private String originCreLicenseDate;
+	private String originRegTimestamp;
+	private String originUpdTimestamp;
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
@@ -108,4 +114,10 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType25;
 	private FileDomain fileType26;
 	
+	//검색
+	private String srchInput1;
+	private String srchSelect1;
+	private String srchSelect2;
+	private String srchDate1;
+	private String srchDate2;
 }

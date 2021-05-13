@@ -91,7 +91,7 @@ function goFileTypeListDisabled(){
 	});
 }
 
-//탭이동
+//모집인 등록 > 탭이동
 function goTab(gubun) {
 	
 	if(gubun == "1"){
@@ -109,7 +109,7 @@ function goTab(gubun) {
 	$("#pageFrm").submit();
 }
 
-//탭이동
+//모집인 조회 및 변경 > 탭이동
 function goTab2(gubun) {
 	
 	if(gubun == "1"){
@@ -127,12 +127,12 @@ function goTab2(gubun) {
 	$("#pageFrm").submit();
 }
 
-//모집인 등록 목록
+//모집인 등록 > 목록 이동
 function goUserRegInfoList() {
 	location.href = "/member/user/userRegPage";
 }
 
-//모집인 조회 및 변경 목록
+//모집인 조회 및 변경 > 목록 이동
 function goUserConfirmList(){
 	location.href = "/member/confirm/userConfirmPage";
 }

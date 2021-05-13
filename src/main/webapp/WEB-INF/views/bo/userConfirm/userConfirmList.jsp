@@ -40,7 +40,7 @@ function pageLoad(){
 		, excelFileNm	: "모집인 조회 및 변경"
 	});
 	
-	//모집인상태코드
+	//모집인 상태
  	var plRegStatCode = {
 		 useCode 	: true
 		,code 		: 'REG001'
@@ -50,7 +50,7 @@ function pageLoad(){
 	};
 	DataUtil.selectBox(plRegStatCode);
 	
-	//처리상태코드
+	//처리상태
  	var plStatCode = {
 		 useCode 	: true
 		,code 		: 'MAS001'
@@ -61,7 +61,7 @@ function pageLoad(){
 	};
 	DataUtil.selectBox(plStatCode);
 	
-	//모집인분류
+	//모집인 분류
  	var plClassCode = {
 		 useCode 	: true
 		,code 		: 'CLS001'
@@ -81,6 +81,21 @@ function pageLoad(){
 	};
 	DataUtil.selectBox(plProductCode);
 	
+	//datepicker
+	$("#date_cal01").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate1").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal02").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate2").val(dateText1);
+			$(this).hide();
+		}
+	});
 }
 
 //모집인 조회 및 변경 row 클릭 이벤트
@@ -147,10 +162,12 @@ function goGetDate(opt) {
 				<tr>
 					<th>검색어</th>
 					<td class="half_input pdr0">
-						<select>
-							<option value="">이름</option>
+						<select name="srchSelect1">
+							<option value="">전체</option>
+							<option value="name">이름</option>
+							<option value="corp">법인명</option>
 						</select>
-						<input type="text" name="">
+						<input type="text" name="srchInput1">
 					</td>
 					<th></th>
 					<td></td>
@@ -158,17 +175,20 @@ function goGetDate(opt) {
 				<tr>
 					<th>조회</th>
 					<td colspan="3" class="long_input">
-						<select>
-							<option value="">자격취득일</option>
+						<select name="srchSelect2">
+							<option value="">전체</option>
+							<option value="creAppDate">승인완료일</option>
+							<option value="payDate">결제완료일</option>
+							<option value="creLicenseDate">자격취득일</option>
 						</select>
 						<div class="input_wrap">
-                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" style="margin-left: 5px;">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" style="margin-left: 5px;">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
 							<div id="date_cal02" class="calendar02"></div>
 						</div>

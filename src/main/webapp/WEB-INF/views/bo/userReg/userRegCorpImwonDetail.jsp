@@ -7,10 +7,20 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	//승인요청상태이면 첨부파일 수정 불가
+	//승인요청상태이면 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";
 	if(plStat == "2"){
+		$("input").prop("readonly",true);
+		$("option").attr("disabled",true);
 		$(".goFileDel").remove();
+		$(".inputFile").each(function(){
+			$(this).parent("td").html("-");
+		});
+		
+		//임시
+		$("#file_table").remove();
+		$(".btn_wrap02").remove();
+		$(".data_wrap").addClass("mgt30");
 	}
 	
 	//대표자 및 임원관련 사항 엑셀 업로드
@@ -47,7 +57,8 @@ function goCorpImwonInfoDel(excSeq) {
 		var p = {
 			  url		: "/member/user/deleteUserRegCorpImwonInfo"	
 			, param		: {
-				excSeq 	: excSeq  
+				 masterSeq 	: "${result.userRegInfo.masterSeq }"
+				,excSeq 	: excSeq  
 			}
 			, success 	: function (opt,result) {
 				location.reload();
@@ -87,33 +98,30 @@ function goDataAreaAdd() {
 		</ul>
 	</div>
 
-	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
-		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
-		<div id="file_table" class="mgt30">
-			<form name="userRegCorpImwonInfoInsertFrm" id="userRegCorpImwonInfoInsertFrm" action="/member/user/insertUserRegCorpImwonInfoByExcel" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
-				
-				<table class="view_table">
-					<tbody>
-						<tr>
-							<td class="pdr0">
-								<input type="text" class="top_file_input file_input" readonly disabled>
-								<input type="file" name="files" id="userRegImwonFile" class="inputFile" style="display: none;"/>
-								<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegImwonFile').click();">파일찾기</a>
-								<a href="/static/sample/모집인등록_대표자및임원_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</form>
+	<div id="file_table" class="mgt30">
+		<form name="userRegCorpImwonInfoInsertFrm" id="userRegCorpImwonInfoInsertFrm" action="/member/user/insertUserRegCorpImwonInfoByExcel" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+			
+			<table class="view_table">
+				<tbody>
+					<tr>
+						<td class="pdr0">
+							<input type="text" class="top_file_input file_input" readonly disabled>
+							<input type="file" name="files" id="userRegImwonFile" class="inputFile" style="display: none;"/>
+							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegImwonFile').click();">파일찾기</a>
+							<a href="/static/sample/모집인등록_대표자및임원_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+
+	<div class="btn_wrap02">
+		<div class="right">
+			<a href="javascript:void(0);" class="btn_gray btn_middle mgr5" onclick="goDataAreaAdd();">추가</a>
 		</div>
-	
-		<div class="btn_wrap02">
-			<div class="right">
-				<a href="javascript:void(0);" class="btn_gray btn_middle mgr5" onclick="goDataAreaAdd();">추가</a>
-			</div>
-		</div>
-	</c:if>
+	</div>
 		
 	<div class="contents">
 		<c:choose>
@@ -125,6 +133,7 @@ function goDataAreaAdd() {
 						<input type="hidden" name="fileGrpSeq" value="${corpImwonList.fileSeq }"/>
 						
 						<div class="data_wrap">
+							<h3>기본정보</h3>
 							<div id="table02">
 								<table class="view_table">
 									<colgroup>
@@ -398,15 +407,12 @@ function goDataAreaAdd() {
 								</table>
 							</div>
 				
-							<c:if test="${result.userRegInfo.plStat ne '2' }"> 
-								<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
-								<div class="btn_wrap02">
-									<div class="right">
-										<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpImwonInfoUpdt('${corpImwonList.excSeq }');">저장</a>
-										<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpImwonInfoDel('${corpImwonList.excSeq }');">삭제</a>
-									</div>
+							<div class="btn_wrap02">
+								<div class="right">
+									<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpImwonInfoUpdt('${corpImwonList.excSeq }');">저장</a>
+									<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpImwonInfoDel('${corpImwonList.excSeq }');">삭제</a>
 								</div>
-							</c:if>
+							</div>
 						</div>
 					</form>
 				</c:forEach>

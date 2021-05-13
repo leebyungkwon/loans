@@ -48,8 +48,11 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+			,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
 			,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
+			,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
 			,TO_DATE(TLM.CRE_LICENSE_DATE,'YYYYMMDD') AS CRE_LICENSE_DATE
+			,TLM.PAY_DATE AS ORIGIN_PAY_DATE
 			,TO_DATE(TLM.PAY_DATE,'YYYYMMDD') AS PAY_DATE
 			,TLM.SEND_MSG
 			,TLM.PL_HIST_CD
@@ -63,25 +66,60 @@
 		<where>
 			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 			AND TLM.PL_STAT NOT IN ('1','2','6')													-- 처리상태가 미요청, 승인요청, 취소이 아닌 것
+			<if test="plRegStat != null and plRegStat != ''">
+				AND TLM.PL_REG_STAT	= #{plRegStat}
+			</if>		
+			<if test="plStat != null and plStat != ''">
+				AND TLM.PL_STAT 	= #{plStat}
+			</if>
 			<if test="plClass != null and plClass != ''">
 				AND TLM.PL_CLASS 	= #{plClass}
 			</if>
 			<if test="plProduct != null and plProduct != ''">
 				AND TLM.PL_PRODUCT 	= #{plProduct}
 			</if>
-	    	<if test="plStat != null and plStat != ''">
-				AND TLM.PL_STAT 	= #{plStat}
-			</if>
-	    	<if test="plRegStat != null and plRegStat != ''">
-				AND TLM.PL_REG_STAT	= #{plRegStat}
-			</if>			
+	    	<choose>
+   				<when test="srchSelect1 != null and srchSelect1 != ''">
+					<if test="srchSelect1.equals('name')">
+						AND TLM.PL_M_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+					<if test="srchSelect1.equals('corp')">
+						AND TLM.PL_MERCHANT_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+				</when>
+			</choose>
+	    	<choose>
+   				<when test="srchSelect2 != null and srchSelect2 != ''">
+					<if test="srchSelect2.equals('creAppDate')">
+						<if test="srchDate1 != null and srchDate1 != ''">
+							AND TLM.ORIGIN_CRE_APP_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+						</if>
+						<if test="srchDate2 != null and srchDate2 != ''">
+							AND TLM.ORIGIN_CRE_APP_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+						</if>
+					</if>
+					<if test="srchSelect2.equals('payDate')">
+						<if test="srchDate1 != null and srchDate1 != ''">
+							AND TLM.ORIGIN_PAY_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+						</if>
+						<if test="srchDate2 != null and srchDate2 != ''">
+							AND TLM.ORIGIN_PAY_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+						</if>
+					</if>
+					<if test="srchSelect2.equals('creLicenseDate')">
+						<if test="srchDate1 != null and srchDate1 != ''">
+							AND TLM.ORIGIN_CRE_LICENSE_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+						</if>
+						<if test="srchDate2 != null and srchDate2 != ''">
+							AND TLM.ORIGIN_CRE_LICENSE_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+						</if>
+					</if>
+				</when>
+			</choose>
 	    </where>
 	    <include refid="common.pageBottom"/>
    	</select>
    	
-   	
-   	
-	
    	<!-- 모집인 조회 및 변경 > 처리상태 변경 -->
    	<update id="updatePlRegConfirmStat" parameterType="user">
    		UPDATE TB_LC_MAS01
@@ -101,8 +139,6 @@
    	</update> 
   
    	
-   	
-   	
    	<!-- 모집인 조회 및 변경 > -->
    	<!-- 모집인 조회 및 변경 > -->
    	<!-- 모집인 조회 및 변경 > -->
@@ -116,94 +152,125 @@
 	<!-- 모집인 등록 > 리스트 -->
    	<select id="selectUserRegList" parameterType="user" resultType="user">
    		SELECT 
-	    	<include refid="common.totalPages"/>
-	    	 TLM.MASTER_SEQ
-			,TLM.COM_CODE
-			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
-			,TLM.MEMBER_SEQ
-			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
-			,TLM.PL_CLASS
-			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
-			,TLM.CAREER_TYP
-			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
-			,TLM.PL_PRODUCT
-			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
-			,TLM.PL_REG_STAT
-			,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
-			,TLM.PL_STAT
-			,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
-			,TLM.PL_REGIST_NO
-			,TLM.CI
-			,TLM.PL_M_NAME
-			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
-			,TLM.PL_M_Z_ID_EDU
-			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
-			,TLM.ADDR
-			,TLM.ADDR_DETAIL
-			,TLM.PL_EDU_NO
-			,TLM.CAREER_START_DATE
-			,TLM.CAREER_END_DATE
-			,TLM.ENTRUST_DATE
-			,TLM.COM_CONT_DATE
-			,TLM.PL_MERCHANT_NAME
-			,TLM.PL_CEO_NAME
-			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
-			,TLM.PL_BUSINESS_NO
-			,TLM.COMP_PHONE_NO
-			,TLM.CORP_FOUND_DATE
-			,TLM.CAPITAL
-			,TLM.PL_PAY_STAT
-			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
-			,TLM.COM_REG_DATE
-			,TLM.CRE_APP_DATE
-			,TLM.CRE_LICENSE_DATE
-			,TLM.PAY_DATE
-			,TLM.SEND_MSG
-			,TLM.PL_HIST_CD
-			,TLM.COM_HAEJI_DATE
-			,TLM.CRE_HAEJI_DATE
-			,TLM.FILE_SEQ
-			,CASE 
-				WHEN 
-					TLM.PL_CLASS = '1' 
-						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
-				THEN 'Y'
-				WHEN 
-					TLM.PL_CLASS = '2' 
-						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
-				THEN 'Y'
-				ELSE 'N'
-			 END AS FILE_COMP_YN
-			,CASE 
-				WHEN 
-					TLM.PL_CLASS = '1' 
-						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
-				THEN '완료'
-				WHEN 
-					TLM.PL_CLASS = '2' 
-						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
-				THEN '완료'
-				ELSE '미완료'
-			 END AS FILE_COMP_TXT
-			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
-			,TLM.UPD_SEQ
-			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
-	    FROM TB_LC_MAS01 TLM
-		<where>
-			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
-			AND TLM.PL_STAT IN ('1','2')															-- 처리상태가 미요청, 승인요청인 것
+   			Z.*
+   		FROM
+   		(
+   			SELECT 
+		    	<include refid="common.totalPages"/>
+		    	 TLM.MASTER_SEQ
+				,TLM.COM_CODE
+				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+				,TLM.MEMBER_SEQ
+				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+				,TLM.PL_CLASS
+				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.CAREER_TYP
+				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+				,TLM.PL_PRODUCT
+				,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+				,TLM.PL_REG_STAT
+				,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+				,TLM.PL_STAT
+				,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+				,TLM.PL_REGIST_NO
+				,TLM.CI
+				,TLM.PL_M_NAME
+				,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+				,TLM.PL_M_Z_ID_EDU
+				,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+				,TLM.ADDR
+				,TLM.ADDR_DETAIL
+				,TLM.PL_EDU_NO
+				,TLM.CAREER_START_DATE
+				,TLM.CAREER_END_DATE
+				,TLM.ENTRUST_DATE
+				,TLM.COM_CONT_DATE
+				,TLM.PL_MERCHANT_NAME
+				,TLM.PL_CEO_NAME
+				,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+				,TLM.PL_BUSINESS_NO
+				,TLM.COMP_PHONE_NO
+				,TLM.CORP_FOUND_DATE
+				,TLM.CAPITAL
+				,TLM.PL_PAY_STAT
+				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+				,TLM.COM_REG_DATE
+				,TLM.CRE_APP_DATE
+				,TLM.CRE_LICENSE_DATE
+				,TLM.PAY_DATE
+				,TLM.SEND_MSG
+				,TLM.PL_HIST_CD
+				,TLM.COM_HAEJI_DATE
+				,TLM.CRE_HAEJI_DATE
+				,TLM.FILE_SEQ
+				,CASE 
+					WHEN 
+						TLM.PL_CLASS = '1' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
+					THEN 'Y'
+					WHEN 
+						TLM.PL_CLASS = '2' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
+					THEN 'Y'
+					ELSE 'N'
+				 END AS FILE_COMP_YN
+				,CASE 
+					WHEN 
+						TLM.PL_CLASS = '1' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
+					THEN '완료'
+					WHEN 
+						TLM.PL_CLASS = '2' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
+					THEN '완료'
+					ELSE '미완료'
+				 END AS FILE_COMP_TXT
+				,TLM.REG_TIMESTAMP AS ORIGIN_REG_TIMESTAMP
+				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+				,TLM.UPD_SEQ
+				,TLM.UPD_TIMESTAMP AS ORIGIN_UPD_TIMESTAMP
+				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+		    FROM TB_LC_MAS01 TLM
+			<where>
+				AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				AND TLM.PL_STAT IN ('1','2')															-- 처리상태가 미요청, 승인요청인 것
+		    </where>
+   		)Z
+   		<where>
+   			<if test="memberNm != null and memberNm != ''">
+				AND Z.MEMBER_NM LIKE CONCAT('%',#{memberNm},'%')
+			</if>
 			<if test="plClass != null and plClass != ''">
-				AND TLM.PL_CLASS 	= #{plClass}
+				AND Z.PL_CLASS 		= #{plClass}
 			</if>
 			<if test="plProduct != null and plProduct != ''">
-				AND TLM.PL_PRODUCT 	= #{plProduct}
+				AND Z.PL_PRODUCT 	= #{plProduct}
+			</if>
+			<choose>
+   				<when test="srchSelect1 != null and srchSelect1 != ''">
+					<if test="srchSelect1.equals('name')">
+						AND Z.PL_M_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+					<if test="srchSelect1.equals('corp')">
+						AND Z.PL_MERCHANT_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+				</when>
+			</choose>
+			<if test="fileCompYn != null and fileCompYn != ''">
+				AND Z.FILE_COMP_YN 	= #{fileCompYn}
 			</if>
 	    	<if test="plStat != null and plStat != ''">
-				AND TLM.PL_STAT 	= #{plStat}
+				AND Z.PL_STAT 		= #{plStat}
+			</if>
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>

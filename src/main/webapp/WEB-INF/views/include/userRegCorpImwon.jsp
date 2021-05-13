@@ -5,6 +5,7 @@
 	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 	<input type="hidden" name="fileGrpSeq" value=""/>
 
+	<h3>기본정보</h3>
 	<div id="table02">
 		<table class="view_table">
 			<colgroup>
