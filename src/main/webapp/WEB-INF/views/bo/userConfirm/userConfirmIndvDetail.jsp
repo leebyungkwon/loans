@@ -10,16 +10,157 @@ function pageLoad(){
 	
 }
 
-//취소요청
+//취소화면변경
+function goUserCancelPage(){
+	$("#histTxt").show();
+	$("#plHistTxt").focus();
+	$("#userChangeApply").remove();
+	$("#userDropApply").remove();
+	$("#userCancel").attr("onclick", "goUserCancel()");
+}
+
+//취소
+function goUserCancel(){
+	if(WebUtil.isNull($("#plHistTxt").val())){
+		alert("취소사유를 입력해 주세요");
+		return false;
+	}
+	
+	if(confirm("취소하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '6'
+				,plHistTxt	: $("#plHistTxt").val()
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("취소되었습니다.");
+					goUserConfirmList();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
 
 //변경요청
+function goUserChangeApply(){
+	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '3'
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("변경요청이 완료되었습니다.");
+					goUserConfirmList();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
 
 //해지요청
+function goUserDropApplyPage(){
+	$("#histTxt").show();
+	$("#haejiDate").show();
+	$("#plHistTxt").focus();
+	$("#userChangeApply").remove();
+	$("#userCancel").remove();
+	$("#userDropApply").attr("onclick", "goUserDropApply()");
+}
+
+function goUserDropApply(){
+	if(WebUtil.isNull($("#plHistTxt").val())){
+		alert("해지사유를 입력해 주세요");
+		return false;
+	}
+	if(confirm("모집인 해지를 요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				,plStat			: '4'
+				,plHistTxt		: $("#plHistTxt").val()
+				,plRegStat		: '1'
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("해지요청이 완료되었습니다.");
+					goUserConfirmList();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+function fnCancel(){
+	if(confirm("취소하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '6'
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("취소되었습니다.");
+					goUserConfirmList();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+function fnChange(){
+	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '3'
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("변경요청이 완료되었습니다.");
+					goUserConfirmList();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+function fnDrop(){
+	if(confirm("모집인 해지를 요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				,plStat			: '4'
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("해지요청이 완료되었습니다.");
+					goUserConfirmList();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
 
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
-	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 </form>
 
 <div class="cont_area">
@@ -110,6 +251,20 @@ function pageLoad(){
 						<td colspan="3">${result.userRegInfo.sendMsg }</td>
 					</tr>
 				</c:if>
+				
+				<c:if test="${result.userRegInfo.plStat ne '7' }">
+					<tr id="histTxt" style="display:none;">
+						<th>사유</th>
+						<td colspan="3"><input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200"></td>
+					</tr>
+				</c:if>
+				<c:if test="${!empty result.userRegInfo.comHaejiDate or !empty result.userRegInfo.creHaejiDate}">
+					<tr id="haejiDate" style="display:none;">
+						<th>해지일자</th>
+						<td colspan="3"></td>
+					</tr>
+				</c:if>
+				
 			</table>
 		</div>
 
@@ -222,13 +377,22 @@ function pageLoad(){
 			</table>
 		</div>
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
-			<c:if test="${result.userRegInfo.plStat ne '5' }"> 
-				<!-- 보완요청(반려)가 아닐 때만 -->
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" onclick="">취소요청</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" onclick="">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" onclick="">해지요청</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goUserConfirmList();">목록</a>
+<%-- 			<c:if test="${result.userRegInfo.plStat eq '7' }">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApply();">변경요청</a>
+				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
+			</c:if> --%>
+
+			<c:if test="${result.userRegInfo.plRegStat eq '3' and  result.userRegInfo.plStat eq '7'}">
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="fnChange();">변경요청</a>
+				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="fnDrop();">해지요청</a>			
 			</c:if>
+			
+			<c:if test="${result.userRegInfo.plRegStat eq '2' }">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="fnCancel();">즉시취소</a>
+			</c:if>
+			
 		</div>
 	</div>
 </div>

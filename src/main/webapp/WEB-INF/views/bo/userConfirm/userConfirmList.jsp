@@ -37,7 +37,50 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 		, excel			: "/member/confirm/userConfirmListExcelDown"
+		, excelFileNm	: "모집인 조회 및 변경"
 	});
+	
+	//모집인상태코드
+ 	var plRegStatCode = {
+		 useCode 	: true
+		,code 		: 'REG001'
+		,target 	: '#plRegStat'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plRegStatCode);
+	
+	//처리상태코드
+ 	var plStatCode = {
+		 useCode 	: true
+		,code 		: 'MAS001'
+		,target 	: '#plStat'
+		,property01 : 'Y'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plStatCode);
+	
+	//모집인분류
+ 	var plClassCode = {
+		 useCode 	: true
+		,code 		: 'CLS001'
+		,target 	: '#plClass'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plClassCode);
+	
+	//금융상품유형
+ 	var plProductCode = {
+		 useCode 	: true
+		,code 		: 'PRD001'
+		,target 	: '#plProduct'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plProductCode);
+	
 }
 
 //모집인 조회 및 변경 row 클릭 이벤트
@@ -84,38 +127,21 @@ function goGetDate(opt) {
 				<tr>
 					<th>모집인 상태</th>
 					<td class="half_input">
-						<select name="">
-							<option value="">전체</option>
-						</select>
+						<select name="plRegStat" id="plRegStat"></select>
 					</td>
 					<th>처리상태</th>
 					<td class="half_input">
-						<select name="plStat">
-							<option value="">전체</option>
-						</select>
+						<select name="plStat" id="plStat"></select>
 					</td>
 				</tr>
 				<tr>
 					<th>모집인분류</th>
 					<td class="half_input">
-						<select name="plClass">
-							<option value="">전체</option>
-							<option value="1">개인</option>
-							<option value="2">법인</option>
-						</select>
+						<select name="plClass" id="plClass"></select>
 					</td>
 					<th>금융상품유형</th>
 					<td class="half_input">
-						<select name="plProduct">
-							<option value="">전체</option>
-							<option value="1">대출</option>
-							<option value="2">시설대여 및 연불판매</option>
-							<option value="3">할부</option>
-							<option value="4">어음할인</option>
-							<option value="5">매출채권매입</option>
-							<option value="6">지급보증</option>
-							<option value="7">기타대출성 상품</option>
-						</select>
+						<select name="plProduct" id="plProduct"></select>
 					</td>
 				</tr>
 				<tr>

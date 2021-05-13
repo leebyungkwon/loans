@@ -20,7 +20,8 @@ public interface UserRepository {
 	//모집인 조회 및 변경 > 리스트
 	List<UserDomain> selectUserConfirmList(UserDomain userDomain);
 	
-	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 처리상태 변경
+	int updatePlRegConfirmStat(UserDomain userDomain);
 	//모집인 조회 및 변경 > 
 	//모집인 조회 및 변경 > 
 	//모집인 조회 및 변경 > 
