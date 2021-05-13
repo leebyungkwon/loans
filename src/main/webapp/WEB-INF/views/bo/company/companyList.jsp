@@ -69,7 +69,7 @@ function deleteCompany() {
 		memberSeqArr.push(chekeData[i].memberSeq);
 	}
 	
-	if(confirm(memberSeqArr+" 삭제 처리 하시겠습니까?")){
+	if(confirm("삭제 처리 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/mng/deleteCompany"	
 			, param		: {
