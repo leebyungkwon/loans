@@ -100,9 +100,9 @@
 			
 			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 				<div class="btn_wrap">
-					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
-					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
-					<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>								
+					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">수정</a>								
+					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">삭제</a>								
+					<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">목록</a>								
 				</div>
 			</sec:authorize>
 			
