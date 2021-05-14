@@ -72,38 +72,20 @@ var AjaxUtil = {
             responseType: responseType,
             headers: { "Content-Type": contType }
         }).then(function(response) {
-			if(opt.responseType == "arraybuffer"){
-				const url = window.URL.createObjectURL(new Blob([response.data]));
-				const link = document.createElement('a');
-				const contentDisposition = response.headers['content-disposition']; // 파일 이름
-				let fileName = 'unknown';
-				if (contentDisposition) {
-				  const [ fileNameMatch ] = contentDisposition.split(';').filter(str => str.includes('filename'));
-				  if (fileNameMatch)
-				  	[ , fileName ] = fileNameMatch.split('=');
-				}
-				link.href = url;
-				link.setAttribute('download', `${fileName}`);
-				link.style.cssText = 'display:none';
-				document.body.appendChild(link);
-				link.click();
-				link.remove();
-			}else{
-				 //AjaxUtil.closeLoadBar(loadYn);
-	        	var status = WebUtil.nvl(response.data.status, 200);
-	        	if(status == 200) {
-	            	if(WebUtil.isNotNull(response.data.code)){
-	            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
-	            		else alert(messages[response.data.code])
-	            	}
-	            	AjaxUtil.successHandler(opt, response.data);
-	        	}else{
-	        		if(WebUtil.isNotNull(response.data.code)){
-	            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
-	            		else alert(messages[response.data.code])
-	            	}
-	        	}
-			}
+			 //AjaxUtil.closeLoadBar(loadYn);
+        	var status = WebUtil.nvl(response.data.status, 200);
+        	if(status == 200) {
+            	if(WebUtil.isNotNull(response.data.code)){
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
+            	}
+            	AjaxUtil.successHandler(opt, response.data);
+        	}else{
+        		if(WebUtil.isNotNull(response.data.code)){
+            		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
+            		else alert(messages[response.data.code])
+            	}
+        	}
 
         })
         .catch(function(error) {

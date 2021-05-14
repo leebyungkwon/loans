@@ -89,7 +89,7 @@
 				<tr>
 					<th class="acenter">첨부 파일</th>
 					<td colspan="3">
-						<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
+						<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 					</td>
 				</tr>
 			</table>

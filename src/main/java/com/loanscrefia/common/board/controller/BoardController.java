@@ -97,7 +97,7 @@ public class BoardController {
 	public ResponseEntity<ResponseMsg> saveNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
 		Map<String, Object> ret = utilFile.setPath("notice") 
 		.setFiles(files)
-		.setExt("excel") 
+		.setExt("all") 
 		.upload();
 			if((boolean) ret.get("success")) {
 				List<FileDomain> file = (List<FileDomain>) ret.get("data");
@@ -114,7 +114,7 @@ public class BoardController {
 	public ResponseEntity<ResponseMsg> updNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
 		Map<String, Object> ret = utilFile.setPath("notice") 
 		.setFiles(files)
-		.setExt("excel") 
+		.setExt("all") 
 		.upload();
 		
 		if((boolean) ret.get("success")) {
