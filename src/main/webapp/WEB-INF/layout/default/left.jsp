@@ -27,6 +27,8 @@
 			$("#menuCode").addClass("on");
 		}else if(menuUrl[2] == "confirm"){
 			$("#menuConfirm").addClass("on");
+		}else if(menuUrl[2] == "corp"){
+			$("#menuCorp").addClass("on");
 		}
 	}
 </script>
@@ -49,7 +51,8 @@
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
-<!-- 		<li id="">
+		<!-- 	
+		<li id="">
 			<a href="#">모집인 조회 및 변경</a>
 		</li>
 		<li id="">
@@ -60,13 +63,21 @@
 		</li>
 		<li id="">
 			<a href="#">타협회 내역 다운로드</a>
-		</li> -->
-<!-- 		<li id="menuCompany">
+		</li> 
+		-->
+		<!-- 		
+		<li id="menuCompany">
 			<a href="/admin/company/companyCodePage">회원사 관리</a>
-		</li> -->
-<!-- 		<li id="menuCrefia">
+		</li> 
+		-->
+		<!-- 		
+		<li id="menuCrefia">
 			<a href="/admin/crefia/crefiaPage">관리자 관리</a>
-		</li> -->
+		</li> 
+		-->
+		<li id="menuCorp">
+			<a href="/admin/corp/corpPage">법인 관리</a>
+		</li>
 		<li id="menuMng">
 			<a href="/admin/mng/companyPage">회원사 담당자 조회</a>
 		</li>

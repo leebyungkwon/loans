@@ -37,6 +37,7 @@ function pageLoad(){
 			<c:when test="${fn:length(result.imwonList) > 0 }">
 				<c:forEach var="corpImwonList" items="${result.imwonList }" varStatus="status">
 					<div class="data_wrap">
+						<h3>기본정보</h3>
 						<div id="table02">
 							<table class="view_table">
 								<colgroup>

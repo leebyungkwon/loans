@@ -97,7 +97,7 @@ function goUserRegPopOpen() {
 	let p = {
 		  id 		: "userRegExcelUploadPop"
 		, url 		: "/member/user/userRegExcelPopup"
-		,success: function(opt, result) { 
+		, success	: function(opt, result) { 
 			
 			$('input:radio[name="plClass"]').on("click", function(){
 				var indv = '<a href="/static/sample/모집인등록_개인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="indvSample">샘플 다운로드</a>';
@@ -203,7 +203,6 @@ function goGetDate(opt) {
 	$("#srchDate1").val(result);
 	$("#srchDate2").val(WebUtil.getDate("today"));
 }
-
 </script>
 
 <form id="userRegDetailFrm" method="post">

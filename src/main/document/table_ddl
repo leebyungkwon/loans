@@ -107,6 +107,7 @@ create table tb_lc_members(
 	, option_terms_yn char(1) not null
 	, option_terms_date varchar(8) not null
 	, appr_stat char(1) not null default '1'
+	, msg varchar(200)
 	, file_seq integer
 	, fail_cnt integer
 	, cre_yn char(1) not null default 'N'
@@ -137,6 +138,7 @@ COMMENT ON COLUMN tb_lc_members.terms_date IS '약관동의일';
 COMMENT ON COLUMN tb_lc_members.option_terms_yn IS '선택적약관동의';
 COMMENT ON COLUMN tb_lc_members.option_terms_date IS '선택적약관동의일';
 COMMENT ON COLUMN tb_lc_members.appr_stat IS '승인상태(1.미승인,2.가승인,3.승인)';
+COMMENT ON COLUMN tb_lc_members.msg IS '가승인사유';
 COMMENT ON COLUMN tb_lc_members.file_seq IS '첨부파일ID';
 COMMENT ON COLUMN tb_lc_members.fail_cnt IS '로그인실패횟수';
 COMMENT ON COLUMN tb_lc_members.cre_yn IS '협회여부';
@@ -694,5 +696,55 @@ COMMENT ON COLUMN tb_lc_notice.upd_timestamp IS '수정일시';
 COMMENT ON COLUMN tb_lc_notice.upd_seq IS '수정자시퀀스';
 
 commit;
+
+
+-- 법인 seq
+CREATE SEQUENCE tb_lc_corp_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 법인정보
+create table tb_lc_corp(
+	corp_seq integer not null default nextval('tb_lc_corp_seq')
+	, pl_merchant_name varchar(30) not null
+	, pl_merchant_no varchar(13) not null 
+	, path_typ char(1) not null default '1'
+	, use_yn char(1) not null default 'Y'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
+	, primary key (corp_seq)
+);
+
+COMMENT ON TABLE tb_lc_corp IS '법인정보';
+COMMENT ON COLUMN tb_lc_corp.corp_seq IS '법인시퀀스';
+COMMENT ON COLUMN tb_lc_corp.pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_corp.pl_merchant_no IS '법인등록번호';
+COMMENT ON COLUMN tb_lc_corp.path_typ IS '등록경로';
+COMMENT ON COLUMN tb_lc_corp.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_corp.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_corp.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_corp.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_corp.upd_seq IS '수정자시퀀스';
+
+commit;
+
+
+
+
+
+
+
+
+
+
 
 
