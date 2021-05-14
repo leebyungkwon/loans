@@ -74,7 +74,8 @@ let GRID = {
 		}
 		if (this.excel != "") {
 			let button = document.createElement("a");
-			button.append("엑셀다운로드");
+			let btnText = document.createTextNode("엑셀다운로드");
+			button.appendChild(btnText);
 			button.className = "btn btn_home";
 			button.id = "excelDown";
 			button.style.display = "none";
@@ -117,7 +118,9 @@ let GRID = {
 		this.gridData = data;
 		let page_id = this.id + "_paging";
 		if (null != document.getElementById(page_id)) {
-			document.getElementById(page_id).remove();
+			//document.getElementById(page_id).remove();
+			//2021-05-14 IE 이슈로 인한 변경
+			$("#"+page_id).remove();
 		}
 		if (!this.bodyRefresh) this.setFrame();
 		this.setTable();
