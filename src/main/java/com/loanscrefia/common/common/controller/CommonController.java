@@ -106,19 +106,28 @@ public class CommonController {
 	        String filename = "";
 	        if (header.contains("MSIE") || header.contains("Trident")) {
 	        	filename = URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%20");
-	            response.setHeader("Content-Disposition", "attachment;filename=" + name + ";");
+	            response.setHeader("Content-Disposition", "attachment;filename=" + filename + ";");
 	        } else {
 	        	filename = new String(name.getBytes("UTF-8"), "ISO-8859-1");
 	           response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 	        }
+	        /*
 			String mimeType = URLConnection.guessContentTypeFromName(filename); // --- 파일의 mime타입을 확인합니다.
 			if (mimeType == null) { // --- 마임타입이 없을 경우 application/octet-stream으로 설정합니다.
 				mimeType = "application/octet-stream";
 			}
-			response.setContentType(mimeType);
+			*/
+			
+			//response.setContentType(mimeType);
+	        response.setContentType( "application/download; UTF-8");
+	        response.setHeader("Content-Type", "application/octet-stream");
+	        response.setHeader("Content-Transfer-Encoding", "binary");
 			response.setContentLength((int) file.length());
-			InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-			FileCopyUtils.copy(inputStream, response.getOutputStream());
+			response.setHeader("Paragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			FileInputStream fis = new FileInputStream(file);
+			//InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+			FileCopyUtils.copy(fis, response.getOutputStream());
 		}
 	}
 	
