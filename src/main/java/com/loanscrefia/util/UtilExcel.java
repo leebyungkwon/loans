@@ -40,6 +40,7 @@ public class UtilExcel<T> {
 
 		Field[] fields = dClass.getDeclaredFields();
 
+		List<String> headerName = new ArrayList<String>();
 		List<String> vCell 		= new ArrayList<String>();
 		List<String> vEnum 		= new ArrayList<String>();
 		List<Integer> vLenMin 	= new ArrayList<Integer>();
@@ -50,6 +51,7 @@ public class UtilExcel<T> {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
 				ExcelColumn columnAnnotation = field.getAnnotation(ExcelColumn.class);
 				
+				headerName.add(columnAnnotation.headerName());
 				vCell.add(columnAnnotation.vCell());
 				vEnum.add(columnAnnotation.vEnum());
 				vLenMax.add(columnAnnotation.vLenMax());
@@ -87,10 +89,12 @@ public class UtilExcel<T> {
 	                for(int j = 0;j < vCell.size();j++) {
 	                	if(cellName.equals(vCell.get(j))) {
 	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
-	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
+	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
+	                			//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
 	                		}
 	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
-	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
+	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
+	                			//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
 	                		}
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
@@ -98,7 +102,10 @@ public class UtilExcel<T> {
 	        	                	//System.out.println(val[k]+ " , " + ExcelCellRef.getValue(cell) + " = " + val[k].equals(ExcelCellRef.getValue(cell)));
 	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) valChkResult = true;
 	        	                }
-	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                if(!valChkResult) {
+	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                	//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
 	                			//String chkDbVal = chkDb.get(j);
