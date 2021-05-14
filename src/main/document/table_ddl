@@ -716,8 +716,8 @@ create table tb_lc_corp(
 	, path_typ char(1) not null default '1'
 	, use_yn char(1) not null default 'Y'
 	, reg_timestamp timestamp
-	, reg_seq integer NOT NULL
-	, upd_timestamp timestamp NOT NULL
+	, reg_seq integer
+	, upd_timestamp timestamp
 	, upd_seq integer
 	, primary key (corp_seq)
 );
