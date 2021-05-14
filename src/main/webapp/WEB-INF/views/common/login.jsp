@@ -44,6 +44,14 @@ function pageLoad(){
    		
 		AjaxUtil.submit('login');		
 	});
+	
+    $("#password").on("keyup",function(key){
+        if(key.keyCode==13) {
+        	$("#loginBtn").click();
+        }
+    });
+    
+    
 }
 </script>
 
