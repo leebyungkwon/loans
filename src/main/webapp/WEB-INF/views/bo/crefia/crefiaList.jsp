@@ -15,7 +15,7 @@ function pageLoad(){
   		, bodyCol		: 
   			[
 				{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10px"		, id:true}
-				,{type:"string"	, name:'creYn'			, index:'creYn'				, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'creGrpNM'			, index:'creGrpNM'				, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'memberName'		, index:'memberName'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'memberId'		, index:'memberId'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'			, width:"10%"		, align:"center"}
@@ -52,7 +52,7 @@ function pageLoad(){
 		var chkData = crefiaGrid.getChkData();
 		var memberSeqArr = [];
 		for(var i = 0;i < chkedLen;i++){
-			memberSeqArr.push(chkData[i].memberSeqArr);
+			memberSeqArr.push(chkData[i].memberSeq);
 		}
 		var p = {
 			  url : "/admin/crefia/crefiaDelete"	
@@ -84,13 +84,10 @@ function crefiaDetail(idx, data){
 function companyCodeCall(){
 	// 회원사 코드
 	var companyCode = {
-		useCode : false
+		useCode : true
 		,code : 'CRE001'
-		,target : '#popCreYn'
-		,url : '/common/selectCompanyCodeList'
-		,key : 'codeDtlCd'
-		,value : 'codeDtlNm'
-		,updData : $("#hiddenCreYn").val()
+		,target : '#popCreGrp'
+		,updData : $("#hiddenCreGrp").val()
 	};
 	DataUtil.selectBox(companyCode);
 }
@@ -132,10 +129,10 @@ function companyCodeCall(){
 					</td>
 					<th>그룹</th>
 					<td class="half_input">
-						<select>
+						<select name="creGrp">
 							<option value="">전체</option>
-							<option value="N">관리자</option>
-							<option value="Y">실무자</option>
+							<option value="2">관리자</option>
+							<option value="1">실무자</option>
 						</select>
 					</td>
 				</tr>
