@@ -15,7 +15,7 @@ function pageLoad(){
   		, bodyCol		: 
   			[
 				{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10px"		, id:true}
-				,{type:"string"	, name:'creGrpNM'			, index:'creGrpNM'				, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'creGrpNm'		, index:'creGrpNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'memberName'		, index:'memberName'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'memberId'		, index:'memberId'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'			, width:"10%"		, align:"center"}
@@ -49,21 +49,24 @@ function pageLoad(){
 			alert("관리자를 선택해 주세요.");
 			return;
 		}
-		var chkData = crefiaGrid.getChkData();
-		var memberSeqArr = [];
-		for(var i = 0;i < chkedLen;i++){
-			memberSeqArr.push(chkData[i].memberSeq);
-		}
-		var p = {
-			  url : "/admin/crefia/crefiaDelete"	
-			, param : {
-				memberSeqArr : memberSeqArr
+		
+		if(confirm("삭제하시겠습니까?")){
+			var chkData = crefiaGrid.getChkData();
+			var memberSeqArr = [];
+			for(var i = 0;i < chkedLen;i++){
+				memberSeqArr.push(chkData[i].memberSeq);
 			}
-			, success : function (opt,result) {
-				crefiaGrid.refresh();
-		    }
+			var p = {
+				  url : "/admin/crefia/crefiaDelete"	
+				, param : {
+					memberSeqArr : memberSeqArr
+				}
+				, success : function (opt,result) {
+					crefiaGrid.refresh();
+			    }
+			}
+			AjaxUtil.post(p);
 		}
-		AjaxUtil.post(p);
 	});
 }
 

@@ -28,8 +28,8 @@
 					<input type="hidden" id="hiddenCreGrp" value="${result.creGrp}"/>
 					<select id="popCreGrp" name="popCreGrp" style="width:50%;">
 						<option value="">전체</option>
-						<option value="2">관리자</option>
 						<option value="1">실무자</option>
+						<option value="2">관리자</option>
 					</select>
 				</td>
 			</tr>

@@ -16,6 +16,7 @@
 			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
 			, MEM.CRE_YN
 			, MEM.CRE_GRP
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM
 	    FROM TB_LC_MEMBERS MEM
 	    WHERE MEM.COM_CODE = 1
 	    <if test="memberId != null and memberId != ''">
@@ -42,6 +43,7 @@
 			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
 			, MEM.CRE_YN
 			, MEM.CRE_GRP
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM
 	    FROM TB_LC_MEMBERS MEM
 	    WHERE MEM.COM_CODE = 1
 	    <if test="memberSeq != null and memberSeq != ''">

@@ -29,6 +29,8 @@
 			$("#menuConfirm").addClass("on");
 		}else if(menuUrl[2] == "corp"){
 			$("#menuCorp").addClass("on");
+		}else if(menuUrl[2] == "crefiaWork"){
+			$("#menuCrefiaWork").addClass("on");
 		}
 	}
 </script>
@@ -73,7 +75,11 @@
 		 		
 		<li id="menuCrefia">
 			<a href="/admin/crefia/crefiaPage">관리자 관리</a>
-		</li> 
+		</li>
+		
+		<li id="menuCrefiaWork">
+			<a href="/admin/crefiaWork/crefiaWorkPage">관리자 업무분장</a>
+		</li>
 		
 		<li id="menuCorp">
 			<a href="/admin/corp/corpPage">법인 관리</a>
