@@ -20,6 +20,7 @@ function pageLoad(){
 
 //수정
 function goUserRegInfoUpdt() {
+	/*
 	//validation
 	var vdChkResult = 0;
 	
@@ -32,6 +33,7 @@ function goUserRegInfoUpdt() {
 		alert("필수 첨부서류가 누락되었습니다.");
 		return;
 	}
+	*/
 	//수정
 	if(confirm("저장하시겠습니까?")){
 		goFileTypeListDisabled();
