@@ -83,7 +83,8 @@ let GRID = {
 			button.onclick = function() {
 				let param = "";
 				if (this.gridSearch != "") {
-					param = Object.assign({}, _this.params, WebUtil.getTagInParam(document.getElementById(this.closest(".k_search").id)));
+					var idCheck = $(this).closest(".k_search");
+					param = Object.assign({}, _this.params, WebUtil.getTagInParam(document.getElementById(idCheck.attr("id"))));
 				}
 				let p = {
 					url: _this.excel
