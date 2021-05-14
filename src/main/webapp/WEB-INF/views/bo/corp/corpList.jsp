@@ -14,11 +14,11 @@ function pageLoad(){
   		, headCol		: ["번호", "법인명", "법인번호", "등록경로", "등록일"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'corpSeq'		, index:'corpSeq'			, width:"10px"		, id:true}
+				 {type:"string"	, name:'corpSeq'				, index:'corpSeq'				, width:"3%"		, id:true}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'pathTypNm'		, index:'pathTypNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMerchantNo'		, index:'plMerchantNo'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'pathTypNm'			, index:'pathTypNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'regTimestamp'		, index:'regTimestamp'		, width:"10%"		, align:"center"}
 			]
 		, sortNm 		: "corp_seq"
 		, sort 			: "DESC"
@@ -59,14 +59,14 @@ function goCorpInfoSave() {
 	if(confirm("저장하시겠습니까?")){
 		$("#corpInfoSaveFrm").attr("action","/admin/corp/saveCorpInfo");
 
-		var saveCompanyCodeDetailParam = {
+		var saveCorpInfoParam = {
 			name : 'corpInfoSaveFrm'
 			,data : WebUtil.getTagInParam("#corpInfoSaveFrm")
 			,success: function(opt, result) {
 				location.reload();
 			}
 		}      
-		AjaxUtil.files(saveCompanyCodeDetailParam);
+		AjaxUtil.files(saveCorpInfoParam);
 	}
 }
 </script>

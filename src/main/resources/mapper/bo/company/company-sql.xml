@@ -107,7 +107,10 @@
 		<where>
 				AND TLC.DEL_YN = 'N'
 			<if test="comCode != null and comCode != ''">
-				AND	TLC.COM_CODE 	    = #{comCode}
+				AND 	TLC.COM_CODE 	    = #{comCode}
+			</if>
+			<if test="comName != null and comName != ''">
+				AND	TLC.COM_NAME LIKE CONCAT('%', #{comName}, '%')
 			</if>
 		</where>
 		<include refid="common.pageBottom"/>
@@ -118,9 +121,9 @@
 		SELECT 
 			TLC.COM_CODE
 			,TLC.COM_NAME
-			,TLC.PL_MERCHANT_NO
-			,TLC.PL_BUSINESS_NO
-			,TLC.COMP_PHONE_NO
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,FN_BIZ_NO(TLC.PL_BUSINESS_NO) AS PL_BUSINESS_NO
+			,FN_CELLPHONE(TLC.COMP_PHONE_NO) AS COMP_PHONE_NO
 		FROM TB_LC_COMPANY TLC
 		<where>
 			AND TLC.COM_CODE = #{comCode}
@@ -140,12 +143,12 @@
 			)
 		VALUES
 			(
-				#{comName}						/*회원사(상호명)*/      
-				,#{plMerchantNo}				/*법인등록번호*/            
-				,#{plBusinessNo}					/*사업자등록번호*/         
-				,#{compPhoneNo}				/*회사대표번호*/            
-				,NOW()								/*등록일시*/           
-				,#{regSeq}							/*등록자 시퀀스*/   
+				#{comName}											/*회원사(상호명)*/      
+				,REPLACE(#{plMerchantNo}, '-', '')				/*법인등록번호*/            
+				,REPLACE(#{plBusinessNo}, '-', '')				/*사업자등록번호*/         
+				,REPLACE(#{compPhoneNo}, '-', '')				/*회사대표번호*/            
+				,NOW()													/*등록일시*/           
+				,#{regSeq}												/*등록자 시퀀스*/   
 			)	
 	</select>
 	
@@ -153,19 +156,19 @@
 	<select id="updCompanyCodeDetail" parameterType="company" resultType="company">
 		UPDATE TB_LC_COMPANY
 		SET 
-			UPD_TIMESTAMP		= NOW()							/*수정일시*/ 
-			,UPD_SEQ					= #{updSeq}						/*수정자 시퀀스*/ 
+			UPD_TIMESTAMP		= NOW()														/*수정일시*/ 
+			,UPD_SEQ					= #{updSeq}												/*수정자 시퀀스*/ 
 			<if test="comName != null and comName != ''">
-				 ,COM_NAME				= #{comName}					/*회원사(상호명)*/  
+				 ,COM_NAME				= #{comName}										/*회원사(상호명)*/  
 			 </if>
  			<if test="plMerchantNo != null and plMerchantNo != ''">
-				,PL_MERCHANT_NO		= #{plMerchantNo}				/*법인등록번호*/ 
+				,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')			/*법인등록번호*/ 
 			</if>
  			<if test="plBusinessNo != null and plBusinessNo != ''">			
-				,PL_BUSINESS_NO		= #{plBusinessNo}				/*사업자등록번호*/
+				,PL_BUSINESS_NO		= REPLACE(#{plBusinessNo}, '-', '')				/*사업자등록번호*/
 			</if>
  			<if test="compPhoneNo != null and compPhoneNo != ''">			
-				,COMP_PHONE_NO		= #{compPhoneNo}				/*회사대표번호*/ 
+				,COMP_PHONE_NO		= REPLACE(#{compPhoneNo}, '-', '')			/*회사대표번호*/ 
 			</if>
 		<where>
 			AND COM_CODE			= #{comCode}
@@ -190,7 +193,7 @@
 			<if test="comCode != null and comCode != ''">
 		        PL_MERCHANT_NO != (SELECT PL_MERCHANT_NO FROM TB_LC_COMPANY B WHERE B.COM_CODE = #{comCode})
 	        </if>
-		        AND PL_MERCHANT_NO = #{plMerchantNo}
+		        AND PL_MERCHANT_NO = REPLACE(#{plMerchantNo}, '-', '')
         </where>
     </select>
 

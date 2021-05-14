@@ -23,6 +23,7 @@ function pageLoad(){
 			, sortNm 	: "notice_seq"
 			, sort 	: "DESC"
 			, size 	: 10
+			, gridSearch : "searchDiv,searchBtn"
 			, rowClick : {retFunc : detailPop}
 			, isPaging : true
 	});

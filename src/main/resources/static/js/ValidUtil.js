@@ -67,9 +67,9 @@ var Valid = {
 	        case 'text' :
 	    		return true;
 	            break;
-			case 'mobileNo' :
-				regexp=/(01[016789])-([0-9]{1}[0-9]{2,3})-([0-9]{4})$/;
-				if(!regexp.test(val))	alert('휴대폰번호 형식을 확인해 주세요.');
+			case 'fileupload' :
+				regexp=/\.(jpg|gif|tif|bmp|png)$/i;
+				if(!regexp.test(val))	alert('파일 형식을 확인해 주세요.');
 	    		else return true;
 				return false;
 	            break;

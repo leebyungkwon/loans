@@ -32,6 +32,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.common.common.domain.FileDomain;
@@ -89,7 +91,13 @@ public class UtilFile {
 	private final String getRandomString() {
 		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
-
+	
+	private final String userAgent() {
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String agentName = request.getHeader("user-agent");
+		return agentName;
+	}
+		
 	//단일 첨부파일 업로드
 	public Map<String, Object> upload() {
 		Map<String, Object> result 	= new HashMap<String, Object>();
@@ -125,13 +133,15 @@ public class UtilFile {
 				fileGrpSeq = this.fileDomain.getFileGrpSeq();
 			}
 		}
-
+		
 		for (MultipartFile file : files) {
 			try {
 				if(!file.isEmpty()) {
-					String fileName 		= file.getOriginalFilename();
+					String fileName	= file.getOriginalFilename();
+					if(userAgent().contains("MSIE") || userAgent().contains("Trident")) {
+						fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+					}
 					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
-
 					if (!UtilString.isStr(this.ext.toLowerCase())) {
 						if ("all".equals(this.ext.toLowerCase())) {
 							for (All all : All.values()) {

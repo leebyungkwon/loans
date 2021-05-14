@@ -18,6 +18,9 @@
 		FROM TB_LC_NOTICE TLN
 			<where>
 				AND TLN.DEL_YN = 'N'
+			<if test="title != null and title != ''">
+				AND	TLN.TITLE LIKE CONCAT('%', #{title}, '%')
+			</if>
 			</where>
 		<include refid="common.pageBottom"/> 
 	</select>

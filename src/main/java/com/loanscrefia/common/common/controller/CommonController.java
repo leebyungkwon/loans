@@ -93,8 +93,8 @@ public class CommonController {
 	}
 	
 	// 첨부파일 다운로드
-	@PostMapping("/common/fileDown")
-	public void testFileDown(@RequestParam int fileSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@GetMapping("/common/fileDown")
+	public void testFileDown(@RequestParam int fileSeq, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent, HttpServletResponse response) throws IOException {
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(fileSeq);
 
@@ -102,14 +102,20 @@ public class CommonController {
 		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
 		if(file != null) {
 			String name = f.getFileOrgNm() + "." + f.getFileExt();
-			String filename = new String(name.getBytes("UTF-8"), "ISO-8859-1");
-
+	        String header = request.getHeader("User-Agent");
+	        String filename = "";
+	        if (header.contains("MSIE") || header.contains("Trident")) {
+	        	filename = URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%20");
+	            response.setHeader("Content-Disposition", "attachment;filename=" + name + ";");
+	        } else {
+	        	filename = new String(name.getBytes("UTF-8"), "ISO-8859-1");
+	           response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+	        }
 			String mimeType = URLConnection.guessContentTypeFromName(filename); // --- 파일의 mime타입을 확인합니다.
 			if (mimeType == null) { // --- 마임타입이 없을 경우 application/octet-stream으로 설정합니다.
 				mimeType = "application/octet-stream";
 			}
 			response.setContentType(mimeType);
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 			response.setContentLength((int) file.length());
 			InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 			FileCopyUtils.copy(inputStream, response.getOutputStream());

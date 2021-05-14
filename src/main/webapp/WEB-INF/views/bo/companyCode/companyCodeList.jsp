@@ -13,10 +13,10 @@
 			, headCol	: ["번호","회원사(상호)", "법인등록번호", "사업자등록번호", "회사대표번호"]
 			, bodyCol	: 
 			[
-				{type:"string"	,name:'comCode'			,index:'comCode'		,width:"8%"		,id:true		}
+				{type:"string"	,name:'comCode'				,index:'comCode'			,width:"3%"		,id:true		}
 				,{type:"string"	,name:'comName'			,index:'comName'		,width:"20%"	,align:"center"	}
-				,{type:"string"	,name:'plMerchantNo'	,index:'plMerchantNo'	,width:"15%"	,align:"center" }
-				,{type:"string"	,name:'plBusinessNo'	,index:'plBusinessNo'	,width:"15%"	,align:"center" }		
+				,{type:"string"	,name:'plMerchantNo'		,index:'plMerchantNo'	,width:"15%"	,align:"center" }
+				,{type:"string"	,name:'plBusinessNo'		,index:'plBusinessNo'	,width:"15%"	,align:"center" }		
 				,{type:"string"	,name:'compPhoneNo'		,index:'compPhoneNo'	,width:"10%"	,align:"center" }		
 			]
 			, sortNm : "com_code"
@@ -74,6 +74,10 @@
 					<th>회원사</th>
 					<td>
 						<select id="comCode" name="comCode"></select>
+					</td>
+					<th>회원사(상호명 검색)</th>
+					<td>
+						<input type="text" id="comName" name="comName"/>
 					</td>
 				</tr>
 			</table>	
