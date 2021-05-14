@@ -107,6 +107,7 @@ create table tb_lc_members(
 	, option_terms_yn char(1) not null
 	, option_terms_date varchar(8) not null
 	, appr_stat char(1) not null default '1'
+	, msg varchar(200)
 	, file_seq integer
 	, fail_cnt integer
 	, cre_yn char(1) not null default 'N'
@@ -137,6 +138,7 @@ COMMENT ON COLUMN tb_lc_members.terms_date IS '약관동의일';
 COMMENT ON COLUMN tb_lc_members.option_terms_yn IS '선택적약관동의';
 COMMENT ON COLUMN tb_lc_members.option_terms_date IS '선택적약관동의일';
 COMMENT ON COLUMN tb_lc_members.appr_stat IS '승인상태(1.미승인,2.가승인,3.승인)';
+COMMENT ON COLUMN tb_lc_members.msg IS '가승인사유';
 COMMENT ON COLUMN tb_lc_members.file_seq IS '첨부파일ID';
 COMMENT ON COLUMN tb_lc_members.fail_cnt IS '로그인실패횟수';
 COMMENT ON COLUMN tb_lc_members.cre_yn IS '협회여부';
