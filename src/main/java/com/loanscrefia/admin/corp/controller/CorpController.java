@@ -42,7 +42,7 @@ public class CorpController {
 	}
 	
 	//등록,수정 팝업
-	@GetMapping(value="/corSavePopup")
+	@GetMapping(value="/corpSavePopup")
 	public ModelAndView corSavePopup(CorpDomain corpDomain) {
 		ModelAndView mv 	= new ModelAndView(CosntPage.Popup+"/corpSavePopup");
 		CorpDomain corpInfo = corpService.getCorpInfo(corpDomain);
