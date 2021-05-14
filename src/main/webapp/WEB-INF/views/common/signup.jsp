@@ -98,34 +98,6 @@ function pageLoad(){
 		,updData : ''
 	};
 	DataUtil.selectBox(companyCode);
-	
-	// 아이디 중복체크
-	$("#idcheck").on("click", function(){
-		var memberId = $("#memberId").val();
-		if(WebUtil.isNull(memberId)){
-			alert("아이디를 입력해 주세요.");
-			return false;
-		}
-		
-		var	param = {
-				'memberId' : memberId
-		}
-	    var p = {
-			param: param
-			,url: "/idcheck"
-            ,success: function(opt, result) {
-            	if(result > 0){
-                    $("#memberId").val("");
-                    $("#checkId").val("N");
-                    alert("해당 아이디가 존재합니다.");    
-            	}else{
-            		$("#checkId").val("Y");
-            		alert("사용가능 아이디 입니다.");
-            	}        
-   			}
-		}
-		AjaxUtil.post(p);
-	});
 }
 </script>
 
@@ -215,7 +187,7 @@ function pageLoad(){
 			<tr>
 				<th>첨부파일 (신청서)</th>
 				<td id="fileTag">
-					<input type="text" id="fileName" name="fileName" readonly="readonly"  data-vd='{"type":"text","len":"1,60","req":true,"msg":"파일을 첨부해 주세요"}' />
+					<input type="text" id="fileName" name="fileName" readonly="readonly"  placeholder="이미지 파일을 첨부해 주세요." data-vd='{"type":"fileupload","len":"1,60","req":true,"msg":"이미지 파일을 첨부해 주세요"}' />
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/담당자신청서_샘플.png','담당자신청서_샘플')">샘플다운로드</a>
