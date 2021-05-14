@@ -262,7 +262,7 @@ function goGetDate(opt) {
 							<option value="">전체</option>
 							<option value="1">미요청</option>
 							<option value="2">승인요청</option>
-							<option value="5">승인반려</option>
+							<option value="5">보완요청</option>
 						</select>
 					</td>
 				</tr>
@@ -300,7 +300,7 @@ function goGetDate(opt) {
 				<!-- <p>총 : 몇건일까요</p> -->
 			</div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록하기</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록</a>
 				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goApplyAccept();">선택 승인요청</a>
 			</div>
 		</div>

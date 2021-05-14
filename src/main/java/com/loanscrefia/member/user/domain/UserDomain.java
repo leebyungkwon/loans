@@ -40,7 +40,6 @@ public class UserDomain extends BaseDomain {
 	private String careerStartDate;	//경력시작일
 	private String careerEndDate;	//경력종료일 
 	private String entrustDate;		//위탁예정일
-	private String comContDate;		//계약일자
 	@ExcelColumn(headerName = "법인명", order = 7)
 	private String plMerchantName;	//법인명
 	private String plCeoName;		//대표이사명
@@ -50,13 +49,15 @@ public class UserDomain extends BaseDomain {
 	private String compPhoneNo;		//회원사대표번호
 	private String corpFoundDate;	//법인설립일
 	private int capital;			//자본금
-	private String plPayStat;		//결제상태							-> []
-	private String comRegDate;		//신청일
+	private String comContDate;		//계약일자(회원사)
+	private String comRegDate;		//신청일(심사요청일)
+	private String chkYn;			//실무자확인여부
 	@ExcelColumn(headerName = "승인완료일", order = 10)
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "자격취득일", order = 12)
 	private String creLicenseDate;	//자격취득일
 	@ExcelColumn(headerName = "결제완료일", order = 11)
+	private String plPayStat;		//결제상태							-> []
 	private String payDate;			//결제완료일
 	private String sendMsg;			//전달메세지
 	private String plHistCd;		//해지사유코드
@@ -86,6 +87,7 @@ public class UserDomain extends BaseDomain {
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	private String plHistCdNm;		//해지사유코드명
 	
+	private String originPlMerchantNo;
 	private String originCreAppDate;
 	private String originPayDate;
 	private String originCreLicenseDate;

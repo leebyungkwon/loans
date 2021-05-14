@@ -65,7 +65,7 @@
 	    FROM TB_LC_MAS01 TLM
 		<where>
 			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
-			AND TLM.PL_STAT NOT IN ('1','2','6')													-- 처리상태가 미요청, 승인요청, 취소이 아닌 것
+			AND TLM.PL_STAT NOT IN ('1','2','6')													-- 처리상태가 미요청, 승인요청, 취소가 아닌 것
 			<if test="plRegStat != null and plRegStat != ''">
 				AND TLM.PL_REG_STAT	= #{plRegStat}
 			</if>		
@@ -131,6 +131,10 @@
    			</if>
    			<if test="plRegStat != null and plRegStat != ''">
    			,PL_REG_STAT 	= #{plRegStat}
+   			</if>
+   			<if test="plStat.equals('4')">
+   			,COM_HAEJI_DATE	= NOW()
+   			,CRE_HAEJI_DATE	= NOW()
    			</if>
    			,UPD_TIMESTAMP 	= NOW()
    		<where>
@@ -237,7 +241,7 @@
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
-				AND TLM.PL_STAT IN ('1','2')															-- 처리상태가 미요청, 승인요청인 것
+				AND TLM.PL_STAT IN ('1','2','5')														-- 처리상태가 미요청, 승인요청, 반려(보완요청)인 것
 		    </where>
    		)Z
    		<where>
@@ -569,6 +573,7 @@
 			,TO_DATE(TLM.COM_CONT_DATE,'YYYYMMDD') AS COM_CONT_DATE
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
+			,TLM.PL_MERCHANT_NO AS ORIGIN_PL_MERCHANT_NO
 			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
