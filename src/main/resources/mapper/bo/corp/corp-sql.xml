@@ -8,7 +8,7 @@
 			<include refid="common.totalPages"/>
 			 TLC.CORP_SEQ
 			,TLC.PL_MERCHANT_NAME
-			,TLC.PL_MERCHANT_NO
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLC.PATH_TYP
 			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
 			,TLC.REG_SEQ
@@ -18,12 +18,12 @@
 		FROM TB_LC_CORP TLC
 		<where>
 			AND TLC.USE_YN = 'Y'
-			<if test="plMerchantName != null and plMerchantName != ''">
-				AND TLC.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
-			</if>
-			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND TLC.PL_MERCHANT_NO LIKE CONCAT('%',#{plMerchantNo},'%')
-			</if>
+		<if test="plMerchantName != null and plMerchantName != ''">
+			AND TLC.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
+		</if>
+		<if test="plMerchantNo != null and plMerchantNo != ''">
+			AND TLC.PL_MERCHANT_NO LIKE CONCAT('%',#{plMerchantNo},'%')
+		</if>
 		</where>
 		<include refid="common.pageBottom"/>
 	</select>
@@ -41,7 +41,7 @@
 		VALUES
 		(
 			 #{plMerchantName}
-			,#{plMerchantNo}
+			, REPLACE(#{plMerchantNo}, '-', '')
 			,#{pathTyp}
 			,#{regSeq}
 			,NOW()
@@ -53,7 +53,7 @@
 		SELECT
 			 TLC.CORP_SEQ
 			,TLC.PL_MERCHANT_NAME
-			,TLC.PL_MERCHANT_NO
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLC.PATH_TYP
 			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
 			,TLC.REG_SEQ
@@ -71,8 +71,12 @@
 	<update id="updateCorpInfo" parameterType="corp">
 		UPDATE TB_LC_CORP
    		SET
-   			 PL_MERCHANT_NAME	= #{plStat}
-   			,PL_MERCHANT_NO 	= #{updSeq}
+		<if test="plMerchantName != null and plMerchantName != ''">
+			PL_MERCHANT_NAME		= #{plMerchantName}	
+		</if>
+		<if test="plMerchantNo != null and plMerchantNo != ''">
+			,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')
+		</if>
    			,USE_YN				= #{useYn}
    			,UPD_SEQ			= #{updSeq}
    			,UPD_TIMESTAMP		= NOW()

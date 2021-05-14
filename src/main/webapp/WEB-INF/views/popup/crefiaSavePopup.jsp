@@ -25,11 +25,11 @@
 			<tr>
 				<th>그룹선택</th>
 				<td>
-					<input type="hidden" id="hiddenCreYn" value="${result.creYn}"/>
-					<select id="popCreYn" name="popCreYn" style="width:50%;">
+					<input type="hidden" id="hiddenCreGrp" value="${result.creGrp}"/>
+					<select id="popCreGrp" name="popCreGrp" style="width:50%;">
 						<option value="">전체</option>
-						<option value="N">관리자</option>
-						<option value="Y">실무자</option>
+						<option value="2">관리자</option>
+						<option value="1">실무자</option>
 					</select>
 				</td>
 			</tr>

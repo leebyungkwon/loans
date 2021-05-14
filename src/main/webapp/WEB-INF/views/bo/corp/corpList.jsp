@@ -32,17 +32,21 @@ function pageLoad(){
 //법인 row 클릭 이벤트
 function goCorpDetail(idx, data){
 	var corpSeq = corpGrid.gridData[idx].corpSeq;
-	
-	$("#hCorpSeq").val(corpSeq);
-	$("#corpDetailFrm").attr("action","/admin/corp/corpDetail");
-	$("#corpDetailFrm").submit();
+	let p = {
+		id : "corpSavePop"
+		, params : {"corpSeq" : corpSeq}
+		, url : "/admin/corp/corpSavePopup"
+		, success : function (opt,result) {
+	    }
+	}
+	PopUtil.openPopup(p);
 }
 
 //법인 등록 팝업
 function goCorpInfoSavePopup() {
 	let p = {
 		  id 		: "corpInfoSavePop"
-		, url 		: "/admin/corp/corSavePopup"
+		, url 		: "/admin/corp/corpSavePopup"
 		, success	: function(opt, result) { 
 			
         }
@@ -53,19 +57,21 @@ function goCorpInfoSavePopup() {
 //법인 저장
 function goCorpInfoSave() {
 	if(confirm("저장하시겠습니까?")){
-		var p = {
-			  url		: "/admin/corp/saveCorpInfo"	
-			, param		: WebUtil.getTagInParam("#corpInfoSaveFrm")
-			, success 	: function (opt,result) {
+		$("#corpInfoSaveFrm").attr("action","/admin/corp/saveCorpInfo");
+
+		var saveCompanyCodeDetailParam = {
+			name : 'corpInfoSaveFrm'
+			,data : WebUtil.getTagInParam("#corpInfoSaveFrm")
+			,success: function(opt, result) {
 				location.reload();
-		    }
-		}
-		AjaxUtil.post(p);
+			}
+		}      
+		AjaxUtil.files(saveCompanyCodeDetailParam);
 	}
 }
 </script>
 
-<form id="corpDetailFrm" method="post">
+<form id="corpDetailFrm" method="get">
 	<input type="hidden" name="corpSeq" id="hCorpSeq"/>
 </form>
 
