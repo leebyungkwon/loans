@@ -55,15 +55,15 @@ public class CompanyDomain extends BaseDomain {
 	private String comName;								// 회원사(상호명)
 	
 	@NotBlank(message = "법인등록번호를 입력해주세요.")
-	@Pattern(regexp = "^[0-9]*${13}", message = "법인등록번호 13자리를 다시 입력해 주세요.")
+//	@Pattern(regexp = "^[0-9]*${13}", message = "법인등록번호 13자리를 다시 입력해 주세요.")
 	private String plMerchantNo;						// 법인등록번호
 	
 	@NotBlank(message = "사업자등록번호를 입력해주세요.")
-	@Pattern(regexp = "^[0-9]*${10}", message = "사업자등록번호 10자리 다시 입력해 주세요.")
+//	@Pattern(regexp = "^[0-9]*${10}", message = "사업자등록번호 10자리 다시 입력해 주세요.")
 	private String plBusinessNo;							// 사업자등록번호
 	
 	@NotBlank(message = "회사전화번호를 입력해주세요.")
-	@Pattern(regexp = "^[0-9]*${1,20}", message = "회사전화번호를 다시 입력해 주세요.")
+//	@Pattern(regexp = "^[0-9]*${1,20}", message = "회사전화번호를 다시 입력해 주세요.")
 	private String compPhoneNo;						// 회사전화번호
 
 }

@@ -143,13 +143,13 @@
                <tr>
                   <th>회사 전화번호</th>
                   <td colspan="3">
-                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" value="${adminInfo.extensionNo}" class="w40" data-vd='{"type":"num","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
+                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" value="${adminInfo.extensionNo}" class="w40" data-vd='{"type":"text","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>휴대폰번호</th>
                   <td colspan="3">
-                     <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+                     <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"text","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
                   </td>
                </tr>
             	<tr>
