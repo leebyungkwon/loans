@@ -4,7 +4,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <script type="text/javascript">
-
+function pageLoad(){
+	
+}
 // 가승인 or 승인처리
 function goCompanyStatUpdt(apprStat,roleName) {
 	var apprStatNm = apprStat == "2" ? "가승인" : "승인";

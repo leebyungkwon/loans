@@ -1,20 +1,26 @@
 package com.loanscrefia.common.common.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -38,6 +44,8 @@ public class CommonController {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired ResourceLoader resourceLoader;
+	@Value("${download.filePath}")
+	public String filePath;
 	
 	@GetMapping(value="/isConnecting")
 	public ResponseEntity<ResponseMsg> isConnecting(HttpServletRequest request){
@@ -85,7 +93,32 @@ public class CommonController {
 	}
 	
 	// 첨부파일 다운로드
-	@PostMapping("/common/fileDown")
+	@GetMapping("/common/fileDown")
+	public void testFileDown(@RequestParam int fileSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		FileDomain fileDomain = new FileDomain();
+		fileDomain.setFileSeq(fileSeq);
+
+		FileDomain f = commonService.getFile(fileDomain);
+		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
+		if(file != null) {
+			String name = f.getFileOrgNm() + "." + f.getFileExt();
+			String filename = new String(name.getBytes("UTF-8"), "ISO-8859-1");
+
+			String mimeType = URLConnection.guessContentTypeFromName(filename); // --- 파일의 mime타입을 확인합니다.
+			if (mimeType == null) { // --- 마임타입이 없을 경우 application/octet-stream으로 설정합니다.
+				mimeType = "application/octet-stream";
+			}
+			response.setContentType(mimeType);
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+			response.setContentLength((int) file.length());
+			InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+			FileCopyUtils.copy(inputStream, response.getOutputStream());
+		}
+	}
+	
+	/*
+	// 첨부파일 다운로드
+	@PostMapping("/common/testFileDown")
 	public ResponseEntity<Resource> fileDown(@RequestParam int fileSeq, @RequestHeader("User-Agent") String userAgent,  HttpServletRequest request, HttpServletResponse response) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		FileDomain fileDomain = new FileDomain();
@@ -121,6 +154,7 @@ public class CommonController {
 		}
 		//utilFile.setEntity(file).fileDownload(request,response);
 	}
+	*/
 	
 	//첨부파일 삭제
 	@PostMapping(value="/common/fileDelete")

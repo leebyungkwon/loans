@@ -48,18 +48,6 @@
 		});
 	
 	}
-	
-	function filedown(fileSeq){
-		var p = {
-			url : '/common/fileDown'
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-			, param : {
-				fileSeq : fileSeq
-			}
-		}
-		AjaxUtil.post(p);
-	}
 
 </script>
 
@@ -92,7 +80,7 @@
 						<tr>
 							<th class="acenter">첨부 파일 : </th>
 							<td class="aleft" colspan="3">
-								<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
+								<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 							</td>
 						</tr>
 					</table>

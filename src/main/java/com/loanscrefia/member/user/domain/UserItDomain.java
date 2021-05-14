@@ -26,7 +26,7 @@ public class UserItDomain extends BaseDomain {
 	private String operName;		//이름
 	
 	@ExcelColumn(headerName="주민등록번호", vCell="B", vLenMin=14, vLenMax=14)
-	@Pattern(regexp = "^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}${14,14}", message = "주민등록번호는 숫자 14자리(- 포함)로 입력해 주세요.")
+	//@Pattern(regexp = "^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}${14,14}", message = "주민등록번호는 숫자 14자리(- 포함)로 입력해 주세요.")
 	private String plMZId;			//주민등록번호
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스

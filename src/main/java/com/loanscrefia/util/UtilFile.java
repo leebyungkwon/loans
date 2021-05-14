@@ -106,8 +106,9 @@ public class UtilFile {
 			return result;
 		}
 		
-		this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
-
+		//this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
+		this.uploadPath = this.filePath.toString() + "/" + this.path.toString();
+		
 		File dir = new File(this.uploadPath);
 		if (dir.exists() == false) {
 			dir.mkdirs();
@@ -245,7 +246,8 @@ public class UtilFile {
 			}
 		}
 		
-		this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
+		//this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
+		this.uploadPath = this.filePath.toString() + "/" + this.path.toString();
 
 		File dir = new File(this.uploadPath);
 		if (dir.exists() == false) {
