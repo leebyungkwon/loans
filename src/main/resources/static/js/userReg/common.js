@@ -69,15 +69,7 @@ $(document).on("click",".goFileDel",function(){
 
 //첨부파일 다운로드
 $(document).on("click",".goFileDownload",function(){
-	var p = {
-		  url 			: "/common/fileDown"
-		, contType		: "application/json; charset=UTF-8"
-		, responseType	: "arraybuffer"
-		, param 		: {
-			fileSeq : $(this).attr("data-fileSeq")
-		}
-	}
-	AjaxUtil.post(p);
+	location.href = "/common/fileDown?fileSeq="+$(this).attr("data-fileSeq");
 });
 
 //fileTypeList hidden disabled

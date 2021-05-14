@@ -14,4 +14,6 @@
 <script type="text/javascript" src="/static/js/LibUtil.js"></script>
 <script type="text/javascript" src="/static/js/PopUtil.js"></script>
 <script type="text/javascript" src="/static/plugin/jquery.cookie.js"></script>
+<script type="text/javascript" src="/static/js/Download.js"></script>
+
 

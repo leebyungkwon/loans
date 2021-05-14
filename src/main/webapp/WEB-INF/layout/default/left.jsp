@@ -51,7 +51,7 @@
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
-		<!-- 	
+		 	
 		<li id="">
 			<a href="#">모집인 조회 및 변경</a>
 		</li>
@@ -64,17 +64,17 @@
 		<li id="">
 			<a href="#">타협회 내역 다운로드</a>
 		</li> 
-		-->
-		<!-- 		
+		
+				
 		<li id="menuCompany">
 			<a href="/admin/company/companyCodePage">회원사 관리</a>
 		</li> 
-		-->
-		<!-- 		
+		
+		 		
 		<li id="menuCrefia">
 			<a href="/admin/crefia/crefiaPage">관리자 관리</a>
 		</li> 
-		-->
+		
 		<li id="menuCorp">
 			<a href="/admin/corp/corpPage">법인 관리</a>
 		</li>

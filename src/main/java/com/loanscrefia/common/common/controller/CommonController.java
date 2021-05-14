@@ -93,7 +93,7 @@ public class CommonController {
 	}
 	
 	// 첨부파일 다운로드
-	@GetMapping("/common/fileDown")
+	@PostMapping("/common/fileDown")
 	public void testFileDown(@RequestParam int fileSeq, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(fileSeq);
