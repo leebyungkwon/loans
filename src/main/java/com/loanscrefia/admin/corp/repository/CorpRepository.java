@@ -20,5 +20,8 @@ public interface CorpRepository {
 	
 	//법인 수정
 	int updateCorpInfo(CorpDomain corpDomain);
+
+	// 법인등록번호 중복체크
+	int plMerchantNoCheck(CorpDomain corpDomain);
 	
 }

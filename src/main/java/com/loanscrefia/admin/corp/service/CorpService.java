@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -48,6 +49,10 @@ public class CorpService {
 	public CorpDomain getCorpInfo(CorpDomain corpDomain) {
 		return corpRepo.getCorpInfo(corpDomain);
 	}
-	
+
+	// 법인등록번호 중복체크
+	public int plMerchantNoCheck(CorpDomain corpDomain) {
+		return corpRepo.plMerchantNoCheck(corpDomain);
+	}
 	
 }

@@ -53,8 +53,21 @@ public class CorpController {
 	//저장
 	@PostMapping(value="/saveCorpInfo")
 	public ResponseEntity<ResponseMsg> saveCorpInfo(CorpDomain corpDomain){
-		ResponseMsg responseMsg = corpService.saveCorpInfo(corpDomain);
+		
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		
+		int count = corpService.plMerchantNoCheck(corpDomain);
+		
+		if(count > 0) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
+		}else {
+			responseMsg = corpService.saveCorpInfo(corpDomain);
+		}
+		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		
+//		ResponseMsg responseMsg = corpService.saveCorpInfo(corpDomain);
+//		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 }
