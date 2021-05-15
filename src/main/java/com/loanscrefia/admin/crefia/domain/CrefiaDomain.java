@@ -11,7 +11,7 @@ import lombok.Data;
 @Alias("crefia")
 public class CrefiaDomain extends BaseDomain {
 
-	private Long memberSeq;					// 담당자시퀀스
+	private int memberSeq;					// 담당자시퀀스
     private String memberId;				// 담당자ID(로그인ID)
 	private String password;				// 비밀번호
 	private String memberName;				// 담당자이름
@@ -23,6 +23,6 @@ public class CrefiaDomain extends BaseDomain {
 	private String creGrp;					// 협회그룹
 	private String creGrpNm;				// 협회그룹명
 	private String joinDt;					// 가입일
-	private int[] masterSeqArr;				// 삭제 배열
-	
+	private int[] memberSeqArr;				// 삭제 배열
+
 }

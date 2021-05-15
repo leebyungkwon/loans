@@ -13,12 +13,13 @@
 			, MEM.EMAIL
       	    , fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO
       		, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO
-			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
+			, TO_DATE(MEM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			, MEM.CRE_YN
 			, MEM.CRE_GRP
 			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM
 	    FROM TB_LC_MEMBERS MEM
 	    WHERE MEM.COM_CODE = 1
+	    AND MEM.DROP_YN = 'N'
 	    <if test="memberId != null and memberId != ''">
 	    	AND MEMBER_ID = #{memberId}
 	    </if>
@@ -40,7 +41,7 @@
 			, MEM.EMAIL
       	    , fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO
       		, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO
-			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
+			, TO_DATE(MEM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			, MEM.CRE_YN
 			, MEM.CRE_GRP
 			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM
@@ -50,4 +51,83 @@
 	    	AND MEMBER_SEQ = #{memberSeq}
 	    </if>
     </select>
+    
+    <insert id="insertCrefia" parameterType="crefia" >
+    	INSERT INTO tb_lc_members
+    	(
+    		member_id
+    		, password
+    		, com_code
+    		, member_name
+    		, terms_yn
+    		, terms_date
+    		, option_terms_yn
+    		, option_terms_date
+    		, join_dt
+    		, role_name
+    		, appr_stat
+    		, cre_yn
+    		, cre_grp
+    		, drop_yn
+    		, upd_seq
+    		, upd_timestamp
+    	)
+    	VALUES
+    	(
+    		#{memberId}
+    		, #{password}
+    		, '1'
+    		, #{memberName}
+    		, 'Y'
+    		, TO_CHAR(NOW(), 'YYYYMMDD')
+    		, 'Y'
+    		, TO_CHAR(NOW(), 'YYYYMMDD')
+    		, TO_CHAR(NOW(), 'YYYYMMDD')
+    		, 'ADMIN'
+    		, '3'
+    		, 'Y'
+    		, #{creGrp}
+    		, 'N'
+    		, #{updSeq}
+    		, NOW()
+    	)
+    </insert>
+    
+    <update id="updateCrefia" parameterType="crefia" >
+    	UPDATE tb_lc_members
+    	SET
+    		cre_grp = #{creGrp}
+    		, member_name = #{memberName}
+    		, member_id = #{memberId}
+    		<if test="password != null and password != ''">
+    			, password = #{password}
+    		</if>
+    		, upd_timestamp = NOW()
+    	WHERE
+    		member_seq = #{memberSeq}
+    </update>
+    
+    <select id="getmemberId" parameterType="crefia" resultType="int">
+    	SELECT
+    		COUNT(*) 
+    	FROM
+    		tb_lc_members
+    	WHERE
+    		member_id = #{memberId}
+		<if test="memberSeq != null and memberSeq != ''">
+	    	AND member_seq != #{memberSeq}
+    	</if>
+    </select>
+    
+    <update id="deleteCrefia" parameterType="crefia" >
+    	UPDATE tb_lc_members
+    	SET
+    		drop_yn = 'Y'
+    		, upd_timestamp = NOW()
+    	WHERE
+    		member_seq IN
+		<foreach collection="memberSeqArr" item="seq" open="(" close=")" separator=",">
+		 	#{seq}
+		</foreach>
+    </update> 
 </mapper> 

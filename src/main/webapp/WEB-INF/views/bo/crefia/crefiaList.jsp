@@ -29,7 +29,7 @@ function pageLoad(){
 		, size 			: 10
 	});
 	
-	// 협회 관리자 등록
+	// 협회 관리자 등록팝업
 	$("#regCrefia").on("click", function(){
 		let p = {
 			id : "crefiaRegPop"
@@ -57,7 +57,7 @@ function pageLoad(){
 				memberSeqArr.push(chkData[i].memberSeq);
 			}
 			var p = {
-				  url : "/admin/crefia/crefiaDelete"	
+				  url : "/admin/crefia/deleteCrefia"	
 				, param : {
 					memberSeqArr : memberSeqArr
 				}
@@ -74,9 +74,9 @@ function pageLoad(){
 function crefiaDetail(idx, data){
 	var memberSeq = crefiaGrid.gridData[idx].memberSeq;
 	let p = {
-		id : "crefiaSavePop"
+		id : "saveCrefiaPopup"
 		, params : {"memberSeq" : memberSeq}
-		, url : "/admin/crefia/crefiaSavePopup"
+		, url : "/admin/crefia/saveCrefiaPopup"
 		, success : function (opt,result) {
 			companyCodeCall();
 	    }
@@ -96,15 +96,65 @@ function companyCodeCall(){
 }
 
 
+// 협회관리자 저장
+function crefiaSave(){
+	var password = $("#popPassword").val();
+	var passwordChk = $("#popPasswordChk").val();
+	var memberSeq = $("#hiddenMemberSeq").val();
+	var memberName = $("#popMemberName").val();
+	var memberId = $("#popMemberId").val();
+	var creGrp = $("#popCreGrp").val();
+	if(WebUtil.isNull(creGrp)){
+		alert("그룹을 선택해 주세요.");
+		$("#popCreGrp").focus();
+		return false;
+	}
+	if(WebUtil.isNull(memberName)){
+		alert("이름을 입력해 주세요.");
+		$("#popMemberName").focus();
+		return false;
+	}
+	if(WebUtil.isNull(memberId)){
+		alert("아이디를 입력해 주세요.");
+		$("#popMemberId").focus();
+		return false;
+	}
+	var	param = {
+		'creGrp'		: creGrp
+		, 'memberId'	: memberId
+		, 'memberName'	: memberName
+	}
+	if(WebUtil.isNull(memberSeq)){
+		if(WebUtil.isNull(password)){
+			alert("비밀번호를 입력해 주세요.");
+			$("#popPassword").focus();
+			return false;
+		}
+	}else{
+		param.memberSeq = memberSeq
+	}
+	if(WebUtil.isNotNull(password)){
+		if(password != passwordChk){
+			alert("비밀번호를 확인해 주세요.");
+			return false;
+		}
+		param.password = password
+	}
+	var crefiaParam = {
+		param: param
+		,url: "/admin/crefia/saveCrefia"
+		,success: function(opt, result) {
+			if(result.code == "success"){
+				PopUtil.closePopup();
+				location.reload();
+			}
+    	}
+	}
+	AjaxUtil.post(crefiaParam);
+	
+}
+
 </script>
-
-<form id="crefiaDetailFrm" method="post">
-	<input type="hidden" name="memberSeq" id="memberSeq"/>
-</form>
-
-<form id="crefiaRegFrm" method="post" action="/admin/crefia/crefiaDetail">
-	<input type="hidden" name="memberSeq" id="memberSeq" value="0"/>
-</form>
 
 <div class="cont_area">
 	<div class="top_box">
