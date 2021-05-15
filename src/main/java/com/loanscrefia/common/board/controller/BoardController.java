@@ -1,4 +1,3 @@
-
 package com.loanscrefia.common.board.controller;
 
 import java.util.List;
@@ -39,15 +38,15 @@ public class BoardController {
 
 	// 공지사항 - 리스트
 	@PostMapping(value="/noticeList")
-	public ResponseEntity<ResponseMsg> NoticeList(BoardDomain boardDomain){
+	public ResponseEntity<ResponseMsg> noticeList(BoardDomain boardDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		responseMsg.setData(boardService.selectNoticeList(boardDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
 	// 공지사항 - 상세 페이지
-	@PostMapping(value="/noticeDetail")
-	public ModelAndView NoticeDetail(BoardDomain boardDomain) {
+	@PostMapping(value="/noticeDetailPage")
+	public ModelAndView noticeDetail(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeDetail");
 		
 		// 방문자 수 조회
@@ -65,22 +64,18 @@ public class BoardController {
 	}
 
 	// 공지사항 - 글 쓰기 페이지
-	@PostMapping(value="/WritenoticeReg")
-	public ModelAndView WriteNoticeReg(BoardDomain boardDomain) {
+	@PostMapping(value="/noticeRegPage")
+	public ModelAndView writeNoticeReg(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeReg");
-		
-		//BoardDomain noticeInfo = boardService.NoticeReg(boardDomain);
-		//mv.addObject("noticeInfo", noticeInfo);
-		
 		return mv;
 	}
 
 	// 공지사항 - 수정 페이지
-	@PostMapping(value="/InsnoticeReg")
-	public ModelAndView InsNoticeReg(BoardDomain boardDomain) {
+	@PostMapping(value="/noticeRegInsPage")
+	public ModelAndView insNoticeReg(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeReg");
 		
-		BoardDomain noticeInfo = boardService.NoticeReg(boardDomain);
+		BoardDomain noticeInfo = boardService.noticeReg(boardDomain);
 		mv.addObject("noticeInfo", noticeInfo);
 		
 		FileDomain file = new FileDomain();
@@ -98,11 +93,11 @@ public class BoardController {
 	}
 
 	// 공지사항 - 글 쓰기 페이지 -> Insert (글 등록)
-	@PostMapping(value="/SaveNoticeReg")
-	public ResponseEntity<ResponseMsg> SaveNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
+	@PostMapping(value="/saveNoticeReg")
+	public ResponseEntity<ResponseMsg> saveNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
 		Map<String, Object> ret = utilFile.setPath("notice") 
 		.setFiles(files)
-		.setExt("excel") 
+		.setExt("all") 
 		.upload();
 			if((boolean) ret.get("success")) {
 				List<FileDomain> file = (List<FileDomain>) ret.get("data");
@@ -110,16 +105,16 @@ public class BoardController {
 				boardDomain.setFileSeq(file.get(0).getFileSeq());
 				}
 			}
-		ResponseMsg responseMsg = boardService.SaveNoticeReg(boardDomain);
+		ResponseMsg responseMsg = boardService.saveNoticeReg(boardDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
 	// 공지사항 - 글 쓰기 페이지 -> Update (글 수정)
-	@PostMapping(value="/UpdNoticeReg")
-	public ResponseEntity<ResponseMsg> UpdNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
+	@PostMapping(value="/updNoticeReg")
+	public ResponseEntity<ResponseMsg> updNoticeReg(@RequestParam("files") MultipartFile[] files, BoardDomain boardDomain) {
 		Map<String, Object> ret = utilFile.setPath("notice") 
 		.setFiles(files)
-		.setExt("excel") 
+		.setExt("all") 
 		.upload();
 		
 		if((boolean) ret.get("success")) {
@@ -128,15 +123,15 @@ public class BoardController {
 				boardDomain.setFileSeq(file.get(0).getFileSeq());
 			}
 		}
-		ResponseMsg responseMsg = boardService.UpdNoticeReg(boardDomain);
+		ResponseMsg responseMsg = boardService.updNoticeReg(boardDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
 	// 공지사항 - 글 쓰기 페이지 -> Delete (글 삭제)
-	@PostMapping(value="/DelNoticeReg")
-	public ResponseEntity<ResponseMsg> DelNoticeReg(BoardDomain boardDomain) {
+	@PostMapping(value="/delNoticeReg")
+	public ResponseEntity<ResponseMsg> delNoticeReg(BoardDomain boardDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-		responseMsg.setData(boardService.DelNoticeReg(boardDomain));
+		responseMsg.setData(boardService.delNoticeReg(boardDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 

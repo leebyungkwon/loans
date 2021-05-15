@@ -176,18 +176,25 @@ var WebUtil = {
         return result;
     },
     getDate: function(d) {
-        var result = '';
-		var nowDate = new Date();
+        var result 		= '';
+		var nowDate 	= new Date();
         if(d == 'today'){
-			// 오늘 날짜
-			var toYear = nowDate.getFullYear();
-			var toMonth = nowDate.getMonth() + 1;
-			var toDay = nowDate.getDate();
+			var toYear 	= nowDate.getFullYear();
+			var toMonth = nowDate.getMonth() + 1; //0 ~ 11(0 : 1월)
+			var toDay 	= nowDate.getDate();
 			if(toMonth < 10){ toMonth = "0" + toMonth; }
 			if(toDay < 10) { toDay = "0" + toDay; }
 			result = toYear + "-" + toMonth + "-" + toDay;
+        }else if(d == 'yesterday'){
+		   	var yesterday 	= new Date(nowDate.setDate(nowDate.getDate() - 1));
+		    var toYear 		= yesterday.getFullYear();
+			var toMonth 	= yesterday.getMonth() + 1;
+			var toDay 		= yesterday.getDate();
+			if(toMonth < 10){ toMonth = "0" + toMonth; }
+			if(toDay < 10) { toDay = "0" + toDay; }
+		    result = toYear + "-" + toMonth + "-" + toDay;
         }else if(d == 'dayFirst'){
-		    var toYear = nowDate.getFullYear();
+		    var toYear 	= nowDate.getFullYear();
 			var toMonth = nowDate.getMonth() + 1;
 			if(toMonth < 10){ toMonth = "0" + toMonth; }
 		    result = toYear + "-" + toMonth + "-01";
@@ -195,24 +202,24 @@ var WebUtil = {
 		    var toYear = nowDate.getFullYear();
 		    result = toYear + "-" + "01-01";
         }else if(d == 'oneMonthAgo'){
-        	var toYear = Number(nowDate.getFullYear());
-			var toMonth = Number(nowDate.getMonth()) - 1;
-			var toDay = Number(nowDate.getDate());
+        	var toYear 	= Number(nowDate.getFullYear());
+			var toMonth = Number(nowDate.getMonth() + 1) - 1;
+			var toDay 	= Number(nowDate.getDate());
 			if(toMonth == 0){
 				toMonth = "12";
-				toYear = nowDate.getFullYear() -1;
+				toYear 	= nowDate.getFullYear() -1;
 			}else if(toMonth < 9){
 				toMonth = "0" + Number(toMonth);
 			}
 			if(toDay < 10) { toDay = "0" + toDay; }
 			result = toYear + "-" + toMonth + "-" + toDay;
         }else if(d == 'oneMonthLater'){
-        	var toYear = Number(nowDate.getFullYear());
-			var toMonth = Number(nowDate.getMonth()) + 1;
-			var toDay = Number(nowDate.getDate());
+        	var toYear 	= Number(nowDate.getFullYear());
+			var toMonth = Number(nowDate.getMonth() + 1) + 1;
+			var toDay 	= Number(nowDate.getDate());
 			if(toMonth == 13){
 				toMonth = "01";
-				toYear = nowDate.getFullYear() + 1;
+				toYear 	= nowDate.getFullYear() + 1;
 			}else if(toMonth < 11){
 				toMonth = "0" + toMonth;
 			}

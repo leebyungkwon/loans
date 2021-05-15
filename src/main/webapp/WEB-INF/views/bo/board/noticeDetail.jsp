@@ -8,34 +8,36 @@
 	function pageLoad(){
 
 		// 글 목록 버튼
-		$("#NoticeCancelBtn").on("click", function(){
-			location.href = "/common/board/noticePage";
+		$("#noticeBtn").on("click", function(){
+				location.href = "/common/board/noticePage";
 		});
 		
 		// 글 수정 버튼
-		$("#NoticeUpdBtn").on("click", function(){
-			$("#noticeDetailFrm").submit();
+		$("#noticeUpdBtn").on("click", function(){
+				$("#noticeDetailFrm").submit();
 		});
 		
 		// 글 삭제 버튼
-		$("#NoticeDelBtn").on("click", function(){
-			var noticeSeq = $("#noticeSeq").val();
-			var param = {
-				'noticeSeq' : noticeSeq
-			}
-			var p = {
-				param: param
-				,url: "/common/board/DelNoticeReg"
-				,success: function(opt, result) {
-					if(result > 0) {
-					alert("삭제를 실패하셨습니다.");
-					} else {
-					alert("삭제를 성공적으로 완료하였습니다.");
-					location.href = "/common/board/noticePage";
-					}             
+		$("#noticeDelBtn").on("click", function(){
+			if(confirm("글을 삭제 하시겠습니까?")){
+				var noticeSeq = $("#noticeSeq").val();
+				var param = {
+					'noticeSeq' : noticeSeq
 				}
+				var p = {
+					param: param
+					,url: "/common/board/delNoticeReg"
+					,success: function(opt, result) {
+						if(result > 0) {
+						alert("삭제를 실패하셨습니다.");
+						} else {
+						alert("삭제를 성공적으로 완료하였습니다.");
+						location.href = "/common/board/noticePage";
+						}             
+					}
+				}
+				AjaxUtil.post(p);
 			}
-			AjaxUtil.post(p);
 		});
 		
 		//첨부파일명 보여주기
@@ -45,18 +47,6 @@
 			$(this).prev().val(fileName);
 		});
 	
-	}
-	
-	function filedown(fileSeq){
-		var p = {
-			url : '/common/fileDown'
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-			, param : {
-				fileSeq : fileSeq
-			}
-		}
-		AjaxUtil.post(p);
 	}
 
 </script>
@@ -68,7 +58,7 @@
 		</div>
 	</div>
 
-	<form name="noticeDetailFrm" id="noticeDetailFrm" action="/common/board/InsnoticeReg" method="POST" enctype="multipart/form-data" >
+	<form name="noticeDetailFrm" id="noticeDetailFrm" action="/common/board/noticeRegInsPage" method="POST" enctype="multipart/form-data" >
 	<input type="hidden" name="noticeSeq" id="noticeSeq" value="${noticeInfo.noticeSeq}"/>
 		<div class="contents">
 			<div class="notice_view">
@@ -90,17 +80,17 @@
 						<tr>
 							<th class="acenter">첨부 파일 : </th>
 							<td class="aleft" colspan="3">
-								<a href="javascript:filedown(' ${file.fileSeq}')">${file.fileFullNm}</a>
+								<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 							</td>
 						</tr>
 					</table>
 				</div>
 			
-			<sec:authorize access="hasRole('SYSTEM')" >
+			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 				<div class="btn_wrap">
-					<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right02">글 수정</a>								
-					<a href="javascript:void(0);" id="NoticeDelBtn"  class="btn_gray btn_right">글 삭제</a>								
-					<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray">글 목록</a>								
+					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">수정</a>								
+					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">삭제</a>								
+					<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">목록</a>								
 				</div>
 			</sec:authorize>
 			

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
 @Controller
-@RequestMapping(value="/admin/company")
+@RequestMapping(value="/admin")
 public class CompanyController {
 	
 	
@@ -33,13 +34,13 @@ public class CompanyController {
 	@Autowired UtilFile utilFile;
 	
 	// 협회 - 회원사 담당자 조회 페이지
-	@GetMapping(value="/companyPage")
+	@GetMapping(value="/mng/companyPage")
 	public String companyPage() {
 		return CosntPage.BoCompanyPage+"/companyList";
 	}
 	
 	// 협회 - 회원사 담당자 리스트 페이지
-	@PostMapping(value="/companyList")
+	@PostMapping(value="/mng/companyList")
 	public ResponseEntity<ResponseMsg> companyList(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(companyService.selectCompanyList(companyDomain));
@@ -47,14 +48,14 @@ public class CompanyController {
 	}
 	
 	// 협회 - 회원사 당담자 상세 페이지	  
-	@GetMapping(value="/companyDetail")
+	@GetMapping(value="/mng/companyDetail")
 	public ModelAndView companyDetail() {
     	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
         return mv;
 	}
 	
 	// 협회 - 회원사 당담자 상세 페이지
-	@PostMapping(value="/companyDetail")
+	@PostMapping(value="/mng/companyDetail")
     public ModelAndView companyDetail(CompanyDomain companyDomain) {
     	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
     	//상세
@@ -70,7 +71,7 @@ public class CompanyController {
     }
 	
 	//처리 상태변경
-	@PostMapping(value="/updateCompanyStat")
+	@PostMapping(value="/mng/updateCompanyStat")
 	public ResponseEntity<ResponseMsg> updateCompanyStat(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
@@ -78,7 +79,7 @@ public class CompanyController {
 	}
 	
 	//삭제 
-	@PostMapping(value="/deleteCompany")
+	@PostMapping(value="/mng/deleteCompany")
 	public ResponseEntity<ResponseMsg> deleteCompany(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(companyService.deleteCompany(companyDomain));
@@ -86,10 +87,92 @@ public class CompanyController {
 	}
 	
 	//엑셀 업로드
-	@PostMapping("/excelDown")
+	@PostMapping("/mng/excelDown")
 	public void writeExcel(CompanyDomain companyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
  		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
  		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}
+	
+	
+	
+	
+	// ------------------------------- 회원사 관리 영역 --------------------------------------- //
+	
+	// 회원사 코드 관리
+	@GetMapping(value="/company/companyCodePage")
+	public String companyCodePage() {
+		return CosntPage.BoCompanyCodePage+"/companyCodeList";
+	}
+	
+	// 회원사 코드 관리 - 리스트
+	@PostMapping(value="/company/companyCodeList")
+	public ResponseEntity<ResponseMsg> companyCodeList(CompanyDomain companyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(companyService.selectCompanyCodeList(companyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 회원사 코드 관리 - 디테일 리스트
+	@PostMapping(value="/company/companyCodeDetailPage")
+	public ModelAndView getCompanyCodeDetail(CompanyDomain companyDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
+		return mv;
+	}
+	
+	// 회원사 코드 관리 - 디테일 수정 리스트
+	@PostMapping(value="/company/companyCodeDetailInsPage")
+	public ModelAndView companyCodeDetailIns(CompanyDomain companyDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
+		
+		CompanyDomain companyCodeInfo = companyService.getCompanyCodeDetail(companyDomain);
+		mv.addObject("companyCodeInfo", companyCodeInfo);
+		
+		return mv;
+	}
+	
+	// 회원사 코드 관리 - 디테일 리스트 -> Insert (글 등록)
+	@PostMapping(value="/company/saveCompanyCodeDetail")
+	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		
+		int count = companyService.plMerchantNoCheck(companyDomain);
+		
+		if(count > 0) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
+			responseMsg.setData("0");
+		}else {
+			responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
+			responseMsg.setData("1");
+		}
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+
+	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
+	@PostMapping(value="/company/updCompanyCodeDetail")
+	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		
+		int count = companyService.plMerchantNoCheck(companyDomain);
+		
+		if(count > 0) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
+			responseMsg.setData("0");
+		}else {
+			responseMsg = companyService.updCompanyCodeDetail(companyDomain);
+			responseMsg.setData("1");
+		}
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+
+	// 회원사 코드 관리 - 디테일 리스트 -> Delete (글 삭제)
+	@PostMapping(value="/company/delCompanyCodeDetail")
+	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(CompanyDomain companyDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		responseMsg.setData(companyService.delCompanyCodeDetail(companyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	 
 }

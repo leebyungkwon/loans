@@ -3,9 +3,11 @@ package com.loanscrefia.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -38,6 +40,7 @@ public class UtilExcel<T> {
 
 		Field[] fields = dClass.getDeclaredFields();
 
+		List<String> headerName = new ArrayList<String>();
 		List<String> vCell 		= new ArrayList<String>();
 		List<String> vEnum 		= new ArrayList<String>();
 		List<Integer> vLenMin 	= new ArrayList<Integer>();
@@ -48,6 +51,7 @@ public class UtilExcel<T> {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
 				ExcelColumn columnAnnotation = field.getAnnotation(ExcelColumn.class);
 				
+				headerName.add(columnAnnotation.headerName());
 				vCell.add(columnAnnotation.vCell());
 				vEnum.add(columnAnnotation.vEnum());
 				vLenMax.add(columnAnnotation.vLenMax());
@@ -85,10 +89,12 @@ public class UtilExcel<T> {
 	                for(int j = 0;j < vCell.size();j++) {
 	                	if(cellName.equals(vCell.get(j))) {
 	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
-	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
+	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
+	                			//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
 	                		}
 	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
-	                			errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
+	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
+	                			//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
 	                		}
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
@@ -96,15 +102,20 @@ public class UtilExcel<T> {
 	        	                	//System.out.println(val[k]+ " , " + ExcelCellRef.getValue(cell) + " = " + val[k].equals(ExcelCellRef.getValue(cell)));
 	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) valChkResult = true;
 	        	                }
-	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                if(!valChkResult) {
+	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                	//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
 	                			//String chkDbVal = chkDb.get(j);
-	                			int cellEduNo = 0;
+	                			String cellEduNo = ExcelCellRef.getValue(cell);
 	                			
+	                			/*
 	                			if(ExcelCellRef.getValue(cell) != null && !ExcelCellRef.getValue(cell).equals("")) {
-	                				cellEduNo = Integer.parseInt(ExcelCellRef.getValue(cell));
+	                				cellEduNo = Integer.parseInt(ExcelCellRef.getValue(cell)); //int의 최대값 : 2147483647
 	                			}
+	                			*/
 	                			System.out.println("cellEduNo :: "+cellEduNo);
 	                			
 	                			/*
@@ -121,17 +132,19 @@ public class UtilExcel<T> {
 	                		}
 	                	}
 	                }
-	                //System.out.println("errorMsg :: " + errorMsg);
 	                map.put(cellName, ExcelCellRef.getValue(cell));
 	            }
-	            if(errorMsg != null && !errorMsg.equals("")) {
-	            	errorMsgMap.put("errorMsg", errorMsg);
-	            	result.add(errorMsgMap);
-	            }else {
-	            	result.add(map);
-	            }
+	            result.add(map);
 		    }
 		}
+		
+		//System.out.println("errorMsg :: " + errorMsg);
+        
+        if(errorMsg != null && !errorMsg.equals("")) {
+        	errorMsgMap.put("errorMsg", errorMsg);
+        	result.clear();
+        	result.add(errorMsgMap);
+        }
 		
 		return result;
 	}
@@ -162,7 +175,12 @@ public class UtilExcel<T> {
 							f.setAccessible(true);
 							Object value = f.get(target); 
 							Cell cell = row.createCell(f.getAnnotation(ExcelColumn.class).order());
-							cell.setCellValue(StringEscapeUtils.unescapeHtml3(value.toString()));
+							
+							if(value == null || value.equals("")) {
+								cell.setCellValue("");
+							}else {
+								cell.setCellValue(StringEscapeUtils.unescapeHtml3(value.toString()));
+							}
 						}
 					}
 				}
@@ -180,5 +198,19 @@ public class UtilExcel<T> {
 	private int plEduNoCheck(EduDomain eduDomain) {
 		return eduRepo.plEduNoCheck(eduDomain);
 	}
+	
+	//날짜 형식 및 값 체크
+	public boolean dateCheck(String date, String format) {
+		SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
+		dateFormatParser.setLenient(false);
+		try {
+			dateFormatParser.parse(date);
+			return true;
+		}catch(Exception exception) {
+			return false;
+		}
+	}
+	
+
 
 }

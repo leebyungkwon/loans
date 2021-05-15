@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.admin.crefia.repository.CrefiaRepository">
+
+	<!-- 협회 관리자 조회  -->
+    <select id="selectCrefiaList" parameterType="crefia" resultType="crefia">
+	    SELECT 
+	    	<include refid="common.totalPages"/>
+    		 MEM.MEMBER_SEQ
+			, MEM.MEMBER_ID
+			, MEM.PASSWORD
+			, MEM.MEMBER_NAME
+			, MEM.EMAIL
+      	    , fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO
+      		, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO
+			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
+			, MEM.CRE_YN
+			, MEM.CRE_GRP
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM
+	    FROM TB_LC_MEMBERS MEM
+	    WHERE MEM.COM_CODE = 1
+	    <if test="memberId != null and memberId != ''">
+	    	AND MEMBER_ID = #{memberId}
+	    </if>
+	    <if test="memberName != null and memberName != ''">
+	    	AND MEMBER_NAME = #{memberName}
+	    </if>
+	    <if test="creYn != null and creYn != ''">
+	    	AND CRE_YN = #{creYn}
+	    </if>
+	    <include refid="common.pageBottom"/>
+    </select>
+    
+    <select id="crefiaDetail" parameterType="crefia" resultType="crefia">
+	    SELECT 
+    		 MEM.MEMBER_SEQ
+			, MEM.MEMBER_ID
+			, MEM.PASSWORD
+			, MEM.MEMBER_NAME
+			, MEM.EMAIL
+      	    , fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO
+      		, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO
+			, TO_DATE(MEM.JOIN_DT, 'YYYYDDMM') AS JOIN_DT
+			, MEM.CRE_YN
+			, MEM.CRE_GRP
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM
+	    FROM TB_LC_MEMBERS MEM
+	    WHERE MEM.COM_CODE = 1
+	    <if test="memberSeq != null and memberSeq != ''">
+	    	AND MEMBER_SEQ = #{memberSeq}
+	    </if>
+    </select>
+</mapper> 

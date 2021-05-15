@@ -12,6 +12,27 @@ import com.loanscrefia.member.user.domain.UserItDomain;
 @Mapper
 public interface UserRepository {
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 회원사 시스템 > 모집인 조회 및 변경
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//모집인 조회 및 변경 > 리스트
+	List<UserDomain> selectUserConfirmList(UserDomain userDomain);
+	
+	//모집인 조회 및 변경 > 처리상태 변경
+	int updatePlRegConfirmStat(UserDomain userDomain);
+	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 회원사 시스템 > 모집인 등록
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
 	//모집인 등록 > 리스트
 	List<UserDomain> selectUserRegList(UserDomain userDomain);
 	
@@ -65,5 +86,22 @@ public interface UserRepository {
 	
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 수정
 	int updateUserRegCorpItInfo(UserItDomain userItDomain);
+	
+	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제
+	int deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain);
+	
+	//모집인 등록 > 법인 : 전문인력 정보 삭제
+	int deleteUserRegCorpExpertInfo(UserExpertDomain userExpertDomain);
+	
+	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제
+	int deleteUserRegCorpItInfo(UserItDomain userItDomain);
 
+	
+	
+	
+	
+	
+	
+	
+	
 }

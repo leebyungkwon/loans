@@ -29,7 +29,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	private String plCellphone;		//모집인휴대전화번호
 	
 	@ExcelColumn(headerName="주소", vCell="E", vLenMin=1, vLenMax=2, vEnum="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17")
-	private String addr;			//본점소재지
+	private String addr;			//주소
 	
 	@ExcelColumn(headerName="금융상품유형", vCell="F", vLenMin=1, vLenMax=1, vEnum="1,2,3,4,5,6,7")
 	private String plProduct;		//금융상품유형(취급상품)
@@ -41,7 +41,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=10, chkDb="edu")
-	private int plEduNo;			//교육이수번호
+	private String plEduNo;			//교육이수번호
 	
 	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10)
 	private String careerStartDate;	//경력시작일

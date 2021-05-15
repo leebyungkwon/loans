@@ -9,25 +9,26 @@
 		
 		var password         = $("#password").val();             // 비밀번호
 		var passwordChk    = $("#passwordChk").val();        // 비밀번호 확인
-
-		$("#adminUpdateBtn").on("click", function(){
-			
-			if( password == passwordChk ){
-				var p = {
-					name       : "saveAdminUpdateFrm"
-					, success    : function (opt,result) {
-						location.href = "/member/admin/adminPage";
+		$("#adminUpdBtn").on("click", function(){
+			if(confirm("정보를 수정 하시겠습니까?")){
+				if( password == passwordChk ){
+					var p = {
+						name       : "saveAdminUpdateFrm"
+						, success    : function (opt,result) {
+							location.href = "/member/admin/adminPage";
+						}
 					}
+					AjaxUtil.files(p);
+				} else {
+					alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
+					$("#password").val("");
+					$("#passwordChk").val("");
+					return false;
 				}
-				AjaxUtil.files(p);
-			} else {
-				alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
-				$("#password").val("");
-				$("#passwordChk").val("");
-				return false;
 			}
 		});
-
+		
+		// 취소 버튼
 		$("#adminCancelBtn").on("click", function(){
 			$("#adminDetailFrm").submit();
 		});
@@ -53,6 +54,29 @@
 			$("#fileName").val(fileName);
 		});
 		
+		
+		// 재승인요청
+		$("#reApprBtn").on("click", function(){
+			var memSeq = "${adminInfo.memberSeq}";
+			if(WebUtil.isNull(memSeq)){
+				alert("오류가 발생하였습니다.");
+				return false;
+			}else{
+				if(confirm("재승인 요청을 하시겠습니까?")){
+					var param = {'memberSeq' : memSeq}
+			 		var p = {
+						  param : param
+						, url : "/member/admin/reAppr"
+						, success : function (opt,result) {
+							alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
+							location.href="/logout";
+			    	    }
+					}
+					AjaxUtil.post(p);
+				}
+			}
+		});
+		
 	}
 
 </script>
@@ -64,7 +88,7 @@
 		</div>
 	</div>
 		
-	<form id="adminDetailFrm" method="post" action="/member/admin/adminDetail">
+	<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailPage">
 		<input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
 	</form>
    
@@ -119,13 +143,13 @@
                <tr>
                   <th>회사 전화번호</th>
                   <td colspan="3">
-                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" value="${adminInfo.extensionNo}" class="w40" data-vd='{"type":"num","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
+                     <input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" value="${adminInfo.extensionNo}" class="w40" data-vd='{"type":"text","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>
                   <th>휴대폰번호</th>
                   <td colspan="3">
-                     <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+                     <input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"text","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
                   </td>
                </tr>
             	<tr>
@@ -146,7 +170,10 @@
 		<c:if test="${adminInfo.tempMemberCheck ne 'Y' }">
 			<a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray">취소</a>
 		</c:if>
+		<c:if test="${adminInfo.tempMemberCheck eq 'Y' }">
+			<a href="javascript:void(0);" id="reApprBtn" class="btn_gray">재승인요청</a>
+		</c:if>
       
-      <a href="javascript:void(0);" id="adminUpdateBtn" class="btn_black btn_right">저장</a>
+      <a href="javascript:void(0);" id="adminUpdBtn" class="btn_black btn_right">저장</a>
    </div>
 </div>

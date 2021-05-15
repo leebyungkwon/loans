@@ -12,22 +12,22 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"] /*"사용인이름", "사용인주민번호",*/
+  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10px"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'fileSeq'		, index:'fileSeq'			, width:"10%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'fileCompYn'		, index:'fileCompYn'		, width:"10px"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"5%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -36,6 +36,42 @@ function pageLoad(){
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
+	});
+	
+	//모집인 분류
+	var plClassCode = {
+		 useCode 	: true
+		,code 		: 'CLS001'
+		,target 	: '#plClass'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plClassCode);
+	
+	//취급상품
+	var plProductCode = {
+		 useCode 	: true
+		,code 		: 'PRD001'
+		,target 	: '#plProduct'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plProductCode);
+	
+	//datepicker
+	$("#date_cal01").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate1").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal02").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate2").val(dateText1);
+			$(this).hide();
+		}
 	});
 }
 
@@ -61,6 +97,22 @@ function goUserRegPopOpen() {
 	let p = {
 		  id 		: "userRegExcelUploadPop"
 		, url 		: "/member/user/userRegExcelPopup"
+		, success	: function(opt, result) { 
+			
+			$('input:radio[name="plClass"]').on("click", function(){
+				var indv = '<a href="/static/sample/모집인등록_개인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="indvSample">샘플 다운로드</a>';
+				var corp = '<a href="/static/sample/모집인등록_법인_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="corpSample">샘플 다운로드</a>';
+				if($('input:radio[name="plClass"]:checked').val() == "1"){
+					$("#indvSample").remove();
+					$("#corpSample").remove();
+					$("#sampleCheck").append(indv);	
+				}else{
+					$("#indvSample").remove();
+					$("#corpSample").remove();
+					$("#sampleCheck").append(corp);
+				}
+			});
+        }
 	}
 	PopUtil.openPopup(p);
 }
@@ -70,12 +122,6 @@ function goFileNmShow() {
 	var fileVal 	= $("#userRegFile").val().split("\\");
 	var fileName 	= fileVal[fileVal.length - 1];
 	$("#userRegFile").prev().val(fileName);
-}
-
-//샘플 다운로드
-function goSampleDownload() {
-	var plClass = $('input[name="plClass"]:checked').val();
-	alert("모집인유형이 "+plClass+"인 샘플 다운로드 되야해!");
 }
 
 //모집인 등록하기
@@ -100,18 +146,7 @@ function goUserRegInfoExcelUpload() {
 		var p = {
 			  name 		: "userRegInfoInsertFrm"
 			, success 	: function (opt,result) {
-				var msg = result.data;
-				
-				if(msg == "success"){
-					alert("모집인이 등록되었습니다.");
-					location.reload();
-				}else if(msg == "fail"){
-					alert("실패했습니다.");
-					return;
-				}else{
-					alert("[데이터 확인 필요]\n"+msg);
-					location.reload();
-				}
+				location.reload();
 	 	    }
 		}
 		AjaxUtil.files(p);	
@@ -134,7 +169,7 @@ function goApplyAccept() {
 	for(var i = 0;i < chkedLen;i++){
 		masterSeqArr.push(chkData[i].masterSeq);
 		
-		if(chkData[i].fileSeq == null || chkData[i].fileSeq == ""){
+		if(chkData[i].fileCompYn == "N"){
 			fileChk++;
 		}
 	}
@@ -144,20 +179,29 @@ function goApplyAccept() {
 		return;
 	}
 	
-	var p = {
-		  url		: "/member/user/updatePlRegStat"	
-		, param		: {
-			 masterSeqArr 	: masterSeqArr  
-			,plStat			: '2'
-		}
-		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("승인요청되었습니다.");
-				userRegGrid.refresh();
+	if(confirm("승인요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/updatePlRegStat"	
+			, param		: {
+				 masterSeqArr 	: masterSeqArr  
+				,plStat			: '2'
 			}
-	    }
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("승인요청되었습니다.");
+					userRegGrid.refresh();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
 	}
-	AjaxUtil.post(p);
+}
+
+//날짜 가져오기
+function goGetDate(opt) {
+	var result = WebUtil.getDate(opt);
+	$("#srchDate1").val(result);
+	$("#srchDate2").val(WebUtil.getDate("today"));
 }
 </script>
 
@@ -181,39 +225,26 @@ function goApplyAccept() {
 				<tr>
 					<th>담당자</th>
 					<td class="half_input">
-						<select>
-							<option value="">전체</option>
-						</select>
+						<input type="text" name="memberNm">
 					</td>
-					<th>모집인분류</th>
+					<th>모집인 분류</th>
 					<td class="half_input">
-						<select name="plClass">
-							<option value="">전체</option>
-							<option value="1">개인</option>
-							<option value="2">법인</option>
-						</select>
+						<select name="plClass" id="plClass"></select>
 					</td>
 				</tr>
 				<tr>
 					<th>취급상품</th>
 					<td class="half_input">
-						<select name="plProduct">
-							<option value="">전체</option>
-							<option value="1">대출</option>
-							<option value="2">시설대여 및 연불판매</option>
-							<option value="3">할부</option>
-							<option value="4">어음할인</option>
-							<option value="5">매출채권매입</option>
-							<option value="6">지급보증</option>
-							<option value="7">기타대출성 상품</option>
-						</select>
+						<select name="plProduct" id="plProduct"></select>
 					</td>
 					<th>검색어</th>
 					<td class="half_input pdr0">
-						<select>
+						<select name="srchSelect1">
 							<option value="">전체</option>
+							<option value="name">이름</option>
+							<option value="corp">법인명</option>
 						</select>
-						<input type="text" name="ttt">
+						<input type="text" name="srchInput1">
 					</td>
 				</tr>
 				<tr>
@@ -231,7 +262,7 @@ function goApplyAccept() {
 							<option value="">전체</option>
 							<option value="1">미요청</option>
 							<option value="2">승인요청</option>
-							<option value="3">승인반려</option>
+							<option value="5">보완요청</option>
 						</select>
 					</td>
 				</tr>
@@ -239,22 +270,22 @@ function goApplyAccept() {
 					<th>등록기간 조회</th>
 					<td colspan="3" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" value="2020.05.19" class="input_calendar">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" value="2020.05.19" class="input_calendar">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
 							<div id="date_cal02" class="calendar02"></div>
 						</div>
 						<div class="date_btn">
-							<a href="#">오늘</a>
-							<a href="#">어제</a>
-							<a href="#">1주일</a>
-							<a href="#">15일</a>
-							<a href="#">1개월</a>
+							<a href="javascript:void(0);" onclick="goGetDate('today');">오늘</a>
+							<a href="javascript:void(0);" onclick="goGetDate('1');">어제</a>
+							<a href="javascript:void(0);" onclick="goGetDate('7');">1주일</a>
+							<a href="javascript:void(0);" onclick="goGetDate('15');">15일</a>
+							<a href="javascript:void(0);" onclick="goGetDate('oneMonthAgo');">1개월</a>
 						</div>
 					</td>
 				</tr>
@@ -266,10 +297,10 @@ function goApplyAccept() {
 	<div class="contents">
 		<div class="sorting_wrap">
 			<div class="data">
-				<p>총 : 몇건일까요</p>
+				<!-- <p>총 : 몇건일까요</p> -->
 			</div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록하기</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록</a>
 				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goApplyAccept();">선택 승인요청</a>
 			</div>
 		</div>

@@ -19,22 +19,21 @@
 				<th>모집인유형 *</th>
 				<td>
 					<div class="input_radio_wrap">
-						<input type="radio" name="plClass" id="radio01" value="1">
+						<input type="radio" name="plClass" id="radio01" value="1" >
 						<label for="radio01">개인</label>
 					</div>
 					<div class="input_radio_wrap mgl20">
-						<input type="radio" name="plClass" id="radio02" value="2">
+						<input type="radio" name="plClass" id="radio02" value="2" >
 						<label for="radio02">법인</label>
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>엑셀업로드 *</th>
-				<td class="file">
+				<td class="file" id="sampleCheck">
 					<input type="text" class="w50 file_input" readonly disabled>
 					<input type="file" name="files" id="userRegFile" onchange="goFileNmShow();" style="display: none;"/>
 					<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegFile').click();">파일찾기</a>
-					<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goSampleDownload();">샘플 다운로드</a>
 				</td>
 			</tr>
 		</tbody>

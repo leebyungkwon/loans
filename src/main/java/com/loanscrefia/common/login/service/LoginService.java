@@ -54,7 +54,7 @@ public class LoginService implements UserDetailsService {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
     	memberRepository.insertSignup(signupDomain);
-		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입에 성공하였습니다.");
+		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입 신청이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
 	}
 
 }

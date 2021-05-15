@@ -76,8 +76,9 @@ public class LoginController {
 	
 	// 회원가입 페이지
 	@GetMapping("/signup")
-	public ModelAndView dispSignup() {
+	public ModelAndView dispSignup(SignupDomain signupDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.Common + "/signup");
+		mv.addObject("termsData", signupDomain);
 		return mv;
 	}
 
@@ -98,7 +99,7 @@ public class LoginController {
 	public ResponseEntity<ResponseMsg> signup(@RequestParam("files") MultipartFile[] files, @Valid SignupDomain signupDomain){
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
-				.setExt("excel") 
+				.setExt("image") 
 				.upload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");

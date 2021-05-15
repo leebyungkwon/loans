@@ -103,11 +103,15 @@ create table tb_lc_members(
 	, join_dt varchar(8)
 	, role_name varchar(20)
 	, terms_yn char(1) not null default 'N'
-	, terms_date varchar(8) not null default 'N'
+	, terms_date varchar(8)
+	, option_terms_yn char(1) not null
+	, option_terms_date varchar(8) not null
 	, appr_stat char(1) not null default '1'
+	, msg varchar(200)
 	, file_seq integer
 	, fail_cnt integer
 	, cre_yn char(1) not null default 'N'
+	, cre_grp char(1)
 	, drop_yn char(1) not null default 'N'
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
@@ -131,10 +135,14 @@ COMMENT ON COLUMN tb_lc_members.join_dt IS '가입일';
 COMMENT ON COLUMN tb_lc_members.role_name IS '권한명';
 COMMENT ON COLUMN tb_lc_members.terms_yn IS '약관동의';
 COMMENT ON COLUMN tb_lc_members.terms_date IS '약관동의일';
+COMMENT ON COLUMN tb_lc_members.option_terms_yn IS '선택적약관동의';
+COMMENT ON COLUMN tb_lc_members.option_terms_date IS '선택적약관동의일';
 COMMENT ON COLUMN tb_lc_members.appr_stat IS '승인상태(1.미승인,2.가승인,3.승인)';
+COMMENT ON COLUMN tb_lc_members.msg IS '가승인사유';
 COMMENT ON COLUMN tb_lc_members.file_seq IS '첨부파일ID';
 COMMENT ON COLUMN tb_lc_members.fail_cnt IS '로그인실패횟수';
 COMMENT ON COLUMN tb_lc_members.cre_yn IS '협회여부';
+COMMENT ON COLUMN tb_lc_members.cre_grp IS '협회그룹';
 COMMENT ON COLUMN tb_lc_members.drop_yn IS '탈퇴여부';
 COMMENT ON COLUMN tb_lc_members.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_members.upd_timestamp IS '수정일시';
@@ -160,6 +168,11 @@ create table tb_lc_company(
 	, pl_merchant_no varchar(30)
 	, pl_business_no varchar(30)
 	, comp_phone_no varchar(20)
+	, del_yn char(1) not null default 'N'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
 	, PRIMARY KEY (com_code)
 );
 
@@ -170,6 +183,12 @@ COMMENT ON COLUMN tb_lc_company.com_name IS '회원사명';
 COMMENT ON COLUMN tb_lc_company.pl_merchant_no IS '법인등록번호';
 COMMENT ON COLUMN tb_lc_company.pl_business_no IS '사업자등록번호';
 COMMENT ON COLUMN tb_lc_company.comp_phone_no IS '회원사대표번호';
+COMMENT ON COLUMN tb_lc_company.del_yn IS '삭제여부';
+COMMENT ON COLUMN tb_lc_company.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_company.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_company.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_company.upd_seq IS '수정자시퀀스';
+
 
 commit;
 
@@ -205,7 +224,7 @@ create table tb_lc_mas01(
 	, pl_cellphone varchar(20)
 	, addr varchar(2)
 	, addr_detail varchar(200)
-	, pl_edu_no integer
+	, pl_edu_no varchar(20)
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
 	, entrust_date varchar(8)
@@ -224,7 +243,8 @@ create table tb_lc_mas01(
 	, pl_pay_stat varchar(2)
 	, pay_date varchar(8)
 	, send_msg varchar(200)
-	, pl_hist_cd varchar(200)
+	, pl_hist_cd varchar(2)
+	, pl_hist_txt varchar(200) 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
@@ -273,6 +293,7 @@ COMMENT ON COLUMN tb_lc_mas01.pl_pay_stat IS '결제상태';
 COMMENT ON COLUMN tb_lc_mas01.pay_date IS '결제완료일';
 COMMENT ON COLUMN tb_lc_mas01.send_msg IS '전달메세지';
 COMMENT ON COLUMN tb_lc_mas01.pl_hist_cd IS '해지사유';
+COMMENT ON COLUMN tb_lc_mas01.pl_hist_txt IS '직접입력(사유)';
 COMMENT ON COLUMN tb_lc_mas01.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
 COMMENT ON COLUMN tb_lc_mas01.cre_haeji_date IS '협회해지일자(해지승인날짜)';
 COMMENT ON COLUMN tb_lc_mas01.file_seq IS '첨부파일시퀀스';
@@ -348,6 +369,8 @@ COMMENT ON TABLE tb_lc_work IS '모집인업무분담정보';
 COMMENT ON COLUMN tb_lc_work.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_work.com_code IS '회원사코드';
 
+commit;
+
 
 -- 임원 seq
 CREATE SEQUENCE tb_lc_mas01_imwon_seq
@@ -368,7 +391,7 @@ create table tb_lc_mas01_imwon(
 	, position_nm varchar(20) not null
 	, exc_name varchar(20) not null
 	, pl_m_z_id varchar(20) not null
-	, pl_edu_no integer not null
+	, pl_edu_no varchar(20) not null
 	, career_start_date varchar(8) not null
 	, career_end_date varchar(8) not null
 	, full_tm_stat char(1) not null
@@ -414,7 +437,7 @@ create table tb_lc_mas01_expert(
 	, career_typ char(1) not null
 	, exp_name varchar(20) not null
 	, pl_m_z_id varchar(20) not null
-	, pl_edu_no integer not null
+	, pl_edu_no varchar(20) not null
 	, career_start_date varchar(8) not null
 	, career_end_date varchar(8) not null
 	, file_seq integer
@@ -473,7 +496,7 @@ create table tb_lc_edu01(
 	, pl_m_z_id varchar(20)	not null
 	, pl_class varchar(2) not null
 	, pl_product varchar(30) not null
-	, pl_edu_no integer	not null
+	, pl_edu_no varchar(20)	not null
 	, pl_edu_date varchar(8) not null
 );
 
@@ -551,7 +574,7 @@ create table tb_lc_mas01_hist(
 	, pl_cellphone varchar(20)
 	, addr varchar(2)
 	, addr_detail varchar(200)
-	, pl_edu_no integer
+	, pl_edu_no varchar(20)
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
 	, entrust_date varchar(8)
@@ -673,5 +696,55 @@ COMMENT ON COLUMN tb_lc_notice.upd_timestamp IS '수정일시';
 COMMENT ON COLUMN tb_lc_notice.upd_seq IS '수정자시퀀스';
 
 commit;
+
+
+-- 법인 seq
+CREATE SEQUENCE tb_lc_corp_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+-- 법인정보
+create table tb_lc_corp(
+	corp_seq integer not null default nextval('tb_lc_corp_seq')
+	, pl_merchant_name varchar(30) not null
+	, pl_merchant_no varchar(13) not null 
+	, path_typ char(1) not null default '1'
+	, use_yn char(1) not null default 'Y'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
+	, primary key (corp_seq)
+);
+
+COMMENT ON TABLE tb_lc_corp IS '법인정보';
+COMMENT ON COLUMN tb_lc_corp.corp_seq IS '법인시퀀스';
+COMMENT ON COLUMN tb_lc_corp.pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_corp.pl_merchant_no IS '법인등록번호';
+COMMENT ON COLUMN tb_lc_corp.path_typ IS '등록경로';
+COMMENT ON COLUMN tb_lc_corp.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_corp.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_corp.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_corp.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_corp.upd_seq IS '수정자시퀀스';
+
+commit;
+
+
+
+
+
+
+
+
+
+
 
 

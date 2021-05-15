@@ -2,112 +2,119 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.member.admin.repository.AdminRepository">
 
-   <!-- 회원사 회원 조회 -->
-   <select id="selectAdminList" parameterType="admin" resultType="admin">
-      SELECT 
-      <include refid="common.totalPages"/>
-          TLM.MEMBER_SEQ
-         ,TLM.MEMBER_ID
-         ,TLM.PASSWORD
-         ,TLM.COM_CODE
-         ,TLM.MEMBER_NAME
-         ,TLM.EMAIL
-      <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-      <!--,TLM.MOBILE_NO -->
-         ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
-         ,TLM.DEPT_NM
-         ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
-         ,TLM.APPR_STAT
-         ,TLM.FILE_SEQ
-         ,TLM.FAIL_CNT
-         ,TLM.CRE_YN
-         ,TLM.DROP_YN
-         ,TLM.UPD_SEQ
-         ,TLM.UPD_TIMESTAMP
-         FROM TB_LC_MEMBERS TLM
-         <where>
-               AND   TLM.COM_CODE        = (select COM_CODE from tb_lc_members where MEMBER_SEQ = #{regSeq})
-            <if test="apprStat != null and apprStat != ''">
-               AND   TLM.APPR_STAT       = #{apprStat}
-            </if>
-         </where>
-      <include refid="common.pageBottom"/>
-   </select>
-   
-   <!-- 회원사 회원 상세 조회 -->
-   <select id="getAdminDetail" parameterType="admin" resultType="admin">
-      SELECT 
-         TLM.MEMBER_SEQ
-         ,TLM.MEMBER_ID
-         ,TLM.MEMBER_NAME
-         ,TLM.EMAIL
-      <!--,TLM.EXTENSION_NO -->
-         ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-      <!--,TLM.MOBILE_NO -->
-         ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
-         ,TLM.DEPT_NM
-         ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
-         ,TLM.FILE_SEQ
-         FROM TB_LC_MEMBERS TLM
-      <where>
-         AND TLM.MEMBER_SEQ = #{memberSeq}
-      </where>
-   </select>
-   
-      <!-- 회원사 회원 수정 조회 -->
-   <select id="getAdminDetailUpd" parameterType="admin" resultType="admin">
-      SELECT 
-         TLM.MEMBER_SEQ
-         ,TLM.MEMBER_ID
-         ,TLM.MEMBER_NAME
-         ,TLM.EMAIL
-	     ,TLM.EXTENSION_NO
-	     ,TLM.MOBILE_NO
-         ,TLM.DEPT_NM
-         ,TLM.POSITION_NM
-         ,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS joinDt
-         ,TLM.FILE_SEQ
-         FROM TB_LC_MEMBERS TLM
-      <where>
-         AND TLM.MEMBER_SEQ = #{memberSeq}
-      </where>
-   </select>
-
-   <!-- 회원사 수정 조회 -> 수정 -->
-   <select id="saveAdminUpdate" parameterType="admin">
-      UPDATE TB_LC_MEMBERS
-      SET
-         <if test="memberId != null and memberId != ''">
-            MEMBER_ID       = #{memberId}
-         </if>
-         <if test="password != null and password != ''">
-            ,PASSWORD       = #{password}
-         </if>
-         <if test="deptNm != null and deptNm != ''">
-            ,DEPT_NM       = #{deptNm}
-         </if>
-         <if test="memberName != null and memberName != ''">
-            ,MEMBER_NAME    = #{memberName}
-         </if>
-         <if test="positionNm != null and positionNm != ''">
-            ,POSITION_NM    = #{positionNm}
-         </if>
-         <if test="email != null and email != ''">
-            ,EMAIL          = #{email}
-         </if>
-         <if test="extensionNo != null and extensionNo != ''">
-            ,EXTENSION_NO       = #{extensionNo}
-         </if>
-            ,MOBILE_NO       = #{mobileNo}
-         <if test="fileSeq != null and fileSeq != ''">
-         	,FILE_SEQ				=	#{fileSeq}
-         </if>
-      <where>
-         AND MEMBER_SEQ       = #{memberSeq}
-      </where>
-   </select>
-   
+	<!-- 회원사 회원 조회 -->
+	<select id="selectAdminList" parameterType="admin" resultType="admin">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.PASSWORD
+			,TLM.COM_CODE
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
+			,TLM.APPR_STAT
+			,TLM.FILE_SEQ
+			,TLM.FAIL_CNT
+			,TLM.CRE_YN
+			,TLM.DROP_YN
+			,TLM.UPD_SEQ
+			,TLM.UPD_TIMESTAMP
+		FROM TB_LC_MEMBERS TLM
+		<where>
+			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+			<if test="apprStat != null and apprStat != ''">
+				AND	TLM.APPR_STAT = #{apprStat}
+			</if>
+		</where>
+		<include refid="common.pageBottom"/>
+	</select>
+	
+	<!-- 회원사 회원 상세 조회 -->
+	<select id="getAdminDetail" parameterType="admin" resultType="admin">
+		SELECT 
+			TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
+			,TLM.FILE_SEQ
+		FROM TB_LC_MEMBERS TLM
+		<where>
+			AND TLM.MEMBER_SEQ = #{memberSeq}
+		</where>
+	</select>
+	
+	<!-- 회원사 회원 수정 조회 -->
+	<select id="getAdminDetailUpd" parameterType="admin" resultType="admin">
+		SELECT 
+			TLM.MEMBER_SEQ
+			,TLM.MEMBER_ID
+			,TLM.MEMBER_NAME
+			,TLM.EMAIL
+			,TLM.EXTENSION_NO
+			,TLM.MOBILE_NO
+			,TLM.DEPT_NM
+			,TLM.POSITION_NM
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
+			,TLM.FILE_SEQ
+		FROM TB_LC_MEMBERS TLM
+		<where>
+			AND TLM.MEMBER_SEQ = #{memberSeq}
+		</where>
+	</select>
+	
+	<!-- 회원사 수정 조회 -> 수정 -->
+	<select id="saveAdminUpdate" parameterType="admin">
+		UPDATE TB_LC_MEMBERS
+		SET
+				UPD_TIMESTAMP 		= NOW()
+				,MOBILE_NO				= #{mobileNo}
+			<if test="memberId != null and memberId != ''">
+				,MEMBER_ID				= #{memberId}
+			</if>
+			<if test="password != null and password != ''">
+				,PASSWORD				= #{password}
+			</if>
+			<if test="deptNm != null and deptNm != ''">
+				,DEPT_NM					= #{deptNm}
+			</if>
+			<if test="memberName != null and memberName != ''">
+				,MEMBER_NAME			= #{memberName}
+			</if>
+			<if test="positionNm != null and positionNm != ''">
+				,POSITION_NM			= #{positionNm}			
+			</if>
+			<if test="email != null and email != ''">
+				,EMAIL						= #{email}
+			</if>
+			<if test="extensionNo != null and extensionNo != ''">
+				,EXTENSION_NO			= #{extensionNo}
+			</if>
+			<if test="fileSeq != null and fileSeq != ''">
+				,FILE_SEQ					=	#{fileSeq}
+			</if>
+		<where>
+			AND MEMBER_SEQ			= #{memberSeq}
+		</where>
+	</select>
+	
+	<!-- 재승인 요청 -->
+	<update id="reAppr" parameterType="admin">
+		UPDATE TB_LC_MEMBERS
+		SET
+			ROLE_NAME = 'NO_MEMBER'
+			, APPR_STAT = '1'
+		WHERE
+			MEMBER_SEQ = #{memberSeq}
+	</update>
+	
 </mapper> 

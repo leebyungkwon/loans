@@ -6,21 +6,29 @@
 
 <script type="text/javascript">
 function pageLoad(){
-
+	//승인요청상태이면 수정 불가
+	var plStat = "${result.userRegInfo.plStat}";
+	if(plStat == "2"){
+		$(".goFileDel").remove();
+		$(".inputFile").each(function(){
+			$(this).parent("td").html("-");
+		});
+	}
 }
 
 //수정
 function goUserRegInfoUpdt() {
-	var p = {
-		  name 		: "userRegInfoUpdFrm"
-		, success 	: function (opt,result) {
-			if(result.data > 0){
-				alert("저장되었습니다.");
+	if(confirm("저장하시겠습니까?")){
+		goFileTypeListDisabled();
+		
+		var p = {
+			  name 		: "userRegInfoUpdFrm"
+			, success 	: function (opt,result) {
 				location.reload();
-			}
- 	    }
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
-	AjaxUtil.files(p);
 }
 </script>
 
@@ -45,11 +53,14 @@ function goUserRegInfoUpdt() {
 		</ul>
 	</div>
 
-	<div class="btn_wrap02">
-		<div class="right">
-			<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
+	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+		<div class="btn_wrap02">
+			<div class="right">
+				<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
+			</div>
 		</div>
-	</div>
+	</c:if>
 
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
@@ -78,6 +89,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="21"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="21" data-essential="N">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -95,6 +107,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="22"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="22" data-essential="N">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -112,6 +125,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="23"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="23" data-essential="N">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -141,6 +155,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="24"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="24" data-essential="N">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -170,6 +185,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="25"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="25" data-essential="N">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -187,6 +203,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="26"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="26" data-essential="N">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>

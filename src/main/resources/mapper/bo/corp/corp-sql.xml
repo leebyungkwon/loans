@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.admin.corp.repository.CorpRepository">
+
+	<!-- 법인 리스트 -->
+	<select id="selectCorpList" parameterType="corp" resultType="corp">
+		SELECT
+			<include refid="common.totalPages"/>
+			 TLC.CORP_SEQ
+			,TLC.PL_MERCHANT_NAME
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLC.PATH_TYP
+			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
+			,TLC.REG_SEQ
+			,TO_CHAR(TLC.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+			,TLC.UPD_SEQ
+			,TO_CHAR(TLC.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+		FROM TB_LC_CORP TLC
+		<where>
+			AND TLC.USE_YN = 'Y'
+		<if test="plMerchantName != null and plMerchantName != ''">
+			AND TLC.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
+		</if>
+		<if test="plMerchantNo != null and plMerchantNo != ''">
+			AND TLC.PL_MERCHANT_NO LIKE CONCAT('%',#{plMerchantNo},'%')
+		</if>
+		</where>
+		<include refid="common.pageBottom"/>
+	</select>
+	
+	<!-- 법인 등록 -->
+	<insert id="insertCorpInfo" parameterType="corp">
+		INSERT INTO TB_LC_CORP
+		(
+			 PL_MERCHANT_NAME
+			,PL_MERCHANT_NO
+			,PATH_TYP
+			,REG_SEQ
+			,REG_TIMESTAMP
+		)
+		VALUES
+		(
+			 #{plMerchantName}
+			, REPLACE(#{plMerchantNo}, '-', '')
+			,#{pathTyp}
+			,#{regSeq}
+			,NOW()
+		)
+	</insert>
+	
+	<!-- 법인 상세 -->
+	<select id="getCorpInfo" parameterType="corp" resultType="corp">
+		SELECT
+			 TLC.CORP_SEQ
+			,TLC.PL_MERCHANT_NAME
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLC.PATH_TYP
+			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
+			,TLC.REG_SEQ
+			,TO_CHAR(TLC.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+			,TLC.UPD_SEQ
+			,TO_CHAR(TLC.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+		FROM TB_LC_CORP TLC
+		<where>
+			AND TLC.CORP_SEQ	= #{corpSeq}
+			AND TLC.USE_YN 		= 'Y'
+		</where>
+	</select>
+	
+	<!-- 법인 수정 -->
+	<update id="updateCorpInfo" parameterType="corp">
+		UPDATE TB_LC_CORP
+   		SET
+		<if test="plMerchantName != null and plMerchantName != ''">
+			PL_MERCHANT_NAME		= #{plMerchantName}	
+		</if>
+		<if test="plMerchantNo != null and plMerchantNo != ''">
+			,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')
+		</if>
+   			,USE_YN				= #{useYn}
+   			,UPD_SEQ			= #{updSeq}
+   			,UPD_TIMESTAMP		= NOW()
+   		<where>
+   			AND CORP_SEQ	= #{corpSeq}
+   		</where>
+	</update>
+	
+	<!--  법인등록번호 중복 체크 -->
+	<select id="plMerchantNoCheck" parameterType="corp" resultType="int">
+		SELECT COUNT(*)
+			FROM TB_LC_CORP
+		<where>
+			<if test="corpSeq != null and corpSeq != ''">
+				PL_MERCHANT_NO != (SELECT PL_MERCHANT_NO FROM TB_LC_CORP B WHERE B.CORP_SEQ = #{corpSeq})
+			</if>
+			AND PL_MERCHANT_NO = REPLACE(#{plMerchantNo}, '-', '')
+		</where>
+	</select>
+
+</mapper> 

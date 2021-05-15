@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.member.user.repository.UserRepository">
-   
-   	<!-- 모집인 등록 > 리스트 -->
-   	<select id="selectUserRegList" parameterType="user" resultType="user">
+   	
+   	<!-- ====================================================================================================== -->
+   	<!-- [회원사 시스템 > 모집인 조회 및 변경] -->
+   	<!-- ====================================================================================================== -->
+   	
+   	<!-- 모집인 조회 및 변경 > 리스트 -->
+   	<select id="selectUserConfirmList" parameterType="user" resultType="user">
    		SELECT 
 	    	<include refid="common.totalPages"/>
 	    	 TLM.MASTER_SEQ
@@ -24,9 +28,9 @@
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
-			,TLM.PL_M_Z_ID
+			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
 			,TLM.PL_M_Z_ID_EDU
-			,TLM.PL_CELLPHONE
+			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 			,TLM.ADDR
 			,TLM.ADDR_DETAIL
 			,TLM.PL_EDU_NO
@@ -36,42 +40,241 @@
 			,TLM.COM_CONT_DATE
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
-			,TLM.PL_MERCHANT_NO
+			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
 			,TLM.CORP_FOUND_DATE
 			,TLM.CAPITAL
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
-			,TLM.COM_REG_DATE
-			,TLM.CRE_APP_DATE
-			,TLM.CRE_LICENSE_DATE
-			,TLM.PAY_DATE
+			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+			,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
+			,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
+			,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
+			,TO_DATE(TLM.CRE_LICENSE_DATE,'YYYYMMDD') AS CRE_LICENSE_DATE
+			,TLM.PAY_DATE AS ORIGIN_PAY_DATE
+			,TO_DATE(TLM.PAY_DATE,'YYYYMMDD') AS PAY_DATE
 			,TLM.SEND_MSG
 			,TLM.PL_HIST_CD
 			,TLM.COM_HAEJI_DATE
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
-			,CASE 
-				WHEN TLM.PL_CLASS = '1' AND TLM.FILE_SEQ IS NOT NULL AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y') > 5 THEN '완료'
-				WHEN TLM.PL_CLASS = '2' AND TLM.FILE_SEQ IS NOT NULL AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y') > 5 THEN '완료'
-				ELSE '미완료'
-			 END AS FILE_COMP_TXT
-			,TLM.REG_TIMESTAMP
+			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
-			,TLM.UPD_TIMESTAMP
+			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
-			AND TLM.PL_STAT != '6'								-- 처리상태가 취소가 아닌 것
-			AND TLM.PL_STAT != '7'								-- 처리상태가 완료가 아닌 것(완료건은 모집인 조회 및 변경 메뉴에서 보여짐)
+			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+			AND TLM.PL_STAT NOT IN ('1','2','6')													-- 처리상태가 미요청, 승인요청, 취소가 아닌 것
+			<if test="plRegStat != null and plRegStat != ''">
+				AND TLM.PL_REG_STAT	= #{plRegStat}
+			</if>		
+			<if test="plStat != null and plStat != ''">
+				AND TLM.PL_STAT 	= #{plStat}
+			</if>
 			<if test="plClass != null and plClass != ''">
 				AND TLM.PL_CLASS 	= #{plClass}
 			</if>
 			<if test="plProduct != null and plProduct != ''">
 				AND TLM.PL_PRODUCT 	= #{plProduct}
 			</if>
+	    	<choose>
+   				<when test="srchSelect1 != null and srchSelect1 != ''">
+					<if test="srchSelect1.equals('name')">
+						AND TLM.PL_M_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+					<if test="srchSelect1.equals('corp')">
+						AND TLM.PL_MERCHANT_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+				</when>
+			</choose>
+	    	<choose>
+   				<when test="srchSelect2 != null and srchSelect2 != ''">
+					<if test="srchSelect2.equals('creAppDate')">
+						<if test="srchDate1 != null and srchDate1 != ''">
+							AND TLM.ORIGIN_CRE_APP_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+						</if>
+						<if test="srchDate2 != null and srchDate2 != ''">
+							AND TLM.ORIGIN_CRE_APP_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+						</if>
+					</if>
+					<if test="srchSelect2.equals('payDate')">
+						<if test="srchDate1 != null and srchDate1 != ''">
+							AND TLM.ORIGIN_PAY_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+						</if>
+						<if test="srchDate2 != null and srchDate2 != ''">
+							AND TLM.ORIGIN_PAY_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+						</if>
+					</if>
+					<if test="srchSelect2.equals('creLicenseDate')">
+						<if test="srchDate1 != null and srchDate1 != ''">
+							AND TLM.ORIGIN_CRE_LICENSE_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+						</if>
+						<if test="srchDate2 != null and srchDate2 != ''">
+							AND TLM.ORIGIN_CRE_LICENSE_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+						</if>
+					</if>
+				</when>
+			</choose>
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	<!-- 모집인 조회 및 변경 > 처리상태 변경 -->
+   	<update id="updatePlRegConfirmStat" parameterType="user">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			 PL_STAT 		= #{plStat}
+   			,UPD_SEQ 		= #{updSeq}
+   			<if test="plHistTxt != null and plHistTxt != ''">
+   			,PL_HIST_TXT 	= #{plHistTxt}
+   			</if>
+   			<if test="plRegStat != null and plRegStat != ''">
+   			,PL_REG_STAT 	= #{plRegStat}
+   			</if>
+   			<if test="plStat.equals('4')">
+   			,COM_HAEJI_DATE	= NOW()
+   			,CRE_HAEJI_DATE	= NOW()
+   			</if>
+   			,UPD_TIMESTAMP 	= NOW()
+   		<where>
+   			AND MASTER_SEQ 	= #{masterSeq}
+   		</where>
+   	</update> 
+  
+   	
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > -->
+   	
+   	
+   	<!-- ====================================================================================================== -->
+   	<!-- [회원사 시스템 > 모집인 등록] -->
+   	<!-- ====================================================================================================== -->
+   	
+	<!-- 모집인 등록 > 리스트 -->
+   	<select id="selectUserRegList" parameterType="user" resultType="user">
+   		SELECT 
+   			Z.*
+   		FROM
+   		(
+   			SELECT 
+		    	<include refid="common.totalPages"/>
+		    	 TLM.MASTER_SEQ
+				,TLM.COM_CODE
+				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+				,TLM.MEMBER_SEQ
+				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+				,TLM.PL_CLASS
+				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.CAREER_TYP
+				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+				,TLM.PL_PRODUCT
+				,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+				,TLM.PL_REG_STAT
+				,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+				,TLM.PL_STAT
+				,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+				,TLM.PL_REGIST_NO
+				,TLM.CI
+				,TLM.PL_M_NAME
+				,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+				,TLM.PL_M_Z_ID_EDU
+				,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+				,TLM.ADDR
+				,TLM.ADDR_DETAIL
+				,TLM.PL_EDU_NO
+				,TLM.CAREER_START_DATE
+				,TLM.CAREER_END_DATE
+				,TLM.ENTRUST_DATE
+				,TLM.COM_CONT_DATE
+				,TLM.PL_MERCHANT_NAME
+				,TLM.PL_CEO_NAME
+				,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+				,TLM.PL_BUSINESS_NO
+				,TLM.COMP_PHONE_NO
+				,TLM.CORP_FOUND_DATE
+				,TLM.CAPITAL
+				,TLM.PL_PAY_STAT
+				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+				,TLM.COM_REG_DATE
+				,TLM.CRE_APP_DATE
+				,TLM.CRE_LICENSE_DATE
+				,TLM.PAY_DATE
+				,TLM.SEND_MSG
+				,TLM.PL_HIST_CD
+				,TLM.COM_HAEJI_DATE
+				,TLM.CRE_HAEJI_DATE
+				,TLM.FILE_SEQ
+				,CASE 
+					WHEN 
+						TLM.PL_CLASS = '1' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
+					THEN 'Y'
+					WHEN 
+						TLM.PL_CLASS = '2' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
+					THEN 'Y'
+					ELSE 'N'
+				 END AS FILE_COMP_YN
+				,CASE 
+					WHEN 
+						TLM.PL_CLASS = '1' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','5','6','7')) = 5 
+					THEN '완료'
+					WHEN 
+						TLM.PL_CLASS = '2' 
+							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 
+					THEN '완료'
+					ELSE '미완료'
+				 END AS FILE_COMP_TXT
+				,TLM.REG_TIMESTAMP AS ORIGIN_REG_TIMESTAMP
+				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+				,TLM.UPD_SEQ
+				,TLM.UPD_TIMESTAMP AS ORIGIN_UPD_TIMESTAMP
+				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+		    FROM TB_LC_MAS01 TLM
+			<where>
+				AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				AND TLM.PL_STAT IN ('1','2','5')														-- 처리상태가 미요청, 승인요청, 반려(보완요청)인 것
+		    </where>
+   		)Z
+   		<where>
+   			<if test="memberNm != null and memberNm != ''">
+				AND Z.MEMBER_NM LIKE CONCAT('%',#{memberNm},'%')
+			</if>
+			<if test="plClass != null and plClass != ''">
+				AND Z.PL_CLASS 		= #{plClass}
+			</if>
+			<if test="plProduct != null and plProduct != ''">
+				AND Z.PL_PRODUCT 	= #{plProduct}
+			</if>
+			<choose>
+   				<when test="srchSelect1 != null and srchSelect1 != ''">
+					<if test="srchSelect1.equals('name')">
+						AND Z.PL_M_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+					<if test="srchSelect1.equals('corp')">
+						AND Z.PL_MERCHANT_NAME LIKE CONCAT('%',#{srchInput1},'%')
+					</if>
+				</when>
+			</choose>
+			<if test="fileCompYn != null and fileCompYn != ''">
+				AND Z.FILE_COMP_YN 	= #{fileCompYn}
+			</if>
 	    	<if test="plStat != null and plStat != ''">
-				AND TLM.PL_STAT 	= #{plStat}
+				AND Z.PL_STAT 		= #{plStat}
+			</if>
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
@@ -117,7 +320,7 @@
    			,#{item.F}						-- 금융상품유형
    			,#{item.G}						-- 법인명
    			,REPLACE(#{item.H}, '-', '')	-- 법인등록번호
-   			,CAST(#{item.I} AS INT4)		-- 교육이수번호/인증서번호
+   			,#{item.I}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.J}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.K}, '-', '')	-- 경력종료일
    			,REPLACE(#{item.L}, '-', '')	-- 계약일자
@@ -141,6 +344,7 @@
 			,PL_MERCHANT_NO
 			,CORP_FOUND_DATE
 			,ADDR
+			,ADDR_DETAIL
 			,CAPITAL
 			,PL_PRODUCT
 			,COM_CONT_DATE
@@ -160,10 +364,11 @@
 			,REPLACE(#{item.C}, '-', '')	-- 법인등록번호
    			,REPLACE(#{item.D}, '-', '')	-- 설립년월일
 			,#{item.E}						-- 본점소재지
-			,CAST(#{item.F} AS INT4)		-- 자본금
-			,#{item.G}						-- 금융상품유형
-			,REPLACE(#{item.H}, '-', '')	-- 계약일자
-   			,REPLACE(#{item.I}, '-', '')	-- 위탁예정기간
+			,#{item.F}						-- 상세주소(법인등기부본상)
+			,CAST(#{item.G} AS INT4)		-- 자본금
+			,#{item.H}						-- 금융상품유형
+			,REPLACE(#{item.I}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.J}, '-', '')	-- 위탁예정기간
    			,NOW()
    		)
    		</foreach>
@@ -181,8 +386,8 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
-			,FULL_TM_YN
-			,EXPERT_YN
+			,FULL_TM_STAT
+			,EXPERT_STAT
    		)
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
@@ -192,7 +397,7 @@
    			,#{item.B}						-- 직위
    			,#{item.C}						-- 성명
    			,REPLACE(#{item.D}, '-', '')	-- 주민등록번호
-   			,CAST(#{item.E} AS INT4)		-- 교육이수번호/인증서번호
+   			,#{item.E}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.F}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.G}, '-', '')	-- 경력종료일
    			,#{item.H}						-- 상근여부
@@ -213,8 +418,9 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
-			,FULL_TM_YN
-			,EXPERT_YN
+			,FULL_TM_STAT
+			,EXPERT_STAT
+			,FILE_SEQ
    		)
    		VALUES
    		(
@@ -222,12 +428,13 @@
    			,#{careerTyp}
    			,#{positionNm}
    			,#{excName}
-   			,#{plMZId}
+   			,REPLACE(#{plMZId}, '-', '')
    			,#{plEduNo}
-   			,#{careerStartDate}
-   			,#{careerEndDate}
-   			,#{fullTmYn}
-   			,#{ExpertYn}
+   			,REPLACE(#{careerStartDate}, '-', '')
+   			,REPLACE(#{careerEndDate}, '-', '')
+   			,#{fullTmStat}
+   			,#{expertStat}
+   			,#{fileSeq}
    		)
    	</insert>
    	
@@ -250,7 +457,7 @@
    			,#{item.A}						-- 구분(신규,경력)
    			,#{item.B}						-- 성명
    			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
-   			,CAST(#{item.D} AS INT4)		-- 교육이수번호/인증서번호
+   			,#{item.D}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.E}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.F}, '-', '')	-- 경력종료일
    		)
@@ -268,16 +475,18 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
+			,FILE_SEQ
    		)
    		VALUES
    		(
    			 #{masterSeq}
    			,#{careerTyp}
    			,#{expName}
-   			,#{plMZId}
+   			,REPLACE(#{plMZId}, '-', '')
    			,#{plEduNo}
-   			,#{careerStartDate}
-   			,#{careerEndDate}
+   			,REPLACE(#{careerStartDate}, '-', '')
+   			,REPLACE(#{careerEndDate}, '-', '')
+   			,#{fileSeq}
    		)
    	</insert>
    	
@@ -306,12 +515,14 @@
    			 MASTER_SEQ
 			,OPER_NAME
 			,PL_M_Z_ID
+			,FILE_SEQ
    		)
    		VALUES
    		(
    			 #{masterSeq}
    			,#{operName}
-   			,#{plMZId}
+   			,REPLACE(#{plMZId}, '-', '')
+   			,#{fileSeq}
    		)
    	</insert>
    
@@ -319,8 +530,9 @@
    	<update id="updatePlRegStat" parameterType="user">
    		UPDATE TB_LC_MAS01
    		SET
-   			 PL_STAT = #{plStat}
-   			,UPD_SEQ = #{updSeq}
+   			 PL_STAT		= #{plStat}
+   			,UPD_SEQ 		= #{updSeq}
+   			,UPD_TIMESTAMP	= NOW()
    		<where>
    			AND MASTER_SEQ 	= #{masterSeq}
    		</where>
@@ -335,7 +547,7 @@
 			,TLM.MEMBER_SEQ
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,(SELECT EMAIL FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS EMAIL
-			,(SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS MOBILE_NO
+			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
 			,TLM.CAREER_TYP
@@ -349,22 +561,23 @@
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
-			,TLM.PL_M_Z_ID
-			,TLM.PL_CELLPHONE
+			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 			,TLM.ADDR
 			,FN_CD_DTL('ADD001',TLM.ADDR) AS ADDR_NM
 			,TLM.ADDR_DETAIL
 			,TLM.PL_EDU_NO
-			,TLM.CAREER_START_DATE
-			,TLM.CAREER_END_DATE
-			,TLM.ENTRUST_DATE
-			,TLM.COM_CONT_DATE
+			,TO_DATE(TLM.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(TLM.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,TO_DATE(TLM.ENTRUST_DATE,'YYYYMMDD') AS ENTRUST_DATE
+			,TO_DATE(TLM.COM_CONT_DATE,'YYYYMMDD') AS COM_CONT_DATE
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
-			,TLM.PL_MERCHANT_NO
+			,TLM.PL_MERCHANT_NO AS ORIGIN_PL_MERCHANT_NO
+			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
-			,TLM.CORP_FOUND_DATE
+			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
 			,TLM.CAPITAL
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
@@ -374,12 +587,13 @@
 			,TLM.PAY_DATE
 			,TLM.SEND_MSG
 			,TLM.PL_HIST_CD
+			,TLM.PL_HIST_TXT
 			,TLM.COM_HAEJI_DATE
 			,TLM.CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
-			,TLM.REG_TIMESTAMP
+			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
-			,TLM.UPD_TIMESTAMP
+			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ = #{masterSeq}
@@ -395,14 +609,14 @@
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
 			,POSITION_NM
 			,EXC_NAME
-			,PL_M_Z_ID
+			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
 			,PL_EDU_NO
-			,CAREER_START_DATE
-			,CAREER_END_DATE
-			,FULL_TM_YN
-			<!-- ,FN_CD_DTL('CAR001',FULL_TM_YN) AS FULL_TM_YN_NM -->
-			,EXPERT_YN
-			<!-- ,FN_CD_DTL('CAR001',EXPERT_YN) AS EXPERT_YN_NM -->
+			,TO_DATE(CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,FULL_TM_STAT
+			,FN_CD_DTL('FTM001',FULL_TM_STAT) AS FULL_TM_STAT_NM
+			,EXPERT_STAT
+			,FN_CD_DTL('EXP001',EXPERT_STAT) AS EXPERT_STAT_NM
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IMWON
    		<where>
@@ -419,10 +633,10 @@
 			,CAREER_TYP
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
 			,EXP_NAME
-			,PL_M_Z_ID
+			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
 			,PL_EDU_NO
-			,CAREER_START_DATE
-			,CAREER_END_DATE
+			,TO_DATE(CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
 			,FILE_SEQ
    		FROM TB_LC_MAS01_EXPERT
    		<where>
@@ -437,7 +651,7 @@
 	   		 OPER_SEQ
 			,MASTER_SEQ
 			,OPER_NAME
-			,PL_M_Z_ID
+			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IT
    		<where>
@@ -509,25 +723,75 @@
 	<update id="updateUserRegCorpImwonInfo" parameterType="userImwon">
 		UPDATE TB_LC_MAS01_IMWON
 		SET
-			
+			 CAREER_TYP			= #{careerTyp}
+			,POSITION_NM		= #{positionNm}
+			,EXC_NAME			= #{excName}
+			,PL_M_Z_ID			= REPLACE(#{plMZId}, '-', '')
+			,PL_EDU_NO			= #{plEduNo}
+			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
+			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
+			,FULL_TM_STAT		= #{fullTmStat}
+			,EXPERT_STAT		= #{expertStat}
+			,FILE_SEQ			= #{fileSeq}
 		<where>
 	    	AND EXC_SEQ = #{excSeq}
 	    </where>
 	</update>
    	
    	<!-- 모집인 등록 > 법인 : 전문인력 정보 수정 -->
-   	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert"></update>
+   	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert">
+   		UPDATE TB_LC_MAS01_EXPERT
+		SET
+			 CAREER_TYP			= #{careerTyp}
+			,EXP_NAME			= #{expName}
+			,PL_M_Z_ID			= REPLACE(#{plMZId}, '-', '')
+			,PL_EDU_NO			= #{plEduNo}
+			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
+			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
+			,FILE_SEQ			= #{fileSeq}
+		<where>
+	    	AND EXP_SEQ = #{expSeq}
+	    </where>
+   	</update>
    	
    	<!-- 모집인 등록 > 법인 : 전산인력 정보 수정 -->
    	<update id="updateUserRegCorpItInfo" parameterType="userIt">
    		UPDATE TB_LC_MAS01_IT
    		SET
    			 OPER_NAME		= #{operName}
-			,PL_M_Z_ID		= #{plMZId}
+			,PL_M_Z_ID		= REPLACE(#{plMZId}, '-', '')
 			,FILE_SEQ		= #{fileSeq}
    		<where>
 	    	AND OPER_SEQ 	= #{operSeq}
 	    </where>
    	</update>
+   	
+	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 삭제 -->
+	<delete id="deleteUserRegCorpImwonInfo" parameterType="userImwon">
+		DELETE FROM TB_LC_MAS01_IMWON
+		<where>
+	    	AND EXC_SEQ = #{excSeq}
+	    </where>
+	</delete>
+ 	
+   	<!-- 모집인 등록 > 법인 : 전문인력 정보 삭제 -->
+   	<delete id="deleteUserRegCorpExpertInfo" parameterType="userExpert">
+   		DELETE FROM TB_LC_MAS01_EXPERT
+		<where>
+	    	AND EXP_SEQ = #{expSeq}
+	    </where>
+	</delete>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 정보 삭제 -->
+   	<delete id="deleteUserRegCorpItInfo" parameterType="userIt">
+   		DELETE FROM TB_LC_MAS01_IT
+		<where>
+	    	AND OPER_SEQ 	= #{operSeq}
+	    </where>
+	</delete>
+   	
+   	
+   	
+   	
    	
 </mapper> 

@@ -46,11 +46,15 @@ logging:
     jdbc.sqlonly: error
 
 
-#upload:
-#filePath: C:\loans\loanscrefia-bo\src\main\resources\static\upload
-
 upload:
-  filePath: static\upload
+  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  
+download:
+  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+
+#upload:
+#  filePath: static\upload
+  
 ---
 
 
@@ -75,8 +79,13 @@ logging:
     jdbc.resultset: off
     jdbc.sqlonly: error
    
+   
+   
 upload:
-  filePath: static\upload
+  filePath: C:\loanscrefia\static\upload
+  
+download:
+  filePath: C:\loanscrefia\static\upload
     
 ---
 

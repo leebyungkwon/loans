@@ -8,37 +8,42 @@
 	function pageLoad(){
 		
 		// 글 목록 버튼
-		$("#NoticeBtn").on("click", function(){
+		$("#noticeBtn").on("click", function(){
 			location.href = "/common/board/noticePage";
 		});
 		
 		// 글 등록 버튼
-		$("#NoticeSaveBtn").on("click", function(){
-			$("#noticeRegFrm").attr("action","/common/board/SaveNoticeReg");
-			var noticeInsParam = {
-				name : 'noticeRegFrm'
-				,success: function(opt, result) {
-	 				location.href="/common/board/noticePage";
-				}
-			}      
-			AjaxUtil.files(noticeInsParam);
+		$("#noticeSaveBtn").on("click", function(){
+			if(confirm("글을 등록 하시겠습니까?")){
+				$("#noticeRegFrm").attr("action","/common/board/saveNoticeReg");
+				$("#fileSeq").val("0"); // 기존 시퀀스 초기화
+				var noticeSaveParam = {
+					name : 'noticeRegFrm'
+					,success: function(opt, result) {
+		 				location.href="/common/board/noticePage";
+					}
+				}      
+				AjaxUtil.files(noticeSaveParam);
+			}
 		});
 		
 		// 글 수정 버튼
-		$("#NoticeUpdBtn").on("click", function(){
-			$("#noticeRegFrm").attr("action","/common/board/UpdNoticeReg");
-			var noticeInsParam = {
-				name : 'noticeRegFrm'
-				,success: function(opt, result) {
-	 				$("#noticeDetailFrm").submit();
-				}
-			}      
-			AjaxUtil.files(noticeInsParam);
+		$("#noticeUpdBtn").on("click", function(){
+			if(confirm("글을 수정 하시겠습니까?")){
+				$("#noticeRegFrm").attr("action","/common/board/updNoticeReg");
+				var noticeInsParam = {
+					name : 'noticeRegFrm'
+					,success: function(opt, result) {
+		 				$("#noticeDetailFrm").submit();
+					}
+				}      
+				AjaxUtil.files(noticeInsParam);
+			}
 		});
 		
 		// 글 취소 버튼
-		$("#NoticeCancelBtn").on("click", function(){
-			$("#noticeDetailFrm").submit();
+		$("#noticeCancelBtn").on("click", function(){
+				$("#noticeDetailFrm").submit();
 		});
 		
 		// 첨부파일 삭제
@@ -48,6 +53,7 @@
 			// IE일 경우
 			//$("#u_file").replaceWith( $("#u_file").clone(true) );
 			$("#u_file").val("");
+			$("#fileSeq").val("0");
 		});
 		
 		// 첨부파일 찾기
@@ -73,7 +79,7 @@
 		</div>
 	</div>
 	
-	<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetail">
+	<form id="noticeDetailFrm" method="post" action="/common/board/noticeDetailPage">
 		<input type="hidden" name="noticeSeq" value="${noticeInfo.noticeSeq}"/>
 	</form>
 	
@@ -97,7 +103,8 @@
 					<tr>
 						<th>첨부파일</th>
 						<td id="fileTag">
-							<input type="text" id="fileName" name="fileName" class="w60" readonly="readonly" value="${file.fileFullNm}" />
+							<input type="text" id="fileName" name="fileName" class="w60" readonly="readonly" value="${file.fileFullNm}"/>
+							<input type="hidden" id="fileSeq"  name="fileSeq" value=" ${noticeInfo.fileSeq}"/>
 							<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 							<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
@@ -108,17 +115,17 @@
 		</div>
 	</form>
 	
-	<sec:authorize access="hasRole('SYSTEM')" >
+	<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" id="NoticeBtn"  class="btn_gray">글 목록</a>								
+			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>								
 		
 			<c:choose>
 				<c:when test="${!empty noticeInfo}">
-					<a href="javascript:void(0);" id="NoticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
-					<a href="javascript:void(0);" id="NoticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
+					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
+					<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
 				</c:when>
 				<c:otherwise>
-					<a href="javascript:void(0);" id="NoticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
+					<a href="javascript:void(0);" id="noticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
 				</c:otherwise>
 			</c:choose>
 		</div>

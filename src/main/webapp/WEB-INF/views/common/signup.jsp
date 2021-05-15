@@ -7,27 +7,29 @@ function pageLoad(){
 	
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
-		var password       = $("#password").val();               // 비밀번호
-		var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
-	
-		if($("#checkId").val() == "N"){
-			alert("중복체크를 실행해 주세요.");
-			return false;
-		}
-	
-		if( password == passwordChk ){
-			var signupParam = {
-				name : 'signup'
-				,success: function(opt, result) {
-	 				location.href="/login";
-				}
-			}      
-			AjaxUtil.files(signupParam);
-		}else{
-			$("#password").val("");
-			$("#passwordChk").val("");
-			alert("아이디 패스워드를 확인해 주세요.");
-			return false;
+		if(confirm("회원가입을 진행 하시겠습니까?")){
+			var password       = $("#password").val();               // 비밀번호
+			var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
+		
+			if($("#checkId").val() == "N"){
+				alert("중복체크를 실행해 주세요.");
+				return false;
+			}
+		
+			if( password == passwordChk ){
+				var signupParam = {
+					name : 'signup'
+					,success: function(opt, result) {
+		 				location.href="/login";
+					}
+				}      
+				AjaxUtil.files(signupParam);
+			}else{
+				$("#password").val("");
+				$("#passwordChk").val("");
+				alert("아이디 패스워드를 확인해 주세요.");
+				return false;
+			}
 		}
 	});
 	
@@ -43,21 +45,6 @@ function pageLoad(){
 	// 첨부파일 찾기
 	$("#fileSearch").on("click", function(){
 		$("#u_file").click();
-	});
-	
-	// 양식 다운로드
-	$("#sampleDown").on("click", function(){
-		// 추후 양식 관련 템플 정리 후 번호 책정
-		var param = {
-			'fileSeq'	:	2
-		}
- 		var p = {
-			  param : param
-			, url : "/common/fileDown"
-			, contType: 'application/json; charset=UTF-8'
-			, responseType: 'arraybuffer'
-		}
-		AjaxUtil.post(p);
 	});
 	
 	// 아이디 중복체크
@@ -90,7 +77,7 @@ function pageLoad(){
 	
 	// 아이디 수정시 중복체크 value 변경
 	$("#memberId").on("change", function(){
-		$("#checkId").val("N");
+			$("#checkId").val("N");
 	});
 	
 	// 첨부파일 찾기시 file tag 실행
@@ -119,6 +106,7 @@ function pageLoad(){
 </div>
 <form name="signup" id="signup" action="/signup" method="POST" enctype="multipart/form-data" >
 	<input type="hidden" id="checkId" value="N"/>
+	<input type="hidden" name="optionTermsYn" id="optionTermsYn" value="${termsData.optionTermsYn }"/>
 	<div class="join_wrap">
 		<table>
 			<colgroup>
@@ -180,22 +168,29 @@ function pageLoad(){
 			<tr>
 				<th>회사 전화번호</th>
 				<td>
-					<input type="text" id="extensionNo" name="extensionNo" placeholder="회사 전화번호 입력" data-vd='{"type":"num","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
+					<input type="text" id="extensionNo" name="extensionNo" placeholder="-없이 입력해 주세요." data-vd='{"type":"num","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>휴대폰 번호</th>
 				<td>
-					<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호 입력" data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+					<c:choose>
+						<c:when test="${termsData.optionTermsYn eq 'N'}">
+							<input type="text" id="mobileNo" name="mobileNo" placeholder="선택적약관 미동의" disabled/>
+						</c:when>
+						<c:otherwise>
+							<input type="text" id="mobileNo" name="mobileNo" placeholder="-없이 입력해 주세요." data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 			<tr>
 				<th>첨부파일 (신청서)</th>
 				<td id="fileTag">
-					<input type="text" id="fileName" name="fileName" readonly="readonly"  data-vd='{"type":"text","len":"1,60","req":true,"msg":"파일을 첨부해 주세요"}' />
+					<input type="text" id="fileName" name="fileName" readonly="readonly"  placeholder="이미지 파일을 첨부해 주세요." data-vd='{"type":"fileupload","len":"1,60","req":true,"msg":"이미지 파일을 첨부해 주세요"}' />
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
-					<a href="javascript:void(0);" class="btn_gray btn_small" id="sampleDown">양식다운로드</a>
+					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/담당자신청서_샘플.png','담당자신청서_샘플')">샘플다운로드</a>
 					<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
 				</td>
 			</tr>

@@ -4,13 +4,15 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <script type="text/javascript">
-
+function pageLoad(){
+	
+}
 // 가승인 or 승인처리
 function goCompanyStatUpdt(apprStat,roleName) {
 	var apprStatNm = apprStat == "2" ? "가승인" : "승인";
 	if(confirm(apprStatNm + "처리 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/company/updateCompanyStat"	
+			  url		: "/admin/mng/updateCompanyStat"	
 			, param		: {
 				 memberSeq : $("#memberSeq").val()
 				,apprStat  : apprStat
@@ -18,8 +20,8 @@ function goCompanyStatUpdt(apprStat,roleName) {
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
-					alert("수정 되었습니다.");
-					location.href="/admin/company/companyPage"
+					alert("처리 되었습니다.");
+					location.href="/admin/mng/companyPage"
 				}
 		    }
 		}
@@ -27,22 +29,9 @@ function goCompanyStatUpdt(apprStat,roleName) {
 	}
 }	
 
-// 첨부파일 다운로드
-function filedown(fileSeq){
-	var p = {
-		  url : '/common/fileDown'
-		, contType: 'application/json; charset=UTF-8'
-		, responseType: 'arraybuffer'
-		, param : {
-			fileSeq : fileSeq
-		}
-	}
-	AjaxUtil.post(p);
-}
-
 // 리스트 페이지 이동
 function companyList(){
-	location.href="/admin/company/companyPage"
+	location.href="/admin/mng/companyPage"
 }
 
 </script>
@@ -54,7 +43,7 @@ function companyList(){
 		</div>
 	</div>
 	
-	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/company/updateCompanyStat" method="post" enctype="multipart/form-data">
+	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/mng/updateCompanyStat" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
 		
 		<div class="contents">
@@ -94,12 +83,12 @@ function companyList(){
 					</tr>
 					<tr>
 						<th>승인상태</th>
-						<td colspan="3">${companyDetail.apprStat}</td>
+						<td colspan="3">${companyDetail.apprStatNm}</td>
 					</tr>
 					<tr>
 						<th class="acenter">첨부서류</th>
 						<td colspan="3">
-							<a href="javascript:filedown('${file.fileSeq}')">${file.fileFullNm}</a>
+							<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 						</td>
 					</tr>
 				</table>

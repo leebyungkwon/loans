@@ -17,23 +17,21 @@ public class AdminDomain extends BaseDomain{
 	private int 	comCode;			// 회원사 코드
 	private String 	comCodeNm;			// 회원사 코드명
 	
-	@NotBlank(message = "ID를 입력하세요.")
-	@Pattern(regexp = "[a-zA-Z]{1,10}", message = "ID 는 영문 1~10 자리로 입력해 주세요.")
 	private String 	memberId;			// ID
 	
 	@NotBlank(message = "비밀번호를 입력하세요.")
 	private String 	password;			// 패스워드
 	
 	@NotBlank(message = "부서명 을 입력해주세요.")
-	@Pattern(regexp = "^[가-힣]*${1,10}", message = "부서명 은 한글 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z0-9가-힣]*${1,10}", message = "부서명 은 한글 1~10자리로 입력해 주세요.")
 	private String 	deptNm;				// 부서명
 	
 	@NotBlank(message = "담당자이름 을 입력하세요.")
-	@Pattern(regexp = "^[가-힣]*${1,10}", message = "담당자이름 은 한글 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z0-9가-힣]*${1,10}", message = "담당자이름 은 한글 1~10자리로 입력해 주세요.")
 	private String 	memberName;			// 담당자이름
 	
 	@NotBlank(message = "직위명 을 입력해주세요.")
-	@Pattern(regexp = "^[가-힣]*${1,10}", message = "직위명 은 한글 1~10자리로 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z가-힣]*${1,10}", message = "직위명 은 한글 1~10자리로 입력해 주세요.")
 	private String 	positionNm;			// 직위명
 	
 	@NotBlank(message = "이메일 을 입력해주세요.")

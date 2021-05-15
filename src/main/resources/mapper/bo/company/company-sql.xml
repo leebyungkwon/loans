@@ -10,21 +10,19 @@
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
-			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			<!--,TLM.EXTENSION_NO -->
-      	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-    		<!--,TLM.MOBILE_NO -->
-      		,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
 			,TLM.APPR_STAT
-			<!-- ,fn_appr_stat(TLM.APPR_STAT) AS APPR_STAT_NM -->
+			,FN_CD_DTL('MEM001',TLM.APPR_STAT) AS APPR_STAT_NM
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
 			,TLM.CRE_YN
@@ -32,14 +30,13 @@
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
 	    FROM TB_LC_MEMBERS TLM
-	    <where>
-	    	<if test="comCode != 0 and comCode != '0'">
+	    WHERE COM_CODE != 1
+	    	<if test="comCode != null and comCode != ''">
 				AND	TLM.COM_CODE 	    = #{comCode}
 			</if>
 			<if test="apprStat != null and apprStat != ''">
 				AND	TLM.APPR_STAT 		= #{apprStat}
 			</if>
-		</where>
 	    <include refid="common.pageBottom"/>
     </select>
     
@@ -50,21 +47,19 @@
 			,TLM.MEMBER_ID
 			,TLM.PASSWORD
 			,TLM.COM_CODE
-			,fn_com_code(TLM.COM_CODE) AS COM_CODE_NM
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			<!--,TLM.EXTENSION_NO -->
-     	    ,REGEXP_REPLACE(TLM.EXTENSION_NO, '(02|031|032|033|041|042|043|051|052|053|054|055|061|062|063|064'||'|010|011|016|017|018|019'||'|030|050|060|070|080)'||'(.+)(.{4})','\1-\2-\3') AS extensionNo
-			<!--,TLM.MOBILE_NO -->
-     	    ,REGEXP_REPLACE(TLM.MOBILE_NO, '(02|.{3})(.+)(.{4})', '\1-\2-\3') AS mobileNo
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYDDMM') AS joinDt
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
 			,TLM.APPR_STAT
-			<!-- ,fn_appr_stat(TLM.APPR_STAT) AS APPR_STAT_NM -->
+			,FN_CD_DTL('MEM001',TLM.APPR_STAT) AS APPR_STAT_NM
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
 			,TLM.CRE_YN
@@ -96,5 +91,110 @@
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
    	</delete>
+   	
+   	<!-- ============== 회원사 관리 테이블 =====================-->
+   	
+	<!-- 회원사 관리 조회  -->
+	<select id="selectCompanyCodeList" parameterType="company" resultType="company">
+		SELECT 
+		<include refid="common.totalPages"/>
+			TLC.COM_CODE
+			,TLC.COM_NAME
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,FN_BIZ_NO(TLC.PL_BUSINESS_NO) AS PL_BUSINESS_NO
+			,FN_CELLPHONE(TLC.COMP_PHONE_NO) AS COMP_PHONE_NO
+		FROM TB_LC_COMPANY TLC
+		<where>
+				AND TLC.DEL_YN = 'N'
+			<if test="comCode != null and comCode != ''">
+				AND 	TLC.COM_CODE 	    = #{comCode}
+			</if>
+			<if test="comName != null and comName != ''">
+				AND	TLC.COM_NAME LIKE CONCAT('%', #{comName}, '%')
+			</if>
+		</where>
+		<include refid="common.pageBottom"/>
+	</select>
 	
-</mapper> 
+	<!-- 회원사 관리 상세 조회 -->
+	<select id="getCompanyCodeDetail" parameterType="company" resultType="company">
+		SELECT 
+			TLC.COM_CODE
+			,TLC.COM_NAME
+			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,FN_BIZ_NO(TLC.PL_BUSINESS_NO) AS PL_BUSINESS_NO
+			,FN_CELLPHONE(TLC.COMP_PHONE_NO) AS COMP_PHONE_NO
+		FROM TB_LC_COMPANY TLC
+		<where>
+			AND TLC.COM_CODE = #{comCode}
+		</where>
+	</select>
+	
+	<!-- 회원사 관리 등록  --> 
+	<select id="saveCompanyCodeDetail" parameterType="company" resultType="company">
+		INSERT INTO TB_LC_COMPANY
+			(
+				COM_NAME						/*회원사(상호명)*/
+				,PL_MERCHANT_NO				/*법인등록번호*/
+				,PL_BUSINESS_NO				/*사업자등록번호*/
+				,COMP_PHONE_NO				/*회사대표번호*/
+				,REG_TIMESTAMP				/*등록일시*/
+				,REG_SEQ							/*등록자 시퀀스*/
+			)
+		VALUES
+			(
+				#{comName}											/*회원사(상호명)*/      
+				,REPLACE(#{plMerchantNo}, '-', '')				/*법인등록번호*/            
+				,REPLACE(#{plBusinessNo}, '-', '')				/*사업자등록번호*/         
+				,REPLACE(#{compPhoneNo}, '-', '')				/*회사대표번호*/            
+				,NOW()													/*등록일시*/           
+				,#{regSeq}												/*등록자 시퀀스*/   
+			)	
+	</select>
+	
+	<!-- 회원사 관리 수정  -->
+	<select id="updCompanyCodeDetail" parameterType="company" resultType="company">
+		UPDATE TB_LC_COMPANY
+		SET 
+			UPD_TIMESTAMP		= NOW()														/*수정일시*/ 
+			,UPD_SEQ					= #{updSeq}												/*수정자 시퀀스*/ 
+			<if test="comName != null and comName != ''">
+				 ,COM_NAME				= #{comName}										/*회원사(상호명)*/  
+			 </if>
+ 			<if test="plMerchantNo != null and plMerchantNo != ''">
+				,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')			/*법인등록번호*/ 
+			</if>
+ 			<if test="plBusinessNo != null and plBusinessNo != ''">			
+				,PL_BUSINESS_NO		= REPLACE(#{plBusinessNo}, '-', '')				/*사업자등록번호*/
+			</if>
+ 			<if test="compPhoneNo != null and compPhoneNo != ''">			
+				,COMP_PHONE_NO		= REPLACE(#{compPhoneNo}, '-', '')			/*회사대표번호*/ 
+			</if>
+		<where>
+			AND COM_CODE			= #{comCode}
+		</where>
+	</select>
+	
+	<!-- 회원사 관리 삭제  -->
+	<select id="delCompanyCodeDetail" parameterType="company" resultType="company">
+		UPDATE TB_LC_COMPANY
+		SET 
+			DEL_YN	= 'Y'
+		<where>
+			AND COM_CODE	=	#{comCode}
+		</where>
+	</select>
+	
+	<!-- 회원사 관리 - 법인등록번호 중복 체크 -->
+	<select id="plMerchantNoCheck" parameterType="company" resultType="int">
+        SELECT COUNT(*)
+        FROM TB_LC_COMPANY
+		<where>
+			<if test="comCode != null and comCode != ''">
+		        PL_MERCHANT_NO != (SELECT PL_MERCHANT_NO FROM TB_LC_COMPANY B WHERE B.COM_CODE = #{comCode})
+	        </if>
+		        AND PL_MERCHANT_NO = REPLACE(#{plMerchantNo}, '-', '')
+        </where>
+    </select>
+
+</mapper>
