@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.admin.recruit.service.RecruitService;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.system.templete.service.TempleteService;
@@ -41,17 +42,16 @@ public class RecruitController {
 	@Autowired
 	private RecruitService recruitService;
 	
-	@Autowired
-	private TempleteService templeteService;
+	@Autowired 
+	private CommonService commonService;
 	
-	
-	// 모집인 조회 페이지
+	// 모집인 조회 및 변경 페이지
 	@GetMapping(value="/recruitPage")
 	public String recruitPage() {
 		return CosntPage.BoRecruitPage+"/recruitList";
 	}
 
-	// 모집인 조회
+	// 모집인 조회 및 변경 조회
 	@PostMapping(value="/recruitList")
 	public ResponseEntity<ResponseMsg> recruitList(RecruitDomain recruitDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -59,12 +59,6 @@ public class RecruitController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 모집인 등록 팝업
-	@GetMapping(value="/p/recruitReg")
-	public ModelAndView recruitReg() {
-    	ModelAndView mv = new ModelAndView(CosntPage.BoRecruitPage+"/p/recruitReg");
-        return mv;
-	}
 	
 	
 	
@@ -74,11 +68,9 @@ public class RecruitController {
 	
 	
 	
+	// ------------- 검증 진행예정 ----------------------- //
 	
-	
-	
-	
-	// 전체검증
+	// 전체검증 테스트
 	@PostMapping("/ocrTest")
 	public ResponseEntity<ResponseMsg> ocrTest(@ModelAttribute RecruitDomain recruitDomain) throws IOException { 
 		
@@ -90,16 +82,15 @@ public class RecruitController {
 		// 3. FILE class로 파일 추출 후 검증시작
 		// 4. 각각의 맞는 docType에 성공여부 return
 		
-		long sampleRecruitNo = 1;
-		recruitDomain.setRecruitNo(sampleRecruitNo);
-		
+		int sampleRecruitNo = 1;
+		recruitDomain.setMasterSeq(sampleRecruitNo);
 		RecruitDomain resultRecruit = recruitService.getRecruit(recruitDomain); 
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(resultRecruit.getAtchNo());
 		// 첨부파일번호가 하나인 경우
-		FileDomain resultFile = templeteService.getFile(fileDomain);
+		FileDomain resultFile = commonService.getFile(fileDomain);
 		// 첨부파일번호가 여러개인 경우
-		List<FileDomain> resultFileList = templeteService.getFileList(fileDomain);
+		List<FileDomain> resultFileList = commonService.selectFileList(fileDomain);
 
 		for(FileDomain tmp : resultFileList) {
 			Tesseract tesseract = new Tesseract();
@@ -150,12 +141,13 @@ public class RecruitController {
 		                
 		                String ocrResult = replaceText.substring(startIndex+7, startIndex+21);
 		                System.out.println("추출된 주민등록번호 == " + ocrResult);
-		                
+		                /*
 		                if(resultRecruit.getUserJumin() == ocrResult) {
 		                	ret.put(tmp.getFileDocType(), true);
 		                }else {
 		                	ret.put(tmp.getFileDocType(), false);
 		                }
+		                */
 		                
 	    			}
 	    			

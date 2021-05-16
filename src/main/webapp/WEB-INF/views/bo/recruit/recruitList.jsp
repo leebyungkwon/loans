@@ -29,26 +29,13 @@ function pageLoad(){
 		, rowClick	: {color:"#ccc", retFunc : detailPop}
 		, gridSearch : "search"
 	});
+
 	
-	document.getElementById('btn_pop').onclick = function () {
-		let p = {
-			id : 'excel_save'
-			, curl : "/admin/recruit/p/recruitReg"
-		}
-		LibUtil.openPopup(p);
-	};
 	
-	document.getElementById('btn_req').onclick = function () {
-		alert('전체 승인요청');
-	};
 	
-	var grpCode = {
-		useCode : true
-		,code : 'RECR_TYPE'
-		,target : '#recrType'
-	};
-	console.log(grpCode);
-	DataUtil.selectBox(grpCode);
+	
+	
+	
 	
 	
 	
