@@ -37,6 +37,7 @@ function goCompanyStatUpdt(apprStat,roleName) {
 		AjaxUtil.post(p);
 	}
 } 
+
 function msgUpdate()	{
 	var innerHtml = '';
 	innerHtml += '<tr>'

@@ -40,6 +40,7 @@
 			,key : 'codeDtlCd'
 			,value : 'codeDtlNm'
 			,updData : ''
+			,defaultMsg : '전체'
 		};
 		DataUtil.selectBox(companyCode);
 	}
