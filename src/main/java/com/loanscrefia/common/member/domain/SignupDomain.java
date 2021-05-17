@@ -36,11 +36,11 @@ public class SignupDomain extends BaseDomain{
 	@Email
 	private String 	email;					// 이메일
 	
-	@Pattern(regexp = "^[0-9]*${0,20}", message = "휴대폰번호를 다시 입력해 주세요.")
+	@Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}${1,20}", message = "휴대폰번호를 다시 입력해 주세요.")
 	private String 	mobileNo;				// 휴대폰번호
 	
 	@NotBlank(message = "회사전화번호 를 입력해주세요.")
-	@Pattern(regexp = "^[0-9]*${1,20}", message = "회사전화번호를 다시 입력해 주세요.")
+	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}${1,20}", message = "회사전화번호를 다시 입력해 주세요.")
 	private String 	extensionNo;			// 회사 전화번호
 	
 	@NotBlank(message = "부서명 을 입력해주세요.")

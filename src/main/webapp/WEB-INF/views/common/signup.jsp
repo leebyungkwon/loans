@@ -168,7 +168,7 @@ function pageLoad(){
 			<tr>
 				<th>회사 전화번호</th>
 				<td>
-					<input type="text" id="extensionNo" name="extensionNo" placeholder="-없이 입력해 주세요." data-vd='{"type":"num","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
+					<input type="text" id="extensionNo" name="extensionNo" placeholder="회사전화번호를 입력해 주세요. ( -포함)" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
@@ -179,7 +179,7 @@ function pageLoad(){
 							<input type="text" id="mobileNo" name="mobileNo" placeholder="선택적약관 미동의" disabled/>
 						</c:when>
 						<c:otherwise>
-							<input type="text" id="mobileNo" name="mobileNo" placeholder="-없이 입력해 주세요." data-vd='{"type":"num","len":"0,20", "msg":"휴대폰번호를 입력해 주세요"}'/>
+							<input type="text" id="mobileNo" name="mobileNo" placeholder="휴대폰번호를 입력해 주세요. ( -포함)" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}'/>
 						</c:otherwise>
 					</c:choose>
 				</td>
