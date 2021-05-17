@@ -524,14 +524,16 @@ CREATE SEQUENCE tb_lc_mas01_step_seq
 commit;
 
 
+
 -- 모집인단계이력
 create table tb_lc_mas01_step(
 	master_step_seq integer not null default nextval('tb_lc_mas01_step_seq')
 	, master_seq integer not null
 	, pl_reg_stat varchar(2) null
 	, pl_stat varchar(2) null
-	, send_msg varchar(200) null
-	, upd_timestamp timestamp not null
+	, pl_hist_txt varchar(200) null
+	, reg_timestamp timestamp
+	, reg_seq integer
 	, primary key (master_step_seq)
 );
 
@@ -540,11 +542,11 @@ COMMENT ON COLUMN tb_lc_mas01_step.master_step_seq IS '단계이력시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_step.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_reg_stat IS '모집인상태';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_stat IS '처리상태';
-COMMENT ON COLUMN tb_lc_mas01_step.send_msg IS '전달메세지';
-COMMENT ON COLUMN tb_lc_mas01_step.upd_timestamp IS '변경일';
+COMMENT ON COLUMN tb_lc_mas01_step.pl_hist_txt IS '직접입력(사유)';
+COMMENT ON COLUMN tb_lc_mas01_step.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_step.reg_timestamp IS '등록일시';
 
 commit;
-
 
 -- 모집인 변경이력 정보 seq
 CREATE SEQUENCE tb_lc_mas01_hist_seq
