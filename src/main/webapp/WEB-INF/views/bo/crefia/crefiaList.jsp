@@ -97,52 +97,13 @@ function companyCodeCall(){
 
 
 // 협회관리자 저장
-function crefiaSave(){
+function saveCrefia(){
 	var password = $("#popPassword").val();
 	var passwordChk = $("#popPasswordChk").val();
 	var memberSeq = $("#hiddenMemberSeq").val();
 	var memberName = $("#popMemberName").val();
 	var memberId = $("#popMemberId").val();
 	var creGrp = $("#popCreGrp").val();
-	
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-	var pw = $("#popPasswordChk").val();
-	var id = $("#popMemberId").val();
-		
-	var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-	var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-	
-	 var num = pw.search(/[0-9]/g);
-	 var eng = pw.search(/[a-z]/g);
-	 var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-	 var bigeng = pw.search(/[A-Z]/);
-	 
-	 if(pw.length < 8 || pw.length > 20){
-	  alert("8자리 ~ 20자리 이내로 입력해주세요.");
-	  return false;
-	}else if(/(\w)\1\1/.test(pw)){
-	 alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
-	 return false;
-	 }else if(pw.search(id) > -1){
-	 alert("비밀번호에 아이디가 포함되었습니다.");
-	  return false;
-	 }else if(pw.search(/\s/) != -1){
-	 alert("비밀번호는 공백 없이 입력해주세요.");
-	 return false;
-	 }else if( (num < 0 && eng < 0 && bigeng < 0) || (eng < 0 && spe < 0 && bigeng < 0) || (spe < 0 && num < 0 && bigeng < 0) ){
-	  alert("알파벳 대문자, 알파벳 소문자, 숫자, 특수문자 중 2가지 이상을 혼합하여 입력해주세요.");
-	  return false;
-	 }else if(hangulcheck.test(pw)){
-	 alert("비밀번호에 한글을 사용 할 수 없습니다."); 
-	 }else {
-	 console.log("통과");
-	 }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	
 	if(WebUtil.isNull(creGrp)){
 		alert("그룹을 선택해 주세요.");
@@ -191,7 +152,6 @@ function crefiaSave(){
     	}
 	}
 	AjaxUtil.post(crefiaParam);
-	
 }
 
 </script>
