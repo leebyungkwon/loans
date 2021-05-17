@@ -7,11 +7,55 @@
 
 	function pageLoad(){
 		
-		var password         = $("#password").val();             // 비밀번호
-		var passwordChk    = $("#passwordChk").val();        // 비밀번호 확인
 		$("#adminUpdBtn").on("click", function(){
 			if(confirm("정보를 수정 하시겠습니까?")){
-				if( password == passwordChk ){
+//////////////////////////////////////////////////////////////////////////////////////////////
+				var id					= $("#memberId").val();
+				var pw         		= $("#password").val();             // 비밀번호
+				var pwChk    		= $("#passwordChk").val();        // 비밀번호 확인
+				var checkCount 	= 0;
+
+				if(/[0-9]/.test(pw)){ //숫자
+				    checkCount++;
+				}
+				if(/[a-z]/.test(pw)){ //소문자
+				    checkCount++;
+				}
+				if(/[A-Z]/.test(pw)){ //대문자
+				    checkCount++;
+				}
+				if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(pw)){ //특수문자
+				    checkCount++;
+				}
+				if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(pw)){ 
+				    alert("비밀번호에 한글을 사용 할 수 없습니다.");
+				    return false;
+				}
+				if(checkCount <= 1){ 
+				    alert('비밀번호는 영문 대/소문자, 숫자, 특수문자 중 2개이상의 조합이여야만 합니다.');
+				    return false;
+				}
+				if (pw.length < 8 || pw.length > 20){ 
+					alert("8자리 ~ 20자리 이내로 입력해주세요.");
+					return false;
+				}
+				if (/(\w)\1\1/.test(pw)){ 
+					alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
+					return false;
+				}
+				if (pw.search(id) > -1){
+					alert("비밀번호에 아이디가 포함되었습니다.");
+					alert(id)
+					return false;
+				}
+				if (pw.search(/\s/) != -1){ 
+					alert("비밀번호는 공백 없이 입력해주세요.");
+					return false;
+				}else {
+					console.log("통과");
+				}
+//////////////////////////////////////////////////////////////////////////////////////////////
+				if( pw == pwChk ){
 					var p = {
 						name       : "saveAdminUpdateFrm"
 						, success    : function (opt,result) {
@@ -101,19 +145,19 @@
                <tr>
                   <th>아이디</th>
                   <td colspan="3">
-                     <input type="text" name="memberId" value="${adminInfo.memberId}" readonly="readonly" class="w40" />
+                     <input type="text" id="memberId" name="memberId" value="${adminInfo.memberId}" readonly="readonly" class="w40" />
                   </td>
                </tr>
                <tr>
                   <th>패스워드</th>
                   <td colspan="3">
-                     <input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
+                     <input type="text" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" />
                   </td>
                </tr>
                <tr>
                   <th>패스워드 확인</th>
                   <td colspan="3">
-                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
+                     <input type="text" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40" />
                   </td>
                </tr>
                <tr>
