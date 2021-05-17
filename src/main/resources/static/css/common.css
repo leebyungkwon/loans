@@ -219,6 +219,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .w100p{width: 100px !important;}
 .w900p{width: 900px !important;}
 
+.h20{height: 20px;}
+
 /* margin, padding */
 .pdt5{padding-top:5px !important}
 .pdt10{padding-top:10px !important}
@@ -264,12 +266,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .mgr25{margin-right:25px !important}
 .mgr30{margin-right:30px !important}
 
+.mgb0{margin-bottom:0 !important}
 .mgb5{margin-bottom:5px !important}
 .mgb10{margin-bottom:10px !important}
 .mgb15{margin-bottom:15px !important}
 .mgb20{margin-bottom:20px !important}
 .mgb25{margin-bottom:25px !important}
 .mgb30{margin-bottom:30px !important}
+.mgb80{margin-bottom:80px !important}
 
 .mgt0{margin-top:0 !important}
 .mgt5{margin-top:5px !important}
@@ -281,6 +285,15 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 .mgt20{margin-top:20px !important}
 .mgt25{margin-top:25px !important}
 .mgt30{margin-top:30px !important}
+.mgt30{margin-top:30px !important}
+
+.line900{
+  display: block;
+  width: 900px;
+  height: 1px;
+  background-color: #ddd;
+  margin: 30px auto;
+}
 
 .select_position_type2{
     background-position-x: 98%;
@@ -536,7 +549,7 @@ table td .link{
   height: 28px !important;
 }
 
-.btn_middle{  
+.btn_middle{
   width: 137px !important;
   height: 46px !important;
 }
@@ -648,6 +661,11 @@ table td .link{
 .btn_right02{
   position: absolute;
   right: 176px;
+}
+
+.btn_right_mid02{
+  position: absolute;
+  right: 147px;
 }
 
 .btn_right_small02{

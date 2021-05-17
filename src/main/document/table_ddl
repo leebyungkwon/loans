@@ -742,10 +742,36 @@ commit;
 
 
 
+-- 위반이력정보 seq
+CREATE SEQUENCE tb_lc_violation_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+-- 위반이력정보
+create table tb_lc_violation(
+	violation_seq integer not null default nextval('tb_lc_violation_seq')
+	, master_seq integer not null
+	, violation_cd varchar(2) not null
+	, reg_timestamp timestamp not null
+	, reg_seq integer not null
+	, primary key (violation_seq, master_seq)
+);
+
+COMMENT ON TABLE tb_lc_violation IS '위반이력정보';
+COMMENT ON COLUMN tb_lc_violation.violation_seq IS '위반이력정보시퀀스';
+COMMENT ON COLUMN tb_lc_violation.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_violation.violation_cd IS '위반이력코드';
+COMMENT ON COLUMN tb_lc_violation.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_violation.reg_seq IS '등록자시퀀스';
 
 
-
-
+commit;
 
 
 
