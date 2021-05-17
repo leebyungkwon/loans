@@ -151,13 +151,13 @@
                <tr>
                   <th>패스워드</th>
                   <td colspan="3">
-                     <input type="text" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" />
+                     <input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" />
                   </td>
                </tr>
                <tr>
                   <th>패스워드 확인</th>
                   <td colspan="3">
-                     <input type="text" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40" />
+                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40" />
                   </td>
                </tr>
                <tr>
