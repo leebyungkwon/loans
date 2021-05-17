@@ -47,7 +47,7 @@ public class CompanyDomain extends BaseDomain {
 	private int updSeq;										//수정자시퀀스
 	private String updTimestamp;						//수정일시
 	private int[] memberSeqArr;							//멤버시퀀스어레이
-	@NotBlank(message = "가승인 사유를 입력하세요.")
+	
 	private String msg;									//가승인 사유
 	
 	
