@@ -59,7 +59,7 @@
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
-			AND TLM.PL_STAT IN ('2','3','4','7')													-- 처리상태가 승인요청, 변경요청, 해지요청, 완료건
+			AND TLM.PL_STAT IN ('2','3','4','5','7')													-- 처리상태가 승인요청, 변경요청, 해지요청, 완료건
 			
 			<if test="comCode != null and comCode != ''">
 				AND TLM.COM_CODE = CAST(#{comCode} AS INTEGER)
