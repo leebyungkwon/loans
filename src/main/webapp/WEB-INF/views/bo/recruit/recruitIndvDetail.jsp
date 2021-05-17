@@ -14,56 +14,48 @@ function pageLoad(){
 function goRecruitApply(){
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
-				,plStat			: '4'
-				,plHistTxt		: $("#plHistTxt").val()
-				,plRegStat		: '1'
+				,plStat			: '7'
+				,plRegStat		: '2'
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
-					alert("해지요청이 완료되었습니다.");
-					goUserConfirmList();
+					alert("승인이 완료되었습니다.");
+					location.href="/admin/recruit/recruitPage";
 				}
 		    }
 		}
 		AjaxUtil.post(p);
 	}
-}
-
-//보완요청화면
-function goRecruitImprovePage(){
-
 }
 
 //보완
 function goRecruitImprove(){
 	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("보완요청사유를 입력해 주세요");
+		alert("사유를 입력해 주세요");
 		return false;
 	}
 	
 	if(confirm("보완요청을 하시겠습니까?")){
 		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
+				,plStat		: '5'
 				,plHistTxt	: $("#plHistTxt").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
-					alert("취소되었습니다.");
-					goUserConfirmList();
+					alert("보완요청이 완료되었습니다.");
+					location.href="/admin/recruit/recruitPage";
 				}
 		    }
 		}
 		AjaxUtil.post(p);
 	}
 }
-
-
 
 </script>
 
@@ -151,10 +143,13 @@ function goRecruitImprove(){
 				</tr>
 				
 				<c:choose>
-					<c:when test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '7'}">
+					<c:when test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '7'
+					or result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '7'}">
 						<tr>
-							<th>변경요청사유</th>
-							<td colspan="3">${result.recruitInfo.sendMsg }</td>
+							<th>사유</th>
+							<td colspan="3">
+								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.sendMsg }">
+							</td>
 						</tr>
 					</c:when>
 					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
@@ -165,14 +160,6 @@ function goRecruitImprove(){
 						<tr>
 							<th>해지일자</th>
 							<td colspan="3">${result.recruitInfo.comHaejiDate }</td>
-						</tr>
-					</c:when>
-					<c:when test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '7'}">
-						<tr> 
-							<th>보완요청사유</th>
-							<td colspan="3">
-								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.sendMsg }">
-							</td>
 						</tr>
 					</c:when>
 				</c:choose>
@@ -291,9 +278,7 @@ function goRecruitImprove(){
 			<a href="/admin/recruit/recruitPage" class="btn_gray" >목록</a>
 			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
-			</c:if>
-			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprovePage();">보완</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완</a>
 			</c:if>
 		</div>
 	</div>

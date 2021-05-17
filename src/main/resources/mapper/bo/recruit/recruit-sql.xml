@@ -245,4 +245,28 @@
    	</select>
    	
    	
+   	<!-- 모집인 조회 및 변경 > 승인처리 -->
+   	<update id="updateRecruitPlStat" parameterType="recruitIt">
+   		UPDATE tb_lc_mas01
+   		SET
+   			pl_stat = #{plStat}
+   			<if test="plRegStat != null and plRegStat != ''">
+   				, pl_reg_stat = #{plRegStat}
+   			</if>
+   			<if test="plRegStat != null and plRegStat != ''">
+   				, cre_app_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   			</if>
+   			<if test="plHistTxt != null and plHistTxt != ''">
+   				,pl_hist_txt = #{plHistTxt}
+   			</if>
+   			<if test="plStat == '5' ">
+   				,com_reg_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   			</if>
+   			, upd_seq = #{updSeq}
+   			, upd_timestamp = NOW()
+   		WHERE
+   			master_seq = #{masterSeq}
+   	</update>
+   	
+   	
 </mapper> 

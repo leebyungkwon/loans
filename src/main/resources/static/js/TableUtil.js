@@ -489,6 +489,12 @@ let GRID = {
 
 					let align = (bodyCol[j].align == undefined) ? "center" : bodyCol[j].align;
 					tag += "text-align:" + align + ";" + "width:" + bodyCol[j].width + ";'>";
+					/*
+					// 2021-05-17 null데이터 처리
+					if(WebUtil.isNull(dataStr)){
+						dataStr = '-';
+					}
+					*/
 					tag += (typ == "text") ? "<input type='text' id='" + name + "' value='" + dataStr + "'/>" : dataStr;
 					if (bodyCol[j].button != undefined) {
 						for (key in bodyCol[j].button) {

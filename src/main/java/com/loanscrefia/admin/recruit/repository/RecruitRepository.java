@@ -31,4 +31,7 @@ public interface RecruitRepository {
 	//모집인 조회 및 변경 > 법인 : 전산인력 상세
 	List<RecruitItDomain> selectRecruitCorpItList(RecruitItDomain recruitItDomain);
 	
+	//모집인 조회 및 변경 > 승인처리
+	int updateRecruitPlStat(RecruitDomain recruitDomain);
+	
 }

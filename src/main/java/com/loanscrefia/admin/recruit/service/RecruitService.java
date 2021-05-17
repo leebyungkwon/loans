@@ -345,5 +345,11 @@ public class RecruitService {
 		
 		return result;
 	}
+	
+	//모집인 조회 및 변경 > 승인처리
+	@Transactional
+	public int updateRecruitPlStat(RecruitDomain recruitDomain){
+		return recruitRepository.updateRecruitPlStat(recruitDomain);
+	}
 
 }

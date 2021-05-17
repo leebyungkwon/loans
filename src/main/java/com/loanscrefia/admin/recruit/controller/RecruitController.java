@@ -22,6 +22,7 @@ import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.admin.recruit.service.RecruitService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
 import com.loanscrefia.member.user.domain.UserItDomain;
@@ -113,5 +114,13 @@ public class RecruitController {
     	mv.addObject("result", result);
         return mv;
     }
+	
+	// 승인처리
+	@PostMapping(value="/recruit/updatePlStat")
+	public ResponseEntity<ResponseMsg> updateRecruitPlStat(RecruitDomain recruitDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(recruitService.updateRecruitPlStat(recruitDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 }
