@@ -65,9 +65,6 @@ public class CorpController {
 		}
 		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-		
-//		ResponseMsg responseMsg = corpService.saveCorpInfo(corpDomain);
-//		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 }
