@@ -46,6 +46,30 @@ var Valid = {
 		}
     	
     	switch (el.type){
+	    	case 'plMerchant' :
+	    		regexp = /^(\d{6})-(\d{7})*$/;
+	    		if(!regexp.test(val))	alert('법인등록번호 형식을 확인해주세요.');
+	    		else return true;
+	    		return false;
+	    		break;
+	    	case 'plBusiness' :
+	    		regexp = /^(\d{3})-(\d{2})-(\d{5})*$/;
+	    		if(!regexp.test(val))	alert('사업자등록번호 형식을 확인해주세요.');
+	    		else return true;
+	    		return false;
+	    		break;
+	    	case 'mobileNo' :
+	    		regexp = /^\d{3}-\d{3,4}-\d{4}$/;
+	    		if(!regexp.test(val))	alert('휴대폰번호 형식을 확인해주세요.');
+	    		else return true;
+	    		return false;
+	    		break;
+	    	case 'extensionNo' :
+	    		regexp = /^\d{2,3}-\d{3,4}-\d{4}$/;
+	    		if(!regexp.test(val))	alert('회사전화번호 형식을 확인해주세요.');
+	    		else return true;
+	    		return false;
+	    		break;
 	        case 'num' :
 	        	regexp = /^[0-9]*$/;
 	    		if(!regexp.test(val))	alert('숫자만 입력하세요.');
