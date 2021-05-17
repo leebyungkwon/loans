@@ -15,7 +15,7 @@ import lombok.Data;
 @Alias("user")
 public class UserDomain extends BaseDomain {
 
-	//모집인정보(tb_lc_mas01)
+	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
@@ -65,6 +65,9 @@ public class UserDomain extends BaseDomain {
 	private String comHaejiDate;	//회원사해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private String creHaejiDate;	//협회해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private Integer fileSeq;		//첨부파일시퀀스
+	
+	//모집인단계별이력(tb_lc_mas01_step)
+	private int masterStepSeq;
 	
 	//가공
 	private int[] masterSeqArr;

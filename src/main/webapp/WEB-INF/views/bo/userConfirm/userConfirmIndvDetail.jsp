@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
@@ -100,6 +100,7 @@ function goUserDropApply(){
 	}
 }
 
+/*
 function fnCancel(){
 	if(confirm("취소하시겠습니까?")){
 		var p = {
@@ -141,22 +142,19 @@ function fnChange(){
 function fnDrop(){
 	if(confirm("모집인 해지를 요청하시겠습니까?")){
 		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			  url		: "/member/confirm/userDropApply"	
 			, param		: {
-				 masterSeq 		: $("#masterSeq").val()
-				,plStat			: '4'
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '4'
 			}
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("해지요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
+				goUserConfirmList();
 		    }
 		}
 		AjaxUtil.post(p);
 	}
 }
-
+*/
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -251,7 +249,6 @@ function fnDrop(){
 						<td colspan="3">${result.userRegInfo.sendMsg }</td>
 					</tr>
 				</c:if>
-				
 				<c:if test="${result.userRegInfo.plStat ne '7' }">
 					<tr id="histTxt" style="display:none;">
 						<th>사유</th>
@@ -264,7 +261,6 @@ function fnDrop(){
 						<td colspan="3"></td>
 					</tr>
 				</c:if>
-				
 			</table>
 		</div>
 
@@ -378,21 +374,13 @@ function fnDrop(){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goUserConfirmList();">목록</a>
-<%-- 			<c:if test="${result.userRegInfo.plStat eq '7' }">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApply();">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
-			</c:if> --%>
-
-			<c:if test="${result.userRegInfo.plRegStat eq '3' and  result.userRegInfo.plStat eq '7'}">
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="fnChange();">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="fnDrop();">해지요청</a>			
-			</c:if>
-			
 			<c:if test="${result.userRegInfo.plRegStat eq '2' }">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="fnCancel();">즉시취소</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
 			</c:if>
-			
+			<c:if test="${result.userRegInfo.plRegStat eq '3' and result.userRegInfo.plStat eq '7' }">
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApply();">변경요청</a>
+				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>			
+			</c:if>
 		</div>
 	</div>
 </div>

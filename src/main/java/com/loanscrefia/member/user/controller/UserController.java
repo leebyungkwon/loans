@@ -115,20 +115,16 @@ public class UserController {
         return mv;
     }
 	
-	//처리상태 변경
-	@PostMapping(value="/confirm/updatePlRegConfirmStat")
-	public ResponseEntity<ResponseMsg> updatePlRegConfirmStat(UserDomain userDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updatePlRegConfirmStat(userDomain));
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
-	
-	//취소요청
+	//즉시취소
 	
 	//변경요청
 	
-	//해지요청
+	//해지요청 
+	@PostMapping(value="/confirm/userDropApply")
+	public ResponseEntity<ResponseMsg> userDropApply(UserDomain userDomain){
+		ResponseMsg responseMsg = userService.userDropApply(userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 등록

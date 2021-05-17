@@ -47,10 +47,58 @@ public class UserService {
 	}
 	
 	//모집인 조회 및 변경 > 처리상태 변경 
+	/*
 	@Transactional
 	public int updatePlRegConfirmStat(UserDomain userDomain){
 		return userRepo.updatePlRegConfirmStat(userDomain);
 	}
+	*/
+	
+	//모집인 조회 및 변경 > 해지요청 
+	@Transactional
+	public ResponseMsg userDropApply(UserDomain userDomain){
+		//상세
+		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+		
+		//법인 : 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 해지요청 불가 
+		if(userRegInfo.getPlClass().equals("2")) {
+			UserDomain chkParam1 		= new UserDomain();
+			UserImwonDomain chkParam2 	= new UserImwonDomain();
+			UserExpertDomain chkParam3 	= new UserExpertDomain();
+			UserItDomain chkParam4 		= new UserItDomain();
+			
+			//법인사용인
+			chkParam1.setPlMerchantNo(userRegInfo.getOriginPlMerchantNo());
+			int corpIndvCnt = 0;
+			
+			//임원
+			chkParam2.setMasterSeq(userDomain.getMasterSeq());
+			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam2);
+			
+			//전문인력
+			chkParam3.setMasterSeq(userDomain.getMasterSeq());
+			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam3);
+			
+			//전산인력
+			chkParam4.setMasterSeq(userDomain.getMasterSeq());
+			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam4);
+			
+			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능한 상태입니다.");
+			}
+		}
+		//수정
+		int updateResult = userRepo.updatePlRegConfirmStat(userDomain);
+		
+		if(updateResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 완료되었습니다.");
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	
+	
+	
 	//모집인 조회 및 변경 > 
 	
 	//모집인 조회 및 변경 > 
@@ -687,6 +735,9 @@ public class UserService {
 	public ResponseMsg updateUserRegInfo(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		//상태값 체크*****
 		this.userRegValidation(userDomain.getMasterSeq());
+		
+		//기본 이력 저장*****
+		this.insertUserHistory(userDomain);
 				
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -850,12 +901,28 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
 	}
 	
-	
-	
-	/* ================================================
-	 * (공통)모집인 등록 > 상태값 체크
-	 * ================================================
+	/* -------------------------------------------------------------------------------------------------------
+	 * 모집인 기본 이력 / 단계별 이력 관련
+	 * -------------------------------------------------------------------------------------------------------
 	 */
+	
+	//모집인 기본 이력 저장
+	@Transactional
+	public int insertUserHistory(UserDomain userDomain) {
+		return userRepo.insertUserHistory(userDomain);
+	}
+	
+	//모집인 단계별 이력 저장
+	@Transactional
+	public int insertUserStepHistory(UserDomain userDomain) {
+		return userRepo.insertUserStepHistory(userDomain);
+	}
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * (공통)모집인 등록 > 상태값 체크
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
 	public ResponseMsg userRegValidation(int masterSeq) {
 		
 		UserDomain param = new UserDomain();

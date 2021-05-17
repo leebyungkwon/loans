@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
@@ -139,16 +139,13 @@ function fnChange(){
 function fnDrop(){
 	if(confirm("모집인 해지를 요청하시겠습니까?")){
 		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			  url		: "/member/confirm/userDropApply"	
 			, param		: {
-				 masterSeq 		: $("#masterSeq").val()
-				,plStat			: '4'
+				 masterSeq 	: $("#masterSeq").val()
+				,plStat		: '4'
 			}
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("해지요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
+				goUserConfirmList();
 		    }
 		}
 		AjaxUtil.post(p);
@@ -331,12 +328,13 @@ function fnDrop(){
 			
 			<c:if test="${result.userRegInfo.plRegStat eq '3' and  result.userRegInfo.plStat eq '7'}">
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="fnChange();">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="fnDrop();">해지요청</a>			
+				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="fnDrop();">해지요청</a> <!-- 하위에 등록된 데이터(법인사용인 등)이 있으면 해지요청 불가 -->
 			</c:if>
 			
 			<c:if test="${result.userRegInfo.plRegStat eq '2' }">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="fnCancel();">즉시취소</a>
 			</c:if>
+			
 		</div>
 	</div>
 </div>
