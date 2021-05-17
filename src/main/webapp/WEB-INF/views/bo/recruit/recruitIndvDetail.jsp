@@ -10,77 +10,9 @@ function pageLoad(){
 	
 }
 
-//취소화면변경
-function goUserCancelPage(){
-	$("#histTxt").show();
-	$("#plHistTxt").focus();
-	$("#userChangeApply").remove();
-	$("#userDropApply").remove();
-	$("#userCancel").attr("onclick", "goUserCancel()");
-}
-
-//취소
-function goUserCancel(){
-	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("취소사유를 입력해 주세요");
-		return false;
-	}
-	
-	if(confirm("취소하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
-				,plHistTxt	: $("#plHistTxt").val()
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("취소되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
-//변경요청
-function goUserChangeApply(){
-	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '3'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("변경요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
-//해지요청
-function goUserDropApplyPage(){
-	$("#histTxt").show();
-	$("#haejiDate").show();
-	$("#plHistTxt").focus();
-	$("#userChangeApply").remove();
-	$("#userCancel").remove();
-	$("#userDropApply").attr("onclick", "goUserDropApply()");
-}
-
-function goUserDropApply(){
-	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("해지사유를 입력해 주세요");
-		return false;
-	}
-	if(confirm("모집인 해지를 요청하시겠습니까?")){
+//승인
+function goRecruitApply(){
+	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
 			  url		: "/member/confirm/updatePlRegConfirmStat"	
 			, param		: {
@@ -100,14 +32,25 @@ function goUserDropApply(){
 	}
 }
 
-/*
-function fnCancel(){
-	if(confirm("취소하시겠습니까?")){
+//보완요청화면
+function goRecruitImprovePage(){
+
+}
+
+//보완
+function goRecruitImprove(){
+	if(WebUtil.isNull($("#plHistTxt").val())){
+		alert("보완요청사유를 입력해 주세요");
+		return false;
+	}
+	
+	if(confirm("보완요청을 하시겠습니까?")){
 		var p = {
 			  url		: "/member/confirm/updatePlRegConfirmStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '6'
+				,plHistTxt	: $("#plHistTxt").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
@@ -120,41 +63,8 @@ function fnCancel(){
 	}
 }
 
-function fnChange(){
-	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '3'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("변경요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
 
-function fnDrop(){
-	if(confirm("모집인 해지를 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/userDropApply"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '4'
-			}
-			, success 	: function (opt,result) {
-				goUserConfirmList();
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-*/
+
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -240,25 +150,32 @@ function fnDrop(){
 					<td colspan="3">${result.recruitInfo.entrustDate }</td>
 				</tr>
 				
-				<c:if test="${result.recruitInfo.plStat eq '4' }">
-					<tr>
-						<th>반려사유</th>
-						<td colspan="3">${result.recruitInfo.sendMsg }</td>
-					</tr>
-				</c:if>
-				<c:if test="${result.recruitInfo.plStat ne '7' }">
-					<tr id="histTxt" style="display:none;">
-						<th>사유</th>
-						<td colspan="3"><input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200"></td>
-					</tr>
-				</c:if>
-				<c:if test="${!empty result.recruitInfo.comHaejiDate or !empty result.recruitInfo.creHaejiDate}">
-					<tr id="haejiDate" style="display:none;">
-						<th>해지일자</th>
-						<td colspan="3"></td>
-					</tr>
-				</c:if>
-				
+				<c:choose>
+					<c:when test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '7'}">
+						<tr>
+							<th>변경요청사유</th>
+							<td colspan="3">${result.recruitInfo.sendMsg }</td>
+						</tr>
+					</c:when>
+					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
+						<tr>
+							<th>해지요청사유</th>
+							<td colspan="3">${result.recruitInfo.plHistCd }</td>
+						</tr>
+						<tr>
+							<th>해지일자</th>
+							<td colspan="3">${result.recruitInfo.comHaejiDate }</td>
+						</tr>
+					</c:when>
+					<c:when test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '7'}">
+						<tr> 
+							<th>보완요청사유</th>
+							<td colspan="3">
+								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.sendMsg }">
+							</td>
+						</tr>
+					</c:when>
+				</c:choose>
 			</table>
 		</div>
 
@@ -372,12 +289,11 @@ function fnDrop(){
 		</div>
 		<div class="btn_wrap">
 			<a href="/admin/recruit/recruitPage" class="btn_gray" >목록</a>
-			<c:if test="${result.recruitInfo.plRegStat eq '2' }">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
+			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
 			</c:if>
-			<c:if test="${result.recruitInfo.plRegStat eq '3' and result.recruitInfo.plStat eq '7' }">
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApply();">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>			
+			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprovePage();">보완</a>
 			</c:if>
 		</div>
 	</div>

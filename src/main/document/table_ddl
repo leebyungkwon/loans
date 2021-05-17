@@ -235,7 +235,7 @@ create table tb_lc_mas01(
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
 	, capital integer
-	, com_cont_date varchar(8)	
+	, com_cont_date varchar(8)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
 	, cre_app_date varchar(8)
