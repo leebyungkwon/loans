@@ -21,13 +21,13 @@
 	    WHERE MEM.COM_CODE = 1
 	    AND MEM.DROP_YN = 'N'
 	    <if test="memberId != null and memberId != ''">
-	    	AND MEMBER_ID = #{memberId}
+	    	AND MEMBER_ID LIKE CONCAT('%',#{memberId},'%')
 	    </if>
 	    <if test="memberName != null and memberName != ''">
-	    	AND MEMBER_NAME = #{memberName}
+	    	AND MEMBER_NAME LIKE CONCAT('%',#{memberName},'%')
 	    </if>
-	    <if test="creYn != null and creYn != ''">
-	    	AND CRE_YN = #{creYn}
+	    <if test="creGrp != null and creGrp != ''">
+	    	AND CRE_GRP = #{creGrp}
 	    </if>
 	    <include refid="common.pageBottom"/>
     </select>
