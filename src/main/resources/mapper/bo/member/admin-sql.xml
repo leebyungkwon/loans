@@ -62,8 +62,8 @@
 			,TLM.MEMBER_ID
 			,TLM.MEMBER_NAME
 			,TLM.EMAIL
-			,TLM.EXTENSION_NO
-			,TLM.MOBILE_NO
+			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
 			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
@@ -80,7 +80,7 @@
 		UPDATE TB_LC_MEMBERS
 		SET
 				UPD_TIMESTAMP 		= NOW()
-				,MOBILE_NO				= #{mobileNo}
+				,UPD_SEQ			= #{updSeq}
 			<if test="memberId != null and memberId != ''">
 				,MEMBER_ID				= #{memberId}
 			</if>
@@ -97,13 +97,16 @@
 				,POSITION_NM			= #{positionNm}			
 			</if>
 			<if test="email != null and email != ''">
-				,EMAIL						= #{email}
+				,EMAIL					= #{email}
 			</if>
 			<if test="extensionNo != null and extensionNo != ''">
-				,EXTENSION_NO			= #{extensionNo}
+				,EXTENSION_NO			= REPLACE(#{extensionNo}, '-', '')
+			</if>
+			<if test="mobileNo != null and mobileNo != ''">
+				,MOBILE_NO				= REPLACE(#{mobileNo}, '-', '')
 			</if>
 			<if test="fileSeq != null and fileSeq != ''">
-				,FILE_SEQ					=	#{fileSeq}
+				,FILE_SEQ				=	#{fileSeq}
 			</if>
 		<where>
 			AND MEMBER_SEQ			= #{memberSeq}

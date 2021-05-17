@@ -137,7 +137,7 @@ function deleteCompany() {
 			</div>
 		</div>
 	</div>
-		<div id="companyGrid"></div>
+		<div id="companyGrid" class="long_table"></div>
 	<div class="sorting_wrap">
 		<div class="action">
 			<a href="javascript:void(0);" class="btn_gray btn_small mgl5" onclick="deleteCompany();">삭제</a>

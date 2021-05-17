@@ -41,7 +41,6 @@ public class AdminDomain extends BaseDomain{
 	@NotBlank(message = "회사전화번호 를 입력해주세요.")
 	private String 	extensionNo;		// 회사전화번호
 	
-	@Pattern(regexp = "^[0-9]*${0,20}", message = "휴대폰번호를 다시 입력해 주세요.")
 	private String 	mobileNo;			// 휴대폰번호
 	
 	private String 	joinDt;				// 가입일
@@ -54,6 +53,7 @@ public class AdminDomain extends BaseDomain{
 	private String 	updTimestamp;		// 수정일시
 	private Long 	memberSeq;			// 담당자 시퀀스
 	
+	@Pattern(regexp = "^[가-힣]*${1,200}")
 	private String msg;
 	
 	private String 	tempMemberCheck;	// 가승인회원여부

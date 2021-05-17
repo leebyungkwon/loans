@@ -30,8 +30,8 @@
 			,#{comCode}                   			/*회원사코드*/ 
 			,#{memberName}                  		/*담당자이름*/  
 			,#{email}                       		/*이메일*/   
-			,#{extensionNo}                    		/*회사전화번호*/  
-			,#{mobileNo}                    		/*휴대폰번호*/  
+			,REPLACE(#{extensionNo}, '-', '')		/*회사전화번호*/  
+			,REPLACE(#{mobileNo}, '-', '')			/*휴대폰번호*/  
 			,#{deptNm}                      		/*부서명*/   
 			,#{positionNm}                  		/*직위명*/   
 			,TO_CHAR(NOW(), 'YYYYMMDD')				/*가입일*/
