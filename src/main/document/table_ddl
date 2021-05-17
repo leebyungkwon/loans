@@ -528,17 +528,19 @@ commit;
 create table tb_lc_mas01_step(
 	master_step_seq integer not null default nextval('tb_lc_mas01_step_seq')
 	, master_seq integer not null
-	, pl_reg_yn varchar(10) not null
-	, mod_date varchar(8) not null
-	, msg varchar(200) not null
+	, pl_reg_stat varchar(2) null
+	, pl_stat varchar(2) null
+	, send_msg varchar(200) null
+	, upd_timestamp timestamp not null
 	, primary key (master_step_seq)
 );
 
 COMMENT ON TABLE tb_lc_mas01_step IS '모집인단계이력';
 COMMENT ON COLUMN tb_lc_mas01_step.master_step_seq IS '접수번호시퀀스';
-COMMENT ON COLUMN tb_lc_mas01_step.pl_reg_yn IS '모집인상태';
-COMMENT ON COLUMN tb_lc_mas01_step.mod_date IS '변경일';
-COMMENT ON COLUMN tb_lc_mas01_step.msg IS '전달메세지';
+COMMENT ON COLUMN tb_lc_mas01_step.pl_reg_stat IS '모집인상태';
+COMMENT ON COLUMN tb_lc_mas01_step.pl_stat IS '처리상태';
+COMMENT ON COLUMN tb_lc_mas01_step.send_msg IS '전달메세지';
+COMMENT ON COLUMN tb_lc_mas01_step.upd_timestamp IS '변경일';
 
 commit;
 
