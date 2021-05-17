@@ -536,6 +536,7 @@ create table tb_lc_mas01_step(
 );
 
 COMMENT ON TABLE tb_lc_mas01_step IS '모집인단계이력';
+COMMENT ON COLUMN tb_lc_mas01_step.master_step_seq IS '단계이력시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_step.master_step_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_reg_stat IS '모집인상태';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_stat IS '처리상태';
