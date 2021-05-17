@@ -10,13 +10,22 @@ function pageLoad(){
 // 가승인 or 승인처리
 function goCompanyStatUpdt(apprStat,roleName) {
 	var apprStatNm = apprStat == "2" ? "가승인" : "승인";
+	var msg = $("#msg").val();
+	if(apprStat=='2' && WebUtil.isNull(msg)){
+		$("#msg").focus();
+		alert("가승인 사유를 입력해 주세요.");
+		return false; 
+	  }
+	
 	if(confirm(apprStatNm + "처리 하시겠습니까?")){
+		
 		var p = {
 			  url		: "/admin/mng/updateCompanyStat"	
 			, param		: {
 				 memberSeq : $("#memberSeq").val()
 				,apprStat  : apprStat
 				,roleName  : roleName
+				,msg	   : msg
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
@@ -27,7 +36,19 @@ function goCompanyStatUpdt(apprStat,roleName) {
 		}
 		AjaxUtil.post(p);
 	}
-}	
+} 
+function msgUpdate()	{
+	var innerHtml = '';
+	innerHtml += '<tr>'
+	innerHtml += '<th>가승인 사유</th>'
+	innerHtml += '<td colspan="3"><input type="text" name="msg" id="msg" class="w100"/></td>'
+	innerHtml += '</tr>'		
+	
+	$('#dtlTable').append(innerHtml);
+	$("#msg").focus();
+	$('#msgId').attr('onclick','goCompanyStatUpdt("2","TEMP_MEMBER");');
+	
+}
 
 // 리스트 페이지 이동
 function companyList(){
@@ -48,7 +69,7 @@ function companyList(){
 		
 		<div class="contents">
 			<div id="table">
-				<table class="view_table">
+				<table class="view_table" id="dtlTable">
 					<tr>
 						<th>회원사</th>
 						<td colspan="3">${companyDetail.comCodeNm}</td>
@@ -91,13 +112,23 @@ function companyList(){
 							<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 						</td>
 					</tr>
+					<tr>
+						<c:choose>
+							<c:when test="${companyDetail.apprStat eq 2}">
+								<th>가승인 사유</th>
+								<td colspan="3">
+									${companyDetail.msg}
+								</td>
+							</c:when>
+						</c:choose>
+					</tr>
 				</table>
 			</div>
 			
 			<div class="btn_wrap">	
 				 <c:if test="${companyDetail.apprStat eq 1}">
 				  	 <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right" onclick="goCompanyStatUpdt('2','TEMP_MEMBER');">가승인</a>
+   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right" onclick="msgUpdate();" id="msgId">가승인</a>
    		 		 	 <a href="javascript:void(0);" class="btn_black btn_right02" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
      			 </c:if>
 				 <c:if test="${companyDetail.apprStat eq 2}">

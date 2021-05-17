@@ -108,16 +108,16 @@
 			}else{
 				if(confirm("재승인 요청을 하시겠습니까?")){
 					var param = {'memberSeq' : memSeq}
-			 		var p = {
-						  param : param
-						, url : "/member/admin/reAppr"
-						, success : function (opt,result) {
-							alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
-							location.href="/logout";
-			    	    }
+					var p = {
+							  param : param
+							, url : "/member/admin/reAppr"
+							, success : function (opt,result) {
+								alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
+								location.href="/logout";
+				    	    }
+						}
+						AjaxUtil.post(p);
 					}
-					AjaxUtil.post(p);
-				}
 			}
 		});
 		
@@ -204,7 +204,11 @@
 						<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 						<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
 					</td>
-			</tr>
+				</tr>
+				<tr>
+					<th>가승인 사유</th>
+					<td colspan="3">${adminInfo.msg}</td>
+				</tr>
             </table>
          </div>
       </div>

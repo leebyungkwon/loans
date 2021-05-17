@@ -29,6 +29,7 @@
 			,TLM.DROP_YN
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
+			,TLM.MSG
 	    FROM TB_LC_MEMBERS TLM
 	    WHERE COM_CODE != 1
 	    	<if test="comCode != null and comCode != ''">
@@ -66,6 +67,7 @@
 			,TLM.DROP_YN
 			,TLM.UPD_SEQ
 			,TLM.UPD_TIMESTAMP
+			,TLM.MSG
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND MEMBER_SEQ = #{memberSeq}
@@ -78,6 +80,7 @@
    		SET	
    			 APPR_STAT = #{apprStat}
    			,ROLE_NAME = #{roleName}
+   			,MSG	   = #{msg}
    			,UPD_SEQ   = #{updSeq}
    		<where>
    			AND MEMBER_SEQ 	= #{memberSeq}
