@@ -115,21 +115,20 @@
 		</div>
 	</form>
 	
-	<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>								
-		
-			<c:choose>
-				<c:when test="${!empty noticeInfo}">
-					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
-					<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
-				</c:when>
-				<c:otherwise>
-					<a href="javascript:void(0);" id="noticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
-				</c:otherwise>
-			</c:choose>
+			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>		
+			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
+				<c:choose>
+					<c:when test="${!empty noticeInfo}">
+						<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
+						<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
+					</c:when>
+					<c:otherwise>
+						<a href="javascript:void(0);" id="noticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
+					</c:otherwise>
+				</c:choose>
+			</sec:authorize>
 		</div>
-	</sec:authorize>
-</div>
+	</div>
 
 

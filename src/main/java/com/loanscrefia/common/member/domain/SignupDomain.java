@@ -23,7 +23,7 @@ public class SignupDomain extends BaseDomain{
 	@Pattern(regexp = "[a-zA-Z0-9]{5,11}", message = "ID는 영문,숫자 5~11 자리로 입력해 주세요.")
     private String 	memberId;				// 담당자ID
 	
-	@NotBlank(message = "비밀번호를 입력하세요.")
+	@Pattern(regexp = "[a-zA-Z0-9]{5,11}", message = "ID는 영문,숫자 5~11 자리로 입력해 주세요.")
 	private String password;				// 비밀번호 
 	
 	private int 	comCode;				// 회원사코드

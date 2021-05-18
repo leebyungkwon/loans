@@ -86,13 +86,13 @@
 					</table>
 				</div>
 			
-			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 				<div class="btn_wrap">
-					<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">수정</a>								
-					<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">삭제</a>								
-					<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">목록</a>								
+						<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">목록</a>								
+					<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
+						<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">수정</a>								
+						<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">삭제</a>								
+					</sec:authorize>
 				</div>
-			</sec:authorize>
 			
 			</div>
 		</div>
