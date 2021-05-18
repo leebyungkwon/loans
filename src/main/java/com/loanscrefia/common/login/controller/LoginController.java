@@ -84,7 +84,7 @@ public class LoginController {
 
 	// 아이디 중복체크
 	@PostMapping("/idcheck")
-	public int idCheck(SignupDomain signupDomain) {
+	public int idCheck(@Valid SignupDomain signupDomain) {
 		int count = 0;
 		try {
 			count = loginService.idCheck(signupDomain);
