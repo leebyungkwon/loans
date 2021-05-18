@@ -27,7 +27,7 @@ public class SignupDomain extends BaseDomain{
 	
 	private int 	comCode;				// 회원사코드
 	
-	@Pattern(regexp = "^[a-zA-Z가-힣]*${1,20}", message = "담당자이름 은 한글 1~20자리로 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z가-힣]*${1,20}", message = "담당자이름 1~20자리로 입력해 주세요.")
 	private String 	memberName;				// 담당자이름
 	
 	@Email
