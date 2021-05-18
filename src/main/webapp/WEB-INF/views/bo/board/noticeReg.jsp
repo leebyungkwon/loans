@@ -15,6 +15,20 @@
 		// 글 등록 버튼
 		$("#noticeSaveBtn").on("click", function(){
 			if(confirm("글을 등록 하시겠습니까?")){
+				
+				var title = $("#title").val();
+				var info = $("#info").val();
+				
+				if(WebUtil.isNull(title)){
+					alert("제목을 입력해 주세요.");
+					return false;
+				}
+				
+				if(WebUtil.isNull(info)){
+					alert("내용을 입력해 주세요.");
+					return false;
+				}
+				
 				$("#noticeRegFrm").attr("action","/common/board/saveNoticeReg");
 				$("#fileSeq").val("0"); // 기존 시퀀스 초기화
 				var noticeSaveParam = {
@@ -30,6 +44,20 @@
 		// 글 수정 버튼
 		$("#noticeUpdBtn").on("click", function(){
 			if(confirm("글을 수정 하시겠습니까?")){
+				
+				var title = $("#title").val();
+				var info = $("#info").val();
+				
+				if(WebUtil.isNull(title)){
+					alert("제목을 입력해 주세요.");
+					return false;
+				}
+				
+				if(WebUtil.isNull(info)){
+					alert("내용을 입력해 주세요.");
+					return false;
+				}
+				
 				$("#noticeRegFrm").attr("action","/common/board/updNoticeReg");
 				var noticeInsParam = {
 					name : 'noticeRegFrm'
@@ -97,7 +125,7 @@
 					<tr>
 						<th>내용</th>
 						<td colspan="3">
-							<textarea name="info" cols="110" rows="30" placeholder="내용을 입력해 주세요.">${noticeInfo.info}</textarea>
+							<textarea id="info" name="info" cols="110" rows="30" placeholder="내용을 입력해 주세요.">${noticeInfo.info}</textarea>
 						</td>
 					</tr>
 					<tr>
