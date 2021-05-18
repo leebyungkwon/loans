@@ -91,13 +91,13 @@
 					<tr>
 						<th>제목</th>
 						<td colspan="3">
-							<input type="text" id="title" name="title" placeholder="제목을 입력해 주세요!..."  value="${noticeInfo.title}" class="w60" data-vd='{"type":"text","len":"1,100","req":true,"msg":"제목을 입력해 주세요"}'/>
+							<input type="text" id="title" name="title" placeholder="제목을 입력해 주세요."  value="${noticeInfo.title}" class="w60" maxlength="53" data-vd='{"type":"text","len":"1,100","req":true,"msg":"제목을 입력해 주세요"}'/>
 						</td>
 					</tr>
 					<tr>
 						<th>내용</th>
 						<td colspan="3">
-							<textarea name="info" cols="110" rows="30" placeholder="내용을 입력해 주세요!..."  data-vd='{"type":"text","len":"1,100","req":true,"msg":"내용을 입력해 주세요"}'>${noticeInfo.info}</textarea>
+							<textarea name="info" cols="110" rows="30" placeholder="내용을 입력해 주세요.">${noticeInfo.info}</textarea>
 						</td>
 					</tr>
 					<tr>
