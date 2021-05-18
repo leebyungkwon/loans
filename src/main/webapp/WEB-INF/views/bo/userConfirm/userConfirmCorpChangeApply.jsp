@@ -38,7 +38,7 @@ function goUserChangeApply(){
 	*/
 	//validation
 	if(!goFileEssentialChk()){
-		alert(messages.COM0006);
+		alert(messages.COM0007);
 		return;
 	}
 	//요청
