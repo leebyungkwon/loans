@@ -38,7 +38,8 @@ function goCompanyStatUpdt(apprStat,roleName) {
 	}
 } 
 
-function msgUpdate()	{
+// 가승인 text 박스 생성
+function msgUpdate(){
 	var innerHtml = '';
 	innerHtml += '<tr>'
 	innerHtml += '<th>가승인 사유</th>'
@@ -48,7 +49,6 @@ function msgUpdate()	{
 	$('#dtlTable').append(innerHtml);
 	$("#msg").focus();
 	$('#msgId').attr('onclick','goCompanyStatUpdt("2","TEMP_MEMBER");');
-	
 }
 
 // 리스트 페이지 이동
@@ -101,7 +101,7 @@ function companyList(){
 					</tr>
 					<tr>
 						<th>휴대폰번호</th>
-						<td>${companyDetail.mobileNo}</td>
+						<td colspan="3">${companyDetail.mobileNo}</td>
 					</tr>
 					<tr>
 						<th>승인상태</th>

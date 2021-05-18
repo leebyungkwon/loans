@@ -47,13 +47,6 @@ public class CompanyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 협회 - 회원사 당담자 상세 페이지	  
-	@GetMapping(value="/mng/companyDetail")
-	public ModelAndView companyDetail() {
-    	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
-        return mv;
-	}
-	
 	// 협회 - 회원사 당담자 상세 페이지
 	@PostMapping(value="/mng/companyDetail")
     public ModelAndView companyDetail(CompanyDomain companyDomain) {
@@ -72,7 +65,7 @@ public class CompanyController {
 	
 	//처리 상태변경
 	@PostMapping(value="/mng/updateCompanyStat")
-	public ResponseEntity<ResponseMsg> updateCompanyStat(CompanyDomain companyDomain){
+	public ResponseEntity<ResponseMsg> updateCompanyStat(@Valid CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
