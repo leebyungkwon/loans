@@ -40,14 +40,8 @@ function goCompanyStatUpdt(apprStat,roleName) {
 
 // 가승인 text 박스 생성
 function msgUpdate(){
-	var innerHtml = '';
-	innerHtml += '<tr>'
-	innerHtml += '<th>가승인 사유</th>'
-	innerHtml += '<td colspan="3"><input maxLength="200" type="text" name="msg" id="msg" class="w100"/></td>'
-	innerHtml += '</tr>'		
-	
-	$('#dtlTable').append(innerHtml);
-	$("#msg").focus();
+	$("#msgTr").show(); 
+	$("#msg").focus(); 
 	$('#msgId').attr('onclick','goCompanyStatUpdt("2","TEMP_MEMBER");');
 }
 
@@ -122,6 +116,10 @@ function companyList(){
 								</td>
 							</c:when>
 						</c:choose>
+					</tr>
+					<tr style="display: none;" id="msgTr">
+						<th>가승인 사유</th>
+						<td colspan="3"><input maxLength="200" type="text" name="msg" id="msg" class="w100"/></td>
 					</tr>
 				</table>
 			</div>
