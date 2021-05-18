@@ -137,7 +137,7 @@ function pageLoad(){
 		</div>
 
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goUserConfirmList();">목록</a>
 		</div>
 	</div>
 </div>

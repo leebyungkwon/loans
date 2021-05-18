@@ -217,7 +217,8 @@
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 		    FROM TB_LC_MAS01 TLM
 			<where>
-				AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				AND	TLM.COM_CODE 	= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				AND TLM.PL_REG_STAT = '1'																-- 모집인 상태가 승인전인 것
 				AND TLM.PL_STAT IN ('1','2','5')														-- 처리상태가 미요청, 승인요청, 반려(보완요청)인 것
 		    </where>
    		)Z
@@ -770,12 +771,12 @@
 			<if test="plHistTxt != null and plHistTxt != ''">
 			,PL_HIST_TXT 	= #{plHistTxt}
 			</if>
-			<if test="plStat.equals('4')">
+			<if test='plStat.equals("4")'>
 			,PL_HIST_CD		= #{plHistCd}
-			,COM_HAEJI_DATE	= NOW()
-			,CRE_HAEJI_DATE	= NOW()
+			,COM_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
+			,CRE_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>
-			<if test="plStat.equals('2') or plStat.equals('3') or plStat.equals('4')">
+			<if test='plStat.equals("2") or plStat.equals("3") or plStat.equals("4")'>
 			,COM_REG_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>
 			,UPD_SEQ 		= #{updSeq}

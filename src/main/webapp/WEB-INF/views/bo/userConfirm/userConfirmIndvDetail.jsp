@@ -10,99 +10,10 @@ function pageLoad(){
 	
 }
 
-//즉시취소 클릭 시
-function goUserCancelPage(){
-	var html = '';
-	html += '<tr>';
-	html += '<th>취소사유</th>';
-	html += '<td colspan="3"><input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/></td>';
-	html += '</tr>';
-	
-	$("#table > table").append(html);
-	$("#plHistTxt").focus();
-	$("#userCancel").removeClass("btn_Lgray");
-	$("#userCancel").addClass("btn_blue");
-	$("#userCancel").attr("onclick","goUserCancel();");
-}
-
-//즉시취소 -> 등록신청취소건으로 은행연합회에 공유되고 해당 내용은 삭제되야 한다.
-function goUserCancel(){
-	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("취소사유를 입력해 주세요.");
-		$("#plHistTxt").focus();
-		return;
-	}
-	if(confirm("취소하시겠습니까?")){
-		var p = {
-			  url		: "/member/user/updateUserStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
-				,plHistTxt	: $("#plHistTxt").val()
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("취소되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
 //변경요청 페이지 이동
 function goUserChangeApplyPage(){
 	$("#pageFrm").attr("action","/member/confirm/userConfirmIndvChangeApply");
 	$("#pageFrm").submit();
-}
-
-//해지요청 클릭 시
-function goUserDropApplyPage(){
-	var html = '';
-	html += '<tr>';
-	html += '<th>해지사유</th>';
-	html += '<td colspan="3">';
-	html += '<select name="plHistCd" id="plHistCd" class="w100"></select>';
-	html += '</td>';
-	html += '</tr>';
-	
-	//해지사유(코드)
-	var plHistCode = {
-		 useCode 	: true
-		,code 		: 'DRP001'
-		,target 	: '#plHistCd'
-		,updData 	: ''
-	};
-	DataUtil.selectBox(plHistCode);
-	
-	$("#table > table").append(html);
-	$("#userChangeApply").remove();
-	$("#userDropApply").removeClass("btn_black");
-	$("#userDropApply").addClass("btn_blue");
-	$("#userDropApply").attr("onclick", "goUserDropApply();");
-}
-
-//해지요청
-function goUserDropApply(){
-	if(WebUtil.isNull($("#plHistCd").val())){
-		alert("해지사유를 선택해 주세요.");
-		return;
-	}
-	if(confirm("모집인 해지를 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/user/userDropApply"	
-			, param		: {
-				 masterSeq 		: $("#masterSeq").val()
-				,plStat			: '4'
-				,plHistCd		: $("#plHistCd").val()
-			}
-			, success 	: function (opt,result) {
-				goUserConfirmList();
-		    }
-		}
-		AjaxUtil.post(p);
-	}
 }
 </script>
 
@@ -192,17 +103,17 @@ function goUserDropApply(){
 					<th>위탁예정기간</th>
 					<td colspan="3">${result.userRegInfo.entrustDate }</td>
 				</tr>
+				<c:if test="${!empty result.userRegInfo.plHistTxt or !empty result.userRegInfo.plHistTxt}">
+					<!-- 즉시취소 또는 변경요청 사유 -->
+					<tr>
+						<th>요청사유</th>
+						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
+					</tr>
+				</c:if>
 				<c:if test="${result.userRegInfo.plStat eq '4' }">
 					<tr>
 						<th>반려사유</th>
 						<td colspan="3">${result.userRegInfo.sendMsg }</td>
-					</tr>
-				</c:if>
-				<c:if test="${!empty result.userRegInfo.plHistTxt or !empty result.userRegInfo.plHistTxt}">
-					<!-- 즉시취소 또는 변경요청 사유 -->
-					<tr>
-						<th>사유</th>
-						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
 				<c:if test="${!empty result.userRegInfo.comHaejiDate or !empty result.userRegInfo.creHaejiDate}">
@@ -327,7 +238,7 @@ function goUserDropApply(){
 			<a href="javascript:void(0);" class="btn_gray" onclick="goUserConfirmList();">목록</a>
 			<c:if test="${result.userRegInfo.plRegStat ne '4' }">
 				<c:if test="${result.userRegInfo.plRegStat eq '2' }">
-					<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
+					<a href="javascript:void(0);" class="btn_Lgray btn_right w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
 				</c:if>
 				<c:if test="${result.userRegInfo.plRegStat eq '3' and result.userRegInfo.plStat eq '7' }">
 					<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApplyPage();">변경요청</a>

@@ -11,30 +11,7 @@ var originPlMZId 		= "${result.userRegInfo.plMZId}";
 var originPlCellphone 	= "${result.userRegInfo.plCellphone}";
 
 function pageLoad(){
-	//위반이력사항(코드)
-	var violationCode = {
-		 useCode 	: true
-		,code 		: 'VIT001'
-		,target 	: '.violationCd'
-		,updData 	: ''
-	};
-	DataUtil.selectBox(violationCode);
-}
-
-//위반이력사항 영역 추가
-function goViolationAdd(obj) {
-	var html = $(obj).parent().parent().clone();
-	$("#table > table").append(html);
-}
-
-//위반이력사항 영역 삭제
-function goViolationDel(obj) {
-	var violationAreaLen = $(".violationArea").length;
-	if(violationAreaLen == 1){
-		alert("더 이상 삭제할 수 없습니다.");
-		return;
-	}
-	$(obj).closest("tr").remove();
+	goCallViolationCd();
 }
 
 //변경요청
@@ -374,8 +351,5 @@ function goUserChangeApply(){
 			</div>
 		</div>
 	</form>
-
-
-	
 </div>
 

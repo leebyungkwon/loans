@@ -405,6 +405,10 @@ public class UserService {
         				userRegInfo.setFileType8(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("9")) {
         				userRegInfo.setFileType9(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("10")) { //변경요청 시 증빙서류
+        				userRegInfo.setFileType10(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
+        				userRegInfo.setFileType11(fileList.get(i));
         			}
         		}
         	}
@@ -883,6 +887,7 @@ public class UserService {
 		this.insertUserHistory(userDomain);
 		
 		//상태 수정*****
+		userDomain.setPlStat("3");
 		this.updateUserStat(userDomain);
 		
 		//정보 수정
@@ -914,7 +919,7 @@ public class UserService {
 		}
 		//결과
 		if(result > 0) {
-			return new ResponseMsg(HttpStatus.OK, "success", "변경요청 되었습니다.");
+			return new ResponseMsg(HttpStatus.OK, "success", "변경요청이 완료되었습니다.");
 		}
 		
 		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");

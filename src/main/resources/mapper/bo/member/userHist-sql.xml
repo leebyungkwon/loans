@@ -9,9 +9,53 @@
    	<!-- 모집인 정보 기본 이력 저장 -->
    	<insert id="insertUserHistory" parameterType="user">
    		INSERT INTO TB_LC_MAS01_HIST
+   		(
+   			 MASTER_SEQ
+			,COM_CODE
+			,MEMBER_SEQ
+			,PL_CLASS
+			,CAREER_TYP
+			,PL_PRODUCT
+			,PL_REG_STAT
+			,PL_STAT
+			,PL_REGIST_NO
+			,CI
+			,PL_M_NAME
+			,PL_M_Z_ID
+			,PL_M_Z_ID_EDU
+			,PL_CELLPHONE
+			,ADDR
+			,ADDR_DETAIL
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,ENTRUST_DATE
+			,PL_MERCHANT_NAME
+			,PL_CEO_NAME
+			,PL_MERCHANT_NO
+			,PL_BUSINESS_NO
+			,COMP_PHONE_NO
+			,CORP_FOUND_DATE
+			,CAPITAL
+			,COM_CONT_DATE
+			,COM_REG_DATE
+			,CHK_YN
+			,CRE_APP_DATE
+			,CRE_LICENSE_DATE
+			,PL_PAY_STAT
+			,PAY_DATE
+			,SEND_MSG
+			,PL_HIST_CD
+			,PL_HIST_TXT
+			,COM_HAEJI_DATE
+			,CRE_HAEJI_DATE
+			,FILE_SEQ
+			,REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
+   		)
    		SELECT
-   			 (SELECT LAST_VALUE FROM TB_LC_MAS01_HIST_SEQ)
-   			,MASTER_SEQ
+   			 MASTER_SEQ
 			,COM_CODE
 			,MEMBER_SEQ
 			,PL_CLASS
@@ -74,7 +118,7 @@
    			,PL_REG_STAT
    			,PL_STAT
    			,PL_HIST_TXT
-   			,NOW()
+   			,REG_TIMESTAMP
    			,#{regSeq}
    		FROM TB_LC_MAS01
    		WHERE MASTER_SEQ = #{masterSeq}

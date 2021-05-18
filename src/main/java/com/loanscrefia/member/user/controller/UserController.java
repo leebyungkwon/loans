@@ -364,7 +364,49 @@ public class UserController {
     }
 	
 	//변경요청 페이지 : 법인
+	@PostMapping(value="/confirm/userConfirmCorpChangeApply")
+    public ModelAndView userConfirmCorpChangeApply(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpChangeApply");
+    	Map<String, Object> result 	= userService.getUserRegCorpDetail(userDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
 	
+	//변경요청 페이지 : 법인 > 대표자 및 임원관련사항 탭
+	@PostMapping(value="/confirm/userConfirmCorpImwonChangeApply")
+	public ModelAndView userConfirmCorpImwonChangeApply(UserImwonDomain userImwonDomain) {
+		ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpImwonChangeApply");
+		Map<String, Object> result 	= userService.getUserRegCorpImwonDetail(userImwonDomain);
+		mv.addObject("result", result);
+		return mv;
+	}
+	
+	//변경요청 페이지 : 법인 > 전문인력 탭
+	@PostMapping(value="/confirm/userConfirmCorpExpertChangeApply")
+	public ModelAndView userConfirmCorpExpertChangeApply(UserExpertDomain userExpertDomain) {
+		ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpExpertChangeApply");
+		Map<String, Object> result 	= userService.getUserRegCorpExpertDetail(userExpertDomain);
+		mv.addObject("result", result);
+		return mv;
+	}
+	
+	//변경요청 페이지 : 법인 > 전산인력 탭
+	@PostMapping(value="/confirm/userConfirmCorpItChangeApply")
+	public ModelAndView userConfirmCorpItChangeApply(UserItDomain userItDomain) {
+		ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpItChangeApply");
+		Map<String, Object> result 	= userService.getUserRegCorpItDetail(userItDomain);
+		mv.addObject("result", result);
+		return mv;
+	}
+	
+	//변경요청 페이지 : 법인 > 기타 탭
+	@PostMapping(value="/confirm/userConfirmCorpEtcChangeApply")
+	public ModelAndView userConfirmCorpEtcChangeApply(UserDomain userDomain) {
+		ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmCorpEtcChangeApply");
+		Map<String, Object> result 	= userService.getUserRegCorpEtcDetail(userDomain);
+		mv.addObject("result", result);
+		return mv;
+	}
 	
 	//변경요청
 	@PostMapping(value="/confirm/userChangeApply")
@@ -379,14 +421,6 @@ public class UserController {
 		ResponseMsg responseMsg = userService.userDropApply(userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

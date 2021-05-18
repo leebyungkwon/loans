@@ -12,7 +12,7 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "승인상태"]
+  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
@@ -28,6 +28,7 @@ function pageLoad(){
 				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'fileCompYn'		, index:'fileCompYn'		, width:"10px"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"5%"		, align:"center"}
+				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -61,19 +62,26 @@ function pageLoad(){
 	//datepicker
 	$("#date_cal01").datepicker({
 		 dateFormat	: "yy-mm-dd"
-		,onSelect	:function(dateText1,inst) {
+		,onSelect	: function(dateText1,inst) {
 			$("#srchDate1").val(dateText1);
 			$(this).hide();
 		}
 	});
 	$("#date_cal02").datepicker({
 		 dateFormat	: "yy-mm-dd"
-		,onSelect	:function(dateText1,inst) {
+		,onSelect	: function(dateText1,inst) {
 			$("#srchDate2").val(dateText1);
 			$(this).hide();
 		}
 	});
 }
+
+$(document).mouseup(function(e){
+	var calendar01 = $(".calendar01");
+	if(calendar01.has(e.target).length === 0){
+		calendar01.hide();
+	}
+});
 
 //모집인 등록 row 클릭 이벤트
 function goUserRegDetail(idx, data){
@@ -167,13 +175,18 @@ function goApplyAccept() {
 	var fileChk			= 0;
 	
 	for(var i = 0;i < chkedLen;i++){
-		masterSeqArr.push(chkData[i].masterSeq);
-		
+		if(chkData[i].plStat != "2"){
+			masterSeqArr.push(chkData[i].masterSeq);
+		}
 		if(chkData[i].fileCompYn == "N"){
 			fileChk++;
 		}
 	}
 	
+	if(masterSeqArr.length == 0){
+		alert("선택하신 모집인은 이미 승인요청된 상태입니다.");
+		return;
+	}
 	if(fileChk > 0){
 		alert("필수첨부서류 업로드가 미완료된 건이 존재합니다.");
 		return;
@@ -278,7 +291,7 @@ function goGetDate(opt) {
 					 	<div class="input_wrap mgr5">
 							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
-							<div id="date_cal02" class="calendar02"></div>
+							<div id="date_cal02" class="calendar01"></div>
 						</div>
 						<div class="date_btn">
 							<a href="javascript:void(0);" onclick="goGetDate('today');">오늘</a>
