@@ -1,6 +1,6 @@
 package com.loanscrefia.admin.corp.controller;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +52,7 @@ public class CorpController {
 	
 	//저장
 	@PostMapping(value="/saveCorpInfo")
-	public ResponseEntity<ResponseMsg> saveCorpInfo(CorpDomain corpDomain){
+	public ResponseEntity<ResponseMsg> saveCorpInfo(@Valid CorpDomain corpDomain){
 		
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		

@@ -58,7 +58,7 @@ public class CrefiaController {
 	
 	// 협회 관리자 관리 저장
 	@PostMapping(value="/crefia/saveCrefia")
-	public ResponseEntity<ResponseMsg> saveCrefia(CrefiaDomain crefiaDomain){
+	public ResponseEntity<ResponseMsg> saveCrefia(@Valid CrefiaDomain crefiaDomain){
 		ResponseMsg responseMsg = crefiaService.saveCrefia(crefiaDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}

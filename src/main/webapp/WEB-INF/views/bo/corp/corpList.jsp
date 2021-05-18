@@ -57,8 +57,16 @@ function goCorpInfoSavePopup() {
 //법인 저장
 function goCorpInfoSave() {
 	if(confirm("저장하시겠습니까?")){
+		
+		var plMerchantName = $("#plMerchantName").val();
+		
+		if(WebUtil.isNull(plMerchantName)){
+			alert("법인명을 입력해 주세요.");
+			return false;
+		}
+		
 		$("#corpInfoSaveFrm").attr("action","/admin/corp/saveCorpInfo");
-
+		
 		var saveCorpInfoParam = {
 			name : 'corpInfoSaveFrm'
 			,data : WebUtil.getTagInParam("#corpInfoSaveFrm")

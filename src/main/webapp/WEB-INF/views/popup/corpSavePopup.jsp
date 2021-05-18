@@ -19,13 +19,13 @@
 			<tr>
 				<th>법인명</th>
 				<td class="file">
-					<input type="text" name="plMerchantName" placeholder="법인명을 입력해 주세요." value="${corpInfo.plMerchantName }" class="w70 file_input" data-vd='{"type":"text","len":"1,30","req":true,"msg":"법인명을 입력해 주세요."}'>
+					<input type="text" id="plMerchantName" name="plMerchantName" placeholder="법인명을 입력해 주세요." value="${corpInfo.plMerchantName }" class="w70 file_input" data-vd='{"type":"text","len":"1,20","req":true,"msg":"법인명을 입력해 주세요"}'>
 				</td>
 			</tr>
 			<tr>
 				<th>법인번호</th>
 				<td class="file">
-					<input type="text" name="plMerchantNo" placeholder="법인등록번호 14자리를 입력해 주세요. ( -포함)" value="${corpInfo.plMerchantNo }" class="w70 file_input" data-vd='{"type":"plMerchant","len":"14,14","req":true,"msg":"법인번호(- 포함) 14자리를 입력해 주세요."}'/>
+					<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인등록번호 14자리를 입력해 주세요. ( -포함)" value="${corpInfo.plMerchantNo }" class="w70 file_input" data-vd='{"type":"plMerchant","len":"14,14","req":true,"msg":"법인번호(- 포함) 14자리를 입력해 주세요."}'/>
 				</td>
 			</tr>
 			<c:if test="${corpInfo.corpSeq ne null }">

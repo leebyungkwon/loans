@@ -122,7 +122,7 @@ function pageLoad(){
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"text","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
+					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
 					<a href="javascript:void(0);" id="idcheck" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>

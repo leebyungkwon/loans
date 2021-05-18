@@ -82,6 +82,12 @@ var Valid = {
 	    		else return true;
 	    		return false;
 	            break;
+	        case 'id' :
+	        	regexp=/^[A-za-z0-9]{5,15}/g;
+	        	if(!regexp.test(val))	alert('ID는 영문,숫자 5~11 자리로 입력해 주세요.');
+	        	else return true;
+	        	return false;
+	        	break;
 	        case 'pw' :
 	        	regexp=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
 	    		if(!regexp.test(val))	alert('비밀번호는 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.');
