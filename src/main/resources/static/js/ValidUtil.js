@@ -83,7 +83,7 @@ var Valid = {
 	    		return false;
 	            break;
 	        case 'id' :
-	        	regexp=/^[A-za-z0-9]{5,15}/g;
+	        	regexp= /^[A-Za-z]+[a-zA-Z0-9]{5,11}$/g;
 	        	if(!regexp.test(val))	alert('ID는 영문,숫자 5~11 자리로 입력해 주세요.');
 	        	else return true;
 	        	return false;

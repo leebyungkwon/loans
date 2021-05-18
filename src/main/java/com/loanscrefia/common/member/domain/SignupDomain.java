@@ -1,7 +1,5 @@
 package com.loanscrefia.common.member.domain;
 
-import java.util.List;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -20,7 +18,7 @@ public class SignupDomain extends BaseDomain{
 	private Long 	memberSeq;				// 담당자 시퀀스
 	
 	@NotBlank(message = "ID를 입력하세요.")
-	@Pattern(regexp = "[a-zA-Z0-9]{5,11}", message = "ID는 영문,숫자 5~11 자리로 입력해 주세요.")
+	@Pattern(regexp = "^[A-Za-z]+[a-zA-Z0-9]{5,11}$", message = "ID는 영문,숫자 5~11 자리로 입력해 주세요.")
     private String 	memberId;				// 담당자ID
 	
 	private String password;				// 비밀번호 
