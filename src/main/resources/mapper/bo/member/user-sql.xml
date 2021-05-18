@@ -120,29 +120,6 @@
 	    <include refid="common.pageBottom"/>
    	</select>
    	
-   	<!-- 모집인 조회 및 변경 > 처리상태 변경 -->
-   	<update id="updatePlRegConfirmStat" parameterType="user">
-   		UPDATE TB_LC_MAS01
-   		SET
-   			 PL_STAT 		= #{plStat}
-   			,UPD_SEQ 		= #{updSeq}
-   			<if test="plHistTxt != null and plHistTxt != ''">
-   			,PL_HIST_TXT 	= #{plHistTxt}
-   			</if>
-   			<if test="plRegStat != null and plRegStat != ''">
-   			,PL_REG_STAT 	= #{plRegStat}
-   			</if>
-   			<if test="plStat.equals('4')">
-   			,COM_HAEJI_DATE	= NOW()
-   			,CRE_HAEJI_DATE	= NOW()
-   			</if>
-   			,UPD_TIMESTAMP 	= NOW()
-   		<where>
-   			AND MASTER_SEQ 	= #{masterSeq}
-   		</where>
-   	</update> 
-  
-   	
    	<!-- 모집인 조회 및 변경 > -->
    	<!-- 모집인 조회 및 변경 > -->
    	<!-- 모집인 조회 및 변경 > -->
@@ -526,18 +503,6 @@
    		)
    	</insert>
    
-   	<!-- 모집인 등록 > 처리상태 변경 -->
-   	<update id="updatePlRegStat" parameterType="user">
-   		UPDATE TB_LC_MAS01
-   		SET
-   			 PL_STAT		= #{plStat}
-   			,UPD_SEQ 		= #{updSeq}
-   			,UPD_TIMESTAMP	= NOW()
-   		<where>
-   			AND MASTER_SEQ 	= #{masterSeq}
-   		</where>
-   	</update>
-    
    	<!-- 모집인 등록 > 상세 -->
    	<select id="getUserRegDetail" parameterType="user" resultType="user">
    		SELECT 
@@ -790,8 +755,73 @@
 	    </where>
 	</delete>
    	
+   	<!-- ====================================================================================================== -->
+   	<!-- [모집인 상태 / 처리상태 변경 관련] -->
+   	<!-- ====================================================================================================== -->
    	
-   	
-   	
+   	<!-- 처리상태 변경 -->
+	<update id="updateUserStat" parameterType="user">
+		UPDATE TB_LC_MAS01
+		SET
+			 PL_STAT 		= #{plStat}
+			<if test="plRegStat != null and plRegStat != ''">
+			,PL_REG_STAT 	= #{plRegStat}
+			</if>
+			<if test="plHistTxt != null and plHistTxt != ''">
+			,PL_HIST_TXT 	= #{plHistTxt}
+			</if>
+			<if test="plStat.equals('4')">
+			,PL_HIST_CD		= #{plHistCd}
+			,COM_HAEJI_DATE	= NOW()
+			,CRE_HAEJI_DATE	= NOW()
+			</if>
+			<if test="plStat.equals('2') or plStat.equals('3') or plStat.equals('4')">
+			,COM_REG_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
+			</if>
+			,UPD_SEQ 		= #{updSeq}
+			,UPD_TIMESTAMP 	= NOW()
+		<where>
+			AND MASTER_SEQ 	= #{masterSeq}
+		</where>
+	</update>
+	
+	<!-- ====================================================================================================== -->
+   	<!-- [모집인 위반이력 관련] -->
+   	<!-- ====================================================================================================== -->
+	
+	<!-- 위반이력 저장 -->
+	<insert id="insertUserViolationInfo" parameterType="user">
+		INSERT INTO TB_LC_VIOLATION
+		(
+			 MASTER_SEQ
+			,VIOLATION_CD
+			,REG_SEQ
+			,REG_TIMESTAMP
+		)
+		VALUES
+		(
+			 #{masterSeq}
+			,#{violationCd}
+			,#{regSeq}
+			,NOW()
+		)
+	</insert>
+	
+	<!-- 위반이력 리스트 -->
+	<select id="selectUserViolationInfoList" parameterType="user" resultType="user">
+		SELECT
+			 VIOLATION_SEQ
+			,MASTER_SEQ
+			,VIOLATION_CD
+			<!-- ,FN_CD_DTL('',VIOLATION_CD) AS VIOLATION_CD_NM -->
+			,REG_SEQ
+			,REG_TIMESTAMP
+		FROM TB_LC_VIOLATION
+		WHERE MASTER_SEQ = #{masterSeq}
+	</select>
+	
+	
+	
+	
    	
 </mapper> 

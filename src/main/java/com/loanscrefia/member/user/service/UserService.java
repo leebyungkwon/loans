@@ -46,59 +46,6 @@ public class UserService {
 		return userRepo.selectUserConfirmList(userDomain);
 	}
 	
-	//모집인 조회 및 변경 > 처리상태 변경 
-	/*
-	@Transactional
-	public int updatePlRegConfirmStat(UserDomain userDomain){
-		return userRepo.updatePlRegConfirmStat(userDomain);
-	}
-	*/
-	
-	//모집인 조회 및 변경 > 해지요청 
-	@Transactional
-	public ResponseMsg userDropApply(UserDomain userDomain){
-		//상세
-		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
-		
-		//법인 : 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 해지요청 불가 
-		if(userRegInfo.getPlClass().equals("2")) {
-			UserDomain chkParam1 		= new UserDomain();
-			UserImwonDomain chkParam2 	= new UserImwonDomain();
-			UserExpertDomain chkParam3 	= new UserExpertDomain();
-			UserItDomain chkParam4 		= new UserItDomain();
-			
-			//법인사용인
-			chkParam1.setPlMerchantNo(userRegInfo.getOriginPlMerchantNo());
-			int corpIndvCnt = 0;
-			
-			//임원
-			chkParam2.setMasterSeq(userDomain.getMasterSeq());
-			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam2);
-			
-			//전문인력
-			chkParam3.setMasterSeq(userDomain.getMasterSeq());
-			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam3);
-			
-			//전산인력
-			chkParam4.setMasterSeq(userDomain.getMasterSeq());
-			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam4);
-			
-			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
-				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능한 상태입니다.");
-			}
-		}
-		//수정
-		int updateResult = userRepo.updatePlRegConfirmStat(userDomain);
-		
-		if(updateResult > 0) {
-			return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 완료되었습니다.");
-		}
-		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
-	}
-	
-	
-	
-	
 	//모집인 조회 및 변경 > 
 	
 	//모집인 조회 및 변경 > 
@@ -238,7 +185,7 @@ public class UserService {
 	//모집인 등록(수동) > 법인 : 대표자 및 임원 정보 등록
 	public ResponseMsg insertUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userImwonDomain.getMasterSeq());
+		this.userValidation(userImwonDomain.getMasterSeq());
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -307,7 +254,7 @@ public class UserService {
 	//모집인 등록(수동) > 법인 : 전문인력 정보 등록
 	public ResponseMsg insertUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userExpertDomain.getMasterSeq());
+		this.userValidation(userExpertDomain.getMasterSeq());
 				
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -376,7 +323,7 @@ public class UserService {
 	//모집인 등록(수동) > 법인 : 전산인력 정보 등록
 	public ResponseMsg insertUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userItDomain.getMasterSeq());
+		this.userValidation(userItDomain.getMasterSeq());
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -404,14 +351,14 @@ public class UserService {
 	
 	//모집인 등록 > 승인요청
 	@Transactional
-	public int updatePlRegStat(UserDomain userDomain){
+	public int userAcceptApply(UserDomain userDomain){
 		
 		int result 			= 0;
 		int[] masterSeqArr 	= userDomain.getMasterSeqArr();
 		
 		for(int i = 0;i < masterSeqArr.length;i++) {
 			userDomain.setMasterSeq(masterSeqArr[i]);
-			result += userRepo.updatePlRegStat(userDomain);
+			result += userRepo.updateUserStat(userDomain);
 		}
 		
 		return result;
@@ -734,7 +681,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegInfo(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userDomain.getMasterSeq());
+		this.userValidation(userDomain.getMasterSeq());
 		
 		//기본 이력 저장*****
 		this.insertUserHistory(userDomain);
@@ -767,7 +714,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userImwonDomain.getMasterSeq());
+		this.userValidation(userImwonDomain.getMasterSeq());
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -797,7 +744,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userExpertDomain.getMasterSeq());
+		this.userValidation(userExpertDomain.getMasterSeq());
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -827,7 +774,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userRegValidation(userItDomain.getMasterSeq());
+		this.userValidation(userItDomain.getMasterSeq());
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -857,7 +804,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain){
 		//상태값 체크*****
-		this.userRegValidation(userImwonDomain.getMasterSeq());
+		this.userValidation(userImwonDomain.getMasterSeq());
 		
 		//삭제
 		int result = userRepo.deleteUserRegCorpImwonInfo(userImwonDomain);
@@ -873,7 +820,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegCorpExpertInfo(UserExpertDomain userExpertDomain){
 		//상태값 체크*****
-		this.userRegValidation(userExpertDomain.getMasterSeq());
+		this.userValidation(userExpertDomain.getMasterSeq());
 		
 		//삭제
 		int result = userRepo.deleteUserRegCorpExpertInfo(userExpertDomain);
@@ -889,7 +836,7 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegCorpItInfo(UserItDomain userItDomain){
 		//상태값 체크*****
-		this.userRegValidation(userItDomain.getMasterSeq());
+		this.userValidation(userItDomain.getMasterSeq());
 		
 		//삭제
 		int result = userRepo.deleteUserRegCorpItInfo(userItDomain);
@@ -899,6 +846,119 @@ public class UserService {
 		}
 		
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 모집인 상태 / 처리상태 변경 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//기본
+	@Transactional
+	public int updateUserStat(UserDomain userDomain) {
+		//단계별 이력 저장*****
+		this.insertUserStepHistory(userDomain);
+		
+		return userRepo.updateUserStat(userDomain); 
+	}
+	
+	//삭제
+	@Transactional
+	public int deleteUserRegInfo(UserDomain userDomain){
+		return userRepo.updateUserStat(userDomain);
+	}
+	
+	/*
+	//즉시취소
+	@Transactional
+	public ResponseMsg userCancel(UserDomain userDomain){
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	*/
+	
+	//변경요청
+	@Transactional
+	public ResponseMsg userChangeApply(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
+		//기본 이력 저장*****
+		this.insertUserHistory(userDomain);
+		
+		//상태 수정*****
+		this.updateUserStat(userDomain);
+		
+		//정보 수정
+		Map<String, Object> ret = utilFile.setPath("userReg")
+				.setFiles(files)
+				.setExt("all")
+				.setEntity(fileDomain)
+				.multiUpload();
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				userDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
+			}
+		}
+		int result = userRepo.updateUserRegInfo(userDomain);
+		
+		//위반이력 저장
+		String[] violationCdArr = userDomain.getViolationCdArr();
+		
+		if(violationCdArr.length > 0) {
+			for(int i = 0;i < violationCdArr.length;i++) {
+				if(violationCdArr[i] != null && !violationCdArr[i].equals("")) {
+					userDomain.setViolationCd(violationCdArr[i]);
+					userRepo.insertUserViolationInfo(userDomain);
+				}
+			}
+		}
+		//결과
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "변경요청 되었습니다.");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	//해지요청 
+	@Transactional
+	public ResponseMsg userDropApply(UserDomain userDomain){
+		//상세
+		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+		
+		if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 해지요청 불가
+			UserDomain chkParam1 		= new UserDomain();
+			UserImwonDomain chkParam2 	= new UserImwonDomain();
+			UserExpertDomain chkParam3 	= new UserExpertDomain();
+			UserItDomain chkParam4 		= new UserItDomain();
+			
+			//법인사용인
+			chkParam1.setPlMerchantNo(userRegInfo.getOriginPlMerchantNo());
+			int corpIndvCnt = 0;
+			
+			//임원
+			chkParam2.setMasterSeq(userDomain.getMasterSeq());
+			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam2);
+			
+			//전문인력
+			chkParam3.setMasterSeq(userDomain.getMasterSeq());
+			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam3);
+			
+			//전산인력
+			chkParam4.setMasterSeq(userDomain.getMasterSeq());
+			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam4);
+			
+			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능 합니다.");
+			}
+		}
+		//수정
+		int updateResult = this.updateUserStat(userDomain);
+		
+		if(updateResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 완료되었습니다.");
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
 	}
 	
 	/* -------------------------------------------------------------------------------------------------------
@@ -923,23 +983,25 @@ public class UserService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	public ResponseMsg userRegValidation(int masterSeq) {
+	public ResponseMsg userValidation(int masterSeq) {
 		
 		UserDomain param = new UserDomain();
 		
-		//상세
+		//모집인 상세
 		param.setMasterSeq(masterSeq);
-		UserDomain userRegInfo = userRepo.getUserRegDetail(param);
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		String plRegStat 		= userRegInfo.getPlRegStat(); 	//모집인 상태 	-> [REG001]승인전,승인완료,자격취득,해지완료
+		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),취소,완료
 		
-		//반환 코드
 		String code = "";
+		String msg 	= "";
 		
-		if(userRegInfo.getPlStat().equals("2") || userRegInfo.getPlStat().equals("3") || userRegInfo.getPlStat().equals("4") || 
-		   userRegInfo.getPlStat().equals("6") || userRegInfo.getPlStat().equals("7")) {
-			code = "E1";
+		if(plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("6")) {
+			code 	= "E1";
+			msg 	= "등록,수정,삭제가 불가능한 상태입니다.";
 		}
 		
-		return new ResponseMsg(HttpStatus.OK, code, "등록,수정,삭제가 불가능한 상태입니다.");
+		return new ResponseMsg(HttpStatus.OK, code, msg);
 	}
 	
 	

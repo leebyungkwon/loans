@@ -10,7 +10,8 @@
    	<insert id="insertUserHistory" parameterType="user">
    		INSERT INTO TB_LC_MAS01_HIST
    		SELECT
-   			 MASTER_SEQ
+   			 (SELECT LAST_VALUE FROM TB_LC_MAS01_HIST_SEQ)
+   			,MASTER_SEQ
 			,COM_CODE
 			,MEMBER_SEQ
 			,PL_CLASS
@@ -60,12 +61,21 @@
    	<!-- 모집인 정보 단계별(STATUS) 이력 저장 -->
    	<insert id="insertUserStepHistory" parameterType="user">
    		INSERT INTO TB_LC_MAS01_STEP
+   		(
+   			 MASTER_SEQ
+   			,PL_REG_STAT
+   			,PL_STAT
+   			,PL_HIST_TXT
+   			,REG_TIMESTAMP
+   			,REG_SEQ
+   		)
    		SELECT
    			 MASTER_SEQ
    			,PL_REG_STAT
    			,PL_STAT
-   			,SEND_MSG
+   			,PL_HIST_TXT
    			,NOW()
+   			,#{regSeq}
    		FROM TB_LC_MAS01
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>

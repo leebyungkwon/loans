@@ -20,20 +20,6 @@ function pageLoad(){
 
 //수정
 function goUserRegInfoUpdt() {
-	/*
-	//validation
-	var vdChkResult = 0;
-	
-	$(".inputFile").each(function(){
-		if($(this).attr("data-essential") == "Y" && $(this).val() == ""){
-			vdChkResult++;
-		}
-	});
-	if(vdChkResult > 0){
-		alert("필수 첨부서류가 누락되었습니다.");
-		return;
-	}
-	*/
 	//수정
 	if(confirm("저장하시겠습니까?")){
 		goFileTypeListDisabled();

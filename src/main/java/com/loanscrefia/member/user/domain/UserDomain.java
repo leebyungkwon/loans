@@ -69,8 +69,15 @@ public class UserDomain extends BaseDomain {
 	//모집인단계별이력(tb_lc_mas01_step)
 	private int masterStepSeq;
 	
-	//가공
+	//위반이력정보(tb_lc_violation)
+	private int violationSeq;
+	private String violationCd;		//위반코드
+	
+	//배열
 	private int[] masterSeqArr;
+	private String[] violationCdArr;
+	
+	//가공
 	private String comCodeNm;		//담당회원사명
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
@@ -89,6 +96,7 @@ public class UserDomain extends BaseDomain {
 	private String fileCompYn;		//첨부상태							-> Y,N
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	private String plHistCdNm;		//해지사유코드명
+	private String violationCdNm;	//위반코드명
 	
 	private String originPlMerchantNo;
 	private String originCreAppDate;

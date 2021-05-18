@@ -181,7 +181,7 @@ function goApplyAccept() {
 	
 	if(confirm("승인요청하시겠습니까?")){
 		var p = {
-			  url		: "/member/user/updatePlRegStat"	
+			  url		: "/member/user/userAcceptApply"	
 			, param		: {
 				 masterSeqArr 	: masterSeqArr  
 				,plStat			: '2'

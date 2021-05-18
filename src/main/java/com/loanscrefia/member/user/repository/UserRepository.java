@@ -20,8 +20,6 @@ public interface UserRepository {
 	//모집인 조회 및 변경 > 리스트
 	List<UserDomain> selectUserConfirmList(UserDomain userDomain);
 	
-	//모집인 조회 및 변경 > 처리상태 변경
-	int updatePlRegConfirmStat(UserDomain userDomain);
 	//모집인 조회 및 변경 > 
 	//모집인 조회 및 변경 > 
 	//모집인 조회 및 변경 > 
@@ -60,9 +58,6 @@ public interface UserRepository {
 	//모집인 등록 > 법인 : 전산인력 정보 등록
 	int insertUserRegCorpItInfo(UserItDomain userItDomain);
 	
-	//모집인 등록 > 승인요청
-	int updatePlRegStat(UserDomain userDomain);
-	
 	//모집인 등록 > 상세
 	UserDomain getUserRegDetail(UserDomain userDomain);
 	
@@ -97,12 +92,32 @@ public interface UserRepository {
 	int deleteUserRegCorpItInfo(UserItDomain userItDomain);
 
 	/* -------------------------------------------------------------------------------------------------------
+	 * 모집인 상태 / 처리상태 변경 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	int updateUserStat(UserDomain userDomain);
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 모집인 위반이력 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//위반이력 저장
+	int insertUserViolationInfo(UserDomain userDomain);
+	
+	//위반이력 리스트
+	List<UserDomain> selectUserViolationInfoList(UserDomain userDomain);
+	
+	/* -------------------------------------------------------------------------------------------------------
 	 * 모집인 기본 이력 / 단계별 이력 관련
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
+	//모집인 기본 이력 저장
 	int insertUserHistory(UserDomain userDomain);
 	
+	//모집인 단계별 이력 저장
 	int insertUserStepHistory(UserDomain userDomain);
 	
 	

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.loanscrefia.common.board.domain.TempleteDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -115,17 +114,6 @@ public class UserController {
         return mv;
     }
 	
-	//즉시취소
-	
-	//변경요청
-	
-	//해지요청 
-	@PostMapping(value="/confirm/userDropApply")
-	public ResponseEntity<ResponseMsg> userDropApply(UserDomain userDomain){
-		ResponseMsg responseMsg = userService.userDropApply(userDomain);
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 등록
 	 * -------------------------------------------------------------------------------------------------------
@@ -145,11 +133,11 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//처리상태 변경
-	@PostMapping(value="/user/updatePlRegStat")
-	public ResponseEntity<ResponseMsg> updatePlRegStat(UserDomain userDomain){
+	//승인요청
+	@PostMapping(value="/user/userAcceptApply")
+	public ResponseEntity<ResponseMsg> userAcceptApply(UserDomain userDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.updatePlRegStat(userDomain));
+    	responseMsg.setData(userService.userAcceptApply(userDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -346,11 +334,51 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 모집인 상태 / 처리상태 변경 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	@PostMapping(value="/user/updateUserStat")
+	public ResponseEntity<ResponseMsg> updatePlRegStat(UserDomain userDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.updateUserStat(userDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//삭제 -> 단계별 이력 쌓지 않음
+	@PostMapping(value="/user/deleteUserRegInfo")
+	public ResponseEntity<ResponseMsg> deleteUserRegInfo(UserDomain userDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.deleteUserRegInfo(userDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//변경요청 페이지 : 개인
+	@PostMapping(value="/confirm/userConfirmIndvChangeApply")
+    public ModelAndView userConfirmIndvChangeApply(UserDomain userDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoUserConfirmPage+"/userConfirmIndvChangeApply");
+    	Map<String, Object> result 	= userService.getUserRegIndvDetail(userDomain);
+    	mv.addObject("result", result);
+        return mv;
+    }
+	
+	//변경요청 페이지 : 법인
 	
 	
+	//변경요청
+	@PostMapping(value="/confirm/userChangeApply")
+    public ResponseEntity<ResponseMsg> userChangeApply(@RequestParam("files") MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain) {
+		ResponseMsg responseMsg = userService.userChangeApply(files,userDomain,fileDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+    }
 	
-	
-	
+	//해지요청 
+	@PostMapping(value="/user/userDropApply")
+	public ResponseEntity<ResponseMsg> userDropApply(UserDomain userDomain){
+		ResponseMsg responseMsg = userService.userDropApply(userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 	

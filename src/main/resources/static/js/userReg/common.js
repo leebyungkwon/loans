@@ -83,6 +83,21 @@ function goFileTypeListDisabled(){
 	});
 }
 
+//첨부파일 필수 체크
+function goFileEssentialChk(){
+	var vdChkResult = 0;
+	
+	$(".inputFile").each(function(){
+		if($(this).attr("data-essential") == "Y" && $(this).val() == ""){
+			vdChkResult++;
+		}
+	});
+	if(vdChkResult > 0){
+		return false;
+	}
+	return true;
+}
+
 //모집인 등록 > 탭이동
 function goTab(gubun) {
 	
@@ -154,7 +169,17 @@ function goHtmlAdd(callUrl,formUrl,dataWrapLen) {
 	});
 }
 
-//등록
+//작성 영역 삭제
+function goCorpInfoRemove(obj) {
+	var dataWrapLen = $(".data_wrap").length;
+	if(dataWrapLen == 1){
+		alert("더 이상 삭제할 수 없습니다.");
+		return;
+	}
+	$(obj).closest("form").remove();
+}
+
+//수동 등록
 function goCorpInfoReg(obj) {
 	if(confirm("저장하시겠습니까?")){
 		goFileTypeListDisabled();
@@ -170,15 +195,6 @@ function goCorpInfoReg(obj) {
 	}
 }
 
-//영역 삭제
-function goCorpInfoRemove(obj) {
-	var dataWrapLen = $(".data_wrap").length;
-	if(dataWrapLen == 1){
-		alert("더 이상 삭제할 수 없습니다.");
-		return;
-	}
-	$(obj).closest("form").remove();
-}
 
 
 
