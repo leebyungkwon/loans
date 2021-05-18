@@ -43,7 +43,7 @@ function msgUpdate(){
 	var innerHtml = '';
 	innerHtml += '<tr>'
 	innerHtml += '<th>가승인 사유</th>'
-	innerHtml += '<td colspan="3"><input type="text" name="msg" id="msg" class="w100"/></td>'
+	innerHtml += '<td colspan="3"><input maxLength="200" type="text" name="msg" id="msg" class="w100"/></td>'
 	innerHtml += '</tr>'		
 	
 	$('#dtlTable').append(innerHtml);
