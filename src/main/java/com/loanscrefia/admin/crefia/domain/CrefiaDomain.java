@@ -14,7 +14,7 @@ import lombok.Data;
 @Alias("crefia")
 public class CrefiaDomain extends BaseDomain {
 
-	private int memberSeq;					// 담당자시퀀스
+	private int memberSeq;				// 담당자시퀀스
 	
 	@NotBlank(message = "ID를 입력하세요.")
 	@Pattern(regexp = "^[a-z][a-z0-9]{4,10}$", message = "ID는 영문(소문자),숫자 5~11 자리로 입력해 주세요.")
@@ -23,7 +23,7 @@ public class CrefiaDomain extends BaseDomain {
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,20}$", message = "비밀번호는 최소 8~20 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.")
 	private String password;				// 비밀번호
 	
-	@Pattern(regexp = "^[a-zA-Z가-힣]*${1,20}", message = "담당자이름 1~20자리로 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z가-힣]*${1,20}", message = "담당자이름을 1~20자리로 입력해 주세요.")
 	private String memberName;			// 담당자이름
 	
 	@Email
