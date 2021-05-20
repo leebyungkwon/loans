@@ -256,10 +256,10 @@
 				</tr>
 					<tr>
 						<c:choose>
-							<c:when test="${companyDetail.apprStat eq 2}">
+							<c:when test="${adminInfo.apprStat eq 2}">
 								<th>가승인 사유</th>
 								<td colspan="3">
-									${companyDetail.msg}
+									${adminInfo.msg}
 								</td>
 							</c:when>
 						</c:choose>
