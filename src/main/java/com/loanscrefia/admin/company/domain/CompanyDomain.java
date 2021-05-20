@@ -52,7 +52,7 @@ public class CompanyDomain extends BaseDomain {
 	
 	/*========================== [회원사 관리] ==============================*/
 	
-	@Pattern(regexp = "^[가-힣]*${1,20}", message = "회원사(상호명)을 다시 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z0-9가-힣()\s]*${1,20}", message = "회원사(상호명)을 다시 입력해 주세요.")
 	private String comName;								// 회원사(상호명)
 	
 	@Pattern(regexp = "^(\\d{6})-(\\d{7})*${14,14}", message = "법인등록번호 14자리 ( -포함)으로 다시 입력해 주세요.")

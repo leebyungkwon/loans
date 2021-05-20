@@ -16,7 +16,7 @@ public class CorpDomain extends BaseDomain {
 	//법인정보(tb_lc_corp)
 	private Integer corpSeq;		//법인시퀀스
 	
-	@Pattern(regexp = "^[가-힣]*${1,20}", message = "회원사(상호명)을 다시 입력해 주세요.")
+	@Pattern(regexp = "^[a-zA-Z0-9가-힣()\s]*${1,20}", message = "법인명을 다시 입력해 주세요.")
 	private String plMerchantName;	//법인명
 	
 	@Pattern(regexp = "^(\\d{6})-(\\d{7})*${14,14}", message = "법인등록번호 14자리 ( -포함)으로 다시 입력해 주세요.")

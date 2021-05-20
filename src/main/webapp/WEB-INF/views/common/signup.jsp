@@ -20,7 +20,7 @@ function pageLoad(){
 				var signupParam = {
 					name : 'signup'
 					,success: function(opt, result) {
-		 				location.href="/login";
+ 		 				location.href="/login";
 					}
 				}      
 				AjaxUtil.files(signupParam);
@@ -122,20 +122,20 @@ function pageLoad(){
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="memberId" name="memberId" placeholder="아이디" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
+					<input type="text" id="memberId" name="memberId" placeholder="아이디" maxlength="11" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
 					<a href="javascript:void(0);" id="idcheck" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" id="password" name="password" placeholder="최소8자, 문자/숫자/특수문자를 입력하세요."  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
+					<input type="password" id="password" name="password" maxlength="20" placeholder="최소8자, 문자/숫자/특수문자를 입력하세요."  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
+					<input type="password" id="passwordChk" name="passwordChk" maxlength="20" placeholder="동일한 비밀번호를 입력"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
 				</td>
 			</tr>
 			<tr>
