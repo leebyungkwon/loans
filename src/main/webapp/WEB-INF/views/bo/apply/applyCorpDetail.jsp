@@ -2,159 +2,72 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+<script type="text/javascript" src="/static/js/recruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
 	
 }
-//취소화면변경
-function goUserCancelPage(){
-	$("#histTxt").show();
-	$("#plHistTxt").focus();
-	$("#userChangeApply").remove();
-	$("#userDropApply").remove();
-	$("#userCancel").attr("onclick", "goUserCancel()");
+
+//승인
+function goRecruitApply(){
+	if(confirm("요청사항을 승인하시겠습니까?")){
+		var p = {
+			  url		: "/admin/recruit/updatePlStat"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				,plStat			: '7'
+				,plRegStat		: '2'
+			}
+			, success 	: function (opt,result) {
+				if(result.data.code == "success"){
+					alert(result.data.message);
+					location.href="/admin/recruit/recruitPage";
+				}else{
+					alert(result.data.message);
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
 }
 
-//취소
-function goUserCancel(){
+//보완
+function goRecruitImprove(){
 	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("취소사유를 입력해 주세요");
+		alert("사유를 입력해 주세요");
+		$("#plHistTxt").focus();
 		return false;
 	}
 	
-	if(confirm("취소하시겠습니까?")){
+	if(confirm("보완요청을 하시겠습니까?")){
 		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
+			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
+				,plStat		: '5'
 				,plHistTxt	: $("#plHistTxt").val()
 			}
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("취소되었습니다.");
-					goUserConfirmList();
+				if(result.data.code == "success"){
+					alert(result.data.message);
+					location.href="/admin/recruit/recruitPage";
+				}else{
+					alert(result.data.message);
+					location.reload();
 				}
+				
 		    }
 		}
 		AjaxUtil.post(p);
 	}
 }
 
-//변경요청
-function goUserChangeApply(){
-	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '3'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("변경요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
-//해지요청
-function goUserDropApplyPage(){
-	$("#histTxt").show();
-	$("#haejiDate").show();
-	$("#plHistTxt").focus();
-	$("#userChangeApply").remove();
-	$("#userCancel").remove();
-	$("#userDropApply").attr("onclick", "goUserDropApply()");
-}
-
-function goUserDropApply(){
-	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("해지사유를 입력해 주세요");
-		return false;
-	}
-	if(confirm("모집인 해지를 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 		: $("#masterSeq").val()
-				,plStat			: '4'
-				,plHistTxt		: $("#plHistTxt").val()
-				,plRegStat		: '1'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("해지요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
-function fnCancel(){
-	if(confirm("취소하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("취소되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
-function fnChange(){
-	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/updatePlRegConfirmStat"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '3'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("변경요청이 완료되었습니다.");
-					goUserConfirmList();
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
-
-function fnDrop(){
-	if(confirm("모집인 해지를 요청하시겠습니까?")){
-		var p = {
-			  url		: "/member/confirm/userDropApply"	
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '4'
-			}
-			, success 	: function (opt,result) {
-				goUserConfirmList();
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-}
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
-	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.applyInfo.masterSeq }"/>
 </form>
 
 <div class="cont_area">
@@ -175,22 +88,28 @@ function fnDrop(){
 	</div>
 	
 	<div class="contents">
+		<div class="box block h20 mgt30 mgb10">
+			<div class="input_check_wrap right mgb0">
+				<input type="checkbox" id="adminCheck" class="check" <c:if test="${result.applyInfo.chkYn eq 'Y'}">checked</c:if>>
+				<label for="adminCheck">실무자 확인</label>
+			</div>
+		</div>
 		<div id="table">
 			<table class="view_table">
 				<tr>
 					<th>회원사</th>
-					<td>${result.userRegInfo.comCodeNm }</td>
+					<td>${result.applyInfo.comCodeNm }</td>
 					<th>담당자</th>
-					<td>${result.userRegInfo.memberNm } (<a href="${result.userRegInfo.email }">${result.userRegInfo.email }</a>, ${result.userRegInfo.mobileNo })</td>
+					<td>${result.applyInfo.memberNm } (<a href="${result.applyInfo.email }">${result.applyInfo.email }</a>, ${result.applyInfo.mobileNo })</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>
-					<td>${result.userRegInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+					<td>${result.applyInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
 					<th>결제여부</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.plPayStat ne null }">
-								${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)
+							<c:when test="${result.applyInfo.plPayStat ne null }">
+								${result.applyInfo.plPayStat } (국민카드 / 2021.10.20)
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -198,143 +117,239 @@ function fnDrop(){
 				</tr>
 				<tr>
 					<th>처리상태</th>
-					<td colspan="3">${result.userRegInfo.plStatNm }</td>
+					<td colspan="3">${result.applyInfo.plStatNm }</td>
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
-					<td colspan="3">${result.userRegInfo.plClassNm }</td>
+					<td colspan="3">${result.applyInfo.plClassNm }</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
-					<td colspan="3">${result.userRegInfo.plProductNm }</td>
+					<td colspan="3">${result.applyInfo.plProductNm }</td>
 				</tr>
 				<tr>
 					<th>상호</th>
-					<td>${result.userRegInfo.plMerchantName }</td>
+					<td>${result.applyInfo.plMerchantName }</td>
 					<th>대표이사</th>
-					<td>${result.userRegInfo.plCeoName }</td>
+					<td>${result.applyInfo.plCeoName }</td>
 				</tr>
 				<tr>
 					<th>법인등록번호</th>
-					<td colspan="3">${result.userRegInfo.plMerchantNo }</td>
+					<td colspan="3">${result.applyInfo.plMerchantNo }</td>
 				</tr>
 				<tr>
 					<th>설립년월일</th>
-					<td colspan="3">${result.userRegInfo.corpFoundDate }</td>
+					<td colspan="3">${result.applyInfo.corpFoundDate }</td>
 				</tr>
 				<tr>
 					<th>본점소재지</th>
-					<td colspan="3">${result.userRegInfo.addrNm }</td>
+					<td colspan="3">${result.applyInfo.addrNm }</td>
 				</tr>
 				<tr>
 					<th>상세주소(법인등기부본상)</th>
-					<td colspan="3">${result.userRegInfo.addrDetail }</td>
+					<td colspan="3">${result.applyInfo.addrDetail }</td>
 				</tr>
 				<tr>
 					<th>자본금(백만원)</th>
-					<td colspan="3">${result.userRegInfo.capital }</td>
+					<td colspan="3">${result.applyInfo.capital }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>
-					<td>${result.userRegInfo.comContDate }</td>
+					<td>${result.applyInfo.comContDate }</td>
 					<th>위탁예정기간</th>
-					<td>${result.userRegInfo.entrustDate }</td>
+					<td>${result.applyInfo.entrustDate }</td>
 				</tr>
+				
+				<c:choose>
+					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
+					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7'}">
+						<tr>
+							<th>사유</th>
+							<td colspan="3">
+								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }">
+							</td>
+						</tr>
+					</c:when>
+					<c:when test="${result.applyInfo.plStat eq '4' or result.applyInfo.plStat eq '7'}">
+						<tr>
+							<th>해지요청사유</th>
+							<td colspan="3">${result.applyInfo.plHistCd }</td>
+						</tr>
+						<tr>
+							<th>해지일자</th>
+							<td colspan="3">${result.applyInfo.comHaejiDate }</td>
+						</tr>
+					</c:when>
+				</c:choose>
+				
 			</table>
 		</div>
 
 		<h3>신청인 관련 서류</h3>
 		<div id="table05">
-			<table class="view_table">
+			<table class="view_table border_table">
 				<colgroup>
-					<col width="38%"/>
-					<col width="62%"/>
+					<col width="50%"/>
+					<col width="20%"/>
+					<col width="30%"/>
 				</colgroup>
+				<tr>
+					<th>구분</th>
+					<th>첨부이미지</th>
+					<th>체크사항</th>
+				</tr>
 				<tr>
 					<th class="acenter">정관 *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.fileType1 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }">${result.userRegInfo.fileType1.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType1 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType1.fileSeq }">${result.applyInfo.fileType1.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd1" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd1}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType1.fileSeq }" >
+							<label for="check_cd1">공증 유무</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd2" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd2}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType1.fileSeq }" >
+							<label for="check_cd2">중개업무 포함여부</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="acenter">법인등기부등본 *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.fileType2 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }">${result.userRegInfo.fileType2.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType2 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType2.fileSeq }">${result.applyInfo.fileType2.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd3" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd3}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
+							<label for="check_cd3">말소사항 포함 여부</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd4" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd4}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
+							<label for="check_cd4">기재내용 일치 여부</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="acenter">설립, 등록 신청의 의사결정을 증명하는 서류 *<br />(등록신청 관련 발기인총회, 창립주주총회 또는 이사회의 공증을 받은 의사록)</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.fileType3 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType3 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType3.fileSeq }">${result.applyInfo.fileType3.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd5" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd5}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
+							<label for="check_cd5">체크1</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd6" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd6}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
+							<label for="check_cd6">체크2</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="acenter">본점의 위치 및 명칭을 기재한 서류<br />(법인등기부에서 확인되지 않는 경우 제출)</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.fileType4 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType4 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType4.fileSeq }">${result.applyInfo.fileType4.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd7" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd7}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
+							<label for="check_cd7">체크1</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd8" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd8}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
+							<label for="check_cd8">체크2</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="acenter">주주명부 *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.fileType5 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }">${result.userRegInfo.fileType5.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType5 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType5.fileSeq }">${result.applyInfo.fileType5.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd9" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd9}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType5.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType5.fileSeq }" >
+							<label for="check_cd9">인감도장 날인 여부</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<th class="acenter">영위하는 다른 업종에 대한 증빙서류 *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.fileType6 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">${result.userRegInfo.fileType6.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType6 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType6.fileSeq }">${result.applyInfo.fileType6.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd10" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd10}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
+							<label for="check_cd10">체크1</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd11" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd11}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
+							<label for="check_cd11">체크2</label>
+						</div>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" class="btn_gray" onclick="goUserConfirmList();">목록</a>
-<%-- 			<c:if test="${result.userRegInfo.plStat eq '7' }">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApply();">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
-			</c:if> --%>
-			
-			<c:if test="${result.userRegInfo.plRegStat eq '3' and  result.userRegInfo.plStat eq '7'}">
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="fnChange();">변경요청</a>
-				<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="fnDrop();">해지요청</a> <!-- 하위에 등록된 데이터(법인사용인 등)이 있으면 해지요청 불가 -->
+			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
+			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완</a>
 			</c:if>
-			
-			<c:if test="${result.userRegInfo.plRegStat eq '2' }">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="userCancel" onclick="fnCancel();">즉시취소</a>
-			</c:if>
-			
 		</div>
 	</div>
 </div>

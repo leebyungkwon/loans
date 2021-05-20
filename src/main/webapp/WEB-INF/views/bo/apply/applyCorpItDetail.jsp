@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+<script type="text/javascript" src="/static/js/recruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
@@ -115,7 +115,7 @@ function pageLoad(){
 		</c:choose>
 		
 		<div class="btn_wrap" id="target">
-			<a href="/admin/apply/applyPage" class="btn_gray" >목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
 		</div>
 	</div>
 </div>

@@ -3,11 +3,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+<script type="text/javascript" src="/static/js/recruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
-	
+
 }
 
 //승인
@@ -79,7 +79,13 @@ function goApplyImprove(){
 	</div>
 
 	<div class="contents">
-		<h3>등록정보</h3>
+		<div class="box">
+			<h3>등록정보</h3>
+			<div class="input_check_wrap right mgb0">
+				<input type="checkbox" id="adminCheck" class="check" <c:if test="${result.applyInfo.chkYn eq 'Y'}">checked</c:if>>
+				<label for="adminCheck">실무자 확인</label>
+			</div>
+		</div>
 		<div id="table">
 			<table class="view_table">
 				<tr>
@@ -176,13 +182,19 @@ function goApplyImprove(){
 
 		<h3>첨부서류</h3>
 		<div id="table02">
-			<table class="view_table">
+			<table class="view_table border_table">
 				<colgroup>
 					<col width="50%"/>
-					<col width="50%"/>
+					<col width="20%"/>
+					<col width="30%"/>
 				</colgroup>
 				<tr>
-					<th class="acenter">사진 (등록증 게시용) *</th>
+					<th>구분</th>
+					<th>첨부이미지</th>
+					<th>체크사항</th>
+				</tr>
+				<tr>
+					<td class="acenter">사진 (등록증 게시용) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType1 ne null }">
@@ -191,9 +203,17 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd1" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd1}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType1.fileSeq }" >
+							<label for="check_cd1">이미지 사이즈 확인</label>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">주민등록증사본, 여권사본 및 여권정보증명서, 운전면허증 사본 중 택1일 *</th>
+					<td class="acenter">주민등록증사본, 여권사본 및 여권정보증명서, 운전면허증 사본 중 택1일 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType2 ne null }">
@@ -202,9 +222,18 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd2" class="check check_cd"
+							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if> 
+							<c:if test="${!empty result.applyInfo.checkCd2}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
+							<label for="check_cd2">기재내용 일치여부</label>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">교육과정 이수확인서 (경력)</th>
+					<td class="acenter">교육과정 이수확인서 (경력)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType3 ne null }">
@@ -213,9 +242,18 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd3" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd3}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
+							<label for="check_cd3">교육 이수 및 인증내역 검증</label> 
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">인증서(신규)</th>
+					<td class="acenter">인증서(신규)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType4 ne null }">
@@ -224,9 +262,18 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd4" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd4}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
+							<label for="check_cd4">교육 이수 및 인증내역 검증</label>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">경력증명서 *</th>
+					<td class="acenter">경력증명서 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType5 ne null }">
@@ -235,9 +282,18 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd5" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType5.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd5}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType5.fileSeq }" >
+							<label for="check_cd5">경력 인정여부</label>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">금융상품 유형, 내용에 대한 설명자료(계약서) *</th>
+					<td class="acenter">금융상품 유형, 내용에 대한 설명자료(계약서) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType6 ne null }">
@@ -246,9 +302,18 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd6" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd6}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
+							<label for="check_cd6">기재내용 일치 여부</label>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</th>
+					<td class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType7 ne null }">
@@ -257,9 +322,25 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd7" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType7.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd7}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType7.fileSeq }" >
+							<label for="check_cd7">결격사유 유무 검증</label> 
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd8" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType7.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd8}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType7.fileSeq }" >
+							<label for="check_cd8">서명 누락</label>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">대리인 신청 위임장(위임인 인간날인)</th>
+					<td class="acenter">대리인 신청 위임장(위임인 인간날인)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType8 ne null }">
@@ -268,9 +349,18 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd9" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType9.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd9}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType9.fileSeq }" >
+							<label for="check_cd9">인감 날인 여부</label>
+						</div>											
+					</td>
 				</tr>
 				<tr>
-					<th class="acenter">위임인 인감증명서</th>
+					<td class="acenter">위임인 인감증명서</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType9 ne null }">
@@ -279,10 +369,19 @@ function goApplyImprove(){
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd10" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType10.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd10}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType10.fileSeq }" >
+							<label for="check_cd10">유효 증명서여부</label>
+						</div>
+					</td>
 				</tr>
 				<c:if test="${result.applyInfo.plStat eq '3' }">
 					<tr>
-						<th class="acenter">주민등록증 또는 주민등록 초본</th>
+						<td class="acenter">주민등록증 또는 주민등록 초본</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType10 ne null }">
@@ -294,7 +393,7 @@ function goApplyImprove(){
 					</tr>
 					
 					<tr>
-						<th class="acenter">휴대폰 명의 확인서</th>
+						<td class="acenter">휴대폰 명의 확인서</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType11 ne null }">
@@ -308,7 +407,7 @@ function goApplyImprove(){
 			</table>
 		</div>
 		<div class="btn_wrap">
-			<a href="/admin/apply/applyPage" class="btn_gray" >목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
 			<c:if test="${result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove();">보완</a>

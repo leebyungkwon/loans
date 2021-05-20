@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+<script type="text/javascript" src="/static/js/recruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
@@ -12,7 +12,7 @@ function pageLoad(){
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
-	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" value="${result.recruitInfo.masterSeq }"/>
 </form>
 
 <div class="cont_area">
@@ -115,7 +115,7 @@ function pageLoad(){
 		</c:choose>
 		
 		<div class="btn_wrap" id="target">
-			<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goRecruitList();">목록</a>
 		</div>
 	</div>
 </div>

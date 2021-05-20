@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+<script type="text/javascript" src="/static/js/recruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
@@ -77,46 +77,92 @@ function pageLoad(){
 				
 						<h3>전문인력관련 서류</h3>
 						<div id="table10">
-							<table class="view_table">
+							<table class="view_table border_table">
 								<colgroup>
-									<col width="38%"/>
-									<col width="62%"/>
+									<col width="50%"/>
+									<col width="20%"/>
+									<col width="30%"/>
 								</colgroup>
-								<tbody>
-									<tr>
-										<th class="acenter">이수확인서 (경력)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpExpertList.fileType16 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									<tr>
-										<th class="acenter">인증서(신규)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpExpertList.fileType17 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									<tr>
-										<th class="acenter">경력증명서 (업무인력)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpExpertList.fileType18 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType18.fileSeq }">${corpExpertList.fileType18.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-								</tbody>
+								<tr>
+									<th>구분</th>
+									<th>첨부이미지</th>
+									<th>체크사항</th>
+								</tr>
+								<tr>
+									<th class="acenter">이수확인서 (경력)</th>
+									<td>
+										<c:choose>
+											<c:when test="${corpExpertList.fileType16 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd200" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd200}">checked</c:if>
+											<c:if test="${empty result.applyInfo.fileType16.fileSeq}">disabled</c:if>
+											 data-fileSeq="${result.applyInfo.fileType16.fileSeq }" >
+											<label for="check_cd200">교육이수 및 인증내역 검증</label>
+										</div>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd201" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd201}">checked</c:if>
+											<c:if test="${empty result.applyInfo.fileType16.fileSeq}">disabled</c:if>
+											 data-fileSeq="${result.applyInfo.fileType16.fileSeq }" >
+											<label for="check_cd201">교육기관 직인 날인</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="acenter">인증서(신규)</th>
+									<td>
+										<c:choose>
+											<c:when test="${corpExpertList.fileType17 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd202" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd202}">checked</c:if>
+											<c:if test="${empty result.applyInfo.fileType17.fileSeq}">disabled</c:if>
+											 data-fileSeq="${result.applyInfo.fileType17.fileSeq }" >
+											<label for="check_cd202">교육이수 및 인증내역 검증</label>
+										</div>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd203" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd203}">checked</c:if>
+											<c:if test="${empty result.applyInfo.fileType17.fileSeq}">disabled</c:if>
+											 data-fileSeq="${result.applyInfo.fileType17.fileSeq }" >
+											<label for="check_cd203">교육기관 직인 날인</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="acenter">경력증명서 (업무인력)</th>
+									<td>
+										<c:choose>
+											<c:when test="${corpExpertList.fileType18 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType18.fileSeq }">${corpExpertList.fileType18.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd204" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd204}">checked</c:if>
+											<c:if test="${empty result.applyInfo.fileType18.fileSeq}">disabled</c:if>
+											 data-fileSeq="${result.applyInfo.fileType18.fileSeq }" >
+											<label for="check_cd204">경력 인정여부</label>
+										</div>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd205" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd205}">checked</c:if>
+											<c:if test="${empty result.applyInfo.fileType18.fileSeq}">disabled</c:if>
+											 data-fileSeq="${result.applyInfo.fileType18.fileSeq }" >
+											<label for="check_cd205">최근5년간 업무 기재 여부</label>
+										</div>
+									</td>
+								</tr>
 							</table>
 						</div>
 					</div>
@@ -144,7 +190,7 @@ function pageLoad(){
 		</c:choose>
 
 		<div class="btn_wrap" id="target">
-			<a href="/admin/apply/applyPage" class="btn_gray" >목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
 		</div>
 	</div>
 </div>

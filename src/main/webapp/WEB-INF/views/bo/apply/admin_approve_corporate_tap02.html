@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<head>
+	<title>대출모집인 관리시스템</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge; chrome=1">
+	<meta http-equiv="content-Type" content="text/html; charset=UTF-8">
+
+	<link rel="stylesheet" href="../lib/css/common.css">
+	<link rel="stylesheet" href="../lib/css/style.css">
+	<script type="text/javascript" src="../lib/js/jquery-1.12.4.min.js"></script>
+</head>
+
+<body>
+
+	<div class="wrap">
+
+		<div class="header">
+			<div class="inner">
+				<h1><a href="#"><img src="../images/common/top_logo_ov.png" alt=""></a></h1>
+				<div class="log_menu">
+        <span>관리자님</span>
+        <div class="logout">
+	          <a href="javascript:void(0);">로그아웃</a>
+	        </div>
+	      </div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="gnb">
+				<ul>
+					<li>
+						<a href="#">모집인 조회 및 변경</a>
+					</li>
+					<li class="on">
+						<a href="#">모집인 승인처리</a>
+					</li>
+					<li>
+						<a href="#">모집인 결제 내역</a>
+					</li>
+					<li>
+						<a href="#">회원사 관리</a>
+					</li>
+					<li>
+						<a href="#">회원사 담당자 관리</a>
+					</li>
+					<li>
+						<a href="#">협회 관리자 관리</a>
+					</li>
+					<li>
+						<a href="#">협회 관리자 업무분장</a>
+					</li>
+					<li>
+						<a href="#">공지사항</a>
+					</li>
+					<li>
+						<a href="#">통계</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="cont_area">
+				<div class="top_box">
+					<div class="title type2">
+						<h2>모집인 승인처리</h2>
+					</div>
+				</div>
+
+				<div class="tap_wrap mgb30">
+					<ul>
+						<li><a href="admin_approve_corporate_tap01.html" class="single">등록정보</a></li>
+						<li class="on"><a href="admin_approve_corporate_tap02.html">대표자 및 임원관련<br />사항</a></li>
+						<li><a href="admin_approve_corporate_tap03.html">전문성 인력에<br />관한 사항</a></li>
+						<li><a href="admin_approve_corporate_tap04.html">전산설비 관리 인력에<br />관한 사항</a></li>
+						<li><a href="admin_approve_corporate_tap05.html" class="single">기타 첨부할 서류</a></li>
+					</ul>
+				</div>
+
+				<div class="contents">
+					<div class="data_wrap">
+						<div id="table02">
+									<table class="view_table">
+										<colgroup>
+											<col width="15%"/>
+											<col width="35%"/>
+											<col width="15%"/>
+											<col width="35%"/>
+										</colgroup>
+										<tr>
+											<th>신규경력 구분</th>
+											<td colspan="3">신규</td>
+										</tr>
+										<tr>
+											<th>이름</th>
+											<td>홍길동</td>
+											<th>주민번호</th>
+											<td>911111-1234567</td>
+										</tr>
+										<tr>
+											<th>직위</th>
+											<td>대표자</td>
+											<th>금융상품유형</th>
+											<td>대출</td>
+										</tr>
+										<tr>
+											<th>교육이수번호</th>
+											<td colspan="3">2021021315</td>
+										</tr>
+										<tr>
+											<th>경력시작일</th>
+											<td>2021-01-01</td>
+											<th>경력종료일</th>
+											<td>2021-05-03</td>
+										</tr>
+										<tr>
+											<th>상근여부</th>
+											<td>상근</td>
+											<th>전문인력여부</th>
+											<td>전문인력</td>
+										</tr>
+									</table>
+								</div>
+
+							<h3>1. 대표 및 임원관련 서류</h3>
+
+							<div id="table06">
+									<table class="view_table border_table">
+										<colgroup>
+											<col width="50%"/>
+											<col width="20%"/>
+											<col width="30%"/>
+										</colgroup>
+										<tr>
+											<th>구분</th>
+											<th>첨부이미지</th>
+											<th>체크사항</th>
+										</tr>
+										<tr>
+											<td class="acenter">대표자 이력서</td>
+											<td><a href="#"><u>이미지.jpg</u></a></td>
+											<td>
+												<div class="input_check_wrap mgr10">
+													<input type="checkbox" id="check7_01" class="check">
+													<label for="check7_01">인감도장 날인 여부</label> <!-- id/for 값 변경하셔도됩니다 -->
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="acenter">대표자 경력증명서</td>
+											<td><a href="#"><u>이미지1.jpg</u></a></td>
+											<td>
+												<div class="input_check_wrap mgr10">
+													<input type="checkbox" id="check8_01" class="check">
+													<label for="check8_01">최근5년간 업무 기재</label> <!-- id/for 값 변경하셔도됩니다 -->
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류</td>
+											<td><a href="#"><u>이미지4.jpg</u></a></td>
+											<td>
+												<div class="input_check_wrap mgr10">
+													<input type="checkbox" id="check11_01" class="check">
+													<label for="check11_01">결격사유 유무 검증</label> <!-- id/for 값 변경하셔도됩니다 -->
+												</div>
+												<div class="input_check_wrap mgr10">
+													<input type="checkbox" id="check11_02" class="check">
+													<label for="check11_02">서명누락여부</label> <!-- id/for 값 변경하셔도됩니다 -->
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="acenter">인감증명서</td>
+											<td><a href="#"><u>이미지3.jpg</u></a></td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+
+							<h3>2. 금융상품 관련 서류</h3>
+							<div id="table07">
+								<table class="view_table border_table">
+									<colgroup>
+										<col width="50%"/>
+										<col width="20%"/>
+										<col width="30%"/>
+									</colgroup>
+									<tr>
+										<th>구분</th>
+										<th>첨부이미지</th>
+										<th>체크사항</th>
+									</tr>
+									<tr>
+										<td class="acenter">금융상품 유형, 내용에 대한 설명자료</td>
+										<td><a href="#"><u>이미지.jpg</u></a></td>
+										<td>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check12_01" class="check">
+												<label for="check12_01">기재사항 일치 여부</label> <!-- id/for 값 변경하셔도됩니다 -->
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<h3>3. 교육이수관련 서류</h3>
+							<div id="table08">
+											<table class="view_table border_table">
+												<colgroup>
+													<col width="50%"/>
+													<col width="20%"/>
+													<col width="30%"/>
+												</colgroup>
+												<tr>
+													<th>구분</th>
+													<th>첨부이미지</th>
+													<th>체크사항</th>
+												</tr>
+												<tr>
+													<td class="acenter">대표 교육과정 이수확인서(경력)</td>
+													<td><a href="#"><u>이미지.jpg</u></a></td>
+													<td>
+														<div class="input_check_wrap mgr10">
+															<input type="checkbox" id="check13_01" class="check">
+															<label for="check13_01">교육 이수 및 인증내역 검증</label> <!-- id/for 값 변경하셔도됩니다 -->
+														</div>
+														<div class="input_check_wrap mgr10">
+															<input type="checkbox" id="check13_02" class="check">
+															<label for="check13_02">교육기관 직인 날인</label> <!-- id/for 값 변경하셔도됩니다 -->
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="acenter">대표 인증서(신규)</td>
+													<td><a href="#"><u>이미지.jpg</u></a></td>
+													<td>
+														<div class="input_check_wrap mgr10">
+															<input type="checkbox" id="check13_03" class="check">
+															<label for="check13_03">교육 이수 및 인증내역 검증</label> <!-- id/for 값 변경하셔도됩니다 -->
+														</div>
+														<div class="input_check_wrap mgr10">
+															<input type="checkbox" id="check13_04" class="check">
+															<label for="check13_04">교육기관 직인 날인</label> <!-- id/for 값 변경하셔도됩니다 -->
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td class="acenter">대표 경력증명서</td>
+													<td><a href="#"><u>이미지1.jpg</u></a></td>
+													<td>
+														<div class="input_check_wrap mgr10">
+															<input type="checkbox" id="check14_01" class="check">
+															<label for="check14_01">경력 인정여부</label> <!-- id/for 값 변경하셔도됩니다 -->
+														</div>
+														<div class="input_check_wrap mgr10">
+															<input type="checkbox" id="check14_02" class="check">
+															<label for="check14_02">최근5년간 업무 기재 여부</label> <!-- id/for 값 변경하셔도됩니다 -->
+														</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+
+							<h3>4. 업무수행기준요건관련 서류</h3>
+
+							<div id="table12">
+												<table class="view_table border_table">
+													<colgroup>
+														<col width="50%"/>
+														<col width="20%"/>
+														<col width="30%"/>
+													</colgroup>
+													<tr>
+														<th>구분</th>
+														<th>첨부이미지</th>
+														<th>체크사항</th>
+													</tr>
+													<tr>
+														<td class="acenter">업무수행기준요건관련 서류</td>
+														<td><a href="#"><u>이미지.jpg</u></a></td>
+														<td>
+															<div class="input_check_wrap mgr10">
+																<input type="checkbox" id="check17_01" class="check">
+																<label for="check30_01">금소법상 필요사항 포함여부</label> <!-- id/for 값 변경하셔도됩니다 -->
+															</div>
+														</td>
+													</tr>
+												</table>
+											</div>
+
+						</div>
+
+
+						<div class="btn_wrap">
+							<a href="#" class="btn_gray">목록</a>
+							<a href="#" class="btn_black btn_right02">승인</a>
+							<a href="#" class="btn_gray btn_right">보완</a>
+						</div>
+					</div>
+				</div>
+
+		<div id="footer">
+
+		</div>
+	</div>
+</body>
+
+</html>

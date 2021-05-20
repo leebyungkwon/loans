@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<script type="text/javascript" src="/static/js/userReg/common.js"></script>
+<script type="text/javascript" src="/static/js/recruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
@@ -11,7 +11,7 @@ function pageLoad(){
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
-	<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" value="${result.recruitInfo.masterSeq }"/>
 </form>
 
 <div class="cont_area">
@@ -45,8 +45,8 @@ function pageLoad(){
 							<th class="acenter">물적 설비내역에 대한 증빙서류</th>
 							<td>
 								<c:choose>
-									<c:when test="${result.userRegInfo.fileType21 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType21.fileSeq }">${result.userRegInfo.fileType21.fileFullNm }</a>
+									<c:when test="${result.recruitInfo.fileType21 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType21.fileSeq }">${result.recruitInfo.fileType21.fileFullNm }</a>
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
@@ -56,8 +56,8 @@ function pageLoad(){
 							<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본</th>
 							<td>
 								<c:choose>
-									<c:when test="${result.userRegInfo.fileType22 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType22.fileSeq }">${result.userRegInfo.fileType22.fileFullNm }</a>
+									<c:when test="${result.recruitInfo.fileType22 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType22.fileSeq }">${result.recruitInfo.fileType22.fileFullNm }</a>
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
@@ -67,8 +67,8 @@ function pageLoad(){
 							<th class="acenter">부동산 등기부등본</th>
 							<td>
 								<c:choose>
-									<c:when test="${result.userRegInfo.fileType23 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType23.fileSeq }">${result.userRegInfo.fileType23.fileFullNm }</a>
+									<c:when test="${result.recruitInfo.fileType23 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType23.fileSeq }">${result.recruitInfo.fileType23.fileFullNm }</a>
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
@@ -90,8 +90,8 @@ function pageLoad(){
 							<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</th>
 							<td>
 								<c:choose>
-									<c:when test="${result.userRegInfo.fileType24 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType24.fileSeq }">${result.userRegInfo.fileType24.fileFullNm }</a>
+									<c:when test="${result.recruitInfo.fileType24 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType24.fileSeq }">${result.recruitInfo.fileType24.fileFullNm }</a>
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
@@ -113,8 +113,8 @@ function pageLoad(){
 							<th class="acenter">대리인 신청 위임장 (위임인 인감날인)</th>
 							<td>
 								<c:choose>
-									<c:when test="${result.userRegInfo.fileType25 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType25.fileSeq }">${result.userRegInfo.fileType25.fileFullNm }</a>
+									<c:when test="${result.recruitInfo.fileType25 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType25.fileSeq }">${result.recruitInfo.fileType25.fileFullNm }</a>
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
@@ -124,8 +124,8 @@ function pageLoad(){
 							<th class="acenter">위임인 인감증명서</th>
 							<td>
 								<c:choose>
-									<c:when test="${result.userRegInfo.fileType26 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType26.fileSeq }">${result.userRegInfo.fileType26.fileFullNm }</a>
+									<c:when test="${result.recruitInfo.fileType26 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType26.fileSeq }">${result.recruitInfo.fileType26.fileFullNm }</a>
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
@@ -137,7 +137,7 @@ function pageLoad(){
 		</div>
 
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="goRecruitList();">목록</a>
 		</div>
 	</div>
 </div>

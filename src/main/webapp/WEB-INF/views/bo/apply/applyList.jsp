@@ -114,8 +114,8 @@ function pageLoad(){
 
 //모집인 조회 및 변경 row 클릭 이벤트
 function goApplyDetail(idx, data){
-	var masterSeq 	= recruitGrid.gridData[idx].masterSeq;
-	var plClass		= recruitGrid.gridData[idx].plClass;
+	var masterSeq 	= applyGrid.gridData[idx].masterSeq;
+	var plClass		= applyGrid.gridData[idx].plClass;
 	
 	if(plClass == "1"){
 		//개인
