@@ -212,6 +212,7 @@ create table tb_lc_mas01(
 	, com_code integer
 	, member_seq integer
 	, pl_class varchar(2)
+	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
@@ -261,6 +262,7 @@ COMMENT ON COLUMN tb_lc_mas01.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
+COMMENT ON COLUMN tb_lc_mas01.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
@@ -773,6 +775,23 @@ COMMENT ON COLUMN tb_lc_violation.violation_cd IS '위반이력코드';
 COMMENT ON COLUMN tb_lc_violation.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_violation.reg_seq IS '등록자시퀀스';
 
+
+commit;
+
+
+-- 첨부서류체크정보
+create table TB_LC_FILE_CHECK(
+	FILE_SEQ INTEGER
+	, CHECK_CD VARCHAR(10)
+	, reg_timestamp timestamp not null
+	, reg_seq integer not null
+);
+
+COMMENT ON TABLE tb_lc_file_check is '첨부서류체크정보';
+COMMENT ON COLUMN tb_lc_file_check.file_seq is '첨부파일시퀀스';
+COMMENT ON COLUMN tb_lc_file_check.check_cd is '체크코드';
+COMMENT ON COLUMN tb_lc_file_check.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_file_check.reg_seq IS '등록자시퀀스';
 
 commit;
 

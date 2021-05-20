@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
@@ -123,4 +124,28 @@ public class ApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	
+	// 첨부서류체크 등록
+	@PostMapping(value="/apply/insertApplyCheck")
+	public ResponseEntity<ResponseMsg> insertApplyCheck(ApplyCheckDomain applyCheckDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(applyService.insertApplyCheck(applyCheckDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 첨부서류체크 삭제
+	@PostMapping(value="/apply/deleteApplyCheck")
+	public ResponseEntity<ResponseMsg> deleteApplyCheck(ApplyCheckDomain applyCheckDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(applyService.deleteApplyCheck(applyCheckDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 실무자확인
+	@PostMapping(value="/apply/applyCheck")
+	public ResponseEntity<ResponseMsg> applyCheck(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(applyService.applyCheck(applyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 }

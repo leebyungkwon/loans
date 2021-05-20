@@ -129,4 +129,22 @@ public class ApplyDomain extends BaseDomain {
 	private String srchSelect2;
 	private String srchDate1;
 	private String srchDate2;
+	
+	private ApplyCheckDomain checkDomain;
+	
+	private String checkCd1;
+	private String checkCd2;
+	private String checkCd3;
+	private String checkCd4;
+	private String checkCd5;
+	private String checkCd6;
+	private String checkCd7;
+	private String checkCd8;
+	private String checkCd9;
+	private String checkCd10;
+	private String checkCd11;
+	private String checkCd12;
+	private String checkCd13;
+	private String checkCd14;
+	private String checkCd15;
 }

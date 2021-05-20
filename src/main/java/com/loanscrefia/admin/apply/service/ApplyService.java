@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
@@ -94,6 +95,33 @@ public class ApplyService {
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
         				applyInfo.setFileType11(fileList.get(i));
         			}
+        			
+        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
+        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
+        			for(ApplyCheckDomain tmp : checkList) {
+        				if("1".equals(tmp.getCheckCd())){
+        					applyInfo.setCheckCd1(tmp.getCheckCd());
+        				}else if("2".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd2(tmp.getCheckCd());
+        				}else if("3".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd3(tmp.getCheckCd());
+        				}else if("4".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd4(tmp.getCheckCd());
+        				}else if("5".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd5(tmp.getCheckCd());
+        				}else if("6".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd6(tmp.getCheckCd());
+        				}else if("7".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd7(tmp.getCheckCd());
+        				}else if("8".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd8(tmp.getCheckCd());
+        				}else if("9".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd9(tmp.getCheckCd());
+        				}else if("10".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd10(tmp.getCheckCd());
+        				}
+        			}
         		}
         	}
     	}
@@ -140,6 +168,37 @@ public class ApplyService {
         			}else if(fileList.get(i).getFileType().equals("6")) {
         				applyInfo.setFileType6(fileList.get(i));
         			}
+        			
+        			
+        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
+        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
+        			for(ApplyCheckDomain tmp : checkList) {
+        				if("1".equals(tmp.getCheckCd())){
+        					applyInfo.setCheckCd1(tmp.getCheckCd());
+        				}else if("2".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd2(tmp.getCheckCd());
+        				}else if("3".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd3(tmp.getCheckCd());
+        				}else if("4".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd4(tmp.getCheckCd());
+        				}else if("5".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd5(tmp.getCheckCd());
+        				}else if("6".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd6(tmp.getCheckCd());
+        				}else if("7".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd7(tmp.getCheckCd());
+        				}else if("8".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd8(tmp.getCheckCd());
+        				}else if("9".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd9(tmp.getCheckCd());
+        				}else if("10".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd10(tmp.getCheckCd());
+        				}else if("11".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd11(tmp.getCheckCd());
+        				}
+        			}
+        			
         		}
         	}
 		}
@@ -208,6 +267,41 @@ public class ApplyService {
 						}else if(fileList.get(j).getFileType().equals("15")) {
 							imwonList.get(i).setFileType15(fileList.get(j));
 						}
+						
+						
+	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
+	        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+	        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
+	        			for(ApplyCheckDomain tmp : checkList) {
+	        				if("100".equals(tmp.getCheckCd())){
+	        					imwonList.get(i).setCheckCd100(tmp.getCheckCd());
+	        				}else if("101".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd101(tmp.getCheckCd());
+	        				}else if("102".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd102(tmp.getCheckCd());
+	        				}else if("103".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd103(tmp.getCheckCd());
+	        				}else if("104".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd104(tmp.getCheckCd());
+	        				}else if("105".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd105(tmp.getCheckCd());
+	        				}else if("106".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd106(tmp.getCheckCd());
+	        				}else if("107".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd107(tmp.getCheckCd());
+	        				}else if("108".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd108(tmp.getCheckCd());
+	        				}else if("109".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd109(tmp.getCheckCd());
+	        				}else if("110".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd110(tmp.getCheckCd());
+	        				}else if("111".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd111(tmp.getCheckCd());
+	        				}else if("112".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd112(tmp.getCheckCd());
+	        				}
+	        			}
+						
 					}
 				}
 			}
@@ -258,6 +352,29 @@ public class ApplyService {
 						}else if(fileList.get(j).getFileType().equals("18")) {
 							expertList.get(i).setFileType18(fileList.get(j));
 						}
+						
+	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
+	        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+	        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
+	        			for(ApplyCheckDomain tmp : checkList) {
+	        				if("200".equals(tmp.getCheckCd())){
+	        					expertList.get(i).setCheckCd200(tmp.getCheckCd());
+	        				}else if("201".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd201(tmp.getCheckCd());
+	        				}else if("202".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd202(tmp.getCheckCd());
+	        				}else if("203".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd203(tmp.getCheckCd());
+	        				}else if("204".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd204(tmp.getCheckCd());
+	        				}else if("205".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd205(tmp.getCheckCd());
+	        				}else if("206".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd206(tmp.getCheckCd());
+	        				}else if("207".equals(tmp.getCheckCd())) {
+	        					expertList.get(i).setCheckCd207(tmp.getCheckCd());
+	        				}
+	        			}
 					}
 				}
 			}
@@ -364,4 +481,39 @@ public class ApplyService {
 		}
 	}
 
+	
+	//모집인 조회 및 변경 > 첨부서류체크 등록
+	@Transactional
+	public ResponseMsg insertApplyCheck(ApplyCheckDomain applyCheckDomain){
+		int result = applyRepository.insertApplyCheck(applyCheckDomain);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
+	//모집인 조회 및 변경 > 첨부서류체크 삭제
+	@Transactional
+	public ResponseMsg deleteApplyCheck(ApplyCheckDomain applyCheckDomain){
+		int result = applyRepository.deleteApplyCheck(applyCheckDomain);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
+	//모집인 조회 및 변경 > 실무자확인
+	@Transactional
+	public ResponseMsg applyCheck(ApplyDomain applyDomain){
+		
+		int result = applyRepository.applycheck(applyDomain);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
@@ -32,5 +33,17 @@ public interface ApplyRepository {
 	
 	//모집인 조회 및 변경 > 모집인단계이력
 	void insertMasterStep(ApplyDomain applyDomain);
+
+	//모집인 조회 및 변경 > 첨부서류체크리스트
+	List<ApplyCheckDomain> selectApplyCheckList(ApplyCheckDomain applyCheckDomain);
+	
+	//모집인 조회 및 변경 > 첨부서류체크 등록
+	int insertApplyCheck(ApplyCheckDomain applyCheckDomain);
+	
+	//모집인 조회 및 변경 > 첨부서류체크 삭제	
+	int deleteApplyCheck(ApplyCheckDomain applyCheckDomain);
+	
+	//모집인 조회 및 변경 > 실무자확인
+	int applycheck(ApplyDomain applyDomain);
 	
 }

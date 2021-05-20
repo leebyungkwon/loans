@@ -67,4 +67,28 @@ public class ApplyImwonDomain extends BaseDomain {
 	private FileDomain fileType14;
 	private FileDomain fileType15;
 	
+	
+	// 임원 첨부파일 체크
+	private String checkCd100;
+	private String checkCd101;
+	private String checkCd102;
+	private String checkCd103;
+	private String checkCd104;
+	private String checkCd105;
+	private String checkCd106;
+	private String checkCd107;
+	private String checkCd108;
+	private String checkCd109;
+	private String checkCd110;
+	private String checkCd111;
+	private String checkCd112;
+	private String checkCd113;
+	private String checkCd114;
+	private String checkCd115;
+	private String checkCd116;
+	private String checkCd117;
+	private String checkCd118;
+	private String checkCd119;
+
+	
 }

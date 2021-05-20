@@ -43,6 +43,7 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+			,TLM.CHK_YN
 			,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
 			,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
@@ -166,6 +167,7 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
+			,TLM.CHK_YN
 			,TLM.CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE
 			,TLM.PAY_DATE
@@ -290,5 +292,39 @@
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>
    	
+   	<select id="selectApplyCheckList" parameterType="applyCheck" resultType="applyCheck">
+   		SELECT
+   			FILE_SEQ
+   			, CHECK_CD
+   		FROM
+   			TB_LC_FILE_CHECK
+   		WHERE FILE_SEQ = #{fileSeq}
+   	</select>
+   	
+   	<insert id="insertApplyCheck" parameterType="applyCheck">
+   		INSERT INTO TB_LC_FILE_CHECK
+   		VALUES(
+   			#{fileSeq}
+   			, #{checkCd}
+   			, NOW()
+   			, #{regSeq}
+   		)
+   	</insert>
+   	
+   	<delete id="deleteApplyCheck" parameterType="applyCheck">
+   		DELETE FROM TB_LC_FILE_CHECK
+   		WHERE
+   			FILE_SEQ = #{fileSeq}
+   		AND CHECK_CD = #{checkCd}
+   	</delete>
+   	
+   	<update id="applycheck" parameterType="apply" >
+   		UPDATE tb_lc_mas01
+   		SET
+   			chk_yn = #{chkYn}
+   			, upd_seq = #{updSeq}
+   			, upd_timestamp = NOW()
+   		WHERE master_seq = #{masterSeq}
+   	</update>
    	
 </mapper> 
