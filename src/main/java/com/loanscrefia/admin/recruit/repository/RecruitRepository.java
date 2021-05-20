@@ -34,4 +34,7 @@ public interface RecruitRepository {
 	//모집인 조회 및 변경 > 승인처리
 	int updateRecruitPlStat(RecruitDomain recruitDomain);
 	
+	//모집인 조회 및 변경 > 모집인단계이력
+	void insertMasterStep(RecruitDomain recruitDomain);
+	
 }

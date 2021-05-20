@@ -33,6 +33,8 @@
 			$("#menuCrefiaWork").addClass("on");
 		}else if(menuUrl[2] == "recruit"){
 			$("#menuRecruit").addClass("on");
+		}else if(menuUrl[2] == "apply"){
+			$("#menuApply").addClass("on");
 		}
 	}
 </script>
@@ -59,8 +61,8 @@
 		<li id="menuRecruit">
 			<a href="/admin/recruit/recruitPage">모집인 조회 및 변경</a>
 		</li>
-		<li id="">
-			<a href="#">모집인 승인처리</a>
+		<li id="menuApply">
+			<a href="/admin/apply/applyPage">모집인 승인처리</a>
 		</li>
 		<li id="">
 			<a href="#">결제내역</a>

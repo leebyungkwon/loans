@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.loanscrefia.admin.recruit.repository.RecruitRepository">
+<mapper namespace="com.loanscrefia.admin.apply.repository.ApplyRepository">
    	<!-- 모집인 조회 및 변경 > 리스트 -->
-   	<select id="selectRecruitList" parameterType="recruit" resultType="recruit">
+   	<select id="selectApplyList" parameterType="apply" resultType="apply">
    		SELECT 
 	    	<include refid="common.totalPages"/>
 	    	 TLM.MASTER_SEQ
@@ -123,7 +123,7 @@
    	</select>
    
    	<!-- 모집인 조회 및 변경 > 상세 -->
-   	<select id="getRecruitDetail" parameterType="recruit" resultType="recruit">
+   	<select id="getApplyDetail" parameterType="apply" resultType="apply">
    		SELECT 
 	    	 TLM.MASTER_SEQ
 			,TLM.COM_CODE
@@ -185,7 +185,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 대표자 및 임원 상세 -->
-   	<select id="selectRecruitCorpImwonList" parameterType="recruitImwon" resultType="recruitImwon">
+   	<select id="selectApplyCorpImwonList" parameterType="applyImwon" resultType="applyImwon">
    		SELECT 
 			 EXC_SEQ
 			,MASTER_SEQ
@@ -210,7 +210,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 전문인력 상세 -->
-   	<select id="selecRecruitCorpExpertList" parameterType="recruitExpert" resultType="recruitExpert">
+   	<select id="selecApplyCorpExpertList" parameterType="applyExpert" resultType="applyExpert">
    		SELECT
 			 EXP_SEQ
 			,MASTER_SEQ
@@ -230,7 +230,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 전산인력 상세 -->
-   	<select id="selectRecruitCorpItList" parameterType="recruitIt" resultType="recruitIt">
+   	<select id="selectApplyCorpItList" parameterType="applyIt" resultType="applyIt">
    		SELECT
 	   		 OPER_SEQ
 			,MASTER_SEQ
@@ -246,7 +246,7 @@
    	
    	
    	<!-- 모집인 조회 및 변경 > 승인처리 -->
-   	<update id="updateRecruitPlStat" parameterType="recruitIt">
+   	<update id="updateApplyPlStat" parameterType="applyIt">
    		UPDATE tb_lc_mas01
    		SET
    			pl_stat = #{plStat}
@@ -269,7 +269,7 @@
    	</update>
    	
    	
-   	<insert id="insertMasterStep" parameterType="recruit">
+   	<insert id="insertMasterStep" parameterType="apply">
    		INSERT INTO TB_LC_MAS01_STEP
    		(
    			 MASTER_SEQ

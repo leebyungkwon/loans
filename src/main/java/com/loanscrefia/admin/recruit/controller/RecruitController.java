@@ -115,7 +115,7 @@ public class RecruitController {
         return mv;
     }
 	
-	// 승인처리
+	// 상태변경처리
 	@PostMapping(value="/recruit/updatePlStat")
 	public ResponseEntity<ResponseMsg> updateRecruitPlStat(RecruitDomain recruitDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);

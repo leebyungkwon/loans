@@ -19,7 +19,7 @@ public class CosntPage {
 	public static String BoRecruitPage = "bo/recruit";
 	
 	//모집인 승인처리
-	
+	public static String BoApplyPage = "bo/apply";	
 	//결제 내역
 	
 	//타협회 내역 다운로드

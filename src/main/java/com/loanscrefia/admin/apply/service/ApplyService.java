@@ -1,4 +1,4 @@
-package com.loanscrefia.admin.recruit.service;
+package com.loanscrefia.admin.apply.service;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.loanscrefia.admin.apply.domain.ApplyDomain;
+import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
+import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
+import com.loanscrefia.admin.apply.domain.ApplyItDomain;
+import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
-import com.loanscrefia.admin.recruit.repository.RecruitRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -32,24 +36,21 @@ import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
 @Service
-public class RecruitService {
+public class ApplyService {
 
-	@Autowired private RecruitRepository recruitRepository;
+	@Autowired private ApplyRepository applyRepository;
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
-	public List<RecruitDomain> selectRecruitList(RecruitDomain recruitDomain){
-		
-		
-		
-		return recruitRepository.selectRecruitList(recruitDomain);
+	public List<ApplyDomain> selectApplyList(ApplyDomain applyDomain){
+		return applyRepository.selectApplyList(applyDomain);
 	}
 	
 	//모집인 조회 및 변경 > 상세 : 개인
 	@Transactional(readOnly=true)
-	public Map<String,Object> getRecruitIndvDetail(RecruitDomain recruitDomain){
+	public Map<String,Object> getApplyIndvDetail(ApplyDomain applyDomain){
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -59,39 +60,39 @@ public class RecruitService {
 		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
-		RecruitDomain recruitInfo = recruitRepository.getRecruitDetail(recruitDomain);
+		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
 		
 		//첨부파일
-    	if(recruitInfo.getFileSeq() != null) {
+    	if(applyInfo.getFileSeq() != null) {
     		FileDomain fileParam = new FileDomain();
     		
-    		fileParam.setFileGrpSeq(recruitInfo.getFileSeq());
+    		fileParam.setFileGrpSeq(applyInfo.getFileSeq());
         	List<FileDomain> fileList = commonService.selectFileList(fileParam);
         	
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
         			if(fileList.get(i).getFileType().equals("1")) {
-        				recruitInfo.setFileType1(fileList.get(i));
+        				applyInfo.setFileType1(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("2")) {
-        				recruitInfo.setFileType2(fileList.get(i));
+        				applyInfo.setFileType2(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("3")) {
-        				recruitInfo.setFileType3(fileList.get(i));
+        				applyInfo.setFileType3(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("4")) {
-        				recruitInfo.setFileType4(fileList.get(i));
+        				applyInfo.setFileType4(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("5")) {
-        				recruitInfo.setFileType5(fileList.get(i));
+        				applyInfo.setFileType5(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("6")) {
-        				recruitInfo.setFileType6(fileList.get(i));
+        				applyInfo.setFileType6(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("7")) {
-        				recruitInfo.setFileType7(fileList.get(i));
+        				applyInfo.setFileType7(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("8")) {
-        				recruitInfo.setFileType8(fileList.get(i));
+        				applyInfo.setFileType8(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("9")) {
-        				recruitInfo.setFileType9(fileList.get(i));
+        				applyInfo.setFileType9(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("10")) { //변경요청 시 증빙서류
-        				recruitInfo.setFileType10(fileList.get(i));
+        				applyInfo.setFileType10(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
-        				recruitInfo.setFileType11(fileList.get(i));
+        				applyInfo.setFileType11(fileList.get(i));
         			}
         		}
         	}
@@ -99,14 +100,14 @@ public class RecruitService {
     	
     	//전달
     	result.put("addrCodeList", addrCodeList);
-    	result.put("recruitInfo", recruitInfo);
+    	result.put("applyInfo", applyInfo);
 		
 		return result;
 	}
 	
 	//모집인 조회 및 변경 > 상세 : 법인(등록정보 탭)
 	@Transactional(readOnly=true)
-	public Map<String,Object> getRecruitCorpDetail(RecruitDomain recruitDomain){
+	public Map<String,Object> getApplyCorpDetail(ApplyDomain applyDomain){
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -116,28 +117,28 @@ public class RecruitService {
 		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
-		RecruitDomain recruitInfo 	= recruitRepository.getRecruitDetail(recruitDomain);
+		ApplyDomain applyInfo 	= applyRepository.getApplyDetail(applyDomain);
 		
 		//첨부파일
-		if(recruitInfo.getFileSeq() != null) {
+		if(applyInfo.getFileSeq() != null) {
 			FileDomain fileParam 		= new FileDomain();
-    		fileParam.setFileGrpSeq(recruitInfo.getFileSeq());
+    		fileParam.setFileGrpSeq(applyInfo.getFileSeq());
         	List<FileDomain> fileList 	= commonService.selectFileList(fileParam);
         	
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
         			if(fileList.get(i).getFileType().equals("1")) {
-        				recruitInfo.setFileType1(fileList.get(i));
+        				applyInfo.setFileType1(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("2")) {
-        				recruitInfo.setFileType2(fileList.get(i));
+        				applyInfo.setFileType2(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("3")) {
-        				recruitInfo.setFileType3(fileList.get(i));
+        				applyInfo.setFileType3(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("4")) {
-        				recruitInfo.setFileType4(fileList.get(i));
+        				applyInfo.setFileType4(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("5")) {
-        				recruitInfo.setFileType5(fileList.get(i));
+        				applyInfo.setFileType5(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("6")) {
-        				recruitInfo.setFileType6(fileList.get(i));
+        				applyInfo.setFileType6(fileList.get(i));
         			}
         		}
         	}
@@ -145,14 +146,14 @@ public class RecruitService {
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
-		result.put("recruitInfo", recruitInfo);
+		result.put("applyInfo", applyInfo);
 		
 		return result;
 	}
 	
 	//모집인 조회 및 변경 > 상세 : 법인(대표자 및 임원관련사항 탭)
 	@Transactional(readOnly=true)
-	public Map<String,Object> getRecruitCorpImwonDetail(RecruitImwonDomain recruitImwonDomain){
+	public Map<String,Object> getApplyCorpImwonDetail(ApplyImwonDomain applyImwonDomain){
 		
 		Map<String, Object> result 	= new HashMap<String, Object>();
 
@@ -172,12 +173,12 @@ public class RecruitService {
 		List<CodeDtlDomain> expertStatList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
-		RecruitDomain dtlParam			= new RecruitDomain();
-		dtlParam.setMasterSeq(recruitImwonDomain.getMasterSeq());
-		RecruitDomain recruitInfo 		= recruitRepository.getRecruitDetail(dtlParam);
+		ApplyDomain dtlParam			= new ApplyDomain();
+		dtlParam.setMasterSeq(applyImwonDomain.getMasterSeq());
+		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(dtlParam);
 		
 		//대표자 및 임원 리스트
-		List<RecruitImwonDomain> imwonList = recruitRepository.selectRecruitCorpImwonList(recruitImwonDomain);
+		List<ApplyImwonDomain> imwonList = applyRepository.selectApplyCorpImwonList(applyImwonDomain);
 		
 		//첨부파일
 		if(imwonList.size() > 0) {
@@ -216,7 +217,7 @@ public class RecruitService {
 		result.put("careerTypList", careerTypList);
 		result.put("fullTmStatList", fullTmStatList);
 		result.put("expertStatList", expertStatList);
-		result.put("recruitInfo", recruitInfo);
+		result.put("applyInfo", applyInfo);
 		result.put("imwonList", imwonList);
 		
 		return result;
@@ -224,7 +225,7 @@ public class RecruitService {
 	
 	//모집인 조회 및 변경 > 상세 : 법인(전문인력 탭)
 	@Transactional(readOnly=true)
-	public Map<String,Object> getRecruitCorpExpertDetail(RecruitExpertDomain recruitExpertDomain){
+	public Map<String,Object> getApplyCorpExpertDetail(ApplyExpertDomain applyExpertDomain){
 		
 		Map<String, Object> result 	= new HashMap<String, Object>();
 		
@@ -234,12 +235,12 @@ public class RecruitService {
 		List<CodeDtlDomain> careerTypList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
-		RecruitDomain dtlParam			= new RecruitDomain();
-		dtlParam.setMasterSeq(recruitExpertDomain.getMasterSeq());
-		RecruitDomain recruitInfo 		= recruitRepository.getRecruitDetail(dtlParam);
+		ApplyDomain dtlParam			= new ApplyDomain();
+		dtlParam.setMasterSeq(applyExpertDomain.getMasterSeq());
+		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(dtlParam);
 		
 		//전문인력 리스트
-		List<RecruitExpertDomain> expertList = recruitRepository.selecRecruitCorpExpertList(recruitExpertDomain);
+		List<ApplyExpertDomain> expertList = applyRepository.selecApplyCorpExpertList(applyExpertDomain);
 		
 		//첨부파일
 		if(expertList.size() > 0) {
@@ -264,7 +265,7 @@ public class RecruitService {
 		
 		//전달
 		result.put("careerTypList", careerTypList);
-		result.put("recruitInfo", recruitInfo);
+		result.put("applyInfo", applyInfo);
 		result.put("expertList", expertList);
 		
 		return result;
@@ -272,17 +273,17 @@ public class RecruitService {
 	
 	//모집인 조회 및 변경 > 상세 : 법인(전산인력 탭)
 	@Transactional(readOnly=true)
-	public Map<String,Object> getRecruitCorpItDetail(RecruitItDomain recruitItDomain){
+	public Map<String,Object> getApplyCorpItDetail(ApplyItDomain applyItDomain){
 		
 		Map<String, Object> result 	= new HashMap<String, Object>();
 		
 		//상세
-		RecruitDomain dtlParam			= new RecruitDomain();
-		dtlParam.setMasterSeq(recruitItDomain.getMasterSeq());
-		RecruitDomain recruitInfo 		= recruitRepository.getRecruitDetail(dtlParam);
+		ApplyDomain dtlParam			= new ApplyDomain();
+		dtlParam.setMasterSeq(applyItDomain.getMasterSeq());
+		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(dtlParam);
 		
 		//전산인력 리스트
-		List<RecruitItDomain> itList 	= recruitRepository.selectRecruitCorpItList(recruitItDomain);
+		List<ApplyItDomain> itList 	= applyRepository.selectApplyCorpItList(applyItDomain);
 		
 		//첨부파일
 		if(itList.size() > 0) {
@@ -304,7 +305,7 @@ public class RecruitService {
 		}
 		
 		//전달
-		result.put("recruitInfo", recruitInfo);
+		result.put("applyInfo", applyInfo);
 		result.put("itList", itList);
 		
 		return result;
@@ -312,50 +313,50 @@ public class RecruitService {
 	
 	//모집인 조회 및 변경 > 상세 : 법인(기타 탭)
 	@Transactional(readOnly=true)
-	public Map<String,Object> getRecruitCorpEtcDetail(RecruitDomain recruitDomain){
+	public Map<String,Object> getApplyCorpEtcDetail(ApplyDomain applyDomain){
 		
 		Map<String, Object> result 	= new HashMap<String, Object>();
 		
 		//상세
-		RecruitDomain recruitInfo 		= recruitRepository.getRecruitDetail(recruitDomain);
+		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(applyDomain);
 		
 		//첨부파일
-    	if(recruitInfo.getFileSeq() != null) {
+    	if(applyInfo.getFileSeq() != null) {
     		FileDomain fileParam 		= new FileDomain();
-    		fileParam.setFileGrpSeq(recruitInfo.getFileSeq());
+    		fileParam.setFileGrpSeq(applyInfo.getFileSeq());
         	List<FileDomain> fileList 	= commonService.selectFileList(fileParam);
         	
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
         			if(fileList.get(i).getFileType().equals("21")) {
-        				recruitInfo.setFileType21(fileList.get(i));
+        				applyInfo.setFileType21(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("22")) {
-        				recruitInfo.setFileType22(fileList.get(i));
+        				applyInfo.setFileType22(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("23")) {
-        				recruitInfo.setFileType23(fileList.get(i));
+        				applyInfo.setFileType23(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("24")) {
-        				recruitInfo.setFileType24(fileList.get(i));
+        				applyInfo.setFileType24(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("25")) {
-        				recruitInfo.setFileType25(fileList.get(i));
+        				applyInfo.setFileType25(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("26")) {
-        				recruitInfo.setFileType26(fileList.get(i));
+        				applyInfo.setFileType26(fileList.get(i));
         			}
         		}
         	}
     	}
     	
 		//전달
-		result.put("recruitInfo", recruitInfo);
+		result.put("applyInfo", applyInfo);
 		
 		return result;
 	}
 	
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
-	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
+	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
 		// 모집인단계이력
-		recruitRepository.insertMasterStep(recruitDomain);
-		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
+		applyRepository.insertMasterStep(applyDomain);
+		int result = applyRepository.updateApplyPlStat(applyDomain);
 		if(result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
 		}else {

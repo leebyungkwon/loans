@@ -14,7 +14,7 @@ function pageLoad(){
 function goRecruitApply(){
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
-			  url		: "/admin/recruit/updatePlStat"	
+			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: '7'
@@ -23,7 +23,7 @@ function goRecruitApply(){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/apply/applyPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -35,7 +35,7 @@ function goRecruitApply(){
 }
 
 //보완
-function goRecruitImprove(){
+function goApplyImprove(){
 	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
@@ -44,7 +44,7 @@ function goRecruitImprove(){
 	
 	if(confirm("보완요청을 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/recruit/updatePlStat"	
+			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '5'
@@ -53,7 +53,7 @@ function goRecruitImprove(){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/apply/applyPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -68,7 +68,7 @@ function goRecruitImprove(){
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
-	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.recruitInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.applyInfo.masterSeq }"/>
 </form>
 
 <div class="cont_area">
@@ -84,18 +84,18 @@ function goRecruitImprove(){
 			<table class="view_table">
 				<tr>
 					<th>회원사</th>
-					<td>${result.recruitInfo.comCodeNm }</td>
+					<td>${result.applyInfo.comCodeNm }</td>
 					<th>담당자</th>
-					<td>${result.recruitInfo.memberNm } (<a href="${result.recruitInfo.email }">${result.recruitInfo.email }</a>, ${result.recruitInfo.mobileNo })</td>
+					<td>${result.applyInfo.memberNm } (<a href="${result.applyInfo.email }">${result.applyInfo.email }</a>, ${result.applyInfo.mobileNo })</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>
-					<td>${result.recruitInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+					<td>${result.applyInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
 					<th>결제여부</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.plPayStat ne null }">
-								${result.recruitInfo.plPayStat } (국민카드 / 2021.10.20)
+							<c:when test="${result.applyInfo.plPayStat ne null }">
+								${result.applyInfo.plPayStat } (국민카드 / 2021.10.20)
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -103,71 +103,71 @@ function goRecruitImprove(){
 				</tr>
 				<tr>
 					<th>처리상태</th>
-					<td colspan="3">${result.recruitInfo.plStatNm }</td>
+					<td colspan="3">${result.applyInfo.plStatNm }</td>
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
-					<td colspan="3">${result.recruitInfo.plClassNm }</td>
+					<td colspan="3">${result.applyInfo.plClassNm }</td>
 				</tr>
 				<tr>
 					<th>신규경력구분</th>
-					<td colspan="3">${result.recruitInfo.careerTypNm }</td>
+					<td colspan="3">${result.applyInfo.careerTypNm }</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
-					<td colspan="3">${result.recruitInfo.plProductNm }</td>
+					<td colspan="3">${result.applyInfo.plProductNm }</td>
 				</tr>
 				<tr>
 					<th>이름</th>
-					<td>${result.recruitInfo.plMName }</td>
+					<td>${result.applyInfo.plMName }</td>
 					<th>주민번호</th>
-					<td>${result.recruitInfo.plMZId }</td>
+					<td>${result.applyInfo.plMZId }</td>
 				</tr>
 				<tr>
 					<th>휴대폰번호</th>
-					<td colspan="3">${result.recruitInfo.plCellphone }</td>
+					<td colspan="3">${result.applyInfo.plCellphone }</td>
 				</tr>
 				<tr>
 					<th>주소</th>
-					<td colspan="3">${result.recruitInfo.addrNm }</td>
+					<td colspan="3">${result.applyInfo.addrNm }</td>
 				</tr>
 				<tr>
 					<th>교육이수번호 또는 인증번호</th>
-					<td colspan="3">${result.recruitInfo.plEduNo }</td>
+					<td colspan="3">${result.applyInfo.plEduNo }</td>
 				</tr>
 				<tr>
 					<th>경력시작일</th>
-					<td>${result.recruitInfo.careerStartDate }</td>
+					<td>${result.applyInfo.careerStartDate }</td>
 					<th>경력종료일</th>
-					<td>${result.recruitInfo.careerEndDate }</td>
+					<td>${result.applyInfo.careerEndDate }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>
-					<td colspan="3">${result.recruitInfo.comContDate }</td>
+					<td colspan="3">${result.applyInfo.comContDate }</td>
 				</tr>
 				<tr>
 					<th>위탁예정기간</th>
-					<td colspan="3">${result.recruitInfo.entrustDate }</td>
+					<td colspan="3">${result.applyInfo.entrustDate }</td>
 				</tr>
 				
 				<c:choose>
-					<c:when test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '7'
-					or result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '7'}">
+					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
+					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7'}">
 						<tr>
 							<th>사유</th>
 							<td colspan="3">
-								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
+								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }">
 							</td>
 						</tr>
 					</c:when>
-					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
+					<c:when test="${result.applyInfo.plStat eq '4' or result.applyInfo.plStat eq '7'}">
 						<tr>
 							<th>해지요청사유</th>
-							<td colspan="3">${result.recruitInfo.plHistCd }</td>
+							<td colspan="3">${result.applyInfo.plHistCd }</td>
 						</tr>
 						<tr>
 							<th>해지일자</th>
-							<td colspan="3">${result.recruitInfo.comHaejiDate }</td>
+							<td colspan="3">${result.applyInfo.comHaejiDate }</td>
 						</tr>
 					</c:when>
 				</c:choose>
@@ -185,8 +185,8 @@ function goRecruitImprove(){
 					<th class="acenter">사진 (등록증 게시용) *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType1 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType1.fileSeq }">${result.recruitInfo.fileType1.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType1 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType1.fileSeq }">${result.applyInfo.fileType1.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -196,8 +196,8 @@ function goRecruitImprove(){
 					<th class="acenter">주민등록증사본, 여권사본 및 여권정보증명서, 운전면허증 사본 중 택1일 *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType2 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType2.fileSeq }">${result.recruitInfo.fileType2.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType2 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType2.fileSeq }">${result.applyInfo.fileType2.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -207,8 +207,8 @@ function goRecruitImprove(){
 					<th class="acenter">교육과정 이수확인서 (경력)</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType3 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType3.fileSeq }">${result.recruitInfo.fileType3.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType3 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType3.fileSeq }">${result.applyInfo.fileType3.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -218,8 +218,8 @@ function goRecruitImprove(){
 					<th class="acenter">인증서(신규)</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType4 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType4.fileSeq }">${result.recruitInfo.fileType4.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType4 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType4.fileSeq }">${result.applyInfo.fileType4.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -229,8 +229,8 @@ function goRecruitImprove(){
 					<th class="acenter">경력증명서 *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType5 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType5.fileSeq }">${result.recruitInfo.fileType5.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType5 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType5.fileSeq }">${result.applyInfo.fileType5.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -240,8 +240,8 @@ function goRecruitImprove(){
 					<th class="acenter">금융상품 유형, 내용에 대한 설명자료(계약서) *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType6 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType6.fileSeq }">${result.recruitInfo.fileType6.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType6 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType6.fileSeq }">${result.applyInfo.fileType6.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -251,8 +251,8 @@ function goRecruitImprove(){
 					<th class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType7 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType7.fileSeq }">${result.recruitInfo.fileType7.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType7 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType7.fileSeq }">${result.applyInfo.fileType7.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -262,8 +262,8 @@ function goRecruitImprove(){
 					<th class="acenter">대리인 신청 위임장(위임인 인간날인)</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType8 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType8.fileSeq }">${result.recruitInfo.fileType8.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType8 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType8.fileSeq }">${result.applyInfo.fileType8.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -273,20 +273,20 @@ function goRecruitImprove(){
 					<th class="acenter">위임인 인감증명서</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType9 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType9.fileSeq }">${result.recruitInfo.fileType9.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType9 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType9.fileSeq }">${result.applyInfo.fileType9.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 					</td>
 				</tr>
-				<c:if test="${result.recruitInfo.plStat eq '3' }">
+				<c:if test="${result.applyInfo.plStat eq '3' }">
 					<tr>
 						<th class="acenter">주민등록증 또는 주민등록 초본</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.recruitInfo.fileType10 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType10.fileSeq }">${result.recruitInfo.fileType10.fileFullNm }</a>
+								<c:when test="${result.applyInfo.fileType10 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType10.fileSeq }">${result.applyInfo.fileType10.fileFullNm }</a>
 								</c:when>
 								<c:otherwise>-</c:otherwise>
 							</c:choose>
@@ -297,8 +297,8 @@ function goRecruitImprove(){
 						<th class="acenter">휴대폰 명의 확인서</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.recruitInfo.fileType11 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType11.fileSeq }">${result.recruitInfo.fileType11.fileFullNm }</a>
+								<c:when test="${result.applyInfo.fileType11 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType11.fileSeq }">${result.applyInfo.fileType11.fileFullNm }</a>
 								</c:when>
 								<c:otherwise>-</c:otherwise>
 							</c:choose>
@@ -308,10 +308,10 @@ function goRecruitImprove(){
 			</table>
 		</div>
 		<div class="btn_wrap">
-			<a href="/admin/recruit/recruitPage" class="btn_gray" >목록</a>
-			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
+			<a href="/admin/apply/applyPage" class="btn_gray" >목록</a>
+			<c:if test="${result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove();">보완</a>
 			</c:if>
 		</div>
 	</div>

@@ -1,4 +1,4 @@
-package com.loanscrefia.admin.recruit.domain;
+package com.loanscrefia.admin.apply.domain;
 
 import java.util.List;
 import java.util.Map;
@@ -12,8 +12,8 @@ import com.loanscrefia.util.excel.ExcelColumn;
 import lombok.Data;
 
 @Data
-@Alias("recruit")
-public class RecruitDomain extends BaseDomain {
+@Alias("apply")
+public class ApplyDomain extends BaseDomain {
 
 	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
