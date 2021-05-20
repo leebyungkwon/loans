@@ -120,7 +120,7 @@ function goUserRegInfoCancel() {
 					</tr>
 					<tr>
 						<th>모집인 상태</th>
-						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+						<td>${result.userRegInfo.plRegStatNm }</td>
 						<th>결제여부</th>
 						<td>
 							<c:choose>
