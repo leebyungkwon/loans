@@ -120,7 +120,16 @@
 	    <include refid="common.pageBottom"/>
    	</select>
    	
-   	<!-- 모집인 조회 및 변경 > -->
+   	<!-- 모집인 조회 및 변경 > 법인사용인 존재유무 -->
+   	<select id="selectCorpUserCnt" parameterType="user" resultType="int">
+   		SELECT
+   			COUNT(*)
+   		FROM TB_LC_MAS01
+   		WHERE CORP_USER_YN 	= 'Y'
+   		AND PL_REG_STAT 	!= '4'					-- 해지완료가 아닌 법인사용인
+   		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+   	</select>
+   	
    	<!-- 모집인 조회 및 변경 > -->
    	<!-- 모집인 조회 및 변경 > -->
    	<!-- 모집인 조회 및 변경 > -->
@@ -267,6 +276,7 @@
 			,PL_REG_STAT
 			,PL_STAT
 			,PL_CLASS
+			,CORP_USER_YN
 			,CAREER_TYP
 			,PL_M_NAME
 			,PL_M_Z_ID
@@ -290,6 +300,14 @@
    			,'1'							-- 승인전
    			,'1'							-- 승인미요청
    			,#{plClass} 					-- 개인,법인
+   			<choose>
+   				<when test="(item.G != null and item.G != '') and (item.H != null and item.H != '')">
+					,'Y'
+				</when>
+				<otherwise>
+					,'N'
+				</otherwise>
+			</choose>
    			,#{item.A} 						-- 신규,경력
    			,#{item.B} 						-- 이름
    			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
@@ -516,6 +534,7 @@
 			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 			,TLM.PL_PRODUCT
@@ -785,6 +804,17 @@
 			AND MASTER_SEQ 	= #{masterSeq}
 		</where>
 	</update>
+	
+	<!-- 법인 승인여부 체크 -->
+	<select id="corpStatCheck" parameterType="user" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TB_LC_MAS01
+		WHERE PL_CLASS 		= '2' 				-- 법인
+		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND PL_REG_STAT 	IN ('2','3')		-- 모집인상태 : 승인완료,자격취득
+		AND PL_STAT			= '7'				-- 처리상태 : 완료
+	</select>
 	
 	<!-- ====================================================================================================== -->
    	<!-- [모집인 위반이력 관련] -->

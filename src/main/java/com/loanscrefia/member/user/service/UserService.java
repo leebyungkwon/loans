@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class UserService {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private UtilFile utilFile;
+	@Autowired private UtilExcel<T> utilExcel;
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 조회 및 변경
@@ -80,7 +82,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= new UtilExcel().upload(filePath, UserIndvExcelDomain.class);
+				excelResult		= utilExcel.upload(filePath, UserIndvExcelDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -120,7 +122,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= new UtilExcel().upload(filePath, UserCorpExcelDomain.class);
+				excelResult 	= utilExcel.upload(filePath, UserCorpExcelDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -160,7 +162,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= new UtilExcel().upload(filePath, UserImwonDomain.class);
+				excelResult 	= utilExcel.upload(filePath, UserImwonDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -229,7 +231,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= new UtilExcel().upload(filePath, UserExpertDomain.class);
+				excelResult 	= utilExcel.upload(filePath, UserExpertDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -298,7 +300,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= new UtilExcel().upload(filePath, UserItDomain.class);
+				excelResult 	= utilExcel.upload(filePath, UserItDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -358,9 +360,19 @@ public class UserService {
 		
 		for(int i = 0;i < masterSeqArr.length;i++) {
 			userDomain.setMasterSeq(masterSeqArr[i]);
-			result += userRepo.updateUserStat(userDomain);
+			
+			UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+			
+			if(userRegInfo.getCorpUserYn().equals("Y")) {
+				//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음
+				int corpCheck = userRepo.corpStatCheck(userRegInfo);
+				
+				if(corpCheck == 0) {
+					return -1;
+				}
+			}
+			result += this.updateUserStat(userDomain);
 		}
-		
 		return result;
 	}
 	
@@ -932,26 +944,24 @@ public class UserService {
 		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
 		
 		if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 해지요청 불가
-			UserDomain chkParam1 		= new UserDomain();
-			UserImwonDomain chkParam2 	= new UserImwonDomain();
-			UserExpertDomain chkParam3 	= new UserExpertDomain();
-			UserItDomain chkParam4 		= new UserItDomain();
+			UserImwonDomain chkParam1 	= new UserImwonDomain();
+			UserExpertDomain chkParam2 	= new UserExpertDomain();
+			UserItDomain chkParam3 		= new UserItDomain();
 			
 			//법인사용인
-			chkParam1.setPlMerchantNo(userRegInfo.getOriginPlMerchantNo());
-			int corpIndvCnt = 0;
+			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
 			
 			//임원
-			chkParam2.setMasterSeq(userDomain.getMasterSeq());
-			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam2);
+			chkParam1.setMasterSeq(userDomain.getMasterSeq());
+			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
 			
 			//전문인력
-			chkParam3.setMasterSeq(userDomain.getMasterSeq());
-			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam3);
+			chkParam2.setMasterSeq(userDomain.getMasterSeq());
+			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
 			
 			//전산인력
-			chkParam4.setMasterSeq(userDomain.getMasterSeq());
-			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam4);
+			chkParam3.setMasterSeq(userDomain.getMasterSeq());
+			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 			
 			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
 				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능 합니다.");

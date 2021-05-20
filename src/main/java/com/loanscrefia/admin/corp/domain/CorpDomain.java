@@ -4,7 +4,6 @@ import javax.validation.constraints.Pattern;
 
 import org.apache.ibatis.type.Alias;
 
-import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.common.common.domain.BaseDomain;
 
 import lombok.Data;

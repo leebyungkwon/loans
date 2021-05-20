@@ -20,6 +20,7 @@ public class UserDomain extends BaseDomain {
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String plClass;			//분류							-> [CLS001]개인,법인
+	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,시설대여 및 연불판매,할부,어음할인,매출채권매입,지급보증,기타 대출성 상품
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.

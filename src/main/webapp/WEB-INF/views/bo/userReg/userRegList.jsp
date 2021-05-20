@@ -203,6 +203,9 @@ function goApplyAccept() {
 				if(result.data > 0){
 					alert("승인요청되었습니다.");
 					userRegGrid.refresh();
+				}else{
+					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
+					userRegGrid.refresh();
 				}
 		    }
 		}

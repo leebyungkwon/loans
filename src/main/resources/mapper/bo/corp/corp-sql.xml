@@ -41,7 +41,7 @@
 		VALUES
 		(
 			 #{plMerchantName}
-			, REPLACE(#{plMerchantNo}, '-', '')
+			,REPLACE(#{plMerchantNo}, '-', '')
 			,#{pathTyp}
 			,#{regSeq}
 			,NOW()
@@ -71,12 +71,12 @@
 	<update id="updateCorpInfo" parameterType="corp">
 		UPDATE TB_LC_CORP
    		SET
-		<if test="plMerchantName != null and plMerchantName != ''">
-			PL_MERCHANT_NAME		= #{plMerchantName}	
-		</if>
-		<if test="plMerchantNo != null and plMerchantNo != ''">
+			<if test="plMerchantName != null and plMerchantName != ''">
+			 PL_MERCHANT_NAME		= #{plMerchantName}	
+			</if>
+			<if test="plMerchantNo != null and plMerchantNo != ''">
 			,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')
-		</if>
+			</if>
    			,USE_YN				= #{useYn}
    			,UPD_SEQ			= #{updSeq}
    			,UPD_TIMESTAMP		= NOW()
@@ -85,16 +85,37 @@
    		</where>
 	</update>
 	
-	<!--  법인등록번호 중복 체크 -->
+	<!-- 법인등록번호 중복 체크 -->
 	<select id="plMerchantNoCheck" parameterType="corp" resultType="int">
-		SELECT COUNT(*)
-			FROM TB_LC_CORP
+		SELECT 
+			COUNT(*)
+		FROM TB_LC_CORP
 		<where>
 			<if test="corpSeq != null and corpSeq != ''">
-				PL_MERCHANT_NO != (SELECT PL_MERCHANT_NO FROM TB_LC_CORP B WHERE B.CORP_SEQ = #{corpSeq})
+			AND PL_MERCHANT_NO 		!= (SELECT PL_MERCHANT_NO FROM TB_LC_CORP B WHERE B.CORP_SEQ = #{corpSeq})
 			</if>
-			AND PL_MERCHANT_NO = REPLACE(#{plMerchantNo}, '-', '')
+			AND PL_MERCHANT_NO 		= REPLACE(#{plMerchantNo}, '-', '')
 		</where>
 	</select>
+	
+	<!-- 법인 정보 존재여부 체크 -->
+	<select id="selectCorpInfoCnt" parameterType="corp" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM TB_LC_CORP
+		<where>
+			AND PL_MERCHANT_NAME 	= REGEXP_REPLACE(#{plMerchantName}, '^\s+', '') -- 공백제거
+			AND PL_MERCHANT_NO 		= REPLACE(#{plMerchantNo}, '-', '')
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper> 

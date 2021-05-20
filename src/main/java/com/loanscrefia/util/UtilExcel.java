@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loanscrefia.admin.corp.domain.CorpDomain;
+import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.member.edu.domain.EduDomain;
 import com.loanscrefia.member.edu.repository.EduRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
@@ -33,6 +35,7 @@ public class UtilExcel<T> {
 		
 	}
 	
+	@Autowired private CorpRepository corpRepo;
 	@Autowired private EduRepository eduRepo; 
 	
 	//참고 : https://eugene-kim.tistory.com/46
@@ -74,6 +77,8 @@ public class UtilExcel<T> {
 		    String cellName 		= "";
 		    Map<String, Object> map = null;
 		    
+		    CorpDomain corpChkParam = new CorpDomain();
+		    
 	        row = sheet.getRow(i);
 	        
 	        if(row != null) {
@@ -90,11 +95,9 @@ public class UtilExcel<T> {
 	                	if(cellName.equals(vCell.get(j))) {
 	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
 	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
-	                			//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
 	                		}
 	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
 	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
-	                			//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
 	                		}
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
@@ -104,31 +107,42 @@ public class UtilExcel<T> {
 	        	                }
 	        	                if(!valChkResult) {
 	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
-	        	                	//errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
-	                			//String chkDbVal = chkDb.get(j);
-	                			String cellEduNo = ExcelCellRef.getValue(cell);
-	                			
-	                			/*
-	                			if(ExcelCellRef.getValue(cell) != null && !ExcelCellRef.getValue(cell).equals("")) {
-	                				cellEduNo = Integer.parseInt(ExcelCellRef.getValue(cell)); //int의 최대값 : 2147483647
+	                			if(chkDb.get(j).equals("corp1")) {
+	                				//법인 정보 유효 체크(법인사용인)
+	                				corpChkParam.setPlMerchantName(ExcelCellRef.getValue(cell));
+	                			}else if(chkDb.get(j).equals("corp2")) {
+	                				//법인 정보 유효 체크(법인사용인)
+	                				corpChkParam.setPlMerchantNo(ExcelCellRef.getValue(cell));
+	                				
+	                				System.out.println(corpChkParam.getPlMerchantName());
+	                				System.out.println(corpChkParam.getPlMerchantNo());
+	                				
+	                				if((corpChkParam.getPlMerchantName() != null && !corpChkParam.getPlMerchantName().equals("")) || (corpChkParam.getPlMerchantNo() != null && !corpChkParam.getPlMerchantNo().equals(""))) {
+	                					int chkResult = selectCorpInfoCnt(corpChkParam);
+		                				
+		                				if(chkResult == 0) {
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.\n";
+		                				}
+	                				}
+	                			}else if(chkDb.get(j).equals("edu")) {
+	                				//교육이수번호 유효 체크 -> API로 할지 논의중(2021.05.20)
+	                				/*
+	                				System.out.println("edu :: "+ExcelCellRef.getValue(cell));
+	                				
+		                			EduDomain param = new EduDomain();
+		                			param.setPlEduNo(ExcelCellRef.getValue(cell));
+		                			int chkResult 	= plEduNoCheck(param);
+		                			
+		                			if(chkResult > 0) {
+		                				valChkResult = true;
+		                			}
+		                			
+		        	                if(!valChkResult) errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 유효하지 않은 번호입니다.\n";
+		        	                */
 	                			}
-	                			*/
-	                			System.out.println("cellEduNo :: "+cellEduNo);
-	                			
-	                			/*
-	                			EduDomain param = new EduDomain();
-	                			
-	                			param.setPlEduNo(cellEduNo);
-	                			int chkResult 	= plEduNoCheck(param);
-	                			
-	                			if(chkResult > 0) {
-	                				valChkResult = true;
-	                			}
-	        	                if(!valChkResult) errorMsg += row.getRowNum() + "번째 줄의 " + cellName + " :: 교육이수번호/인증서번호 체크가 필요합니다.\n";
-	        	                */
 	                		}
 	                	}
 	                }
@@ -137,7 +151,6 @@ public class UtilExcel<T> {
 	            result.add(map);
 		    }
 		}
-		
 		//System.out.println("errorMsg :: " + errorMsg);
         
         if(errorMsg != null && !errorMsg.equals("")) {
@@ -192,6 +205,11 @@ public class UtilExcel<T> {
 		wb.close();
 		wb.dispose();
 		stream.close();
+	}
+	
+	@Transactional(readOnly=true)
+	private int selectCorpInfoCnt(CorpDomain corpDomain) {
+		return corpRepo.selectCorpInfoCnt(corpDomain);
 	}
 	
 	@Transactional(readOnly=true)

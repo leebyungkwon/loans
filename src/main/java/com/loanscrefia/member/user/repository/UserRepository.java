@@ -20,7 +20,9 @@ public interface UserRepository {
 	//모집인 조회 및 변경 > 리스트
 	List<UserDomain> selectUserConfirmList(UserDomain userDomain);
 	
-	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 법인사용인 존재유무
+	int selectCorpUserCnt(UserDomain userDomain);
+	
 	//모집인 조회 및 변경 > 
 	//모집인 조회 및 변경 > 
 	//모집인 조회 및 변경 > 
@@ -97,6 +99,9 @@ public interface UserRepository {
 	 */
 	
 	int updateUserStat(UserDomain userDomain);
+	
+	//법인 승인여부 체크
+	int corpStatCheck(UserDomain userDomain);
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 모집인 위반이력 관련

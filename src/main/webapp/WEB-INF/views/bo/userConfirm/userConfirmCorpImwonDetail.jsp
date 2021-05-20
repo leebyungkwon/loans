@@ -7,7 +7,29 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	
+	//변경요청상태이면 삭제 불가
+	var plStat = "${result.userRegInfo.plStat}";
+	if(plStat == "3"){
+		$(".btn_wrap02").remove();
+		//$(".data_wrap").addClass("mgt30");
+	}
+}
+
+//삭제 -> 일단 delete로(2021.05.12)
+function goCorpImwonInfoDel(excSeq) {
+	if(confirm("정말 삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/deleteUserRegCorpImwonInfo"	
+			, param		: {
+				 masterSeq 	: "${result.userRegInfo.masterSeq }"
+				,excSeq 	: excSeq  
+			}
+			, success 	: function (opt,result) {
+				location.reload();
+		    }
+		}
+		AjaxUtil.post(p);
+	}
 }
 </script>
 
@@ -228,6 +250,12 @@ function pageLoad(){
 									</tr>
 								</tbody>
 							</table>
+						</div>
+						
+						<div class="btn_wrap02">
+							<div class="right">
+								<a href="javascript:void(0);" class="btn_Lgray btn_middle" onclick="goCorpImwonInfoDel('${corpImwonList.excSeq }');">삭제</a>
+							</div>
 						</div>
 					</div>
 				</c:forEach>
