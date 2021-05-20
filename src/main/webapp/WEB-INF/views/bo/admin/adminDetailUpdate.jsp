@@ -230,7 +230,7 @@
                <tr>
                   <th>이메일</th>
                   <td colspan="3">
-                     <input type="text" id="email" name="email" placeholder="이메일 입력" value="${adminInfo.email}" class="w40" data-vd='{"type":"email","len":"1,20","req":true,"msg":"이메일을 입력해 주세요"}'/>
+                     <input type="text" id="email" name="email" placeholder="이메일 입력" maxlength="40" value="${adminInfo.email}" class="w40" data-vd='{"type":"email","len":"1,40","req":true,"msg":"이메일을 입력해 주세요"}'/>
                   </td>
                </tr>
                <tr>

@@ -8,15 +8,58 @@ function pageLoad(){
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
 		if(confirm("회원가입을 진행 하시겠습니까?")){
-			var password       = $("#password").val();               // 비밀번호
-			var passwordChk    = $("#passwordChk").val();            // 비밀번호 확인
-		
+			var pw       = $("#password").val();               // 비밀번호
+			var pwChk  = $("#passwordChk").val();            // 비밀번호 확인
+			var id					  = $("#memberId").val();
+			
 			if($("#checkId").val() == "N"){
 				alert("중복체크를 실행해 주세요.");
 				return false;
 			}
-		
-			if( password == passwordChk ){
+			
+			var checkCount 	= 0;
+
+			if(/[0-9]/.test(pw)){ //숫자
+			    checkCount++;
+			}
+			if(/[a-z]/.test(pw)){ //소문자
+			    checkCount++;
+			}
+			if(/[A-Z]/.test(pw)){ //대문자
+			    checkCount++;
+			}
+			if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(pw)){ //특수문자
+			    checkCount++;
+			}
+			if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(pw)){ 
+			    alert("비밀번호에 한글을 사용 할 수 없습니다.");
+			    return false;
+			}
+			if(checkCount <= 1){ 
+			    alert('비밀번호는 영문 대/소문자, 숫자, 특수문자 중 2개이상의 조합이여야만 합니다.');
+			    return false;
+			}
+			if (pw.length < 8 || pw.length > 20){ 
+				alert("8자리 ~ 20자리 이내로 입력해주세요.");
+				return false;
+			}
+			if (/(\w)\1\1/.test(pw)){ 
+				alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
+				return false;
+			}
+			if (pw.search(id) > -1){
+				alert("비밀번호에 아이디가 포함되었습니다.");
+				alert(id)
+				return false;
+			}
+			if (pw.search(/\s/) != -1){ 
+				alert("비밀번호는 공백 없이 입력해주세요.");
+				return false;
+			}else {
+				console.log("통과");
+			}
+//////////////////////////////////////////////////////////////////////////////////////////////
+			if( pw == pwChk ){
 				var signupParam = {
 					name : 'signup'
 					,success: function(opt, result) {
@@ -129,13 +172,13 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="password" id="password" name="password" maxlength="20" placeholder="최소8자, 문자/숫자/특수문자를 입력하세요."  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
+					<input type="password" id="password" name="password" maxlength="20" placeholder="8자리~20자리 (2종류 이상의 문자구성)"  data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" id="passwordChk" name="passwordChk" maxlength="20" placeholder="동일한 비밀번호를 입력"  data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
+					<input type="password" id="passwordChk" name="passwordChk" maxlength="20" placeholder="동일한 비밀번호를 입력"  data-vd='{"type":"text","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
 				</td>
 			</tr>
 			<tr>
@@ -159,7 +202,7 @@ function pageLoad(){
 			<tr>
 				<th>이메일</th>
 				<td>
-					<input type="text" id="email" name="email" placeholder="이메일 입력" data-vd='{"type":"email","len":"1,20","req":true,"msg":"이메일을 입력해 주세요"}'/>
+					<input type="text" id="email" name="email" placeholder="이메일 입력" maxlength="40" data-vd='{"type":"email","len":"1,40","req":true,"msg":"이메일을 입력해 주세요"}'/>
 					<p class="noti">
 						가입 승인여부는 입력하신 이메일로 전송됩니다. 정확히 기입해 주세요.
 					</p>
