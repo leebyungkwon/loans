@@ -8,9 +8,9 @@
   //----------------------
 
   // Service Code
-  String sCrossKey = "3deaced0c51a619243696eb010e35649";	//설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
-  String sShopId   = "allat_testvip";						//설정필요
-  String sAmount   = "0";									//결제 금액을 다시 계산해서 만들어야 함(해킹방지)  ( session, DB 사용 )
+  String sCrossKey = "ec62e31d3dac1119c934391187e3160b";	//설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
+  String sShopId   = "crefia";								//설정필요
+  String sAmount   = "1";									//결제 금액을 다시 계산해서 만들어야 함(해킹방지)  ( session, DB 사용 )
 
   String sEncData  = request.getParameter("allat_enc_data");
   String strReq = "";
@@ -110,7 +110,7 @@
     out.println("결제구분               :" + sTicketNm          + "<br>");
 
 	// 배포본에서는 제외 시킬것 //////////////////////////////////////////
-	String sPartcancelYn  = (String)hm.get("partcancel_yn");
+	/* String sPartcancelYn  = (String)hm.get("partcancel_yn");
 	String sBCCertNo      = (String)hm.get("bc_cert_no");
 	String sCardNo        = (String)hm.get("card_no");
 	String sIspFullCardCd = (String)hm.get("isp_full_card_cd");
@@ -122,8 +122,18 @@
 	out.println("카드번호 Return           : " + sCardNo        + "<br>");
 	out.println("ISP 전체 카드코드         : " + sIspFullCardCd + "<br>");
 	out.println("카드구분                  : " + sCardType      + "<br>");
-	out.println("계좌이체 예금주명         : " + sBankAccountNm + "<br>");
+	out.println("계좌이체 예금주명         : " + sBankAccountNm + "<br>"); */
 	//////////////////////////////////////////////////////////////////////
+	
+	
+	//----------------------[2021.05.21 추가 : S]----------------------
+	//(1)결제정보 저장
+	
+	//(2)모집인 상태(pl_reg_stat) 자격취득으로 수정
+	//----------------------[2021.05.21 추가 : E]----------------------
+	
+	
+	
 
   }else{
     // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
