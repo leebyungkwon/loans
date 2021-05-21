@@ -14,11 +14,11 @@ function pageLoad(){
   		, headCol		: ["번호", "그룹", "이름", "아이디", "등록일", ""]
   		, bodyCol		: 
   			[
-				{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10px"		, id:true}
-				,{type:"string"	, name:'creGrpNm'		, index:'creGrpNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'memberName'		, index:'memberName'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'memberId'		, index:'memberId'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'joinDt'			, index:'joinDt'			, width:"10%"		, align:"center"}
+				{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10%"		, id:true}
+				,{type:"string"	, name:'creGrpNm'		, index:'creGrpNm'			, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'memberName'		, index:'memberName'		, width:"30%"		, align:"center"}
+				,{type:"string"	, name:'memberId'		, index:'memberId'			, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'joinDt'			, index:'joinDt'			, width:"20%"		, align:"center"}
 				,{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10%"		, hidden:true}
 			]
 		, sortNm 		: "member_seq"
