@@ -1,7 +1,15 @@
+<%@page import="com.loanscrefia.front.pay.service.PayService"%>
+<%@page import="com.loanscrefia.front.pay.domain.PayDomain"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!-- 올앳관련 함수 Import //-->
 <%@ page import="java.util.*,java.net.*,com.loanscrefia.util.pay.AllatUtil" %>
+
+<!-- 2021.05.21 추가 : S -->
+<%@ page import="com.loanscrefia.front.pay.*" %>
+<%@ page import="org.springframework.web.context.*" %>
+<%@ page import="org.springframework.web.context.support.*" %>
+<!-- 2021.05.21 추가 : E -->
 
 <%
   //Request Value Define
@@ -133,6 +141,14 @@
 	
 	//----------------------[2021.05.21 추가 : S]----------------------
 	//(1)결제정보 저장
+	/*
+	ServletContext servletContext 	= getServletContext();
+	WebApplicationContext waContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+	PayService payService 			= (PayService)waContext.getBean("PayService");
+	PayDomain param 				= new PayDomain();
+
+	payService.insertPayResult(param);
+	*/
 	
 	//(2)모집인 테이블의 결제 컬럼 수정
 	
