@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
 
@@ -30,15 +30,27 @@
 		<tr>
 			<th>이름</th>
 			<td class="file">
-				<input type="text" class="w50 file_input" id="popMemberName" name="memberName" value="${result.memberName }" data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'>
+				<input type="text" class="w50 file_input" id="popMemberName" name="memberName" placeholder="담당자명을 입력해 주세요." value="${result.memberName}" data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'>
 			</td>
 		</tr>
-		<tr>
-			<th>아이디</th>
-			<td class="file">
-				<input type="text" class="w50 file_input" id="popMemberId" name="memberId" value="${result.memberId }" maxlength="11" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
-			</td>
-		</tr>
+		<c:choose>
+			<c:when test="${!empty result}">
+				<tr>
+					<th>아이디</th>
+					<td class="file">
+						<input type="text" class="w50 file_input" id="popMemberId" name="memberId" value="${result.memberId}" readonly="readonly" maxlength="11" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
+					</td>
+				</tr>
+			</c:when>
+			<c:otherwise>
+				<tr>
+					<th>아이디</th>
+					<td class="file">
+						<input type="text" class="w50 file_input" id="popMemberId" name="memberId" value="${result.memberId}" placeholder="아이디를 입력해 주세요." maxlength="11" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
+					</td>
+				</tr>
+			</c:otherwise>
+		</c:choose>
 		<tr>
 			<th>비밀번호</th>
 			<td class="file">
