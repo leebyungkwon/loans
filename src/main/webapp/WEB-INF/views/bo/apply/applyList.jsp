@@ -11,22 +11,24 @@ function pageLoad(){
 		  id			: "applyGrid"
   		, url			: "/admin/apply/applyList"
 	    , width			: "100%"
-  		, headCol		: ["번호", "회원사", "", "모집인 분류", "금융상품유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인남은일수", "실무자확인", "승인상태"]
+  		, headCol		: ["번호", "회원사", "", "담당자명","모집인 분류", "법인사용인<br>여부", "금융상품유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
 				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"12%"		, align:"center"}
+				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'creAppDate'		, index:'creAppDate'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'chkYn'			, index:'chkYn'				, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"12%"		, align:"center"}
+				,{type:"string"	, name:'comRegDateLimit'		, index:'comRegDateLimit'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'chkYn'			, index:'chkYn'				, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
@@ -37,16 +39,6 @@ function pageLoad(){
 		, excel			: "/admin/apply/applyListExcelDown"
 		, excelFileNm	: "모집인 조회 및 변경"
 	});
-	
-	//모집인 상태
- 	var plRegStatCode = {
-		 useCode 	: true
-		,code 		: 'REG001'
-		,target 	: '#plRegStat'
-		,updData 	: ''
-		,defaultMsg : '전체'
-	};
-	DataUtil.selectBox(plRegStatCode);
 	
 	//처리상태
  	var plStatCode = {
@@ -146,42 +138,50 @@ function goGetDate(opt) {
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
-					<col width="120">
-					<col width="305">
-					<col width="120">
-					<col width="305">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
 				</colgroup>
 				<tr>
 					<th>회원사 선택</th>
 					<td class="half_input">
 						<select name="comCode" id="comCode"></select>
 					</td>
-					<th>모집인 상태</th>
+					<th>담당자명</th>
+					<td class="">
+						<input type="text" name="memberNm">
+					</td>
+					<th>실무자 확인</th>
 					<td class="half_input">
-						<select name="plRegStat" id="plRegStat"></select>
+						<select name="chkYn" id="chkYn">
+							<option value="">전체</option>
+							<option value="Y">확인</option>
+							<option value="N">미확인</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
-					<th>처리상태</th>
-					<td class="half_input">
-						<select name="plStat" id="plStat"></select>
-					</td>
 					<th>모집인분류</th>
 					<td class="half_input">
 						<select name="plClass" id="plClass"></select>
 					</td>
-				</tr>
-				<tr>
 					<th>금융상품유형</th>
 					<td class="half_input">
 						<select name="plProduct" id="plProduct"></select>
 					</td>
+					<th>승인상태</th>
+					<td class="half_input">
+						<select name="plStat" id="plStat"></select>
+					</td>	
+				</tr>
+				<tr>
 					<th>이름</th>
 					<td class="">
 						<input type="text" name="plMName">
 					</td>
-				</tr>
-				<tr>
 					<th>주민등록번호</th>
 					<td class="">
 						<input type="text" name="plMZId">
@@ -192,16 +192,20 @@ function goGetDate(opt) {
 					</td>
 				</tr>
 				<tr>
-					<th>조회</th>
-					<td colspan="3" class="long_input">
-						<select name="srchSelect2">
-							<option value="">전체</option>
-							<option value="creAppDate">승인완료일</option>
-							<option value="payDate">결제완료일</option>
-							<option value="creLicenseDate">자격취득일</option>
-						</select>
+					<th>법인명</th>
+					<td class="">
+						<input type="text" name="plMerchantName">
+					</td>
+					<th>법인번호</th>
+					<td class="">
+						<input type="text" name="plMerchantNo">
+					</td>
+				</tr>
+				<tr>
+					<th>승인요청일</th>
+					<td colspan="6" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" style="margin-left: 5px;">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
@@ -209,7 +213,7 @@ function goGetDate(opt) {
 					 	<div class="input_wrap mgr5">
 							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
-							<div id="date_cal02" class="calendar02"></div>
+							<div id="date_cal02" class="calendar01"></div>
 						</div>
 						<div class="date_btn">
 							<a href="javascript:void(0);" onclick="goGetDate('today');">오늘</a>

@@ -12,6 +12,7 @@
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 			,TLM.PL_PRODUCT
@@ -59,7 +60,8 @@
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 		<where>
-			AND TLM.PL_STAT IN ('2','3','4','5','7')													-- 처리상태가 승인요청, 변경요청, 해지요청, 완료건
+			AND TLM.PL_STAT IN ('3','4','5','7')													-- 처리상태가 변경, 해지, 보완, 완료
+			AND TLM.PL_REG_STAT NOT IN ('1')
 			
 			<if test="comCode != null and comCode != ''">
 				AND TLM.COM_CODE = CAST(#{comCode} AS INTEGER)

@@ -65,9 +65,6 @@
 			<a href="/admin/apply/applyPage">모집인 승인처리</a>
 		</li>
 		<li id="">
-			<a href="#">결제내역</a>
-		</li>
-		<li id="">
 			<a href="#">타협회 내역 다운로드</a>
 		</li> 
 		

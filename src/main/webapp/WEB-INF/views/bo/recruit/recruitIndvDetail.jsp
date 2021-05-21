@@ -11,7 +11,24 @@ function pageLoad(){
 }
 
 //승인
-function goRecruitApply(){
+function goRecruitApply(num){
+	
+	var plStat = "";
+	var plRegStat = "";
+	if(num == "2"){
+		plStat = "7";
+		plRegStat = "2";
+	}else if(num == "4"){
+		plStat = "7";
+		plRegStat = "4";
+	}else if(num == "6"){
+		plStat = "7";
+		plRegStat = "3";
+	}else{
+		alert("오류가 발생하였습니다.");
+		return false;
+	}
+	
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
 			  url		: "/admin/recruit/updatePlStat"	
@@ -309,9 +326,17 @@ function goRecruitImprove(){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goRecruitList();">목록</a>
-			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완</a>
+			<c:if test="${result.recruitInfo.plStat eq '4'}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완요청</a>
+			</c:if>
+			<c:if test="${result.recruitInfo.plStat eq '2'}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완요청</a>
+			</c:if>
+			<c:if test="${result.recruitInfo.plStat eq '3'}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완요청</a>					
 			</c:if>
 		</div>
 	</div>

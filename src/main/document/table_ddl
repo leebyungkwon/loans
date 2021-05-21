@@ -569,6 +569,7 @@ create table tb_lc_mas01_hist(
 	, com_code integer
 	, member_seq integer
 	, pl_class varchar(2)
+	, corp_user_yn char(1) not null default 'N' 
 	, career_typ varchar(2)
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
@@ -619,6 +620,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
+COMMENT ON COLUMN tb_lc_mas01_hist.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
