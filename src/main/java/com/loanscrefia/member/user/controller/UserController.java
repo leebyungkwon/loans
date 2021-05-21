@@ -422,7 +422,13 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
+	//이력보기
+	@GetMapping(value="/user/userStepHistoryPopup")
+	public ModelAndView userStepHistoryPopup(UserDomain userDomain) {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/userStepHistoryPopup");
+		mav.addObject("stepHisList", userService.selectUserStepHistoryList(userDomain));
+        return mav;
+	}
 	
 	
 	

@@ -125,6 +125,7 @@ public interface UserRepository {
 	//모집인 단계별 이력 저장
 	int insertUserStepHistory(UserDomain userDomain);
 	
-	
+	//모집인 단계별 이력 리스트
+	List<UserDomain> selectUserStepHistoryList(UserDomain userDomain);
 	
 }

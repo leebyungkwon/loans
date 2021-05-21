@@ -120,15 +120,25 @@
    			,PL_REG_STAT
    			,PL_STAT
    			,PL_HIST_TXT
-   			,REG_TIMESTAMP
+   			,NOW()
    			,#{regSeq}
    		FROM TB_LC_MAS01
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>
    	
-   	<!-- 모집인 정보 기본 이력 리스트 -->
-   	<select id="selectUserHistoryList" parameterType="user" resultType="user">
-   	
+   	<!-- 모집인 정보 단계별(STATUS) 이력 리스트 -->
+   	<select id="selectUserStepHistoryList" parameterType="user" resultType="user">
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_REG_STAT
+   			,FN_CD_DTL('REG001',PL_REG_STAT) AS PL_REG_STAT_NM
+   			,PL_STAT
+   			,FN_CD_DTL('MAS001',PL_STAT) AS PL_STAT_NM
+   			,PL_HIST_TXT
+   			,TO_CHAR(REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+   			,REG_SEQ
+   		FROM TB_LC_MAS01_STEP
+   		WHERE MASTER_SEQ = #{masterSeq}
    	</select>
    	
    	

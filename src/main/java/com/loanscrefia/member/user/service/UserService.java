@@ -882,10 +882,13 @@ public class UserService {
 	//기본
 	@Transactional
 	public int updateUserStat(UserDomain userDomain) {
+		//상태수정
+		int result = userRepo.updateUserStat(userDomain);
+		
 		//단계별 이력 저장*****
 		this.insertUserStepHistory(userDomain);
 		
-		return userRepo.updateUserStat(userDomain); 
+		return result; 
 	}
 	
 	//삭제
@@ -1003,6 +1006,12 @@ public class UserService {
 		return userRepo.insertUserStepHistory(userDomain);
 	}
 	
+	//모집인 단계별 이력 리스트
+	@Transactional(readOnly=true)
+	public List<UserDomain> selectUserStepHistoryList(UserDomain userDomain) {
+		return userRepo.selectUserStepHistoryList(userDomain);
+	}
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * (공통)모집인 등록 > 상태값 체크
 	 * -------------------------------------------------------------------------------------------------------
@@ -1021,7 +1030,7 @@ public class UserService {
 		String code = "";
 		String msg 	= "";
 		
-		if(plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("6")) {
+		if(plStat.equals("1") || plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("6")) {
 			code 	= "E1";
 			msg 	= "등록,수정,삭제가 불가능한 상태입니다.";
 		}

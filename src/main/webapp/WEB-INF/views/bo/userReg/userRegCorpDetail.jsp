@@ -101,7 +101,7 @@ function goUserRegInfoUpdt() {
 					</tr>
 					<tr>
 						<th>모집인 상태</th>
-						<td>${result.userRegInfo.plRegStatNm }</td>
+						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.userRegInfo.masterSeq }');">이력보기</a></td>
 						<th>결제여부</th>
 						<td>
 							<c:choose>

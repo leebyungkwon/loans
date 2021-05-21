@@ -334,4 +334,33 @@ function goViolationDel(obj){
 	$(obj).closest("tr").remove();
 }
 
+/* ===============================================================================================================================
+ * 이력보기
+ * ===============================================================================================================================
+ */
+ 
+ function goUserStepHistoryShow(masterSeq){
+	let p = {
+	  	  id 		: "userStepHistoryPop"
+		, url 		: "/member/user/userStepHistoryPopup?masterSeq="+masterSeq
+	}
+	PopUtil.openPopup(p);
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
 
