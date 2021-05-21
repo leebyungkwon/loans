@@ -6,9 +6,6 @@ $(document).ready(function(){
      $(window).resize(function(){
        var pop_height = $('.popup_wrap .height').height()+70;
        var win_height = window.innerHeight;
-
-       console.log(pop_height);
-       console.log(win_height);
        if(pop_height >= win_height){
          $('.popup_wrap .popup_inner').addClass('resize')
        }else{
