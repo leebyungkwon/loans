@@ -1,5 +1,8 @@
 package com.loanscrefia.admin.corp.domain;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.validation.constraints.Pattern;
 
 import org.apache.ibatis.type.Alias;
@@ -25,4 +28,7 @@ public class CorpDomain extends BaseDomain {
 	
 	//가공
 	private String pathTypNm;		//등록경로명
+	
+	//엑셀 업로드
+	private List<Map<String, Object>> excelParam;
 }

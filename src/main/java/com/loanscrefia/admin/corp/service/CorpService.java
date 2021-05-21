@@ -1,13 +1,13 @@
 package com.loanscrefia.admin.corp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -25,7 +25,7 @@ public class CorpService {
 	
 	//법인 저장
 	@Transactional
-	public ResponseMsg saveCorpInfo(CorpDomain corpDomain){
+	public ResponseMsg saveCorpInfo(CorpDomain corpDomain) {
 		
 		int result = 0;
 		
@@ -42,6 +42,28 @@ public class CorpService {
 			return new ResponseMsg(HttpStatus.OK, "COM0001", "");
 		}
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
+	
+	//법인 저장 : 엑셀 업로드
+	@Transactional
+	public void insertCorpInfoByExcel(CorpDomain corpDomain) {
+		
+		List<Map<String, Object>> excelParam = corpDomain.getExcelParam();
+		
+		for(int i = 0;i < excelParam.size();i++) {
+			CorpDomain chkParam = new CorpDomain();
+			chkParam.setPlMerchantName((String)excelParam.get(i).get("A"));
+			chkParam.setPlMerchantNo((String)excelParam.get(i).get("C"));
+			
+			//중복체크
+			int chkResult = corpRepo.selectCorpInfoCnt(chkParam);
+			
+			//결과
+			if(chkResult == 0) {
+				chkParam.setPathTyp("1");
+				corpRepo.insertCorpInfo(chkParam);
+			}
+		}
 	}
 	
 	//법인 상세

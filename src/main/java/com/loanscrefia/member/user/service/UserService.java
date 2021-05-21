@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.loanscrefia.admin.corp.domain.CorpDomain;
+import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -32,6 +34,7 @@ import com.loanscrefia.util.UtilFile;
 public class UserService {
 
 	@Autowired private UserRepository userRepo;
+	@Autowired private CorpService corpService;
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private UtilFile utilFile;
@@ -132,6 +135,13 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "fail", errorMsg);
 				}else {
 					//에러메세지 없음 -> 저장
+					
+					//(1)법인 정보 저장
+					CorpDomain corpDomain = new CorpDomain();
+					corpDomain.setExcelParam(excelResult);
+					corpService.insertCorpInfoByExcel(corpDomain);
+					
+					//(2)모집인 정보 저장
 					userDomain.setExcelParam(excelResult);
 					int insertResult = userRepo.insertUserRegCorpInfoByExcel(userDomain);
 					
