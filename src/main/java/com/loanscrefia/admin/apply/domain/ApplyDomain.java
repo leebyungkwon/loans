@@ -147,4 +147,14 @@ public class ApplyDomain extends BaseDomain {
 	private String checkCd13;
 	private String checkCd14;
 	private String checkCd15;
+	
+	private String checkCd400;
+	private String checkCd401;
+	private String checkCd402;
+	private String checkCd403;
+	private String checkCd404;
+	private String checkCd405;
+	private String checkCd406;
+	private String checkCd407;
+	private String checkCd408;
 }

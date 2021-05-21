@@ -24,11 +24,11 @@ function pageLoad(){
 
 	<div class="tap_wrap" style="margin-bottom: 30px;">
 		<ul>
-			<li><a href="javascript:void(0);" class="single" onclick="goTab2('1');">등록정보</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('2');">대표자 및 임원관련<br />사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('3');">전문성 인력에<br />관한 사항</a></li>
-			<li class="on"><a href="javascript:void(0);" onclick="goTab2('4');">전산설비 관리 인력에<br />관한 사항</a></li>
-			<li><a href="javascript:void(0);" class="single" onclick="goTab2('5');">기타 첨부할 서류</a></li>
+			<li><a href="javascript:void(0);" class="single" onclick="goTab3('1');">등록정보</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('2');">대표자 및 임원관련<br />사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('3');">전문성 인력에<br />관한 사항</a></li>
+			<li class="on"><a href="javascript:void(0);" onclick="goTab3('4');">전산설비 관리 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" class="single" onclick="goTab3('5');">기타 첨부할 서류</a></li>
 		</ul>
 	</div>
 	
@@ -59,35 +59,67 @@ function pageLoad(){
 				
 						<h3>전산인력관련 서류</h3>
 						<div id="table10">
-							<table class="view_table">
+							<table class="view_table border_table">
 								<colgroup>
-									<col width="38%"/>
-									<col width="62%"/>
+									<col width="50%"/>
+									<col width="20%"/>
+									<col width="30%"/>
 								</colgroup>
-								<tbody>
-									<tr>
-										<th class="acenter">경력증명서(전산인력)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpItList.fileType19 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType19.fileSeq }">${corpItList.fileType19.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									<tr>
-										<th class="acenter">자격확인 서류(전산인력)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpItList.fileType20 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType20.fileSeq }">${corpItList.fileType20.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-								</tbody>
+								<tr>
+									<th>구분</th>
+									<th>첨부이미지</th>
+									<th>체크사항</th>
+								</tr>
+								<tr>
+									<th class="acenter">경력증명서(전산인력)</th>
+									<td>
+										<c:choose>
+											<c:when test="${corpItList.fileType19 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType19.fileSeq }">${corpItList.fileType19.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd300" class="check check_cd" <c:if test="${!empty corpItList.checkCd300}">checked</c:if>
+											<c:if test="${empty corpItList.fileType19.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpItList.fileType19.fileSeq }" >
+											<label for="check_cd300">최근5년간 업무 기재 여부</label>
+										</div>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd301" class="check check_cd" <c:if test="${!empty corpItList.checkCd301}">checked</c:if>
+											<c:if test="${empty corpItList.fileType19.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpItList.fileType19.fileSeq }" >
+											<label for="check_cd301">근로계약서, 4대보험 가입증명서류</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th class="acenter">자격확인 서류(전산인력)</th>
+									<td>
+										<c:choose>
+											<c:when test="${corpItList.fileType20 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType20.fileSeq }">${corpItList.fileType20.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd302" class="check check_cd" <c:if test="${!empty corpItList.checkCd302}">checked</c:if>
+											<c:if test="${empty corpItList.fileType20.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpItList.fileType20.fileSeq }" >
+											<label for="check_cd302">체크사항1</label>
+										</div>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd303" class="check check_cd" <c:if test="${!empty corpItList.checkCd303}">checked</c:if>
+											<c:if test="${empty corpItList.fileType20.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpItList.fileType20.fileSeq }" >
+											<label for="check_cd303">체크사항2</label>
+										</div>
+									</td>
+								</tr>
 							</table>
 						</div>
 					</div>

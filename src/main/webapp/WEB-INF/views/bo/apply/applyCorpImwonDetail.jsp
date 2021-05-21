@@ -24,11 +24,11 @@ function pageLoad(){
 
 	<div class="tap_wrap" style="margin-bottom: 30px;">
 		<ul>
-			<li><a href="javascript:void(0);" class="single" onclick="goTab2('1');">등록정보</a></li>
-			<li class="on"><a href="javascript:void(0);" onclick="goTab2('2');">대표자 및 임원관련<br />사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('3');">전문성 인력에<br />관한 사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('4');">전산설비 관리 인력에<br />관한 사항</a></li>
-			<li><a href="javascript:void(0);" class="single" onclick="goTab2('5');">기타 첨부할 서류</a></li>
+			<li><a href="javascript:void(0);" class="single" onclick="goTab3('1');">등록정보</a></li>
+			<li class="on"><a href="javascript:void(0);" onclick="goTab3('2');">대표자 및 임원관련<br />사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('3');">전문성 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('4');">전산설비 관리 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" class="single" onclick="goTab3('5');">기타 첨부할 서류</a></li>
 		</ul>
 	</div>
 		
@@ -108,9 +108,9 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd100" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd100}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType7.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType7.fileSeq }" >
+											<input type="checkbox" id="check_cd100" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd100}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType7.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType7.fileSeq }" >
 											<label for="check_cd100">인감도장 날인여부</label>
 										</div>
 									</td>
@@ -127,9 +127,9 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd101" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd101}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType8.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType8.fileSeq }" >
+											<input type="checkbox" id="check_cd101" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd101}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType8.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType8.fileSeq }" >
 											<label for="check_cd101">최근5년간 업무 기재</label>
 										</div>
 									</td>
@@ -146,15 +146,15 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd102" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd102}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType9.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType9.fileSeq }" >
+											<input type="checkbox" id="check_cd102" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd102}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType9.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType9.fileSeq }" >
 											<label for="check_cd102">결격사유 유무 검증</label>
 										</div>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd103" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd103}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType9.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType9.fileSeq }" >
+											<input type="checkbox" id="check_cd103" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd103}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType9.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType9.fileSeq }" >
 											<label for="check_cd103">서명 누락 여부</label>
 										</div>
 									</td>
@@ -171,9 +171,9 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd104" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd104}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType10.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType10.fileSeq }" >
+											<input type="checkbox" id="check_cd104" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd104}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType10.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType10.fileSeq }" >
 											<label for="check_cd104">결격사유 유무 검증</label>
 										</div>
 									</td>
@@ -206,9 +206,9 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd105" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd105}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType11.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType11.fileSeq }" >
+											<input type="checkbox" id="check_cd105" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd105}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType11.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType11.fileSeq }" >
 											<label for="check_cd105">기재사항 일치여부</label>
 										</div>
 									</td>
@@ -241,15 +241,15 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd106" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd106}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType12.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType12.fileSeq }" >
+											<input type="checkbox" id="check_cd106" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd106}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType12.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType12.fileSeq }" >
 											<label for="check_cd106">교육이수 및 인증내역 검증</label>
 										</div>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd107" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd107}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType12.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType12.fileSeq }" >
+											<input type="checkbox" id="check_cd107" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd107}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType12.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType12.fileSeq }" >
 											<label for="check_cd107">교육기관 직인 날인 여부</label>
 										</div>
 									</td>
@@ -266,15 +266,15 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd108" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd108}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType13.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType13.fileSeq }" >
+											<input type="checkbox" id="check_cd108" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd108}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType13.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType13.fileSeq }" >
 											<label for="check_cd108">교육이수 및 인증내역 검증</label>
 										</div>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd109" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd109}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType13.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType13.fileSeq }" >
+											<input type="checkbox" id="check_cd109" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd109}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType13.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType13.fileSeq }" >
 											<label for="check_cd109">교육기관 직인 날인 여부</label>
 										</div>
 									</td>
@@ -291,15 +291,15 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd110" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd110}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType14.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType14.fileSeq }" >
+											<input type="checkbox" id="check_cd110" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd110}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType14.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType14.fileSeq }" >
 											<label for="check_cd108">경력 인정여부</label>
 										</div>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd111" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd111}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType14.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType14.fileSeq }" >
+											<input type="checkbox" id="check_cd111" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd111}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType14.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType14.fileSeq }" >
 											<label for="check_cd111">최근5년간 업무 기재 여부</label>
 										</div>
 									</td>
@@ -332,9 +332,9 @@ function pageLoad(){
 									</td>
 									<td>
 										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd112" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd112}">checked</c:if>
-											<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
-											 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
+											<input type="checkbox" id="check_cd112" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd112}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType15.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType15.fileSeq }" >
 											<label for="check_cd112">금소법상 필요사항 포함여부</label>
 										</div>
 									</td>

@@ -270,7 +270,7 @@ public class ApplyService {
 						
 						
 	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
-	        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+	        			checkDomain.setFileSeq(fileList.get(j).getFileSeq());
 	        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
 	        			for(ApplyCheckDomain tmp : checkList) {
 	        				if("100".equals(tmp.getCheckCd())){
@@ -354,7 +354,7 @@ public class ApplyService {
 						}
 						
 	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
-	        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+	        			checkDomain.setFileSeq(fileList.get(j).getFileSeq());
 	        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
 	        			for(ApplyCheckDomain tmp : checkList) {
 	        				if("200".equals(tmp.getCheckCd())){
@@ -416,6 +416,24 @@ public class ApplyService {
 						}else if(fileList.get(j).getFileType().equals("20")) {
 							itList.get(i).setFileType20(fileList.get(j));
 						}
+						
+	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
+	        			checkDomain.setFileSeq(fileList.get(j).getFileSeq());
+	        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
+	        			for(ApplyCheckDomain tmp : checkList) {
+	        				if("300".equals(tmp.getCheckCd())){
+	        					itList.get(i).setCheckCd300(tmp.getCheckCd());
+	        				}else if("301".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd301(tmp.getCheckCd());
+	        				}else if("302".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd302(tmp.getCheckCd());
+	        				}else if("303".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd303(tmp.getCheckCd());
+	        				}else if("304".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd304(tmp.getCheckCd());
+	        				}
+	        			}
+						
 					}
 				}
 			}
@@ -458,6 +476,30 @@ public class ApplyService {
         			}else if(fileList.get(i).getFileType().equals("26")) {
         				applyInfo.setFileType26(fileList.get(i));
         			}
+        			
+        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
+        			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
+        			List<ApplyCheckDomain> checkList = applyRepository.selectApplyCheckList(checkDomain);
+        			for(ApplyCheckDomain tmp : checkList) {
+        				if("400".equals(tmp.getCheckCd())){
+        					applyInfo.setCheckCd400(tmp.getCheckCd());
+        				}else if("401".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd401(tmp.getCheckCd());
+        				}else if("402".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd402(tmp.getCheckCd());
+        				}else if("403".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd403(tmp.getCheckCd());
+        				}else if("404".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd404(tmp.getCheckCd());
+        				}else if("405".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd405(tmp.getCheckCd());
+        				}else if("406".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd406(tmp.getCheckCd());
+        				}else if("407".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd407(tmp.getCheckCd());
+        				}
+        			}
+        			
         		}
         	}
     	}
