@@ -99,6 +99,16 @@ function pageLoad(){
 		,defaultMsg : '전체'
 	};
 	DataUtil.selectBox(companyCode);
+	
+	// 승인 남은일 순
+	$("#sortComRegDate").on("click", function(){
+		if($("#sortName").val() == "master_seq"){
+			$("#sortName").val("com_reg_date");	
+		}else{
+			$("#sortName").val("master_seq");
+		}
+		applyGrid.refresh();	
+	});
 }
 
 //모집인 조회 및 변경 row 클릭 이벤트
@@ -124,6 +134,7 @@ function goGetDate(opt) {
 	$("#srchDate1").val(result);
 	$("#srchDate2").val(WebUtil.getDate("today"));
 }
+
 </script>
 
 <form id="applyDetailFrm" method="post">
@@ -224,6 +235,7 @@ function goGetDate(opt) {
 						</div>
 					</td>
 				</tr>
+				<input type="hidden" id="sortName" name="sortName" value="master_seq">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -235,7 +247,9 @@ function goGetDate(opt) {
 				<p>총 : 00건</p>
 			</div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_sort" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
+			</div>
 			</div>
 		</div>
 		<div id="applyGrid" class="long_table"></div>

@@ -6,6 +6,7 @@
 <script type="text/javascript" src="/static/plugin/bluebird.js"></script>
 <script type="text/javascript" src="/static/plugin/Object.assign.js"></script>
 <script type="text/javascript" src="/static/plugin/datepicker-ko.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
 <script type="text/javascript" src="/static/js/WebUtil.js"></script>
 <script type="text/javascript" src="/static/js/AjaxUtil.js"></script>
 <script type="text/javascript" src="/static/js/DataUtil.js"></script>

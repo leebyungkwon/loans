@@ -34,8 +34,8 @@ function goRecruitApply(num){
 			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
-				,plStat			: '7'
-				,plRegStat		: '2'
+				,plStat			: plStat
+				,plRegStat		: plRegStat
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){

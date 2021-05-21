@@ -513,10 +513,10 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
 	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
-		// 모집인단계이력
-		applyRepository.insertMasterStep(applyDomain);
 		int result = applyRepository.updateApplyPlStat(applyDomain);
 		if(result > 0) {
+			// 모집인단계이력
+			applyRepository.insertMasterStep(applyDomain);
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");

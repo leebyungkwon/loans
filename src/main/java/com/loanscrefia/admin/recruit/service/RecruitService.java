@@ -353,10 +353,10 @@ public class RecruitService {
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
 	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
-		// 모집인단계이력
-		recruitRepository.insertMasterStep(recruitDomain);
 		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 		if(result > 0) {
+			// 모집인단계이력
+			recruitRepository.insertMasterStep(recruitDomain);
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");

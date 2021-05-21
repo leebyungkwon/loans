@@ -74,9 +74,9 @@ function pageLoad(){
 function crefiaDetail(idx, data){
 	var memberSeq = crefiaGrid.gridData[idx].memberSeq;
 	let p = {
-		id : "saveCrefiaPopup"
+		id : "crefiaSavePopup"
 		, params : {"memberSeq" : memberSeq}
-		, url : "/admin/crefia/saveCrefiaPopup"
+		, url : "/admin/crefia/crefiaSavePopup"
 		, success : function (opt,result) {
 			companyCodeCall();
 	    }
