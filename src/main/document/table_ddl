@@ -801,6 +801,49 @@ commit;
 
 
 
+-- 결제 seq
+CREATE SEQUENCE tb_lc_pay_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+-- 결제정보
+create table tb_lc_pay(
+	pay_seq integer not null default nextval('tb_lc_pay_seq')
+	, order_no varchar(20) not null
+	, master_seq integer not null
+	, pay_type varchar(10) not null
+	, seq_no varchar(30) not null
+	, approval_no varchar(30) not null
+	, id varchar(20) not null
+	, name varchar(20) not null
+	, sell_mm varchar(10) not null
+	, amt integer not null
+	, reg_timestamp timestamp not null
+	, reg_seq integer not null
+);
+commit;
+
+COMMENT ON TABLE tb_lc_pay is '결제정보';
+COMMENT ON COLUMN tb_lc_pay.pay_seq is '결제시퀀스';
+COMMENT ON COLUMN tb_lc_pay.order_no is '주문번호';
+COMMENT ON COLUMN tb_lc_pay.master_seq is '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_pay.pay_type is '지불수단';
+COMMENT ON COLUMN tb_lc_pay.seq_no is '거래일련번호';
+COMMENT ON COLUMN tb_lc_pay.approval_no is '승인번호';
+COMMENT ON COLUMN tb_lc_pay.id is '카드/은행ID';
+COMMENT ON COLUMN tb_lc_pay.name is '카드/은행명';
+COMMENT ON COLUMN tb_lc_pay.sell_mm is '할부개월';
+COMMENT ON COLUMN tb_lc_pay.amt is '금액';
+COMMENT ON COLUMN tb_lc_pay.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_pay.reg_seq IS '등록자시퀀스';
+
+commit;
 
 
 
