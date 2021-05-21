@@ -146,13 +146,38 @@
 	WebApplicationContext waContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 	PayService payService 			= (PayService)waContext.getBean("PayService");
 	PayDomain param 				= new PayDomain();
+	String id 						= "";
+	String name 					= "";
+	
+	if(sPayType.equals("")){
+		//카드
+		id 		= sCardId;
+		name 	= sCardNm;
+	}else if(sPayType.equals("")){
+		//계좌이체
+		id 		= sBankId;
+		name 	= sBankNm;
+	}
+	
+	param.setOrderNo(sOrderNo);
+	param.setMasterSeq(Integer.parseInt(request.getParameter("masterSeq")));
+	param.setPayType(sPayType);
+	param.setSeqNo(sSeqNo);
+	param.setApprovalNo(sApprovalNo);
+	param.setId(id);
+	param.setName(name);
+	param.setSellMm(sSellMm);
+	param.setAmt(Integer.parseInt(sAmt));
 
 	payService.insertPayResult(param);
 	*/
 	
-	//(2)모집인 테이블의 결제 컬럼 수정
+	//(2)모집인 테이블의 결제 컬럼 수정 -> 굳이 마스터 테이블에 결제 관련된 컬럼이 있어야 하나???
 	
 	//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정
+	
+	
+	
 	//----------------------[2021.05.21 추가 : E]----------------------
 	
 	

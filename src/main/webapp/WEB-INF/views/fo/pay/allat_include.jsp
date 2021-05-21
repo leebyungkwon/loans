@@ -61,5 +61,8 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_email_addr" value="" maxlength="50"> <!-- 결제 정보 수신 E-mail : 에스크로 서비스 사용시에 필수 필드.(결제창에서 E-Mail주소를 넣을 수도 있음) -->
 	
 	테스트여부 : <input type="text" name="allat_test_yn" value="N" maxlength="1"> <!-- 테스트 여부 : 테스트(Y),서비스(N) - Default : N(테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴) -->
+	
+	<!-- 필요정보 -->
+	<input type="hidden" name="masterSeq" value=""/>
 </form>
 

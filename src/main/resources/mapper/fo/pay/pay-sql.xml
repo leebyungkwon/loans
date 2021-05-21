@@ -4,7 +4,34 @@
 	
 	<!-- 결제정보 저장 -->
 	<insert id="insertPayResult" parameterType="pay">
-
+		INSERT INTO TB_LC_PAY
+		(
+			 ORDER_NO
+			,MASTER_SEQ
+			,PAY_TYPE
+			,SEQ_NO
+			,APPROVAL_NO
+			,ID
+			,NAME
+			,SELL_MM
+			,AMT
+			,REG_TIMESTAMP
+			,REG_SEQ
+		)
+		VALUES
+		(
+			 #{orderNo}
+			,#{masterSeq}
+			,#{payType}
+			,#{seqNo}
+			,#{approvalNo}
+			,#{id}
+			,#{name}
+			,#{sellMm}
+			,#{amt}
+			,NOW()
+			,#{regSeq}
+		)
 	</insert>
 	
 </mapper> 
