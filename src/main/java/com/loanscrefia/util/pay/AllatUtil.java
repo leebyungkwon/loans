@@ -26,11 +26,6 @@ public class AllatUtil {
   //Fields
   private static final String util_lang = "JSP";
   private static final String util_ver  = "1.0.7.2";
-  
-  //2021.05.20 추가 : S
-  private static final String realShopId	= "crefia";
-  private static final String realCrossKey 	= "ec62e31d3dac1119c934391187e3160b";
-  //2021.05.20 추가 :E
 
   private static final String approval_uri          = "/servlet/AllatPay/pay/approval.jsp";
   private static final String sanction_uri          = "/servlet/AllatPay/pay/sanction.jsp";

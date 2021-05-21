@@ -24,6 +24,9 @@
 
   // 올앳 결제 서버와 통신  : AllatUtil.approvalReq->통신함수, HashMap->결과값
   //-----------------------------------------------------------------------------
+  
+  out.println("::::::::::::::::::::::::::::::::::: new 전 :::::::::::::::::::::::::::::::::::");
+  
   AllatUtil util = new AllatUtil();
   HashMap hm     = null;
   hm = util.approvalReq(strReq, "NOSSL");
@@ -34,6 +37,8 @@
   String sReplyCd     = (String)hm.get("reply_cd");
   String sReplyMsg    = (String)hm.get("reply_msg");
 
+  out.println("::::::::::::::::::::::::::::::::::: new 후 :::::::::::::::::::::::::::::::::::");
+  
   /* 결과값 처리
   --------------------------------------------------------------------------
      결과 값이 '0000'이면 정상임. 단, allat_test_yn=Y 일경우 '0001'이 정상임.
