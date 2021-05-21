@@ -134,4 +134,35 @@
 			#{seq}
 		</foreach>
 	</update> 
+	
+	<!-- ==============================[crefiaWork]============================== -->
+	
+	<!-- 협회 관리자 업무분장 - 조회  -->
+	<select id="selectCrefiaWorkMemberList" parameterType="crefia" resultType="crefia">
+		SELECT 
+			MEM.MEMBER_SEQ																			/*담당자시퀀스*/
+			, MEM.MEMBER_ID																			/*담당자ID*/
+			, MEM.MEMBER_NAME																		/*담당자이름*/
+			, MEM.CRE_YN																				/*협회여부*/
+			, MEM.CRE_GRP																				/*협회그룹*/
+			, MEM.DROP_YN																				/*담당자회원삭제여부*/
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
+		FROM TB_LC_MEMBERS MEM
+			WHERE MEM.COM_CODE 	= 1
+				AND MEM.DROP_YN 	= 'N'
+				AND MEM.CRE_YN		= 'Y'
+				AND MEM.CRE_GRP		= '1'
+	</select>
+	
+	<!-- 협회 관리자 업무분장 - 조회  -->
+	<select id="selectCrefiaWorkCompanyList" parameterType="crefia" resultType="crefia">
+		SELECT 
+			 TLC.COM_CODE																				/*회원사코드*/
+			, TLC.COM_NAME																			/*회원사명*/
+			, TLC.DEL_YN																					/*회원사삭제여부*/
+		FROM TB_LC_COMPANY TLC
+		WHERE
+			 TLC.DEL_YN 		= 'N'
+	</select>
+	
 </mapper> 

@@ -52,4 +52,19 @@ public class CrefiaService {
 		crefiaRepository.deleteCrefia(crefiaDomain);
 		return new ResponseMsg(HttpStatus.OK, "success", "삭제되었습니다.");
 	}
+	
+	/* ========================================================================== */
+	
+	// 협회 관리자 관리 조회
+	@Transactional(readOnly = true)
+	public List<CrefiaDomain> selectCrefiaWorkMemberList(CrefiaDomain crefiaDomain){
+		return crefiaRepository.selectCrefiaWorkMemberList(crefiaDomain);
+	}
+	
+	// 협회 관리자 관리 조회
+	@Transactional(readOnly = true)
+	public List<CrefiaDomain> selectCrefiaWorkCompanyList(CrefiaDomain crefiaDomain){
+		return crefiaRepository.selectCrefiaWorkCompanyList(crefiaDomain);
+	}
+	
 }

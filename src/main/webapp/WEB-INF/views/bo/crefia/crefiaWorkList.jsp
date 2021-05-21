@@ -4,63 +4,50 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <script type="text/javascript">
-function pageLoad(){
+
+	function pageLoad(){
 	
-}
+		$("#saveCrefiaWorkBtn").click(function(){
+			alert("버튼눌림")
+		});
+		
+	}
 
 </script>
+
 <div class="cont_area">
 	<div class="top_box">
-		<div class="title type2">
+		<div class="title">
 			<h2>협회 관리자 업무분장</h2>
 		</div>
 	</div>
 	<div class="contents">
 		<div id="table">
 			<table>
-			<thead>
-			<tr>
-				<th>회원사명</th>
-				<th>실무자 이름1</th>
-				<th>실무자 이름2</th>
-				<th>실무자 이름3</th>
-				<th>실무자 이름4</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>롯데카드</td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-			</tr>
-			<tr>
-				<td>비씨카드</td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-			</tr>
-			<tr>
-				<td>삼성카드</td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-			</tr>
-			<tr>
-				<td>신한카드</td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-				<td><input type="checkbox"></td>
-			</tr>
-			</tbody>
+				<thead>
+					<tr>
+						<th>회원사명</th>
+						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status" begin="0" end="2" step="1">
+<%-- 					<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> --%>
+						<th><c:out value="${memberInfo.memberName}"/></th>
+						</c:forEach>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${companyInfo}" var="companyInfo" varStatus="status">
+						<tr>
+							<td align="center"><c:out value="${companyInfo.comName}"/></td>
+							<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status" begin="0" end="2" step="1">
+<%-- 						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> --%>
+								<td><input name="check" type="checkbox" id="comCode" value="${memberInfo.memberName}">${companyInfo.comCode}</td>
+							</c:forEach>
+						</tr>   
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 		<div class="btn_wrap">
-			<a href="#" class="btn_black btn_right">저장</a>
+		<a href="#" class="btn_black btn_right" id="saveCrefiaWorkBtn">저장</a>
 		</div>
 	</div>
 </div>

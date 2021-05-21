@@ -23,6 +23,7 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.member.admin.domain.AdminDomain;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -79,7 +80,22 @@ public class CrefiaController {
 	
 	// 협회 관리자 업무분장 페이지
 	@GetMapping(value="/crefiaWork/crefiaWorkPage")
-	public String crefiaWorkPage() {
-		return CosntPage.BoCrefiaPage+"/crefiaWorkList";
+	public ModelAndView crefiaWorkPage(CrefiaDomain crefiaDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoCrefiaPage+"/crefiaWorkList");
+    	
+		List<CrefiaDomain> memberInfo = crefiaService.selectCrefiaWorkMemberList(crefiaDomain);
+		List<CrefiaDomain> companyInfo = crefiaService.selectCrefiaWorkCompanyList(crefiaDomain);
+    	mv.addObject("memberInfo", memberInfo);
+    	mv.addObject("companyInfo", companyInfo);
+    	
+		return mv;
 	}
+	
+	// 협회 관리자 업무분장 조회
+	@PostMapping(value="/crefia/crefiaWorkList")
+	public ModelAndView crefiaWorkList(CrefiaDomain crefiaDomain){
+		ModelAndView mv = new ModelAndView(CosntPage.BoCrefiaPage+"/crefiaWorkList");
+		return mv;
+	}
+	
 }

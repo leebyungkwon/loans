@@ -26,5 +26,9 @@ public interface CrefiaRepository {
 	
 	// 협회 관리자 삭제
 	int deleteCrefia(CrefiaDomain crefiaDomain);
+
+	List<CrefiaDomain> selectCrefiaWorkMemberList(CrefiaDomain crefiaDomain);
+	
+	List<CrefiaDomain> selectCrefiaWorkCompanyList(CrefiaDomain crefiaDomain);
 	
 }
