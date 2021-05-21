@@ -140,6 +140,10 @@ function goUserRegInfoCancel() {
 						<td colspan="3">${result.userRegInfo.plClassNm }</td>
 					</tr>
 					<tr>
+						<th>법인사용인여부</th>
+						<td colspan="3">${result.userRegInfo.corpUserYn }</td>
+					</tr>
+					<tr>
 						<th>신규경력구분</th>
 						<td colspan="3">${result.userRegInfo.careerTypNm }</td>
 					</tr>

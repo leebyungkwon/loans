@@ -17,6 +17,7 @@
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 			,TLM.PL_PRODUCT
@@ -65,6 +66,7 @@
 	    FROM TB_LC_MAS01 TLM
 		<where>
 			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})	-- 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+			AND TLM.PL_REG_STAT != '1'																-- 모집인상태가 승인전이 아닌 것
 			AND TLM.PL_STAT NOT IN ('1','2','6')													-- 처리상태가 미요청, 승인요청, 취소가 아닌 것
 			<if test="plRegStat != null and plRegStat != ''">
 				AND TLM.PL_REG_STAT	= #{plRegStat}
@@ -154,6 +156,7 @@
 				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 				,TLM.PL_CLASS
 				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.CORP_USER_YN
 				,TLM.CAREER_TYP
 				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 				,TLM.PL_PRODUCT

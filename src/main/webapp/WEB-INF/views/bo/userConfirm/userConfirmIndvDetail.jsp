@@ -60,6 +60,10 @@ function goUserChangeApplyPage(){
 					<td colspan="3">${result.userRegInfo.plClassNm }</td>
 				</tr>
 				<tr>
+					<th>법인사용인여부</th>
+					<td colspan="3">${result.userRegInfo.corpUserYn }</td>
+				</tr>
+				<tr>
 					<th>신규경력구분</th>
 					<td colspan="3">${result.userRegInfo.careerTypNm }</td>
 				</tr>
@@ -240,7 +244,7 @@ function goUserChangeApplyPage(){
 				<c:if test="${result.userRegInfo.plRegStat eq '2' }">
 					<a href="javascript:void(0);" class="btn_Lgray btn_right w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
 				</c:if>
-				<c:if test="${result.userRegInfo.plRegStat eq '3' and result.userRegInfo.plStat eq '7' }">
+				<c:if test="${result.userRegInfo.plRegStat eq '3' and (result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '7') }">
 					<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApplyPage();">변경요청</a>
 					<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
 				</c:if>
