@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "userConfirmGrid"
   		, url			: "/member/confirm/userConfirmList"
 	    , width			: "100%"
-  		, headCol		: ["번호", "모집인 상태", "처리상태", "", "모집인 분류", "금융상품유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "모집인 등록번호", "승인완료일", "결제완료일", "자격취득일"]
+  		, headCol		: ["번호", "모집인 상태", "처리상태", "", "모집인 분류", "법인사용인 여부", "금융상품 유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "모집인 등록번호", "승인완료일", "결제완료일", "자격취득일"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
@@ -19,6 +19,7 @@ function pageLoad(){
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}

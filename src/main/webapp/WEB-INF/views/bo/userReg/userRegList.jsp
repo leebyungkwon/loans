@@ -12,13 +12,14 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "", "모집인분류", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "", "승인상태"]
+  		, headCol		: ["번호", "담당자", "", "모집인분류", "법인사용인여부", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10px"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
