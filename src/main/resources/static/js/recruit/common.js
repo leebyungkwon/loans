@@ -137,7 +137,7 @@ function goFileTypeListDisabled(){
 }
 
 
-//탭이동(상세)
+//탭이동(상세) - 모집인 조회 및 변경
 function goTab2(gubun){
 	if(gubun == "1"){
 		$("#pageFrm").attr("action","/admin/recruit/recruitCorpDetail");
@@ -149,6 +149,23 @@ function goTab2(gubun){
 		$("#pageFrm").attr("action","/admin/recruit/recruitCorpItDetail");
 	}else if(gubun == "5"){
 		$("#pageFrm").attr("action","/admin/recruit/recruitCorpEtcDetail");
+	}
+	
+	$("#pageFrm").submit();
+}
+
+//탭이동(상세) - 모집인 승인처리
+function goTab3(gubun){
+	if(gubun == "1"){
+		$("#pageFrm").attr("action","/admin/apply/applyCorpDetail");
+	}else if(gubun == "2"){
+		$("#pageFrm").attr("action","/admin/apply/applyCorpImwonDetail");
+	}else if(gubun == "3"){
+		$("#pageFrm").attr("action","/admin/apply/applyCorpExpertDetail");
+	}else if(gubun == "4"){
+		$("#pageFrm").attr("action","/admin/apply/applyCorpItDetail");
+	}else if(gubun == "5"){
+		$("#pageFrm").attr("action","/admin/apply/applyCorpEtcDetail");
 	}
 	
 	$("#pageFrm").submit();

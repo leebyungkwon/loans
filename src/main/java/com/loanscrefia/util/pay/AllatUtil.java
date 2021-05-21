@@ -28,8 +28,6 @@ public class AllatUtil {
   private static final String util_ver  = "1.0.7.2";
   
   //2021.05.20 추가 : S
-  private static final String testShopId	= "allat_testvip";
-  private static final String testCrossKey 	= "3deaced0c51a619243696eb010e35649";
   private static final String realShopId	= "crefia";
   private static final String realCrossKey 	= "ec62e31d3dac1119c934391187e3160b";
   //2021.05.20 추가 :E

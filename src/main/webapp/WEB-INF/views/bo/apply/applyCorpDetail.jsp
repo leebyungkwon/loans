@@ -13,7 +13,7 @@ function pageLoad(){
 function goRecruitApply(){
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
-			  url		: "/admin/recruit/updatePlStat"	
+			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: '7'
@@ -22,7 +22,7 @@ function goRecruitApply(){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/apply/applyPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -43,7 +43,7 @@ function goRecruitImprove(){
 	
 	if(confirm("보완요청을 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/recruit/updatePlStat"	
+			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '5'
@@ -52,7 +52,7 @@ function goRecruitImprove(){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/apply/applyPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -79,11 +79,11 @@ function goRecruitImprove(){
 
 	<div class="tap_wrap" style="margin-bottom: 30px;">
 		<ul>
-			<li class="on"><a href="javascript:void(0);" class="single" onclick="goTab2('1');">등록정보</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('2');">대표자 및 임원관련<br />사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('3');">전문성 인력에<br />관한 사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('4');">전산설비 관리 인력에<br />관한 사항</a></li>
-			<li><a href="javascript:void(0);" class="single" onclick="goTab2('5');">기타 첨부할 서류</a></li>
+			<li class="on"><a href="javascript:void(0);" class="single" onclick="goTab3('1');">등록정보</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('2');">대표자 및 임원관련<br />사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('3');">전문성 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('4');">전산설비 관리 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" class="single" onclick="goTab3('5');">기타 첨부할 서류</a></li>
 		</ul>
 	</div>
 	
@@ -346,7 +346,7 @@ function goRecruitImprove(){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
-			<c:if test="${result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '4'}">
+			<c:if test="${result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply();">승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove();">보완</a>
 			</c:if>

@@ -66,5 +66,5 @@ public class CosntPage {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	public static String FoPayPage = "front/pay";
+	public static String FoPayPage = "fo/pay";
 }
