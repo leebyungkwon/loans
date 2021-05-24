@@ -3,8 +3,8 @@
 <!-- 2021.05.21 추가 : S -->
 <%@page import="com.loanscrefia.front.pay.service.PayService"%>
 <%@page import="com.loanscrefia.front.pay.domain.PayDomain"%>
-<%@page import="com.loanscrefia.front.user.service.UserService"%>
-<%@page import="com.loanscrefia.front.user.domain.UserDomain"%>
+<%@page import="com.loanscrefia.front.search.service.SearchService"%>
+<%@page import="com.loanscrefia.front.search.domain.SearchDomain"%>
 <%@page import="org.springframework.web.context.*" %>
 <%@page import="org.springframework.web.context.support.*" %>
 <!-- 2021.05.21 추가 : E -->
@@ -180,15 +180,15 @@
 	//(2)모집인 테이블의 결제 컬럼 수정 -> 굳이 마스터 테이블에 결제 관련된 컬럼이 있어야 하나???
 	
 	//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정
-	UserService userService 		= (UserService)waContext.getBean("UserService");
-	UserDomain userDomain 			= new UserDomain();
+	SearchService userService 		= (SearchService)waContext.getBean("SearchService");
+	SearchDomain userDomain 		= new SearchDomain();
 	
 	userDomain.setMasterSeq(masterSeq);
 	userService.updatePlRegStat(userDomain);
 	
 	//(4)결제 완료 화면 이동 : masterSeq 들고 이동해야함
 	out.println("<script>");
-	out.println("location.href='/front/pay/payResult';");
+	out.println("location.href='';");
 	out.println("</script>");
 	*/
 	//----------------------[2021.05.21 추가 : E]----------------------
@@ -216,3 +216,13 @@
     전표출력 페이지는 저희 올앳 홈페이지의 일부로써, 홈페이지 개편 등의 이유로 인하여 페이지 변경 또는 URL 변경이 있을 수
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 --%>
+
+
+
+
+
+
+
+
+
+
