@@ -24,7 +24,7 @@ public class PayController {
 	}
 	
 	//모집인 결제 > 모집인 조회 결과
-	@PostMapping(value="/pay/payUserSearchResult")
+	@GetMapping(value="/pay/payUserSearchResult")
 	public ModelAndView selectIndvUserInfo(SearchDomain searchDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payUserSearchResult");
 		return mv;
