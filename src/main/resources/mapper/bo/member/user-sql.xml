@@ -575,6 +575,7 @@
 			,TLM.PAY_DATE
 			,TLM.SEND_MSG
 			,TLM.PL_HIST_CD
+			,FN_CD_DTL('DRP001',TLM.PL_HIST_CD) AS PL_HIST_CD_NM
 			,TLM.PL_HIST_TXT
 			,TLM.COM_HAEJI_DATE
 			,TLM.CRE_HAEJI_DATE
@@ -823,6 +824,12 @@
    	<!-- [모집인 위반이력 관련] -->
    	<!-- ====================================================================================================== -->
 	
+	<!-- 위반이력 삭제 -->
+	<insert id="deleteUserViolationInfo" parameterType="user">
+		DELETE FROM TB_LC_VIOLATION
+		WHERE MASTER_SEQ = #{masterSeq}
+	</insert>
+	
 	<!-- 위반이력 저장 -->
 	<insert id="insertUserViolationInfo" parameterType="user">
 		INSERT INTO TB_LC_VIOLATION
@@ -847,7 +854,7 @@
 			 VIOLATION_SEQ
 			,MASTER_SEQ
 			,VIOLATION_CD
-			<!-- ,FN_CD_DTL('',VIOLATION_CD) AS VIOLATION_CD_NM -->
+			,FN_CD_DTL('VIT001',VIOLATION_CD) AS VIOLATION_CD_NM
 			,REG_SEQ
 			,REG_TIMESTAMP
 		FROM TB_LC_VIOLATION

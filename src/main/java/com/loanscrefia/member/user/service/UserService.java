@@ -436,9 +436,13 @@ public class UserService {
         	}
     	}
     	
+    	//위반이력
+    	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("userRegInfo", userRegInfo);
+    	result.put("violationInfoList", violationInfoList);
 		
 		return result;
 	}
@@ -482,9 +486,13 @@ public class UserService {
         	}
 		}
 		
+		//위반이력
+    	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+		
 		//전달
 		result.put("addrCodeList", addrCodeList);
 		result.put("userRegInfo", userRegInfo);
+		result.put("violationInfoList", violationInfoList);
 		
 		return result;
 	}
@@ -931,7 +939,9 @@ public class UserService {
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		
-		//위반이력 저장
+		//위반이력 삭제 후 저장
+		userRepo.deleteUserViolationInfo(userDomain);
+		
 		String[] violationCdArr = userDomain.getViolationCdArr();
 		
 		if(violationCdArr.length > 0) {
@@ -942,6 +952,7 @@ public class UserService {
 				}
 			}
 		}
+		
 		//결과
 		if(result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "변경요청이 완료되었습니다.");

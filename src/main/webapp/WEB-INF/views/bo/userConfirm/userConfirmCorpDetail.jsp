@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
@@ -103,11 +104,21 @@ function goUserChangeApplyPage(){
 					<th>위탁예정기간</th>
 					<td>${result.userRegInfo.entrustDate }</td>
 				</tr>
-				<c:if test="${result.userRegInfo.plStat eq '3' || result.userRegInfo.plStat eq '4' }">
+				<c:if test="${result.userRegInfo.plStat eq '3' }">
 					<tr>
 						<th>요청사유</th>
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
+					<c:choose>
+						<c:when test="${fn:length(result.violationInfoList) > 0 }">
+							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
+								<tr>
+									<th>위반이력</th>
+									<td colspan="3">${violationInfoList.violationCdNm }</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+					</c:choose>
 				</c:if>
 				<c:if test="${result.userRegInfo.plStat eq '5' }">
 					<tr>
@@ -116,9 +127,12 @@ function goUserChangeApplyPage(){
 					</tr>
 				</c:if>
 				<c:if test="${result.userRegInfo.plStat eq '4' }">
-					<!-- 회원사가 해지요청한 날짜 -->
 					<tr>
-						<th>해지요청일자</th>
+						<th>해지사유</th>
+						<td colspan="3">${result.userRegInfo.plHistCdNm }</td>
+					</tr>
+					<tr>
+						<th>해지요청일자</th> <!-- 회원사가 해지요청한 날짜 -->
 						<td colspan="3">${result.userRegInfo.comHaejiDate }</td>
 					</tr>
 				</c:if>
