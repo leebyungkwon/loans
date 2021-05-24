@@ -213,7 +213,7 @@ function goUserRegInfoCancel() {
 					<c:if test="${result.userRegInfo.plStat eq '5' }">
 						<tr>
 							<th>반려사유</th>
-							<td colspan="3">${result.userRegInfo.sendMsg }</td>
+							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 						</tr>
 					</c:if>
 				</table>
