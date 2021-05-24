@@ -1,0 +1,128 @@
+################### yml
+
+  mst:
+    datasource:
+      hikari:
+        pool-name: MASTER-DB
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      url: jdbc:log4jdbc:mysql://icf-dev-db1.cloudzcp.io:3306/icforum?serverTimezone=UTC
+      username: icforumApp
+      password: p@ssw0rd
+  read:
+    datasource:
+      hikari:
+        pool-name: READ-DB
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      url: jdbc:log4jdbc:mysql://icf-dev-db1.cloudzcp.io:3306/icforum?serverTimezone=UTC
+      username: icforumAppRead
+      password: p@ssw0rd
+      
+      
+      
+      
+################### mst datasource
+
+@Configuration
+@EnableTransactionManagement
+@MapperScan(value="com.icheonforum.fo.repository.**.*", sqlSessionFactoryRef="mstSqlSessionFactory", sqlSessionTemplateRef = "mstSqlSessionTemplate")
+@EnableAutoConfiguration(exclude = { DataSourceTransactionManagerAutoConfiguration.class, DataSourceAutoConfiguration.class })
+public class MasterDatasoruce {
+
+    @Autowired
+    ApplicationContext applicationContext;
+
+    @Primary
+    @Bean(name = "mstDataSource")
+    @ConfigurationProperties(prefix = "spring.mst.datasource.hikari")
+    public DataSource dataSource() {
+        return dataSourceProp().initializeDataSourceBuilder().build();
+    }
+
+    @Bean(name = "mstDataSourceProp")
+    @ConfigurationProperties(prefix = "spring.mst.datasource")
+    public DataSourceProperties dataSourceProp() {
+        return new DataSourceProperties();
+    }
+
+
+    @Bean(name = "mstSqlSessionFactory")
+    @Primary
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/fo/**/*-sql.xml"));
+        org.apache.ibatis.session.Configuration ibatisConfiguration = new org.apache.ibatis.session.Configuration();
+        ibatisConfiguration.setMapUnderscoreToCamelCase(true);
+        sqlSessionFactoryBean.setConfiguration(ibatisConfiguration);
+        return sqlSessionFactoryBean.getObject();
+    }
+
+    @Bean(name = "mstSqlSessionTemplate")
+    @Primary
+    public SqlSessionTemplate mstSqlSessionTemplate(SqlSessionFactory mstSqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(mstSqlSessionFactory , ExecutorType.REUSE);
+    }
+
+    @Bean(name = "mstTransactionManager")
+    @Primary
+    public PlatformTransactionManager transactionManager() {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource());
+        transactionManager.setGlobalRollbackOnParticipationFailure(false);
+        return transactionManager;
+    }
+}
+
+
+
+
+################### read datasource
+
+@Configuration
+@EnableTransactionManagement
+@MapperScan(value="com.icheonforum.fo.repository.common.CommonRepository", sqlSessionFactoryRef="readSqlSessionFactory")
+public class ReadDatasoruce {
+
+    @Autowired
+    ApplicationContext applicationContext;
+
+    @Bean(name = "readDataSourceProp")
+    @ConfigurationProperties(prefix = "spring.read.datasource")
+    public DataSourceProperties dataSourceProp() {
+        return new DataSourceProperties();
+    }
+
+    @Bean(name = "readDataSource")
+    @ConfigurationProperties(prefix = "spring.read.datasource.hikari")
+    public DataSource dataSource() {
+        return dataSourceProp().initializeDataSourceBuilder().build();
+    }
+
+    @Bean(name = "readSqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        //sqlSessionFactoryBean.setEnvironment("oracle");
+        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/fo/**/*.xml"));
+        org.apache.ibatis.session.Configuration ibatisConfiguration = new org.apache.ibatis.session.Configuration();
+        ibatisConfiguration.setMapUnderscoreToCamelCase(true);
+        sqlSessionFactoryBean.setConfiguration(ibatisConfiguration);
+        return sqlSessionFactoryBean.getObject();
+    }
+
+    @Bean(name = "readSqlSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory(), ExecutorType.REUSE);
+    }
+
+
+    @Bean(name = "readTransactionManager")
+    public PlatformTransactionManager transactionManager() {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource());
+        transactionManager.setGlobalRollbackOnParticipationFailure(false);
+        return transactionManager;
+    }
+}
+
+
