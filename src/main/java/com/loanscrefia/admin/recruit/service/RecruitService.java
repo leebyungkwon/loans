@@ -62,6 +62,20 @@ public class RecruitService {
 		//상세
 		RecruitDomain recruitInfo = recruitRepository.getRecruitDetail(recruitDomain);
 		
+		//이력상세
+		RecruitDomain recruitHistInfo = recruitRepository.getRecruitHistDetail(recruitDomain);
+		if(recruitHistInfo != null) {
+			if(!recruitHistInfo.getPlMName().equals(recruitInfo.getPlMName())) {
+				recruitInfo.setHistPlMName(recruitHistInfo.getPlMName());
+			}
+			if(!recruitHistInfo.getPlMZId().equals(recruitInfo.getPlMZId())) {
+				recruitInfo.setHistPlMZId(recruitHistInfo.getPlMZId());
+			}
+			if(!recruitHistInfo.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
+				recruitInfo.setPlCellphone(recruitHistInfo.getPlCellphone());
+			}
+		}
+		
 		//첨부파일
     	if(recruitInfo.getFileSeq() != null) {
     		FileDomain fileParam = new FileDomain();
