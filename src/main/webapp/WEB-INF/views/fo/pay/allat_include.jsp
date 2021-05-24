@@ -48,7 +48,7 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_enc_data" value=""> <!-- 주문정보암호화필드 : 값은 자동으로 설정됨 -->
 	<!-- 옵션정보 -->
 	<input type="hidden" name="allat_card_yn" value="Y" maxlength="1"> <!-- 신용카드 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
-	<input type="hidden" name="allat_bank_yn" value="N" maxlength="1"> <!-- 계좌이체 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
+	<input type="hidden" name="allat_bank_yn" value="Y" maxlength="1"> <!-- 계좌이체 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
 	<input type="hidden" name="allat_vbank_yn" value="N" maxlength="1"> <!-- 무통장(가상계좌) 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
 	<input type="hidden" name="allat_hp_yn" value="N" maxlength="1"> <!-- 휴대폰 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
 	<input type="hidden" name="allat_ticket_yn" value="N" maxlength="1"> <!-- 상품권 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
@@ -61,5 +61,8 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_email_addr" value="" maxlength="50"> <!-- 결제 정보 수신 E-mail : 에스크로 서비스 사용시에 필수 필드.(결제창에서 E-Mail주소를 넣을 수도 있음) -->
 	
 	테스트여부 : <input type="text" name="allat_test_yn" value="N" maxlength="1"> <!-- 테스트 여부 : 테스트(Y),서비스(N) - Default : N(테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴) -->
+	
+	<!-- 필요정보 -->
+	<input type="hidden" name="masterSeq" value=""/>
 </form>
 

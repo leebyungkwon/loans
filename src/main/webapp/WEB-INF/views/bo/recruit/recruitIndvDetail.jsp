@@ -36,6 +36,7 @@ function goRecruitApply(num){
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: plStat
 				,plRegStat		: plRegStat
+				,ordPlStat		: $("#oldPlStat").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -66,6 +67,7 @@ function goRecruitImprove(){
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '5'
 				,plHistTxt	: $("#plHistTxt").val()
+				,ordPlStat	: $("#oldPlStat").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -86,6 +88,7 @@ function goRecruitImprove(){
 
 <form name="pageFrm" id="pageFrm" method="post">
 	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.recruitInfo.masterSeq }"/>
+	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.recruitInfo.plStat }"/>
 </form>
 
 <div class="cont_area">

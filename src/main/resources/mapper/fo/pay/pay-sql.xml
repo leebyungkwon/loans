@@ -2,7 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.front.pay.repository.PayRepository">
 	
-	
-	
+	<!-- 결제정보 저장 -->
+	<insert id="insertPayResult" parameterType="pay">
+		INSERT INTO TB_LC_PAY
+		(
+			 ORDER_NO
+			,MASTER_SEQ
+			,PAY_TYPE
+			,SEQ_NO
+			,APPROVAL_NO
+			,ID
+			,NAME
+			,SELL_MM
+			,AMT
+			,REG_TIMESTAMP
+			,REG_SEQ
+		)
+		VALUES
+		(
+			 #{orderNo}
+			,#{masterSeq}
+			,#{payType}
+			,#{seqNo}
+			,#{approvalNo}
+			,#{id}
+			,#{name}
+			,#{sellMm}
+			,#{amt}
+			,NOW()
+			,#{regSeq}
+		)
+	</insert>
 	
 </mapper> 

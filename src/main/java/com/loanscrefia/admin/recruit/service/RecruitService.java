@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
@@ -353,6 +354,11 @@ public class RecruitService {
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
 	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
+		RecruitDomain statCheck = recruitRepository.getRecruitDetail(recruitDomain);
+		if(recruitDomain.getOldPlStat() != statCheck.getPlStat()) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+		}
+		
 		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 		if(result > 0) {
 			// 모집인단계이력
