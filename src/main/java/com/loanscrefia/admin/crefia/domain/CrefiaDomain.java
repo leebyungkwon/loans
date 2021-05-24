@@ -36,6 +36,7 @@ public class CrefiaDomain extends BaseDomain {
 	private String creGrpNm;				// 협회그룹명
 	private String joinDt;					// 가입일
 	private int[] memberSeqArr;			// 삭제 배열
+	private int[] comCodeArr;			// 회원사 코드 배열
 	
 	/* ========================================================= */
 	
