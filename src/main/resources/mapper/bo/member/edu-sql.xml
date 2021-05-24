@@ -9,7 +9,7 @@
    		FROM TB_LC_EDU01
    		<where>
    			AND PL_M_NAME 	= #{plMName}
-   			AND PL_M_Z_ID 	= #{plMZId}
+   			AND PL_M_Z_ID 	= SUBSTRING(REPLACE(#{plMZId}, '-', ''),1,7)
    			AND PL_PRODUCT 	= #{plProduct}
    			<if test="careerTyp.equals('1')">
    			AND PL_EDU_NO 	= #{plEduNo}
