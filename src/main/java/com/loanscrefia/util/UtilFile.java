@@ -277,6 +277,9 @@ public class UtilFile {
 			try {
 				if(!file.isEmpty()) {
 					String fileName 		= file.getOriginalFilename();
+					if(userAgent().contains("MSIE") || userAgent().contains("Trident")) {
+						fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+					}
 					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
 
 					if (!UtilString.isStr(this.ext.toLowerCase())) {
