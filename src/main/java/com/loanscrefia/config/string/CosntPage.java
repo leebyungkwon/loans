@@ -62,9 +62,19 @@ public class CosntPage {
 	public static String BoCodePage = "bo/code";
 	
 	/* -------------------------------------------------------------------------------------------------------
-	 * 프론트
+	 * FO
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
+	//메인
+	public static String FoMainPage = "fo/";
+	
+	//대출모집인 제도
+	public static String FoInfoPage = "fo/info";
+	
+	//대출모집인 조회
+	public static String FoSearchPage = "fo/search";
+	
+	//대출모집인 결제
 	public static String FoPayPage = "fo/pay";
 }
