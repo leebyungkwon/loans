@@ -367,6 +367,42 @@ public class RecruitService {
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
+		
+		
+		/*
+		//승인처리시 이메일 발송
+		if(StringUtils.isEmpty(statCheck.getEmail())) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
+		}
+		int emailResult = 0;
+		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
+		
+		SendEmailDomain emailDomain = new SendEmailDomain();
+		emailDomain.setInstId("추후고정값");
+		emailDomain.setName("여신금융협회");
+		emailDomain.setEmail(applyDomain.getEmail());
+		
+		if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "2") {
+			// 승인요청에 대한 승인
+			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
+		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "4") {
+			// 해지요청에 대한 승인
+			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
+		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "3") {
+			// 변경요청에 대한 승인
+			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
+		}
+		
+		emailResult = commonRepository.sendEmail(emailDomain);
+		if(emailResult > 0) {
+			// 모집인단계이력
+			recruitRepository.insertMasterStep(recruitDomain);
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+		}
+		*/
+		
 	}
 
 }

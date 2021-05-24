@@ -1,15 +1,16 @@
-<%@page import="com.loanscrefia.front.pay.service.PayService"%>
-<%@page import="com.loanscrefia.front.pay.domain.PayDomain"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-<!-- 올앳관련 함수 Import //-->
-<%@ page import="java.util.*,java.net.*,com.loanscrefia.util.pay.AllatUtil" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!-- 2021.05.21 추가 : S -->
-<%@ page import="com.loanscrefia.front.pay.*" %>
-<%@ page import="org.springframework.web.context.*" %>
-<%@ page import="org.springframework.web.context.support.*" %>
+<%@page import="com.loanscrefia.front.pay.service.PayService"%>
+<%@page import="com.loanscrefia.front.pay.domain.PayDomain"%>
+<%@page import="com.loanscrefia.front.user.service.UserService"%>
+<%@page import="com.loanscrefia.front.user.domain.UserDomain"%>
+<%@page import="org.springframework.web.context.*" %>
+<%@page import="org.springframework.web.context.support.*" %>
 <!-- 2021.05.21 추가 : E -->
+
+<!-- 올앳관련 함수 Import //-->
+<%@page import="java.util.*,java.net.*,com.loanscrefia.util.pay.AllatUtil"%>
 
 <%
   //Request Value Define
@@ -37,7 +38,7 @@
   
   AllatUtil util = new AllatUtil();
   HashMap hm     = null;
-  hm = util.approvalReq(strReq, "NOSSL");
+  hm = util.approvalReq(strReq, "NOSSL");					//설정필요 : SSL(443 포트) 통신 불가 시 SSL을 NOSSL로 변경(NOSSL 로 변경 시 80 포트 이용)
   //hm = util.approvalReq(strReq, "SSL");
 
   // 결제 결과 값 확인
@@ -123,7 +124,8 @@
     out.println("결제구분               :" + sTicketNm          + "<br>");
 
 	// 배포본에서는 제외 시킬것 //////////////////////////////////////////
-	/* String sPartcancelYn  = (String)hm.get("partcancel_yn");
+	/* 
+	String sPartcancelYn  = (String)hm.get("partcancel_yn");
 	String sBCCertNo      = (String)hm.get("bc_cert_no");
 	String sCardNo        = (String)hm.get("card_no");
 	String sIspFullCardCd = (String)hm.get("isp_full_card_cd");
@@ -135,17 +137,20 @@
 	out.println("카드번호 Return           : " + sCardNo        + "<br>");
 	out.println("ISP 전체 카드코드         : " + sIspFullCardCd + "<br>");
 	out.println("카드구분                  : " + sCardType      + "<br>");
-	out.println("계좌이체 예금주명         : " + sBankAccountNm + "<br>"); */
+	out.println("계좌이체 예금주명         : " + sBankAccountNm + "<br>"); 
+	*/
 	//////////////////////////////////////////////////////////////////////
 	
 	
 	//----------------------[2021.05.21 추가 : S]----------------------
-	//(1)결제정보 저장
 	/*
+	int masterSeq = Integer.parseInt(request.getParameter("masterSeq"));
+	
+	//(1)결제정보 저장
 	ServletContext servletContext 	= getServletContext();
 	WebApplicationContext waContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 	PayService payService 			= (PayService)waContext.getBean("PayService");
-	PayDomain param 				= new PayDomain();
+	PayDomain payDomain				= new PayDomain();
 	String id 						= "";
 	String name 					= "";
 	
@@ -159,30 +164,35 @@
 		name 	= sBankNm;
 	}
 	
-	param.setOrderNo(sOrderNo);
-	param.setMasterSeq(Integer.parseInt(request.getParameter("masterSeq")));
-	param.setPayType(sPayType);
-	param.setSeqNo(sSeqNo);
-	param.setApprovalNo(sApprovalNo);
-	param.setId(id);
-	param.setName(name);
-	param.setSellMm(sSellMm);
-	param.setAmt(Integer.parseInt(sAmt));
+	payDomain.setMasterSeq(masterSeq);
+	payDomain.setOrderNo(sOrderNo);
+	payDomain.setMasterSeq(Integer.parseInt(request.getParameter("masterSeq")));
+	payDomain.setPayType(sPayType);
+	payDomain.setSeqNo(sSeqNo);
+	payDomain.setApprovalNo(sApprovalNo);
+	payDomain.setId(id);
+	payDomain.setName(name);
+	payDomain.setSellMm(sSellMm);
+	payDomain.setAmt(Integer.parseInt(sAmt));
 
-	payService.insertPayResult(param);
-	*/
+	payService.insertPayResult(payDomain);
 	
 	//(2)모집인 테이블의 결제 컬럼 수정 -> 굳이 마스터 테이블에 결제 관련된 컬럼이 있어야 하나???
 	
 	//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정
+	UserService userService 		= (UserService)waContext.getBean("UserService");
+	UserDomain userDomain 			= new UserDomain();
 	
+	userDomain.setMasterSeq(masterSeq);
+	userService.updatePlRegStat(userDomain);
 	
-	
+	//(4)결제 완료 화면 이동 : masterSeq 들고 이동해야함
+	out.println("<script>");
+	out.println("location.href='/front/pay/payResult';");
+	out.println("</script>");
+	*/
 	//----------------------[2021.05.21 추가 : E]----------------------
 	
-	
-	
-
   }else{
     // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
     // reply_msg 가 실패에 대한 메세지

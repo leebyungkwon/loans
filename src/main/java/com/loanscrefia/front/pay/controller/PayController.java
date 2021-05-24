@@ -1,20 +1,33 @@
 package com.loanscrefia.front.pay.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.front.search.domain.SearchDomain;
+import com.loanscrefia.front.search.service.SearchService;
 
 @Controller
 @RequestMapping(value="/front")
 public class PayController {
 	
-	//결제
-	@GetMapping(value="/pay/payPage")
-	public String payPage() {
-		return CosntPage.FoPayPage+"/payTest";
+	@Autowired private SearchService searchService;
+	
+	//모집인 결제 > 모집인 조회 페이지
+	@GetMapping(value="/pay/payUserSearchPage")
+	public String payUserSearchPage() {
+		return CosntPage.FoPayPage+"/payUserSearch";
+	}
+	
+	//모집인 결제 > 모집인 조회 결과
+	@PostMapping(value="/pay/payUserSearchResult")
+	public ModelAndView selectIndvUserInfo(SearchDomain searchDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payUserSearchResult");
+		return mv;
 	}
 	
 	//결제 인증정보 수신 페이지

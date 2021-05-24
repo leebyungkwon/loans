@@ -21,7 +21,7 @@ function goRecruitApply(num){
 	}else if(num == "4"){
 		plStat = "7";
 		plRegStat = "4";
-	}else if(num == "6"){
+	}else if(num == "3"){
 		plStat = "7";
 		plRegStat = "3";
 	}else{
@@ -36,7 +36,7 @@ function goRecruitApply(num){
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: plStat
 				,plRegStat		: plRegStat
-				,ordPlStat		: $("#oldPlStat").val()
+				,oldPlStat		: $("#oldPlStat").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -67,7 +67,7 @@ function goRecruitImprove(){
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '5'
 				,plHistTxt	: $("#plHistTxt").val()
-				,ordPlStat	: $("#oldPlStat").val()
+				,oldPlStat	: $("#oldPlStat").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
