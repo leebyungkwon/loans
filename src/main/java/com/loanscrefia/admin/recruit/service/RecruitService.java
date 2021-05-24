@@ -418,5 +418,11 @@ public class RecruitService {
 		*/
 		
 	}
-
+	
+	//변경사항
+	@Transactional(readOnly=true)
+	public RecruitDomain getRecruitHistDetail(RecruitDomain recruitDomain) {
+		return recruitRepository.getRecruitHistDetail(recruitDomain);
+	}
+	
 }

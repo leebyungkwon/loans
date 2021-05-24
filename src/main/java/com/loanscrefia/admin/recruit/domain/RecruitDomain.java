@@ -99,6 +99,8 @@ public class RecruitDomain extends BaseDomain {
 	private String histPlMZId;
 	private String histPlCellphone;
 	
+	private String histType;
+	
 	private String originPlMerchantNo;
 	private String originCreAppDate;
 	private String originPayDate;

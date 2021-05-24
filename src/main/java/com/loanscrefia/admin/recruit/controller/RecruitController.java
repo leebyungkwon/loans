@@ -123,4 +123,14 @@ public class RecruitController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//이력보기
+	@GetMapping(value="/recruit/recruitHistoryPopup")
+	public ModelAndView recruitHistoryPopup(RecruitDomain recruitDomain) {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/recruitHistoryPopup");
+		RecruitDomain result = recruitService.getRecruitHistDetail(recruitDomain);
+		result.setHistType(recruitDomain.getHistType());
+		mav.addObject("recruitHistDetail", result);
+        return mav;
+	}
+	
 }

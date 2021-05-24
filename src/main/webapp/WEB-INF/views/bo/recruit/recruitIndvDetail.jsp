@@ -54,9 +54,6 @@ function goRecruitApply(num){
 
 //보완
 function goRecruitImprove(){
-	
-	
-	
 	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
@@ -144,13 +141,13 @@ function goRecruitImprove(){
 					<th>이름</th>
 					<td>${result.recruitInfo.plMName }
 					<c:if test="${!empty result.recruitInfo.histPlMName}">
-						<a href="#" class="btn_blue btn_small mgl5">변경사항</a>
+						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.masterSeq }','keyName');">변경사항</a>
 					</c:if>
 					</td>
 					<th>주민번호</th>
 					<td>${result.recruitInfo.plMZId }
 					<c:if test="${!empty result.recruitInfo.histPlMZId}">
-						<a href="#" class="btn_blue btn_small mgl5">변경사항</a>
+						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.masterSeq }','keyId');">변경사항</a>
 					</c:if>
 					</td>
 				</tr>
@@ -158,7 +155,7 @@ function goRecruitImprove(){
 					<th>휴대폰번호</th>
 					<td colspan="3">${result.recruitInfo.plCellphone }
 					<c:if test="${!empty result.recruitInfo.histPlCellphone}">
-						<a href="#" class="btn_blue btn_small mgl5">변경사항</a>
+						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.masterSeq }','keyPhone');">변경사항</a>
 					</c:if>
 					</td>
 				</tr>

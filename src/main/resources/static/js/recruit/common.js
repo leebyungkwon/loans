@@ -367,3 +367,12 @@ function goViolationDel(obj){
 	}
 	PopUtil.openPopup(p);
 }
+
+//변경사항-정보
+ function goRecruitHistoryShow(masterSeq, type){
+	let p = {
+	  	  id 		: "recruitHistoryPop"
+		, url 		: "/admin/recruit/recruitHistoryPopup?masterSeq="+masterSeq+"&histType="+type
+	}
+	PopUtil.openPopup(p);
+}
