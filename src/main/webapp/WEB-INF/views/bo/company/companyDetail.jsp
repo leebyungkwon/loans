@@ -15,10 +15,16 @@ function goCompanyStatUpdt(apprStat,roleName) {
 		$("#msg").focus();
 		alert("가승인 사유를 입력해 주세요.");
 		return false; 
-	  }
+	}
+	
+	// 승인처리시 이메일전송
+	var email = $("#sendEmail").text();
+	if(apprStat == '3' && WebUtil.isNull(email)){
+		alert("승인처리시 이메일이 필요합니다.");
+		return false;
+	}
 	
 	if(confirm(apprStatNm + "처리 하시겠습니까?")){
-		
 		var p = {
 			  url		: "/admin/mng/updateCompanyStat"	
 			, param		: {
@@ -28,9 +34,11 @@ function goCompanyStatUpdt(apprStat,roleName) {
 				,msg	   : msg
 			}
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("처리 되었습니다.");
+				if(result.data.code == "success"){
+					alert(result.data.message);
 					location.href="/admin/mng/companyPage"
+				}else{
+					alert(result.data.message);
 				}
 		    }
 		}
@@ -85,7 +93,7 @@ function companyList(){
 						<th>직위</th>
 						<td>${companyDetail.positionNm}</td>
 						<th>이메일</th>
-						<td>${companyDetail.email}</td>
+						<td id="sendEmail">${companyDetail.email}</td>
 					</tr>
 					<tr>
 						<th>직장 번화번호</th>

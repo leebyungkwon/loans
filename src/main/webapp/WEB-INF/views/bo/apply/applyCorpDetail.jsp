@@ -20,7 +20,7 @@ function goRecruitApply(num){
 	}else if(num == "4"){
 		plStat = "7";
 		plRegStat = "4";
-	}else if(num == "6"){
+	}else if(num == "3"){
 		plStat = "7";
 		plRegStat = "3";
 	}else{
