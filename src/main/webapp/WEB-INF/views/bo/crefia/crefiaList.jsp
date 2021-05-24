@@ -141,6 +141,50 @@ function saveCrefia(){
 		}
 		param.password = password
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////
+	var checkCount 	= 0;
+
+	if(/[0-9]/.test(password)){ //숫자
+	    checkCount++;
+	}
+	if(/[a-z]/.test(password)){ //소문자
+	    checkCount++;
+	}
+	if(/[A-Z]/.test(password)){ //대문자
+	    checkCount++;
+	}
+	if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(password)){ //특수문자
+	    checkCount++;
+	}
+	if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(password)){ 
+	    alert("비밀번호에 한글을 사용 할 수 없습니다.");
+	    return false;
+	}
+	if(checkCount <= 1){ 
+	    alert('비밀번호는 영문 대/소문자, 숫자, 특수문자 중 2개이상의 조합이여야만 합니다.');
+	    return false;
+	}
+	if (password.length < 8 || password.length > 20){ 
+		alert("8자리 ~ 20자리 이내로 입력해주세요.");
+		return false;
+	}
+	if (/(\w)\1\1/.test(password)){ 
+		alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
+		return false;
+	}
+	if (password.search(memberId) > -1){
+		alert("비밀번호에 아이디가 포함되었습니다.");
+		return false;
+	}
+	if (password.search(/\s/) != -1){ 
+		alert("비밀번호는 공백 없이 입력해주세요.");
+		return false;
+	}else {
+		console.log("통과");
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////
+	
 	var crefiaParam = {
 		param: param
 		,url: "/admin/crefia/saveCrefia"

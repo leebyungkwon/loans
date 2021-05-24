@@ -54,7 +54,7 @@
 		<tr>
 			<th>비밀번호</th>
 			<td class="file">
-				<input type="password" class="w50 file_input" id="popPassword" name="password" placeholder="최소8자, 문자/숫자/특수문자를 입력하세요." maxlength="20" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
+				<input type="password" class="w50 file_input" id="popPassword" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" maxlength="20" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
 			</td>
 		</tr>
 		<tr>
