@@ -35,7 +35,7 @@ function goRecruitApply(num){
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: plStat
 				,plRegStat		: plRegStat
-				,ordPlStat		: $("#oldPlStat").val()
+				,oldPlStat		: $("#oldPlStat").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -66,7 +66,7 @@ function goApplyImprove(){
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '5'
 				,plHistTxt	: $("#plHistTxt").val()
-				,ordPlStat	: $("#oldPlStat").val()
+				,oldPlStat	: $("#oldPlStat").val()
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
