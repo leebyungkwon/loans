@@ -17,6 +17,7 @@ public class RecruitDomain extends BaseDomain {
 
 	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
+	private int masterHistSeq;		//이력시퀀스
 	private String comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String plClass;			//분류							-> [CLS001]개인,법인
@@ -93,6 +94,10 @@ public class RecruitDomain extends BaseDomain {
 	private String fileCompYn;		//첨부상태							-> Y,N
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	private String plHistCdNm;		//해지사유코드명
+	
+	private String histPlMName;
+	private String histPlMZId;
+	private String histPlCellphone;
 	
 	private String originPlMerchantNo;
 	private String originCreAppDate;

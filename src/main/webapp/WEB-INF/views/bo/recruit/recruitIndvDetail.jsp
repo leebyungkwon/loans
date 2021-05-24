@@ -142,13 +142,25 @@ function goRecruitImprove(){
 				</tr>
 				<tr>
 					<th>이름</th>
-					<td>${result.recruitInfo.plMName }</td>
+					<td>${result.recruitInfo.plMName }
+					<c:if test="${!empty result.recruitInfo.histPlMName}">
+						<a href="#" class="btn_blue btn_small mgl5">변경사항</a>
+					</c:if>
+					</td>
 					<th>주민번호</th>
-					<td>${result.recruitInfo.plMZId }</td>
+					<td>${result.recruitInfo.plMZId }
+					<c:if test="${!empty result.recruitInfo.histPlMZId}">
+						<a href="#" class="btn_blue btn_small mgl5">변경사항</a>
+					</c:if>
+					</td>
 				</tr>
 				<tr>
 					<th>휴대폰번호</th>
-					<td colspan="3">${result.recruitInfo.plCellphone }</td>
+					<td colspan="3">${result.recruitInfo.plCellphone }
+					<c:if test="${!empty result.recruitInfo.histPlCellphone}">
+						<a href="#" class="btn_blue btn_small mgl5">변경사항</a>
+					</c:if>
+					</td>
 				</tr>
 				<tr>
 					<th>주소</th>
