@@ -103,23 +103,22 @@ function goUserChangeApplyPage(){
 					<th>위탁예정기간</th>
 					<td>${result.userRegInfo.entrustDate }</td>
 				</tr>
-				<c:if test="${!empty result.userRegInfo.plHistTxt or !empty result.userRegInfo.plHistTxt}">
-					<!-- 즉시취소 또는 변경요청 사유 -->
+				<c:if test="${result.userRegInfo.plStat eq '3' || result.userRegInfo.plStat eq '4' }">
 					<tr>
 						<th>요청사유</th>
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
-				<c:if test="${result.userRegInfo.plStat eq '4' }">
+				<c:if test="${result.userRegInfo.plStat eq '5' }">
 					<tr>
 						<th>반려사유</th>
 						<td colspan="3">${result.userRegInfo.sendMsg }</td>
 					</tr>
 				</c:if>
-				<c:if test="${!empty result.userRegInfo.comHaejiDate or !empty result.userRegInfo.creHaejiDate}">
+				<c:if test="${result.userRegInfo.plStat eq '4' }">
 					<!-- 회원사가 해지요청한 날짜 -->
 					<tr>
-						<th>해지일자</th>
+						<th>해지요청일자</th>
 						<td colspan="3">${result.userRegInfo.comHaejiDate }</td>
 					</tr>
 				</c:if>
