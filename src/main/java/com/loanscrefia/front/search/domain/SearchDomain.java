@@ -1,4 +1,4 @@
-package com.loanscrefia.front.user.domain;
+package com.loanscrefia.front.search.domain;
 
 import org.apache.ibatis.type.Alias;
 
@@ -8,8 +8,8 @@ import com.loanscrefia.util.excel.ExcelColumn;
 import lombok.Data;
 
 @Data
-@Alias("fUser")
-public class UserDomain extends BaseDomain {
+@Alias("search")
+public class SearchDomain extends BaseDomain {
 
 	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스

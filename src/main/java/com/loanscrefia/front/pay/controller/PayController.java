@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.config.string.CosntPage;
-import com.loanscrefia.front.user.domain.UserDomain;
-import com.loanscrefia.front.user.service.UserService;
+import com.loanscrefia.front.search.domain.SearchDomain;
+import com.loanscrefia.front.search.service.SearchService;
 
 @Controller
 @RequestMapping(value="/front")
 public class PayController {
 	
-	@Autowired private UserService userService;
+	@Autowired private SearchService searchService;
 	
 	//모집인 결제 > 모집인 조회 페이지
 	@GetMapping(value="/pay/payUserSearchPage")
@@ -25,7 +25,7 @@ public class PayController {
 	
 	//모집인 결제 > 모집인 조회 결과
 	@PostMapping(value="/pay/payUserSearchResult")
-	public ModelAndView selectIndvUserInfo(UserDomain userDomain) {
+	public ModelAndView selectIndvUserInfo(SearchDomain searchDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payUserSearchResult");
 		return mv;
 	}

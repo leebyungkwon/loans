@@ -3,7 +3,7 @@
 <mapper namespace="com.loanscrefia.front.user.UserRepository">
    	
    	<!-- 모집인 조회 : 개인 -->
-	<select id="selectIndvUserInfo" parameterType="fUser" resultType="fUser">
+	<select id="selectIndvUserInfo" parameterType="search" resultType="search">
 		SELECT
 			 TLM.MASTER_SEQ
 			,TLM.COM_CODE
@@ -62,7 +62,7 @@
 	</select>
 	
 	<!-- 모집인 조회 : 법인 -->
-	<select id="selectCorpUserInfo" parameterType="fUser" resultType="fUser">
+	<select id="selectCorpUserInfo" parameterType="search" resultType="search">
 		SELECT
 			 TLM.MASTER_SEQ
 			,TLM.COM_CODE
@@ -121,7 +121,7 @@
 	</select>
 	
    	<!-- 모집인 상태 변경 : 자격취득 -->
-	<update id="updatePlRegStat" parameterType="fUser">
+	<update id="updatePlRegStat" parameterType="search">
 		UPDATE TB_LC_MAS01
 		SET
 			 PL_REG_STAT 	= '3'			-- 자격취득
