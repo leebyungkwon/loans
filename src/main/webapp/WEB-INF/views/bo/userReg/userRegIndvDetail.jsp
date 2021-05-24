@@ -169,7 +169,7 @@ function goUserRegInfoCancel() {
 									<option value="${addrCodeList.codeDtlCd }" <c:if test="${addrCodeList.codeDtlCd eq result.userRegInfo.addr }">selected="selected"</c:if>>${addrCodeList.codeDtlNm }</option>
 								</c:forEach>
 							</select>
-							<input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }" maxlength="200">
+							<%-- <input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }" maxlength="200"> --%>
 						</td>
 					</tr>
 					<tr>

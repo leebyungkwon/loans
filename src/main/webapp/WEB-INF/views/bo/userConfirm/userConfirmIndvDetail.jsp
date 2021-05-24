@@ -85,10 +85,12 @@ function goUserChangeApplyPage(){
 					<th>주소</th>
 					<td colspan="3">${result.userRegInfo.addrNm }</td>
 				</tr>
+				<%-- 
 				<tr>
 					<th>상세주소</th>
 					<td colspan="3">${result.userRegInfo.addrDetail }</td>
 				</tr>
+				 --%>
 				<tr>
 					<th>교육이수번호</th>
 					<td colspan="3">${result.userRegInfo.plEduNo }</td>
