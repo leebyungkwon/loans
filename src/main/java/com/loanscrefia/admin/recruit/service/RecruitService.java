@@ -355,7 +355,7 @@ public class RecruitService {
 	@Transactional
 	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
 		RecruitDomain statCheck = recruitRepository.getRecruitDetail(recruitDomain);
-		if(recruitDomain.getOldPlStat() != statCheck.getPlStat()) {
+		if(!recruitDomain.getOldPlStat().equals(statCheck.getPlStat())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		

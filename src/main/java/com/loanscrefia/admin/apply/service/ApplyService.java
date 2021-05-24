@@ -518,7 +518,7 @@ public class ApplyService {
 	@Transactional
 	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
 		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
-		if(applyDomain.getOldPlStat() != statCheck.getPlStat()) {
+		if(!applyDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		int result = applyRepository.updateApplyPlStat(applyDomain);
