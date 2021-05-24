@@ -119,7 +119,7 @@ function goRecruitImprove(){
 				</tr>
 				<tr>
 					<th>모집인 상태</th>
-					<td>${result.recruitInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+					<td>${result.recruitInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.recruitInfo.masterSeq }');">이력보기</a></td>
 					<th>결제여부</th>
 					<td>
 						<c:choose>
@@ -188,7 +188,7 @@ function goRecruitImprove(){
 					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
 						<tr>
 							<th>해지요청사유</th>
-							<td colspan="3">${result.recruitInfo.plHistCd }</td>
+							<td colspan="3">${result.recruitInfo.plHistCdNm }</td>
 						</tr>
 						<tr>
 							<th>해지일자</th>

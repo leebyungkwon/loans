@@ -124,7 +124,7 @@ function goApplyImprove(){
 				</tr>
 				<tr>
 					<th>모집인 상태</th>
-					<td>${result.applyInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+					<td>${result.applyInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.applyInfo.masterSeq }');">이력보기</a></td>
 					<th>결제여부</th>
 					<td>
 						<c:choose>
@@ -193,7 +193,7 @@ function goApplyImprove(){
 					<c:when test="${result.applyInfo.plStat eq '4' or result.applyInfo.plStat eq '7'}">
 						<tr>
 							<th>해지요청사유</th>
-							<td colspan="3">${result.applyInfo.plHistCd }</td>
+							<td colspan="3">${result.applyInfo.plHistCdNm }</td>
 						</tr>
 						<tr>
 							<th>해지일자</th>

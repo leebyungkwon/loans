@@ -54,6 +54,9 @@ function goRecruitApply(num){
 
 //보완
 function goRecruitImprove(){
+	
+	
+	
 	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
@@ -110,7 +113,7 @@ function goRecruitImprove(){
 				</tr>
 				<tr>
 					<th>모집인 상태</th>
-					<td>${result.recruitInfo.plRegStatNm } <a href="javascript:alert('준비중입니다.');" class="btn_Lgray btn_small mgl5">이력보기</a></td>
+					<td>${result.recruitInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.recruitInfo.masterSeq }');">이력보기</a></td>
 					<th>결제여부</th>
 					<td>
 						<c:choose>
@@ -171,19 +174,10 @@ function goRecruitImprove(){
 				</tr>
 				
 				<c:choose>
-					<c:when test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '7'
-					or result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '7'}">
-						<tr>
-							<th>사유</th>
-							<td colspan="3">
-								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
-							</td>
-						</tr>
-					</c:when>
 					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
 						<tr>
 							<th>해지요청사유</th>
-							<td colspan="3">${result.recruitInfo.plHistCd }</td>
+							<td colspan="3">${result.recruitInfo.plHistCdNm }</td>
 						</tr>
 						<tr>
 							<th>해지일자</th>
@@ -191,6 +185,13 @@ function goRecruitImprove(){
 						</tr>
 					</c:when>
 				</c:choose>
+				
+				<tr>
+					<th>사유</th>
+					<td colspan="3">
+						<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
+					</td>
+				</tr>
 			</table>
 		</div>
 

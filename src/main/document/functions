@@ -13,8 +13,8 @@ language 'plpgsql';
 
 -- 코드 상세조회
 CREATE OR REPLACE FUNCTION fn_cd_dtl(mst VARCHAR(10), dtl VARCHAR(10))
-returns VARCHAR(30) as $$
-declare dtl_nm VARCHAR(30);
+returns VARCHAR(100) as $$
+declare dtl_nm VARCHAR(100);
 begin
 	select into dtl_nm code_dtl_nm
 	from tb_lc_cod01_detail

@@ -27,6 +27,8 @@ import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.service.UserService;
 import com.loanscrefia.util.UtilExcel;
 
 @Controller
@@ -35,6 +37,9 @@ public class ApplyController {
 	
 	@Autowired 
 	private ApplyService applyService;
+	
+	@Autowired 
+	private UserService userService;
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 모집인 조회 및 변경
@@ -148,4 +153,5 @@ public class ApplyController {
     	responseMsg.setData(applyService.applyCheck(applyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
 }
