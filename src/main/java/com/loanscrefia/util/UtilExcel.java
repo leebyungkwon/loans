@@ -111,6 +111,7 @@ public class UtilExcel<T> {
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
+	                			/*
 	                			if(chkDb.get(j).equals("corp1")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantName(ExcelCellRef.getValue(cell));
@@ -147,6 +148,7 @@ public class UtilExcel<T> {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.\n";
 	                				}
 	                			}
+	                			*/
 	                		}
 	                	}
 	                }
