@@ -4,11 +4,24 @@
    
    	<!-- 회원사 시스템 > 모집인 등록 : 엑셀 업로드 시 교육이수번호 체크 -->
    	<select id="plEduNoCheck" parameterType="edu" resultType="int">
-   		SELECT COUNT(1)
+   		SELECT 
+   			COUNT(1)
    		FROM TB_LC_EDU01
    		<where>
-   			AND PL_EDU_NO = #{plEduNo}
+   			AND PL_M_NAME 	= #{plMName}
+   			AND PL_M_Z_ID 	= #{plMZId}
+   			AND PL_PRODUCT 	= #{plProduct}
+   			<if test="careerTyp.equals('1')">
+   			AND PL_EDU_NO 	= #{plEduNo}
+   			</if>
+   			<if test="careerTyp.equals('2')">
+   			AND PL_CRF_NO 	= #{plEduNo}
+   			</if>
    		</where>
    	</select>
+   
+   
+   
+   
    
 </mapper> 

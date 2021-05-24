@@ -78,6 +78,7 @@ public class UtilExcel<T> {
 		    Map<String, Object> map = null;
 		    
 		    CorpDomain corpChkParam = new CorpDomain();
+		    EduDomain eduChkParam 	= new EduDomain();
 		    
 	        row = sheet.getRow(i);
 	        
@@ -117,9 +118,6 @@ public class UtilExcel<T> {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantNo(ExcelCellRef.getValue(cell));
 	                				
-	                				System.out.println(corpChkParam.getPlMerchantName());
-	                				System.out.println(corpChkParam.getPlMerchantNo());
-	                				
 	                				if((corpChkParam.getPlMerchantName() != null && !corpChkParam.getPlMerchantName().equals("")) || (corpChkParam.getPlMerchantNo() != null && !corpChkParam.getPlMerchantNo().equals(""))) {
 	                					int chkResult = selectCorpInfoCnt(corpChkParam);
 		                				
@@ -127,21 +125,27 @@ public class UtilExcel<T> {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.\n";
 		                				}
 	                				}
-	                			}else if(chkDb.get(j).equals("edu")) {
-	                				//교육이수번호 유효 체크 -> API로 할지 논의중(2021.05.20)
-	                				/*
-	                				System.out.println("edu :: "+ExcelCellRef.getValue(cell));
-	                				
-		                			EduDomain param = new EduDomain();
-		                			param.setPlEduNo(ExcelCellRef.getValue(cell));
-		                			int chkResult 	= plEduNoCheck(param);
+	                			}else if(chkDb.get(j).equals("edu1")) {
+	                				//교육이수번호,인증서번호 유효 체크
+	                				eduChkParam.setCareerTyp(ExcelCellRef.getValue(cell));
+	                			}else if(chkDb.get(j).equals("edu2")) {
+	                				//교육이수번호,인증서번호 유효 체크
+	                				eduChkParam.setPlMName(ExcelCellRef.getValue(cell));
+	                			}else if(chkDb.get(j).equals("edu3")) {
+	                				//교육이수번호,인증서번호 유효 체크
+	                				eduChkParam.setPlMZId(ExcelCellRef.getValue(cell));
+	                			}else if(chkDb.get(j).equals("edu4")) {
+	                				//교육이수번호,인증서번호 유효 체크
+	                				eduChkParam.setPlProduct(ExcelCellRef.getValue(cell));
+	                			}else if(chkDb.get(j).equals("edu5")) {
+	                				//교육이수번호,인증서번호 유효 체크
+	                				eduChkParam.setPlEduNo(ExcelCellRef.getValue(cell));
+
+	                				int chkResult 	= plEduNoCheck(eduChkParam);
 		                			
-		                			if(chkResult > 0) {
-		                				valChkResult = true;
-		                			}
-		                			
-		        	                if(!valChkResult) errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 유효하지 않은 번호입니다.\n";
-		        	                */
+	                				if(chkResult == 0) {
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.\n";
+	                				}
 	                			}
 	                		}
 	                	}
@@ -207,11 +211,13 @@ public class UtilExcel<T> {
 		stream.close();
 	}
 	
+	//법인 정보 유효 체크(법인사용인)
 	@Transactional(readOnly=true)
 	private int selectCorpInfoCnt(CorpDomain corpDomain) {
 		return corpRepo.selectCorpInfoCnt(corpDomain);
 	}
 	
+	//교육이수번호,인증서번호 유효 체크
 	@Transactional(readOnly=true)
 	private int plEduNoCheck(EduDomain eduDomain) {
 		return eduRepo.plEduNoCheck(eduDomain);
