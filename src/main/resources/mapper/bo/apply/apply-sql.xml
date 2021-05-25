@@ -314,7 +314,7 @@
    	</insert>
    	
    	<delete id="deleteApplyCheck" parameterType="applyCheck">
-   		DELETE FROM TB_LC_FILE_CHECK
+   		DELETE FROM TB_LC_FILE_CHECK 
    		WHERE
    			FILE_SEQ = #{fileSeq}
    		AND CHECK_CD = #{checkCd}
