@@ -50,6 +50,8 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'javax.validation:validation-api'
 	
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	
 	implementation 'org.aspectj:aspectjweaver:1.7.0'

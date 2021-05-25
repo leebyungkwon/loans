@@ -1,4 +1,4 @@
-package com.loanscrefia.common.common.service;
+package com.loanscrefia.common.common.email.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import com.loanscrefia.common.common.repository.VersionRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
 @Service
-public class CommonService {
+public class EmailService {
 
 	@Autowired private VersionRepository verRepo;
 	@Autowired private CommonRepository commonRepository;
@@ -63,13 +63,11 @@ public class CommonService {
 	
 	
 	// 이메일 전송 - transactional 확인(멀티DB)
-	/*
 	@Transactional
 	public int sendEmail(SendEmailDomain sendEmailDomain){
 		// MSSQL DB INSERT
 		return 0;
 	}
-	*/
 	
 	
 	

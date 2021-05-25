@@ -31,6 +31,6 @@ public interface CommonRepository {
 
 	
 	// 이메일 전송
-	int sendEmail(SendEmailDomain sendEmailDomain);
+	//int sendEmail(SendEmailDomain sendEmailDomain);
 	
 }

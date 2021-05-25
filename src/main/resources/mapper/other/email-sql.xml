@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.common.repository.CommonRepository">
 
-	<insert id="sendEmail" parameterType="email">
+	<insert id="sendEmail" parameterType="sendEmail">
 		INSERT INTO TB_INST_INPUT(
 		   instId 
 		   , name

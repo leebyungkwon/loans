@@ -37,9 +37,6 @@ public class ApplyController {
 	
 	@Autowired 
 	private ApplyService applyService;
-	
-	@Autowired 
-	private UserService userService;
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 모집인 조회 및 변경

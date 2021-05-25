@@ -19,24 +19,20 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+mybatis:
+  type-aliases-package: com.loanscrefia.*.*.domain
+  mapper-locations: classpath:mapper/*/*/*-sql.xml
+  configuration:
+    lazyLoadingEnabled: true
+    aggressiveLazyLoading: false
+    mapUnderscoreToCamelCase: true
 
 ---
 spring:
   profiles: local
-  mst:
-    datasource:
-      hikari:
-        pool-name: MASTER-DB
-        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: 1234
-  read:
-    datasource:
-      hikari:
-        pool-name: READ-DB
+  datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 1234
 

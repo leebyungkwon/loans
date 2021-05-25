@@ -1,7 +1,5 @@
 package com.loanscrefia.admin.apply.service;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
@@ -18,26 +15,13 @@ import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
-import com.loanscrefia.admin.recruit.domain.RecruitDomain;
-import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
-import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
-import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.domain.SendEmailDomain;
-import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
-import com.loanscrefia.member.user.domain.UserExpertDomain;
-import com.loanscrefia.member.user.domain.UserImwonDomain;
-import com.loanscrefia.member.user.domain.UserItDomain;
-import com.loanscrefia.member.user.domain.excel.UserCorpExcelDomain;
-import com.loanscrefia.member.user.domain.excel.UserIndvExcelDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
-import com.loanscrefia.util.UtilExcel;
-import com.loanscrefia.util.UtilFile;
 
 @Service
 public class ApplyService {
@@ -46,8 +30,6 @@ public class ApplyService {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private UserRepository userRepo;
-	@Autowired
-	private CommonRepository commonRepository;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
