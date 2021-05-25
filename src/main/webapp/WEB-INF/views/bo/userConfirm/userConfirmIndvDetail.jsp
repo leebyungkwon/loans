@@ -118,18 +118,12 @@ function goUserChangeApplyPage(){
 						<c:when test="${fn:length(result.violationInfoList) > 0 }">
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 								<tr>
-									<th>위반이력</th>
+									<th>위반이력${status.count }</th>
 									<td colspan="3">${violationInfoList.violationCdNm }</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 					</c:choose>
-				</c:if>
-				<c:if test="${result.userRegInfo.plStat eq '5' }">
-					<tr>
-						<th>반려사유</th>
-						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
-					</tr>
 				</c:if>
 				<c:if test="${result.userRegInfo.plStat eq '4' }">
 					<tr>
@@ -139,6 +133,12 @@ function goUserChangeApplyPage(){
 					<tr>
 						<th>해지요청일자</th> <!-- 회원사가 해지요청한 날짜 -->
 						<td colspan="3">${result.userRegInfo.comHaejiDate }</td>
+					</tr>
+				</c:if>
+				<c:if test="${result.userRegInfo.plStat eq '5' }">
+					<tr>
+						<th>반려사유</th>
+						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
 			</table>
