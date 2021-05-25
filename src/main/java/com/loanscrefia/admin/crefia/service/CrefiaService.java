@@ -2,6 +2,8 @@ package com.loanscrefia.admin.crefia.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,16 +57,51 @@ public class CrefiaService {
 	
 	/* ========================================================================== */
 	
-	// 협회 관리자 관리 조회
+	// 협회 관리자 관리 - 담당자 코드  조회
 	@Transactional(readOnly = true)
 	public List<CrefiaDomain> selectCrefiaWorkMemberList(CrefiaDomain crefiaDomain){
 		return crefiaRepository.selectCrefiaWorkMemberList(crefiaDomain);
 	}
 	
-	// 협회 관리자 관리 조회
+	// 협회 관리자 관리 - 회원사 코드 조회
 	@Transactional(readOnly = true)
 	public List<CrefiaDomain> selectCrefiaWorkCompanyList(CrefiaDomain crefiaDomain){
 		return crefiaRepository.selectCrefiaWorkCompanyList(crefiaDomain);
 	}
+
+	@Transactional
+	public ResponseMsg insertCrefiaWork(@Valid CrefiaDomain crefiaDomain) {
+		
+		deleteCrefiaWork(crefiaDomain);
+		
+		int insertResult 	= 0;
+		int memberSeqArr[] 	= crefiaDomain.getMemberSeqArr();
+		int comCodeArr[] 	= crefiaDomain.getComCodeArr();
+		
+		for(int i=0;i < memberSeqArr.length;i++) {
+			crefiaDomain.setMemberSeq(memberSeqArr[i]);
+			crefiaDomain.setComCode(comCodeArr[i]);
+			insertResult += crefiaRepository.insertCrefiaWork(crefiaDomain);
+		}
+				
+		if(insertResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "COM0001", "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
+
+	@Transactional
+	public int deleteCrefiaWork(@Valid CrefiaDomain crefiaDomain) {
+		return crefiaRepository.deleteCrefiaWork(crefiaDomain);
+	}
+
+	@Transactional(readOnly = true)
+	public List<CrefiaDomain> selectCrefiaWorkCheckbox(CrefiaDomain crefiaDomain){
+		return crefiaRepository.selectCrefiaWorkCheckbox(crefiaDomain);
+	}
+
+	
+	
 	
 }

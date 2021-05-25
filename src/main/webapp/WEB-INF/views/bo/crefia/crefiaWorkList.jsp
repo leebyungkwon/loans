@@ -20,14 +20,28 @@
 		var comCodeSet = new Set(comCodeArr);
 		
 		if(comCodeArr.length != comCodeSet.size){
-			alert("아이에서만 값이 중복안됨");
-			return true;
+			alert("중복 확인 바랍니다.");
+			return false;
 		}
 		
 		if(comCodeArr.length != "${fn:length(companyInfo)}"){
 			alert("클릭 안된곳 있어요");
-			return true;
+			return false;
 		}
+		if(confirm("저장하시겠습니까?")){
+			
+			var param = {
+					 'memberSeqArr' : memberSeqArr
+					,'comCodeArr'  : comCodeArr
+			}
+			var p = {
+					param : param 
+				   ,url : "/admin/crefiaWork/insertCrefiaWork"
+				   ,success:function(opt,result){
+				}	
+			}
+		}
+		AjaxUtil.post(p);
 	});
 }  
 
@@ -56,7 +70,7 @@
 						<tr>
 							<td align="center"><c:out value="${companyInfo.comName}"/></td>
 						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
-								<td><input class="crefia" name="check" type="checkbox" id="comCode" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}">${companyInfo.comCode}</td>
+								<td><input class="crefia" name="check" type="checkbox" id="comCode"  value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" >${checkboxInfo.comCode}</td>
 							</c:forEach>
 						</tr>   
 					</c:forEach>
@@ -64,7 +78,7 @@
 			</table>
 		</div>
 		<div class="btn_wrap">
-		<a href="#" class="btn_black btn_right" id="saveCrefiaWorkBtn">저장</a>
+		<a href="javascript:void(0);" class="btn_black btn_right" id="saveCrefiaWorkBtn">저장</a>
 		</div>
 	</div>
 </div>

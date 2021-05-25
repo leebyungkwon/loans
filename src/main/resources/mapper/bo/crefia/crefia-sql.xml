@@ -154,6 +154,7 @@
 				AND MEM.CRE_GRP		= '1'
 	</select>
 	
+	
 	<!-- 협회 관리자 업무분장 - 조회  -->
 	<select id="selectCrefiaWorkCompanyList" parameterType="crefia" resultType="crefia">
 		SELECT 
@@ -164,5 +165,29 @@
 		WHERE
 			 TLC.DEL_YN 		= 'N'
 	</select>
+	
+	<select id="selectCrefiaWorkCheckbox" parameterType="crefia" resultType="crefia">
+		SELECT 
+			 TLW.MEMBER_SEQ
+			, TLW.COM_CODE
+		FROM  TB_LC_WORK TLW
+	</select>
+	
+	<insert id="insertCrefiaWork" parameterType="crefia">
+   		INSERT INTO TB_LC_WORK
+   		(
+   			 MEMBER_SEQ
+   			,COM_CODE
+   		)
+   		VALUES
+   		(
+   			 #{memberSeq}
+   			,#{comCode}
+   		)
+   	</insert>
+	
+	<delete id="deleteCrefiaWork" parameterType="crefia">
+		DELETE FROM TB_LC_WORK
+	</delete>
 	
 </mapper> 

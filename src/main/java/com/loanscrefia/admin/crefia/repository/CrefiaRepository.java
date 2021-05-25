@@ -2,6 +2,8 @@ package com.loanscrefia.admin.crefia.repository;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.crefia.domain.CrefiaDomain;
@@ -30,5 +32,11 @@ public interface CrefiaRepository {
 	List<CrefiaDomain> selectCrefiaWorkMemberList(CrefiaDomain crefiaDomain);
 	
 	List<CrefiaDomain> selectCrefiaWorkCompanyList(CrefiaDomain crefiaDomain);
+
+	int insertCrefiaWork(@Valid CrefiaDomain crefiaDomain);
+
+	int deleteCrefiaWork(@Valid CrefiaDomain crefiaDomain);
+
+	List<CrefiaDomain> selectCrefiaWorkCheckbox(CrefiaDomain crefiaDomain);
 	
 }
