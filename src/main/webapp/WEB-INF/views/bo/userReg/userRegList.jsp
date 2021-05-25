@@ -127,10 +127,17 @@ function goUserRegPopOpen() {
 }
 
 //첨부파일명 보여주기
-function goFileNmShow() {
+function goFileNmShow(obj) {
 	var fileVal 	= $("#userRegFile").val().split("\\");
 	var fileName 	= fileVal[fileVal.length - 1];
 	$("#userRegFile").prev().val(fileName);
+	
+	//첨부파일 확장자 체크
+	var ext = fileName.split(".").pop().toLowerCase();
+	if(!Valid.fileCheck(ext,"Y")){
+		$("#userRegFile").val("");
+		$("#userRegFile").prev().val("");
+	}
 }
 
 //모집인 등록하기

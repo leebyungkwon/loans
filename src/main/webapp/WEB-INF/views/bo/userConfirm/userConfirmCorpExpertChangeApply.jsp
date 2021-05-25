@@ -9,6 +9,17 @@
 function pageLoad(){
 	//전문인력 엑셀 업로드
 	$("#userRegExpertFile").on("change", function () {
+		var fileVal 	= $(this).val().split("\\");
+		var fileName 	= fileVal[fileVal.length - 1];
+		$(this).prev().val(fileName);
+		
+		//첨부파일 확장자 체크
+		var ext 	= fileName.split(".").pop().toLowerCase();
+		if(!Valid.fileCheck(ext,"Y")){
+			$(this).val("");
+			$(this).prev().val("");
+			return;
+		}
 		var p = {
 			  name 		: "userRegCorpExpertInfoInsertFrm"
 			, success 	: function (opt,result) {
@@ -91,7 +102,7 @@ function goDataAreaAdd() {
 					<tr>
 						<td class="pdr0">
 							<input type="text" class="top_file_input file_input" readonly disabled>
-							<input type="file" name="files" id="userRegExpertFile" class="inputFile" style="display: none;"/>
+							<input type="file" name="files" id="userRegExpertFile" style="display: none;"/>
 							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegExpertFile').click();">파일찾기</a>
 							<a href="/static/sample/모집인등록_전문성인력_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
 						</td>

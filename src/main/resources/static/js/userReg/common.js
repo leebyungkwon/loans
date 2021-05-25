@@ -13,10 +13,11 @@ $(document).on("change",".inputFile",function(){
 	var fileName 	= fileVal[fileVal.length - 1];
 	$(this).prev().val(fileName);
 	
-	var ext = $(this).val().split(".").pop().toLowerCase();
-	var excelYn = $(this).attr("data-excel");
-	if(!Valid.fileCheck(ext, excelYn)){
-		return false;
+	//첨부파일 확장자 체크
+	var ext 	= fileName.split(".").pop().toLowerCase();
+	if(!Valid.fileCheck(ext,"N")){
+		$(this).val("");
+		$(this).prev().val("");
 	}
 });
 
