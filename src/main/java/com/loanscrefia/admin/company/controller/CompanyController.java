@@ -106,7 +106,7 @@ public class CompanyController {
 	}
 	
 	// 회원사 코드 관리 - 디테일 리스트
-	@PostMapping(value="/company/companyCodeDetailPage")
+	@GetMapping(value="/company/companyCodeDetailPage")
 	public ModelAndView getCompanyCodeDetail(CompanyDomain companyDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
 		return mv;

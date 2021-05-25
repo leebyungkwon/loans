@@ -208,22 +208,12 @@ function saveCrefia(){
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
+					<col width="120">
+					<col width="305">
+					<col width="120">
+					<col width="305">
 				</colgroup>
 				<tr>
-					<th>이름</th>
-					<td>
-						<input type="text" name="memberName"/>
-					</td>
-					<th>아이디</th>
-					<td>
-						<input type="text" name="memberId"/>
-					</td>
 					<th>그룹</th>
 					<td class="half_input">
 						<select name="creGrp">
@@ -231,6 +221,16 @@ function saveCrefia(){
 							<option value="2">관리자</option>
 							<option value="1">실무자</option>
 						</select>
+					</td>
+					<th>아이디</th>
+					<td class="half_input">
+						<input type="text" name="memberId"/>
+					</td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td class="half_input">
+						<input type="text" name="memberName"/>
 					</td>
 				</tr>
 			</table>
@@ -244,7 +244,7 @@ function saveCrefia(){
 				<p>총 : 건수</p>
 			</div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="regCrefia">등록하기</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="regCrefia">등록</a>
 				<a href="javascript:void(0);" class="btn_gray btn_small" id="deleteCrefia">삭제</a>
 			</div>
 		</div>

@@ -109,7 +109,7 @@
 
 <div class="cont_area">
 	<div class="top_box">
-		<div class="title">
+		<div class="title type2">
 			<h2>공지사항</h2>
 		</div>
 	</div>
@@ -119,19 +119,19 @@
 	</form>
 	
 	<form name="noticeRegFrm" id="noticeRegFrm" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="noticeSeq" value="${noticeInfo.noticeSeq}"/>
+		<input type="hidden" name="noticeSeq" value="${noticeInfo.noticeSeq}"/>
 		<div class="contents">
 			<div id="table">
 				<table class="view_table">
 					<tr>
 						<th>제목</th>
-						<td colspan="3">
+						<td>
 							<input type="text" id="title" name="title" placeholder="제목을 입력해 주세요."  value="${noticeInfo.title}" class="w60" maxlength="53" data-vd='{"type":"text","len":"1,100","req":true,"msg":"제목을 입력해 주세요"}'/>
 						</td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td colspan="3">
+						<td>
 							<textarea id="info" name="info" cols="110" rows="30" placeholder="내용을 입력해 주세요.">${noticeInfo.info}</textarea>
 						</td>
 					</tr>
@@ -151,15 +151,15 @@
 	</form>
 	
 		<div class="btn_wrap">
-			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">글 목록</a>		
+			<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">목록</a>		
 			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 				<c:choose>
 					<c:when test="${!empty noticeInfo}">
-						<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right">글 수정</a>
-						<a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray btn_right02">글 취소</a>		
+						<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_blue btn_right">수정</a>
+						<!-- <a href="javascript:void(0);" id="noticeCancelBtn"  class="btn_gray btn_right02">취소</a> -->		
 					</c:when>
 					<c:otherwise>
-						<a href="javascript:void(0);" id="noticeSaveBtn"  class="btn_gray btn_right">글 등록</a>
+						<a href="javascript:void(0);" id="noticeSaveBtn"  class="btn_blue btn_right">등록</a>
 					</c:otherwise>
 				</c:choose>
 			</sec:authorize>

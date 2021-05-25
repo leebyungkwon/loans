@@ -98,11 +98,11 @@ function goCorpInfoSave() {
 				</colgroup>
 				<tr>
 					<th>법인명</th>
-					<td class="half_input">
+					<td>
 						<input type="text" name="plMerchantName">
 					</td>
 					<th>법인번호</th>
-					<td class="half_input">
+					<td>
 						<input type="text" name="plMerchantNo">
 					</td>
 				</tr>

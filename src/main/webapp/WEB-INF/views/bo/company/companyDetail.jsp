@@ -135,12 +135,12 @@ function companyList(){
 			<div class="btn_wrap">	
 				 <c:if test="${companyDetail.apprStat eq 1}">
 				  	 <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right" onclick="msgUpdate();" id="msgId">가승인</a>
-   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right02" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+   		 		 	 <a href="javascript:void(0);" class="btn_black btn_right02" onclick="msgUpdate();" id="msgId">가승인</a>
+   		 		 	 <a href="javascript:void(0);" class="btn_blue btn_right" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
      			 </c:if>
 				 <c:if test="${companyDetail.apprStat eq 2}">
 					  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
-      		 		  <a href="javascript:void(0);" class="btn_black btn_right02" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+      		 		  <a href="javascript:void(0);" class="btn_blue btn_right" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
      			 </c:if>
      			  <c:if test="${companyDetail.apprStat eq 3}">
       		 		  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>

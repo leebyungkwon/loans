@@ -77,7 +77,7 @@
 
 <div class="cont_area">
 	<div class="top_box">
-		<div class="title">
+		<div class="title type2">
 			<h2>회원사 관리</h2>
 		</div>
 	</div>
@@ -130,11 +130,11 @@
 			<a href="javascript:void(0);" id="companyCodeBtn"  class="btn_gray">목록</a>								
 			<c:choose>
 				<c:when test="${!empty companyCodeInfo}">
-					<a href="javascript:void(0);" id="companyCodeUpdBtn"  class="btn_gray btn_right">수정</a>
-					<a href="javascript:void(0);" id="companyCodeDelBtn"  class="btn_gray btn_right02">삭제</a>		
+					<a href="javascript:void(0);" id="companyCodeUpdBtn"  class="btn_blue btn_right02">수정</a>
+					<a href="javascript:void(0);" id="companyCodeDelBtn"  class="btn_Lgray btn_right">삭제</a>		
 				</c:when>
 				<c:otherwise>
-					<a href="javascript:void(0);" id="companyCodeSaveBtn"  class="btn_gray btn_right">등록</a>
+					<a href="javascript:void(0);" id="companyCodeSaveBtn"  class="btn_blue btn_right">등록</a>
 				</c:otherwise>
 			</c:choose>
 		</div>
