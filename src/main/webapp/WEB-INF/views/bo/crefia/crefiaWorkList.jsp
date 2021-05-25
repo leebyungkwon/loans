@@ -70,8 +70,8 @@
 						<tr>
 							<td align="center"><c:out value="${companyInfo.comName}"/></td>
 						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
-								<td><input class="crefia" name="check" type="checkbox" id="comCode"  value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" >${checkboxInfo.comCode}</td>
-							</c:forEach>
+								<td><input class="crefia" name="check" type="checkbox" id="comCode"  value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" >${memberInfo.comCode}</td>
+						</c:forEach>
 						</tr>   
 					</c:forEach>
 				</tbody>
