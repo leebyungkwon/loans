@@ -85,6 +85,7 @@ public class CrefiaService {
 		}
 				
 		if(insertResult > 0) {
+			
 			return new ResponseMsg(HttpStatus.OK, "COM0001", "");
 		}
 		
@@ -100,8 +101,5 @@ public class CrefiaService {
 	public List<CrefiaDomain> selectCrefiaWorkCheckbox(CrefiaDomain crefiaDomain){
 		return crefiaRepository.selectCrefiaWorkCheckbox(crefiaDomain);
 	}
-
-	
-	
 	
 }

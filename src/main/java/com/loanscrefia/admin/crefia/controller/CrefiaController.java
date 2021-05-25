@@ -88,8 +88,8 @@ public class CrefiaController {
     	mv.addObject("memberInfo", memberInfo);
     	mv.addObject("companyInfo", companyInfo);
     	
-    	List<CrefiaDomain> checkboxInfo = crefiaService.selectCrefiaWorkCheckbox(crefiaDomain);
-    	mv.addObject("checkboxInfo", checkboxInfo);
+    	//List<CrefiaDomain> checkboxInfo = crefiaService.selectCrefiaWorkCheckbox(crefiaDomain);
+    	//mv.addObject("checkboxInfo", checkboxInfo);
 		return mv;
 	}
 	

@@ -4,9 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script type="text/javascript">
-
  function pageLoad(){
-		
 	$("#saveCrefiaWorkBtn").click(function(){
 		var comCodeArr = [];
 		var memberSeqArr = [];
@@ -29,22 +27,44 @@
 			return false;
 		}
 		if(confirm("저장하시겠습니까?")){
-			
 			var param = {
-					 'memberSeqArr' : memberSeqArr
-					,'comCodeArr'  : comCodeArr
+				 'memberSeqArr' : memberSeqArr
+				,'comCodeArr'  	: comCodeArr
 			}
 			var p = {
-					param : param 
-				   ,url : "/admin/crefiaWork/insertCrefiaWork"
-				   ,success:function(opt,result){
+				 param 	: param 
+				,url 	: "/admin/crefiaWork/insertCrefiaWork"
+				,success:function(opt,result){
+					location.reload();
 				}	
 			}
 		}
 		AjaxUtil.post(p);
 	});
 }  
-
+ 
+function test() {
+	var chkedList 		= "${checkboxInfo}";
+	var chkedListLen 	= "${fn:length(checkboxInfo)}";
+	
+	alert(chkedListLen);
+	
+	var memberSeqChk 	= "";
+	var comCodeChk 		= "";
+	
+	$(".crefia").each(function(index){
+		memberSeqChk 	= $(this).val();
+		comCodeChk 		= $(this).attr("data-comCode");
+		//console.log(memberSeqChk+" :: "+comCodeChk);
+		for(var i = 0;i < chkedListLen;i++){
+			console.log(memberSeqChk+" :: "+comCodeChk);
+			console.log(chkedList[i].memberSeq+" :: "+chkedList[i].comCode);
+			if(memberSeqChk == chkedList[i].memberSeq && comCodeChk == chkedList[i].comCode){
+				$(this).prop("checked",true);
+			}
+		}
+	});
+}
 </script>
 
 <div class="cont_area">
@@ -60,7 +80,7 @@
 					<tr>
 					
 						<th>회원사명</th>
- 					<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> 
+ 						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> 
 						<th><c:out value="${memberInfo.memberName}"/></th>
 						</c:forEach>
 					</tr>
@@ -69,9 +89,11 @@
 					<c:forEach items="${companyInfo}" var="companyInfo" varStatus="status">
 						<tr>
 							<td align="center"><c:out value="${companyInfo.comName}"/></td>
-						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
-								<td><input class="crefia" name="check" type="checkbox" id="comCode"  value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" >${memberInfo.comCode}</td>
-						</c:forEach>
+							<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
+							<td>
+								<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" <c:if test="${companyInfo.chkedMemberSeq eq memberInfo.memberSeq }">checked="checked"</c:if> >
+							</td>
+							</c:forEach>
 						</tr>   
 					</c:forEach>
 				</tbody>

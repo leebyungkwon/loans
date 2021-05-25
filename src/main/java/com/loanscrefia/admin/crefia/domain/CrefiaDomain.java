@@ -44,5 +44,8 @@ public class CrefiaDomain extends BaseDomain {
 	private String comName;				// 회원사 이름
 	private String delYn;					// 회원사 탈퇴 여부
 	
+	//업무분장 관련
+	private int chkedMemberSeq;
+	
 
 }
