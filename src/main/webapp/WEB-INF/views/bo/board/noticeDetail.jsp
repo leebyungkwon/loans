@@ -42,6 +42,13 @@
 		
 		//첨부파일명 보여주기
 		$(".inputFile").on("change", function () {
+			
+			var ext = $(this).val().split(".").pop().toLowerCase();
+			var excelYn = $(this).attr("data-excel");
+			if(!Valid.fileCheck(ext, excelYn)){
+				return false;
+			}
+			
 			var fileVal 	= $(this).val().split("\\");
 			var fileName 	= fileVal[fileVal.length - 1];
 			$(this).prev().val(fileName);
