@@ -16,7 +16,6 @@ public class CrefiaDomain extends BaseDomain {
 
 	private int memberSeq;				// 담당자시퀀스
 	
-	@NotBlank(message = "ID를 입력하세요.")
 	@Pattern(regexp = "^[a-z][a-z0-9]{4,10}$", message = "ID는 영문(소문자),숫자 5~11 자리로 입력해 주세요.")
     private String memberId;				// 담당자ID(로그인ID)
 	
@@ -41,7 +40,7 @@ public class CrefiaDomain extends BaseDomain {
 	/* ========================================================= */
 	
 	private String dropYn;					// 담당자 탈퇴 여부
-	private Long comCode;					// 회원사 코드
+	private int comCode;					// 회원사 코드
 	private String comName;				// 회원사 이름
 	private String delYn;					// 회원사 탈퇴 여부
 	

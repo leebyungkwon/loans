@@ -88,14 +88,17 @@ public class CrefiaController {
     	mv.addObject("memberInfo", memberInfo);
     	mv.addObject("companyInfo", companyInfo);
     	
+    	List<CrefiaDomain> checkboxInfo = crefiaService.selectCrefiaWorkCheckbox(crefiaDomain);
+    	mv.addObject("checkboxInfo", checkboxInfo);
 		return mv;
 	}
 	
 	// 협회 관리자 업무분장 조회
-	@PostMapping(value="/crefia/crefiaWorkList")
-	public ModelAndView crefiaWorkList(CrefiaDomain crefiaDomain){
-		ModelAndView mv = new ModelAndView(CosntPage.BoCrefiaPage+"/crefiaWorkList");
-		return mv;
+	@PostMapping(value="/crefiaWork/insertCrefiaWork")
+	public ResponseEntity<ResponseMsg> insertCrefiaWork(@Valid CrefiaDomain crefiaDomain){
+		ResponseMsg responseMsg = crefiaService.insertCrefiaWork(crefiaDomain);
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 }
