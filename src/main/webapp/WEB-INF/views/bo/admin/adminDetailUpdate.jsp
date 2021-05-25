@@ -199,13 +199,13 @@
                <tr>
                   <th>패스워드</th>
                   <td colspan="3">
-                     <input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" maxlength="20" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}' />
+                     <input type="password" id="password" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}' />
                   </td>
                </tr>
                <tr>
                   <th>패스워드 확인</th>
                   <td colspan="3">
-                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40" maxlength="20" data-vd='{"type":"pw","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}' />
+                     <input type="password" id="passwordChk" name="passwordChk" placeholder="동일한 비밀번호를 입력" class="w40" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}' />
                   </td>
                </tr>
                <tr>
@@ -247,7 +247,7 @@
             	<tr>
 					<th>첨부 파일</th>
 					<td id="fileTag">
-						<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly" maxlength="60" data-vd='{"type":"text","len":"1,60","req":true,"msg":"파일을 첨부해 주세요."}'>
+						<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly" maxlength="60"   placeholder="이미지 파일을 첨부해 주세요." data-vd='{"type":"fileupload","len":"1,60","req":true,"msg":"이미지 파일을 첨부해 주세요"}' >
 						<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 						<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 						<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
