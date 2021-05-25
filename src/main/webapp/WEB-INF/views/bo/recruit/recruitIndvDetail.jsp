@@ -184,14 +184,27 @@ function goRecruitImprove(){
 				
 				<c:choose>
 					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
-						<tr>
-							<th>해지요청사유</th>
-							<td colspan="3">${result.recruitInfo.plHistCdNm }</td>
-						</tr>
-						<tr>
-							<th>해지일자</th>
-							<td colspan="3">${result.recruitInfo.comHaejiDate }</td>
-						</tr>
+						<c:if test="${!empty result.recruitInfo.plHistCdNm }">
+							<tr>
+								<th>해지요청사유</th>
+								<td colspan="3">${result.recruitInfo.plHistCdNm }</td>
+							</tr>
+							<tr>
+								<th>해지일자</th>
+								<td colspan="3">${result.recruitInfo.comHaejiDate }</td>
+							</tr>
+						</c:if>
+					</c:when>
+				</c:choose>
+				
+				<c:choose>
+					<c:when test="${fn:length(result.violationInfoList) > 0 }">
+						<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
+							<tr>
+								<th>위반이력${status.count }</th>
+								<td colspan="3">${violationInfoList.violationCdNm }</td>
+							</tr>
+						</c:forEach>
 					</c:when>
 				</c:choose>
 				

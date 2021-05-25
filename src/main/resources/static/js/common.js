@@ -24,6 +24,8 @@ $(document).ready(function(){
        $(this).parents('.popup_wrap').hide();
        $('.popup_wrap .popup_inner').removeClass('height');
      });
+     
+     
 
    });
 

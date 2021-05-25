@@ -27,6 +27,7 @@ import com.loanscrefia.member.user.domain.UserImwonDomain;
 import com.loanscrefia.member.user.domain.UserItDomain;
 import com.loanscrefia.member.user.domain.excel.UserCorpExcelDomain;
 import com.loanscrefia.member.user.domain.excel.UserIndvExcelDomain;
+import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
@@ -38,6 +39,7 @@ public class RecruitService {
 	@Autowired private RecruitRepository recruitRepository;
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
+	@Autowired private UserRepository userRepo;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
@@ -142,10 +144,16 @@ public class RecruitService {
         	}
     	}
     	
+    	UserDomain userDomain = new UserDomain();
+    	userDomain.setMemberSeq(recruitDomain.getMemberSeq());
+    	//위반이력
+    	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("recruitInfo", recruitInfo);
-		
+    	result.put("violationInfoList", violationInfoList);
+    	
 		return result;
 	}
 	
@@ -188,9 +196,15 @@ public class RecruitService {
         	}
 		}
 		
+    	UserDomain userDomain = new UserDomain();
+    	userDomain.setMemberSeq(recruitDomain.getMemberSeq());
+    	//위반이력
+    	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+		
 		//전달
 		result.put("addrCodeList", addrCodeList);
 		result.put("recruitInfo", recruitInfo);
+		result.put("violationInfoList", violationInfoList);
 		
 		return result;
 	}

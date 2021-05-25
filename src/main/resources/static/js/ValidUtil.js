@@ -108,5 +108,20 @@ var Valid = {
 	        	return false;
     	}
     	
-    }
+    },
+
+ 	fileCheck: function(ext, excelYn){
+		if(excelYn == "Y"){
+			if($.inArray(ext, ["xls", "xlxs"]) == -1) {
+				alert("엑셀파일만 첨부해 주세요.");
+				return false;
+			}
+		}else{
+			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf"]) == -1) {
+				alert("첨부파일 확장자를 확인해 주세요.");
+				return false;
+			}
+		}
+		return true;
+	}
 };

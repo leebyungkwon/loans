@@ -107,7 +107,7 @@ function goDataAreaAdd() {
 					<tr>
 						<td class="pdr0">
 							<input type="text" class="top_file_input file_input" readonly disabled>
-							<input type="file" name="files" id="userRegImwonFile" class="inputFile" style="display: none;"/>
+							<input type="file" name="files" id="userRegImwonFile" class="inputFile" style="display: none;" data-excel="Y" />
 							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegImwonFile').click();">파일찾기</a>
 							<a href="/static/sample/모집인등록_대표자및임원_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
 						</td>
