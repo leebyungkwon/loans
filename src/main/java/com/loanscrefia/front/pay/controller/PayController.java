@@ -44,7 +44,8 @@ public class PayController {
 	
 	//결제완료 페이지
 	@GetMapping(value="/pay/payResult")
-	public String payResult() {
+	public String payResult(SearchDomain searchDomain) {
+		System.out.println("PayController > payResult() :::::::: "+searchDomain.getMasterSeq());
 		return CosntPage.FoPayPage+"/payResult";
 	}
 }

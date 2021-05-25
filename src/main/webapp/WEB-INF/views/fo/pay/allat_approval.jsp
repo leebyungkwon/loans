@@ -143,7 +143,6 @@
 	
 	
 	//----------------------[2021.05.21 추가 : S]----------------------
-	/*
 	int masterSeq = Integer.parseInt(request.getParameter("masterSeq"));
 	
 	//(1)결제정보 저장
@@ -188,16 +187,20 @@
 	
 	//(4)결제 완료 화면 이동 : masterSeq 들고 이동해야함
 	out.println("<script>");
-	out.println("location.href='';");
+	out.println("var newForm = $('<form></form>');");
+	out.println("newForm.attr('method','post');");
+	out.println("newForm.attr('action','/front/pay/payResult');");
+	out.println("newForm.append('<input type='hidden' name='masterSeq' value="+masterSeq+">);");
+	out.println("newForm.appendTo('body');");
+	out.println("newForm.submit();");
 	out.println("</script>");
-	*/
 	//----------------------[2021.05.21 추가 : E]----------------------
 	
   }else{
     // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
     // reply_msg 가 실패에 대한 메세지
-    out.println("결과코드               : " + sReplyCd  + "<br>");
-    out.println("결과메세지             : " + sReplyMsg + "<br>");
+    out.println("결과코드			: " + sReplyCd  + "<br>");
+    out.println("결과메세지			: " + sReplyMsg + "<br>");
   }
 %>
 
