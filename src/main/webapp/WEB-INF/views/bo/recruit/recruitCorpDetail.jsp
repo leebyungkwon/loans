@@ -176,15 +176,6 @@ function goRecruitImprove(){
 				</tr>
 				
 				<c:choose>
-					<c:when test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '7'
-					or result.recruitInfo.plStat eq '2' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '7'}">
-						<tr>
-							<th>사유</th>
-							<td colspan="3">
-								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
-							</td>
-						</tr>
-					</c:when>
 					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
 						<tr>
 							<th>해지요청사유</th>
@@ -196,6 +187,12 @@ function goRecruitImprove(){
 						</tr>
 					</c:when>
 				</c:choose>
+				<tr>
+					<th>사유</th>
+					<td colspan="3">
+						<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
+					</td>
+				</tr>
 				
 			</table>
 		</div>
