@@ -68,6 +68,7 @@ public class RecruitDomain extends BaseDomain {
 	private String comHaejiDate;	//회원사해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private String creHaejiDate;	//협회해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private Integer fileSeq;		//첨부파일시퀀스
+	private int fileGrpSeq;
 	
 	//모집인단계별이력(tb_lc_mas01_step)
 	private int masterStepSeq;
@@ -138,4 +139,19 @@ public class RecruitDomain extends BaseDomain {
 	private String srchSelect2;
 	private String srchDate1;
 	private String srchDate2;
+	
+	
+	
+	//개인 변경사항
+	private FileDomain histFileType1;
+	private FileDomain histFileType2;
+	private FileDomain histFileType3;
+	private FileDomain histFileType4;
+	private FileDomain histFileType5;
+	private FileDomain histFileType6;
+	private FileDomain histFileType7;
+	private FileDomain histFileType8;
+	private FileDomain histFileType9;
+	private FileDomain histFileType10;
+	private FileDomain histFileType11;
 }

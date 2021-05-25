@@ -376,3 +376,14 @@ function goViolationDel(obj){
 	}
 	PopUtil.openPopup(p);
 }
+
+//변경사항-정보
+ function goRecruitFileHistShow(fileGrpSeq, type){
+	let p = {
+	  	  id 		: "recruitFileHistoryPop"
+		, url 		: "/admin/recruit/recruitFileHistoryPopup?fileGrpSeq="+fileGrpSeq+"&histType="+type
+	}
+	PopUtil.openPopup(p);
+}
+
+

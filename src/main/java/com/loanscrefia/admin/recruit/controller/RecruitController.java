@@ -133,4 +133,14 @@ public class RecruitController {
         return mav;
 	}
 	
+	
+	//첨부파일 이력
+	@GetMapping(value="/recruit/recruitFileHistoryPopup")
+    public ModelAndView recruitFileHistoryPopup(RecruitDomain recruitDomain) {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/recruitFileHistoryPopup");
+    	Map<String, Object> result 	= recruitService.getFileHistDetail(recruitDomain);
+    	mav.addObject("result", result);
+        return mav;
+    }
+	
 }

@@ -18,6 +18,8 @@ public class FileDomain extends BaseDomain{
     private String fileSaveNm;
     private String fileType;
     private String useYn = "Y";
+    private String seqDesc;
+    private String histType;
     
     //ocrTest
     private String fileDocType;

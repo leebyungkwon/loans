@@ -82,6 +82,9 @@ public class RecruitService {
     		
     		fileParam.setFileGrpSeq(recruitInfo.getFileSeq());
         	List<FileDomain> fileList = commonService.selectFileList(fileParam);
+        	fileParam.setUseYn("N");
+        	fileParam.setSeqDesc("Y");
+        	List<FileDomain> fileHistList = commonService.selectFileList(fileParam);
         	
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
@@ -107,6 +110,33 @@ public class RecruitService {
         				recruitInfo.setFileType10(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
         				recruitInfo.setFileType11(fileList.get(i));
+        			}
+        		}
+        	}
+        	if(fileHistList.size() > 0) {
+        		for(int p=0; p < fileHistList.size(); p++) {
+        			if(fileHistList.get(p).getFileType().equals("1")) {
+        				recruitInfo.setHistFileType1(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("2")) {
+        				recruitInfo.setHistFileType2(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("3")) {
+        				recruitInfo.setHistFileType3(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("4")) {
+        				recruitInfo.setHistFileType4(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("5")) {
+        				recruitInfo.setHistFileType5(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("6")) {
+        				recruitInfo.setHistFileType6(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("7")) {
+        				recruitInfo.setHistFileType7(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("8")) {
+        				recruitInfo.setHistFileType8(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("9")) {
+        				recruitInfo.setHistFileType9(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("10")) { //변경요청 시 증빙서류
+        				recruitInfo.setHistFileType10(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("11")) { //변경요청 시 증빙서류
+        				recruitInfo.setHistFileType11(fileHistList.get(p));
         			}
         		}
         	}
@@ -423,6 +453,22 @@ public class RecruitService {
 	@Transactional(readOnly=true)
 	public RecruitDomain getRecruitHistDetail(RecruitDomain recruitDomain) {
 		return recruitRepository.getRecruitHistDetail(recruitDomain);
+	}
+	
+	
+	
+	//첨부파일 이력 조회
+	@Transactional(readOnly=true)
+	public Map<String,Object> getFileHistDetail(RecruitDomain recruitDomain){
+		Map<String, Object> result = new HashMap<String, Object>();
+		FileDomain fileParam = new FileDomain();
+		fileParam.setUseYn("N");
+		fileParam.setFileGrpSeq(recruitDomain.getFileGrpSeq());
+		fileParam.setHistType(recruitDomain.getHistType());
+    	List<FileDomain> fileList = commonService.selectFileList(fileParam);
+    	//전달
+    	result.put("fileList", fileList);
+		return result;
 	}
 	
 }

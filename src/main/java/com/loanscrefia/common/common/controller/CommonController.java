@@ -97,6 +97,7 @@ public class CommonController {
 	public void testFileDown(@RequestParam int fileSeq, HttpServletRequest request, @RequestHeader("User-Agent") String userAgent, HttpServletResponse response) throws IOException {
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(fileSeq);
+		fileDomain.setUseYn("down");
 
 		FileDomain f = commonService.getFile(fileDomain);
 		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());

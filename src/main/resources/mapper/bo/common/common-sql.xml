@@ -14,10 +14,21 @@
 			,FILE_SAVE_NM
 			,CONCAT(FILE_ORG_NM,'.',FILE_EXT) AS FILE_FULL_NM
 			,USE_YN
+			,TO_CHAR(REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 		FROM TB_LC_FILE01
 		<where>
 			AND FILE_GRP_SEQ 	= #{fileGrpSeq}
-			AND USE_YN 			= 'Y'
+			<choose>
+				<when test='useYn == "N" '>
+					AND USE_YN = 'N'
+				</when>
+				<otherwise>
+					AND USE_YN = 'Y'
+				</otherwise>
+			</choose>
+			<if test="histType != null and histType != ''">
+				AND FILE_TYPE = #{histType}
+			</if>
 		</where>
 	</select>
 
@@ -82,7 +93,6 @@
 			,USE_YN
 		FROM TB_LC_FILE01
 		WHERE FILE_SEQ 	= #{fileSeq}
-		AND USE_YN 		= 'Y'
 	</select>
 	
 	<!-- 첨부파일 삭제 -->
