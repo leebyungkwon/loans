@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.loanscrefia.front.user.UserRepository">
+<mapper namespace="com.loanscrefia.front.search.repository.SearchRepository">
    	
    	<!-- 모집인 조회 : 개인 -->
 	<select id="selectIndvUserInfo" parameterType="search" resultType="search">

@@ -1,10 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript">
 function pageLoad() {
 	
+}
+
+//결제 테스트
+function name() {
+	var p = {
+		param 		: {
+			
+		} 
+		,url 		: "/front/pay/payTest"
+		,success	: function(opt,result){
+			if(result.data > 0){
+				
+			}
+		}
+	}
+	AjaxUtil.post(p);
 }
 </script>
 
@@ -20,23 +37,32 @@ function pageLoad() {
 				<tbody>
 					<tr>
 						<th>계약금융회사</th>
-						<td>우리금융캐피탈</td>
+						<td>${searchUserInfo.comCodeNm }</td>
 					</tr>
 					<tr>
 						<th>성명</th>
-						<td>홍길동</td>
+						<td>${searchUserInfo.plMName }</td>
 					</tr>
 					<tr>
 						<th>휴대폰번호</th>
-						<td>01067384411</td>
+						<td>${searchUserInfo.plCellphone }</td>
 					</tr>
 					<tr>
 						<th>생년월일</th>
-						<td>790625</td>
+						<td>${fn:substring(searchUserInfo.plMZId0,6) }</td>
 					</tr>
 					<tr>
 						<th>성별</th>
-						<td>남성</td>
+						<td>남성
+							<c:choose>
+								<c:when test="">
+								
+								</c:when>
+								<c:otherwise>
+								
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th>결제금액</th>
@@ -63,7 +89,8 @@ function pageLoad() {
 		</div>
 	</div>
 	<div class="btn_wrap">
-		<a href="javascript:void(0);" class="btn_black_long" onclick="ftn_approval(document.fm);">결제하기</a>
+		<a href="javascript:void(0);" class="btn_black_long" onclick="goPayTest();">결제하기(테스트)</a>
+		<!-- <a href="javascript:void(0);" class="btn_black_long" onclick="ftn_approval(document.fm);">결제하기</a> -->
 	</div>
 </div>
 

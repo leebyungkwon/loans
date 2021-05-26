@@ -29,62 +29,90 @@ function pageLoad() {
 	};
 	DataUtil.selectBox(comCode);
 }
+
+//모집인 조회
+function goPayUserSearch() {
+	var tabIndex 	= $(".tap_wrap > ul > li.on").index();
+	var formNm 		= $("form").eq(tabIndex).attr("name");
+	var p = {
+		 name 		: formNm
+		,success	: function(opt,result){
+			if(result.data == null){
+				alert("조회된 결과가 없습니다.");
+				return;
+			}else{
+				goPayUserSearchResultPage(formNm);
+			}
+		}
+	}
+	AjaxUtil.form(p);
+}
+
+//조회 결과 있을 때
+function goPayUserSearchResultPage(formNm) {
+	$("#"+formNm).attr("action","/front/pay/payUserSearchResult");
+	$("#"+formNm).submit();
+}
 </script>
 
 <div class="inquiry_wrap">
 	<div class="title">모집인 결제</div>
 	<div class="tap_wrap">
-          <ul>
-            <li class="on">
-              <a href="javascipt:void(0);">개인</a>
-            </li>
-            <li>
-              <a href="javascipt:void(0);">법인</a>
-            </li>
-          </ul>
+		<ul>
+			<li class="on">
+				<a href="javascipt:void(0);">개인</a>
+			</li>
+			<li>
+				<a href="javascipt:void(0);">법인</a>
+			</li>
+		</ul>
 	</div>
 	<div class="tap_cont on">
-		<table class="payment_table">
-			<colgroup>
-				<col width="124"/>
-				<col width="*"/>
-			</colgroup>
-			<tr>
-				<th>금융회사 선택</th>
-				<td>
-					<select name="comCode" class="comCode"></select>
-				</td>
-			</tr>
-			<tr>
-				<th>성명</th>
-				<td>
-					<input type="text" name="plMName" placeholder="이름을 입력해 주세요.">
-				</td>
-			</tr>
-			<tr>
-				<th>휴대폰번호</th>
-				<td>
-					<input type="text" name="plCellphone" placeholder="예) 01067384411">
-				</td>
-			</tr>
-			<tr>
-				<th>생년월일</th>
-				<td>
-					<input type="text" name="" placeholder="예) 790625">
-				</td>
-			</tr>
-			<tr>
-				<th>성별</th>
-				<td>
-					<div class="gender_tap">
-						<ul>
-							<li class="on">남</li>
-							<li>여</li>
-                  		</ul>
-					</div>
-				</td>
-			</tr>
-		</table>
+		<form name="indvUserSearchFrm" id="indvUserSearchFrm" method="post" action="/front/pay/payUserSearch">
+			<input type="hidden" name="plClass" value="1"/>
+			
+			<table class="payment_table">
+				<colgroup>
+					<col width="124"/>
+					<col width="*"/>
+				</colgroup>
+				<tr>
+					<th>금융회사 선택</th>
+					<td>
+						<select name="comCode" class="comCode"></select>
+					</td>
+				</tr>
+				<tr>
+					<th>성명</th>
+					<td>
+						<input type="text" name="plMName" placeholder="이름을 입력해 주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>휴대폰번호</th>
+					<td>
+						<input type="text" name="plCellphone" placeholder="예) 01067384411">
+					</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td>
+						<input type="text" name="" placeholder="예) 790625">
+					</td>
+				</tr>
+				<tr>
+					<th>성별</th>
+					<td>
+						<div class="gender_tap">
+							<ul>
+								<li class="on">남</li>
+								<li>여</li>
+	                  		</ul>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
 		<div class="bottom_box">
 			<ul>
 				<li>
@@ -103,47 +131,51 @@ function pageLoad() {
 		</div>
 	</div>
 	<div class="tap_cont">
-		<table class="payment_table">
-			<colgroup>
-				<col width="124"/>
-				<col width="*"/>
-			</colgroup>
-			<tr>
-				<th>금융회사 선택</th>
-				<td>
-					<select name="comCode" class="comCode"></select>
-				</td>
-			</tr>
-			<tr>
-				<th>법인번호</th>
-				<td>
-					<input type="text" name="plMerchantNo" placeholder="예) 110111-4088000">
-				</td>
-			</tr>
-			<tr>
-				<th>대표자 성명</th>
-				<td>
-					<input type="text" name="plCeoName" placeholder="이름을 입력해 주세요.">
-				</td>
-			</tr>
-			<tr>
-				<th>대표자 생년월일</th>
-				<td>
-					<input type="text" name="" placeholder="예) 790625">
-				</td>
-			</tr>
-			<tr>
-				<th>대표자 성별</th>
-				<td>
-					<div class="gender_tap">
-						<ul>
-							<li class="on">남</li>
-							<li>여</li>
-						</ul>
-					</div>
-				</td>
-			</tr>
-		</table>
+		<form name="corpUserSearchFrm" id="corpUserSearchFrm" method="post" action="/front/pay/payUserSearch">
+			<input type="hidden" name="plClass" value="2"/>
+			
+			<table class="payment_table">
+				<colgroup>
+					<col width="124"/>
+					<col width="*"/>
+				</colgroup>
+				<tr>
+					<th>금융회사 선택</th>
+					<td>
+						<select name="comCode" class="comCode"></select>
+					</td>
+				</tr>
+				<tr>
+					<th>법인번호</th>
+					<td>
+						<input type="text" name="plMerchantNo" placeholder="예) 110111-4088000">
+					</td>
+				</tr>
+				<tr>
+					<th>대표자 성명</th>
+					<td>
+						<input type="text" name="plCeoName" placeholder="이름을 입력해 주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>대표자 생년월일</th>
+					<td>
+						<input type="text" name="" placeholder="예) 790625">
+					</td>
+				</tr>
+				<tr>
+					<th>대표자 성별</th>
+					<td>
+						<div class="gender_tap">
+							<ul>
+								<li class="on">남</li>
+								<li>여</li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</form>
 		<div class="bottom_box">
 			<ul>
 				<li>
@@ -162,7 +194,7 @@ function pageLoad() {
 		</div>
 	</div>
 	<div class="btn_wrap">
-		<a href="javascript:void(0);" class="btn_black_long">조회</a>
+		<a href="javascript:void(0);" class="btn_black_long" onclick="goPayUserSearch();">조회</a>
 	</div>
 </div>
       
