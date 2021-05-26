@@ -21,8 +21,9 @@
 		</script>
 	</head>
 	<body>
-		<div class="popup_wrap">
-			<div class="popup_inner"></div>
+		<div class="popup popup_wrap" style="display: none;">
+			<div class="bg"></div>
+			<div class="wrap pdf_down popup_inner"></div> <!-- 팝업사이즈 class로 조절 -->
 		</div>
 		
 		<tiles:insertAttribute name="header-fo" />

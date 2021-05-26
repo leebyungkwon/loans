@@ -6,6 +6,15 @@
 function pageLoad() {
 	alert("masterSeq :: "+"${masterSeq}");
 }
+
+//등록증 다운로드 팝업
+function goCertiCardDownload(){
+	let p = {
+	  	  id 		: "certiCardDownloadPop"
+		, url 		: "/front/pay/certiCardDownloadPopup"
+	}
+	PopUtil.openPopup(p);
+}
 </script>
 
 <div class="inquiry_wrap type2">
@@ -47,7 +56,7 @@ function pageLoad() {
 		</div>
 	</div>
 	<div class="btn_wrap">
-		<a href="javascript:void(0);" class="btn_black_long">등록증 다운로드</a>
+		<a href="javascript:void(0);" class="btn_black_long" onclick="goCertiCardDownload();">등록증 다운로드</a>
 	</div>
 </div>
       

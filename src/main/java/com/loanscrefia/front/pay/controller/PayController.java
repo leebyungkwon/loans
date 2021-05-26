@@ -50,4 +50,20 @@ public class PayController {
 		mv.addObject("masterSeq",searchDomain.getMasterSeq());
 		return mv;
 	}
+	
+	//등록증 다운로드 페이지
+	@GetMapping(value="/certiCardDownloadPopup")
+	public ModelAndView certiCardDownloadPopup(SearchDomain searchDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.Popup+"/certiCardDownloadPopup");
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

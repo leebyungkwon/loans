@@ -346,7 +346,7 @@ function goViolationDel(obj){
  * ===============================================================================================================================
  */
  
- function goUserStepHistoryShow(masterSeq){
+function goUserStepHistoryShow(masterSeq){
 	let p = {
 	  	  id 		: "userStepHistoryPop"
 		, url 		: "/member/user/userStepHistoryPopup?masterSeq="+masterSeq
