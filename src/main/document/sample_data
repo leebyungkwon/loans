@@ -56,10 +56,10 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('ADD001','16','부산','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:51.516143',NULL,NULL),
 	 ('ADD001','17','제주','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:35:55.567005',NULL,NULL),
 	 ('REG001','1','승인전','승인전',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL),
-	 ('REG001','2','승인완료','승인완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL);
+	 ('REG001','2','승인완료','승인완료','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:07:38.21337',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
-	 ('REG001','3','자격취득','자격취득',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
-	 ('REG001','4','해지완료','해지완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('REG001','3','자격취득','자격취득','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('REG001','4','해지완료','해지완료','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('MAS001','1','미요청','미요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:06.985935',NULL,NULL),
 	 ('MAS001','2','승인요청','승인요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
 	 ('MAS001','3','변경요청','변경요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),

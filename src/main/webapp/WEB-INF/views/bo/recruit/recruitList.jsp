@@ -47,6 +47,7 @@ function pageLoad(){
 		 useCode 	: true
 		,code 		: 'REG001'
 		,target 	: '#plRegStat'
+		,property01 : 'Y'
 		,updData 	: ''
 		,defaultMsg : '전체'
 	};
