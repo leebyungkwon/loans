@@ -12,8 +12,8 @@ public class ConfigurationForTiles {
     @Bean
     public TilesConfigurer tilesConfigurer() {
         final TilesConfigurer configurer = new TilesConfigurer();
-        //?��?�� 경로?�� tiles.xml ?��?��?�� ?��?��
         configurer.setDefinitions(new String[]{"/WEB-INF/config/tiles.xml"});
+        configurer.setDefinitions(new String[]{"/WEB-INF/config/tiles-fo.xml"});
         configurer.setCheckRefresh(true);
         return configurer;
     }

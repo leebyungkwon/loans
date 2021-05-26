@@ -12,40 +12,42 @@ import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.front.search.service.SearchService;
 
 @Controller
-@RequestMapping(value="/front")
+@RequestMapping(value="/front/pay")
 public class PayController {
 	
 	@Autowired private SearchService searchService;
 	
 	//모집인 결제 > 모집인 조회 페이지
-	@GetMapping(value="/pay/payUserSearchPage")
+	@GetMapping(value="/payUserSearchPage")
 	public String payUserSearchPage() {
 		return CosntPage.FoPayPage+"/payUserSearch";
 	}
 	
 	//모집인 결제 > 모집인 조회 결과
-	@GetMapping(value="/pay/payUserSearchResult")
+	@GetMapping(value="/payUserSearchResult")
 	public ModelAndView selectIndvUserInfo(SearchDomain searchDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payUserSearchResult");
 		return mv;
 	}
 	
 	//결제 인증정보 수신 페이지
-	@PostMapping(value="/pay/allatReceive")
+	@PostMapping(value="/allatReceive")
 	public String allatReceive() {
 		return CosntPage.FoPayPage+"/allat_receive";
 	}
 	
 	//결제 승인요청 및 결과수신 페이지
-	@PostMapping(value="/pay/allatApproval")
+	@PostMapping(value="/allatApproval")
 	public String allatApproval() {
 		return CosntPage.FoPayPage+"/allat_approval";
 	}
 	
 	//결제완료 페이지
-	@GetMapping(value="/pay/payResult")
-	public String payResult(SearchDomain searchDomain) {
+	@PostMapping(value="/payResult")
+	public ModelAndView payResult(SearchDomain searchDomain) {
 		System.out.println("PayController > payResult() :::::::: "+searchDomain.getMasterSeq());
-		return CosntPage.FoPayPage+"/payResult";
+		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payResult");
+		mv.addObject("masterSeq",searchDomain.getMasterSeq());
+		return mv;
 	}
 }

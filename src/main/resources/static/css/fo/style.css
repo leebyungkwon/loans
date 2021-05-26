@@ -1,0 +1,772 @@
+.visual_wrap{
+  position: relative;
+  height: 440px;
+  overflow: hidden;
+}
+
+.visual_bg{
+  position: absolute;
+  left: 50%;
+  margin-left: -960px;
+}
+.relate_wrap{
+  height:124px;
+  border-top: 1px solid #f2f2f2;
+  position: relative;
+  box-sizing: border-box;
+  padding-top: 28px;
+  background-color: #fff;
+  margin-top: 120px;
+}
+
+.relate_wrap.type2{
+  margin-top: 0;
+}
+
+#relate_slide{
+  width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  font-size: 0;
+  box-sizing: border-box;
+  padding: 0 30px;
+}
+
+#relate_slide a{
+  display: inline-block;
+  width: 181px;
+  height: 65px;
+  margin: 2px 5px 0;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+#relate_slide .slick-list{
+  height: 69px;
+}
+
+#relate_slide .slick-arrow{
+  font-size: 0;
+  border: 0;
+  cursor: pointer;
+}
+
+#relate_slide .slick-arrow:focus{
+  border: 2px solid #222;
+}
+
+#relate_slide .slick-prev {
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 23px;
+  background: url('/static/images/common/fo/slide_prev.png') no-repeat center;
+  width: 13px;
+  height: 22px;
+  z-index: 1;
+  outline: none;
+}
+
+#relate_slide .slick-next {
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 23px;
+  background: url('/static/images/common/fo/slide_next.png') no-repeat center;
+  width: 13px;
+  height: 22px;
+  z-index: 1;
+  outline: none;
+}
+
+.inquiry_wrap{
+  margin: 80px auto 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inquiry_wrap .title{
+  font:700 30px/30px 'Noto Sans KR';
+  color:#222;
+  text-align: center;
+}
+
+.inquiry_wrap.type2{
+    padding-bottom: 120px;
+    background-color: #f7f9fa;
+    margin: 0 auto;
+    padding-top: 80px;
+}
+
+.inquiry_result_wrap{
+  margin: 0 auto;
+  padding-top: 80px;
+  padding-bottom: 120px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f7f9fa;
+}
+
+.inquiry_result_wrap .title{
+  font:700 30px/30px 'Noto Sans KR';
+  color:#222;
+  text-align: center;
+}
+
+.inquiry_result_wrap .inner{
+  width: 1140px;
+  padding: 60px 60px 60px 280px;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 8px 8px 0px 0px #d2d4d5;
+  margin: 50px auto 0;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.inquiry_result_wrap .inner .member_pic{
+  width: 160px;
+  height: 214px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  padding: 5px;
+  position: absolute;
+  top: 60px;
+  left: 60px;
+}
+
+.table_wrap .table_title{
+  font:700 18px/18px 'Noto Sans KR';
+  color:#0c4da2;
+  text-align: left;
+  border-bottom: 2px solid #0c4da2;
+  padding-bottom: 30px;
+}
+
+.payment_wrap{
+  width: 1140px;
+  padding: 60px 40px;
+  box-sizing: border-box;
+  background-color: #fff;
+  box-shadow: 8px 8px 0px 0px #d2d4d5;
+  margin: 50px auto 0;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.payment_wrap .inner{
+  width: 485px;
+  margin: 0 auto;
+}
+
+.member_info th{
+  height: 64px;
+  font:500 16px/26px 'Montserrat','Noto Sans KR';
+  color:#222;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.member_info tr:last-child th{
+  border-bottom: none;
+}
+
+.member_info th::before{
+  content: '';
+  width: 3px;
+  height: 3px;
+  background-color: #222;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 7px 0 0;
+}
+
+.member_info td{
+  height: 64px;
+  font:400 16px/26px 'Montserrat','Noto Sans KR';
+  color:#666;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.member_info tr:last-child td{
+  border-bottom: none;
+}
+
+.payment_table{
+  width: 483px;
+  margin-left: 225px;
+}
+
+.payment_table th{
+  height: 60px;
+  font:500 15px/26px 'Montserrat','Noto Sans KR';
+  color:#222;
+  text-align: left;
+}
+
+.payment_table td{
+  height: 60px;
+  font:400 15px/26px 'Montserrat','Noto Sans KR';
+  color:#666;
+  text-align: left;
+}
+
+.payment_table td select{
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  font:400 15px/40px 'Montserrat','Noto Sans KR';
+  color:#666;
+  background-position: 95% 52%
+}
+
+.payment_table td input{
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  font:400 15px/50px 'Montserrat','Noto Sans KR';
+  color:#666;
+}
+
+.payment_table td .gender_tap{
+  width: 100%;
+}
+
+.payment_table td .gender_tap ul{
+  font-size: 0;
+}
+
+.payment_table td .gender_tap li{
+  display: inline-block;
+  width: 50%;
+  height: 50px;
+  text-align: center;
+  cursor: pointer;
+  font:400 15px/50px 'Montserrat','Noto Sans KR';
+  color:#666;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.payment_table td .gender_tap li:first-child{
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #fff;
+}
+
+.payment_table td .gender_tap li:last-child{
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #fff;
+}
+
+.payment_table td .gender_tap li.on{
+  border: 1px solid #0c4da2;
+  color:#0c4da2;
+}
+
+
+.tap_wrap{
+  width: 1200px;
+  padding: 0 30px;
+  box-sizing: border-box;
+  margin: 50px auto 0;
+}
+
+.tap_wrap ul{
+  font-size: 0;
+}
+
+.tap_wrap ul li{
+  width: 50%;
+  height: 56px;
+  display: inline-block;
+  box-sizing: border-box;
+  border: 1px solid #e3e3e3;
+  background-color: #fff;
+  vertical-align: top;
+}
+
+.tap_wrap ul li.on{
+  border: 1px solid #0b4fa1;
+  background-color: #0b4fa1;
+}
+
+.tap_wrap ul li a{
+  display: block;
+  font:400 18px/56px 'Noto Sans KR';
+  text-align: center;
+  color:#222;
+  word-break: keep-all;
+  vertical-align: middle;
+  letter-spacing: -0.8px;
+  box-sizing: border-box;
+}
+
+
+.tap_wrap ul li.on a{
+  color:#fff;
+}
+
+.tap_cont{
+  width: 1140px;
+  margin: 0 auto;
+  border: 1px solid #0c4da2;
+  background-color: #f7f9fa;
+  padding: 60px 40px;
+  box-sizing: border-box;
+  display: none;
+}
+
+.tap_cont.on{
+  display: block;
+}
+
+.tap_cont .input_wrap{
+  margin: 0 auto;
+  display: block;
+  font-size: 0;
+  text-align: center;
+}
+
+.tap_cont .input_wrap .left_box{
+  width: 548px;
+  display: inline-block;
+}
+
+.tap_cont .input_box{
+  width: 100%;
+  font-size: 0;
+  margin-top: 10px;
+}
+
+.tap_cont .input_box .value{
+  display: inline-block;
+  width: 100%;
+}
+
+.tap_cont .input_box .value input{
+  text-align: left;
+  height: 50px;
+  line-height: 50px;
+  box-sizing: border-box;
+  color: #222;
+  width: 100%;
+  padding: 3px 3px 3px 15px;
+  border: 1px solid #ccc;
+  background: #FFF;
+  font:400 15px 'Montserrat','Noto Sans KR';
+}
+
+.tap_cont .input_wrap .btn_login{
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  background-color: #222;
+  font:500 16px/110px 'Noto Sans KR';
+  width: 110px;
+  height: 110px;
+  color:#fff;
+  margin-left: 10px;
+}
+
+.tap_cont .input_wrap .btn_login:hover{
+  background-color: #0c4da2;
+}
+
+.bottom_box{
+  border-top: 1px dashed #d7d7d7;
+  box-sizing: border-box;
+  padding-top: 40px;
+  margin: 60px auto 0;
+  width: 100%;
+}
+
+.bottom_box li{
+  display: block;
+  font:400 15px/25px 'Montserrat','Noto Sans KR';
+  color:#666;
+  margin-bottom: 5px;
+}
+
+.bottom_box li:last-child{
+  margin-bottom: 0;
+}
+
+.bottom_box li .dot{
+  margin: 10px 2px 0 0;
+}
+
+.bottom_box li .red_dot{
+  margin: 10px 2px 0 0;
+}
+
+.bottom_box li p{
+  display: inline-block;
+  font:400 15px/25px 'Montserrat','Noto Sans KR';
+  color:#666;
+}
+
+.bottom_box li p.red{
+  color:#e51937;
+}
+
+.info_wrap{
+  width: 100%;
+  background-color: #ebf1f8;
+  margin: 0 auto;
+}
+
+.info_wrap .inner{
+  width: 1200px;
+  box-sizing: border-box;
+  padding: 0 30px;
+  margin: 0 auto;
+  padding: 80px 0;
+  font-size: 0;
+}
+
+.info_wrap .inner .left{
+  display: inline-block;
+  width: 160px;
+  vertical-align: top;
+}
+
+.info_wrap .inner .left .title{
+  font:700 26px/26px 'Noto Sans KR';
+  color:#0c4da2;
+}
+
+.info_wrap .inner .right{
+  display: inline-block;
+  width: 980px;
+  vertical-align: top;
+}
+
+.info_wrap .inner .right li{
+  display: block;
+  padding: 40px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.info_wrap .inner .right li .blue_dot{
+  margin: 10px 20px 0 0;
+}
+
+.info_wrap .inner .right li p{
+  display: inline-block;
+  width: 950px;
+  font:400 17px/28px 'Montserrat','Noto Sans KR';
+  color:#555;
+}
+
+.info_wrap .inner .right li:first-child{
+  padding-top: 0;
+}
+
+.info_wrap .inner .right li:last-child{
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.society_wrap{
+  width: 100%;
+}
+
+.society_wrap .inner{
+  width: 1200px;
+  box-sizing: border-box;
+  padding: 0 30px;
+  margin: 60px auto 0;
+}
+
+.society_wrap .inner .title{
+  font:700 26px/26px 'Noto Sans KR';
+  color:#0c4da2;
+}
+
+.society_wrap .inner ul{
+  font-size: 0;
+  margin-top: 40px;
+}
+
+.society_wrap .inner li{
+  display: inline-block;
+  width: 270px;
+  height: 100px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  border: 1px solid #e5e5e5;
+}
+
+.society_wrap .inner li:hover{
+  border: 1px solid #222;
+  transition: all 0.3s;
+}
+
+.society_wrap .inner li:nth-child(4n){
+  margin-right: 0;
+}
+
+.society_wrap .inner li a{
+  display: block;
+}
+
+
+.rules_wrap{
+  width: 1140px;
+  margin: 80px auto 0;
+}
+
+.rules_wrap li{
+  display: block;
+  background-color: #f8f9fb;
+  width: 100%;
+  height: 150px;
+  box-sizing: border-box;
+  font-size: 0;
+  padding: 30px 40px;
+}
+
+.rules_wrap li .ico_01{
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  background: url('/static/images/sub/rule_ico01.png')no-repeat center;
+}
+
+.rules_wrap li .ico_02{
+  display: inline-block;
+  width: 88px;
+  height: 88px;
+  background: url('/static/images/sub/rule_ico02.png')no-repeat center;
+}
+
+.rules_wrap li .tit{
+  vertical-align: top;
+  display: inline-block;
+  font:700 24px/90px 'Noto Sans KR';
+  color:#0c4da2;
+  margin-left: 22px;
+  width: 450px;
+}
+
+.rules_wrap li .btn_look{
+  box-sizing: border-box;
+  width: 245px;
+  height: 46px;
+  border: 1px solid #999;
+  text-align: center;
+  display: inline-block;
+  font:400 16px/44px 'Noto Sans KR';
+  color:#666;
+  border-radius: 4px;
+  vertical-align: top;
+  margin-top: 24px;
+}
+
+.rules_wrap li .btn_look .ico_arrow{
+  display: inline-block;
+  width: 8px;
+  height: 11px;
+  vertical-align: top;
+  background: url('/static/images/common/fo/btn_arrow.png')no-repeat center;
+  margin: 17px 0 0 3px;
+}
+
+.rules_wrap li .btn_download{
+  box-sizing: border-box;
+  width: 245px;
+  height: 46px;
+  border: 1px solid #0c4da2;
+  background-color: #0c4da2;
+  text-align: center;
+  display: inline-block;
+  font:400 16px/44px 'Noto Sans KR';
+  color:#fff;
+  border-radius: 4px;
+  vertical-align: top;
+  margin-top: 24px;
+  margin-left: 10px;
+}
+
+.rules_wrap li .btn_download .ico_download{
+  display: inline-block;
+  width: 18px;
+  height: 15px;
+  vertical-align: top;
+  background: url('/static/images/common/fo/btn_download.png')no-repeat center;
+  margin: 15px 0 0 3px;
+}
+
+.popup_list_area {
+  width: 1140px;
+  border-top: 1px solid #0c4da2;
+  margin: 50px auto 0;
+}
+
+.popup_list_area li .tag{
+  color:#fff;
+  background-color: #0c4da2;
+  font:500 15px/32px 'Noto Sans KR';
+  text-align: center;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.popup_list_area li .list_title{
+  color:#0c4da2;
+  font:500 18px/58px 'Montserrat','Noto Sans KR';
+  margin-left: 26px;
+  display: inline-block;
+}
+
+.popup_list_area li{
+  background-color: #fff;
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px solid #0c4da2;
+  font-size: 0;
+}
+
+
+.popup_list_area>ul>li.active .ctgr_down{
+  background: url('/static/images/common/fo/list_up.png')no-repeat center;
+}
+
+.popup_list_area li .ctgr_down{
+  position: absolute;
+  right: 20px;
+  top: 42px;
+  margin-top: -15px;
+  width: 16px;
+  height: 8px;
+  display: inline-block;
+  background: url('/static/images/common/fo/list_down.png')no-repeat center;
+}
+
+.popup_list_area>ul>li.active .contents_list{
+
+}
+
+.popup_list_area li .contents_list{
+  width: 100%;
+  padding: 30px 70px;
+  box-sizing: border-box;
+  border-top: 1px solid #ddd;
+  background-color: #f7f9fa;
+  display: none;
+  font:400 16px/26px 'Montserrat','Noto Sans KR';
+  color:#222;
+}
+
+
+/* popup */
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:99;
+}
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+.popup .bg{
+  background-color: #000;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  opacity:.7;
+}
+
+.popup .wrap{
+  position:absolute;
+  box-sizing: border-box;
+  padding: 30px 40px 60px 40px;
+  background-color: #fff;
+}
+.popup .wrap.pdf_down{
+  top:calc(50% - 897px/2);
+  left:calc(50% - 680px/2);
+  width:680px;
+  height:897px;
+}
+
+.popup .wrap .tit{
+  width:100%;
+  height:52px;
+  background:#fff;
+  color:#0c4da2;
+  border-bottom: 2px solid #0c4da2;
+  position: relative;
+  font:700 22px/52px 'Montserrat','Noto Sans KR';
+}
+.popup .wrap .tit i{
+  position:absolute;
+  top:calc(50% - 20px/2);
+  right:0;
+  width:20px;
+  height:20px;
+  display:inline-block;
+  cursor:pointer;
+  background:url('/static/images/common/fo/pop_close.png') no-repeat center;
+  background-size:cover;
+}
+.popup .wrap .con{
+  width:100%;
+  height:calc(100% - 65px);
+  background:#FFF;
+  box-sizing:border-box;
+
+  text-align:center;
+
+}
+
+.popup .button_wrap{
+  position:relative;
+  width: 100%;
+  padding-top: 40px;
+  border-top: 2px solid #ddd;
+}
+
+.popup .btn_download{
+  box-sizing: border-box;
+  width: 245px;
+  height: 50px;
+  border: 1px solid #0c4da2;
+  background-color: #0c4da2;
+  text-align: center;
+  display: inline-block;
+  font:400 16px/48px 'Noto Sans KR';
+  color:#fff;
+  border-radius: 4px;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.popup .btn_download .ico_download{
+  display: inline-block;
+  width: 18px;
+  height: 15px;
+  vertical-align: top;
+  background: url('/static/images/common/fo/btn_download.png')no-repeat center;
+  margin: 17px 0 0 3px;
+}

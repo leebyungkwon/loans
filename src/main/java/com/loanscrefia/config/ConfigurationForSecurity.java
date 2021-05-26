@@ -45,6 +45,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
     	
     	// 권한체크/
 		http.authorizeRequests()
+			.antMatchers("/front/**").permitAll()
 			.antMatchers("/admin/**").hasAnyRole("ADMIN","SYSTEM")
 			.antMatchers("/member/admin/adminDetailUpdPage").hasAnyRole("TEMP_MEMBER", "MEMBER","SYSTEM")
 			.antMatchers("/member/user/userStepHistoryPopup").hasAnyRole("ADMIN","SYSTEM","MEMBER")
@@ -57,7 +58,6 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/idcheck").permitAll()
 			.antMatchers("/terms").permitAll() 
 			.antMatchers("/common/**").permitAll()
-			.antMatchers("/front/**").permitAll()
 			.antMatchers("/**").hasAnyRole("ADMIN","SYSTEM","MEMBER")
 			.anyRequest().authenticated();
 
