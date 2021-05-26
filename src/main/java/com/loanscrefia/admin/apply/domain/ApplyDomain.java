@@ -57,6 +57,7 @@ public class ApplyDomain extends BaseDomain {
 	private String comRegDateLimit;
 	
 	private String chkYn;			//실무자확인여부
+	private String chkYnTxt;
 	@ExcelColumn(headerName = "승인완료일", order = 11)
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "자격취득일", order = 13)

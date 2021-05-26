@@ -26,8 +26,8 @@ function pageLoad(){
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"12%"		, align:"center"}
-				,{type:"string"	, name:'comRegDateLimit'		, index:'comRegDateLimit'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'chkYn'			, index:'chkYn'				, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'comRegDateLimit', index:'comRegDateLimit'	, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -197,7 +197,7 @@ function goGetDate(opt) {
 					<td class="">
 						<input type="text" name="plMZId">
 					</td>
-					<th>연락처</th>
+					<th>휴대폰번호</th>
 					<td class="">
 						<input type="text" name="plCellphone">
 					</td>
