@@ -269,8 +269,8 @@
    			<if test="plHistTxt != null and plHistTxt != ''">
    				,pl_hist_txt = #{plHistTxt}
    			</if>
-   			<if test="plStat == '5' ">
-   				,com_reg_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   			<if test='plStat.equals("5")'>
+   				,com_upd_date = TO_CHAR(NOW(), 'YYYYMMDD')
    			</if>
    			, upd_seq = #{updSeq}
    			, upd_timestamp = NOW()

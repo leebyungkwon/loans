@@ -239,6 +239,10 @@ create table tb_lc_mas01(
 	, com_cont_date varchar(8)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
+	
+	, com_upd_date varchar(8)
+	, cre_app_fi_date varchar(8)
+	
 	, cre_app_date varchar(8)
 	, cre_license_date varchar(8)
 	, pl_pay_stat varchar(2)
@@ -289,6 +293,11 @@ COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
+
+COMMENT ON COLUMN tb_lc_mas01.com_upd_date IS '보완요청일';
+COMMENT ON COLUMN tb_lc_mas01.cre_app_fi_date IS '승인남은일';
+	
+
 COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일(심사완료일)';
 COMMENT ON COLUMN tb_lc_mas01.cre_license_date IS '자격취득일';
 COMMENT ON COLUMN tb_lc_mas01.pl_pay_stat IS '결제상태';
@@ -597,6 +606,8 @@ create table tb_lc_mas01_hist(
 	, com_cont_date varchar(8)	
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
+	, com_upd_date varchar(8)
+	, cre_app_fi_date varchar(8)
 	, cre_app_date varchar(8)
 	, cre_license_date varchar(8)
 	, pl_pay_stat varchar(2)
@@ -648,6 +659,8 @@ COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
+COMMENT ON COLUMN tb_lc_mas01_hist.com_upd_date IS '보완요청일';
+COMMENT ON COLUMN tb_lc_mas01_hist.cre_app_fi_date IS '승인남은일';
 COMMENT ON COLUMN tb_lc_mas01_hist.cre_app_date IS '승인일(심사완료일)';
 COMMENT ON COLUMN tb_lc_mas01_hist.cre_license_date IS '자격취득일';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_pay_stat IS '결제상태';
