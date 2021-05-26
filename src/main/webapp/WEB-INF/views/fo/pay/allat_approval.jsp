@@ -19,7 +19,7 @@
   // Service Code
   String sCrossKey = "ec62e31d3dac1119c934391187e3160b";	//설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
   String sShopId   = "crefia";								//설정필요
-  String sAmount   = "100";									//결제 금액을 다시 계산해서 만들어야 함(해킹방지)  ( session, DB 사용 )
+  String sAmount   = "1000";								//결제 금액을 다시 계산해서 만들어야 함(해킹방지)  ( session, DB 사용 )
 
   String sEncData  = request.getParameter("allat_enc_data");
   String strReq = "";
