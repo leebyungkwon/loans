@@ -62,11 +62,11 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('REG001','4','해지완료','해지완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('MAS001','1','미요청','미요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:06.985935',NULL,NULL),
 	 ('MAS001','2','승인요청','승인요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
-	 ('MAS001','3','변경요청','변경요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
-	 ('MAS001','4','해지요청','해지요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
-	 ('MAS001','5','보완요청','보완요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
+	 ('MAS001','3','변경요청','변경요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
+	 ('MAS001','4','해지요청','해지요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
+	 ('MAS001','5','보완요청','보완요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
 	 ('MAS001','6','취소','취소',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
-	 ('MAS001','7','완료','완료',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
+	 ('MAS001','7','완료','완료','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
 	 ('MEM001','1','미승인','미승인',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-07 09:57:26.875467',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('MEM001','3','승인','승인',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-07 09:57:26.875467',NULL,NULL),
