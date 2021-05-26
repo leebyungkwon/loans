@@ -112,7 +112,7 @@ var Valid = {
 
  	fileCheck: function(ext, excelYn){
 		if(excelYn == "Y"){
-			if($.inArray(ext, ["xls", "xlxs"]) == -1) {
+			if($.inArray(ext, ["xls", "xlsx"]) == -1) {
 				alert("엑셀파일만 첨부해 주세요.");
 				return false;
 			}
