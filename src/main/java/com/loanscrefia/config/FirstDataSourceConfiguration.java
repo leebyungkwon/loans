@@ -33,7 +33,7 @@ public class FirstDataSourceConfiguration {
             sqlSessionFactoryBean.setDataSource(firstDataSource);
             sqlSessionFactoryBean.setVfs(SpringBootVFS.class);  // Spring Boot 전용 VFS 사용하도록 지정
             sqlSessionFactoryBean.setTypeAliasesPackage("com.loanscrefia.*.*.domain");
-            sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/bo/*/**.xml"));
+            sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/*/*/**.xml"));
             org.apache.ibatis.session.Configuration ibatisConfiguration = new org.apache.ibatis.session.Configuration();
             ibatisConfiguration.setMapUnderscoreToCamelCase(true);
             sqlSessionFactoryBean.setConfiguration(ibatisConfiguration);
