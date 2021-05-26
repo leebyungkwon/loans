@@ -21,6 +21,21 @@
        <put-attribute name="body" value="/WEB-INF/views/bo/{1}/{2}.jsp" />
    </definition>
    
+	<definition name="main-fo-layout" template="/WEB-INF/layout/default-fo-layout.jsp">
+       <put-attribute name="js-fo"		value="/WEB-INF/layout/default/js-fo.jsp" />
+       <put-attribute name="css-fo"	value="/WEB-INF/layout/default/css-fo.jsp" />
+       <put-attribute name="header-fo" value="/WEB-INF/layout/default/header-fo.jsp" />
+       <put-attribute name="body-fo"	value="" />
+       <put-attribute name="footer-fo" value="/WEB-INF/layout/default/footer-fo.jsp" />
+   </definition>
+   
+   <definition name="fo/*" extends="main-fo-layout">
+       <put-attribute name="body-fo" value="/WEB-INF/views/fo/{1}.jsp" />
+   </definition>
+   <definition name="fo/*/*" extends="main-fo-layout">
+       <put-attribute name="body-fo" value="/WEB-INF/views/fo/{1}/{2}.jsp" />
+   </definition>
+   
    <!-- common -->
    <definition name="common-layout" template="/WEB-INF/layout/common-layout.jsp">
        <put-attribute name="js"		value="/WEB-INF/layout/default/js.jsp" />

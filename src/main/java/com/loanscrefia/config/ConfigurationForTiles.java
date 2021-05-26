@@ -13,7 +13,6 @@ public class ConfigurationForTiles {
     public TilesConfigurer tilesConfigurer() {
         final TilesConfigurer configurer = new TilesConfigurer();
         configurer.setDefinitions(new String[]{"/WEB-INF/config/tiles.xml"});
-        configurer.setDefinitions(new String[]{"/WEB-INF/config/tiles-fo.xml"});
         configurer.setCheckRefresh(true);
         return configurer;
     }
