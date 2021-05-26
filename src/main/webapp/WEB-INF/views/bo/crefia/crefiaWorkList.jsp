@@ -6,26 +6,42 @@
 
 <script type="text/javascript">
  function pageLoad(){
+	//중복 클릭 방지
+	$(".crefia").click(function(){
+		if($('input[type="checkbox"][data-comCode="'+$(this).attr("data-comCode")+'"]:checked').length > 1){
+			$('input[type="checkbox"][data-comCode="'+$(this).attr("data-comCode")+'"]').prop("checked",false);
+			$(this).prop("checked",true);
+		}
+	}); 
+	
+	//저장 버튼 클릭 이벤트
 	$("#saveCrefiaWorkBtn").click(function(){
-		var comCodeArr = [];
-		var memberSeqArr = [];
+		var comCodeArr 		= [];
+		var memberSeqArr 	= [];
+		var noArr 			= [];
+		var uniqueArr 		= [];
+		
 		$(".crefia").each(function(index){
 			if($(this).is(":checked")){
 				comCodeArr.push($(this).attr("data-comCode"));
 				memberSeqArr.push($(this).val());
+			}else if($('input[type="checkbox"][data-comCode="'+$(this).attr("data-comCode")+'"]:checked').length == 0){ 
+				noArr.push($(this).attr("data-comName"));
 			}
 		});
-		
-		var comCodeSet = new Set(comCodeArr);
-		
-		if(comCodeArr.length != comCodeSet.size){
-			alert("중복으로 체크된 데이터가 존재합니다.");
-			return false;
+		//선택안한 회원사 중복제거
+		uniqueArr = noArr.filter(function(item, pos, self) {
+			return self.indexOf(item) == pos;
+		});
+		if(uniqueArr.length > 0){
+			var msg = '';
+			for(var i = 0;i < uniqueArr.length;i++){
+				msg += uniqueArr[i]+'의 업무 담당자를 선택해 주세요.\n';
+			}
+			alert(msg);
+			return;
 		}
-		if(comCodeArr.length != "${fn:length(companyInfo)}"){
-			alert("담당자를 선택해 주세요.");
-			return false;
-		}
+		//저장
 		if(confirm("저장하시겠습니까?")){
 			var param = {
 				 'memberSeqArr' : memberSeqArr
@@ -34,7 +50,7 @@
 			var p = {
 				 param 		: param 
 				,url 		: "/admin/crefiaWork/insertCrefiaWork"
-				,success	:function(opt,result){
+				,success	: function(opt,result){
 					location.reload();
 				}	
 			}
@@ -67,7 +83,7 @@
 							<td align="center"><c:out value="${companyInfo.comName}"/></td>
 							<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
 								<td>
-									<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" <c:if test="${companyInfo.chkedMemberSeq eq memberInfo.memberSeq }">checked="checked"</c:if> >
+									<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" data-comName="${companyInfo.comName}" <c:if test="${companyInfo.chkedMemberSeq eq memberInfo.memberSeq }">checked="checked"</c:if> >
 								</td>
 							</c:forEach>
 						</tr>   
