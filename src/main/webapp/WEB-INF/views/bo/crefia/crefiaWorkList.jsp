@@ -23,10 +23,10 @@
 		}
 		
 		if(comCodeArr.length != "${fn:length(companyInfo)}"){
-			alert("클릭 안된곳 있어요");
+			alert("회원사에 체크가 안된것이 있습니다.");
 			return false;
 		}
-		if(confirm("저장하시겠습니까?")){
+		if(confirm("저장을 하시겠습니까?")){
 			var param = {
 				 'memberSeqArr' : memberSeqArr
 				,'comCodeArr'  	: comCodeArr
@@ -43,11 +43,9 @@
 	});
 }  
  
-function test() {
+function selectCheckBox() {
 	var chkedList 		= "${checkboxInfo}";
 	var chkedListLen 	= "${fn:length(checkboxInfo)}";
-	
-	alert(chkedListLen);
 	
 	var memberSeqChk 	= "";
 	var comCodeChk 		= "";
@@ -55,10 +53,7 @@ function test() {
 	$(".crefia").each(function(index){
 		memberSeqChk 	= $(this).val();
 		comCodeChk 		= $(this).attr("data-comCode");
-		//console.log(memberSeqChk+" :: "+comCodeChk);
 		for(var i = 0;i < chkedListLen;i++){
-			console.log(memberSeqChk+" :: "+comCodeChk);
-			console.log(chkedList[i].memberSeq+" :: "+chkedList[i].comCode);
 			if(memberSeqChk == chkedList[i].memberSeq && comCodeChk == chkedList[i].comCode){
 				$(this).prop("checked",true);
 			}
@@ -78,7 +73,6 @@ function test() {
 			<table>
 				<thead>
 					<tr>
-					
 						<th>회원사명</th>
  						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> 
 						<th><c:out value="${memberInfo.memberName}"/></th>

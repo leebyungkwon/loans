@@ -159,34 +159,29 @@
 	<select id="selectCrefiaWorkCompanyList" parameterType="crefia" resultType="crefia">
 		SELECT 
 			 TLC.COM_CODE																			/*회원사코드*/
-			,TLC.COM_NAME																			/*회원사명*/
-			,TLW.MEMBER_SEQ AS CHKED_MEMBER_SEQ
+			, TLC.COM_NAME																			/*회원사명*/
+			, TLW.MEMBER_SEQ AS CHKED_MEMBER_SEQ
 		FROM TB_LC_COMPANY TLC
 		LEFT OUTER JOIN TB_LC_WORK TLW
 		ON TLC.COM_CODE = TLW.COM_CODE
 		WHERE TLC.DEL_YN = 'N'
 	</select>
 	
-	<select id="selectCrefiaWorkCheckbox" parameterType="crefia" resultType="crefia">
-		SELECT 
-			TLW.MEMBER_SEQ
-			, TLW.COM_CODE
-		FROM TB_LC_WORK TLW
-	</select>
-	
+	<!-- 협회 관리자 업무분장 - 등록  -->
 	<insert id="insertCrefiaWork" parameterType="crefia">
    		INSERT INTO TB_LC_WORK
    		(
    			 MEMBER_SEQ
-   			,COM_CODE
+   			, COM_CODE
    		)
    		VALUES
    		(
    			 #{memberSeq}
-   			,#{comCode}
+   			, #{comCode}
    		)
    	</insert>
 	
+	<!-- 협회 관리자 업무분장 - 삭제 -->
 	<delete id="deleteCrefiaWork" parameterType="crefia">
 		DELETE FROM TB_LC_WORK
 	</delete>

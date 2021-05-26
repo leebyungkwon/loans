@@ -68,7 +68,8 @@ public class CrefiaService {
 	public List<CrefiaDomain> selectCrefiaWorkCompanyList(CrefiaDomain crefiaDomain){
 		return crefiaRepository.selectCrefiaWorkCompanyList(crefiaDomain);
 	}
-
+	
+	// 협회 관리자 업무분장 - 등록
 	@Transactional
 	public ResponseMsg insertCrefiaWork(@Valid CrefiaDomain crefiaDomain) {
 		
@@ -91,15 +92,11 @@ public class CrefiaService {
 		
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
 	}
-
+	
+	//협회 관리자 업무분장 - 삭제
 	@Transactional
 	public int deleteCrefiaWork(@Valid CrefiaDomain crefiaDomain) {
 		return crefiaRepository.deleteCrefiaWork(crefiaDomain);
-	}
-
-	@Transactional(readOnly = true)
-	public List<CrefiaDomain> selectCrefiaWorkCheckbox(CrefiaDomain crefiaDomain){
-		return crefiaRepository.selectCrefiaWorkCheckbox(crefiaDomain);
 	}
 	
 }

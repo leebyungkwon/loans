@@ -28,15 +28,17 @@ public interface CrefiaRepository {
 	
 	// 협회 관리자 삭제
 	int deleteCrefia(CrefiaDomain crefiaDomain);
-
+	
+	//협회 관리자 업무분장 - 멤버시퀀스
 	List<CrefiaDomain> selectCrefiaWorkMemberList(CrefiaDomain crefiaDomain);
 	
+	//협회 관리자 업무분장 - 회원사코드 - 체크박스 포함
 	List<CrefiaDomain> selectCrefiaWorkCompanyList(CrefiaDomain crefiaDomain);
-
+	
+	// 협회 관리자 업무분장 등록
 	int insertCrefiaWork(@Valid CrefiaDomain crefiaDomain);
-
+	
+	// 협회 관리자 업무분장 삭제
 	int deleteCrefiaWork(@Valid CrefiaDomain crefiaDomain);
 
-	List<CrefiaDomain> selectCrefiaWorkCheckbox(CrefiaDomain crefiaDomain);
-	
 }

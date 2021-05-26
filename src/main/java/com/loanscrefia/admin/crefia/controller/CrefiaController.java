@@ -88,8 +88,6 @@ public class CrefiaController {
     	mv.addObject("memberInfo", memberInfo);
     	mv.addObject("companyInfo", companyInfo);
     	
-    	//List<CrefiaDomain> checkboxInfo = crefiaService.selectCrefiaWorkCheckbox(crefiaDomain);
-    	//mv.addObject("checkboxInfo", checkboxInfo);
 		return mv;
 	}
 	
@@ -97,7 +95,6 @@ public class CrefiaController {
 	@PostMapping(value="/crefiaWork/insertCrefiaWork")
 	public ResponseEntity<ResponseMsg> insertCrefiaWork(@Valid CrefiaDomain crefiaDomain){
 		ResponseMsg responseMsg = crefiaService.insertCrefiaWork(crefiaDomain);
-		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
