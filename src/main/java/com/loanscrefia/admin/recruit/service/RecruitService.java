@@ -435,7 +435,7 @@ public class RecruitService {
 		int emailResult = 0;
 		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 		
-		SendEmailDomain emailDomain = new SendEmailDomain();
+		EmailDomain emailDomain = new EmailDomain();
 		emailDomain.setInstId("추후고정값");
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(applyDomain.getEmail());

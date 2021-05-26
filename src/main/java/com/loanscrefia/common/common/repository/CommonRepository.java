@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.domain.SendEmailDomain;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
 @Mapper
@@ -29,8 +28,4 @@ public interface CommonRepository {
 	//회원사 리스트
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
 
-	
-	// 이메일 전송
-	//int sendEmail(SendEmailDomain sendEmailDomain);
-	
 }

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.company.repository.CompanyRepository;
-import com.loanscrefia.common.common.domain.SendEmailDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 
@@ -53,7 +52,7 @@ public class CompanyService {
 		int emailResult = 0;
 		int result = companyRepository.updateCompanyStat(companyDomain);
 		if(companyDomain.getApprStat() == "3" && result > 0) {
-			SendEmailDomain emailDomain = new SendEmailDomain();
+			EmailDomain emailDomain = new EmailDomain();
 			emailDomain.setInstId("추후고정값");
 			emailDomain.setName("여신금융협회");
 			emailDomain.setEmail(companyDomain.getEmail());

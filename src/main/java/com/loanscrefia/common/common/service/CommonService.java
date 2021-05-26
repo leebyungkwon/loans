@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.domain.SendEmailDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.common.common.repository.VersionRepository;
@@ -55,23 +54,6 @@ public class CommonService {
 	public List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
 		return commonRepository.selectCompanyCodeList(codeDtlDomain);
 	}
-	
-	
-	
-	
-	
-	
-	
-	// 이메일 전송 - transactional 확인(멀티DB)
-	/*
-	@Transactional
-	public int sendEmail(SendEmailDomain sendEmailDomain){
-		// MSSQL DB INSERT
-		return 0;
-	}
-	*/
-	
-	
 	
 	
 }

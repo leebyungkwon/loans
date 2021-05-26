@@ -9,7 +9,7 @@ import com.loanscrefia.common.common.domain.BaseDomain;
 import lombok.Data;
 
 @Data
-@Alias("sendEmail")
+@Alias("email")
 public class EmailDomain extends BaseDomain{
 	
 	private String instId;					// 인스턴스ID
