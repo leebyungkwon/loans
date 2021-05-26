@@ -13,6 +13,7 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.common.common.repository.VersionRepository;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
 @Service
@@ -53,6 +54,12 @@ public class CommonService {
 	@Transactional(readOnly=true)
 	public List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
 		return commonRepository.selectCompanyCodeList(codeDtlDomain);
+	}
+	
+	//회원상세조회
+	@Transactional(readOnly=true)
+	public MemberDomain getMemberDetail(MemberDomain memberDomain) {
+		return commonRepository.getMemberDetail(memberDomain);
 	}
 	
 	

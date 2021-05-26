@@ -126,7 +126,7 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</th>
+						<td class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType24 ne null }">
@@ -167,7 +167,7 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<th class="acenter">대리인 신청 위임장 (위임인 인감날인)</th>
+						<td class="acenter">대리인 신청 위임장 (위임인 인감날인)</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType25 ne null }">
@@ -186,7 +186,7 @@ function pageLoad(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">위임인 인감증명서</th>
+						<td class="acenter">위임인 인감증명서</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType26 ne null }">

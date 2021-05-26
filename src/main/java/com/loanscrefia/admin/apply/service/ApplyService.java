@@ -17,6 +17,7 @@ import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
@@ -34,6 +35,9 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
 	public List<ApplyDomain> selectApplyList(ApplyDomain applyDomain){
+		MemberDomain memberDomain = new MemberDomain();
+		MemberDomain result = commonService.getMemberDetail(memberDomain);
+		applyDomain.setCreGrp(result.getCreGrp());
 		return applyRepository.selectApplyList(applyDomain);
 	}
 	

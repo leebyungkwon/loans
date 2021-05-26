@@ -104,6 +104,8 @@ public class ApplyDomain extends BaseDomain {
 	private String originRegTimestamp;
 	private String originUpdTimestamp;
 	
+	private String creGrp;
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

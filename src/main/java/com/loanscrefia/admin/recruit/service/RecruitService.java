@@ -20,6 +20,7 @@ import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.admin.recruit.repository.RecruitRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
@@ -44,9 +45,9 @@ public class RecruitService {
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
 	public List<RecruitDomain> selectRecruitList(RecruitDomain recruitDomain){
-		
-		
-		
+		MemberDomain memberDomain = new MemberDomain();
+		MemberDomain result = commonService.getMemberDetail(memberDomain);
+		recruitDomain.setCreGrp(result.getCreGrp());
 		return recruitRepository.selectRecruitList(recruitDomain);
 	}
 	
@@ -74,7 +75,7 @@ public class RecruitService {
 				recruitInfo.setHistPlMZId(recruitHistInfo.getPlMZId());
 			}
 			if(!recruitHistInfo.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
-				recruitInfo.setPlCellphone(recruitHistInfo.getPlCellphone());
+				recruitInfo.setHistPlCellphone(recruitHistInfo.getPlCellphone());
 			}
 		}
 		

@@ -75,6 +75,11 @@
 			<where>
 				AND TLM.PL_STAT IN ('2','5')													-- 처리상태가 승인요청, 보완
 				AND TLM.PL_REG_STAT = '1'
+				<if test='creGrp != "2" '>
+					AND TLM.COM_CODE IN (
+						SELECT COM_CODE FROM tb_lc_work WHERE member_seq = #{regSeq}
+					)
+				</if>
 			</where>
    		)Z
    		<where>

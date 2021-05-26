@@ -233,7 +233,7 @@ function goApplyImprove(){
 					<th>체크사항</th>
 				</tr>
 				<tr>
-					<th class="acenter">정관 *</th>
+					<td class="acenter">정관 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType1 ne null }">
@@ -258,7 +258,7 @@ function goApplyImprove(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">법인등기부등본 *</th>
+					<td class="acenter">법인등기부등본 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType2 ne null }">
@@ -283,7 +283,7 @@ function goApplyImprove(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">설립, 등록 신청의 의사결정을 증명하는 서류 *<br />(등록신청 관련 발기인총회, 창립주주총회 또는 이사회의 공증을 받은 의사록)</th>
+					<td class="acenter">설립, 등록 신청의 의사결정을 증명하는 서류 *<br />(등록신청 관련 발기인총회, 창립주주총회 또는 이사회의 공증을 받은 의사록)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType3 ne null }">
@@ -308,7 +308,7 @@ function goApplyImprove(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">본점의 위치 및 명칭을 기재한 서류<br />(법인등기부에서 확인되지 않는 경우 제출)</th>
+					<td class="acenter">본점의 위치 및 명칭을 기재한 서류<br />(법인등기부에서 확인되지 않는 경우 제출)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType4 ne null }">
@@ -333,7 +333,7 @@ function goApplyImprove(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">주주명부 *</th>
+					<td class="acenter">주주명부 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType5 ne null }">
@@ -352,7 +352,7 @@ function goApplyImprove(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">영위하는 다른 업종에 대한 증빙서류 *</th>
+					<td class="acenter">영위하는 다른 업종에 대한 증빙서류 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType6 ne null }">

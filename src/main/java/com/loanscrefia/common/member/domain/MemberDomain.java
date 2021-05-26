@@ -38,7 +38,9 @@ public class MemberDomain extends BaseDomain{
 	}
 	private int fileSeq;					// 첨부파일시퀀스
 	private int fileCnt;					// 로그인실패횟수
+	private String msg;
 	private String creYn;					// 협회여부
+	private String creGrp;
 	private String dropYn;					// 탈퇴여부
     
     

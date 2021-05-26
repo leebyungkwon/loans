@@ -117,7 +117,7 @@
 	FROM TB_LC_MEMBERS
 		WHERE MEMBER_ID = #{memberId}
 		<if test="memberSeq != null and memberSeq != ''">
-			AND MEMBER_SEQ !	= #{memberSeq}
+			AND MEMBER_SEQ != #{memberSeq}
 		</if>
 	</select>
 

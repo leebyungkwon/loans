@@ -63,6 +63,11 @@
 		<where>
 			AND TLM.PL_STAT IN ('3','4','5','7')													-- 처리상태가 변경, 해지, 보완, 완료
 			AND TLM.PL_REG_STAT NOT IN ('1')
+			<if test='creGrp != "2" '>
+				AND TLM.COM_CODE IN (
+					SELECT COM_CODE FROM tb_lc_work WHERE member_seq = #{regSeq}
+				)
+			</if>
 			
 			<if test="comCode != null and comCode != ''">
 				AND TLM.COM_CODE = CAST(#{comCode} AS INTEGER)
