@@ -39,7 +39,11 @@ public class SearchService {
 		return searchRepo.updatePlRegStat(searchDomain);
 	}
 	
-	
+	//모집인 정보 단계별(STATUS) 이력 저장
+	@Transactional
+	public int insertSearchUserStepHistory(SearchDomain searchDomain) {
+		return searchRepo.insertSearchUserStepHistory(searchDomain);
+	}
 	
 	
 	

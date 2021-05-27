@@ -32,6 +32,9 @@ public class PayService {
 			
 			if(updateResult == 0) {
 				result = false;
+			}else {
+				//(2)모집인 단계 이력 저장
+				searchService.insertSearchUserStepHistory(param);
 			}
 		}else {
 			result = false;
