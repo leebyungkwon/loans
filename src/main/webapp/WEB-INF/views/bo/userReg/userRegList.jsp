@@ -261,14 +261,14 @@ function goGetDate(opt) {
 					<td class="half_input">
 						<select name="plProduct" id="plProduct"></select>
 					</td>
-					<th>검색어</th>
-					<td class="half_input pdr0">
-						<select name="srchSelect1">
+					<th>승인상태</th>
+					<td class="half_input">
+						<select name="plStat">
 							<option value="">전체</option>
-							<option value="name">이름</option>
-							<option value="corp">법인명</option>
+							<option value="1">미요청</option>
+							<option value="2">승인요청</option>
+							<option value="5">보완요청</option>
 						</select>
-						<input type="text" name="srchInput1">
 					</td>
 				</tr>
 				<tr>
@@ -280,14 +280,15 @@ function goGetDate(opt) {
 							<option value="N">미완료</option>
 						</select>
 					</td>
-					<th>승인상태</th>
+				</tr>
+				<tr>
+					<th>이름</th>
 					<td class="half_input">
-						<select name="plStat">
-							<option value="">전체</option>
-							<option value="1">미요청</option>
-							<option value="2">승인요청</option>
-							<option value="5">보완요청</option>
-						</select>
+						<input type="text" name="plMName">
+					</td>
+					<th>법인명</th>
+					<td class="half_input">
+						<input type="text" name="plMerchantName">
 					</td>
 				</tr>
 				<tr>

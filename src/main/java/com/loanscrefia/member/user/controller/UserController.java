@@ -171,7 +171,7 @@ public class UserController {
 	
 	//등록 처리(수동) : 법인 > 대표자 및 임원
 	@PostMapping(value="/user/insertUserRegCorpImwonInfo")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, @Valid UserImwonDomain userImwonDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> insertUserRegCorpImwonInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, @Valid UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.insertUserRegCorpImwonInfo(files, userImwonDomain, fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -185,7 +185,7 @@ public class UserController {
 	
 	//등록 처리(수동) : 법인 > 전문인력
 	@PostMapping(value="/user/insertUserRegCorpExpertInfo")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, @Valid UserExpertDomain userExpertDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, @Valid UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.insertUserRegCorpExpertInfo(files, userExpertDomain, fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -199,7 +199,7 @@ public class UserController {
 	
 	//등록 처리(수동) : 법인 > 전산인력
 	@PostMapping(value="/user/insertUserRegCorpItInfo")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, @Valid UserItDomain userItDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> insertUserRegCorpItInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, @Valid UserItDomain userItDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.insertUserRegCorpItInfo(files, userItDomain, fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -260,28 +260,28 @@ public class UserController {
 	
 	//수정 처리
 	@PostMapping(value="/user/updateUserRegInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegInfo(@RequestParam("files") MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> updateUserRegInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.updateUserRegInfo(files,userDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//수정 처리 : 법인 > 대표자 및 임원관련사항 탭
 	@PostMapping(value="/user/updateUserRegCorpImwonInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegCorpImwonInfo(@RequestParam("files") MultipartFile[] files, @Valid UserImwonDomain userImwonDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> updateUserRegCorpImwonInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, @Valid UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.updateUserRegCorpImwonInfo(files,userImwonDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//수정 처리 : 법인 > 전문인력 탭
 	@PostMapping(value="/user/updateUserRegCorpExpertInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegCorpExpertInfo(@RequestParam("files") MultipartFile[] files, @Valid UserExpertDomain userExpertDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> updateUserRegCorpExpertInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, @Valid UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.updateUserRegCorpExpertInfo(files,userExpertDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//수정 처리 : 법인 > 전산인력 탭
 	@PostMapping(value="/user/updateUserRegCorpItInfo")
-	public ResponseEntity<ResponseMsg> updateUserRegCorpItInfo(@RequestParam("files") MultipartFile[] files, @Valid UserItDomain userItDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> updateUserRegCorpItInfo(@RequestParam(value = "files", required = false) MultipartFile[] files, @Valid UserItDomain userItDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = userService.updateUserRegCorpItInfo(files,userItDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -410,7 +410,7 @@ public class UserController {
 	
 	//변경요청
 	@PostMapping(value="/confirm/userChangeApply")
-    public ResponseEntity<ResponseMsg> userChangeApply(@RequestParam("files") MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain) {
+    public ResponseEntity<ResponseMsg> userChangeApply(@RequestParam(value = "files", required = false) MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain) {
 		ResponseMsg responseMsg = userService.userChangeApply(files,userDomain,fileDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
     }

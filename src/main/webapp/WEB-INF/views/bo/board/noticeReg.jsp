@@ -91,16 +91,17 @@
 
 		// 첨부파일 찾기시 file tag 실행
 		$("#u_file").on("change", function(){
-			
-			var ext = $(this).val().split(".").pop().toLowerCase();
-			var excelYn = $(this).attr("data-excel");
-			if(!Valid.fileCheck(ext, excelYn)){
-				return false;
+			if(WebUtil.isNotNull($("#u_file").val())){
+				var ext = $(this).val().split(".").pop().toLowerCase();
+				var excelYn = $(this).attr("data-excel");
+				if(!Valid.fileCheck(ext, excelYn)){
+					return false;
+				}
+				
+				var fileValue = $("#u_file").val().split("\\");
+				var fileName = fileValue[fileValue.length-1];
+				$("#fileName").val(fileName);
 			}
-			
-			var fileValue = $("#u_file").val().split("\\");
-			var fileName = fileValue[fileValue.length-1];
-			$("#fileName").val(fileName);
 		});
 		
 	}

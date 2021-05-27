@@ -66,36 +66,49 @@ function goPayTest() {
 						<th>계약금융회사</th>
 						<td>${searchUserInfo.comCodeNm }</td>
 					</tr>
-					<tr>
-						<th>성명</th>
-						<td>${searchUserInfo.plMName }</td>
-					</tr>
-					<tr>
-						<th>휴대폰번호</th>
-						<td>${searchUserInfo.plCellphone }</td>
-					</tr>
-					<tr>
-						<th>생년월일</th>
-						<td>${searchUserInfo.plMZIdFront }</td>
-					</tr>
-					<tr>
-						<th>성별</th>
-						<td>
-							<c:choose>
-								<c:when test="${searchUserInfo.gender eq 'M' }">남성</c:when>
-								<c:otherwise>여성</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr>
-						<th>결제금액</th>
-						<td>
-							<c:choose>
-								<c:when test="${searchUserInfo.plClass eq '1' }"><span class="bold red">20,000원</span></c:when>
-								<c:otherwise><span class="bold red">200,000원</span></c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
+					<c:choose>
+						<c:when test="${searchUserInfo.plClass eq '1' }">
+							<tr>
+								<th>성명</th>
+								<td>${searchUserInfo.plMName }</td>
+							</tr>
+							<tr>
+								<th>휴대폰번호</th>
+								<td>${searchUserInfo.plCellphone }</td>
+							</tr>
+							<tr>
+								<th>생년월일</th>
+								<td>${searchUserInfo.plMZIdFront }</td>
+							</tr>
+							<tr>
+								<th>성별</th>
+								<td>
+									<c:choose>
+										<c:when test="${searchUserInfo.gender eq 'M' }">남성</c:when>
+										<c:otherwise>여성</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
+							<tr>
+								<th>결제금액</th>
+								<td><span class="bold red">20,000원</span></td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<th>법인번호</th>
+								<td>${searchUserInfo.plMerchantNo }</td>
+							</tr>
+							<tr>
+								<th>대표자 성명</th>
+								<td>${searchUserInfo.plCeoName }</td>
+							</tr>
+							<tr>
+								<th>결제금액</th>
+								<td><span class="bold red">200,000원</span></td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 			</table>
 		</div>
