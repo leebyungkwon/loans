@@ -49,9 +49,9 @@
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
 				,case
-					when CONCAT(TO_CHAR((com_reg_date::date + interval '14 day') - (NOW()::date), 'DD'), '일') = '일' then ''
-					else CONCAT(TO_CHAR((com_reg_date::date + interval '14 day') - (NOW()::date), 'DD'), '일')
-				 end COM_REG_DATE_LIMIT
+					when CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일') = '일' then ''
+					else CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일')
+				end CRE_APP_FI_DATE
 				,COALESCE(TLM.CHK_YN,'N') AS CHK_YN
 				,CASE
 					WHEN TLM.CHK_YN = 'Y' THEN '확인'

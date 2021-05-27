@@ -53,14 +53,12 @@ public class ApplyDomain extends BaseDomain {
 	private int capital;			//자본금
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)
-	
-	private String comRegDateLimit;
-	
 	private String chkYn;			//실무자확인여부
 	private String chkYnTxt;
 	@ExcelColumn(headerName = "승인완료일", order = 11)
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "자격취득일", order = 13)
+	private String creAppFiDate;	// 승인남은일
 	private String creLicenseDate;	//자격취득일
 	@ExcelColumn(headerName = "결제완료일", order = 12)
 	private String plPayStat;		//결제상태							-> []

@@ -26,8 +26,8 @@ function pageLoad(){
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"12%"		, align:"center"}
-				,{type:"string"	, name:'comRegDateLimit', index:'comRegDateLimit'	, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'		, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'creAppFiDate'	, index:'creAppFiDate'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -103,7 +103,7 @@ function pageLoad(){
 	// 승인 남은일 순
 	$("#sortComRegDate").on("click", function(){
 		if($("#sortName").val() == "master_seq"){
-			$("#sortName").val("com_reg_date");	
+			$("#sortName").val("CRE_APP_FI_DATE");	
 		}else{
 			$("#sortName").val("master_seq");
 		}
