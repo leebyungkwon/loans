@@ -171,7 +171,7 @@ function pageLoad(){
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" id="memberId" name="memberId" placeholder="아이디" maxlength="11" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
+					<input type="text" id="memberId" name="memberId" placeholder="아이디 입력 (5~11자)" maxlength="11" data-vd='{"type":"id","len":"5,11","req":true,"msg":"아이디를 입력해 주세요"}'/>
 					<a href="javascript:void(0);" id="idcheck" class="btn_gray btn_small">중복체크</a>
 				</td>
 			</tr>
@@ -184,31 +184,31 @@ function pageLoad(){
 			<tr>
 				<th>비밀번호 확인</th>
 				<td>
-					<input type="password" id="passwordChk" name="passwordChk" maxlength="20" placeholder="동일한 비밀번호를 입력"  data-vd='{"type":"text","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
+					<input type="password" id="passwordChk" name="passwordChk" maxlength="20" placeholder="동일한 비밀번호를 입력해 주세요."  data-vd='{"type":"text","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}' />
 				</td>
 			</tr>
 			<tr>
 				<th>부서명</th>
 				<td>
-					<input type="text" id="deptNm" name="deptNm" placeholder="부서명 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"부서명을 입력해 주세요"}'/>
+					<input type="text" id="deptNm" name="deptNm" placeholder="부서명을 입력해주세요." data-vd='{"type":"text","len":"1,20","req":true,"msg":"부서명을 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>담당자명</th>
 				<td>
-					<input type="text" id="memberName" name="memberName" placeholder="이름" data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'/>
+					<input type="text" id="memberName" name="memberName" placeholder="이름을 입력해주세요." data-vd='{"type":"text","len":"1,20","req":true,"msg":"담당자명을 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>직위</th>
 				<td>
-					<input type="text" id="positionNm" name="positionNm" placeholder="직위 입력" data-vd='{"type":"text","len":"1,20","req":true,"msg":"직위명을 입력해 주세요"}'/>
+					<input type="text" id="positionNm" name="positionNm" placeholder="직위를 입력해주세요." data-vd='{"type":"text","len":"1,20","req":true,"msg":"직위명을 입력해 주세요"}'/>
 				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
 				<td>
-					<input type="text" id="email" name="email" placeholder="이메일 입력" maxlength="40" data-vd='{"type":"email","len":"1,40","req":true,"msg":"이메일을 입력해 주세요"}'/>
+					<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요." maxlength="40" data-vd='{"type":"email","len":"1,40","req":true,"msg":"이메일을 입력해 주세요"}'/>
 					<p class="noti">
 						가입 승인여부는 입력하신 이메일로 전송됩니다. 정확히 기입해 주세요.
 					</p>
