@@ -99,7 +99,7 @@ public class LoginController {
 	public ResponseEntity<ResponseMsg> signup(@RequestParam("files") MultipartFile[] files, @Valid SignupDomain signupDomain){
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
-				.setExt("image") 
+				.setExt("all") 
 				.upload();
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");

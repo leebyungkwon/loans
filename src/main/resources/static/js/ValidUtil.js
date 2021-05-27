@@ -117,7 +117,7 @@ var Valid = {
 				return false;
 			}
 		}else{
-			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf"]) == -1) {
+			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "hwp", "doc", "docx"]) == -1) {
 				alert("첨부파일 확장자를 확인해 주세요.");
 				return false;
 			}
