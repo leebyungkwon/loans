@@ -175,7 +175,7 @@ function goGetDate(opt) {
 					</td>
 				</tr>
 				<tr>
-					<th>모집인분류</th>
+					<th>모집인 분류</th>
 					<td class="half_input">
 						<select name="plClass" id="plClass"></select>
 					</td>
