@@ -78,26 +78,27 @@
 				<div class="contbox">
 					<pre>${noticeInfo.info}</pre>
 				</div>
-				<div class="titlebox">
-					<table>
-						<colgroup>
-							<col width="150"/>
-							<col width="*"/>
-						</colgroup>
-						<tr>
-							<th class="acenter">첨부 파일 : </th>
-							<td class="aleft" colspan="3">
-								<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
-							</td>
-						</tr>
-					</table>
-				</div>
-			
+				<c:if test="${!empty file }">
+					<div class="titlebox">
+						<table>
+							<colgroup>
+								<col width="150"/>
+								<col width="*"/>
+							</colgroup>
+							<tr>
+								<th class="acenter">첨부파일</th>
+								<td class="aleft" colspan="3">
+									<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</c:if>
 				<div class="btn_wrap">
 						<a href="javascript:void(0);" id="noticeBtn"  class="btn_gray">목록</a>								
 					<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
-						<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_gray btn_right02">수정</a>								
-						<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_gray btn_right">삭제</a>								
+						<a href="javascript:void(0);" id="noticeUpdBtn"  class="btn_blue btn_right02">수정</a>								
+						<a href="javascript:void(0);" id="noticeDelBtn"  class="btn_black btn_right">삭제</a>								
 					</sec:authorize>
 				</div>
 			
