@@ -23,7 +23,7 @@ function pageLoad(){
 		var p = {
 			  name 		: "userRegCorpExpertInfoInsertFrm"
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("3");
 	 	    }
 		}
 		AjaxUtil.files(p);	
@@ -39,7 +39,7 @@ function goCorpExpertInfoUpdt(expSeq) {
 		var p = {
 			  name 		: formNm
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("3");
 	 	    }
 		}
 		AjaxUtil.files(p);
@@ -56,7 +56,7 @@ function goCorpExpertInfoDel(expSeq) {
 				,expSeq 	: expSeq  
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("3");
 		    }
 		}
 		AjaxUtil.post(p);

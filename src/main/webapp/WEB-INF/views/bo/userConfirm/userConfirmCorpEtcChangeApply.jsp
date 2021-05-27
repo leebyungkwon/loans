@@ -17,7 +17,7 @@ function goUserRegInfoUpdt() {
 		var p = {
 			  name 		: "userRegInfoUpdFrm"
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("5");
 	 	    }
 		}
 		AjaxUtil.files(p);

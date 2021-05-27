@@ -25,7 +25,7 @@ function goCorpExpertInfoDel(expSeq) {
 				,expSeq 	: expSeq  
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab2("3");
 		    }
 		}
 		AjaxUtil.post(p);

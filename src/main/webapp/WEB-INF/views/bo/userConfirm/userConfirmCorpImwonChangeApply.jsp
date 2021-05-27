@@ -23,7 +23,7 @@ function pageLoad(){
 		var p = {
 			  name 		: "userRegCorpImwonInfoInsertFrm"
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("2");
 	 	    }
 		}
 		AjaxUtil.files(p);	
@@ -39,7 +39,7 @@ function goCorpImwonInfoUpdt(excSeq) {
 		var p = {
 			  name 		: formNm
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("2");
 	 	    }
 		}
 		AjaxUtil.files(p);
@@ -56,7 +56,7 @@ function goCorpImwonInfoDel(excSeq) {
 				,excSeq 	: excSeq  
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab3("2");
 		    }
 		}
 		AjaxUtil.post(p);

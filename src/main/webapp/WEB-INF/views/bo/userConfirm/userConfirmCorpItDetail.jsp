@@ -25,7 +25,7 @@ function goCorpItInfoDel(operSeq) {
 				,operSeq 	: operSeq  
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab2("4");
 		    }
 		}
 		AjaxUtil.post(p);

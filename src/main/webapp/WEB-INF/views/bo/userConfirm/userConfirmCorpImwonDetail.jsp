@@ -25,7 +25,7 @@ function goCorpImwonInfoDel(excSeq) {
 				,excSeq 	: excSeq  
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab2("2");
 		    }
 		}
 		AjaxUtil.post(p);

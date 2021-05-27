@@ -38,7 +38,7 @@ function pageLoad(){
 		var p = {
 			  name 		: "userRegCorpItInfoInsertFrm"
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab("4");
 	 	    }
 		}
 		AjaxUtil.files(p);	
@@ -54,7 +54,7 @@ function goCorpItInfoUpdt(operSeq) {
 		var p = {
 			  name 		: formNm
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab("4");
 	 	    }
 		}
 		AjaxUtil.files(p);
@@ -71,7 +71,7 @@ function goCorpItInfoDel(operSeq) {
 				,operSeq 	: operSeq  
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				goTab("4");
 		    }
 		}
 		AjaxUtil.post(p);
