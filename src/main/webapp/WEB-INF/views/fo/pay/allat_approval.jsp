@@ -163,37 +163,33 @@
 		name 	= sBankNm;
 	}
 	
-	payDomain.setMasterSeq(masterSeq);
-	payDomain.setOrderNo(sOrderNo);
-	payDomain.setMasterSeq(Integer.parseInt(request.getParameter("masterSeq")));
-	payDomain.setPayType(sPayType);
-	payDomain.setSeqNo(sSeqNo);
-	payDomain.setApprovalNo(sApprovalNo);
-	payDomain.setId(id);
-	payDomain.setName(name);
-	payDomain.setSellMm(sSellMm);
-	payDomain.setAmt(Integer.parseInt(sAmt));
+	payDomain.setOrderNo(sOrderNo);				//주문번호
+	payDomain.setMasterSeq(masterSeq);			//접수번호 시퀀스
+	payDomain.setPayType(sPayType);				//지불수단
+	payDomain.setSeqNo(sSeqNo);					//거래일련번호
+	payDomain.setApprovalNo(sApprovalNo);		//승인번호
+	payDomain.setId(id);						//카드,은행ID
+	payDomain.setName(name);					//카드,은행명
+	payDomain.setSellMm(sSellMm);				//할부개월
+	payDomain.setAmt(Integer.parseInt(sAmt));	//금액
 
-	payService.insertPayResult(payDomain);
+	boolean result = payService.insertPayResult(payDomain);
 	
-	//(2)모집인 테이블의 결제 컬럼 수정 -> 굳이 마스터 테이블에 결제 관련된 컬럼이 있어야 하나???
-	
-	//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정
-	SearchService userService 		= (SearchService)waContext.getBean("SearchService");
-	SearchDomain userDomain 		= new SearchDomain();
-	
-	userDomain.setMasterSeq(masterSeq);
-	userService.updatePlRegStat(userDomain);
-	
-	//(4)결제 완료 화면 이동 : masterSeq 들고 이동해야함
-	out.println("<script>");
-	out.println("var newForm = $('<form></form>');");
-	out.println("newForm.attr('method','post');");
-	out.println("newForm.attr('action','/front/pay/payResult');");
-	out.println("newForm.append('<input type='hidden' name='masterSeq' value="+masterSeq+">);");
-	out.println("newForm.appendTo('body');");
-	out.println("newForm.submit();");
-	out.println("</script>");
+	if(result){
+		//(2)결제 완료 화면 이동 : masterSeq 들고 이동해야함
+		out.println("<script>");
+		out.println("var newForm = $('<form></form>');");
+		out.println("newForm.attr('method','post');");
+		out.println("newForm.attr('action','/front/pay/payResult');");
+		out.println("newForm.append('<input type='hidden' name='masterSeq' value='"+masterSeq+"'>);");
+		out.println("newForm.appendTo('body');");
+		out.println("newForm.submit();");
+		out.println("</script>");
+	}else{
+		out.println("<script>");
+		out.println("alert('DB에 정보 저장 실패!');");
+		out.println("</script>");
+	}
 	//----------------------[2021.05.21 추가 : E]----------------------
 	
   }else{

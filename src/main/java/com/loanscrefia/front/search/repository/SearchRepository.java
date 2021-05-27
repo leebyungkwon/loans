@@ -13,6 +13,9 @@ public interface SearchRepository {
 	//모집인 조회 : 법인
 	SearchDomain selectCorpUserInfo(SearchDomain searchDoamin);
 	
+	//모집인 조회
+	SearchDomain selectSearchUserInfo(SearchDomain searchDoamin);
+	
 	//모집인 상태 변경 : 자격취득
 	int updatePlRegStat(SearchDomain searchDoamin);
 }

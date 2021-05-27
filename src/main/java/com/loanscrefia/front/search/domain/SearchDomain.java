@@ -94,4 +94,15 @@ public class SearchDomain extends BaseDomain {
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	private String plHistCdNm;		//해지사유코드명
 	private String violationCdNm;	//위반코드명
+	
+	private String plMZIdFront;		//주민등록번호 앞자리
+	private String plMZIdEnd;		//주민등록번호 뒷자리
+	private String gender;			//성별
+	
+	//결제정보
+	private String payName;			//카드,은행명
+	
+	
+	
+	
 }

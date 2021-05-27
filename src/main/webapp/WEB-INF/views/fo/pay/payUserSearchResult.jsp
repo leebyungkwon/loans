@@ -5,25 +5,52 @@
 
 <script type="text/javascript">
 function pageLoad() {
-	
+	//결제금액은 개인 2만원, 법인 20만원 ******
+	//allat_approval.jsp의 결제금액 바꾸기
+	if("${searchUserInfo.plClass }" == "1"){
+		$("#allat_amt").val("20000");
+		$("#testAmt").val("20000"); //결제 테스트
+	}else{
+		$("#allat_amt").val("200000");
+		$("#testAmt").val("200000"); //결제 테스트
+	}
 }
 
 //결제 테스트
-function name() {
-	var p = {
-		param 		: {
-			
-		} 
-		,url 		: "/front/pay/payTest"
-		,success	: function(opt,result){
-			if(result.data > 0){
-				
+function goPayTest() {
+	if(confirm("결제 후 환불은 불가능 합니다.\n계속 진행하시겠습니까?")){
+		var p = {
+			 name 		: "payTestFrm"
+			,success	: function(opt,result){
+				if(result.data){
+					$("#payResultFrm").submit();
+				}else{
+					alert("결제 실패?");
+					return;
+				}
 			}
 		}
+		AjaxUtil.form(p);
 	}
-	AjaxUtil.post(p);
 }
 </script>
+
+<!-- 결제 테스트 -->
+<form name="payTestFrm" method="post" action="/front/pay/payTest">
+	<input type="hidden" name="orderNo" value="ORDNO"/>
+	<input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/>
+	<input type="hidden" name="payType" value="CARD"/>
+	<input type="hidden" name="seqNo" value="SEQNO"/>
+	<input type="hidden" name="approvalNo" value="APPROVALNO"/>
+	<input type="hidden" name="id" value="HYND"/>
+	<input type="hidden" name="name" value="현대카드"/>
+	<input type="hidden" name="sellMm" value="0"/>
+	<input type="hidden" name="amt" id="testAmt"/>
+</form>
+
+<form name="payResultFrm" id="payResultFrm" method="post" action="/front/pay/payResult">
+	<input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/>
+</form>
 
 <div class="inquiry_wrap type2">
 	<div class="title">모집인 결제</div>
@@ -49,24 +76,25 @@ function name() {
 					</tr>
 					<tr>
 						<th>생년월일</th>
-						<td>${fn:substring(searchUserInfo.plMZId0,6) }</td>
+						<td>${searchUserInfo.plMZIdFront }</td>
 					</tr>
 					<tr>
 						<th>성별</th>
-						<td>남성
+						<td>
 							<c:choose>
-								<c:when test="">
-								
-								</c:when>
-								<c:otherwise>
-								
-								</c:otherwise>
+								<c:when test="${searchUserInfo.gender eq 'M' }">남성</c:when>
+								<c:otherwise>여성</c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
 					<tr>
 						<th>결제금액</th>
-						<td><span class="bold red">20,000원</span></td>
+						<td>
+							<c:choose>
+								<c:when test="${searchUserInfo.plClass eq '1' }"><span class="bold red">20,000원</span></c:when>
+								<c:otherwise><span class="bold red">200,000원</span></c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</tbody>
 			</table>

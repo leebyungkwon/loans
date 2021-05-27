@@ -9,9 +9,11 @@
 <script language=Javascript>
 //결제페이지 호출
 function ftn_approval(dfm) {
-	AllatPay_Approval(dfm);
-	//결제창 자동종료 체크 시작
-	AllatPay_Closechk_Start();
+	if(confirm("결제 후 환불은 불가능 합니다.\n계속 진행하시겠습니까?")){
+		AllatPay_Approval(dfm);
+		//결제창 자동종료 체크 시작
+		AllatPay_Closechk_Start();
+	}
 }
 
 //결과값 반환(receive 페이지에서 호출)
@@ -33,11 +35,11 @@ function result_submit(result_cd,result_msg,enc_data) {
 }
 </script>
 
-<form name="fm" method="post" action="allat_approval.jsp"> <!--승인요청 및 결과수신페이지 지정 //-->
+<form name="fm" id="payFrm" method="post" action="allat_approval.jsp"> <!--승인요청 및 결과수신페이지 지정 //-->
 	<!-- 필수정보 -->
 	<input type="hidden" name="allat_shop_id" value="crefia" maxlength="20"> <!-- Allat에서 발급한 고유 상점 ID -->
 	<input type="hidden" name="allat_order_no" value="1" maxlength="70"> <!-- 쇼핑몰에서 사용하는 고유 주문번호 : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
-	<input type="hidden" name="allat_amt" value="1000" maxlength="10"> <!-- 총 결제금액 : 숫자(0~9)만 사용가능 -->
+	<input type="hidden" name="allat_amt" id="allat_amt" value="1000" maxlength="10"> <!-- 총 결제금액 : 숫자(0~9)만 사용가능 -->
 	<input type="hidden" name="allat_pmember_id" value="1" maxlength="20"> <!-- 쇼핑몰의 회원ID : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_product_cd" value="결제상품코드" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_product_nm" value="결제상품명" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) -->
@@ -60,8 +62,7 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_cash_yn" value="N" maxlength="1"> <!-- 현금 영수증 발급 여부 : 사용(Y), 사용 않음(N) - Default : 올앳과 계약된 사용여부(계좌이체/무통장입금(가상계좌)를 이용하실 때, 상점이 현금영수증 사용업체로 지정 되어 있으면 사용가능) -->
 	<input type="hidden" name="allat_email_addr" value="" maxlength="50"> <!-- 결제 정보 수신 E-mail : 에스크로 서비스 사용시에 필수 필드.(결제창에서 E-Mail주소를 넣을 수도 있음) -->
 	<input type="hidden" name="allat_test_yn" value="N" maxlength="1"> <!-- 테스트 여부 : 테스트(Y),서비스(N) - Default : N(테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴) -->
-	
 	<!-- 필요정보 -->
-	<input type="hidden" name="masterSeq" value="1"/> <!-- 추후 수정 -->
+	<input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/>
 </form>
 

@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
 function pageLoad() {
-	alert("masterSeq :: "+"${masterSeq}");
+	//alert("masterSeq >> "+"${masterSeq}");
 }
 
 //등록증 다운로드 팝업
@@ -29,27 +29,41 @@ function goCertiCardDownload(){
 				<tbody>
 					<tr>
 						<th>계약금융회사</th>
-						<td>우리금융캐피탈</td>
+						<td>${payResultInfo.comCodeNm }</td>
 					</tr>
 					<tr>
 						<th>성명</th>
-						<td>홍길동</td>
+						<td>${payResultInfo.plMName }</td>
 					</tr>
 					<tr>
 						<th>휴대폰번호</th>
-						<td>01067384411</td>
+						<td>${payResultInfo.plCellphone }</td>
 					</tr>
 					<tr>
 						<th>생년월일</th>
-						<td>790625</td>
+						<td>${payResultInfo.plMZIdFront }</td>
 					</tr>
 					<tr>
 						<th>성별</th>
-						<td>남성</td>
+						<td>
+							<c:choose>
+								<c:when test="${payResultInfo.gender eq 'M' }">남성</c:when>
+								<c:otherwise>여성</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th>결제방법</th>
+						<td>${payResultInfo.payName }</td>
 					</tr>
 					<tr>
 						<th>결제금액</th>
-						<td><span class="bold">20,000원</span></td>
+						<td>
+							<c:choose>
+								<c:when test="${payResultInfo.plClass eq '1' }"><span class="bold">20,000원</span></c:when>
+								<c:otherwise><span class="bold">200,000원</span></c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</tbody>
 			</table>

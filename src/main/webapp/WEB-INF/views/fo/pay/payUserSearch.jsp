@@ -15,6 +15,7 @@ function pageLoad() {
 	$(".gender_tap li").click(function(){
 		$(".gender_tap li").removeClass("on");
 		$(this).addClass("on");
+		$("#gender").val($(this).attr("data-gender"));
 	});
 	
 	//금융회사
@@ -41,7 +42,7 @@ function goPayUserSearch() {
 				alert("조회된 결과가 없습니다.");
 				return;
 			}else{
-				goPayUserSearchResultPage(formNm);
+				goPayUserSearchResultPage(formNm,result.data.masterSeq);
 			}
 		}
 	}
@@ -49,7 +50,8 @@ function goPayUserSearch() {
 }
 
 //조회 결과 있을 때
-function goPayUserSearchResultPage(formNm) {
+function goPayUserSearchResultPage(formNm,masterSeq) {
+	$("#"+formNm).append('<input type="hidden" name="masterSeq" value="'+masterSeq+'">');
 	$("#"+formNm).attr("action","/front/pay/payUserSearchResult");
 	$("#"+formNm).submit();
 }
@@ -68,8 +70,8 @@ function goPayUserSearchResultPage(formNm) {
 		</ul>
 	</div>
 	<div class="tap_cont on">
-		<form name="indvUserSearchFrm" id="indvUserSearchFrm" method="post" action="/front/pay/payUserSearch">
-			<input type="hidden" name="plClass" value="1"/>
+		<form name="indvUserSearchFrm" id="indvUserSearchFrm" method="post" action="/front/pay/payIndvUserSearch">
+			<input type="hidden" name="gender" id="gender" value="M"/>
 			
 			<table class="payment_table">
 				<colgroup>
@@ -97,7 +99,7 @@ function goPayUserSearchResultPage(formNm) {
 				<tr>
 					<th>생년월일</th>
 					<td>
-						<input type="text" name="" placeholder="예) 790625">
+						<input type="text" name="plMZIdFront" placeholder="예) 790625">
 					</td>
 				</tr>
 				<tr>
@@ -105,8 +107,8 @@ function goPayUserSearchResultPage(formNm) {
 					<td>
 						<div class="gender_tap">
 							<ul>
-								<li class="on">남</li>
-								<li>여</li>
+								<li class="on" data-gender="M">남</li>
+								<li data-gender="F">여</li>
 	                  		</ul>
 						</div>
 					</td>
@@ -131,9 +133,7 @@ function goPayUserSearchResultPage(formNm) {
 		</div>
 	</div>
 	<div class="tap_cont">
-		<form name="corpUserSearchFrm" id="corpUserSearchFrm" method="post" action="/front/pay/payUserSearch">
-			<input type="hidden" name="plClass" value="2"/>
-			
+		<form name="corpUserSearchFrm" id="corpUserSearchFrm" method="post" action="/front/pay/payCorpUserSearch">
 			<table class="payment_table">
 				<colgroup>
 					<col width="124"/>
@@ -155,23 +155,6 @@ function goPayUserSearchResultPage(formNm) {
 					<th>대표자 성명</th>
 					<td>
 						<input type="text" name="plCeoName" placeholder="이름을 입력해 주세요.">
-					</td>
-				</tr>
-				<tr>
-					<th>대표자 생년월일</th>
-					<td>
-						<input type="text" name="" placeholder="예) 790625">
-					</td>
-				</tr>
-				<tr>
-					<th>대표자 성별</th>
-					<td>
-						<div class="gender_tap">
-							<ul>
-								<li class="on">남</li>
-								<li>여</li>
-							</ul>
-						</div>
 					</td>
 				</tr>
 			</table>
