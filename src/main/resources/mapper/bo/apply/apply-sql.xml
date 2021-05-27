@@ -4,11 +4,11 @@
    	<!-- 모집인 조회 및 변경 > 리스트 -->
    	<select id="selectApplyList" parameterType="apply" resultType="apply">
    		SELECT 
+   			<include refid="common.totalPages"/>
    			Z.*
    		FROM
    		(
 	   		SELECT 
-		    	<include refid="common.totalPages"/>
 		    	 TLM.MASTER_SEQ
 		    	,(select FN_MEMBER_NAME(b.member_seq) from tb_lc_work b where TLM.com_code = b.com_code) as MEMBER_NM
 				,TLM.COM_CODE
