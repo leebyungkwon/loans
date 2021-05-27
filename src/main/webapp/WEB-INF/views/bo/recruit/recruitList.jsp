@@ -29,7 +29,7 @@ function pageLoad(){
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"12%"		, align:"center"}
 				,{type:"string"	, name:'plRegistNo'		, index:'plRegistNo'		, width:"12%"		, align:"center"}
 				,{type:"string"	, name:'creAppDate'		, index:'creAppDate'		, width:"12%"		, align:"center"}
-				,{type:"string"	, name:'payDate'		, index:'payDate'			, width:"12%"		, align:"center"}
+				,{type:"string"	, name:'payRegDate'		, index:'payRegDate'		, width:"12%"		, align:"center"}
 				,{type:"string"	, name:'creLicenseDate'	, index:'creLicenseDate'	, width:"12%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"

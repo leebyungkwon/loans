@@ -111,6 +111,10 @@ public class RecruitDomain extends BaseDomain {
 	
 	private String creGrp;
 	
+	private String payType;
+	private String payName;
+	private String payRegDate;
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

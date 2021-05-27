@@ -59,6 +59,9 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+			,(SELECT pay.pay_type from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_TYPE
+			,(SELECT pay.name from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_NAME
+			,(SELECT TO_CHAR(pay.reg_timestamp, 'YYYY-MM-DD') from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_REG_DATE 
 	    FROM TB_LC_MAS01 TLM
 		<where>
 			AND TLM.PL_STAT IN ('3','4','5','7')													-- 처리상태가 변경, 해지, 보완, 완료
