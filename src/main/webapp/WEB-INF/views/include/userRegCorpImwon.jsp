@@ -162,7 +162,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">인증서(신규)</th>
+					<th class="acenter">대표 인증서(신규)</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
