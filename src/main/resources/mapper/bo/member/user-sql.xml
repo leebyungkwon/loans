@@ -86,16 +86,12 @@
 			<if test="plProduct != null and plProduct != ''">
 				AND TLM.PL_PRODUCT 	= #{plProduct}
 			</if>
-	    	<choose>
-   				<when test="srchSelect1 != null and srchSelect1 != ''">
-					<if test="srchSelect1.equals('name')">
-						AND TLM.PL_M_NAME LIKE CONCAT('%',#{srchInput1},'%')
-					</if>
-					<if test="srchSelect1.equals('corp')">
-						AND TLM.PL_MERCHANT_NAME LIKE CONCAT('%',#{srchInput1},'%')
-					</if>
-				</when>
-			</choose>
+			<if test="plMName != null and plMName != ''">
+				AND TLM.PL_M_NAME LIKE CONCAT('%',#{plMName},'%')
+			</if>
+			<if test="plMerchantName != null and plMerchantName != ''">
+				AND TLM.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
+			</if>
 	    	<choose>
    				<when test="srchSelect2 != null and srchSelect2 != ''">
 					<if test="srchSelect2.equals('creAppDate')">
@@ -256,16 +252,12 @@
 			<if test="plProduct != null and plProduct != ''">
 				AND Z.PL_PRODUCT 	= #{plProduct}
 			</if>
-			<choose>
-   				<when test="srchSelect1 != null and srchSelect1 != ''">
-					<if test="srchSelect1.equals('name')">
-						AND Z.PL_M_NAME LIKE CONCAT('%',#{srchInput1},'%')
-					</if>
-					<if test="srchSelect1.equals('corp')">
-						AND Z.PL_MERCHANT_NAME LIKE CONCAT('%',#{srchInput1},'%')
-					</if>
-				</when>
-			</choose>
+			<if test="plMName != null and plMName != ''">
+				AND Z.PL_M_NAME LIKE CONCAT('%',#{plMName},'%')
+			</if>
+			<if test="plMerchantName != null and plMerchantName != ''">
+				AND Z.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
+			</if>
 			<if test="fileCompYn != null and fileCompYn != ''">
 				AND Z.FILE_COMP_YN 	= #{fileCompYn}
 			</if>

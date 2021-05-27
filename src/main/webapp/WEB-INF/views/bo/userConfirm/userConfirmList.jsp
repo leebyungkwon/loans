@@ -46,6 +46,7 @@ function pageLoad(){
 		 useCode 	: true
 		,code 		: 'REG001'
 		,target 	: '#plRegStat'
+		,property01 : 'Y'
 		,updData 	: ''
 		,defaultMsg : '전체'
 	};
@@ -162,17 +163,14 @@ function goGetDate(opt) {
 					</td>
 				</tr>
 				<tr>
-					<th>검색어</th>
-					<td class="half_input pdr0">
-						<select name="srchSelect1">
-							<option value="">전체</option>
-							<option value="name">이름</option>
-							<option value="corp">법인명</option>
-						</select>
-						<input type="text" name="srchInput1">
+					<th>이름</th>
+					<td class="half_input">
+						<input type="text" name="plMName">
 					</td>
-					<th></th>
-					<td></td>
+					<th>법인명</th>
+					<td class="half_input">
+						<input type="text" name="plMerchantName">
+					</td>
 				</tr>
 				<tr>
 					<th>조회</th>
