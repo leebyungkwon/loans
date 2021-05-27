@@ -137,7 +137,7 @@ function goUserChangeApplyPage(){
 				</c:if>
 				<c:if test="${result.userRegInfo.plStat eq '5' }">
 					<tr>
-						<th>반려사유</th>
+						<th>보완요청사유</th>
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
@@ -245,6 +245,28 @@ function goUserChangeApplyPage(){
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType9 ne null }">
 								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType9.fileSeq }">${result.userRegInfo.fileType9.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType10 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType10.fileSeq }">${result.userRegInfo.fileType10.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType11 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType11.fileSeq }">${result.userRegInfo.fileType11.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>

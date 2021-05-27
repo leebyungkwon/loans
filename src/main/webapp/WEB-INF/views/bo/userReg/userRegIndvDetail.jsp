@@ -65,8 +65,9 @@ function goUserRegInfoUpdt() {
 		var p = {
 			  name 		: "userRegInfoUpdFrm"
 			, success 	: function (opt,result) {
-				$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
-				$("#pageFrm").submit();
+				location.href = "/member/user/userRegPage";
+				//$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
+				//$("#pageFrm").submit();
 	 	    }
 		}
 		AjaxUtil.files(p);
@@ -207,7 +208,7 @@ function goUserRegInfoCancel() {
 					</tr>
 					<c:if test="${result.userRegInfo.plStat eq '5' }">
 						<tr>
-							<th>반려사유</th>
+							<th>보완요청사유</th>
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 						</tr>
 					</c:if>

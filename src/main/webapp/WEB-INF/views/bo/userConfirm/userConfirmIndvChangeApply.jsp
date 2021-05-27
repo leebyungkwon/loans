@@ -328,21 +328,37 @@ function goUserChangeApply(){
 					<tr>
 						<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 						<td>
-							<input type="text" class="w50 file_input" readonly disabled>
-							<input type="file" name="files" id="chgVeriDoc1" class="inputFile" data-essential="N" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="10"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-							<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType10 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType10.fileSeq }">${result.userRegInfo.fileType10.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType10.fileSeq }" data-fileType="10" data-essential="N">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" id="chgVeriDoc1" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="10"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
+								</c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 					<tr>
 						<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
 						<td>
-							<input type="text" class="w50 file_input" readonly disabled>
-							<input type="file" name="files" id="chgVeriDoc2" class="inputFile" data-essential="N" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="11"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-							<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="11" data-essential="N">초기화</a>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType11 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType11.fileSeq }">${result.userRegInfo.fileType11.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType11.fileSeq }" data-fileType="11" data-essential="N">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" id="chgVeriDoc2" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="11"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="11" data-essential="N">초기화</a>
+								</c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 				</table>

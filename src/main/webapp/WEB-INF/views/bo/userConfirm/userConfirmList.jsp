@@ -15,7 +15,9 @@ function pageLoad(){
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
+				,{type:"string"	, name:'plRegStat'		, index:'plRegStat'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plRegStatNm'	, index:'plRegStatNm'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
@@ -104,15 +106,29 @@ function pageLoad(){
 function goUserConfirmDetail(idx, data){
 	var masterSeq 	= userConfirmGrid.gridData[idx].masterSeq;
 	var plClass		= userConfirmGrid.gridData[idx].plClass;
+	var plRegStat	= userConfirmGrid.gridData[idx].plRegStat;
+	var plStat		= userConfirmGrid.gridData[idx].plStat;
+	var url			= "";
 	
-	if(plClass == "1"){
-		//개인
-		$("#userConfirmDetailFrm").attr("action","/member/confirm/userConfirmIndvDetail");
-	}else if(plClass == "2"){
-		//법인
-		$("#userConfirmDetailFrm").attr("action","/member/confirm/userConfirmCorpDetail");
+	if(plRegStat == "3" && plStat == "5"){
+		//자격취득이고 보완요청이면 바로 변경페이지로 -> 해지관련되서는??
+		if(plClass == "1"){
+			//개인
+			url = "/member/confirm/userConfirmIndvChangeApply";
+		}else if(plClass == "2"){
+			//법인
+			url = "/member/confirm/userConfirmCorpChangeApply";
+		}
+	}else{
+		if(plClass == "1"){
+			//개인
+			url = "/member/confirm/userConfirmIndvDetail";
+		}else if(plClass == "2"){
+			//법인
+			url = "/member/confirm/userConfirmCorpDetail";
+		}
 	}
-	
+	$("#userConfirmDetailFrm").attr("action",url);
 	$("#hMasterSeq").val(masterSeq);
 	$("#userConfirmDetailFrm").submit();
 }
