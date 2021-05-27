@@ -94,7 +94,12 @@
 				AND Z.CHK_YN = #{chkYn}
 			</if>
 			<if test="plClass != null and plClass != ''">
-				AND Z.PL_CLASS 	= #{plClass}
+				<if test='plClass.equals("1") || plClass.equals("2")'>
+					AND Z.PL_CLASS 	= #{plClass} 
+				</if>
+				<if test='plClass.equals("3")'>
+					AND Z.CORP_USER_YN  =	'Y'
+				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
 				AND Z.PL_PRODUCT 	= #{plProduct}
