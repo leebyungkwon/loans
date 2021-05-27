@@ -278,6 +278,11 @@ let GRID = {
 		*/
 	},
 	setPaging: function(totalCnt) {
+		// 2021-05-27 조회 총 갯수 추가
+		var totCntTag = "<p>총 : "+totalCnt+"건</p>";
+		$(".total_result p").remove();
+		$(".total_result").append(totCntTag);
+		
 		let _this = this;
 		let page_id = this.id + "_paging";
 		let current = parseInt(_this.params.page) + 1;

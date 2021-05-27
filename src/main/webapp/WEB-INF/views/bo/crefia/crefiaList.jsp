@@ -240,9 +240,7 @@ function saveCrefia(){
 	
 	<div class="contents">
 		<div class="sorting_wrap">
-			<div class="data">
-				<p>총 : 건수</p>
-			</div>
+			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="regCrefia">등록</a>
 				<a href="javascript:void(0);" class="btn_gray btn_small" id="deleteCrefia">삭제</a>

@@ -123,9 +123,7 @@ function goCorpInfoSave() {
 	
 	<div class="contents">
 		<div class="sorting_wrap">
-			<div class="data">
-				<!-- <p>총 : 몇건일까요</p> -->
-			</div>
+			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpInfoSavePopup();">등록</a>
 			</div>

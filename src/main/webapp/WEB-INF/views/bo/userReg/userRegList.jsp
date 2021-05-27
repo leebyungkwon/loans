@@ -320,9 +320,7 @@ function goGetDate(opt) {
 	
 	<div class="contents">
 		<div class="sorting_wrap">
-			<div class="data">
-				<!-- <p>총 : 몇건일까요</p> -->
-			</div>
+			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록</a>
 				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goApplyAccept();">선택 승인요청</a>
