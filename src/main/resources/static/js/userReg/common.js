@@ -9,15 +9,17 @@ $(document).on("click",".goFileUpload",function(){
 
 //첨부파일명 보여주기
 $(document).on("change",".inputFile",function(){
-	var fileVal 	= $(this).val().split("\\");
-	var fileName 	= fileVal[fileVal.length - 1];
-	$(this).prev().val(fileName);
-	
-	//첨부파일 확장자 체크
-	var ext 	= fileName.split(".").pop().toLowerCase();
-	if(!Valid.fileCheck(ext,"N")){
-		$(this).val("");
-		$(this).prev().val("");
+	if(WebUtil.isNotNull($(this).val())){
+		var fileVal 	= $(this).val().split("\\");
+		var fileName 	= fileVal[fileVal.length - 1];
+		$(this).prev().val(fileName);
+		
+		//첨부파일 확장자 체크
+		var ext 	= fileName.split(".").pop().toLowerCase();
+		if(!Valid.fileCheck(ext,"N")){
+			$(this).val("");
+			$(this).prev().val("");
+		}
 	}
 });
 
