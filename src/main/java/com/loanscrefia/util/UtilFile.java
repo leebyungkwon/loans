@@ -142,11 +142,12 @@ public class UtilFile {
 						fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
 					}
 					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
+					final String lowerExtension	= fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 					
 					if (!UtilString.isStr(this.ext.toLowerCase())) {
 						if ("all".equals(this.ext.toLowerCase())) {
 							for (All all : All.values()) {
-								if (all.toString().equals(extension.toLowerCase())) {
+								if (all.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -154,7 +155,7 @@ public class UtilFile {
 						}
 						if ("excel".equals(this.ext)) {
 							for (Excel excel : Excel.values()) {
-								if (excel.toString().equals(extension.toLowerCase())) {
+								if (excel.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -162,7 +163,7 @@ public class UtilFile {
 						}
 						if ("image".equals(this.ext.toLowerCase())) {
 							for (Image img : Image.values()) {
-								if (img.toString().equals(extension.toLowerCase())) {
+								if (img.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -170,7 +171,7 @@ public class UtilFile {
 						}
 						if ("doc".equals(this.ext.toLowerCase())) {
 							for (Doc doc : Doc.values()) {
-								if (doc.toString().equals(extension.toLowerCase())) {
+								if (doc.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -188,13 +189,13 @@ public class UtilFile {
 					final String saveName 	= getRandomString();
 					final String orgName 	= fileName.replace("." + extension, "");
 
-					File target = new File(uploadPath, saveName + "." + extension.toLowerCase());
+					File target = new File(uploadPath, saveName + "." + lowerExtension);
 					file.transferTo(target);
 
 					FileDomain attach = new FileDomain();
 
 					attach.setFileGrpSeq(fileGrpSeq);
-					attach.setFileExt(extension.toLowerCase());
+					attach.setFileExt(lowerExtension);
 					attach.setFileOrgNm(orgName);
 					attach.setFilePath(this.path);
 					attach.setFileSaveNm(saveName);
@@ -281,12 +282,13 @@ public class UtilFile {
 					if(userAgent().contains("MSIE") || userAgent().contains("Trident")) {
 						fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
 					}
-					final String extension 	= fileName.substring(fileName.lastIndexOf(".") + 1);
+					final String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+					final String lowerExtension	= fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 
 					if (!UtilString.isStr(this.ext.toLowerCase())) {
 						if ("all".equals(this.ext.toLowerCase())) {
 							for (All all : All.values()) {
-								if (all.toString().equals(extension.toLowerCase())) {
+								if (all.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -294,7 +296,7 @@ public class UtilFile {
 						}
 						if ("excel".equals(this.ext.toLowerCase())) {
 							for (Excel excel : Excel.values()) {
-								if (excel.toString().equals(extension.toLowerCase())) {
+								if (excel.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -302,7 +304,7 @@ public class UtilFile {
 						}
 						if ("image".equals(this.ext.toLowerCase())) {
 							for (Image img : Image.values()) {
-								if (img.toString().equals(extension.toLowerCase())) {
+								if (img.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -310,7 +312,7 @@ public class UtilFile {
 						}
 						if ("doc".equals(this.ext.toLowerCase())) {
 							for (Doc doc : Doc.values()) {
-								if (doc.toString().equals(extension.toLowerCase())) {
+								if (doc.toString().equals(lowerExtension)) {
 									success = true;
 									break;
 								}
@@ -328,13 +330,13 @@ public class UtilFile {
 					final String saveName 	= getRandomString();
 					final String orgName 	= fileName.replace("." + extension, "");
 
-					File target = new File(uploadPath, saveName + "." + extension.toLowerCase());
+					File target = new File(uploadPath, saveName + "." + lowerExtension);
 					file.transferTo(target);
 
 					FileDomain attach = new FileDomain();
 
 					attach.setFileGrpSeq(fileGrpSeq);
-					attach.setFileExt(extension.toLowerCase());
+					attach.setFileExt(lowerExtension);
 					attach.setFileOrgNm(orgName);
 					attach.setFilePath(this.path);
 					attach.setFileSaveNm(saveName);
@@ -348,7 +350,7 @@ public class UtilFile {
 						this.save(attach);
 					fileList.add(attach);
 
-					if ("zip".equals(extension))
+					if ("zip".equals(lowerExtension))
 						this.zip = true;
 					if (this.zip)
 						fileList = this.unZip(attach, file, fileList);
