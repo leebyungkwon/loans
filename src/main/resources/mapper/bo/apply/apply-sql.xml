@@ -98,7 +98,8 @@
 					AND Z.PL_CLASS 	= #{plClass} 
 				</if>
 				<if test='plClass.equals("3")'>
-					AND Z.CORP_USER_YN  =	'Y'
+					AND Z.PL_CLASS 		= '1'
+					AND Z.CORP_USER_YN  = 'Y'
 				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">

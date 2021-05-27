@@ -75,7 +75,13 @@
 				AND TLM.PL_STAT 	= #{plStat}
 			</if>
 			<if test="plClass != null and plClass != ''">
-				AND TLM.PL_CLASS 	= #{plClass}
+				<if test='plClass.equals("1") || plClass.equals("2")'>
+					AND TLM.PL_CLASS 	= #{plClass} 
+				</if>
+				<if test='plClass.equals("3")'>
+					AND TLM.PL_CLASS 		= '1' 
+					AND TLM.CORP_USER_YN  	= 'Y'
+				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
 				AND TLM.PL_PRODUCT 	= #{plProduct}
@@ -239,7 +245,13 @@
 				AND Z.MEMBER_NM LIKE CONCAT('%',#{memberNm},'%')
 			</if>
 			<if test="plClass != null and plClass != ''">
-				AND Z.PL_CLASS 		= #{plClass}
+				<if test='plClass.equals("1") || plClass.equals("2")'>
+					AND Z.PL_CLASS 	= #{plClass} 
+				</if>
+				<if test='plClass.equals("3")'>
+					AND Z.PL_CLASS 		= '1' 
+					AND Z.CORP_USER_YN  = 'Y'
+				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
 				AND Z.PL_PRODUCT 	= #{plProduct}
