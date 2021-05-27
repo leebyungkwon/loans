@@ -79,7 +79,7 @@ public class UtilFile {
 	}
 
 	public UtilFile setExt(String ext) {
-		this.ext = ext;
+		this.ext = ext.toLowerCase();
 		return this;
 	}
 
