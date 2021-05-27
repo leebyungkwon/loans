@@ -255,7 +255,7 @@ function pageLoad(){
 									</td>
 								</tr>
 								<tr>
-									<td class="acenter">인증서(신규)</td>
+									<td class="acenter">대표 인증서(신규)</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpImwonList.fileType13 ne null }">
