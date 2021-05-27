@@ -144,11 +144,11 @@
 	<!-- 모집인 등록 > 리스트 -->
    	<select id="selectUserRegList" parameterType="user" resultType="user">
    		SELECT 
+   			<include refid="common.totalPages"/>
    			Z.*
    		FROM
    		(
    			SELECT 
-		    	<include refid="common.totalPages"/>
 		    	 TLM.MASTER_SEQ
 				,TLM.COM_CODE
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
