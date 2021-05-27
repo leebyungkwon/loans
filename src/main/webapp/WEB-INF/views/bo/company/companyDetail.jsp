@@ -96,7 +96,7 @@ function companyList(){
 						<td id="sendEmail">${companyDetail.email}</td>
 					</tr>
 					<tr>
-						<th>직장 번화번호</th>
+						<th>직장 전화번호</th>
 						<td>${companyDetail.extensionNo}</td>
 						<th>회원가입일</th>
 						<td>${companyDetail.joinDt}</td>

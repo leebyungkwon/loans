@@ -65,7 +65,8 @@ function goUserRegInfoUpdt() {
 		var p = {
 			  name 		: "userRegInfoUpdFrm"
 			, success 	: function (opt,result) {
-				location.reload();
+				$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
+				$("#pageFrm").submit();
 	 	    }
 		}
 		AjaxUtil.files(p);
