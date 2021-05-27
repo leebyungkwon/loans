@@ -109,8 +109,9 @@
 		FROM TB_LC_COMPANY TLC
 		<where>
 				AND TLC.DEL_YN = 'N'
+				AND TLC.COM_CODE != 1
 			<if test="comCode != null and comCode != ''">
-				AND 	TLC.COM_CODE 	    = #{comCode}
+				AND TLC.COM_CODE = #{comCode}
 			</if>
 			<if test="comName != null and comName != ''">
 				AND	TLC.COM_NAME LIKE CONCAT('%', #{comName}, '%')
