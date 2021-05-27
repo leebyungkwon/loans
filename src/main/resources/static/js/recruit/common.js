@@ -18,11 +18,7 @@ $(document).on("click","#adminCheck",function(){
 			 , masterSeq	: $("#masterSeq").val()
 		}
 		, success 	: function (opt,result) {
-			if(result.data.code == "success"){
-				alert(result.data.message);
-			}else{
-				alert(result.data.message);
-			}
+
 	    }
 	}
 	AjaxUtil.post(p);

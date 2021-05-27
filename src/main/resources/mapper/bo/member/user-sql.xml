@@ -804,12 +804,10 @@
 			,CRE_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>
 			,CRE_APP_FI_DATE = case
-								when com_reg_date = null then TO_CHAR(NOW()::date + interval '2 month', 'YYYYMMDD')
-								when com_reg_date = '' then TO_CHAR(NOW()::date + interval '2 month', 'YYYYMMDD')
-								when com_reg_date != null then TO_CHAR((NOW()::date - com_upd_date::date) + cre_app_fi_date::date, 'YYYYMMDD')
-								when com_reg_date != '' then TO_CHAR((NOW()::date - com_upd_date::date) + cre_app_fi_date::date, 'YYYYMMDD')
-							else cre_app_fi_date
-							end
+									when cre_app_fi_date is null or cre_app_fi_date = '' then TO_CHAR(NOW()::date + interval '2 month', 'YYYYMMDD')
+									when cre_app_fi_date is not null or cre_app_fi_date != '' then TO_CHAR((NOW()::date - com_upd_date::date) + cre_app_fi_date::date, 'YYYYMMDD')
+								else cre_app_fi_date
+								end
 			<if test='plStat.equals("2") or plStat.equals("3") or plStat.equals("4")'>
 			,COM_REG_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>

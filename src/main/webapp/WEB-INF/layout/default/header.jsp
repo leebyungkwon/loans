@@ -14,7 +14,7 @@
 			</h1>
 			<sec:authorize access="isAuthenticated()">
 				<div class="log_menu">
-					<span>관리자님</span>
+					<span>${member.memberName }님</span>
 					<div class="logout">
 						<a href="/logout">로그아웃</a>
 					</div>
