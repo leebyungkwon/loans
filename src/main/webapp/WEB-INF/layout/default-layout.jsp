@@ -7,7 +7,7 @@
 <html lang="ko">
 	<head>
 		<meta charset="UTF-8">
-		<title>메인페이지</title>
+		<title>여신금융협회 대출모집인 관리자페이지</title>
 		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<tiles:insertAttribute name="css" />

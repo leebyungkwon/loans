@@ -6,7 +6,7 @@
 var applyGrid = Object.create(GRID);
 
 function pageLoad(){
-	//모집인 조회 및 변경 그리드
+	//모집인 승인처리 그리드
 	applyGrid.set({
 		  id			: "applyGrid"
   		, url			: "/admin/apply/applyList"
@@ -144,7 +144,7 @@ function goGetDate(opt) {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>모집인 조회 및 변경</h2>
+			<h2>모집인 승인처리</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
