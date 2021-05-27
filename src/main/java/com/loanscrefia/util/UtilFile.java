@@ -232,7 +232,7 @@ public class UtilFile {
 		Boolean success 			= false;
 		List<FileDomain> fileList 	= new ArrayList<>();
 
-		if(this.files.length <= 0) {
+		if(this.files == null || this.files.length <= 0) {
 			success = true;
 			msg = "첨부된 파일이 존재하지 않습니다.[0001]";
 			result.put("message", msg);
