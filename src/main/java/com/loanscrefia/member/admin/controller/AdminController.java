@@ -111,7 +111,19 @@ public class AdminController {
 	
 	// 재승인 요청
 	@PostMapping(value="/reAppr")
-	public ResponseEntity<ResponseMsg> reAppr(AdminDomain adminDomain){
+	public ResponseEntity<ResponseMsg> reAppr(@RequestParam("files") MultipartFile[] files, AdminDomain adminDomain){
+		
+		Map<String, Object> ret = utilFile.setPath("signup") 
+				.setFiles(files)
+				.setExt("image") 
+				.upload();
+		if((boolean) ret.get("success")) {
+			
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				adminDomain.setFileSeq(file.get(0).getFileSeq());
+			}
+		}
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(adminService.reAppr(adminDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

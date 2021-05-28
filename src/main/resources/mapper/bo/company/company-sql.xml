@@ -80,9 +80,9 @@
    		SET	
    			 APPR_STAT 		= #{apprStat}
    			,ROLE_NAME 		= #{roleName}
-   			,MSG	   		= #{msg}
+   			,MSG	   				= #{msg}
    			,UPD_SEQ   		= #{updSeq}
-   			,UPD_TIMESTAMP	= #{upd_Timestamp}
+   			,UPD_TIMESTAMP	= NOW()
    		<where>
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>

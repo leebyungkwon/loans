@@ -22,8 +22,8 @@
 			,TLM.FAIL_CNT																/*로그인 실패횟수*/
 			,TLM.CRE_YN																	/*협회여부*/
 			,TLM.DROP_YN																/*탈퇴여부*/
-			,TLM.UPD_SEQ																/*협회여부*/
-			,TLM.UPD_TIMESTAMP														/*수정자 시퀀스*/
+			,TLM.UPD_SEQ																/*수정자 시퀀스*/
+			,TLM.UPD_TIMESTAMP														/*수정 일시*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
@@ -117,8 +117,11 @@
 	<update id="reAppr" parameterType="admin">
 		UPDATE TB_LC_MEMBERS
 		SET
-			ROLE_NAME = 'NO_MEMBER'											/*권한명*/
-			, APPR_STAT = '1'															/*승인여부*/
+			ROLE_NAME 			= 'NO_MEMBER'									/*권한명*/
+			, APPR_STAT 			= '1'													/*승인여부*/
+			,UPD_SEQ				=	#{updSeq}										/*수정자 시퀀스*/
+			,UPD_TIMESTAMP	=	NOW()											/*수정 일시*/
+			,FILE_SEQ				=	#{fileSeq}										/*첨부파일ID*/
 		WHERE
 			MEMBER_SEQ = #{memberSeq}
 	</update>

@@ -54,6 +54,8 @@
 				}else {
 					console.log("통과");
 				}
+				
+				$("#saveAdminUpdateFrm").attr("action","/member/admin/saveAdminUpdate");
 //////////////////////////////////////////////////////////////////////////////////////////////
 				if( pw == pwChk ){
 					var p = {
@@ -107,6 +109,7 @@
 			var id					= $("#memberId").val();
 			var pw         		= $("#password").val();             // 비밀번호
 			var pwChk    		= $("#passwordChk").val();        // 비밀번호 확인
+			var fileName    		= $("#fileName").val();          // 첨부파일 체크
 			var checkCount 	= 0;
 
 			if(/[0-9]/.test(pw)){ //숫자
@@ -153,20 +156,26 @@
 				alert("오류가 발생하였습니다.");
 				return false;
 			}
+			
+			$("#saveAdminUpdateFrm").attr("action","/member/admin/reAppr");
+			
 			if( pw == pwChk ){
 				if(confirm("재승인 요청을 하시겠습니까?")){
-					var param = {'memberSeq' : memSeq}
 					var p = {
-							  param : param
-							, url : "/member/admin/reAppr"
-							, success : function (opt,result) {
+							name       : "saveAdminUpdateFrm"
+							, success    : function (opt,result) {
 								alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
 								location.href="/logout";
-				    	    }
+							}
 						}
-						AjaxUtil.post(p);
+						AjaxUtil.files(p);
 					}
-			}
+				}else {
+					alert("비밀번호를 틀리셨습니다. 비밀번호를 다시 입력해 주세요!");
+					$("#password").val("");
+					$("#passwordChk").val("");
+					return false;
+				}
 		});
 		
 	}
@@ -184,7 +193,7 @@
 		<input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
 	</form>
    
-   <form name="saveAdminUpdateFrm" id="saveAdminUpdateFrm" action="/member/admin/saveAdminUpdate" method="post" enctype="multipart/form-data">
+   <form name="saveAdminUpdateFrm" id="saveAdminUpdateFrm" method="post" enctype="multipart/form-data">
       <input type="hidden" name="memberSeq" value="${adminInfo.memberSeq}"/>
       <input type="hidden" name="tempMemberCheck" value="${adminInfo.tempMemberCheck}"/>
       <div class="contents">
