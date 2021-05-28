@@ -84,6 +84,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(loginService);
 	}
 	
+	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 		return new LoginSuccessHandler("/main");
 	}
