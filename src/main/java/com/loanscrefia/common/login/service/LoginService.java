@@ -20,7 +20,7 @@ import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.repository.MemberRepository;
 import com.loanscrefia.common.member.repository.MemberRoleRepository;
-import com.loanscrefia.config.CryptoUtil;
+//import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.system.code.domain.CodeMstDomain;
 
