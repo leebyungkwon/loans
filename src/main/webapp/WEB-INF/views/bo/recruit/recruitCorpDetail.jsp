@@ -177,6 +177,17 @@ function goRecruitImprove(){
 				</tr>
 				
 				<c:choose>
+					<c:when test="${fn:length(result.violationInfoList) > 0 }">
+						<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
+							<tr>
+								<th>위반이력${status.count }</th>
+								<td colspan="3">${violationInfoList.violationCdNm }</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+				
+				<c:choose>
 					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
 						<c:if test="${!empty result.recruitInfo.plHistCdNm }">
 							<tr>
@@ -190,26 +201,16 @@ function goRecruitImprove(){
 						</c:if>
 					</c:when>
 				</c:choose>
-				<c:choose>
-					<c:when test="${fn:length(result.violationInfoList) > 0 }">
-						<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
-							<tr>
-								<th>위반이력${status.count }</th>
-								<td colspan="3">${violationInfoList.violationCdNm }</td>
-							</tr>
-						</c:forEach>
-					</c:when>
-				</c:choose>
-				
-				<c:if test="${result.recruitInfo.plStat ne '4' or  result.recruitInfo.plRegStat ne '4'}">
-					<tr>
-						<th>사유</th>
-						<td colspan="3">
-							<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
-						</td>
-					</tr>
+				<c:if test="${result.recruitInfo.plStat ne '4'}">
+					<c:if test="${result.recruitInfo.plRegStat ne '4' }">
+						<tr>
+							<th>사유</th>
+							<td colspan="3">
+								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
+							</td>
+						</tr>
+					</c:if>
 				</c:if>
-				
 			</table>
 		</div>
 
