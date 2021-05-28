@@ -1,0 +1,39 @@
+처음 세팅 방법
+
+1.sts3 플러그인 market에서 sts3 검색 후
+
+*설치
+	Spring Tools 3 Add-On for Spring Tools 4 3.9.16.RELEASE
+
+*설치 안되어 있으면 설치
+	Spring Tools 3 (Stanalone Edition) 3.9.14.RELEASE 
+	Spring Tools 4 (aka Spring Tool suite 4) 4.10.0.RELEASE
+
+2. jsp플러그인 
+	install new software> work with >2018-12 > 
+	http://download.eclipse.org/releases/2018-12>java web 검색 >
+	Eclipse java web developer tools 체크후 설치
+
+3. svn 설치 market
+	subclipse 4.3.3 설치
+4. web 인코딩 UTF-8 로 다 바꿔주기
+   	window>preferences>web>CSS Files,HTML Files,JSP Files
+5. Validation 
+   	The selected validators will run when validation is performed: 
+	안에 있는것들 체크 다 풀기 
+
+
+우리 프로젝트svn URL
+
+이전
+http://192.168.117.42/svn/loans
+현재
+http://192.168.149.42/svn/loans
+
+User: a
+password: a
+
+
+sts4실행>perspective-java>window>perferences>svn검색> svn> svn Connector> svn Connector 비어있으면 클릭후 3개중에 맨 첫번째꺼 클릭
+
+http://localhost:8080/login
