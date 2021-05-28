@@ -200,12 +200,15 @@ function goRecruitImprove(){
 						</c:forEach>
 					</c:when>
 				</c:choose>
-				<tr>
-					<th>사유</th>
-					<td colspan="3">
-						<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
-					</td>
-				</tr>
+				
+				<c:if test="${result.recruitInfo.plStat ne '4' or  result.recruitInfo.plRegStat ne '4'}">
+					<tr>
+						<th>사유</th>
+						<td colspan="3">
+							<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
+						</td>
+					</tr>
+				</c:if>
 				
 			</table>
 		</div>

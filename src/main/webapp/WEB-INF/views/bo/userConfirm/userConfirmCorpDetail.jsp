@@ -120,6 +120,18 @@ function goUserChangeApplyPage(){
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
+				
+				<c:if test="${result.userRegInfo.plStat eq '5' and !empty result.userRegInfo.plHistCdNm }">
+					<tr>
+						<th>해지사유</th>
+						<td colspan="3">${result.userRegInfo.plHistCdNm }</td>
+					</tr>
+					<tr>
+						<th>해지요청일자</th> <!-- 회원사가 해지요청한 날짜 -->
+						<td colspan="3">${result.userRegInfo.comHaejiDate }</td>
+					</tr>
+				</c:if>
+				
 				<c:if test="${result.userRegInfo.plStat eq '4' or result.userRegInfo.plRegStat eq '4' }">
 					<tr>
 						<th>해지사유</th>
