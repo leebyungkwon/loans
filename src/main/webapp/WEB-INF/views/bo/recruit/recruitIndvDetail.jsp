@@ -54,6 +54,13 @@ function goRecruitApply(num){
 
 //보완
 function goRecruitImprove(){
+
+	if($(document).find("#plHistArea").length == 0){
+		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
+		tag += '<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value=""></td></tr>';
+		$(".view_table").append(tag);
+	}
+
 	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
@@ -210,7 +217,7 @@ function goRecruitImprove(){
 				
 				<c:if test="${result.recruitInfo.plStat ne '4'}">
 					<c:if test="${result.recruitInfo.plRegStat ne '4' }">
-						<tr>
+						<tr id="plHistArea">
 							<th>사유</th>
 							<td colspan="3">
 								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
