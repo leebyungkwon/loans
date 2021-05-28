@@ -89,7 +89,7 @@ function goApplyImprove(){
 function ocrRun(){
 	if(confirm("OCR 검증을 시작 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/apply/indvOcr
+			  url		: "/admin/apply/indvOcr"
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 			}
