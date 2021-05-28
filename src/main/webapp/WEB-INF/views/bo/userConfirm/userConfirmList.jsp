@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "userConfirmGrid"
   		, url			: "/member/confirm/userConfirmList"
 	    , width			: "100%"
-  		, headCol		: ["번호", "모집인 상태", "처리상태", "", "모집인 분류", "법인사용인 여부", "금융상품 유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "모집인 등록번호", "승인완료일", "결제완료일", "자격취득일"]
+  		, headCol		: ["번호","", "모집인 상태", "","처리상태", "", "모집인 분류", "법인사용인 여부", "금융상품 유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "모집인 등록번호", "승인완료일", "결제완료일", "자격취득일"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
