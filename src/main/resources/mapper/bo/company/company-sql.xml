@@ -78,10 +78,11 @@
     <update id="updateCompanyStat" parameterType="company">
    		UPDATE TB_LC_MEMBERS
    		SET	
-   			 APPR_STAT = #{apprStat}
-   			,ROLE_NAME = #{roleName}
-   			,MSG	   = #{msg}
-   			,UPD_SEQ   = #{updSeq}
+   			 APPR_STAT 		= #{apprStat}
+   			,ROLE_NAME 		= #{roleName}
+   			,MSG	   		= #{msg}
+   			,UPD_SEQ   		= #{updSeq}
+   			,UPD_TIMESTAMP	= #{upd_Timestamp}
    		<where>
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
