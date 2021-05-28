@@ -83,6 +83,31 @@ function goApplyImprove(){
 	}
 }
 
+
+
+// OCR 검증
+function ocrRun(){
+	if(confirm("OCR 검증을 시작 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/apply/indvOcr
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("OCR 검증 완료");
+				
+				console.log("RESULT == " , result);
+				
+				
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+	
+}
+
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -440,6 +465,7 @@ function goApplyImprove(){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="ocrRun();">OCR검증</a>
 			<c:if test="${result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove();">보완요청</a>

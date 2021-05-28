@@ -3,6 +3,8 @@ package com.loanscrefia.common.login.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.login.service.LoginService;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -29,8 +32,15 @@ public class LoginController {
 
 	// 로그인 페이지
 	@GetMapping("/login")
-	public ModelAndView dispLogin() {
-		ModelAndView mv = new ModelAndView(CosntPage.Common + "/login");
+	public ModelAndView dispLogin(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		MemberDomain memberDomain = (MemberDomain) session.getAttribute("member");
+		ModelAndView mv = new ModelAndView();
+		if(memberDomain != null) {
+			mv.setViewName("redirect:/main");
+		}else {
+			mv.setViewName(CosntPage.Common + "/login");
+		}
 		return mv;
 	}
 
