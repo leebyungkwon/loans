@@ -58,7 +58,7 @@ function goRecruitImprove(){
 	if($(document).find("#plHistArea").length == 0){
 		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
 		tag += '<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value=""></td></tr>';
-		$(".view_table").append(tag);
+		$("#infoTable").append(tag);
 	}
 
 	if(WebUtil.isNull($("#plHistTxt").val())){
@@ -108,7 +108,7 @@ function goRecruitImprove(){
 	<div class="contents">
 		<h3>등록정보</h3>
 		<div id="table">
-			<table class="view_table">
+			<table class="view_table" id="infoTable">
 				<tr>
 					<th>회원사</th>
 					<td>${result.recruitInfo.comCodeNm }</td>
