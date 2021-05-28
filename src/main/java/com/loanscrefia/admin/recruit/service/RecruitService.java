@@ -146,7 +146,7 @@ public class RecruitService {
     	}
     	
     	UserDomain userDomain = new UserDomain();
-    	userDomain.setMemberSeq(recruitDomain.getMemberSeq());
+    	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	//위반이력
     	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
     	
@@ -198,7 +198,7 @@ public class RecruitService {
 		}
 		
     	UserDomain userDomain = new UserDomain();
-    	userDomain.setMemberSeq(recruitDomain.getMemberSeq());
+    	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	//위반이력
     	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
 		
