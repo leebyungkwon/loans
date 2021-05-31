@@ -45,7 +45,7 @@ function pageLoad(){
 		 useCode 	: true
 		,code 		: 'MAS001'
 		,target 	: '#plStat'
-		,property01 : 'Y'
+		,property02 : 'Y'
 		,updData 	: ''
 		,defaultMsg : '전체'
 	};
