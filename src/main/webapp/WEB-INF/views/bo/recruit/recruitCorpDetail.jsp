@@ -60,6 +60,7 @@ function goRecruitImprove(){
 		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
 		tag += '<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value=""></td></tr>';
 		$("#infoTable").append(tag);
+		return false;
 	}
 	
 	if(WebUtil.isNull($("#plHistTxt").val())){
@@ -195,7 +196,7 @@ function goRecruitImprove(){
 				</c:choose>
 				
 				<c:choose>
-					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7'}">
+					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7' or result.recruitInfo.plStat eq '5' }">
 						<c:if test="${!empty result.recruitInfo.plHistCdNm }">
 							<tr>
 								<th>해지요청사유</th>
