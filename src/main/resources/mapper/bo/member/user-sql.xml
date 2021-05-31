@@ -8,6 +8,11 @@
    	
    	<!-- 모집인 조회 및 변경 > 리스트 -->
    	<select id="selectUserConfirmList" parameterType="user" resultType="user">
+ 	   	SELECT 
+   			<include refid="common.totalPages"/>
+   			Z.*
+   		FROM
+   		(
    		SELECT 
 	    	<include refid="common.totalPages"/>
 	    	 TLM.MASTER_SEQ
@@ -68,54 +73,72 @@
 			AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 			AND TLM.PL_REG_STAT != '1'																	-- 모집인상태가 승인전이 아닌 것
 			AND TLM.PL_STAT NOT IN ('1','2','6')														-- 처리상태가 미요청, 승인요청, 취소가 아닌 것
+	    </where>
+   		)Z
+   		<where>
 			<if test="plRegStat != null and plRegStat != ''">
-				AND TLM.PL_REG_STAT	= #{plRegStat}
+				AND Z.PL_REG_STAT	= #{plRegStat}
 			</if>		
 			<if test="plStat != null and plStat != ''">
-				AND TLM.PL_STAT 	= #{plStat}
+				AND Z.PL_STAT 	= #{plStat}
 			</if>
 			<if test="plClass != null and plClass != ''">
 				<if test='plClass.equals("1") || plClass.equals("2")'>
-					AND TLM.PL_CLASS 	= #{plClass} 
+					AND Z.PL_CLASS 	= #{plClass} 
 				</if>
 				<if test='plClass.equals("3")'>
-					AND TLM.PL_CLASS 		= '1' 
-					AND TLM.CORP_USER_YN  	= 'Y'
+					AND Z.PL_CLASS 		= '1' 
+					AND Z.CORP_USER_YN  	= 'Y'
 				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
-				AND TLM.PL_PRODUCT 	= #{plProduct}
+				AND Z.PL_PRODUCT 	= #{plProduct}
 			</if>
 			<if test="plMName != null and plMName != ''">
-				AND TLM.PL_M_NAME LIKE CONCAT('%',#{plMName},'%')
+				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
+			</if>
+			<if test="plMZId != null and plMZId != ''">
+				AND Z.PL_M_Z_ID LIKE '%' || #{plMZId} || '%'
+			</if>
+			<if test="plCellphone != null and plCellphone != ''">
+				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
 			</if>
 			<if test="plMerchantName != null and plMerchantName != ''">
-				AND TLM.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
+				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+			</if>
+			<if test="plMerchantNo != null and plMerchantNo != ''">
+				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
+			</if>
+			<if test="plMerchantNo != null and plMerchantNo != ''">
+				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
+			</if>
+			<if test="plRegistNo != null and plRegistNo != ''">
+				AND Z.PL_REGIST_NO LIKE '%' || #{plRegistNo} || '%'
 			</if>
 	    	<choose>
    				<when test="srchSelect2 != null and srchSelect2 != ''">
 					<if test="srchSelect2.equals('creAppDate')">
 						<if test="srchDate1 != null and srchDate1 != ''">
-							AND TLM.ORIGIN_CRE_APP_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+							AND Z.ORIGIN_CRE_APP_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND TLM.ORIGIN_CRE_APP_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_CRE_APP_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 						</if>
 					</if>
 					<if test="srchSelect2.equals('payDate')">
 						<if test="srchDate1 != null and srchDate1 != ''">
-							AND TLM.ORIGIN_PAY_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND TLM.ORIGIN_PAY_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 						</if>
 					</if>
 					<if test="srchSelect2.equals('creLicenseDate')">
 						<if test="srchDate1 != null and srchDate1 != ''">
-							AND TLM.ORIGIN_CRE_LICENSE_DATE <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+							AND Z.ORIGIN_CRE_LICENSE_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND TLM.ORIGIN_CRE_LICENSE_DATE <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_CRE_LICENSE_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 						</if>
 					</if>
 				</when>
@@ -253,10 +276,19 @@
 				AND Z.PL_PRODUCT 	= #{plProduct}
 			</if>
 			<if test="plMName != null and plMName != ''">
-				AND Z.PL_M_NAME LIKE CONCAT('%',#{plMName},'%')
+				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
+			</if>
+			<if test="plMZId != null and plMZId != ''">
+				AND Z.PL_M_Z_ID LIKE '%' || #{plMZId} || '%'
+			</if>
+			<if test="plCellphone != null and plCellphone != ''">
+				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
 			</if>
 			<if test="plMerchantName != null and plMerchantName != ''">
-				AND Z.PL_MERCHANT_NAME LIKE CONCAT('%',#{plMerchantName},'%')
+				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+			</if>
+			<if test="plMerchantNo != null and plMerchantNo != ''">
+				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
 			</if>
 			<if test="fileCompYn != null and fileCompYn != ''">
 				AND Z.FILE_COMP_YN 	= #{fileCompYn}

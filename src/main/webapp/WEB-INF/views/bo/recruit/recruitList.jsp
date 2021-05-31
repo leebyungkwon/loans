@@ -151,10 +151,12 @@ function goGetDate(opt) {
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
-					<col width="120">
-					<col width="305">
-					<col width="120">
-					<col width="305">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
 				</colgroup>
 				<tr>
 					<th>회원사 선택</th>
@@ -165,35 +167,47 @@ function goGetDate(opt) {
 					<td class="half_input">
 						<select name="plRegStat" id="plRegStat"></select>
 					</td>
-				</tr>
-				<tr>
 					<th>처리상태</th>
 					<td class="half_input">
 						<select name="plStat" id="plStat"></select>
 					</td>
+				</tr>
+				<tr>
 					<th>모집인분류</th>
 					<td class="half_input">
 						<select name="plClass" id="plClass"></select>
 					</td>
-				</tr>
-				<tr>
 					<th>금융상품유형</th>
 					<td class="half_input">
 						<select name="plProduct" id="plProduct"></select>
 					</td>
+				</tr>
+				<tr>
 					<th>이름</th>
 					<td class="">
 						<input type="text" name="plMName">
 					</td>
-				</tr>
-				<tr>
 					<th>주민등록번호</th>
 					<td class="">
 						<input type="text" name="plMZId">
 					</td>
-					<th>연락처</th>
+					<th>휴대폰번호</th>
 					<td class="">
 						<input type="text" name="plCellphone">
+					</td>
+				</tr>
+				<tr>
+					<th>법인명</th>
+					<td class="">
+						<input type="text" name="plMerchantName">
+					</td>
+					<th>법인번호</th>
+					<td class="">
+						<input type="text" name="plMerchantNo">
+					</td>
+					<th>모집인 등록번호</th>
+					<td class="">
+						<input type="text" name="plRegistNo">
 					</td>
 				</tr>
 				<tr>
