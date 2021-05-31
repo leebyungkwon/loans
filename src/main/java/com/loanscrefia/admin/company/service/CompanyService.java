@@ -13,6 +13,8 @@ import com.loanscrefia.admin.company.repository.CompanyRepository;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 
+import sinsiway.CryptoUtil;
+
 @Service
 public class CompanyService {
 

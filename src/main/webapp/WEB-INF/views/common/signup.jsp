@@ -236,7 +236,7 @@ function pageLoad(){
 			<tr>
 				<th>첨부파일 (신청서)</th>
 				<td id="fileTag">
-					<input type="text" id="fileName" name="fileName" readonly="readonly"  placeholder="이미지 파일을 첨부해 주세요." data-vd='{"type":"fileupload","len":"1,60","req":true,"msg":"이미지 파일을 첨부해 주세요"}' />
+					<input type="text" id="fileName" name="fileName" readonly="readonly"  placeholder="이미지 파일을 첨부해 주세요." />
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/담당자신청서_샘플.png','담당자신청서_샘플')">샘플다운로드</a>

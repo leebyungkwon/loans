@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
+import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.config.message.ResponseMsg;
 
 @Service
@@ -29,6 +30,10 @@ public class CorpService {
 		
 		int result = 0;
 		
+		// 2021-05-31 법인번호 암호화 진행예정
+		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
+		//String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
+		//corpDomain.setPlMerchantNo(encMerchantNo);
 		if(corpDomain.getCorpSeq() == null) {
 			//저장
 			result = corpRepo.insertCorpInfo(corpDomain);
@@ -60,6 +65,12 @@ public class CorpService {
 			
 			//결과
 			if(chkResult == 0) {
+				
+				// 2021-05-31 법인번호 암호화 진행예정
+				// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
+				//String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
+				//chkParam.setPlMerchantNo(encMerchantNo);
+				
 				chkParam.setPathTyp("1");
 				corpRepo.insertCorpInfo(chkParam);
 			}

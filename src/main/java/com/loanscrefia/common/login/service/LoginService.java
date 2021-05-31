@@ -20,7 +20,7 @@ import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.repository.MemberRepository;
 import com.loanscrefia.common.member.repository.MemberRoleRepository;
-//import com.loanscrefia.config.CryptoUtil;
+import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.system.code.domain.CodeMstDomain;
 
@@ -54,8 +54,6 @@ public class LoginService implements UserDetailsService {
 	public ResponseMsg insertSignup(SignupDomain signupDomain){
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
-    	//String encTarget = CryptoUtil.encrypt(signupDomain.getDeptNm()); // 암호화
-    	//signupDomain.setDeptNm(encTarget);
     	memberRepository.insertSignup(signupDomain);
 		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입 신청이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
 	}
