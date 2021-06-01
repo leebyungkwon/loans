@@ -17,6 +17,11 @@ public class ConfigurationForWebMvc implements WebMvcConfigurer {
 	ConfigurationForInterceptor certificationInterceptor;
 	
 	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("redirect:/login");
+	}
+	
+	@Override
 	public void addInterceptors (InterceptorRegistry registry) {
 		registry.addInterceptor(certificationInterceptor)
 			.excludePathPatterns("/favicon.ico","/error")
