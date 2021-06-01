@@ -305,6 +305,14 @@
 	    </where>
 	    <include refid="common.pageBottom"/>
    	</select>
+   	
+   	<!-- 모집인 중복체크 -->
+   	<select id="userRegDupChk" parameterType="user" resultType="int">
+   		SELECT 
+   			COUNT(CI)
+   		FROM TB_LC_MAS01
+   		WHERE CI = #{ci}
+   	</select>
    
    	<!-- 모집인 등록 > 개인 등록 -->
    	<insert id="insertUserRegIndvInfoByExcel" parameterType="user">
@@ -329,6 +337,7 @@
 			,CAREER_END_DATE
 			,COM_CONT_DATE
 			,ENTRUST_DATE
+			,CI
 			,REG_TIMESTAMP
    		)
    		VALUES
@@ -360,6 +369,7 @@
    			,REPLACE(#{item.K}, '-', '')	-- 경력종료일
    			,REPLACE(#{item.L}, '-', '')	-- 계약일자
    			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
+   			,#{item.N}						-- CI
    			,NOW()
    		)
    		</foreach>
@@ -384,6 +394,7 @@
 			,PL_PRODUCT
 			,COM_CONT_DATE
 			,ENTRUST_DATE
+			,CI
 			,REG_TIMESTAMP
    		)
    		VALUES
@@ -404,6 +415,7 @@
 			,#{item.H}						-- 금융상품유형
 			,REPLACE(#{item.I}, '-', '')	-- 계약일자
    			,REPLACE(#{item.J}, '-', '')	-- 위탁예정기간
+   			,#{item.K}						-- CI
    			,NOW()
    		)
    		</foreach>

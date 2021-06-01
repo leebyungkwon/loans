@@ -11,6 +11,7 @@
 		<tr>
 			<th>모집인상태</th>
 			<th>처리상태</th>
+			<th>사유</th>
 			<th>일시</th>
 		</tr>
 	</thead>
@@ -21,6 +22,7 @@
 					<tr>
 						<td class="acenter">${stepHisList.plRegStatNm }</td>
 						<td class="acenter">${stepHisList.plStatNm }</td>
+						<td class="acenter">${stepHisList.plHistTxt }</td>
 						<td class="acenter">${stepHisList.regTimestamp }</td>
 					</tr>
 				</c:forEach>

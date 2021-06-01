@@ -92,7 +92,7 @@ public class UserService {
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
-					return new ResponseMsg(HttpStatus.OK, "fail", errorMsg);
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
 					userDomain.setExcelParam(excelResult);
@@ -132,7 +132,7 @@ public class UserService {
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
-					return new ResponseMsg(HttpStatus.OK, "fail", errorMsg);
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
 					
@@ -179,7 +179,7 @@ public class UserService {
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
-					return new ResponseMsg(HttpStatus.OK, "fail", errorMsg);
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
 					userImwonDomain.setExcelParam(excelResult);
@@ -248,7 +248,7 @@ public class UserService {
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
-					return new ResponseMsg(HttpStatus.OK, "fail", errorMsg);
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
 					userExpertDomain.setExcelParam(excelResult);
@@ -317,7 +317,7 @@ public class UserService {
 
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
-					return new ResponseMsg(HttpStatus.OK, "fail", errorMsg);
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
 					userItDomain.setExcelParam(excelResult);

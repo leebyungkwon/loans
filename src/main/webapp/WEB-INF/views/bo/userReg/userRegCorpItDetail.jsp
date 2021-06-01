@@ -38,7 +38,26 @@ function pageLoad(){
 		var p = {
 			  name 		: "userRegCorpItInfoInsertFrm"
 			, success 	: function (opt,result) {
-				goTab("4");
+				if(WebUtil.isNotNull(result.data)){
+					
+					var html = '';
+					
+					html += '<div class="title_wrap">';
+					html += '<h5>전산인력 등록</h5>';
+					html += '<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopup();"></a>';
+					html += '</div>';
+					html += '<p class="popup_desc" style="line-height: 30px;">'+result.data+'</p>';
+					html += '<div class="popup_btn_wrap">';
+					html += '<a href="javascript:void(0);" class="pop_btn_black" onclick="PopUtil.closePopup();">확인</a>';
+					html += '</div>';
+					
+					$(".popup_inner").empty();
+					$(".popup_inner").append(html);
+					$(".popup_wrap").show();
+					
+				}else{
+					goTab("4");
+				}
 	 	    }
 		}
 		AjaxUtil.files(p);	

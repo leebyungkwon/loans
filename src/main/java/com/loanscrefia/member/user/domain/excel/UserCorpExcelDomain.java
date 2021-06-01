@@ -45,4 +45,7 @@ public class UserCorpExcelDomain extends BaseDomain {
 	
 	@ExcelColumn(headerName="위탁예정기간", vCell="J", vLenMin=10, vLenMax=10)
 	private String entrustDate;		//위탁예정일
+	
+	@ExcelColumn(headerName="CI", vCell="K", vLenMin=88, vLenMax=88, chkDb="user")
+	private String ci;				//CI
 }

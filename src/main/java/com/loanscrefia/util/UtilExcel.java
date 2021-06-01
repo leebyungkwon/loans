@@ -24,6 +24,8 @@ import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.member.edu.domain.EduDomain;
 import com.loanscrefia.member.edu.repository.EduRepository;
+import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
 import com.loanscrefia.util.excel.ExcelFileType;
@@ -37,6 +39,7 @@ public class UtilExcel<T> {
 	
 	@Autowired private CorpRepository corpRepo;
 	@Autowired private EduRepository eduRepo; 
+	@Autowired private UserRepository userRepo;
 	
 	//참고 : https://eugene-kim.tistory.com/46
 	public List<Map<String, Object>> upload(String path, Class<?> dClass) {
@@ -79,6 +82,7 @@ public class UtilExcel<T> {
 		    
 		    CorpDomain corpChkParam = new CorpDomain();
 		    EduDomain eduChkParam 	= new EduDomain();
+		    UserDomain userChkParam = new UserDomain();
 		    
 	        row = sheet.getRow(i);
 	        
@@ -95,10 +99,10 @@ public class UtilExcel<T> {
 	                for(int j = 0;j < vCell.size();j++) {
 	                	if(cellName.equals(vCell.get(j))) {
 	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
-	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.\n";
+	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.<br>";
 	                		}
 	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
-	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.\n";
+	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.<br>";
 	                		}
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
@@ -107,11 +111,10 @@ public class UtilExcel<T> {
 	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) valChkResult = true;
 	        	                }
 	        	                if(!valChkResult) {
-	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.\n";
+	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
-	                			/*
 	                			if(chkDb.get(j).equals("corp1")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantName(ExcelCellRef.getValue(cell));
@@ -123,7 +126,7 @@ public class UtilExcel<T> {
 	                					int chkResult = selectCorpInfoCnt(corpChkParam);
 		                				
 		                				if(chkResult == 0) {
-		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.\n";
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
 		                				}
 	                				}
 	                			}else if(chkDb.get(j).equals("edu1")) {
@@ -145,10 +148,23 @@ public class UtilExcel<T> {
 	                				int chkResult 	= plEduNoCheck(eduChkParam);
 		                			
 	                				if(chkResult == 0) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.\n";
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
+	                				}
+	                			}else if(chkDb.get(j).equals("user")) {
+	                				//모집인 중복체크
+	                				String ci = ExcelCellRef.getValue(cell);
+	                				
+	                				if(!ci.endsWith("==")) {
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
+	                				}else {
+	                					userChkParam.setCi(ci);
+	                					int dupChkResult = userRegDupChk(userChkParam);
+	                					
+	                					if(dupChkResult > 0) {
+	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
+	                					}
 	                				}
 	                			}
-	                			*/
 	                		}
 	                	}
 	                }
@@ -223,6 +239,12 @@ public class UtilExcel<T> {
 	@Transactional(readOnly=true)
 	private int plEduNoCheck(EduDomain eduDomain) {
 		return eduRepo.plEduNoCheck(eduDomain);
+	}
+	
+	//모집인 중복체크
+	@Transactional(readOnly=true)
+	private int userRegDupChk(UserDomain userDomain) {
+		return userRepo.userRegDupChk(userDomain);
 	}
 	
 	//날짜 형식 및 값 체크
