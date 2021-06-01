@@ -218,7 +218,7 @@ create table tb_lc_mas01(
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
 	, pl_regist_no varchar(20)
-	, ci varchar(50)
+	, ci varchar(88)
 	, pl_m_name varchar(20)
 	, pl_m_z_id varchar(100)
 	, pl_m_z_id_edu varchar(20)
