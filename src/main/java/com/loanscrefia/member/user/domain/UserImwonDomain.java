@@ -28,7 +28,7 @@ public class UserImwonDomain extends BaseDomain {
 	@ExcelColumn(headerName="성명", vCell="C", vLenMin=2, vLenMax=20, chkDb="edu2")
 	private String excName;			//이름
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="D", vLenMin=14, vLenMax=14, chkDb="edu3")
+	@ExcelColumn(headerName="주민등록번호", vCell="D", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y")
 	private String plMZId;			//주민등록번호
 	
 	@ExcelColumn(headerName="금융상품유형", chkDb="edu4")

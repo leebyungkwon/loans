@@ -12,6 +12,7 @@ public @interface ExcelColumn {
 	String vCell() default "";
 	String vEnum() default "";
 	String chkDb() default "";
+	String vEncrypt() default "";
 	int vLenMin() default 0;
 	int vLenMax() default 10000;
 	

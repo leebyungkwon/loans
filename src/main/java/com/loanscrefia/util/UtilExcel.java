@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
+import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.member.edu.domain.EduDomain;
 import com.loanscrefia.member.edu.repository.EduRepository;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -52,6 +53,7 @@ public class UtilExcel<T> {
 		List<Integer> vLenMin 	= new ArrayList<Integer>();
 		List<Integer> vLenMax 	= new ArrayList<Integer>();
 		List<String> chkDb 		= new ArrayList<String>();
+		List<String> vEncrypt 	= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -63,6 +65,7 @@ public class UtilExcel<T> {
 				vLenMax.add(columnAnnotation.vLenMax());
 				vLenMin.add(columnAnnotation.vLenMin());
 				chkDb.add(columnAnnotation.chkDb());
+				vEncrypt.add(columnAnnotation.vEncrypt());
 			}
 		}
 		
@@ -78,6 +81,7 @@ public class UtilExcel<T> {
 		    Row row 				= null;
 		    Cell cell 				= null;
 		    String cellName 		= "";
+		    String cellVal			= "";
 		    Map<String, Object> map = null;
 		    
 		    CorpDomain corpChkParam = new CorpDomain();
@@ -91,36 +95,39 @@ public class UtilExcel<T> {
 	            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
 	                cell 		= row.getCell(cellIndex);
 	                cellName 	= ExcelCellRef.getName(cell, cellIndex);
+	                cellVal 	= ExcelCellRef.getValue(cell);
 	                
-	                //System.out.println(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + ExcelCellRef.getValue(cell));
+	                //System.out.println(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
 	                
 	                boolean valChkResult = false;
 	                
 	                for(int j = 0;j < vCell.size();j++) {
 	                	if(cellName.equals(vCell.get(j))) {
-	                		if(ExcelCellRef.getValue(cell).length() < vLenMin.get(j)){
+	                		if(cellVal.length() < vLenMin.get(j)){
 	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.<br>";
 	                		}
-	                		if(ExcelCellRef.getValue(cell).length() > vLenMax.get(j)){
+	                		if(cellVal.length() > vLenMax.get(j)){
 	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.<br>";
 	                		}
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
 	        	                for(int k = 0;k < val.length;k++) {
-	        	                	//System.out.println(val[k]+ " , " + ExcelCellRef.getValue(cell) + " = " + val[k].equals(ExcelCellRef.getValue(cell)));
-	        	                	if(val[k].equals(ExcelCellRef.getValue(cell))) valChkResult = true;
+	        	                	//System.out.println(val[k]+ " , " + cellVal + " = " + val[k].equals(cellVal));
+	        	                	if(val[k].equals(cellVal)) valChkResult = true;
 	        	                }
 	        	                if(!valChkResult) {
 	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
+	                			/*
 	                			if(chkDb.get(j).equals("corp1")) {
 	                				//법인 정보 유효 체크(법인사용인)
-	                				corpChkParam.setPlMerchantName(ExcelCellRef.getValue(cell));
+	                				corpChkParam.setPlMerchantName(cellVal);
 	                			}else if(chkDb.get(j).equals("corp2")) {
 	                				//법인 정보 유효 체크(법인사용인)
-	                				corpChkParam.setPlMerchantNo(ExcelCellRef.getValue(cell));
+	                				corpChkParam.setPlMerchantNo(cellVal);
+	                				//corpChkParam.setPlMerchantNo(CryptoUtil.encrypt(cellVal));
 	                				
 	                				if((corpChkParam.getPlMerchantName() != null && !corpChkParam.getPlMerchantName().equals("")) || (corpChkParam.getPlMerchantNo() != null && !corpChkParam.getPlMerchantNo().equals(""))) {
 	                					int chkResult = selectCorpInfoCnt(corpChkParam);
@@ -131,19 +138,19 @@ public class UtilExcel<T> {
 	                				}
 	                			}else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setCareerTyp(ExcelCellRef.getValue(cell));
+	                				eduChkParam.setCareerTyp(cellVal);
 	                			}else if(chkDb.get(j).equals("edu2")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlMName(ExcelCellRef.getValue(cell));
+	                				eduChkParam.setPlMName(cellVal);
 	                			}else if(chkDb.get(j).equals("edu3")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlMZId(ExcelCellRef.getValue(cell));
+	                				eduChkParam.setPlMZId(cellVal);
 	                			}else if(chkDb.get(j).equals("edu4")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlProduct(ExcelCellRef.getValue(cell));
+	                				eduChkParam.setPlProduct(cellVal);
 	                			}else if(chkDb.get(j).equals("edu5")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlEduNo(ExcelCellRef.getValue(cell));
+	                				eduChkParam.setPlEduNo(cellVal);
 
 	                				int chkResult 	= plEduNoCheck(eduChkParam);
 		                			
@@ -152,7 +159,7 @@ public class UtilExcel<T> {
 	                				}
 	                			}else if(chkDb.get(j).equals("user")) {
 	                				//모집인 중복체크
-	                				String ci = ExcelCellRef.getValue(cell);
+	                				String ci = cellVal;
 	                				
 	                				if(!ci.endsWith("==")) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
@@ -165,10 +172,20 @@ public class UtilExcel<T> {
 	                					}
 	                				}
 	                			}
+	                			*/
 	                		}
+	                		/*
+	                		if(!vEncrypt.get(j).isEmpty()){
+	                			//암호화(주민번호,법인번호)
+	                			if(cellVal != null && !cellVal.equals("")) {
+		                			cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
+	                			}
+	                		}
+	                		*/
 	                	}
 	                }
-	                map.put(cellName, ExcelCellRef.getValue(cell));
+	                //map.put(cellName, ExcelCellRef.getValue(cell));
+	                map.put(cellName, cellVal);
 	            }
 	            result.add(map);
 		    }
