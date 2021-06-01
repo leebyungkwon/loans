@@ -104,7 +104,6 @@
 			COUNT(*)
 		FROM TB_LC_CORP
 		<where>
-			AND PL_MERCHANT_NAME 	= REGEXP_REPLACE(#{plMerchantName}, '^\s+', '') -- 공백제거
 			AND PL_MERCHANT_NO 		= REPLACE(#{plMerchantNo}, '-', '')
 		</where>
 	</select>
