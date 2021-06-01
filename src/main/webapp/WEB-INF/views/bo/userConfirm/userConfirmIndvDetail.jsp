@@ -85,12 +85,6 @@ function goUserChangeApplyPage(){
 					<th>주소</th>
 					<td colspan="3">${result.userRegInfo.addrNm }</td>
 				</tr>
-				<%-- 
-				<tr>
-					<th>상세주소</th>
-					<td colspan="3">${result.userRegInfo.addrDetail }</td>
-				</tr>
-				 --%>
 				<tr>
 					<th>교육이수번호</th>
 					<td colspan="3">${result.userRegInfo.plEduNo }</td>
@@ -119,14 +113,13 @@ function goUserChangeApplyPage(){
 						</c:forEach>
 					</c:when>
 				</c:choose>
-				<c:if test="${result.userRegInfo.plStat eq '3' }">
+				<c:if test="${result.userRegInfo.plStat eq '3' or result.userRegInfo.plStat eq '6' }">
 					<tr>
 						<th>요청사유</th>
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
-				
-				<c:if test="${result.userRegInfo.plStat eq '5' and !empty result.userRegInfo.plHistCdNm }">
+				<c:if test="${result.userRegInfo.plStat eq '4' or result.userRegInfo.plStat eq '7' or result.userRegInfo.plRegStat eq '4' }">
 					<tr>
 						<th>해지사유</th>
 						<td colspan="3">${result.userRegInfo.plHistCdNm }</td>
@@ -136,18 +129,7 @@ function goUserChangeApplyPage(){
 						<td colspan="3">${result.userRegInfo.comHaejiDate }</td>
 					</tr>
 				</c:if>
-				
-				<c:if test="${result.userRegInfo.plStat eq '4' or result.userRegInfo.plRegStat eq '4' }">
-					<tr>
-						<th>해지사유</th>
-						<td colspan="3">${result.userRegInfo.plHistCdNm }</td>
-					</tr>
-					<tr>
-						<th>해지요청일자</th> <!-- 회원사가 해지요청한 날짜 -->
-						<td colspan="3">${result.userRegInfo.comHaejiDate }</td>
-					</tr>
-				</c:if>
-				<c:if test="${result.userRegInfo.plStat eq '5' }">
+				<c:if test="${result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '6' or result.userRegInfo.plStat eq '7' }">
 					<tr>
 						<th>보완요청사유</th>
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
@@ -292,7 +274,7 @@ function goUserChangeApplyPage(){
 				<c:if test="${result.userRegInfo.plRegStat eq '2' }">
 					<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userCancel" onclick="goUserCancelPage();">즉시취소</a>
 				</c:if>
-				<c:if test="${result.userRegInfo.plRegStat eq '3' and (result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '7') }">
+				<c:if test="${result.userRegInfo.plRegStat eq '3' and (result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '6' or result.userRegInfo.plStat eq '7' or result.userRegInfo.plStat eq '9') }">
 					<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApplyPage();">변경요청</a>
 					<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
 				</c:if>

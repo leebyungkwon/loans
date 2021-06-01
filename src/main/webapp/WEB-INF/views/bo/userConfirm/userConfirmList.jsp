@@ -106,28 +106,18 @@ function pageLoad(){
 function goUserConfirmDetail(idx, data){
 	var masterSeq 	= userConfirmGrid.gridData[idx].masterSeq;
 	var plClass		= userConfirmGrid.gridData[idx].plClass;
-	var plRegStat	= userConfirmGrid.gridData[idx].plRegStat;
-	var plStat		= userConfirmGrid.gridData[idx].plStat;
+	//var plRegStat	= userConfirmGrid.gridData[idx].plRegStat;
+	//var plStat	= userConfirmGrid.gridData[idx].plStat;
 	var url			= "";
 	
-	if(plRegStat == "3" && plStat == "5"){
-		//자격취득이고 보완요청이면 바로 변경페이지로 -> 해지관련되서는??
-		if(plClass == "1"){
-			//개인
-			url = "/member/confirm/userConfirmIndvChangeApply";
-		}else if(plClass == "2"){
-			//법인
-			url = "/member/confirm/userConfirmCorpChangeApply";
-		}
-	}else{
-		if(plClass == "1"){
-			//개인
-			url = "/member/confirm/userConfirmIndvDetail";
-		}else if(plClass == "2"){
-			//법인
-			url = "/member/confirm/userConfirmCorpDetail";
-		}
+	if(plClass == "1"){
+		//개인
+		url = "/member/confirm/userConfirmIndvDetail";
+	}else if(plClass == "2"){
+		//법인
+		url = "/member/confirm/userConfirmCorpDetail";
 	}
+	
 	$("#userConfirmDetailFrm").attr("action",url);
 	$("#hMasterSeq").val(masterSeq);
 	$("#userConfirmDetailFrm").submit();

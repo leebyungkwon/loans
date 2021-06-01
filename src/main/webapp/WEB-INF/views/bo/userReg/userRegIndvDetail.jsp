@@ -206,7 +206,7 @@ function goUserRegInfoCancel() {
 						 	<div id="date_cal04" class="calendar01"></div>
 						</td>
 					</tr>
-					<c:if test="${result.userRegInfo.plStat eq '5' }">
+					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' result.userRegInfo.plStat eq '7' }">
 						<tr>
 							<th>보완요청사유</th>
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
