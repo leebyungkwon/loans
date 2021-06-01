@@ -677,3 +677,83 @@ table td .link{
   position: absolute;
   right: 220px;
 }
+
+/* FO footer CSS 복사(/fo/common.css) */
+
+#footer{
+	position: relative;
+	height: 200px;
+	z-index: 70;
+	background-color: #0e213a;
+}
+
+#footer .footer_info{
+	position: relative;
+	width: 1200px;
+	box-sizing: border-box;
+	padding-top: 40px;
+	margin: 0 auto;
+}
+
+#footer .footer_info .footer_link{
+
+}
+
+#footer .footer_info .footer_link ul{
+	font-size: 0;
+}
+
+#footer .footer_info .footer_link li{
+	display: inline-block;
+}
+
+#footer .footer_info .footer_link li a{
+	font:400 15px/15px 'Montserrat','Noto Sans KR';
+	color:#e4e4e4;
+	letter-spacing: -0.8px;
+}
+
+#footer .footer_info .footer_link li a span{
+	font: 500 15px/17px 'Montserrat';
+	vertical-align: text-top;
+}
+
+#footer .footer_info .footer_link li a .eng{
+	font:700 15px/17px 'Montserrat';
+	color:#64b848;
+}
+
+#footer .footer_info .footer_link li::after{
+	content: '';
+	width: 1px;
+	height: 12px;
+	background-color: #ddd;
+	display: inline-block;
+	margin:5px 30px 0;
+}
+
+#footer .footer_info .footer_link li:last-child::after{
+	display: none;
+}
+
+#footer .footer_info .copyright{
+	margin-top: 10px;
+}
+
+#footer .footer_info .copyright p{
+	font:300 15px/15px 'Montserrat','Noto Sans KR';
+	color:rgba(255, 255, 255, 0.6);
+	letter-spacing: -0.6px;
+	margin-bottom: 13px;
+}
+
+#footer .footer_info .copyright p span{
+	margin-left: 18px;
+}
+
+#footer .footer_info .footer_logo{
+	position: absolute;
+  top: 50px;
+  right: 0;
+	display: block;
+}
