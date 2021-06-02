@@ -188,6 +188,9 @@ public class UtilExcel<T> {
 	                map.put(cellName, cellVal);
 	            }
 	            result.add(map);
+		    }else {
+		    	System.out.println("null null null null null null null ----------------------");
+		    	errorMsg = "빈 row가 존재합니다.";
 		    }
 		}
 		//System.out.println("errorMsg :: " + errorMsg);

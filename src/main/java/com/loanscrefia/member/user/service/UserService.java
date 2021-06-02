@@ -750,6 +750,13 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userImwonDomain.getMasterSeq());
 		
+		UserDomain param = new UserDomain();
+		
+		//모집인 상세
+		param.setMasterSeq(userImwonDomain.getMasterSeq());
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		String originCareerTyp	= userRegInfo.getCareerTyp();
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -764,6 +771,15 @@ public class UserService {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
+		
+		if(!originCareerTyp.equals(userImwonDomain.getCareerTyp())) {
+			if(userImwonDomain.getCareerTyp().equals("1")) {
+				//신규 -> 기존 경력 첨부파일 삭제
+			}else {
+				//경력 -> 기존 신규 첨부파일 삭제
+			}
+		}
+		
 		//수정
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
 		
@@ -780,6 +796,13 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userExpertDomain.getMasterSeq());
 		
+		UserDomain param = new UserDomain();
+		
+		//모집인 상세
+		param.setMasterSeq(userExpertDomain.getMasterSeq());
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		String originCareerTyp	= userRegInfo.getCareerTyp();
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -794,6 +817,15 @@ public class UserService {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
+		
+		if(!originCareerTyp.equals(userExpertDomain.getCareerTyp())) {
+			if(userExpertDomain.getCareerTyp().equals("1")) {
+				//신규 -> 기존 경력 첨부파일 삭제
+			}else {
+				//경력 -> 기존 신규 첨부파일 삭제
+			}
+		}
+		
 		//수정
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);
 		
