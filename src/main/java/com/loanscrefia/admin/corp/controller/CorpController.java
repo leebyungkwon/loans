@@ -16,6 +16,8 @@ import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 
+import sinsiway.CryptoUtil;
+
 @Controller
 @RequestMapping(value="/admin/corp")
 public class CorpController {
@@ -58,8 +60,8 @@ public class CorpController {
 		
 		// 2021-05-31 법인번호 암호화 진행예정
 		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-		//String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
-		//corpDomain.setPlMerchantNo(encMerchantNo);
+		String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
+		corpDomain.setPlMerchantNo(encMerchantNo);
 		
 		int count = corpService.plMerchantNoCheck(corpDomain);
 		

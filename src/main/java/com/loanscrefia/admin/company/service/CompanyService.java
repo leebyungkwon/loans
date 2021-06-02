@@ -102,12 +102,18 @@ public class CompanyService {
 	//회원사 관리 리스트 조회
 	@Transactional(readOnly = true)
 	public List<CompanyDomain> selectCompanyCodeList(CompanyDomain companyDomain){
+		
+		// 리스트 암호화
+		
 		return companyRepository.selectCompanyCodeList(companyDomain);
 	}
 	
 	//회원사 관리 상세 조회
 	@Transactional(readOnly=true)
 	public CompanyDomain getCompanyCodeDetail(CompanyDomain companyDomain){
+		
+		// 상세 암호화
+		
 		return companyRepository.getCompanyCodeDetail(companyDomain);
 	}
 

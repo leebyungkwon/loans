@@ -21,6 +21,9 @@ public class CorpService {
 	//법인 리스트
 	@Transactional(readOnly=true)
 	public List<CorpDomain> selectCorpList(CorpDomain corpDomain) {
+		
+		// 리스트 암호화
+		
 		return corpRepo.selectCorpList(corpDomain);
 	}
 	
@@ -29,11 +32,6 @@ public class CorpService {
 	public ResponseMsg saveCorpInfo(CorpDomain corpDomain) {
 		
 		int result = 0;
-		
-		// 2021-05-31 법인번호 암호화 진행예정
-		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-		//String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
-		//corpDomain.setPlMerchantNo(encMerchantNo);
 		if(corpDomain.getCorpSeq() == null) {
 			//저장
 			result = corpRepo.insertCorpInfo(corpDomain);
@@ -80,6 +78,9 @@ public class CorpService {
 	//법인 상세
 	@Transactional(readOnly=true)
 	public CorpDomain getCorpInfo(CorpDomain corpDomain) {
+		
+		// 상세 암호화
+		
 		return corpRepo.getCorpInfo(corpDomain);
 	}
 

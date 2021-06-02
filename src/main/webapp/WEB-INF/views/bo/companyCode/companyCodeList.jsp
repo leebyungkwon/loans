@@ -83,9 +83,7 @@ function companyCodeDetail(idx, data){
 	
 	<div class="contents">
 		<div class="sorting_wrap">
-			<div class="data">
-				<!-- <p>총 : 몇건일까요</p> -->
-			</div>
+			<div class="data total_result"></div>
 			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 			<div class="action">
 				<a href="/admin/company/companyCodeDetailPage" class="btn_black btn_small mgr5">등록</a>
