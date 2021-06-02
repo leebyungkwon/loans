@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.company.repository.CompanyRepository;
+import com.loanscrefia.common.common.email.domain.EmailDomain;
+import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 
@@ -22,7 +24,7 @@ public class CompanyService {
 	private CompanyRepository companyRepository;
 	
 	@Autowired
-	private CommonRepository commonRepository;
+	private EmailRepository emailRepository;
 	
 	//회원사 담당자 리스트 조회
 	@Transactional(readOnly = true)
@@ -39,6 +41,7 @@ public class CompanyService {
 	//회원사 담당자 승인 요청 
 	@Transactional
 	public ResponseMsg updateCompanyStat(CompanyDomain companyDomain){
+		
 		int result = companyRepository.updateCompanyStat(companyDomain);
 		if(result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
@@ -46,29 +49,39 @@ public class CompanyService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
 		
+		
 		/*
-		//승인처리시 이메일 발송
+		
+		//가승인 및 승인처리시 이메일 발송
 		if(StringUtils.isEmpty(companyDomain.getEmail())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
 		}
 		int emailResult = 0;
 		int result = companyRepository.updateCompanyStat(companyDomain);
+		EmailDomain emailDomain = new EmailDomain();
+		emailDomain.setName("여신금융협회");
+		emailDomain.setEmail(companyDomain.getEmail());
 		if(companyDomain.getApprStat() == "3" && result > 0) {
-			EmailDomain emailDomain = new EmailDomain();
 			emailDomain.setInstId("추후고정값");
-			emailDomain.setName("여신금융협회");
-			emailDomain.setEmail(companyDomain.getEmail());
-			
-			// 파라미터 샘플
-			emailDomain.setSubsValue(companyDomain.getMemberName()+"|"+companyDomain.getEmail());
-			emailResult = commonRepository.sendEmail(emailDomain);
+			emailDomain.setSubsValue(companyDomain.getMemberId());
+		}else if(companyDomain.getApprStat() == "2" && result > 0) {
+			emailDomain.setInstId("추후고정값");
+			emailDomain.setSubsValue(companyDomain.getMemberId());
+			emailDomain.setSubsValue(companyDomain.getMemberId()+"|"+companyDomain.getMsg());
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
+		
+		emailResult = emailRepository.sendEmail(emailDomain);
+		
 		if(emailResult > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
+		
 		*/
+		
 	}
 	
 	//회원사 담당자 삭제 

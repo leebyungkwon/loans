@@ -39,6 +39,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 
+import sinsiway.CryptoUtil;
+
 @Component
 public class UtilFile {
 	public UtilFile() {
@@ -188,12 +190,12 @@ public class UtilFile {
 					
 					final String saveName 	= getRandomString();
 					final String orgName 	= fileName.replace("." + extension, "");
-
+					
+					
 					File target = new File(uploadPath, saveName + "." + lowerExtension);
 					file.transferTo(target);
-
+					
 					FileDomain attach = new FileDomain();
-
 					attach.setFileGrpSeq(fileGrpSeq);
 					attach.setFileExt(lowerExtension);
 					attach.setFileOrgNm(orgName);
@@ -216,6 +218,9 @@ public class UtilFile {
 					success = true;
 					count++;
 					// if(this.zip) target.delete();
+					
+					// 떨군파일 암호화
+					CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

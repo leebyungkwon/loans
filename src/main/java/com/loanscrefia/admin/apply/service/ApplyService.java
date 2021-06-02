@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.email.domain.EmailDomain;
+import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -31,6 +34,8 @@ public class ApplyService {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private UserRepository userRepo;
+	@Autowired
+	private EmailRepository emailRepository;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
@@ -123,10 +128,16 @@ public class ApplyService {
     	//위반이력
     	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
     	
+		
+    	MemberDomain memberDomain = new MemberDomain();
+    	memberDomain.setMemberSeq(Long.valueOf(applyInfo.getMemberSeq()));
+    	MemberDomain memberResult = commonService.getCompanyMemberDetail(memberDomain);
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("applyInfo", applyInfo);
     	result.put("violationInfoList", violationInfoList);
+    	result.put("memberResult", memberResult);
 		
 		return result;
 	}
@@ -518,6 +529,8 @@ public class ApplyService {
 	@Transactional
 	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
 		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
+		
+		
 		if(!applyDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
@@ -530,6 +543,8 @@ public class ApplyService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
 		
+		
+		
 		/*
 		//승인처리시 이메일 발송
 		if(StringUtils.isEmpty(statCheck.getEmail())) {
@@ -539,22 +554,24 @@ public class ApplyService {
 		int result = applyRepository.updateApplyPlStat(applyDomain);
 		
 		EmailDomain emailDomain = new EmailDomain();
-		emailDomain.setInstId("추후고정값");
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(applyDomain.getEmail());
 		
 		if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "2") {
 			// 승인요청에 대한 승인
+			emailDomain.setInstId("추후고정값");
 			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
 		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "4") {
 			// 해지요청에 대한 승인
+			emailDomain.setInstId("추후고정값");
 			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
 		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "3") {
 			// 변경요청에 대한 승인
+			emailDomain.setInstId("추후고정값");
 			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
 		}
 		
-		emailResult = commonRepository.sendEmail(emailDomain);
+		emailResult = emailRepository.sendEmail(emailDomain);
 		if(emailResult > 0) {
 			// 모집인단계이력
 			applyRepository.insertMasterStep(applyDomain);
@@ -563,6 +580,7 @@ public class ApplyService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		*/
+		
 		
 	}
 

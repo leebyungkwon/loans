@@ -17,6 +17,7 @@ public class ApplyDomain extends BaseDomain {
 
 	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
+	private String masterToId;		//접수번호ID(조회)
 	private String comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String plClass;			//분류							-> [CLS001]개인,법인
@@ -24,7 +25,7 @@ public class ApplyDomain extends BaseDomain {
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,시설대여 및 연불판매,할부,어음할인,매출채권매입,지급보증,기타 대출성 상품
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
-	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),취소,완료
+	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
 	private String oldPlStat;		//현재처리상태
 	@ExcelColumn(headerName = "모집인등록번호", order = 10)
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보

@@ -24,6 +24,12 @@ function goCompanyStatUpdt(apprStat,roleName) {
 		return false;
 	}
 	
+	var memberId = "${companyDetail.memberId}";
+	if(WebUtil.isNull(memberId)){
+		alert("회원정보가 잘못되었습니다.");
+		return false;
+	}
+	
 	if(confirm(apprStatNm + "처리 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/mng/updateCompanyStat"	
@@ -32,6 +38,8 @@ function goCompanyStatUpdt(apprStat,roleName) {
 				,apprStat  : apprStat
 				,roleName  : roleName
 				,msg	   : msg
+				,memberId  : memberId
+				,email	   : email
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){

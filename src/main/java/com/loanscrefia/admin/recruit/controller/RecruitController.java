@@ -130,6 +130,7 @@ public class RecruitController {
 		RecruitDomain result = recruitService.getRecruitHistDetail(recruitDomain);
 		result.setHistType(recruitDomain.getHistType());
 		mav.addObject("recruitHistDetail", result);
+		mav.addObject("afterData", recruitDomain.getAfterData());
         return mav;
 	}
 	

@@ -36,6 +36,7 @@ import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 
 import lombok.extern.slf4j.Slf4j;
+import sinsiway.CryptoUtil;
 
 @Slf4j
 @RestController
@@ -98,8 +99,14 @@ public class CommonController {
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(fileSeq);
 		fileDomain.setUseYn("down");
-
+		
 		FileDomain f = commonService.getFile(fileDomain);
+		
+		// 암호화 해제
+		String oFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "." + f.getFileExt();
+		CryptoUtil.decryptFile(oFile, oFile);
+		// 해제 끝
+		
 		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
 		if(file != null) {
 			String name = f.getFileOrgNm() + "." + f.getFileExt();

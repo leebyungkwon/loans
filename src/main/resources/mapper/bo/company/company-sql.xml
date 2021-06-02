@@ -80,7 +80,7 @@
    		SET	
    			 APPR_STAT 		= #{apprStat}
    			,ROLE_NAME 		= #{roleName}
-   			,MSG	   				= #{msg}
+   			,MSG	   		= #{msg}
    			,UPD_SEQ   		= #{updSeq}
    			,UPD_TIMESTAMP	= NOW()
    		<where>

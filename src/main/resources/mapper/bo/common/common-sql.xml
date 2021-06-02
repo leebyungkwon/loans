@@ -115,7 +115,7 @@
 	</select>
 	
 	
-	<!-- 회원사 리스트 -->
+	<!-- session 회원정보 조회 -->
 	<select id="getMemberDetail" parameterType="member" resultType="member">
 		SELECT
 			*
@@ -124,5 +124,12 @@
 	</select>
 	
 	
+	<!-- 회원사 회원정보 조회 -->
+	<select id="getCompanyMemberDetail" parameterType="member" resultType="member">
+		SELECT
+			*
+		FROM tb_lc_members
+		WHERE member_seq = #{memberSeq}
+	</select>
 	
 </mapper> 

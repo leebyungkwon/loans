@@ -9,9 +9,11 @@
 <table class="popup_table">
 	<thead>
 		<tr>
-			<th>변경사항</th>
+			<th>변경 전</th>
+			<th>변경 후</th>
 			<th>일시</th>
 		</tr>
+		
 	</thead>
 	<tbody>
 		<tr>  
@@ -27,6 +29,9 @@
 						${recruitHistDetail.plCellphone }
 					</c:when>
 				</c:choose>
+			</td>
+			<td class="acenter">
+				${afterData}	
 			</td>
 			<td class="acenter">${recruitHistDetail.regTimestamp }</td>
 		</tr>

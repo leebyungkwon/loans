@@ -112,6 +112,10 @@ function pageLoad(){
 		,defaultMsg : '전체'
 	};
 	DataUtil.selectBox(companyCode);
+	
+	$("#updFileCheck").on("click", function(){
+		recruitGrid.refresh();
+	})
 }
 
 //모집인 조회 및 변경 row 클릭 이벤트
@@ -237,6 +241,17 @@ function goGetDate(opt) {
 							<a href="javascript:void(0);" onclick="goGetDate('15');">15일</a>
 							<a href="javascript:void(0);" onclick="goGetDate('oneMonthAgo');">1개월</a>
 						</div>
+					</td>
+					<th>정보변경여부</th>
+					<td class="half_input">
+						<input type="checkbox" id="updFileCheck" name="updFileCheck"/>
+						
+						
+<!-- 						<select name="updFileCheck" id="updFileCheck">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select> -->
 					</td>
 				</tr>
 			</table>

@@ -365,10 +365,10 @@ function goViolationDel(obj){
 }
 
 //변경사항-정보
- function goRecruitHistoryShow(masterSeq, type){
+ function goRecruitHistoryShow(masterSeq, type, afterData){
 	let p = {
 	  	  id 		: "recruitHistoryPop"
-		, url 		: "/admin/recruit/recruitHistoryPopup?masterSeq="+masterSeq+"&histType="+type
+		, url 		: "/admin/recruit/recruitHistoryPopup?masterSeq="+masterSeq+"&histType="+type+"&afterData="+afterData
 	}
 	PopUtil.openPopup(p);
 }

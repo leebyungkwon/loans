@@ -29,6 +29,9 @@ public interface CommonRepository {
 	//회원사 리스트
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
 
-	//회원상세조회
+	//로그인 회원상세조회
 	MemberDomain getMemberDetail(MemberDomain memberDomain);
+	
+	//회원사 회원상세조회
+	MemberDomain getCompanyMemberDetail(MemberDomain memberDomain);
 }

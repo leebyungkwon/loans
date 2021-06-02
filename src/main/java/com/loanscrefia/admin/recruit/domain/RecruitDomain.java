@@ -25,7 +25,7 @@ public class RecruitDomain extends BaseDomain {
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,시설대여 및 연불판매,할부,어음할인,매출채권매입,지급보증,기타 대출성 상품
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
-	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),취소,완료
+	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
 	private String oldPlStat;		//현재처리상태
 	@ExcelColumn(headerName = "모집인등록번호", order = 10)
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보
@@ -114,6 +114,10 @@ public class RecruitDomain extends BaseDomain {
 	private String payType;
 	private String payName;
 	private String payRegDate;
+	
+	private String afterData;						// 변경이력 현재데이터
+	
+	private String updFileCheck;					// 변경정보에 대한 리스트 조회용 필드
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

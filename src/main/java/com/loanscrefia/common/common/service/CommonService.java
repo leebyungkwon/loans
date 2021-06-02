@@ -56,10 +56,16 @@ public class CommonService {
 		return commonRepository.selectCompanyCodeList(codeDtlDomain);
 	}
 	
-	//회원상세조회
+	//로그인 회원상세조회
 	@Transactional(readOnly=true)
 	public MemberDomain getMemberDetail(MemberDomain memberDomain) {
 		return commonRepository.getMemberDetail(memberDomain);
+	}
+	
+	//회원사 회원상세조회
+	@Transactional(readOnly=true)
+	public MemberDomain getCompanyMemberDetail(MemberDomain memberDomain) {
+		return commonRepository.getCompanyMemberDetail(memberDomain);
 	}
 	
 	

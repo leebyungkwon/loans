@@ -504,26 +504,56 @@ COMMENT ON COLUMN tb_lc_mas01_it.file_seq IS '접수번호시퀀스';
 commit;
 
 
-
 -- 교육이수정보
 create table tb_lc_edu01(
 	pl_m_name varchar(20) not null
-	, pl_m_z_id varchar(20)	not null
+	, pl_m_birth varchar(8) not null
+	, pl_m_gender char(1) not null
 	, career_typ varchar(2) not null
 	, pl_product varchar(30) not null
 	, pl_edu_no varchar(20)
 	, pl_crf_no varchar(20)
 	, pl_edu_date varchar(8) not null
+	, reg_timestamp timestamp NOT NULL
 );
 
 COMMENT ON TABLE tb_lc_edu01 IS '교육이수정보';
 COMMENT ON COLUMN tb_lc_edu01.pl_m_name IS '모집인이름';
-COMMENT ON COLUMN tb_lc_edu01.pl_m_z_id IS '모집인주민등록번호';
+COMMENT ON COLUMN tb_lc_edu01.pl_m_birth IS '모집인생년월일';
+COMMENT ON COLUMN tb_lc_edu01.pl_m_gender IS '모집인성별';
 COMMENT ON COLUMN tb_lc_edu01.career_typ IS '구분(신입/경력)';
 COMMENT ON COLUMN tb_lc_edu01.pl_product IS '취급상품';
 COMMENT ON COLUMN tb_lc_edu01.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_edu01.pl_crf_no IS '인증서번호';
 COMMENT ON COLUMN tb_lc_edu01.pl_edu_date IS '수료일자';
+COMMENT ON COLUMN tb_lc_edu01.reg_timestamp IS '등록일시';
+
+commit;
+
+
+-- 교육이수정보_temp
+create table tb_lc_edu01_temp(
+	pl_m_name varchar(20) not null
+	, pl_m_birth varchar(8) not null
+	, pl_m_gender char(1) not null
+	, career_typ varchar(2) not null
+	, pl_product varchar(30) not null
+	, pl_edu_no varchar(20)
+	, pl_crf_no varchar(20)
+	, pl_edu_date varchar(8) not null
+	, reg_timestamp timestamp NOT NULL
+);
+
+COMMENT ON TABLE tb_lc_edu01_temp IS '교육이수정보';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_m_name IS '모집인이름';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_m_birth IS '모집인생년월일';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_m_gender IS '모집인성별';
+COMMENT ON COLUMN tb_lc_edu01_temp.career_typ IS '구분(신입/경력)';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_product IS '취급상품';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_edu_no IS '교육이수번호';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_crf_no IS '인증서번호';
+COMMENT ON COLUMN tb_lc_edu01_temp.pl_edu_date IS '수료일자';
+COMMENT ON COLUMN tb_lc_edu01_temp.reg_timestamp IS '등록일시';
 
 commit;
 

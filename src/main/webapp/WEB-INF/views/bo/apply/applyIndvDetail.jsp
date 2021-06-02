@@ -15,13 +15,13 @@ function goRecruitApply(num){
 	var plStat = "";
 	var plRegStat = "";
 	if(num == "2"){
-		plStat = "7";
+		plStat = "9";
 		plRegStat = "2";
 	}else if(num == "4"){
-		plStat = "7";
+		plStat = "9";
 		plRegStat = "4";
 	}else if(num == "3"){
-		plStat = "7";
+		plStat = "9";
 		plRegStat = "3";
 	}else{
 		alert("오류가 발생하였습니다.");
@@ -113,6 +113,7 @@ function ocrRun(){
 <form name="pageFrm" id="pageFrm" method="post">
 	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.applyInfo.masterSeq }"/>
 	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.applyInfo.plStat }"/>
+	<input type="hidden" name="masterToId" id="masterToId" value="${result.applyInfo.masterToId }"/>
 </form>
 
 <div class="cont_area">
@@ -145,7 +146,7 @@ function ocrRun(){
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.plPayStat ne null }">
-								${result.applyInfo.plPayStat } (국민카드 / 2021.10.20)
+								${result.applyInfo.plPayStat }
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
