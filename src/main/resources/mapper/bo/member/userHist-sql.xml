@@ -11,6 +11,7 @@
    		INSERT INTO TB_LC_MAS01_HIST
    		(
    			 MASTER_SEQ
+   			,MASTER_TO_ID
 			,COM_CODE
 			,MEMBER_SEQ
 			,PL_CLASS
@@ -57,6 +58,7 @@
    		)
    		SELECT
    			 MASTER_SEQ
+   			,MASTER_TO_ID
 			,COM_CODE
 			,MEMBER_SEQ
 			,PL_CLASS
