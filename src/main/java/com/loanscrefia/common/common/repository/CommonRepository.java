@@ -26,6 +26,9 @@ public interface CommonRepository {
 	//첨부파일 삭제
 	int deleteFile(FileDomain fileDomain);
 	
+	//첨부파일 real 삭제
+	int realDeleteFile(FileDomain fileDomain);
+	
 	//회원사 리스트
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
 

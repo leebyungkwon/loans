@@ -104,6 +104,14 @@
    			AND FILE_SEQ = #{fileSeq}
    		</where>
    	</update>
+   	
+   	<!-- 첨부파일 real 삭제 -->
+	<delete id="realDeleteFile" parameterType="file">
+		DELETE FROM TB_LC_FILE01
+		<where>
+			AND FILE_SEQ = #{fileSeq}
+		</where> 
+	</delete>
 	
 	<!-- 회원사 리스트 -->
 	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">
@@ -114,7 +122,6 @@
 		WHERE COM_CODE != 1
 	</select>
 	
-	
 	<!-- session 회원정보 조회 -->
 	<select id="getMemberDetail" parameterType="member" resultType="member">
 		SELECT
@@ -122,7 +129,6 @@
 		FROM tb_lc_members
 		WHERE member_seq = #{regSeq}
 	</select>
-	
 	
 	<!-- 회원사 회원정보 조회 -->
 	<select id="getCompanyMemberDetail" parameterType="member" resultType="member">

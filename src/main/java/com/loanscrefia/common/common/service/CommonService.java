@@ -49,6 +49,12 @@ public class CommonService {
 	public int deleteFile(FileDomain fileDomain) {
 		return commonRepository.deleteFile(fileDomain);
 	}
+	
+	//첨부파일 real 삭제
+	@Transactional
+	public int realDeleteFile(FileDomain fileDomain) {
+		return commonRepository.realDeleteFile(fileDomain);
+	}
 
 	//회원사 리스트
 	@Transactional(readOnly=true)

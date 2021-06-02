@@ -187,4 +187,11 @@ public class CommonController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//첨부파일 real 삭제
+	@PostMapping(value="/common/fileRealDelete")
+	public ResponseEntity<ResponseMsg> fileRealDelete(FileDomain fileDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+		responseMsg.setData(commonService.realDeleteFile(fileDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 }
