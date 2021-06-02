@@ -18,7 +18,7 @@
 				<tr>
 					<th>신규경력 구분</th>
 					<td colspan="3">
-						<select name="careerTyp">
+						<select name="careerTyp" class="careerTyp">
 							<c:forEach var="careerTypList" items="${result.careerTypList }">
 								<option value="${careerTypList.codeDtlCd }">${careerTypList.codeDtlNm }</option>
 							</c:forEach>
@@ -51,14 +51,14 @@
 
 	<h3>전문인력관련 서류</h3>
 	<div id="table10">
-		<table class="view_table">
+		<table class="view_table eduFileTable">
 			<colgroup>
 				<col width="38%"/>
 				<col width="62%"/>
 			</colgroup>
 			<tbody>
-				<tr>
-					<th class="acenter">이수확인서 (경력)</th>
+				<tr class="careerTypTwoTr" data-fileType="16" data-fileSeq="" style="display: none;">
+					<th class="acenter">이수확인서(경력)</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
@@ -67,24 +67,22 @@
 						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="16" data-essential="N">초기화</a>
 					</td>
 				</tr>
-				<tr>
-					<th class="acenter">인증서(신규)</th>
+				<tr class="careerTypOneTr" data-fileType="17" data-fileSeq="">
+					<th class="acenter">인증서(신규)<span class="esstIcon"> *</span></th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="17"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="17" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">경력증명서 (업무인력)</th>
+					<th class="acenter">경력증명서(업무인력) *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="18"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="18" data-essential="N">초기화</a>
 					</td>
 				</tr>
 			</tbody>

@@ -114,7 +114,7 @@ function goCorpImwonInfoDel(excSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">대표자 이력서</th>
+										<th class="acenter">대표자 이력서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType7 ne null }">
@@ -125,7 +125,7 @@ function goCorpImwonInfoDel(excSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">대표자 경력증명서</th>
+										<th class="acenter">대표자 경력증명서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType8 ne null }">
@@ -136,7 +136,7 @@ function goCorpImwonInfoDel(excSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류</th>
+										<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType9 ne null }">
@@ -147,7 +147,7 @@ function goCorpImwonInfoDel(excSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">인감증명서</th>
+										<th class="acenter">인감증명서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType10 ne null }">
@@ -170,7 +170,7 @@ function goCorpImwonInfoDel(excSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">금융상품 유형, 내용에 대한 설명자료</th>
+										<th class="acenter">금융상품 유형, 내용에 대한 설명자료 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType11 ne null }">
@@ -193,7 +193,7 @@ function goCorpImwonInfoDel(excSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">대표 교육과정 이수확인서 (경력)</th>
+										<th class="acenter">대표 경력교육과정 수료증(경력)<c:if test="${corpImwonList.careerTyp eq '2' }"> *</c:if></th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType12 ne null }">
@@ -204,7 +204,7 @@ function goCorpImwonInfoDel(excSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">대표 인증서(신규)</th>
+										<th class="acenter">대표 인증서(신규)<c:if test="${corpImwonList.careerTyp eq '1' }"> *</c:if></th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType13 ne null }">
@@ -215,7 +215,7 @@ function goCorpImwonInfoDel(excSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">대표 경력증명서</th>
+										<th class="acenter">대표 경력증명서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType14 ne null }">
@@ -238,7 +238,7 @@ function goCorpImwonInfoDel(excSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">업무수행기준요건관련 서류</th>
+										<th class="acenter">업무수행기준요건관련 서류 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType15 ne null }">

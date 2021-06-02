@@ -146,7 +146,7 @@ function goUserChangeApplyPage(){
 					<col width="50%"/>
 				</colgroup>
 				<tr>
-					<th class="acenter">사진 (등록증 게시용) *</th>
+					<th class="acenter">사진(등록증 게시용) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType1 ne null }">
@@ -168,7 +168,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">교육과정 이수확인서 (경력)</th>
+					<th class="acenter">경력교육과정 수료증(경력)<c:if test="${result.userRegInfo.careerTyp eq '2' }"> *</c:if></th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType3 ne null }">
@@ -179,7 +179,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">인증서(신규)</th>
+					<th class="acenter">인증서(신규)<c:if test="${result.userRegInfo.careerTyp eq '1' }"> *</c:if></th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType4 ne null }">
@@ -190,7 +190,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">경력증명서 *</th>
+					<th class="acenter">경력증명서</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType5 ne null }">
@@ -212,7 +212,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</th>
+					<th class="acenter">결격사유없음 확인서(파산, 피한정후견인등) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType7 ne null }">
@@ -223,7 +223,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">대리인 신청 위임장(위임인 인간날인)</th>
+					<th class="acenter">대리인 신청 위임장(위임인 인간날인) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType8 ne null }">
@@ -234,7 +234,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">위임인 인감증명서</th>
+					<th class="acenter">위임인 인감증명서 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType9 ne null }">

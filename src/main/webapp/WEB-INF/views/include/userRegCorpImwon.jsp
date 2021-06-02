@@ -18,7 +18,7 @@
 				<tr>
 					<th>신규경력 구분</th>
 					<td colspan="3">
-						<select name="careerTyp">
+						<select name="careerTyp" class="careerTyp">
 							<c:forEach var="careerTypList" items="${result.careerTypList }">
 								<option value="${careerTypList.codeDtlCd }">${careerTypList.codeDtlNm }</option>
 							</c:forEach>
@@ -78,43 +78,39 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th class="acenter">대표자 이력서</th>
+					<th class="acenter">대표자 이력서 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="7"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="7" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">대표자 경력증명서</th>
+					<th class="acenter">대표자 경력증명서 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="8"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류</th>
+					<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="9"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="9" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">인감증명서</th>
+					<th class="acenter">인감증명서 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="10"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
 					</td>
 				</tr>
 			</tbody>
@@ -130,13 +126,12 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th class="acenter">금융상품 유형, 내용에 대한 설명자료</th>
+					<th class="acenter">금융상품 유형, 내용에 대한 설명자료 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="11"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="11" data-essential="N">초기화</a>
 					</td>
 				</tr>
 			</tbody>
@@ -145,14 +140,14 @@
 	
 	<h3>3. 교육이수관련 서류</h3>
 	<div id="table08">
-		<table class="view_table">
+		<table class="view_table eduFileTable">
 			<colgroup>
 				<col width="38%">
 				<col width="62%">
 			</colgroup>
 			<tbody>
-				<tr>
-					<th class="acenter">대표 교육과정 이수확인서 (경력)</th>
+				<tr class="careerTypTwoTr" data-fileType="12" data-fileSeq="" style="display: none;">
+					<th class="acenter">대표 경력교육과정 수료증(경력)</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
@@ -161,24 +156,22 @@
 						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="12" data-essential="N">초기화</a>
 					</td>
 				</tr>
-				<tr>
-					<th class="acenter">대표 인증서(신규)</th>
+				<tr class="careerTypOneTr" data-fileType="13" data-fileSeq="">
+					<th class="acenter">대표 인증서(신규)<span class="esstIcon"> *</span></th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="13"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="13" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">대표 경력증명서</th>
+					<th class="acenter">대표 경력증명서 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="14"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="14" data-essential="N">초기화</a>
 					</td>
 				</tr>
 			</tbody>
@@ -194,13 +187,12 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th class="acenter">업무수행기준요건관련 서류</th>
+					<th class="acenter">업무수행기준요건관련 서류 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="15"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="15" data-essential="N">초기화</a>
 					</td>
 				</tr>
 			</tbody>

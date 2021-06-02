@@ -2,6 +2,48 @@
  * 회원사 시스템 > 모집인 공통 스크립트
  */
 
+//신규,경력 관련
+$(document).on("change",".careerTyp",function(){
+	
+	var parentTag = $(this).closest("div").parent();
+	
+	$(parentTag).find(".eduFileTable").find(".esstIcon").remove();
+	
+	if($(this).val() == "1"){
+		//신규
+		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").show();
+		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").hide();
+		
+		if(WebUtil.isNotNull($(this).attr("data-fileSeq"))){
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileDel").attr("data-essential","Y");
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileDel").attr("data-essential","N");
+		}else{
+			var fileType = $(parentTag).find(".eduFileTable").find(".careerTypTwoTr").attr("data-fileType");
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("th").append('<span class="esstIcon"> *</span>');
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".inputFile").attr("data-essential","Y");
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileReset").remove();
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".inputFile").attr("data-essential","N");
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").append('<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="N">초기화</a>');
+		}
+	}else if($(this).val() == "2"){
+		//경력
+		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").show();
+		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").hide();
+		
+		if(WebUtil.isNotNull($(this).attr("data-fileSeq"))){
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileDel").attr("data-essential","Y");
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileDel").attr("data-essential","N");	
+		}else{
+			var fileType = $(parentTag).find(".eduFileTable").find(".careerTypOneTr").attr("data-fileType");
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("th").append('<span class="esstIcon"> *</span>');
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".inputFile").attr("data-essential","Y");
+			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileReset").remove();
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".inputFile").attr("data-essential","N");
+			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").append('<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="N">초기화</a>');
+		}
+	}
+});
+
 //파일찾기
 $(document).on("click",".goFileUpload",function(){
 	$(this).prev().prev().click();
@@ -42,14 +84,22 @@ $(document).on("click",".goFileReset",function(){
 
 //첨부파일 삭제
 $(document).on("click",".goFileDel",function(){
+	var realDel 	= $(this).attr("data-realDel");
 	var fileSeq 	= $(this).attr("data-fileSeq");
 	var fileType 	= $(this).attr("data-fileType");
 	var essential 	= $(this).attr("data-essential");
 	var targetArea 	= $(this).parent();
+	var url			= "";
+	
+	if(realDel == "Y"){
+		url = "/common/fileRealDelete";
+	}else{
+		url = "/common/fileDelete";
+	}
 	
 	if(confirm("삭제하시겠습니까?")){
 		var p = {
-			  url		: "/common/fileDelete"
+			  url		: url
 			, param		: {
 				fileSeq : fileSeq
 			}
@@ -226,6 +276,29 @@ function goCorpInfoReg(obj){
  * 상태 관련
  * ===============================================================================================================================
  */
+
+//승인요청
+function goUserAcceptApply(){
+	if(confirm("승인요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/userAcceptApply"	
+			, param		: {
+				 masterSeqArr 	: $("#masterSeq").val()  
+				,plStat			: '2'
+			}
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("승인요청되었습니다.");
+					location.href = "/member/user/userRegPage";
+				}else{
+					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
+					return;
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
 
 //즉시취소 클릭 시
 function goUserCancelPage(){

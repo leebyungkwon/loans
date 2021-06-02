@@ -179,7 +179,7 @@ function goUserChangeApply(){
 						<col width="50%"/>
 					</colgroup>
 					<tr>
-						<th class="acenter">사진 (등록증 게시용) *</th>
+						<th class="acenter">사진(등록증 게시용) *</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType1 ne null }">
@@ -213,54 +213,53 @@ function goUserChangeApply(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">교육과정 이수확인서 (경력)</th>
+						<th class="acenter">경력교육과정 수료증(경력) *</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType3 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="N">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="3"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="3" data-essential="N">초기화</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">인증서(신규)</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType4 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="N">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="4"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="4" data-essential="N">초기화</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">경력증명서 *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType5 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }">${result.userRegInfo.fileType5.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }" data-fileType="5" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="3"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th class="acenter">인증서(신규) *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType4 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="4"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th class="acenter">경력증명서</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType5 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }">${result.userRegInfo.fileType5.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }" data-fileType="5" data-essential="N">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="5"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="5" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -283,7 +282,7 @@ function goUserChangeApply(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</th>
+						<th class="acenter">결격사유없음 확인서(파산, 피한정후견인등) *</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType7 ne null }">
@@ -300,37 +299,35 @@ function goUserChangeApply(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">대리인 신청 위임장(위임인 인간날인)</th>
+						<th class="acenter">대리인 신청 위임장(위임인 인간날인) *</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType8 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType8.fileSeq }">${result.userRegInfo.fileType8.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType8.fileSeq }" data-fileType="8" data-essential="N">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType8.fileSeq }" data-fileType="8" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="8"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">위임인 인감증명서</th>
+						<th class="acenter">위임인 인감증명서 *</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType9 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType9.fileSeq }">${result.userRegInfo.fileType9.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType9.fileSeq }" data-fileType="9" data-essential="N">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType9.fileSeq }" data-fileType="9" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="9"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="9" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>

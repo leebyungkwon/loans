@@ -42,7 +42,7 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">물적 설비내역에 대한 증빙서류</th>
+							<th class="acenter">물적 설비내역에 대한 증빙서류 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType21 ne null }">
@@ -53,7 +53,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본</th>
+							<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType22 ne null }">
@@ -64,7 +64,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">부동산 등기부등본</th>
+							<th class="acenter">부동산 등기부등본 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType23 ne null }">
@@ -87,7 +87,7 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</th>
+							<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType24 ne null }">
@@ -110,7 +110,7 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">대리인 신청 위임장 (위임인 인감날인)</th>
+							<th class="acenter">대리인 신청 위임장(위임인 인감날인) *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType25 ne null }">
@@ -121,7 +121,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">위임인 인감증명서</th>
+							<th class="acenter">위임인 인감증명서 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType26 ne null }">

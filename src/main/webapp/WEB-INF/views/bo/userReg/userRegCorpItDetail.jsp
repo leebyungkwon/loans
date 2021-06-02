@@ -196,7 +196,7 @@ function goDataAreaAdd() {
 												<c:choose>
 													<c:when test="${corpItList.fileType19 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType19.fileSeq }">${corpItList.fileType19.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType19.fileSeq }" data-fileType="19" data-essential="N">삭제</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType19.fileSeq }" data-fileType="19" data-essential="N" data-realDel="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
 														<input type="text" class="w50 file_input" readonly disabled>
@@ -214,7 +214,7 @@ function goDataAreaAdd() {
 												<c:choose>
 													<c:when test="${corpItList.fileType20 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType20.fileSeq }">${corpItList.fileType20.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType20.fileSeq }" data-fileType="20" data-essential="N">삭제</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType20.fileSeq }" data-fileType="20" data-essential="N" data-realDel="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
 														<input type="text" class="w50 file_input" readonly disabled>

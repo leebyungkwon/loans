@@ -106,7 +106,7 @@ function goCorpExpertInfoDel(expSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">이수확인서 (경력)</th>
+										<th class="acenter">이수확인서(경력)<c:if test="${corpExpertList.careerTyp eq '2' }"> *</c:if></th>
 										<td>
 											<c:choose>
 												<c:when test="${corpExpertList.fileType16 ne null }">
@@ -117,7 +117,7 @@ function goCorpExpertInfoDel(expSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">인증서(신규)</th>
+										<th class="acenter">인증서(신규)<c:if test="${corpExpertList.careerTyp eq '1' }"> *</c:if></th>
 										<td>
 											<c:choose>
 												<c:when test="${corpExpertList.fileType17 ne null }">
@@ -128,7 +128,7 @@ function goCorpExpertInfoDel(expSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">경력증명서 (업무인력)</th>
+										<th class="acenter">경력증명서(업무인력) *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpExpertList.fileType18 ne null }">

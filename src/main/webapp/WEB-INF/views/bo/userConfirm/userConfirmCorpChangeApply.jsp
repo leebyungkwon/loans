@@ -12,7 +12,37 @@ var originCapital 			= "${result.userRegInfo.capital}"
 
 function pageLoad(){
 	goCallViolationCd();
+	
+	//datepicker
+	$("#date_cal01").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	: function(dateText1,inst) {
+			$("#corpFoundDate").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal02").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	: function(dateText1,inst) {
+			$("#comContDate").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal03").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	: function(dateText1,inst) {
+			$("#entrustDate").val(dateText1);
+			$(this).hide();
+		}
+	});
 }
+
+$(document).mouseup(function(e){
+	var calendar01 = $(".calendar01");
+	if(calendar01.has(e.target).length === 0){
+		calendar01.hide();
+	}
+});
 
 //변경요청
 function goUserChangeApply(){
@@ -123,11 +153,15 @@ function goUserChangeApply(){
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
-						<td colspan="3">${result.userRegInfo.plMerchantNo }</td>
+						<td><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }" maxlength="14" placeholder="- 포함" data-vd='{"type":"text","len":"1,14","req":true,"msg":"법인등록번호(- 포함)를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>설립년월일</th>
-						<td colspan="3">${result.userRegInfo.corpFoundDate }</td>
+						<td colspan="3">
+							<input type="text" name="corpFoundDate" id="corpFoundDate" onclick="$('#date_cal01').show();" class="w100" value="${result.userRegInfo.corpFoundDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"설립년월일(- 포함)을 입력해 주세요."}' readonly="readonly">
+							<!-- <a class="calendar_ico" onclick="$('#date_cal01').show();"></a> -->
+						 	<div id="date_cal01" class="calendar01"></div>
+						</td>
 					</tr>
 					<tr>
 						<th>본점소재지</th>
@@ -145,22 +179,28 @@ function goUserChangeApply(){
 					</tr>
 					<tr>
 						<th>자본금(백만원)</th>
-						<td colspan="3">${result.userRegInfo.capital }</td>
+						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" data-vd='{"type":"text","len":"1,200","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>계약일자</th>
-						<td>${result.userRegInfo.comContDate }</td>
+						<td>
+							<input type="text" name="comContDate" id="comContDate" onclick="$('#date_cal02').show();" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
+							<!-- <a class="calendar_ico" onclick="$('#date_cal02').show();"></a> -->
+						 	<div id="date_cal02" class="calendar01"></div>
+						</td>
 						<th>위탁예정기간</th>
-						<td>${result.userRegInfo.entrustDate }</td>
+						<td>
+							<input type="text" name="entrustDate" onclick="$('#date_cal03').show();" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
+							<!-- <a class="calendar_ico" onclick="$('#date_cal03').show();"></a> -->
+						 	<div id="date_cal03" class="calendar01"></div>
+						</td>
 					</tr>
-					
-					<c:if test="${!empty result.userRegInfo.plHistTxt and result.userRegInfo.plStat eq '5'}">
+					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
 						<tr>
 							<th>보완요청사유</th>
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 						</tr>					
 					</c:if>
-					
 					<tr>
 						<th>변경사유</th>
 						<td colspan="3"><input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/></td>

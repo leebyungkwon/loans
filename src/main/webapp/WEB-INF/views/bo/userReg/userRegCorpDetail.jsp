@@ -21,21 +21,21 @@ function pageLoad(){
 	$("#date_cal01").datepicker({
 		 dateFormat	: "yy-mm-dd"
 		,onSelect	: function(dateText1,inst) {
-			$("#careerStartDate").val(dateText1);
+			$("#corpFoundDate").val(dateText1);
 			$(this).hide();
 		}
 	});
 	$("#date_cal02").datepicker({
 		 dateFormat	: "yy-mm-dd"
 		,onSelect	: function(dateText1,inst) {
-			$("#careerEndDate").val(dateText1);
+			$("#comContDate").val(dateText1);
 			$(this).hide();
 		}
 	});
 	$("#date_cal03").datepicker({
 		 dateFormat	: "yy-mm-dd"
 		,onSelect	: function(dateText1,inst) {
-			$("#comContDate").val(dateText1);
+			$("#entrustDate").val(dateText1);
 			$(this).hide();
 		}
 	});
@@ -88,7 +88,7 @@ function goUserRegInfoUpdt() {
 	</div>
 	
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+		<input type="hidden" name="masterSeq" id="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 		<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
 		
 		<div class="contents">
@@ -195,7 +195,7 @@ function goUserRegInfoUpdt() {
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType1 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }">${result.userRegInfo.fileType1.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }" data-fileType="1" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }" data-fileType="1" data-essential="Y" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -212,7 +212,7 @@ function goUserRegInfoUpdt() {
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType2 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }">${result.userRegInfo.fileType2.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }" data-fileType="2" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }" data-fileType="2" data-essential="Y" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -229,7 +229,7 @@ function goUserRegInfoUpdt() {
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType3 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -246,7 +246,7 @@ function goUserRegInfoUpdt() {
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType4 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="N">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="N" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -264,7 +264,7 @@ function goUserRegInfoUpdt() {
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType5 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }">${result.userRegInfo.fileType5.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }" data-fileType="5" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }" data-fileType="5" data-essential="Y" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -281,7 +281,7 @@ function goUserRegInfoUpdt() {
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType6 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">${result.userRegInfo.fileType6.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }" data-fileType="6" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }" data-fileType="6" data-essential="Y" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -296,6 +296,9 @@ function goUserRegInfoUpdt() {
 			</div>
 	
 			<div class="btn_wrap">
+				<c:if test="${result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
+					<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
+				</c:if>
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
 				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
 					<!-- 승인요청상태가 아닐 때만 수정 가능 -->
