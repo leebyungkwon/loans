@@ -57,6 +57,8 @@ function menuActiveFunction(){
 		<li id="menuCrefia"><a href="/admin/crefia/crefiaPage">협회 관리자 관리</a></li>
 		<li id="menuCrefiaWork"><a href="/admin/crefiaWork/crefiaWorkPage">협회 관리자 업무분장</a></li>
 		<li id="menuCorp"><a href="/admin/corp/corpPage">법인 관리</a></li>
+		<li id="menuCorp"><a href="javascript:void(0);">교육이수번호</a></li>
+		<li id="menuCorp"><a href="javascript:void(0);">통계</a></li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
