@@ -209,6 +209,9 @@ commit;
 -- 모집인 정보 
 create table tb_lc_mas01(
 	master_seq integer not null default nextval('tb_lc_mas01_seq')
+	
+	, master_to_id varchar(20)
+	
 	, com_code integer
 	, member_seq integer
 	, pl_class varchar(2)
@@ -263,6 +266,7 @@ commit;
 
 COMMENT ON TABLE tb_lc_mas01 IS '모집인정보';
 COMMENT ON COLUMN tb_lc_mas01.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
@@ -576,6 +580,7 @@ commit;
 create table tb_lc_mas01_hist(
 	master_hist_seq integer not null default nextval('tb_lc_mas01_hist_seq')
 	, master_seq integer
+	, master_to_id varchar(20)
 	, com_code integer
 	, member_seq integer
 	, pl_class varchar(2)
@@ -629,6 +634,7 @@ commit;
 COMMENT ON TABLE tb_lc_mas01_hist IS '모집인정보';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_hist_seq IS '모집인변경이력시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';

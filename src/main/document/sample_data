@@ -1,5 +1,11 @@
 ------------------------------- 사용금지-----------------------------
 
+select 'LC' || to_char(current_date,'yymmdd') || lpad(cast(nextval('tb_lc_mas01_seq') as varchar(8)) , 8, '0');
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN master_to_id varchar(20);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN master_to_id varchar(20);
+
+------------------------------- 사용금지-----------------------------
 
 INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no) VALUES
 	 ('여신금융협회','12341234','44443330','01031672126'),
