@@ -54,6 +54,8 @@ public class UtilExcel<T> {
 		List<Integer> vLenMax 	= new ArrayList<Integer>();
 		List<String> chkDb 		= new ArrayList<String>();
 		List<String> vEncrypt 	= new ArrayList<String>();
+		List<String> chkPrd 	= new ArrayList<String>();
+		List<String> chkCal 	= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -66,6 +68,8 @@ public class UtilExcel<T> {
 				vLenMin.add(columnAnnotation.vLenMin());
 				chkDb.add(columnAnnotation.chkDb());
 				vEncrypt.add(columnAnnotation.vEncrypt());
+				chkPrd.add(columnAnnotation.chkPrd());
+				chkCal.add(columnAnnotation.chkCal());
 			}
 		}
 		
@@ -73,9 +77,22 @@ public class UtilExcel<T> {
 		Workbook wb 						= ExcelFileType.getWorkbook(path);
 		Sheet sheet 						= wb.getSheetAt(0);
 		int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
+		int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();
 		
 		Map<String, Object> errorMsgMap		= new HashMap<String, Object>();
 		String errorMsg						= "";
+		
+		//엑셀에 입력된 데이터가 하나도 없을 때
+		if(physicalNumberOfRows == 1) {
+			errorMsg = "엑셀 양식에 입력된 데이터가 없습니다.";
+			errorMsgMap.put("errorMsg", errorMsg);
+        	result.clear();
+        	result.add(errorMsgMap);
+        	return result;
+		}
+		
+		//최초 등록 시 대출 상품 중복 체크용 배열
+		String plProductArr[] = new String[physicalNumberOfRows-1];
 		
 		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
 		    Row row 				= null;
@@ -120,7 +137,6 @@ public class UtilExcel<T> {
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
-	                			/*
 	                			if(chkDb.get(j).equals("corp1")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantName(cellVal);
@@ -136,7 +152,9 @@ public class UtilExcel<T> {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
 		                				}
 	                				}
-	                			}else if(chkDb.get(j).equals("edu1")) {
+	                			}
+	                			/*
+	                			else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				eduChkParam.setCareerTyp(cellVal);
 	                			}else if(chkDb.get(j).equals("edu2")) {
@@ -158,18 +176,9 @@ public class UtilExcel<T> {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
 	                				}
 	                			}else if(chkDb.get(j).equals("user")) {
-	                				//모집인 중복체크
-	                				String ci = cellVal;
-	                				
-	                				if(!ci.endsWith("==")) {
+	                				//CI 형식 체크
+	                				if(!cellVal.endsWith("==")) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
-	                				}else {
-	                					userChkParam.setCi(ci);
-	                					int dupChkResult = userRegDupChk(userChkParam);
-	                					
-	                					if(dupChkResult > 0) {
-	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
-	                					}
 	                				}
 	                			}
 	                			*/
@@ -182,30 +191,64 @@ public class UtilExcel<T> {
 	                			}
 	                		}
 	                		*/
+	                		if(!chkPrd.get(j).isEmpty()) {
+	                			//상품별 등록여부 체크 : 대출 상품일 경우 회원사 통틀어서 하나 / 나머지는 중복 가능
+	                			if(chkPrd.get(j).equals("prd1")) {
+	                				plProductArr[i-1] = cellVal; //최초 등록 시 대출 상품 중복 체크용 배열
+	                				userChkParam.setPlProduct(cellVal);
+	                			}else if(chkPrd.get(j).equals("prd2")) {
+	                				userChkParam.setCi(cellVal);
+	                				
+	                				int dupChkResult = userRegDupChk(userChkParam);
+		                			
+	                				if(dupChkResult > 0) {
+                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
+                					}
+	                			}
+	                		}
+	                		if(!chkCal.get(j).isEmpty()) {
+	                			//날짜 형식 체크
+	                			if(!dateFormatCheck(cellVal,"yyyy-MM-dd")) {
+	                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
+	                			}
+	                		}
 	                	}
 	                }
 	                //map.put(cellName, ExcelCellRef.getValue(cell));
 	                map.put(cellName, cellVal);
 	            }
 	            result.add(map);
-		    }else {
-		    	System.out.println("null null null null null null null ----------------------");
-		    	errorMsg = "빈 row가 존재합니다.";
 		    }
 		}
 		//System.out.println("errorMsg :: " + errorMsg);
-        
+		
+		//최초 등록 시 대출 상품 중복 체크
+    	int plProductDupChk = 0;
+    	
+    	if(plProductArr.length > 0) {
+    		for(int i = 0;i < plProductArr.length;i++) {
+    			if(plProductArr[i].equals("1")) {
+    				plProductDupChk++;
+    			}
+    		}
+    		if(plProductDupChk > 1) {
+    			errorMsg = "금융상품유형이 [대출(코드 = 1)]인 모집인이 1명 이상입니다.";
+    		}
+    	}
+		
+    	//에러메세지 있을 때 
         if(errorMsg != null && !errorMsg.equals("")) {
         	errorMsgMap.put("errorMsg", errorMsg);
         	result.clear();
         	result.add(errorMsgMap);
         }
-		
+        
 		return result;
 	}
 	
 
 	public void downLoad(List<T> data, Class<T> type,OutputStream stream) throws IOException, IllegalArgumentException, IllegalAccessException {
+		
 		SXSSFWorkbook wb = new SXSSFWorkbook();
 		Sheet sheet = wb.createSheet();
 		int rowIndex = 0;
@@ -241,8 +284,6 @@ public class UtilExcel<T> {
 				}
 			}
 		}
-		
-	    
 		wb.write(stream);
 		wb.close();
 		wb.dispose();
@@ -270,7 +311,7 @@ public class UtilExcel<T> {
 	}
 	
 	//날짜 형식 및 값 체크
-	public boolean dateCheck(String date, String format) {
+	public boolean dateFormatCheck(String date, String format) {
 		SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
 		dateFormatParser.setLenient(false);
 		try {

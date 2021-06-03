@@ -31,7 +31,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="주소", vCell="E", vLenMin=1, vLenMax=2, vEnum="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17")
 	private String addr;			//주소
 	
-	@ExcelColumn(headerName="금융상품유형", vCell="F", vLenMin=1, vLenMax=1, vEnum="1,2,3,4,5,6,7", chkDb="edu4")
+	@ExcelColumn(headerName="금융상품유형", vCell="F", vLenMin=1, vLenMax=1, vEnum="1,2,3,4,5,6,7", chkDb="edu4", chkPrd="prd1")
 	private String plProduct;		//금융상품유형(취급상품)
 	
 	@ExcelColumn(headerName="법인명", vCell="G", vLenMin=0, vLenMax=30, chkDb="corp1")
@@ -43,18 +43,18 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=10, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
-	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String careerStartDate;	//경력시작일
 	
-	@ExcelColumn(headerName="경력종료일", vCell="K", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="경력종료일", vCell="K", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String careerEndDate;	//경력종료일
 	
-	@ExcelColumn(headerName="계약일자", vCell="L", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="계약일자", vCell="L", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String comContDate;		//계약일자
 	
-	@ExcelColumn(headerName="위탁예정기간", vCell="M", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="위탁예정기간", vCell="M", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String entrustDate;		//위탁예정일
 	
-	@ExcelColumn(headerName="CI", vCell="N", vLenMin=88, vLenMax=88, chkDb="user")
+	@ExcelColumn(headerName="CI", vCell="N", vLenMin=88, vLenMax=88, chkDb="user", chkPrd="prd2")
 	private String ci;				//CI
 }
