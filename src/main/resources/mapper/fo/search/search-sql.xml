@@ -24,7 +24,7 @@
 			AND TLM.PL_M_NAME 		= #{plMName}
 			AND TLM.PL_CELLPHONE 	= #{plCellphone}
 			AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
-			AND TLM.PL_STAT 		= '7' 				-- 처리상태 : 완료
+			AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
    		)Z
    		WHERE Z.PL_M_Z_ID_FRONT = #{plMZIdFront}
 		AND Z.GENDER 			= #{gender}
@@ -40,13 +40,14 @@
 		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
 		AND TLM.PL_CEO_NAME 	= #{plCeoName}
 		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
-		AND TLM.PL_STAT 		= '7' 				-- 처리상태 : 완료
+		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
    	</select>
    	
    	<!-- 모집인 조회 -->
 	<select id="selectSearchUserInfo" parameterType="search" resultType="search">
 		SELECT
 			 TLM.MASTER_SEQ
+			,TLM.MASTER_TO_ID
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
