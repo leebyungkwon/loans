@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.config.CryptoUtil;
-import com.loanscrefia.member.edu.domain.EduDomain;
-import com.loanscrefia.member.edu.repository.EduRepository;
+//import com.loanscrefia.member.edu.domain.EduDomain;
+//import com.loanscrefia.member.edu.repository.EduRepository;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
@@ -39,7 +39,7 @@ public class UtilExcel<T> {
 	}
 	
 	@Autowired private CorpRepository corpRepo;
-	@Autowired private EduRepository eduRepo; 
+	//@Autowired private EduRepository eduRepo; 
 	@Autowired private UserRepository userRepo;
 	
 	//참고 : https://eugene-kim.tistory.com/46
@@ -85,7 +85,7 @@ public class UtilExcel<T> {
 		    Map<String, Object> map = null;
 		    
 		    CorpDomain corpChkParam = new CorpDomain();
-		    EduDomain eduChkParam 	= new EduDomain();
+		    //EduDomain eduChkParam 	= new EduDomain();
 		    UserDomain userChkParam = new UserDomain();
 		    
 	        row = sheet.getRow(i);
@@ -255,11 +255,13 @@ public class UtilExcel<T> {
 		return corpRepo.selectCorpInfoCnt(corpDomain);
 	}
 	
+	/*
 	//교육이수번호,인증서번호 유효 체크
 	@Transactional(readOnly=true)
 	private int plEduNoCheck(EduDomain eduDomain) {
 		return eduRepo.plEduNoCheck(eduDomain);
 	}
+	*/
 	
 	//모집인 중복체크
 	@Transactional(readOnly=true)
