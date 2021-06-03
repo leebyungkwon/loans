@@ -668,6 +668,11 @@ table td .link{
   right: 147px;
 }
 
+.btn_right_small01{
+  position: absolute;
+  right: 0px;
+}
+
 .btn_right_small02{
   position: absolute;
   right: 110px;
@@ -678,12 +683,16 @@ table td .link{
   right: 220px;
 }
 
+.btn_right_small04{
+  position: absolute;
+  right: 330px;
+}
+
 /* FO footer CSS 복사(/fo/common.css) */
 
 #footer{
 	position: relative;
 	height: 200px;
-	z-index: 70;
 	background-color: #0e213a;
 }
 

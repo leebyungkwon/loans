@@ -152,6 +152,11 @@ public class CompanyController {
 	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		
+		// 2021-05-31 법인번호 암호화 진행예정
+		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
+		String encMerchantNo = CryptoUtil.encrypt(companyDomain.getPlMerchantNo()); // 암호화
+		companyDomain.setPlMerchantNo(encMerchantNo);
+		
 		int count = companyService.plMerchantNoCheck(companyDomain);
 		
 		if(count > 0) {

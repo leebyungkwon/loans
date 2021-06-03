@@ -104,7 +104,7 @@
 		<include refid="common.totalPages"/>
 			TLC.COM_CODE
 			,TLC.COM_NAME
-			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLC.PL_MERCHANT_NO
 			,FN_BIZ_NO(TLC.PL_BUSINESS_NO) AS PL_BUSINESS_NO
 			,FN_CELLPHONE(TLC.COMP_PHONE_NO) AS COMP_PHONE_NO
 		FROM TB_LC_COMPANY TLC
@@ -126,7 +126,7 @@
 		SELECT 
 			TLC.COM_CODE
 			,TLC.COM_NAME
-			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLC.PL_MERCHANT_NO
 			,FN_BIZ_NO(TLC.PL_BUSINESS_NO) AS PL_BUSINESS_NO
 			,FN_CELLPHONE(TLC.COMP_PHONE_NO) AS COMP_PHONE_NO
 		FROM TB_LC_COMPANY TLC
@@ -149,9 +149,9 @@
 		VALUES
 			(
 				#{comName}											/*회원사(상호명)*/      
-				,REPLACE(#{plMerchantNo}, '-', '')				/*법인등록번호*/            
-				,REPLACE(#{plBusinessNo}, '-', '')				/*사업자등록번호*/         
-				,REPLACE(#{compPhoneNo}, '-', '')				/*회사대표번호*/            
+				,#{plMerchantNo}									/*법인등록번호*/            
+				,REPLACE(#{plBusinessNo}, '-', '')					/*사업자등록번호*/         
+				,REPLACE(#{compPhoneNo}, '-', '')					/*회사대표번호*/            
 				,NOW()													/*등록일시*/           
 				,#{regSeq}												/*등록자 시퀀스*/   
 			)	
@@ -167,7 +167,7 @@
 				 ,COM_NAME				= #{comName}										/*회원사(상호명)*/  
 			 </if>
  			<if test="plMerchantNo != null and plMerchantNo != ''">
-				,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')			/*법인등록번호*/ 
+				,PL_MERCHANT_NO		= #{plMerchantNo}									/*법인등록번호*/ 
 			</if>
  			<if test="plBusinessNo != null and plBusinessNo != ''">			
 				,PL_BUSINESS_NO		= REPLACE(#{plBusinessNo}, '-', '')				/*사업자등록번호*/
@@ -198,7 +198,7 @@
 			<if test="comCode != null and comCode != ''">
 		        PL_MERCHANT_NO != (SELECT PL_MERCHANT_NO FROM TB_LC_COMPANY B WHERE B.COM_CODE = #{comCode})
 	        </if>
-		        AND PL_MERCHANT_NO = REPLACE(#{plMerchantNo}, '-', '')
+		        AND PL_MERCHANT_NO = #{plMerchantNo}
         </where>
     </select>
 

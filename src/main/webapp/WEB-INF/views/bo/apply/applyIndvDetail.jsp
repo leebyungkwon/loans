@@ -14,9 +14,16 @@ function pageLoad(){
 function goRecruitApply(num){
 	var plStat = "";
 	var plRegStat = "";
+	var preRegYn = $("#preRegYn").val();
+	
 	if(num == "2"){
 		plStat = "9";
 		plRegStat = "2";
+		// 기등록자인경우 자격취득 - 완료
+		if(preRegYn == "Y"){
+			plStat = "9";
+			plRegStat = "3";
+		}
 	}else if(num == "4"){
 		plStat = "9";
 		plRegStat = "4";
@@ -28,6 +35,7 @@ function goRecruitApply(num){
 		return false;
 	}
 	
+	
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
 			  url		: "/admin/apply/updatePlStat"	
@@ -36,6 +44,7 @@ function goRecruitApply(num){
 				,plStat			: plStat
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
+				,preRegYn		: preRegYn
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -52,11 +61,16 @@ function goRecruitApply(num){
 }
 
 //보완
-function goApplyImprove(){
+function goApplyImprove(num){
 	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
 		return false;
+	}
+	
+	var plStat = '5';
+	if(num == "1"){
+		plStat = '10'
 	}
 	
 	if(confirm("보완요청을 하시겠습니까?")){
@@ -64,7 +78,7 @@ function goApplyImprove(){
 			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '5'
+				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
 			}
@@ -87,7 +101,10 @@ function goApplyImprove(){
 
 // OCR 검증
 function ocrRun(){
-	if(confirm("OCR 검증을 시작 하시겠습니까?")){
+	
+	
+	
+	if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/apply/indvOcr"
 			, param		: {
@@ -114,6 +131,7 @@ function ocrRun(){
 	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.applyInfo.masterSeq }"/>
 	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.applyInfo.plStat }"/>
 	<input type="hidden" name="masterToId" id="masterToId" value="${result.applyInfo.masterToId }"/>
+	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.applyInfo.preRegYn }"/>
 </form>
 
 <div class="cont_area">
@@ -466,19 +484,20 @@ function ocrRun(){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
-			<a href="javascript:void(0);" class="btn_gray" onclick="ocrRun();">OCR검증</a>
+			<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
 			<c:if test="${result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove();">보완요청</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '2'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove();">보완요청</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove();">보완요청</a>					
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>					
 			</c:if>
+			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 		</div>
 	</div>
 </div>

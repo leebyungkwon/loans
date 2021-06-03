@@ -47,7 +47,12 @@ public class CorpController {
 	@GetMapping(value="/corpSavePopup")
 	public ModelAndView corSavePopup(CorpDomain corpDomain) {
 		ModelAndView mv 	= new ModelAndView(CosntPage.Popup+"/corpSavePopup");
-		CorpDomain corpInfo = corpService.getCorpInfo(corpDomain);
+		
+		CorpDomain corpInfo = new CorpDomain();
+		if(corpDomain.getCorpSeq() != null) {
+			corpInfo = corpService.getCorpInfo(corpDomain);
+		}
+		
 		mv.addObject("corpInfo", corpInfo);
 		return mv;
 	}

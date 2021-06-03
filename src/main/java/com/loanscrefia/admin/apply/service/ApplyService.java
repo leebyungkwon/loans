@@ -530,58 +530,55 @@ public class ApplyService {
 	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
 		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
 		
-		
+		// 현재 승인상태와 화면에 있는 승인상태 비교
 		if(!applyDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
-		int result = applyRepository.updateApplyPlStat(applyDomain);
-		if(result > 0) {
-			// 모집인단계이력
-			applyRepository.insertMasterStep(applyDomain);
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
-		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
-		}
 		
-		
-		
-		/*
 		//승인처리시 이메일 발송
 		if(StringUtils.isEmpty(statCheck.getEmail())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
 		}
-		int emailResult = 0;
-		int result = applyRepository.updateApplyPlStat(applyDomain);
 		
+		int emailResult = 0;
 		EmailDomain emailDomain = new EmailDomain();
 		emailDomain.setName("여신금융협회");
-		emailDomain.setEmail(applyDomain.getEmail());
+		emailDomain.setEmail(statCheck.getEmail());
 		
-		if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "2") {
+		if("5".equals(applyDomain.getPlStat())) {
+			// 승인요청에 대한 보완
+			emailDomain.setInstId("추후고정값");
+			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());			
+		}else if("9".equals(applyDomain.getPlStat()) && "2".equals(applyDomain.getPlRegStat()) && "N".equals(applyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인
 			emailDomain.setInstId("추후고정값");
-			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
-		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "4") {
-			// 해지요청에 대한 승인
+			emailDomain.setSubsValue(statCheck.getMasterToId());
+		}else if("9".equals(applyDomain.getPlStat()) && "3".equals(applyDomain.getPlRegStat()) && "Y".equals(applyDomain.getPreRegYn())) {
+			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
 			emailDomain.setInstId("추후고정값");
-			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
-		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "3") {
-			// 변경요청에 대한 승인
+			emailDomain.setSubsValue(statCheck.getMasterToId());
+		}else if("10".equals(applyDomain.getPlStat())) {
+			// 승인요청에 대한 부적격
 			emailDomain.setInstId("추후고정값");
-			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
+			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());
+		}else{
+			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		emailResult = emailRepository.sendEmail(emailDomain);
-		if(emailResult > 0) {
+		int result = applyRepository.updateApplyPlStat(applyDomain);
+		
+		//emailResult = emailRepository.sendEmail(emailDomain);
+		// 임시 성공
+		emailResult = 1;
+		if(emailResult > 0 && result > 0) {
 			// 모집인단계이력
 			applyRepository.insertMasterStep(applyDomain);
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else if(emailResult == 0){
+			return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		*/
-		
-		
 	}
 
 	

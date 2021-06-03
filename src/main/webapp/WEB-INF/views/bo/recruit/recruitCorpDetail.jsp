@@ -16,9 +16,17 @@ function goRecruitApply(num){
 	
 	var plStat = "";
 	var plRegStat = "";
+	var preRegYn = $("#preRegYn").val();
+	
+	
 	if(num == "2"){
 		plStat = "9";
 		plRegStat = "2";
+		// 기등록자인경우 자격취득 - 완료
+		if(preRegYn == "Y"){
+			plStat = "9";
+			plRegStat = "3";
+		}
 	}else if(num == "4"){
 		plStat = "9";
 		plRegStat = "4";
@@ -38,6 +46,7 @@ function goRecruitApply(num){
 				,plStat			: plStat
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
+				,preRegYn		: preRegYn
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -100,6 +109,8 @@ function goRecruitImprove(rePlStat){
 <form name="pageFrm" id="pageFrm" method="post">
 	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.recruitInfo.masterSeq }"/>
 	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.recruitInfo.plStat }"/>
+	<input type="hidden" name="masterToId" id="masterToId" value="${result.applyInfo.masterToId }"/>
+	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.applyInfo.preRegYn }"/>
 </form>
 
 <div class="cont_area">
@@ -134,8 +145,8 @@ function goRecruitImprove(rePlStat){
 					<th>결제여부</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.plPayStat ne null }">
-								${result.recruitInfo.plPayStat } (국민카드 / 2021.10.20)
+							<c:when test="${!empty result.payResult}">
+								결제완료 (${result.payResult.name} / ${result.payResult.regTimestamp})
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -303,7 +314,7 @@ function goRecruitImprove(rePlStat){
 			<a href="javascript:void(0);" class="btn_gray" onclick="goRecruitList();">목록</a>
 			<c:if test="${result.recruitInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove(7);">보완요청</a>
+				<!-- <a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove(7);">보완요청</a> -->
 			</c:if>
 			<c:if test="${result.recruitInfo.plStat eq '2'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>

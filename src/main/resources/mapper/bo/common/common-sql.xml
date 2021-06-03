@@ -138,4 +138,23 @@
 		WHERE member_seq = #{memberSeq}
 	</select>
 	
+	<!-- 결제정보 조회 -->
+	<select id="getPayResultDetail" parameterType="payResult" resultType="payResult">
+		SELECT
+			pay_seq
+			, order_no
+			, master_seq
+			, pay_type
+			, seq_no
+			, approval_no
+			, id
+			, name
+			, sell_mm
+			, amt
+			,TO_CHAR(REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+		FROM
+			tb_lc_pay
+		WHERE MASTER_SEQ = #{masterSeq}
+	</select>
+	
 </mapper> 

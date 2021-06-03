@@ -11,6 +11,7 @@
 	   		SELECT 
 		    	 TLM.MASTER_SEQ
 		    	,TLM.MASTER_TO_ID
+		    	,TLM.PRE_REG_YN
 		    	,(select FN_MEMBER_NAME(b.member_seq) from tb_lc_work b where TLM.com_code = b.com_code) as MEMBER_NM
 				,TLM.COM_CODE
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
@@ -142,6 +143,7 @@
    		SELECT 
 	    	 TLM.MASTER_SEQ
 	    	,TLM.MASTER_TO_ID
+	    	,TLM.PRE_REG_YN
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ

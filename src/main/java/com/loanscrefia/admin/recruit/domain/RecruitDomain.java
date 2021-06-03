@@ -18,6 +18,7 @@ public class RecruitDomain extends BaseDomain {
 	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
 	private int masterHistSeq;		//이력시퀀스
+	private String masterToId;		//접수번호ID(조회)
 	private String comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String plClass;			//분류							-> [CLS001]개인,법인
@@ -118,6 +119,8 @@ public class RecruitDomain extends BaseDomain {
 	private String afterData;						// 변경이력 현재데이터
 	
 	private String updFileCheck;					// 변경정보에 대한 리스트 조회용 필드
+	
+	private String preRegYn;						// 기등록여부
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

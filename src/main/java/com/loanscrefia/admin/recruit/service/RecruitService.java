@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.admin.recruit.repository.RecruitRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.PayResultDomain;
+import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -150,10 +153,16 @@ public class RecruitService {
     	//위반이력
     	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
     	
+    	//결제정보
+    	PayResultDomain payResultDomain = new PayResultDomain();
+    	payResultDomain.setMasterSeq(recruitDomain.getMasterSeq());
+    	PayResultDomain payResult = commonService.getPayResultDetail(payResultDomain);
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("recruitInfo", recruitInfo);
     	result.put("violationInfoList", violationInfoList);
+    	result.put("payResult", payResult);
     	
 		return result;
 	}
@@ -201,11 +210,17 @@ public class RecruitService {
     	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	//위반이력
     	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+    	
+    	//결제정보
+    	PayResultDomain payResultDomain = new PayResultDomain();
+    	payResultDomain.setMasterSeq(recruitDomain.getMasterSeq());
+    	PayResultDomain payResult = commonService.getPayResultDetail(payResultDomain);
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
 		result.put("recruitInfo", recruitInfo);
 		result.put("violationInfoList", violationInfoList);
+		result.put("payResult", payResult);
 		
 		return result;
 	}
@@ -414,53 +429,57 @@ public class RecruitService {
 	@Transactional
 	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
 		RecruitDomain statCheck = recruitRepository.getRecruitDetail(recruitDomain);
-		if(!recruitDomain.getOldPlStat().equals(statCheck.getPlStat())) {
+		
+		// 현재 승인상태와 화면에 있는 승인상태 비교
+		if(!recruitDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
-		if(result > 0) {
-			// 모집인단계이력
-			recruitRepository.insertMasterStep(recruitDomain);
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
-		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
-		}
-		
-		
-		/*
 		//승인처리시 이메일 발송
 		if(StringUtils.isEmpty(statCheck.getEmail())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
 		}
+		
 		int emailResult = 0;
-		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
-		
 		EmailDomain emailDomain = new EmailDomain();
-		emailDomain.setInstId("추후고정값");
 		emailDomain.setName("여신금융협회");
-		emailDomain.setEmail(applyDomain.getEmail());
+		emailDomain.setEmail(statCheck.getEmail());
 		
-		if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "2") {
-			// 승인요청에 대한 승인
-			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
-		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "4") {
-			// 해지요청에 대한 승인
-			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
-		}else if(applyDomain.getPlStat() == "7" && applyDomain.getPlRegStat() == "3") {
+		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 승인
-			emailDomain.setSubsValue(applyDomain.getMemberNm()+"|"+applyDomain.getEmail());
+			emailDomain.setInstId("추후고정값");
+			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
+			emailDomain.setSubsValue(statCheck.getMasterToId());
+		}else if("6".equals(recruitDomain.getPlStat())) {
+			// 변경요청에 대한 보완요청
+			emailDomain.setInstId("추후고정값");
+			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
+		}else if("4".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
+			// 해지요청에 대한 승인
+			emailDomain.setInstId("추후고정값");
+			emailDomain.setSubsValue(statCheck.getMasterToId());	
+		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
+			// 승인요청에 대한 승인
+			emailDomain.setInstId("추후고정값");
+			emailDomain.setSubsValue(statCheck.getMasterToId());
 		}
 		
-		emailResult = commonRepository.sendEmail(emailDomain);
-		if(emailResult > 0) {
+		
+		
+		// 임시처리
+		//emailResult = commonRepository.sendEmail(emailDomain);
+		emailResult = 1;
+		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
+		if(emailResult > 0 && result > 0) {
 			// 모집인단계이력
 			recruitRepository.insertMasterStep(recruitDomain);
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else if(emailResult == 0){
+			return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		*/
+		
 		
 	}
 	

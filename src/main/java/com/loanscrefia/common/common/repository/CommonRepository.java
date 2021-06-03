@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
@@ -37,4 +38,7 @@ public interface CommonRepository {
 	
 	//회원사 회원상세조회
 	MemberDomain getCompanyMemberDetail(MemberDomain memberDomain);
+	
+	//결제정보 조회
+	PayResultDomain getPayResultDetail(PayResultDomain payResultDomain);
 }

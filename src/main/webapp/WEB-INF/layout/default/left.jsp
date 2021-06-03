@@ -34,6 +34,8 @@ function menuActiveFunction(){
 		$("#menuRecruit").addClass("on");
 	}else if(menuUrl[2] == "apply"){
 		$("#menuApply").addClass("on");
+	}else if(menuUrl[2] == "edu"){
+		$("#menuEdu").addClass("on");
 	}
 }
 </script>
@@ -57,8 +59,8 @@ function menuActiveFunction(){
 		<li id="menuCrefia"><a href="/admin/crefia/crefiaPage">협회 관리자 관리</a></li>
 		<li id="menuCrefiaWork"><a href="/admin/crefiaWork/crefiaWorkPage">협회 관리자 업무분장</a></li>
 		<li id="menuCorp"><a href="/admin/corp/corpPage">법인 관리</a></li>
-		<li id="menuCorp"><a href="javascript:void(0);">교육이수번호</a></li>
-		<li id="menuCorp"><a href="javascript:void(0);">통계</a></li>
+		<li id="menuEdu"><a href="/admin/edu/eduPage">교육이수번호 조회</a></li>
+		<li id="menuStats"><a href="javascript:void(0);">통계</a></li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">

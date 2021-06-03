@@ -106,6 +106,8 @@ public class ApplyDomain extends BaseDomain {
 	
 	private String creGrp;
 	
+	private String preRegYn;					// 기등록여부
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
-import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.config.message.ResponseMsg;
+
+import sinsiway.CryptoUtil;
 
 @Service
 public class CorpService {
@@ -22,14 +23,19 @@ public class CorpService {
 	@Transactional(readOnly=true)
 	public List<CorpDomain> selectCorpList(CorpDomain corpDomain) {
 		
-		// 리스트 암호화
-		
-		return corpRepo.selectCorpList(corpDomain);
+		List<CorpDomain> corp = corpRepo.selectCorpList(corpDomain);
+		for(int i=0; i<corp.size(); i++) {
+			String dnc = CryptoUtil.decrypt(corp.get(i).getPlMerchantNo());
+			corp.get(i).setPlMerchantNo(dnc);
+		}
+		return corp;
 	}
 	
 	//법인 저장
 	@Transactional
 	public ResponseMsg saveCorpInfo(CorpDomain corpDomain) {
+		
+		
 		
 		int result = 0;
 		if(corpDomain.getCorpSeq() == null) {
@@ -66,8 +72,8 @@ public class CorpService {
 				
 				// 2021-05-31 법인번호 암호화 진행예정
 				// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-				//String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
-				//chkParam.setPlMerchantNo(encMerchantNo);
+				String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
+				chkParam.setPlMerchantNo(encMerchantNo);
 				
 				chkParam.setPathTyp("1");
 				corpRepo.insertCorpInfo(chkParam);
@@ -78,8 +84,10 @@ public class CorpService {
 	//법인 상세
 	@Transactional(readOnly=true)
 	public CorpDomain getCorpInfo(CorpDomain corpDomain) {
-		
-		// 상세 암호화
+
+		CorpDomain result = corpRepo.getCorpInfo(corpDomain);
+		String dnc = CryptoUtil.decrypt(result.getPlMerchantNo());
+		result.setPlMerchantNo(dnc);
 		
 		return corpRepo.getCorpInfo(corpDomain);
 	}

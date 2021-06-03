@@ -5,6 +5,9 @@ select 'LC' || to_char(current_date,'yymmdd') || lpad(cast(nextval('tb_lc_mas01_
 ALTER TABLE tb_lc_mas01 ADD COLUMN master_to_id varchar(20);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN master_to_id varchar(20);
 
+ALTER TABLE tb_lc_mas01 ADD COLUMN pre_reg_yn char(1) not null default 'N';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN pre_reg_yn char(1) not null default 'N';
+
 ------------------------------- 사용금지-----------------------------
 
 INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no) VALUES

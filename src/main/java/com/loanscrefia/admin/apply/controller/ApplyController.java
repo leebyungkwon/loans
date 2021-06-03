@@ -176,8 +176,99 @@ public class ApplyController {
 	}
 	
 	
+	// 개인 OCR
 	@PostMapping("/apply/indvOcr")
 	public Map<String, Object> indvOcr(ApplyDomain applyDomain) throws IOException { 
+		//상세
+		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		FileDomain fileDomain = new FileDomain();
+		fileDomain.setFileGrpSeq(applyInfo.getFileSeq());
+		List<FileDomain> files = commonService.selectFileList(fileDomain);
+		Tesseract tesseract = new Tesseract();
+    	tesseract.setLanguage("kor");										
+        tesseract.setDatapath("C:\\tessdata");
+        Map<String, Object> msgMap = new HashMap<String, Object>();
+        try {
+        	if(files.size() > 0) {
+        		for(FileDomain file : files) {
+        			File imageFile = new File(file.getFilePath(), file.getFileSaveNm() + "." + file.getFileExt());
+        			// 흑색변환 처리시 필요한 랜덤파일명
+        			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
+        			File outputfile = new File(file.getFilePath(), randomFileNm + ".png");
+        			String ocrText = "";
+        			
+        			// PDF인 경우 JPG 흑백으로 변경작업 필요(속도이슈)
+        			if("pdf".equals(file.getFileExt())) {
+        				PDDocument pdf = PDDocument.load(imageFile);
+        				PDFRenderer pdfRenderer = new PDFRenderer(pdf);
+        				BufferedImage imageObj = pdfRenderer.renderImageWithDPI(0, 100, ImageType.GRAY);
+        				ImageIO.write(imageObj, "png", outputfile);
+        				
+        			}else {
+        				// pdf가 아닌경우 image는 흑백으로 변경
+        				BufferedImage buImage = ImageIO.read(imageFile);
+        				for(int y = 0; y < buImage.getHeight(); y++) {
+        					for(int x = 0; x < buImage.getWidth(); x++) {
+        						Color colour = new Color(buImage.getRGB(x, y));
+        						int Y = (int) (0.2126 * colour.getRed() + 0.7152 * colour.getGreen() + 0.0722 * colour.getBlue());
+        						buImage.setRGB(x, y, new Color(Y, Y, Y).getRGB());
+        					}
+        				}
+        				ImageIO.write(buImage, "png", outputfile);
+        			}
+        			
+        			if(outputfile.exists()) {
+        				ocrText = tesseract.doOCR(outputfile);
+        				// 문자추출시 띄어쓰기 및 공백제거 실행
+        				String replaceText = ocrText.replace(" ", "");
+        				
+        				// 파일 타입별로 추출영역 생성
+        				if("2".equals(file.getFileType())) {
+	            			// 등록하고자 하는 회원의 주민번호를 비교한다.
+	            			String jumin = applyInfo.getPlMZId();
+	            			String resultJumin = "";
+	    	                String patternType = "\\d{6}\\-[1-4]\\d{2}";
+	    	                Pattern pattern = Pattern.compile(patternType);
+	    	                Matcher matcher = pattern.matcher(ocrText);
+	    	                while(matcher.find()) {
+	    	                	resultJumin =  matcher.group(0);
+	    	                }
+        					if(jumin.equals(resultJumin)) {
+        						msgMap.put("fileType"+file.getFileType(), "일치");
+        					}else {
+        						msgMap.put("fileType"+file.getFileType(), "불일치");
+        					}
+        					
+        				}else if("3".equals(file.getFileType())){
+        					int startIndex = replaceText.indexOf("주민등록번호");
+        					String zIdResult = replaceText.substring(startIndex+7, startIndex+21);
+        					if(applyInfo.getPlMZId().equals(zIdResult)) {
+        						msgMap.put("fileType"+file.getFileType(), "일치");
+        					}else {
+        						msgMap.put("fileType"+file.getFileType(), "불일치");
+        					}	
+        				}else {
+        					// fileType에 포함X
+        					msgMap.put("fileType"+file.getFileType(), "fileType오류");
+        				}
+        			}else {
+        				msgMap.put("fileType"+file.getFileType(), "파일추출에 실패");
+        			}
+        			
+        		}// for문 종료
+        		
+        	}else {
+        		msgMap.put("error", "조회된 첨부파일이 없습니다.");
+        	}
+        }catch (TesseractException e) {
+            e.printStackTrace();
+        }
+		return msgMap;
+	}
+	
+	// 법인 ocr
+	@PostMapping("/apply/corpOcr")
+	public Map<String, Object> corpOcr(ApplyDomain applyDomain) throws IOException { 
 		//상세
 		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
 		FileDomain fileDomain = new FileDomain();

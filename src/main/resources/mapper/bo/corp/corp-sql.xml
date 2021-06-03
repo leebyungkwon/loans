@@ -8,7 +8,7 @@
 			<include refid="common.totalPages"/>
 			 TLC.CORP_SEQ
 			,TLC.PL_MERCHANT_NAME
-			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLC.PL_MERCHANT_NO
 			,TLC.PATH_TYP
 			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
 			,TLC.REG_SEQ
@@ -41,7 +41,7 @@
 		VALUES
 		(
 			 #{plMerchantName}
-			,REPLACE(#{plMerchantNo}, '-', '')
+			,#{plMerchantNo}
 			,#{pathTyp}
 			,#{regSeq}
 			,NOW()
@@ -53,7 +53,7 @@
 		SELECT
 			 TLC.CORP_SEQ
 			,TLC.PL_MERCHANT_NAME
-			,FN_PL_M_Z_ID(TLC.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLC.PL_MERCHANT_NO
 			,TLC.PATH_TYP
 			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
 			,TLC.REG_SEQ
@@ -75,7 +75,7 @@
 			 PL_MERCHANT_NAME		= #{plMerchantName}	
 			</if>
 			<if test="plMerchantNo != null and plMerchantNo != ''">
-			,PL_MERCHANT_NO		= REPLACE(#{plMerchantNo}, '-', '')
+			,PL_MERCHANT_NO		= #{plMerchantNo}
 			</if>
    			,USE_YN				= #{useYn}
    			,UPD_SEQ			= #{updSeq}
@@ -94,7 +94,7 @@
 			<if test="corpSeq != null and corpSeq != ''">
 			AND PL_MERCHANT_NO 		!= (SELECT PL_MERCHANT_NO FROM TB_LC_CORP B WHERE B.CORP_SEQ = #{corpSeq})
 			</if>
-			AND PL_MERCHANT_NO 		= REPLACE(#{plMerchantNo}, '-', '')
+			AND PL_MERCHANT_NO 		= #{plMerchantNo}
 		</where>
 	</select>
 	
@@ -104,7 +104,7 @@
 			COUNT(*)
 		FROM TB_LC_CORP
 		<where>
-			AND PL_MERCHANT_NO 		= REPLACE(#{plMerchantNo}, '-', '')
+			AND PL_MERCHANT_NO 		= #{plMerchantNo}
 		</where>
 	</select>
 	

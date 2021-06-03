@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.common.common.repository.VersionRepository;
@@ -72,6 +73,12 @@ public class CommonService {
 	@Transactional(readOnly=true)
 	public MemberDomain getCompanyMemberDetail(MemberDomain memberDomain) {
 		return commonRepository.getCompanyMemberDetail(memberDomain);
+	}
+	
+	//결제정보 조회
+	@Transactional(readOnly=true)
+	public PayResultDomain getPayResultDetail(PayResultDomain payResultDomain) {
+		return commonRepository.getPayResultDetail(payResultDomain);
 	}
 	
 	

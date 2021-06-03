@@ -42,29 +42,27 @@ public class CompanyService {
 	@Transactional
 	public ResponseMsg updateCompanyStat(CompanyDomain companyDomain){
 		
+		/*
 		int result = companyRepository.updateCompanyStat(companyDomain);
 		if(result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		
-		
-		/*
-		
+		*/
+
 		//가승인 및 승인처리시 이메일 발송
 		if(StringUtils.isEmpty(companyDomain.getEmail())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
 		}
 		int emailResult = 0;
-		int result = companyRepository.updateCompanyStat(companyDomain);
 		EmailDomain emailDomain = new EmailDomain();
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(companyDomain.getEmail());
-		if(companyDomain.getApprStat() == "3" && result > 0) {
+		if("3".equals(companyDomain.getApprStat())) {
 			emailDomain.setInstId("추후고정값");
 			emailDomain.setSubsValue(companyDomain.getMemberId());
-		}else if(companyDomain.getApprStat() == "2" && result > 0) {
+		}else if("2".equals(companyDomain.getApprStat())) {
 			emailDomain.setInstId("추후고정값");
 			emailDomain.setSubsValue(companyDomain.getMemberId());
 			emailDomain.setSubsValue(companyDomain.getMemberId()+"|"+companyDomain.getMsg());
@@ -72,15 +70,20 @@ public class CompanyService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		emailResult = emailRepository.sendEmail(emailDomain);
+		int result = companyRepository.updateCompanyStat(companyDomain);
+		//emailResult = emailRepository.sendEmail(emailDomain);
+		// 임시 통과
+		emailResult = 1;
 		
-		if(emailResult > 0) {
+		if(emailResult > 0 && result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else if(emailResult == 0){
+			return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
 		
-		*/
+		
 		
 	}
 	
@@ -103,18 +106,24 @@ public class CompanyService {
 	@Transactional(readOnly = true)
 	public List<CompanyDomain> selectCompanyCodeList(CompanyDomain companyDomain){
 		
-		// 리스트 암호화
+		List<CompanyDomain> companyCodeList = companyRepository.selectCompanyCodeList(companyDomain);
+		for(int i=0; i< companyCodeList.size(); i++) {
+			String dnc = CryptoUtil.decrypt(companyCodeList.get(i).getPlMerchantNo());
+			companyCodeList.get(i).setPlMerchantNo(dnc);
+		}
 		
-		return companyRepository.selectCompanyCodeList(companyDomain);
+		return companyCodeList;
 	}
 	
 	//회원사 관리 상세 조회
 	@Transactional(readOnly=true)
 	public CompanyDomain getCompanyCodeDetail(CompanyDomain companyDomain){
 		
-		// 상세 암호화
+		CompanyDomain result = companyRepository.getCompanyCodeDetail(companyDomain);
+		String dnc = CryptoUtil.decrypt(result.getPlMerchantNo());
+		result.setPlMerchantNo(dnc);
 		
-		return companyRepository.getCompanyCodeDetail(companyDomain);
+		return result;
 	}
 
 	// 법인등록번호 중복체크
