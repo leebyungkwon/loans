@@ -50,7 +50,7 @@ public class CommonService {
 		return commonRepository.deleteFile(fileDomain);
 	}
 	
-	//첨부파일 real 삭제
+	//첨부파일 real 삭제 [TO-DO 서버 파일도 삭제]*****
 	@Transactional
 	public int realDeleteFile(FileDomain fileDomain) {
 		return commonRepository.realDeleteFile(fileDomain);

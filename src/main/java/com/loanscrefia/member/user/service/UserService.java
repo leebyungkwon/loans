@@ -750,12 +750,15 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userImwonDomain.getMasterSeq());
 		
-		UserDomain param = new UserDomain();
-		
 		//모집인 상세
+		UserDomain param 			= new UserDomain();
 		param.setMasterSeq(userImwonDomain.getMasterSeq());
-		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
-		String originCareerTyp	= userRegInfo.getCareerTyp();
+		UserDomain userRegInfo 		= userRepo.getUserRegDetail(param);
+		String plRegStat 			= userRegInfo.getPlRegStat();
+		
+		//대표자 및 임원 상세
+		UserImwonDomain imwonInfo 	= userRepo.getUserRegCorpImwonInfo(userImwonDomain);
+		String originCareerTyp		= imwonInfo.getCareerTyp();
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -771,15 +774,30 @@ public class UserService {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		
 		if(!originCareerTyp.equals(userImwonDomain.getCareerTyp())) {
+			FileDomain fileParam 	= new FileDomain();
+			int fileSeq 			= 0;
 			if(userImwonDomain.getCareerTyp().equals("1")) {
 				//신규 -> 기존 경력 첨부파일 삭제
+				if(imwonInfo.getCareerFileSeq() != null) {
+					fileSeq = imwonInfo.getCareerFileSeq();
+				}
 			}else {
 				//경력 -> 기존 신규 첨부파일 삭제
+				if(imwonInfo.getNewcomerFileSeq() != null) {
+					fileSeq = imwonInfo.getNewcomerFileSeq();
+				}
+			}
+			fileParam.setFileSeq(fileSeq);
+			
+			if(plRegStat.equals("1")) {
+				//승인 전에는 파일 delete
+				commonService.realDeleteFile(fileParam);
+			}else {
+				//승인 후에는 use_yn = "N"
+				commonService.deleteFile(fileParam);
 			}
 		}
-		
 		//수정
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
 		
@@ -796,12 +814,15 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userExpertDomain.getMasterSeq());
 		
-		UserDomain param = new UserDomain();
-		
 		//모집인 상세
+		UserDomain param 			= new UserDomain();
 		param.setMasterSeq(userExpertDomain.getMasterSeq());
-		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
-		String originCareerTyp	= userRegInfo.getCareerTyp();
+		UserDomain userRegInfo 		= userRepo.getUserRegDetail(param);
+		String plRegStat 			= userRegInfo.getPlRegStat();
+		
+		//전문인력 상세
+		UserExpertDomain expertInfo = userRepo.getUserRegCorpExpertInfo(userExpertDomain);
+		String originCareerTyp		= expertInfo.getCareerTyp();
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -817,15 +838,30 @@ public class UserService {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		
 		if(!originCareerTyp.equals(userExpertDomain.getCareerTyp())) {
+			FileDomain fileParam 	= new FileDomain();
+			int fileSeq 			= 0;
 			if(userExpertDomain.getCareerTyp().equals("1")) {
 				//신규 -> 기존 경력 첨부파일 삭제
+				if(expertInfo.getCareerFileSeq() != null) {
+					fileSeq = expertInfo.getCareerFileSeq();
+				}
 			}else {
 				//경력 -> 기존 신규 첨부파일 삭제
+				if(userExpertDomain.getNewcomerFileSeq() != null) {
+					fileSeq = expertInfo.getNewcomerFileSeq();
+				}
+			}
+			fileParam.setFileSeq(fileSeq);
+			
+			if(plRegStat.equals("1")) {
+				//승인 전에는 파일 delete
+				commonService.realDeleteFile(fileParam);
+			}else {
+				//승인 후에는 use_yn = "N"
+				commonService.deleteFile(fileParam);
 			}
 		}
-		
 		//수정
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);
 		
@@ -1068,12 +1104,12 @@ public class UserService {
 		param.setMasterSeq(masterSeq);
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
 		String plRegStat 		= userRegInfo.getPlRegStat(); 	//모집인 상태 	-> [REG001]승인전,승인완료,자격취득,해지완료
-		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),취소,완료
+		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
 		
 		String code = "";
 		String msg 	= "";
 		
-		if(plStat.equals("1") || plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("6")) {
+		if(plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("9")) {
 			code 	= "E1";
 			msg 	= "등록,수정,삭제가 불가능한 상태입니다.";
 		}

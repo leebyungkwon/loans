@@ -52,4 +52,7 @@ public class UserExpertDomain extends BaseDomain {
 	private FileDomain fileType16;
 	private FileDomain fileType17;
 	private FileDomain fileType18;
+	
+	private Integer careerFileSeq;
+	private Integer newcomerFileSeq;
 }

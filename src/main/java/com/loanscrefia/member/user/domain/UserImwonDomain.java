@@ -70,4 +70,7 @@ public class UserImwonDomain extends BaseDomain {
 	private FileDomain fileType14;
 	private FileDomain fileType15;
 	
+	private Integer careerFileSeq;
+	private Integer newcomerFileSeq;
+	
 }

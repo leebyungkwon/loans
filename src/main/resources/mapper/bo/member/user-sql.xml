@@ -678,7 +678,7 @@
 	    </where>
    	</select>
    	
-   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 상세 -->
+   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 리스트 -->
    	<select id="selectUserRegCorpImwonList" parameterType="userImwon" resultType="userImwon">
    		SELECT 
 			 EXC_SEQ
@@ -703,7 +703,33 @@
    		ORDER BY EXC_SEQ ASC
    	</select>
    	
-   	<!-- 모집인 등록 > 법인 : 전문인력 상세 -->
+   	<!-- 모집인 등록 > 법인 : 대표자 및 임원 상세 -->
+   	<select id="getUserRegCorpImwonInfo" parameterType="userImwon" resultType="userImwon">
+   		SELECT 
+			 TLMI.EXC_SEQ
+			,TLMI.MASTER_SEQ
+			,TLMI.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLMI.CAREER_TYP) AS CAREER_TYP_NM
+			,TLMI.POSITION_NM
+			,TLMI.EXC_NAME
+			,TLMI.PL_M_Z_ID
+			,TLMI.PL_EDU_NO
+			,TO_DATE(TLMI.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(TLMI.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,TLMI.FULL_TM_STAT
+			,FN_CD_DTL('FTM001',TLMI.FULL_TM_STAT) AS FULL_TM_STAT_NM
+			,TLMI.EXPERT_STAT
+			,FN_CD_DTL('EXP001',TLMI.EXPERT_STAT) AS EXPERT_STAT_NM
+			,TLMI.FILE_SEQ
+			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLMI.FILE_SEQ AND TLF.FILE_TYPE = '12' AND TLF.USE_YN = 'Y') AS CAREER_FILE_SEQ
+			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLMI.FILE_SEQ AND TLF.FILE_TYPE = '13' AND TLF.USE_YN = 'Y') AS NEWCOMER_FILE_SEQ
+		FROM TB_LC_MAS01_IMWON TLMI
+   		<where>
+   			AND TLMI.EXC_SEQ = #{excSeq}
+   		</where>
+   	</select>
+   	
+   	<!-- 모집인 등록 > 법인 : 전문인력 리스트 -->
    	<select id="selectUserRegCorpExpertList" parameterType="userExpert" resultType="userExpert">
    		SELECT
 			 EXP_SEQ
@@ -723,7 +749,28 @@
    		ORDER BY EXP_SEQ ASC
    	</select>
    	
-   	<!-- 모집인 등록 > 법인 : 전산인력 상세 -->
+   	<!-- 모집인 등록 > 법인 : 전문인력 상세 -->
+   	<select id="getUserRegCorpExpertInfo" parameterType="userExpert" resultType="userExpert">
+   		SELECT 
+			 TLME.EXP_SEQ
+			,TLME.MASTER_SEQ
+			,TLME.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLME.CAREER_TYP) AS CAREER_TYP_NM
+			,TLME.EXP_NAME
+			,TLME.PL_M_Z_ID
+			,TLME.PL_EDU_NO
+			,TO_DATE(TLME.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(TLME.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,TLME.FILE_SEQ
+			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLME.FILE_SEQ AND TLF.FILE_TYPE = '16' AND TLF.USE_YN = 'Y') AS CAREER_FILE_SEQ
+			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLME.FILE_SEQ AND TLF.FILE_TYPE = '17' AND TLF.USE_YN = 'Y') AS NEWCOMER_FILE_SEQ
+   		FROM TB_LC_MAS01_EXPERT TLME
+   		<where>
+   			AND TLME.EXP_SEQ = #{expSeq}
+   		</where>
+   	</select>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 리스트 -->
    	<select id="selectUserRegCorpItList" parameterType="userIt" resultType="userIt">
    		SELECT
 	   		 OPER_SEQ

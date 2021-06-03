@@ -66,13 +66,19 @@ public interface UserRepository {
 	//모집인 등록 > 상세
 	UserDomain getUserRegDetail(UserDomain userDomain);
 	
-	//모집인 등록 > 법인 : 대표자 및 임원 상세
+	//모집인 등록 > 법인 : 대표자 및 임원 리스트
 	List<UserImwonDomain> selectUserRegCorpImwonList(UserImwonDomain userImwonDomain);
 	
-	//모집인 등록 > 법인 : 전문인력 상세
+	//모집인 등록 > 법인 : 대표자 및 임원 상세
+	UserImwonDomain getUserRegCorpImwonInfo(UserImwonDomain userImwonDomain);
+	
+	//모집인 등록 > 법인 : 전문인력 리스트
 	List<UserExpertDomain> selectUserRegCorpExpertList(UserExpertDomain userExpertDomain);
 	
-	//모집인 등록 > 법인 : 전산인력 상세
+	//모집인 등록 > 법인 : 전문인력 상세
+	UserExpertDomain getUserRegCorpExpertInfo(UserExpertDomain userExpertDomain);
+	
+	//모집인 등록 > 법인 : 전산인력 리스트
 	List<UserItDomain> selectUserRegCorpItList(UserItDomain userItDomain);
 	
 	//모집인 등록 > 수정
