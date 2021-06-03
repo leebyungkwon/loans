@@ -107,6 +107,10 @@
 			,(SELECT NAME FROM TB_LC_PAY WHERE MASTER_SEQ = TLM.MASTER_SEQ) AS PAY_NAME
 		FROM TB_LC_MAS01 TLM
 		WHERE TLM.MASTER_SEQ	= #{masterSeq}
+		AND TLM.PL_STAT 		= '9'						-- 처리상태가 완료인 것
+		<if test="plRegStat != null and plRegStat != ''">
+		AND TLM.PL_REG_STAT 	= #{plRegStat}
+		</if>
 	</select>
 	
    	<!-- 모집인 상태 변경 : 자격취득 -->

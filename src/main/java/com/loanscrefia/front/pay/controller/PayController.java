@@ -48,8 +48,10 @@ public class PayController {
 	//모집인 결제 > 모집인 조회 결과 페이지
 	@PostMapping(value="/payUserSearchResult")
 	public ModelAndView payUserSearchResult(SearchDomain searchDomain) {
-		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payUserSearchResult");
-		mv.addObject("searchUserInfo", searchService.selectSearchUserInfo(searchDomain));
+		ModelAndView mv 			= new ModelAndView(CosntPage.FoPayPage+"/payUserSearchResult");
+		searchDomain.setPlRegStat("2"); //모집인 상태가 승인완료인 것
+		SearchDomain searchUserInfo = searchService.selectSearchUserInfo(searchDomain);
+		mv.addObject("searchUserInfo",searchUserInfo);
 		return mv;
 	}
 	
@@ -68,10 +70,12 @@ public class PayController {
 	//결제완료 페이지
 	@PostMapping(value="/payResult")
 	public ModelAndView payResult(SearchDomain searchDomain) {
-		ModelAndView mv = new ModelAndView(CosntPage.FoPayPage+"/payResult");
 		System.out.println("PayController > payResult() :::::::: "+searchDomain.getMasterSeq()); //[추후 삭제]
+		ModelAndView mv 			= new ModelAndView(CosntPage.FoPayPage+"/payResult");
+		searchDomain.setPlRegStat("3"); //모집인 상태가 자격취득인 것
+		SearchDomain payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);
 		mv.addObject("masterSeq",searchDomain.getMasterSeq()); //[추후 삭제]
-		mv.addObject("payResultInfo",searchService.selectSearchUserInfo(searchDomain));
+		mv.addObject("payResultInfo",payResultInfo);
 		return mv;
 	}
 	
