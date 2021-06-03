@@ -395,7 +395,7 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
-				<c:if test="${result.recruitInfo.plStat eq '3' }">
+				<c:if test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '6'}">
 					<tr>
 						<th class="acenter">주민등록증 또는 주민등록 초본</th>
 						<td>

@@ -251,6 +251,11 @@ function goRecruitImprove(rePlStat){
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType1}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType1.fileGrpSeq }', '1');">변경사항</a>
+							</c:if>
+						</c:if>
 					</td>
 				</tr>
 				<tr>
@@ -262,6 +267,11 @@ function goRecruitImprove(rePlStat){
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType2}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType2.fileGrpSeq }', '2');">변경사항</a>
+							</c:if>
+						</c:if>
 					</td>
 				</tr>
 				<tr>
@@ -273,6 +283,11 @@ function goRecruitImprove(rePlStat){
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType3}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType3.fileGrpSeq }', '3');">변경사항</a>
+							</c:if>
+						</c:if>
 					</td>
 				</tr>
 				<tr>
@@ -284,6 +299,11 @@ function goRecruitImprove(rePlStat){
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType4}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType4.fileGrpSeq }', '4');">변경사항</a>
+							</c:if>
+						</c:if>
 					</td>
 				</tr>
 				<tr>
@@ -295,6 +315,11 @@ function goRecruitImprove(rePlStat){
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType5}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType5.fileGrpSeq }', '5');">변경사항</a>
+							</c:if>
+						</c:if>
 					</td>
 				</tr>
 				<tr>
@@ -306,6 +331,11 @@ function goRecruitImprove(rePlStat){
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType6}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType6.fileGrpSeq }', '6');">변경사항</a>
+							</c:if>
+						</c:if>
 					</td>
 				</tr>
 			</table>

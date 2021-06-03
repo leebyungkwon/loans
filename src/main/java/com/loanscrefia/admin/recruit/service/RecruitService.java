@@ -88,10 +88,6 @@ public class RecruitService {
     		
     		fileParam.setFileGrpSeq(recruitInfo.getFileSeq());
         	List<FileDomain> fileList = commonService.selectFileList(fileParam);
-        	fileParam.setUseYn("N");
-        	fileParam.setSeqDesc("Y");
-        	List<FileDomain> fileHistList = commonService.selectFileList(fileParam);
-        	
         	if(fileList.size() > 0) {
         		for(int i = 0;i < fileList.size();i++) {
         			if(fileList.get(i).getFileType().equals("1")) {
@@ -119,6 +115,12 @@ public class RecruitService {
         			}
         		}
         	}
+        	
+        	// 첨부파일 이력
+        	fileParam.setUseYn("N");
+        	fileParam.setSeqDesc("Y");
+        	List<FileDomain> fileHistList = commonService.selectFileList(fileParam);
+        	
         	if(fileHistList.size() > 0) {
         		for(int p=0; p < fileHistList.size(); p++) {
         			if(fileHistList.get(p).getFileType().equals("1")) {
@@ -204,6 +206,30 @@ public class RecruitService {
         			}
         		}
         	}
+        	
+        	// 첨부파일 이력
+        	fileParam.setUseYn("N");
+        	fileParam.setSeqDesc("Y");
+        	List<FileDomain> fileHistList = commonService.selectFileList(fileParam);
+        	
+        	if(fileHistList.size() > 0) {
+        		for(int p=0; p < fileHistList.size(); p++) {
+        			if(fileHistList.get(p).getFileType().equals("1")) {
+        				recruitInfo.setHistFileType1(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("2")) {
+        				recruitInfo.setHistFileType2(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("3")) {
+        				recruitInfo.setHistFileType3(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("4")) {
+        				recruitInfo.setHistFileType4(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("5")) {
+        				recruitInfo.setHistFileType5(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("6")) {
+        				recruitInfo.setHistFileType6(fileHistList.get(p));
+        			}
+        		}
+        	}
+        	
 		}
 		
     	UserDomain userDomain = new UserDomain();
@@ -417,6 +443,30 @@ public class RecruitService {
         			}
         		}
         	}
+        	
+        	// 첨부파일 이력
+        	fileParam.setUseYn("N");
+        	fileParam.setSeqDesc("Y");
+        	List<FileDomain> fileHistList = commonService.selectFileList(fileParam);
+        	
+        	if(fileHistList.size() > 0) {
+        		for(int p=0; p < fileHistList.size(); p++) {
+        			if(fileHistList.get(p).getFileType().equals("21")) {
+        				recruitInfo.setHistFileType21(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("22")) {
+        				recruitInfo.setHistFileType22(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("23")) {
+        				recruitInfo.setHistFileType23(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("24")) {
+        				recruitInfo.setHistFileType24(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("25")) {
+        				recruitInfo.setHistFileType25(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("26")) {
+        				recruitInfo.setHistFileType26(fileHistList.get(p));
+        			}
+        		}
+        	}
+        	
     	}
     	
 		//전달

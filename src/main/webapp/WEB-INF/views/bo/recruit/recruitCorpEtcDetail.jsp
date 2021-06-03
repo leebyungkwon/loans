@@ -50,6 +50,11 @@ function pageLoad(){
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType21}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType21.fileGrpSeq }', '21');">변경사항</a>
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 						<tr>
@@ -61,6 +66,11 @@ function pageLoad(){
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType22}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType22.fileGrpSeq }', '22');">변경사항</a>
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 						<tr>
@@ -72,6 +82,11 @@ function pageLoad(){
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType23}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType23.fileGrpSeq }', '23');">변경사항</a>
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 					</tbody>
@@ -95,6 +110,11 @@ function pageLoad(){
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType24}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType24.fileGrpSeq }', '24');">변경사항</a>
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 					</tbody>
@@ -118,6 +138,11 @@ function pageLoad(){
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType25}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType25.fileGrpSeq }', '25');">변경사항</a>
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 						<tr>
@@ -129,6 +154,11 @@ function pageLoad(){
 									</c:when>
 									<c:otherwise>-</c:otherwise>
 								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType26}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType26.fileGrpSeq }', '26');">변경사항</a>
+									</c:if>
+								</c:if>
 							</td>
 						</tr>
 					</tbody>
