@@ -28,7 +28,7 @@ public class ConfigurationForInterceptor extends HandlerInterceptorAdapter {
 		String ips = request.getHeader("X-Forwarded-For");
 		 
 
-		if("/".equals(url) || "/error".equals(url)) return false;
+		//if("/".equals(url) || "/error".equals(url)) return false;
 
 		Enumeration<String> paramNames = request.getParameterNames();
 		String p = "?";
