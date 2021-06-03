@@ -160,14 +160,30 @@ function goUserChangeApply(){
 						<th>변경사유</th>
 						<td colspan="3"><input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/></td>
 					</tr>
-					<tr class="violationArea">
-						<th>위반이력사항</th>
-						<td colspan="3">
-							<select name="violationCdArr" class="violationCd"></select>
-							<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
-							<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>
-						</td>
-					</tr>
+					<c:choose>
+						<c:when test="${fn:length(result.violationInfoList) > 0 }">
+							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
+								<tr class="violationArea">
+									<th>위반이력${status.count }</th>
+									<td colspan="3">
+										${violationInfoList.violationCdNm }
+										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
+										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
+									</td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr class="violationArea">
+								<th>위반이력사항</th>
+								<td colspan="3">
+									<select name="violationCdArr" class="violationCd"></select>
+									<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
+									<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>
+								</td>
+							</tr>
+						</c:otherwise>
+					</c:choose>
 				</table>
 			</div>
 	
@@ -364,40 +380,6 @@ function goUserChangeApply(){
 									<input type="hidden" name="fileTypeList" value="11"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="11" data-essential="N">초기화</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">위임장(변경요청 시) *</th>
-						<td id="chgVeriDoc2">
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType12 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType12.fileSeq }">${result.userRegInfo.fileType12.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType12.fileSeq }" data-fileType="12" data-essential="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="12"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">인감증명서(변경요청 시) *</th>
-						<td id="chgVeriDoc2">
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType13 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType13.fileSeq }">${result.userRegInfo.fileType13.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType13.fileSeq }" data-fileType="13" data-essential="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="13"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 								</c:otherwise>
 							</c:choose>
 						</td>

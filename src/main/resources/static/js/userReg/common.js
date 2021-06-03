@@ -327,7 +327,7 @@ function goUserCancel(){
 			  url		: "/member/user/updateUserStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
+				,plStat		: '8'
 				,plHistTxt	: $("#plHistTxt").val()
 			}
 			, success 	: function (opt,result) {
@@ -402,7 +402,19 @@ function goCallViolationCd(){
 
 //위반이력사항 영역 추가
 function goViolationAdd(obj){
-	var html = $(obj).parent().parent().clone();
+	
+	//var html = $(obj).parent().parent().clone();
+	var html = '';
+	
+	html += '<tr class="violationArea">';
+	html += '<th>위반이력사항</th>';
+	html += '<td colspan="3">';
+	html += '<select name="violationCdArr" class="violationCd"></select>';
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>';
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
+	html += '</td>';
+	html += '</tr>';
+	
 	$("#table > table").append(html);
 }
 
@@ -414,6 +426,22 @@ function goViolationDel(obj){
 		return;
 	}
 	$(obj).closest("tr").remove();
+}
+
+//위반이력사항 데이터 삭제
+function goViolationDataDel(violationSeq,obj){
+	if(confirm("위반이력을 삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/deleteViolationInfo"	
+			, param		: {
+				 violationSeq : violationSeq
+			}
+			, success 	: function (opt,result) {
+				$(obj).closest("tr").remove();
+		    }
+		}
+		AjaxUtil.post(p);
+	}
 }
 
 /* ===============================================================================================================================

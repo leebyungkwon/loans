@@ -201,7 +201,7 @@ function goGetDate(opt) {
 				</tr>
 				<tr>
 					<th>조회</th>
-					<td colspan="3" class="long_input">
+					<td colspan="5" class="long_input">
 						<select name="srchSelect2">
 							<option value="">전체</option>
 							<option value="creAppDate">승인완료일</option>

@@ -17,7 +17,7 @@ function pageLoad(){
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10px"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"0%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
@@ -26,10 +26,10 @@ function pageLoad(){
 				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'fileCompYn'		, index:'fileCompYn'		, width:"10px"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"5%"		, align:"center"}
-				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"10%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'fileCompYn'		, index:'fileCompYn'		, width:"0%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -328,7 +328,7 @@ function goGetDate(opt) {
 				</tr>
 				<tr>
 					<th>등록기간 조회</th>
-					<td colspan="3" class="long_input">
+					<td colspan="5" class="long_input">
 						<div class="input_wrap">
                 			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>

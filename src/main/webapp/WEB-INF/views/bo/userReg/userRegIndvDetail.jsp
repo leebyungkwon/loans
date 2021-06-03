@@ -81,7 +81,7 @@ function goUserRegInfoCancel() {
 			  url		: "/member/user/deleteUserRegInfo"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '6'
+				,plStat		: '8'
 			}
 			, success 	: function (opt,result) {
 				if(result.data > 0){
@@ -122,16 +122,7 @@ function goUserRegInfoCancel() {
 					</tr>
 					<tr>
 						<th>모집인 상태</th>
-						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.userRegInfo.masterSeq }');">이력보기</a></td>
-						<th>결제여부</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.plPayStat ne null }">
-									${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-						</td>
+						<td colspan="3">${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.userRegInfo.masterSeq }');">이력보기</a></td>
 					</tr>
 					<tr>
 						<th>처리상태</th>

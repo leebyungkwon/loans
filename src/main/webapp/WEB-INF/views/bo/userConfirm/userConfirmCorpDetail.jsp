@@ -53,8 +53,8 @@ function goUserChangeApplyPage(){
 					<th>결제여부</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.userRegInfo.plPayStat ne null }">
-								${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)
+							<c:when test="${!empty result.payResult}">
+								결제완료 (${result.payResult.name} / ${result.payResult.regTimestamp})
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -114,13 +114,13 @@ function goUserChangeApplyPage(){
 						</c:forEach>
 					</c:when>
 				</c:choose>
-				<c:if test="${result.userRegInfo.plStat eq '3' or result.userRegInfo.plStat eq '6' }">
+				<c:if test="${result.userRegInfo.plStat eq '3' }">
 					<tr>
 						<th>요청사유</th>
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
-				<c:if test="${result.userRegInfo.plStat eq '4' or result.userRegInfo.plStat eq '7' or result.userRegInfo.plRegStat eq '4' }">
+				<c:if test="${result.userRegInfo.plStat eq '4' or result.userRegInfo.plRegStat eq '4' }">
 					<tr>
 						<th>해지사유</th>
 						<td colspan="3">${result.userRegInfo.plHistCdNm }</td>
@@ -207,28 +207,6 @@ function goUserChangeApplyPage(){
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType6 ne null }">
 								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">${result.userRegInfo.fileType6.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<th class="acenter">위임장(변경요청 시) *</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType27 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType27.fileSeq }">${result.userRegInfo.fileType27.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<th class="acenter">인감증명서(변경요청 시) *</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType28 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType28.fileSeq }">${result.userRegInfo.fileType28.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>

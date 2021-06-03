@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -431,22 +432,24 @@ public class UserService {
         				userRegInfo.setFileType10(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
         				userRegInfo.setFileType11(fileList.get(i));
-        			}else if(fileList.get(i).getFileType().equals("12")) { //변경요청 시 증빙서류
-        				userRegInfo.setFileType12(fileList.get(i));
-        			}else if(fileList.get(i).getFileType().equals("13")) { //변경요청 시 증빙서류
-        				userRegInfo.setFileType13(fileList.get(i));
         			}
         		}
         	}
     	}
     	
     	//위반이력
-    	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+    	List<UserDomain> violationInfoList 	= userRepo.selectUserViolationInfoList(userDomain);
+    	
+    	//결제정보
+    	PayResultDomain payResultDomain 	= new PayResultDomain();
+    	payResultDomain.setMasterSeq(userDomain.getMasterSeq());
+    	PayResultDomain payResult 			= commonService.getPayResultDetail(payResultDomain);
     	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("userRegInfo", userRegInfo);
     	result.put("violationInfoList", violationInfoList);
+    	result.put("payResult", payResult);
 		
 		return result;
 	}
@@ -485,10 +488,6 @@ public class UserService {
         				userRegInfo.setFileType5(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("6")) {
         				userRegInfo.setFileType6(fileList.get(i));
-        			}else if(fileList.get(i).getFileType().equals("27")) { //변경요청 시 증빙서류
-        				userRegInfo.setFileType27(fileList.get(i));
-        			}else if(fileList.get(i).getFileType().equals("28")) { //변경요청 시 증빙서류
-        				userRegInfo.setFileType28(fileList.get(i));
         			}
         		}
         	}
@@ -496,11 +495,17 @@ public class UserService {
 		
 		//위반이력
     	List<UserDomain> violationInfoList = userRepo.selectUserViolationInfoList(userDomain);
+    	
+    	//결제정보
+    	PayResultDomain payResultDomain 	= new PayResultDomain();
+    	payResultDomain.setMasterSeq(userDomain.getMasterSeq());
+    	PayResultDomain payResult 			= commonService.getPayResultDetail(payResultDomain);
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
 		result.put("userRegInfo", userRegInfo);
 		result.put("violationInfoList", violationInfoList);
+		result.put("payResult", payResult);
 		
 		return result;
 	}
@@ -1015,9 +1020,6 @@ public class UserService {
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		
-		//위반이력 삭제 후 저장
-		userRepo.deleteUserViolationInfo(userDomain);
-		
 		String[] violationCdArr = userDomain.getViolationCdArr();
 		
 		if(violationCdArr.length > 0) {
@@ -1098,6 +1100,26 @@ public class UserService {
 	public List<UserDomain> selectUserStepHistoryList(UserDomain userDomain) {
 		return userRepo.selectUserStepHistoryList(userDomain);
 	}
+	
+	
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 위반이력
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//위반이력 삭제 
+	@Transactional
+	public ResponseMsg deleteViolationInfo(UserDomain userDomain){
+		
+		int deleteResult = userRepo.deleteUserViolationInfo(userDomain);
+		
+		if(deleteResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "위반이력이 삭제되었습니다.");
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * (공통)모집인 등록 > 상태값 체크

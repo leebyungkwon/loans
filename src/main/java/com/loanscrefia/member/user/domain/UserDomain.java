@@ -20,6 +20,7 @@ public class UserDomain extends BaseDomain {
 	private String masterToId;		//접수번호ID(조회)
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
+	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
 	private String plClass;			//분류							-> [CLS001]개인,법인
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
@@ -122,8 +123,6 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType9;
 	private FileDomain fileType10;
 	private FileDomain fileType11;
-	private FileDomain fileType12;
-	private FileDomain fileType13;
 	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;
@@ -132,8 +131,6 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType24;
 	private FileDomain fileType25;
 	private FileDomain fileType26;
-	private FileDomain fileType27;
-	private FileDomain fileType28;
 	
 	//검색
 	private String srchInput1;

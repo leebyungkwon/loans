@@ -114,6 +114,13 @@ public class UserController {
         return mv;
     }
 	
+	//위반이력 삭제
+	@PostMapping(value="/confirm/deleteViolationInfo")
+	public ResponseEntity<ResponseMsg> deleteViolationInfo(UserDomain userDomain){
+		ResponseMsg responseMsg = userService.deleteViolationInfo(userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 등록
 	 * -------------------------------------------------------------------------------------------------------
