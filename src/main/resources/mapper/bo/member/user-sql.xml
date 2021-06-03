@@ -16,6 +16,7 @@
    		SELECT 
 	    	<include refid="common.totalPages"/>
 	    	 TLM.MASTER_SEQ
+	    	,TLM.MASTER_TO_ID
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
@@ -597,6 +598,7 @@
    	<select id="getUserRegDetail" parameterType="user" resultType="user">
    		SELECT 
 	    	 TLM.MASTER_SEQ
+	    	,TLM.MASTER_TO_ID
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ

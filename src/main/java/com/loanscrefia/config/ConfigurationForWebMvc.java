@@ -19,7 +19,7 @@ public class ConfigurationForWebMvc implements WebMvcConfigurer {
 	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("redirect:/login");
+		registry.addViewController("/").setViewName("redirect:/front/index");
 	}
 	
 	@Override

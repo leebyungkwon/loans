@@ -266,6 +266,28 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				<tr>
+					<th class="acenter">위임장(변경요청 시) *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType12 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType12.fileSeq }">${result.userRegInfo.fileType12.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">인감증명서(변경요청 시) *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType13 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType13.fileSeq }">${result.userRegInfo.fileType13.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="btn_wrap">

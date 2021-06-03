@@ -368,6 +368,40 @@ function goUserChangeApply(){
 							</c:choose>
 						</td>
 					</tr>
+					<tr>
+						<th class="acenter">위임장(변경요청 시) *</th>
+						<td id="chgVeriDoc2">
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType12 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType12.fileSeq }">${result.userRegInfo.fileType12.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType12.fileSeq }" data-fileType="12" data-essential="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="12"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th class="acenter">인감증명서(변경요청 시) *</th>
+						<td id="chgVeriDoc2">
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType13 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType13.fileSeq }">${result.userRegInfo.fileType13.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType13.fileSeq }" data-fileType="13" data-essential="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="13"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
 				</table>
 			</div>
 			<div class="btn_wrap">
