@@ -47,6 +47,7 @@
 	<select id="selectSearchUserInfo" parameterType="search" resultType="search">
 		SELECT
 			 TLM.MASTER_SEQ
+			,TLM.MASTER_TO_ID
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
