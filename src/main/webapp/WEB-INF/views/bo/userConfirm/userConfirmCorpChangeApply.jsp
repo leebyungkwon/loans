@@ -326,6 +326,40 @@ function goUserChangeApply(){
 							</c:choose>
 						</td>
 					</tr>
+					<tr>
+						<th class="acenter">위임장(변경요청 시) *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType27 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType27.fileSeq }">${result.userRegInfo.fileType27.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType27.fileSeq }" data-fileType="27" data-essential="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="27"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th class="acenter">인감증명서(변경요청 시) *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType28 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType28.fileSeq }">${result.userRegInfo.fileType28.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType28.fileSeq }" data-fileType="28" data-essential="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="28"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
 				</table>
 			</div>
 			<div class="btn_wrap">

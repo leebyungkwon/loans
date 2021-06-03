@@ -121,6 +121,8 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType9;
 	private FileDomain fileType10;
 	private FileDomain fileType11;
+	private FileDomain fileType12;
+	private FileDomain fileType13;
 	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;
@@ -129,6 +131,8 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType24;
 	private FileDomain fileType25;
 	private FileDomain fileType26;
+	private FileDomain fileType27;
+	private FileDomain fileType28;
 	
 	//검색
 	private String srchInput1;
