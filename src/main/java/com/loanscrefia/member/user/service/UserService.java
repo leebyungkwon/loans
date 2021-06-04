@@ -436,6 +436,8 @@ public class UserService {
         				userRegInfo.setFileType12(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("13")) {
         				userRegInfo.setFileType13(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("14")) {
+        				userRegInfo.setFileType14(fileList.get(i));
         			}
         		}
         	}

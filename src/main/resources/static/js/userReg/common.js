@@ -7,13 +7,14 @@ $(document).on("change",".careerTyp",function(){
 	
 	var parentTag = $(this).closest("div").parent();
 	
-	$(parentTag).find(".eduFileTable").find(".esstIcon").remove();
+	//$(parentTag).find(".eduFileTable").find(".esstIcon").remove();
 	
 	if($(this).val() == "1"){
 		//신규
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").show();
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").hide();
 		
+		/*
 		if(WebUtil.isNotNull($(this).attr("data-fileSeq"))){
 			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileDel").attr("data-essential","Y");
 			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileDel").attr("data-essential","N");
@@ -25,11 +26,13 @@ $(document).on("change",".careerTyp",function(){
 			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".inputFile").attr("data-essential","N");
 			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").append('<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="N">초기화</a>');
 		}
+		*/
 	}else if($(this).val() == "2"){
 		//경력
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").show();
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").hide();
 		
+		/*
 		if(WebUtil.isNotNull($(this).attr("data-fileSeq"))){
 			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileDel").attr("data-essential","Y");
 			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileDel").attr("data-essential","N");	
@@ -41,6 +44,7 @@ $(document).on("change",".careerTyp",function(){
 			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".inputFile").attr("data-essential","N");
 			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").append('<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="N">초기화</a>');
 		}
+		*/
 	}
 });
 
@@ -403,8 +407,6 @@ function goCallViolationCd(){
 //위반이력사항 영역 추가
 function goViolationAdd(obj){
 	
-	var html = $(obj).parent().parent().clone();
-	/*
 	var html = '';
 	
 	html += '<tr class="violationArea">';
@@ -415,7 +417,8 @@ function goViolationAdd(obj){
 	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
 	html += '</td>';
 	html += '</tr>';
-	*/
+	
+	goCallViolationCd();
 	
 	$("#table > table").append(html);
 }

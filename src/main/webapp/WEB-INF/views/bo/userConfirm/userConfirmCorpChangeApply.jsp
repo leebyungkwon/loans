@@ -214,7 +214,9 @@ function goUserChangeApply(){
 									<th>위반이력${status.count }</th>
 									<td colspan="3">
 										${violationInfoList.violationCdNm }
+										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
 										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
+										</c:if>
 										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
 									</td>
 								</tr>
