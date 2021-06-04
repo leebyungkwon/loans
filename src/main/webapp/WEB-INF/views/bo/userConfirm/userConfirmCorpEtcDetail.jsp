@@ -97,6 +97,17 @@ function pageLoad(){
 								</c:choose>
 							</td>
 						</tr>
+						<tr>
+							<th class="acenter">신용정보조회서 *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType29 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType29.fileSeq }">${result.userRegInfo.fileType29.fileFullNm }</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

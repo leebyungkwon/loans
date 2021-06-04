@@ -157,6 +157,17 @@ function goCorpImwonInfoDel(excSeq) {
 											</c:choose>
 										</td>
 									</tr>
+									<tr>
+										<th class="acenter">후견부존재증명서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType27 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType27.fileSeq }">${corpImwonList.fileType27.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -170,11 +181,22 @@ function goCorpImwonInfoDel(excSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">금융상품 유형, 내용에 대한 설명자료 *</th>
+										<th class="acenter">위탁계약서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType11 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType11.fileSeq }">${corpImwonList.fileType11.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType28 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType28.fileSeq }">${corpImwonList.fileType28.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>

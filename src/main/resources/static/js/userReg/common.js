@@ -403,7 +403,8 @@ function goCallViolationCd(){
 //위반이력사항 영역 추가
 function goViolationAdd(obj){
 	
-	//var html = $(obj).parent().parent().clone();
+	var html = $(obj).parent().parent().clone();
+	/*
 	var html = '';
 	
 	html += '<tr class="violationArea">';
@@ -414,6 +415,7 @@ function goViolationAdd(obj){
 	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
 	html += '</td>';
 	html += '</tr>';
+	*/
 	
 	$("#table > table").append(html);
 }

@@ -207,10 +207,10 @@ function goDataAreaAdd() {
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
 														<c:choose>
 															<c:when test="${corpExpertList.careerTyp eq '2' }">
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType16.fileSeq }" data-fileType="16" data-essential="Y" data-realDel="Y">삭제</a>
+																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType16.fileSeq }" data-fileType="16" data-essential="Y">삭제</a>
 															</c:when>
 															<c:otherwise>
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType16.fileSeq }" data-fileType="16" data-essential="N" data-realDel="Y">삭제</a>
+																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType16.fileSeq }" data-fileType="16" data-essential="N">삭제</a>
 															</c:otherwise>
 														</c:choose>
 													</c:when>
@@ -242,10 +242,10 @@ function goDataAreaAdd() {
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
 														<c:choose>
 															<c:when test="${corpExpertList.careerTyp eq '1' }">
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType17.fileSeq }" data-fileType="17" data-essential="Y" data-realDel="Y">삭제</a>
+																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType17.fileSeq }" data-fileType="17" data-essential="Y">삭제</a>
 															</c:when>
 															<c:otherwise>
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType17.fileSeq }" data-fileType="17" data-essential="N" data-realDel="Y">삭제</a>
+																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType17.fileSeq }" data-fileType="17" data-essential="N">삭제</a>
 															</c:otherwise>
 														</c:choose>
 													</c:when>
