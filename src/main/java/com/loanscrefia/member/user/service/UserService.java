@@ -576,6 +576,8 @@ public class UserService {
 							imwonList.get(i).setFileType27(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("28")) {
 							imwonList.get(i).setFileType28(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("30")) {
+							imwonList.get(i).setFileType28(fileList.get(j));
 						}
 					}
 				}
@@ -626,6 +628,8 @@ public class UserService {
 							expertList.get(i).setFileType17(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("18")) {
 							expertList.get(i).setFileType18(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("31")) {
+							expertList.get(i).setFileType31(fileList.get(j));
 						}
 					}
 				}

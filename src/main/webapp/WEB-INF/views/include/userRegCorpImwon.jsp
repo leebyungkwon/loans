@@ -184,7 +184,7 @@
 					</td>
 				</tr>
 				<tr class="careerTypOneTr" data-fileType="13" data-fileSeq="">
-					<th class="acenter">대표 인증서(신규)<span class="esstIcon"> *</span></th>
+					<th class="acenter">대표 인증서(신규) *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>

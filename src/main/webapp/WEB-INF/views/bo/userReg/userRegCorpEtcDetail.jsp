@@ -148,7 +148,7 @@ function goUserRegInfoUpdt() {
 								</td>
 							</tr>
 							<tr>
-								<th class="acenter">신용정보조회서 *</th>
+								<th class="acenter">기업 신용정보조회서 *</th>
 								<td>
 									<c:choose>
 										<c:when test="${result.userRegInfo.fileType29 ne null }">

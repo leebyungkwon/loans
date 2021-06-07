@@ -105,8 +105,8 @@ function goCorpExpertInfoDel(expSeq) {
 									<col width="62%"/>
 								</colgroup>
 								<tbody>
-									<tr>
-										<th class="acenter">이수확인서(경력)<c:if test="${corpExpertList.careerTyp eq '2' }"> *</c:if></th>
+									<tr <c:if test="${corpExpertList.careerTyp eq '1' }">style="display: none;"</c:if>>
+										<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpExpertList.fileType16 ne null }">
@@ -116,8 +116,19 @@ function goCorpExpertInfoDel(expSeq) {
 											</c:choose>
 										</td>
 									</tr>
-									<tr>
-										<th class="acenter">인증서(신규)<c:if test="${corpExpertList.careerTyp eq '1' }"> *</c:if></th>
+									<tr <c:if test="${corpExpertList.careerTyp eq '1' }">style="display: none;"</c:if>>
+										<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpExpertList.fileType31 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType31.fileSeq }">${corpExpertList.fileType31.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr <c:if test="${corpExpertList.careerTyp eq '2' }">style="display: none;"</c:if>>
+										<th class="acenter">인증서(신규) *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpExpertList.fileType17 ne null }">

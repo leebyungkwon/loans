@@ -364,71 +364,52 @@ function goDataAreaAdd() {
 									</colgroup>
 									<tbody>
 										<tr class="careerTypTwoTr" data-fileType="12" data-fileSeq="${corpImwonList.fileType12.fileSeq }" <c:if test="${corpImwonList.careerTyp eq '1' }">style="display: none;"</c:if>>
-											<th class="acenter">대표 경력교육과정 수료증(경력)<c:if test="${corpImwonList.careerTyp eq '2' }"><span class="esstIcon"> *</span></c:if></th>
+											<th class="acenter">대표 경력교육과정 수료증(여신금융교육연수원) *</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpImwonList.fileType12 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType12.fileSeq }">${corpImwonList.fileType12.fileFullNm }</a>
-														<c:choose>
-															<c:when test="${corpImwonList.careerTyp eq '2' }">
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType12.fileSeq }" data-fileType="12" data-essential="Y">삭제</a>
-															</c:when>
-															<c:otherwise>
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType12.fileSeq }" data-fileType="12" data-essential="N">삭제</a>
-															</c:otherwise>
-														</c:choose>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType12.fileSeq }" data-fileType="12" data-essential="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<c:choose>
-															<c:when test="${corpImwonList.careerTyp eq '2' }">
-																<input type="text" class="w50 file_input" readonly disabled>
-																<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-																<input type="hidden" name="fileTypeList" value="12"/>
-																<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-															</c:when>
-															<c:otherwise>
-																<input type="text" class="w50 file_input" readonly disabled>
-																<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-																<input type="hidden" name="fileTypeList" value="12"/>
-																<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="12" data-essential="N">초기화</a>
-															</c:otherwise>
-														</c:choose>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="12"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+													</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+										<tr class="careerTypTwoTr" data-fileType="30" data-fileSeq="${corpImwonList.fileType30.fileSeq }" <c:if test="${corpImwonList.careerTyp eq '1' }">style="display: none;"</c:if>>
+											<th class="acenter">대표 경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType30 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType30.fileSeq }" data-fileType="30" data-essential="Y">삭제</a>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="30"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
 										</tr>
 										<tr class="careerTypOneTr" data-fileType="13" data-fileSeq="${corpImwonList.fileType13.fileSeq }" <c:if test="${corpImwonList.careerTyp eq '2' }">style="display: none;"</c:if>>
-											<th class="acenter">대표 인증서(신규)<c:if test="${corpImwonList.careerTyp eq '1' }"><span class="esstIcon"> *</span></c:if></th>
+											<th class="acenter">대표 인증서(신규) *</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpImwonList.fileType13 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType13.fileSeq }">${corpImwonList.fileType13.fileFullNm }</a>
-														<c:choose>
-															<c:when test="${corpImwonList.careerTyp eq '1' }">
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType13.fileSeq }" data-fileType="13" data-essential="Y">삭제</a>
-															</c:when>
-															<c:otherwise>
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType13.fileSeq }" data-fileType="13" data-essential="N">삭제</a>
-															</c:otherwise>
-														</c:choose>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType13.fileSeq }" data-fileType="13" data-essential="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<c:choose>
-															<c:when test="${corpImwonList.careerTyp eq '1' }">
-																<input type="text" class="w50 file_input" readonly disabled>
-																<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-																<input type="hidden" name="fileTypeList" value="13"/>
-																<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-															</c:when>
-															<c:otherwise>
-																<input type="text" class="w50 file_input" readonly disabled>
-																<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-																<input type="hidden" name="fileTypeList" value="13"/>
-																<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-																<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="13" data-essential="N">초기화</a>
-															</c:otherwise>
-														</c:choose>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="13"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
