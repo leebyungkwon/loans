@@ -26,7 +26,7 @@ function goUserChangeApply(){
 		return;
 	}
 	//validation
-	if("${result.userRegInfo.fileCompYn}" == "N"){
+	if(!goFileEssentialChk() || "${result.userRegInfo.fileCompYn}" == "N"){
 		alert(messages.COM0007);
 		return;
 	}

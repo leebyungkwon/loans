@@ -110,7 +110,7 @@ $(document).on("click",".goFileDel",function(){
 			, success	: function(opt,result) {
 				if(result.data > 0){
 					alert("삭제되었습니다.");
-					/*
+					
 					var html = '';
 					
 					html += '<input type="text" class="w50 file_input" readonly disabled> '; //공백 제거 금지
@@ -123,8 +123,6 @@ $(document).on("click",".goFileDel",function(){
 					}
 					
 					targetArea.html(html);
-					*/
-					location.reload();
 				}
 			}
 		}
@@ -288,6 +286,11 @@ function goCorpInfoReg(obj){
 
 //승인요청
 function goUserAcceptApply(){
+	//validation
+	if(!goFileEssentialChk() || "${result.userRegInfo.fileCompYn}" == "N"){
+		alert(messages.COM0007);
+		return;
+	}
 	if(confirm("승인요청하시겠습니까?")){
 		$("#userRegInfoUpdFrm").attr("action","/member/user/userAcceptApply2");
 		
