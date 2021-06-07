@@ -8,6 +8,15 @@ ALTER TABLE tb_lc_mas01_hist ADD COLUMN master_to_id varchar(20);
 ALTER TABLE tb_lc_mas01 ADD COLUMN pre_reg_yn char(1) not null default 'N';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN pre_reg_yn char(1) not null default 'N';
 
+ALTER TABLE tb_lc_mas01 ALTER COLUMN pl_m_z_id_edu type varchar(30);
+ALTER TABLE tb_lc_mas01 ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_mas01_imwon ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_mas01_expert ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_edu01 ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_edu01_temp ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_m_z_id_edu type varchar(30);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_edu_no type varchar(30);
+
 ------------------------------- 사용금지-----------------------------
 
 INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no) VALUES
@@ -40,13 +49,9 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('CAR001','1','신규','신규',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('CAR001','2','경력','경력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD001','1','대출','대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','2','시설대여 및 연불판매','시설대여 및 연불판매',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','3','할부','할부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','4','어음할인','어음할인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:03:14.567466',NULL,NULL),
-	 ('PRD001','5','매출채권 매입','매출채권 매입',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:03:14.567466',NULL,NULL),
-	 ('PRD001','6','지급보증','지급보증',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:03:14.567466',NULL,NULL);
+	 ('PRD001','2','시설대여,할부,유사상품','시설대여,할부,유사상품',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','3','기타 대출성 상품','기타 대출성 상품',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
-	 ('PRD001','7','기타 대출성상품','기타 대출성상품',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:04:59.15828',NULL,NULL),
 	 ('ADD001','1','서울','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:39.107933',NULL,NULL),
 	 ('ADD001','2','경기','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:45.203197',NULL,NULL),
 	 ('ADD001','3','충청북도','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:51.868554',NULL,NULL),
