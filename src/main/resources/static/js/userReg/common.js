@@ -246,6 +246,9 @@ function goHtmlAdd(callUrl,formUrl,dataWrapLen){
 			var formNm = "userRegInfoInsertFrm"+formNo;
 			$(".data_wrap:first").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
 			//$(".data_wrap:last").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
+			
+			//datepicker
+			goDatepickerDraw();
 		}
 	});
 }
@@ -462,11 +465,36 @@ function goUserStepHistoryShow(masterSeq){
 	PopUtil.openPopup(p);
 }
  
+/* ===============================================================================================================================
+ * datepicker
+ * ===============================================================================================================================
+ */
  
+//datepicker 그리기
+function goDatepickerDraw(){
+	$(".calendar01").datepicker({
+		 dateFormat	: "yy-mm-dd"
+		,onSelect	: function(dateText1,inst) {
+			$(this).prev().val(dateText1);
+			$(this).hide();
+		}
+	});
+}
+
+//datepicker 보여주기
+function goDatepickerShow(obj){
+	$(obj).next().show();
+}
+
+//datepicker 숨기기
+$(document).mouseup(function(e){
+	var calendar01 = $(".calendar01");
+	if(calendar01.has(e.target).length === 0){
+		calendar01.hide();
+	}
+});
  
- 
- 
- 
+
  
  
  

@@ -19,42 +19,8 @@ function pageLoad(){
 	}
 	
 	//datepicker
-	$("#date_cal01").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#careerStartDate").val(dateText1);
-			$(this).hide();
-		}
-	});
-	$("#date_cal02").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#careerEndDate").val(dateText1);
-			$(this).hide();
-		}
-	});
-	$("#date_cal03").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#comContDate").val(dateText1);
-			$(this).hide();
-		}
-	});
-	$("#date_cal04").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#entrustDate").val(dateText1);
-			$(this).hide();
-		}
-	});
+	goDatepickerDraw();
 }
-
-$(document).mouseup(function(e){
-	var calendar01 = $(".calendar01");
-	if(calendar01.has(e.target).length === 0){
-		calendar01.hide();
-	}
-});
 
 //수정
 function goUserRegInfoUpdt() {
@@ -174,28 +140,24 @@ function goUserRegInfoCancel() {
 					<tr>
 						<th>경력시작일</th>
 						<td>
-							<input type="text" name="careerStartDate" id="careerStartDate" onclick="$('#date_cal01').show();" class="w100" value="${result.userRegInfo.careerStartDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal01').show();"></a> -->
+							<input type="text" name="careerStartDate" id="careerStartDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.careerStartDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal01" class="calendar01"></div>
 						</td>
 						<th>경력종료일</th>
 						<td>
-							<input type="text" name="careerEndDate" id="careerEndDate" onclick="$('#date_cal02').show();" class="w100" value="${result.userRegInfo.careerEndDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal02').show();"></a> -->
+							<input type="text" name="careerEndDate" id="careerEndDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.careerEndDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal02" class="calendar01"></div>
 						</td>
 					</tr>
 					<tr>
 						<th>계약일자</th>
 						<td>
-							<input type="text" name="comContDate" id="comContDate" onclick="$('#date_cal03').show();" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal03').show();"></a> -->
+							<input type="text" name="comContDate" id="comContDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal03" class="calendar01"></div>
 						</td>
 						<th>위탁예정기간</th>
 						<td>
-							<input type="text" name="entrustDate" id="entrustDate" onclick="$('#date_cal04').show();" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal04').show();"></a> -->
+							<input type="text" name="entrustDate" id="entrustDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal04" class="calendar01"></div>
 						</td>
 					</tr>

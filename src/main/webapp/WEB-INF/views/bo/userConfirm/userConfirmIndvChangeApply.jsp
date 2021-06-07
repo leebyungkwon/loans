@@ -15,8 +15,6 @@ function pageLoad(){
 	
 	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
 	$("#plMName, #plMZId, #plCellphone").on("propertychange change keyup paste input",function(){
-		alert($(this).val() + " :: " + $(this).attr("id"));
-		
 		var inputVal 	= $(this).val();
 		var inputId		= $(this).attr("id");
 		
@@ -48,17 +46,10 @@ function goUserChangeApply(){
 		return;
 	}
 	//validation
-	/*
-	if(!goFileEssentialChk()){
+	if("${result.userRegInfo.fileCompYn}" == "N"){
 		alert(messages.COM0007);
 		return;
 	}
-	*/
-	/*
-	alert("${result.userRegInfo.fileCompYn}");
-	return;
-	*/
-	
 	//요청
 	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
 		goFileTypeListDisabled();

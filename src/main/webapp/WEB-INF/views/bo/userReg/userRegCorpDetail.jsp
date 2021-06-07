@@ -18,35 +18,8 @@ function pageLoad(){
 	}
 	
 	//datepicker
-	$("#date_cal01").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#corpFoundDate").val(dateText1);
-			$(this).hide();
-		}
-	});
-	$("#date_cal02").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#comContDate").val(dateText1);
-			$(this).hide();
-		}
-	});
-	$("#date_cal03").datepicker({
-		 dateFormat	: "yy-mm-dd"
-		,onSelect	: function(dateText1,inst) {
-			$("#entrustDate").val(dateText1);
-			$(this).hide();
-		}
-	});
+	goDatepickerDraw();
 }
-
-$(document).mouseup(function(e){
-	var calendar01 = $(".calendar01");
-	if(calendar01.has(e.target).length === 0){
-		calendar01.hide();
-	}
-});
 
 //수정
 function goUserRegInfoUpdt() {
@@ -127,8 +100,7 @@ function goUserRegInfoUpdt() {
 						<td><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }" maxlength="14" placeholder="- 포함" data-vd='{"type":"text","len":"1,14","req":true,"msg":"법인등록번호(- 포함)를 입력해 주세요."}'></td>
 						<th>설립년월일</th>
 						<td>
-							<input type="text" name="corpFoundDate" id="corpFoundDate" onclick="$('#date_cal01').show();" class="w100" value="${result.userRegInfo.corpFoundDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"설립년월일(- 포함)을 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal01').show();"></a> -->
+							<input type="text" name="corpFoundDate" id="corpFoundDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.corpFoundDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"설립년월일(- 포함)을 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal01" class="calendar01"></div>
 						</td>
 					</tr>
@@ -153,14 +125,12 @@ function goUserRegInfoUpdt() {
 					<tr>
 						<th>계약일자</th>
 						<td>
-							<input type="text" name="comContDate" id="comContDate" onclick="$('#date_cal02').show();" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal02').show();"></a> -->
+							<input type="text" name="comContDate" id="comContDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal02" class="calendar01"></div>
 						</td>
 						<th>위탁예정기간</th>
 						<td>
-							<input type="text" name="entrustDate" onclick="$('#date_cal03').show();" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
-							<!-- <a class="calendar_ico" onclick="$('#date_cal03').show();"></a> -->
+							<input type="text" name="entrustDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
 						 	<div id="date_cal03" class="calendar01"></div>
 						</td>
 					</tr>
