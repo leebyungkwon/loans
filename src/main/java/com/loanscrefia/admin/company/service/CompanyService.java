@@ -60,10 +60,10 @@ public class CompanyService {
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(companyDomain.getEmail());
 		if("3".equals(companyDomain.getApprStat())) {
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("139");
 			emailDomain.setSubsValue(companyDomain.getMemberId());
 		}else if("2".equals(companyDomain.getApprStat())) {
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("140");
 			emailDomain.setSubsValue(companyDomain.getMemberId());
 			emailDomain.setSubsValue(companyDomain.getMemberId()+"|"+companyDomain.getMsg());
 		}else {
@@ -71,9 +71,9 @@ public class CompanyService {
 		}
 		
 		int result = companyRepository.updateCompanyStat(companyDomain);
-		//emailResult = emailRepository.sendEmail(emailDomain);
+		emailResult = emailRepository.sendEmail(emailDomain);
 		// 임시 통과
-		emailResult = 1;
+		//emailResult = 1;
 		
 		if(emailResult > 0 && result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");

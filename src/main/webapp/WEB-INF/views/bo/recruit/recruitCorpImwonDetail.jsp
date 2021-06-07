@@ -92,7 +92,7 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">대표자 이력서</th>
+										<th class="acenter">대표자 이력서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType7 ne null }">
@@ -103,7 +103,7 @@ function pageLoad(){
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">대표자 경력증명서</th>
+										<th class="acenter">대표자 경력증명서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType8 ne null }">
@@ -114,7 +114,7 @@ function pageLoad(){
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류</th>
+										<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType9 ne null }">
@@ -125,11 +125,23 @@ function pageLoad(){
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">인감증명서</th>
+										<th class="acenter">인감증명서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType10 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType10.fileSeq }">${corpImwonList.fileType10.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
+									<tr>
+										<th class="acenter">후견부존재증명서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType27 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType27.fileSeq }">${corpImwonList.fileType27.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
@@ -148,11 +160,23 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">금융상품 유형, 내용에 대한 설명자료</th>
+										<th class="acenter">위탁계약서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType11 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType11.fileSeq }">${corpImwonList.fileType11.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
+									<tr>
+										<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType28 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType28.fileSeq }">${corpImwonList.fileType28.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
@@ -170,30 +194,47 @@ function pageLoad(){
 									<col width="62%">
 								</colgroup>
 								<tbody>
+									<c:if test="${corpImwonList.careerTyp eq '2' }">
+										<tr>
+											<th class="acenter">대표 경력교육과정 수료증(여신금융교육연수원) *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType12 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType12.fileSeq }">${corpImwonList.fileType12.fileFullNm }</a>
+													</c:when>
+													<c:otherwise>-</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${corpImwonList.careerTyp eq '2' }">
+										<tr>
+											<th class="acenter">대표 경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType30 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
+													</c:when>
+													<c:otherwise>-</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${corpImwonList.careerTyp eq '1' }">
+										<tr>
+											<th class="acenter">대표 인증서(신규) *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType13 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType13.fileSeq }">${corpImwonList.fileType13.fileFullNm }</a>
+													</c:when>
+													<c:otherwise>-</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+									</c:if>
 									<tr>
-										<th class="acenter">대표 교육과정 이수확인서 (경력)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType12 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType12.fileSeq }">${corpImwonList.fileType12.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									<tr>
-										<th class="acenter">대표 인증서(신규)</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType13 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType13.fileSeq }">${corpImwonList.fileType13.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									<tr>
-										<th class="acenter">대표 경력증명서</th>
+										<th class="acenter">대표 경력증명서 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType14 ne null }">
@@ -216,7 +257,7 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">업무수행기준요건관련 서류</th>
+										<th class="acenter">업무수행기준요건관련 서류 *</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType15 ne null }">

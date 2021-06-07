@@ -8,6 +8,24 @@
 <script type="text/javascript">
 function pageLoad(){
 
+	
+	$("#ocrTest").on("click", function(){
+		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
+			var p = {
+				  url		: "/admin/apply/indvOcr"
+				, param		: {
+					 masterSeq 	: $("#masterSeq").val()
+				}
+				, success 	: function (opt,result) {
+					alert("성공");
+					console.log("RESULT == " , result);
+					//$("#zidCheck").val("일치");
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
+	
 }
 
 //승인
@@ -62,8 +80,10 @@ function goRecruitApply(num){
 
 //보완
 function goApplyImprove(num){
+	
+	var oldHistTxt = "${result.applyInfo.plHistTxt}";
 	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("사유를 입력해 주세요");
+		alert("보완요청사유를 입력해 주세요");
 		$("#plHistTxt").focus();
 		return false;
 	}
@@ -73,7 +93,14 @@ function goApplyImprove(num){
 		plStat = '10'
 	}
 	
-	if(confirm("보완요청을 하시겠습니까?")){
+	var confirmMessage = "";
+	if(oldHistTxt == $("#plHistTxt").val()){
+		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
+	}else{
+		confirmMessage = "보완요청을 하시겠습니까?";
+	}
+	
+	if(confirm(confirmMessage)){
 		var p = {
 			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
@@ -98,32 +125,6 @@ function goApplyImprove(num){
 }
 
 
-
-// OCR 검증
-function ocrRun(){
-	
-	
-	
-	if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
-		var p = {
-			  url		: "/admin/apply/indvOcr"
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-			}
-			, success 	: function (opt,result) {
-				
-				console.log("OCR 검증 완료");
-				
-				console.log("RESULT == " , result);
-				
-				
-				
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-	
-}
 
 </script>
 
@@ -190,7 +191,7 @@ function ocrRun(){
 					<th>이름</th>
 					<td>${result.applyInfo.plMName }</td>
 					<th>주민번호</th>
-					<td>${result.applyInfo.plMZId }</td>
+					<td>${result.applyInfo.plMZId } <span id="zidCheck"></span></td>
 				</tr>
 				<tr>
 					<th>휴대폰번호</th>
@@ -223,7 +224,7 @@ function ocrRun(){
 					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
 					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7'}">
 						<tr>
-							<th>사유</th>
+							<th>보완요청 사유</th>
 							<td colspan="3">
 								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }">
 							</td>
@@ -281,10 +282,11 @@ function ocrRun(){
 					</td>
 					<td>
 						<div class="input_check_wrap mgr10">
-							<input type="checkbox" id="check_cd1" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd1}">checked</c:if>
-							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if>
+							<input type="checkbox" id="check_cd1" class="check check_cd"
+							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if> 
+							<c:if test="${!empty result.applyInfo.checkCd1}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType1.fileSeq }" >
-							<label for="check_cd1">이미지 사이즈 확인</label>
+							<label for="check_cd1">기재내용 일치여부</label>
 						</div>
 					</td>
 				</tr>
@@ -308,8 +310,9 @@ function ocrRun(){
 						</div>
 					</td>
 				</tr>
+				<c:if test="${result.applyInfo.careerTyp eq '2' }">
 				<tr>
-					<td class="acenter">교육과정 이수확인서 (경력)</td>
+					<td class="acenter">경력교육과정 수료증(여신금융교육연수원) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType3 ne null }">
@@ -328,8 +331,34 @@ function ocrRun(){
 						</div>
 					</td>
 				</tr>
+				</c:if>
+				
+				<c:if test="${result.applyInfo.careerTyp eq '2' }">
 				<tr>
-					<td class="acenter">인증서(신규)</td>
+					<td class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType14 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType14.fileSeq }">${result.applyInfo.fileType14.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd14" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType14.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd14}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType14.fileSeq }" >
+							<label for="check_cd14">교육 이수 및 인증내역 검증</label> 
+						</div>
+					</td>
+				</tr>
+				</c:if>
+				
+				<c:if test="${result.applyInfo.careerTyp eq '1' }">
+				<tr>
+					<td class="acenter">인증서(신규) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType4 ne null }">
@@ -348,8 +377,10 @@ function ocrRun(){
 						</div>
 					</td>
 				</tr>
+				</c:if>
+				
 				<tr>
-					<td class="acenter">경력증명서 *</td>
+					<td class="acenter">경력증명서</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType5 ne null }">
@@ -368,8 +399,9 @@ function ocrRun(){
 						</div>
 					</td>
 				</tr>
+				
 				<tr>
-					<td class="acenter">금융상품 유형, 내용에 대한 설명자료(계약서) *</td>
+					<td class="acenter">위탁계약서 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType6 ne null }">
@@ -388,8 +420,31 @@ function ocrRun(){
 						</div>
 					</td>
 				</tr>
+				
+				
 				<tr>
-					<td class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</td>
+					<td class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType12 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType12.fileSeq }">${result.applyInfo.fileType12.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd12" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType12.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd12}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType12.fileSeq }" >
+							<label for="check_cd12">체크사항1</label>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="acenter">결격사유없음 확인서(파산, 피한정후견인등) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType7 ne null }">
@@ -416,7 +471,7 @@ function ocrRun(){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">대리인 신청 위임장(위임인 인간날인)</td>
+					<td class="acenter">대리인 신청 위임장(위임인 인간날인) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType8 ne null }">
@@ -428,15 +483,15 @@ function ocrRun(){
 					<td>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd9" class="check check_cd" 
-							<c:if test="${empty result.applyInfo.fileType9.fileSeq}">disabled</c:if>
+							<c:if test="${empty result.applyInfo.fileType8.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd9}">checked</c:if>
-							 data-fileSeq="${result.applyInfo.fileType9.fileSeq }" >
+							 data-fileSeq="${result.applyInfo.fileType8.fileSeq }" >
 							<label for="check_cd9">인감 날인 여부</label>
 						</div>											
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">위임인 인감증명서</td>
+					<td class="acenter">위임인 인감증명서 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType9 ne null }">
@@ -448,16 +503,38 @@ function ocrRun(){
 					<td>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd10" class="check check_cd" 
-							<c:if test="${empty result.applyInfo.fileType10.fileSeq}">disabled</c:if>
+							<c:if test="${empty result.applyInfo.fileType9.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd10}">checked</c:if>
-							 data-fileSeq="${result.applyInfo.fileType10.fileSeq }" >
+							 data-fileSeq="${result.applyInfo.fileType9.fileSeq }" >
 							<label for="check_cd10">유효 증명서여부</label>
 						</div>
 					</td>
 				</tr>
+				
+				<tr>
+					<td class="acenter">후견부존재증명서 *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType13 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType13.fileSeq }">${result.applyInfo.fileType13.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd13" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType13.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd13}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType13.fileSeq }" >
+							<label for="check_cd13">체크사항1</label>
+						</div>
+					</td>
+				</tr>
+				
 				<c:if test="${result.applyInfo.plStat eq '3' }">
 					<tr>
-						<td class="acenter">주민등록증 또는 주민등록 초본</td>
+						<td class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType10 ne null }">
@@ -466,10 +543,19 @@ function ocrRun(){
 								<c:otherwise>-</c:otherwise>
 							</c:choose>
 						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd15" class="check check_cd" 
+								<c:if test="${empty result.applyInfo.fileType10.fileSeq}">disabled</c:if>
+								<c:if test="${!empty result.applyInfo.checkCd15}">checked</c:if>
+								 data-fileSeq="${result.applyInfo.fileType10.fileSeq }" >
+								<label for="check_cd15">체크사항1</label>
+							</div>
+						</td>
 					</tr>
 					
 					<tr>
-						<td class="acenter">휴대폰 명의 확인서</td>
+						<td class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType11 ne null }">
@@ -478,24 +564,35 @@ function ocrRun(){
 								<c:otherwise>-</c:otherwise>
 							</c:choose>
 						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd16" class="check check_cd" 
+								<c:if test="${empty result.applyInfo.fileType11.fileSeq}">disabled</c:if>
+								<c:if test="${!empty result.applyInfo.checkCd16}">checked</c:if>
+								 data-fileSeq="${result.applyInfo.fileType11.fileSeq }" >
+								<label for="check_cd16">체크사항1</label>
+							</div>
+						</td>
 					</tr>
 				</c:if>
 			</table>
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
-			<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
 			<c:if test="${result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="ocrTest">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '2'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="ocrTest">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>					
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="ocrTest">OCR검증</a>					
 			</c:if>
 			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 		</div>

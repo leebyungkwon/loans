@@ -112,6 +112,12 @@ public class RecruitService {
         				recruitInfo.setFileType10(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
         				recruitInfo.setFileType11(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("12")) {
+        				recruitInfo.setFileType12(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("13")) {
+        				recruitInfo.setFileType13(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("14")) {
+        				recruitInfo.setFileType14(fileList.get(i));
         			}
         		}
         	}
@@ -145,6 +151,12 @@ public class RecruitService {
         				recruitInfo.setHistFileType10(fileHistList.get(p));
         			}else if(fileHistList.get(p).getFileType().equals("11")) { //변경요청 시 증빙서류
         				recruitInfo.setHistFileType11(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("12")) {
+        				recruitInfo.setHistFileType12(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("13")) {
+        				recruitInfo.setHistFileType13(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("14")) {
+        				recruitInfo.setHistFileType14(fileHistList.get(p));
         			}
         		}
         	}
@@ -307,6 +319,12 @@ public class RecruitService {
 							imwonList.get(i).setFileType14(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("15")) {
 							imwonList.get(i).setFileType15(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("27")) {
+							imwonList.get(i).setFileType27(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("28")) {
+							imwonList.get(i).setFileType28(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("30")) {
+							imwonList.get(i).setFileType30(fileList.get(j));
 						}
 					}
 				}
@@ -357,6 +375,8 @@ public class RecruitService {
 							expertList.get(i).setFileType17(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("18")) {
 							expertList.get(i).setFileType18(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("31")) {
+							expertList.get(i).setFileType31(fileList.get(j));
 						}
 					}
 				}
@@ -440,6 +460,8 @@ public class RecruitService {
         				recruitInfo.setFileType25(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("26")) {
         				recruitInfo.setFileType26(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("29")) {
+        				recruitInfo.setFileType29(fileList.get(i));
         			}
         		}
         	}
@@ -463,6 +485,8 @@ public class RecruitService {
         				recruitInfo.setHistFileType25(fileHistList.get(p));
         			}else if(fileHistList.get(p).getFileType().equals("26")) {
         				recruitInfo.setHistFileType26(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("29")) {
+        				recruitInfo.setHistFileType29(fileHistList.get(p));
         			}
         		}
         	}

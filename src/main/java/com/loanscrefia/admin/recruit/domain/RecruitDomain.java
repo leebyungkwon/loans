@@ -139,6 +139,7 @@ public class RecruitDomain extends BaseDomain {
 	private FileDomain fileType11;
 	private FileDomain fileType12;
 	private FileDomain fileType13;
+	private FileDomain fileType14;
 	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;
@@ -149,6 +150,7 @@ public class RecruitDomain extends BaseDomain {
 	private FileDomain fileType26;
 	private FileDomain fileType27;
 	private FileDomain fileType28;
+	private FileDomain fileType29;
 	
 	//검색
 	private String srchInput1;
@@ -173,6 +175,7 @@ public class RecruitDomain extends BaseDomain {
 	private FileDomain histFileType11;
 	private FileDomain histFileType12;
 	private FileDomain histFileType13;
+	private FileDomain histFileType14;
 	
 	private FileDomain histFileType21;
 	private FileDomain histFileType22;
@@ -183,4 +186,5 @@ public class RecruitDomain extends BaseDomain {
 	
 	private FileDomain histFileType27;
 	private FileDomain histFileType28;
+	private FileDomain histFileType29;
 }

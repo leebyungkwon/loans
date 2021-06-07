@@ -88,58 +88,90 @@ function pageLoad(){
 									<th>첨부이미지</th>
 									<th>체크사항</th>
 								</tr>
+								<c:if test="${corpExpertList.careerTyp eq '2' }">
+									<tr>
+										<td class="acenter">경력교육과정 수료증(여신금융교육연수원) *</td>
+										<td>
+											<c:choose>
+												<c:when test="${corpExpertList.fileType16 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check_cd200" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd200}">checked</c:if>
+												<c:if test="${empty corpExpertList.fileType16.fileSeq}">disabled</c:if>
+												 data-fileSeq="${corpExpertList.fileType16.fileSeq }" >
+												<label for="check_cd200">교육이수 및 인증내역 검증</label>
+											</div>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check_cd201" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd201}">checked</c:if>
+												<c:if test="${empty corpExpertList.fileType16.fileSeq}">disabled</c:if>
+												 data-fileSeq="${corpExpertList.fileType16.fileSeq }" >
+												<label for="check_cd201">교육기관 직인 날인</label>
+											</div>
+										</td>
+									</tr>
+									
+									<tr>
+										<td class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</td>
+										<td>
+											<c:choose>
+												<c:when test="${corpExpertList.fileType31 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType31.fileSeq }">${corpExpertList.fileType31.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check_cd206" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd206}">checked</c:if>
+												<c:if test="${empty corpExpertList.fileType31.fileSeq}">disabled</c:if>
+												 data-fileSeq="${corpExpertList.fileType31.fileSeq }" >
+												<label for="check_cd206">교육이수 및 인증내역 검증</label>
+											</div>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check_cd207" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd207}">checked</c:if>
+												<c:if test="${empty corpExpertList.fileType31.fileSeq}">disabled</c:if>
+												 data-fileSeq="${corpExpertList.fileType31.fileSeq }" >
+												<label for="check_cd207">교육기관 직인 날인</label>
+											</div>
+										</td>
+									</tr>
+									
+								</c:if>
+								
+								<c:if test="${corpExpertList.careerTyp eq '1' }">
+									<tr>
+										<td class="acenter">인증서(신규) *</td>
+										<td>
+											<c:choose>
+												<c:when test="${corpExpertList.fileType17 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check_cd202" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd202}">checked</c:if>
+												<c:if test="${empty corpExpertList.fileType17.fileSeq}">disabled</c:if>
+												 data-fileSeq="${corpExpertList.fileType17.fileSeq }" >
+												<label for="check_cd202">교육이수 및 인증내역 검증</label>
+											</div>
+											<div class="input_check_wrap mgr10">
+												<input type="checkbox" id="check_cd203" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd203}">checked</c:if>
+												<c:if test="${empty corpExpertList.fileType17.fileSeq}">disabled</c:if>
+												 data-fileSeq="${corpExpertList.fileType17.fileSeq }" >
+												<label for="check_cd203">교육기관 직인 날인</label>
+											</div>
+										</td>
+									</tr>
+								</c:if>
 								<tr>
-									<td class="acenter">이수확인서 (경력)</td>
-									<td>
-										<c:choose>
-											<c:when test="${corpExpertList.fileType16 ne null }">
-												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
-											</c:when>
-											<c:otherwise>-</c:otherwise>
-										</c:choose>
-									</td>
-									<td>
-										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd200" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd200}">checked</c:if>
-											<c:if test="${empty corpExpertList.fileType16.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpExpertList.fileType16.fileSeq }" >
-											<label for="check_cd200">교육이수 및 인증내역 검증</label>
-										</div>
-										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd201" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd201}">checked</c:if>
-											<c:if test="${empty corpExpertList.fileType16.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpExpertList.fileType16.fileSeq }" >
-											<label for="check_cd201">교육기관 직인 날인</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="acenter">인증서(신규)</td>
-									<td>
-										<c:choose>
-											<c:when test="${corpExpertList.fileType17 ne null }">
-												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
-											</c:when>
-											<c:otherwise>-</c:otherwise>
-										</c:choose>
-									</td>
-									<td>
-										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd202" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd202}">checked</c:if>
-											<c:if test="${empty corpExpertList.fileType17.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpExpertList.fileType17.fileSeq }" >
-											<label for="check_cd202">교육이수 및 인증내역 검증</label>
-										</div>
-										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd203" class="check check_cd" <c:if test="${!empty corpExpertList.checkCd203}">checked</c:if>
-											<c:if test="${empty corpExpertList.fileType17.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpExpertList.fileType17.fileSeq }" >
-											<label for="check_cd203">교육기관 직인 날인</label>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="acenter">경력증명서 (업무인력)</td>
+									<td class="acenter">경력증명서 (업무인력) *</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpExpertList.fileType18 ne null }">

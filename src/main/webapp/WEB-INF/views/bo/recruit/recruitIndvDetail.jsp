@@ -65,6 +65,7 @@ function goRecruitApply(num){
 //보완
 function goRecruitImprove(rePlStat){
 
+	var oldHistTxt = "${result.recruitInfo.plHistTxt}";
 	
 	if($(document).find("#plHistArea").length == 0){
 		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
@@ -79,9 +80,16 @@ function goRecruitImprove(rePlStat){
 		return false;
 	}
 	
+	var confirmMessage = "";
+	if(oldHistTxt == $("#plHistTxt").val()){
+		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
+	}else{
+		confirmMessage = "보완요청을 하시겠습니까?";
+	}
+	
 	var plStat = rePlStat;
 	
-	if(confirm("보완요청을 하시겠습니까?")){
+	if(confirm(confirmMessage)){
 		var p = {
 			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
@@ -283,8 +291,10 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				
+				<c:if test="${result.recruitInfo.careerTyp eq '2' }">
 				<tr>
-					<th class="acenter">교육과정 이수확인서 (경력)</th>
+					<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType3 ne null }">
@@ -299,24 +309,47 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				</c:if>
+				
+				<c:if test="${result.recruitInfo.careerTyp eq '2' }">
 				<tr>
-					<th class="acenter">인증서(신규)</th>
+					<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
 					<td>
 						<c:choose>
-							<c:when test="${result.recruitInfo.fileType4 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType4.fileSeq }">${result.recruitInfo.fileType4.fileFullNm }</a>
+							<c:when test="${result.recruitInfo.fileType14 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType14.fileSeq }">${result.recruitInfo.fileType14.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
 						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
-							<c:if test="${!empty result.recruitInfo.histFileType4}">
-								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType4.fileGrpSeq }', '4');">변경사항</a>
+							<c:if test="${!empty result.recruitInfo.histFileType14}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType14.fileGrpSeq }', '14');">변경사항</a>
 							</c:if>
 						</c:if>
 					</td>
 				</tr>
+				</c:if>
+				
+				<c:if test="${result.recruitInfo.careerTyp eq '1' }">
+					<tr>
+						<th class="acenter">인증서(신규) *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.recruitInfo.fileType4 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType4.fileSeq }">${result.recruitInfo.fileType4.fileFullNm }</a>
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+							<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+								<c:if test="${!empty result.recruitInfo.histFileType4}">
+									<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType4.fileGrpSeq }', '4');">변경사항</a>
+								</c:if>
+							</c:if>
+						</td>
+					</tr>
+				</c:if>
 				<tr>
-					<th class="acenter">경력증명서 *</th>
+					<th class="acenter">경력증명서</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType5 ne null }">
@@ -332,7 +365,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">금융상품 유형, 내용에 대한 설명자료(계약서) *</th>
+					<th class="acenter">위탁계약서 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType6 ne null }">
@@ -347,6 +380,24 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				
+				<tr>
+					<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType12 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType12.fileSeq }">${result.recruitInfo.fileType12.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType12}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType12.fileGrpSeq }', '12');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
 				<tr>
 					<th class="acenter">결격사유없음 확인서 (파산, 피한정후견인등) *</th>
 					<td>
@@ -364,7 +415,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">대리인 신청 위임장(위임인 인간날인)</th>
+					<th class="acenter">대리인 신청 위임장(위임인 인간날인) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType8 ne null }">
@@ -380,7 +431,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">위임인 인감증명서</th>
+					<th class="acenter">위임인 인감증명서 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType9 ne null }">
@@ -395,9 +446,29 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				
+				<tr>
+					<th class="acenter">후견부존재증명서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType13 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType13.fileSeq }">${result.recruitInfo.fileType13.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType13}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType13.fileGrpSeq }', '13');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
+				
+				
 				<c:if test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '6'}">
 					<tr>
-						<th class="acenter">주민등록증 또는 주민등록 초본</th>
+						<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.recruitInfo.fileType10 ne null }">
@@ -414,7 +485,7 @@ function goRecruitImprove(rePlStat){
 					</tr>
 					
 					<tr>
-						<th class="acenter">휴대폰 명의 확인서</th>
+						<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.recruitInfo.fileType11 ne null }">

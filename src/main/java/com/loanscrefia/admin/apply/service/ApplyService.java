@@ -91,6 +91,12 @@ public class ApplyService {
         				applyInfo.setFileType10(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
         				applyInfo.setFileType11(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("12")) {
+        				applyInfo.setFileType12(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("13")) {
+        				applyInfo.setFileType13(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("14")) {
+        				applyInfo.setFileType14(fileList.get(i));
         			}
         			
         			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
@@ -117,6 +123,18 @@ public class ApplyService {
         					applyInfo.setCheckCd9(tmp.getCheckCd());
         				}else if("10".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd10(tmp.getCheckCd());
+        				}else if("11".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd11(tmp.getCheckCd());
+        				}else if("12".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd12(tmp.getCheckCd());
+        				}else if("13".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd13(tmp.getCheckCd());
+        				}else if("14".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd14(tmp.getCheckCd());
+        				}else if("15".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd15(tmp.getCheckCd());
+        				}else if("16".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd16(tmp.getCheckCd());
         				}
         			}
         		}
@@ -281,6 +299,12 @@ public class ApplyService {
 							imwonList.get(i).setFileType14(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("15")) {
 							imwonList.get(i).setFileType15(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("27")) {
+							imwonList.get(i).setFileType27(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("28")) {
+							imwonList.get(i).setFileType28(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("30")) {
+							imwonList.get(i).setFileType30(fileList.get(j));
 						}
 						
 						
@@ -314,6 +338,14 @@ public class ApplyService {
 	        					imwonList.get(i).setCheckCd111(tmp.getCheckCd());
 	        				}else if("112".equals(tmp.getCheckCd())) {
 	        					imwonList.get(i).setCheckCd112(tmp.getCheckCd());
+	        				}else if("113".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd113(tmp.getCheckCd());
+	        				}else if("114".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd114(tmp.getCheckCd());
+	        				}else if("115".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd115(tmp.getCheckCd());
+	        				}else if("116".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd116(tmp.getCheckCd());
 	        				}
 	        			}
 						
@@ -366,6 +398,8 @@ public class ApplyService {
 							expertList.get(i).setFileType17(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("18")) {
 							expertList.get(i).setFileType18(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("31")) {
+							expertList.get(i).setFileType31(fileList.get(j));
 						}
 						
 	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
@@ -490,6 +524,8 @@ public class ApplyService {
         				applyInfo.setFileType25(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("26")) {
         				applyInfo.setFileType26(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("29")) {
+        				applyInfo.setFileType29(fileList.get(i));
         			}
         			
         			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
@@ -512,6 +548,8 @@ public class ApplyService {
         					applyInfo.setCheckCd406(tmp.getCheckCd());
         				}else if("407".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd407(tmp.getCheckCd());
+        				}else if("408".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd408(tmp.getCheckCd());
         				}
         			}
         			

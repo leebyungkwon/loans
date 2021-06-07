@@ -29,5 +29,26 @@
 		<tiles:insertAttribute name="header-fo" />
 		<tiles:insertAttribute name="body-fo" />
 		<tiles:insertAttribute name="footer-fo" />
+		
+		<div class="loading_wrap">
+			<div class="loading_inner">
+				<div class="loadingio-spinner-spinner-76v2yr0v1qm">
+					<div class="ldio-ycr7xyx3w0m">
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="loading_txt">Loading...</div>
+			</div>
+			<div style="position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 1;opacity: 0.2;background-color: rgb(0, 0, 0);"></div>
+		</div>
 	</body>
 </html>

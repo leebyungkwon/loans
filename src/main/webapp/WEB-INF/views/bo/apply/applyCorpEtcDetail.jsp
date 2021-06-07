@@ -47,7 +47,7 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<td class="acenter">물적 설비내역에 대한 증빙서류</td>
+						<td class="acenter">물적 설비내역에 대한 증빙서류 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType21 ne null }">
@@ -72,7 +72,7 @@ function pageLoad(){
 						</td>
 					</tr>
 					<tr>
-						<td class="acenter">사무공간 / 전산설비 등의 임차계약서 사본</td>
+						<td class="acenter">사무공간 / 전산설비 등의 임차계약서 사본 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType22 ne null }">
@@ -91,7 +91,7 @@ function pageLoad(){
 						</td>
 					</tr>
 					<tr>
-						<td class="acenter">부동산 등기부등본</td>
+						<td class="acenter">부동산 등기부등본 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType23 ne null }">
@@ -126,7 +126,7 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<td class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</td>
+						<td class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType24 ne null }">
@@ -150,6 +150,25 @@ function pageLoad(){
 							</div>
 						</td>
 					</tr>
+					<tr>
+						<td class="acenter">기업 신용정보조회서 *</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.applyInfo.fileType29 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType29.fileSeq }">${result.applyInfo.fileType29.fileFullNm }</a>
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd408" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd408}">checked</c:if>
+								<c:if test="${empty result.applyInfo.fileType29.fileSeq}">disabled</c:if>
+								 data-fileSeq="${result.applyInfo.fileType29.fileSeq }" >
+								<label for="check_cd408">체크사항1</label>
+							</div>
+						</td>
+					</tr>
 				</table>
 			</div>
 			
@@ -167,7 +186,7 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<td class="acenter">대리인 신청 위임장 (위임인 인감날인)</td>
+						<td class="acenter">대리인 신청 위임장 (위임인 인감날인) *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType25 ne null }">
@@ -186,7 +205,7 @@ function pageLoad(){
 						</td>
 					</tr>
 					<tr>
-						<td class="acenter">위임인 인감증명서</td>
+						<td class="acenter">위임인 인감증명서 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType26 ne null }">

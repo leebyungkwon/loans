@@ -42,7 +42,7 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">물적 설비내역에 대한 증빙서류</th>
+							<th class="acenter">물적 설비내역에 대한 증빙서류 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType21 ne null }">
@@ -58,7 +58,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본</th>
+							<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType22 ne null }">
@@ -74,7 +74,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">부동산 등기부등본</th>
+							<th class="acenter">부동산 등기부등본 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType23 ne null }">
@@ -102,7 +102,7 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서</th>
+							<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType24 ne null }">
@@ -117,6 +117,24 @@ function pageLoad(){
 								</c:if>
 							</td>
 						</tr>
+						
+						<tr>
+							<th class="acenter">기업 신용정보조회서 *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.recruitInfo.fileType29 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType29.fileSeq }">${result.recruitInfo.fileType29.fileFullNm }</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType29}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType29.fileGrpSeq }', '29');">변경사항</a>
+									</c:if>
+								</c:if>
+							</td>
+						</tr>
+						
 					</tbody>
 				</table>
 			</div>
@@ -130,7 +148,7 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">대리인 신청 위임장 (위임인 인감날인)</th>
+							<th class="acenter">대리인 신청 위임장 (위임인 인감날인) *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType25 ne null }">
@@ -146,7 +164,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">위임인 인감증명서</th>
+							<th class="acenter">위임인 인감증명서 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType26 ne null }">

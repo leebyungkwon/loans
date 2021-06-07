@@ -18,6 +18,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ import com.loanscrefia.util.UtilExcel;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import sinsiway.CryptoUtil;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -61,6 +63,9 @@ public class ApplyController {
 	
 	@Autowired 
 	private ApplyRepository applyRepository;
+	
+	@Value("${upload.filePath}")
+	public String filePath;
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 모집인 조회 및 변경
@@ -178,7 +183,7 @@ public class ApplyController {
 	
 	// 개인 OCR
 	@PostMapping("/apply/indvOcr")
-	public Map<String, Object> indvOcr(ApplyDomain applyDomain) throws IOException { 
+	public ResponseEntity<ResponseMsg> indvOcr(ApplyDomain applyDomain) throws IOException { 
 		//상세
 		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
 		FileDomain fileDomain = new FileDomain();
@@ -187,83 +192,174 @@ public class ApplyController {
 		Tesseract tesseract = new Tesseract();
     	tesseract.setLanguage("kor");										
         tesseract.setDatapath("C:\\tessdata");
+        ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
         Map<String, Object> msgMap = new HashMap<String, Object>();
         try {
         	if(files.size() > 0) {
         		for(FileDomain file : files) {
-        			File imageFile = new File(file.getFilePath(), file.getFileSaveNm() + "." + file.getFileExt());
-        			// 흑색변환 처리시 필요한 랜덤파일명
-        			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
-        			File outputfile = new File(file.getFilePath(), randomFileNm + ".png");
-        			String ocrText = "";
-        			
-        			// PDF인 경우 JPG 흑백으로 변경작업 필요(속도이슈)
-        			if("pdf".equals(file.getFileExt())) {
-        				PDDocument pdf = PDDocument.load(imageFile);
-        				PDFRenderer pdfRenderer = new PDFRenderer(pdf);
-        				BufferedImage imageObj = pdfRenderer.renderImageWithDPI(0, 100, ImageType.GRAY);
-        				ImageIO.write(imageObj, "png", outputfile);
+        			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())) {
+        				String realfilePath = this.filePath.toString() + "/userReg";
         				
-        			}else {
-        				// pdf가 아닌경우 image는 흑백으로 변경
-        				BufferedImage buImage = ImageIO.read(imageFile);
-        				for(int y = 0; y < buImage.getHeight(); y++) {
-        					for(int x = 0; x < buImage.getWidth(); x++) {
-        						Color colour = new Color(buImage.getRGB(x, y));
-        						int Y = (int) (0.2126 * colour.getRed() + 0.7152 * colour.getGreen() + 0.0722 * colour.getBlue());
-        						buImage.setRGB(x, y, new Color(Y, Y, Y).getRGB());
-        					}
-        				}
-        				ImageIO.write(buImage, "png", outputfile);
-        			}
-        			
-        			if(outputfile.exists()) {
-        				ocrText = tesseract.doOCR(outputfile);
-        				// 문자추출시 띄어쓰기 및 공백제거 실행
-        				String replaceText = ocrText.replace(" ", "");
+        				/*
+        				// 암호화 해제
+        				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
+        				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
+        				CryptoUtil.decryptFile(oFile, chFile);
+        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				*/
         				
-        				// 파일 타입별로 추출영역 생성
-        				if("2".equals(file.getFileType())) {
-	            			// 등록하고자 하는 회원의 주민번호를 비교한다.
-	            			String jumin = applyInfo.getPlMZId();
-	            			String resultJumin = "";
-	    	                String patternType = "\\d{6}\\-[1-4]\\d{2}";
-	    	                Pattern pattern = Pattern.compile(patternType);
-	    	                Matcher matcher = pattern.matcher(ocrText);
-	    	                while(matcher.find()) {
-	    	                	resultJumin =  matcher.group(0);
-	    	                }
-        					if(jumin.equals(resultJumin)) {
-        						msgMap.put("fileType"+file.getFileType(), "일치");
-        					}else {
-        						msgMap.put("fileType"+file.getFileType(), "불일치");
-        					}
-        					
-        				}else if("3".equals(file.getFileType())){
-        					int startIndex = replaceText.indexOf("주민등록번호");
-        					String zIdResult = replaceText.substring(startIndex+7, startIndex+21);
-        					if(applyInfo.getPlMZId().equals(zIdResult)) {
-        						msgMap.put("fileType"+file.getFileType(), "일치");
-        					}else {
-        						msgMap.put("fileType"+file.getFileType(), "불일치");
-        					}	
-        				}else {
-        					// fileType에 포함X
-        					msgMap.put("fileType"+file.getFileType(), "fileType오류");
-        				}
-        			}else {
-        				msgMap.put("fileType"+file.getFileType(), "파일추출에 실패");
+        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				
+            			// 흑색변환 처리시 필요한 랜덤파일명
+            			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
+            			File outputfile = new File(realfilePath, randomFileNm + ".png");
+            			String ocrText = "";
+            			
+            			// PDF인 경우 JPG 흑백으로 변경작업 필요(속도이슈)
+            			if("pdf".equals(file.getFileExt())) {
+            				PDDocument pdf = PDDocument.load(imageFile);
+            				PDFRenderer pdfRenderer = new PDFRenderer(pdf);
+            				BufferedImage imageObj = pdfRenderer.renderImageWithDPI(0, 100, ImageType.GRAY);
+            				ImageIO.write(imageObj, "png", outputfile);
+            				pdf.close();
+            				
+            			}else {
+            				// pdf가 아닌경우 image는 흑백으로 변경
+            				BufferedImage buImage = ImageIO.read(imageFile);
+            				for(int y = 0; y < buImage.getHeight(); y++) {
+            					for(int x = 0; x < buImage.getWidth(); x++) {
+            						Color colour = new Color(buImage.getRGB(x, y));
+            						int Y = (int) (0.2126 * colour.getRed() + 0.7152 * colour.getGreen() + 0.0722 * colour.getBlue());
+            						buImage.setRGB(x, y, new Color(Y, Y, Y).getRGB());
+            					}
+            				}
+            				ImageIO.write(buImage, "png", outputfile);
+            			}
+            			
+            			if(outputfile.exists()) {
+            				ocrText = tesseract.doOCR(outputfile);
+            				String replaceText = "";
+            				// 문자추출시 띄어쓰기 및 공백제거 실행
+            				if(ocrText != null) {
+            					replaceText = ocrText.replace(" ", "");
+            				}else {
+            					msgMap.put("fileType"+file.getFileType(), "파일추출에 실패");
+            			    	responseMsg.setData(msgMap);
+            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+            				}
+            				
+            				// 파일 타입별로 추출영역 생성
+            				if("2".equals(file.getFileType())) {
+    	            			// 등록하고자 하는 회원의 주민번호를 비교한다.
+    	            			String jumin = applyInfo.getPlMZId();
+    	            			String resultJumin = "";
+    	    	                String patternType = "\\d{6}\\-[1-4]\\d{6}";
+    	    	                Pattern pattern = Pattern.compile(patternType);
+    	    	                Matcher matcher = pattern.matcher(replaceText);
+    	    	                while(matcher.find()) {
+    	    	                	resultJumin =  matcher.group(0);
+    	    	                }
+            					if(jumin.equals(resultJumin)) {
+            						msgMap.put("fileType"+file.getFileType(), "일치");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType(), "불일치");
+            					}
+            					
+            				}else if("3".equals(file.getFileType())){ 
+            					// 경력이고 협회인증서인 경우
+            					String eduNo = applyInfo.getPlEduNo();
+    	            			String resultEduNo = "";
+    	            			int st = replaceText.indexOf("(수료번호:");
+    	            			if(st > 0) {
+        	    	                String patternType = "\\S{13}\\-[0-9]\\S{4}";
+        	    	                Pattern pattern = Pattern.compile(patternType);
+        	    	                Matcher matcher = pattern.matcher(replaceText);
+        	    	                while(matcher.find()) {
+        	    	                	resultEduNo =  matcher.group(0);
+        	    	                }
+                					if(eduNo.equals(resultEduNo)) {
+                						msgMap.put("fileType"+file.getFileType(), "일치");
+                					}else {
+                						msgMap.put("fileType"+file.getFileType(), "불일치");
+                					}
+    	            			}else {
+    	            				int start = replaceText.indexOf("수료번호:");
+    	            				if(start <= 0) {
+    	            					msgMap.put("fileType"+file.getFileType(), "오류");
+    	            			    	responseMsg.setData(msgMap);
+    	            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+    	            				}
+    	            				
+                					resultEduNo = replaceText.substring(start+5, start+23);
+                					if(eduNo.equals(resultEduNo)) {
+                						msgMap.put("fileType"+file.getFileType(), "일치");
+                					}else {
+                						msgMap.put("fileType"+file.getFileType(), "불일치");
+                					}
+    	            			}
+            					
+            				}else if("4".equals(file.getFileType())){ 
+            					// 신규일경우 인증서 추출
+            					String eduNo = applyInfo.getPlEduNo();
+    	            			String resultEduNo = "";
+    	    	                String eduPattern = "\\d{10}";
+    	    	                Pattern pattern = Pattern.compile(eduPattern);
+    	    	                Matcher matcher = pattern.matcher(replaceText);
+    	    	                while(matcher.find()) {
+    	    	                	resultEduNo =  matcher.group(0);
+    	    	                }
+            					if(eduNo.equals(resultEduNo)) {
+            						msgMap.put("fileType"+file.getFileType(), "일치");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType(), "불일치");
+            					}
+            				}else if("7".equals(file.getFileType())){ 
+            					// 결격사유
+            				    int lineCnt = 0;
+            				    int fromIndex = -1;
+            				    while ((fromIndex = replaceText.indexOf("불충족", fromIndex + 1)) >= 0) {
+            				      lineCnt++;
+            				    }
+
+            					if(lineCnt < 2) {
+            						msgMap.put("fileType"+file.getFileType(), "결격사유 충족");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType(), "결격사유 불충족");
+            					}
+            					
+            				}else if("13".equals(file.getFileType())){ 
+            					// 후견부존재증명서
+            				    int lineCnt = 0;
+            				    int fromIndex = -1;
+            				    
+            				    
+            				    while ((fromIndex = replaceText.indexOf("불충족", fromIndex + 1)) >= 0) {
+            				      lineCnt++;
+            				    }
+
+            					if(lineCnt < 2) {
+            						msgMap.put("fileType"+file.getFileType(), "일치");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType(), "불일치");
+            					}
+            					
+            				}else {
+            					// fileType에 포함X
+            					msgMap.put("fileType"+file.getFileType(), "fileType오류");
+            				}
+            			}else {
+            				msgMap.put("fileType"+file.getFileType(), "파일추출에 실패");
+            			}
         			}
-        			
         		}// for문 종료
-        		
         	}else {
         		msgMap.put("error", "조회된 첨부파일이 없습니다.");
         	}
         }catch (TesseractException e) {
             e.printStackTrace();
         }
-		return msgMap;
+    	responseMsg.setData(msgMap);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	// 법인 ocr

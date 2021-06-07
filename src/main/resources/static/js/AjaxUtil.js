@@ -11,7 +11,7 @@ var AjaxUtil = {
         var loadYn = WebUtil.nvl(opt.loadYn, true);
 
         // 로딩바 열기
-        //this.openLoadBar(loadYn);
+        this.openLoadBar(loadYn);
 
         // ajax 호출
         axios({
@@ -20,18 +20,18 @@ var AjaxUtil = {
             params: opt.param,
             headers: { "Content-Type": contType }
         }).then(function(response) {
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.successHandler(opt, response.data);
         }).
         /*
         catch(function(error) {
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         }).
         */
         then(function () {
             // 로딩바 닫기
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
             if (typeof opt.complete === "function") {
                 opt.complete();
             }
@@ -62,7 +62,7 @@ var AjaxUtil = {
         opt.resType = WebUtil.nvl(opt.resType, "json");
 
         // 로딩바 열기
-        //this.openLoadBar(loadYn);
+        this.openLoadBar(loadYn);
 
         // ajax 호출
         axios({
@@ -72,7 +72,7 @@ var AjaxUtil = {
             responseType: responseType,
             headers: { "Content-Type": contType }
         }).then(function(response) {
-			 //AjaxUtil.closeLoadBar(loadYn);
+			AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
@@ -89,12 +89,12 @@ var AjaxUtil = {
 
         })
         .catch(function(error) {
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         })
         .then(function () {
             // 로딩바 닫기
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
 
             if (typeof opt.complete === "function") {
                 opt.complete();
@@ -104,9 +104,9 @@ var AjaxUtil = {
     excel: function(opt) {
         var param = null;
         var reqType = WebUtil.nvl(opt.reqType, "text/html");
-
+		var loadYn = WebUtil.nvl(opt.loadYn, true);
         // 로딩바 열기
-        //this.openLoadBar(loadYn);
+        this.openLoadBar(loadYn);
 
         param = JSON.stringify(opt.param);
         // ajax 호출
@@ -117,6 +117,7 @@ var AjaxUtil = {
             responseType: 'blob',
     		headers: {"Content-Type": "application/json"},
         }).then(function(response) {
+			AjaxUtil.closeLoadBar(loadYn);
 		    const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
 		    const link = document.createElement('a');
 		    link.href = url;
@@ -132,7 +133,7 @@ var AjaxUtil = {
         */
         .then(function () {
             // 로딩바 닫기
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
 
             if (typeof opt.complete === "function") {
                 opt.complete();
@@ -220,13 +221,18 @@ var AjaxUtil = {
 		});
     	if(!f) return false;
         let formData = new FormData(frm[0]);
+        
+		var loadYn = WebUtil.nvl(opt.loadYn, true);
+        // 로딩바 열기
+        this.openLoadBar(loadYn);
+        
         axios({
             method: "post",
             url: frm[0].action,
             data: formData,
             headers: { "Content-Type": "multipart/form-data" }
         }).then(function(response) {
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
 
         	if(status == 200) {
@@ -244,13 +250,13 @@ var AjaxUtil = {
         })
         
         .catch(function(error) {
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);
         })
         
         .then(function () {
             // 로딩바 닫기
-            //AjaxUtil.closeLoadBar(loadYn);
+            AjaxUtil.closeLoadBar(loadYn);
 
             if (typeof opt.complete === "function") {
                 opt.complete();
@@ -263,10 +269,7 @@ var AjaxUtil = {
      */
     openLoadBar: function(loadYn) {
     	if(loadYn){
-			var bar = document.getElementById("loading-bar");
-			var back = document.getElementById("viewLoading");
-			bar.style.display = "block";
-			back.style.display = "block";
+			$(".loading_wrap").show();
 		}
     },
 
@@ -275,10 +278,7 @@ var AjaxUtil = {
      */
     closeLoadBar: function(loadYn) {
     	if(loadYn){
-			var bar = document.getElementById("loading-bar");
-			var back = document.getElementById("viewLoading");
-			bar.style.display = "none";
-			back.style.display = "none";
+			$(".loading_wrap").hide();
 		}
     },
 

@@ -62,6 +62,7 @@ function goRecruitApply(num){
 
 //보완
 function goApplyImprove(num){
+	var oldHistTxt = "${result.applyInfo.plHistTxt}";
 	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
@@ -73,7 +74,14 @@ function goApplyImprove(num){
 		plStat = '10'
 	}
 	
-	if(confirm("보완요청을 하시겠습니까?")){
+	var confirmMessage = "";
+	if(oldHistTxt == $("#plHistTxt").val()){
+		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
+	}else{
+		confirmMessage = "보완요청을 하시겠습니까?";
+	}
+	
+	if(confirm(confirmMessage)){
 		var p = {
 			  url		: "/admin/apply/updatePlStat"	
 			, param		: {
@@ -336,13 +344,13 @@ function ocrRun(){
 							<input type="checkbox" id="check_cd5" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd5}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
-							<label for="check_cd5">체크1</label>
+							<label for="check_cd5">체크사항1</label>
 						</div>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd6" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd6}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
-							<label for="check_cd6">체크2</label>
+							<label for="check_cd6">체크사항2</label>
 						</div>
 					</td>
 				</tr>
@@ -361,13 +369,13 @@ function ocrRun(){
 							<input type="checkbox" id="check_cd7" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd7}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
-							<label for="check_cd7">체크1</label>
+							<label for="check_cd7">체크사항1</label>
 						</div>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd8" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd8}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
-							<label for="check_cd8">체크2</label>
+							<label for="check_cd8">체크사항2</label>
 						</div>
 					</td>
 				</tr>
@@ -405,13 +413,13 @@ function ocrRun(){
 							<input type="checkbox" id="check_cd10" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd10}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
-							<label for="check_cd10">체크1</label>
+							<label for="check_cd10">체크사항1</label>
 						</div>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd11" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd11}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
-							<label for="check_cd11">체크2</label>
+							<label for="check_cd11">체크사항2</label>
 						</div>
 					</td>
 				</tr>
@@ -419,19 +427,20 @@ function ocrRun(){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
-			<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
-			
 			<c:if test="${result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '2'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>					
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>					
 			</c:if>
 			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 		</div>

@@ -42,20 +42,25 @@
 		</div>
 		 -->
 		
-		<div class="viewLoading" id="viewLoading" style="display: none;"></div>
-		<div class="loading-bar" id="loading-bar" style="display: none;">
-			<div class="loading-dot1 loading-dot"></div>
-			<div class="loading-dot2 loading-dot"></div>
-			<div class="loading-dot3 loading-dot"></div>
-			<div class="loading-dot4 loading-dot"></div>
-			<div class="loading-dot5 loading-dot"></div>
-			<div class="loading-dot6 loading-dot"></div>
-			<div class="loading-dot7 loading-dot"></div>
-			<div class="loading-dot8 loading-dot"></div>
-			<div class="loading-dot9 loading-dot"></div>
-			<div class="loading-dot10 loading-dot"></div>
-			<div class="loading-dot11 loading-dot"></div>
-			<div class="loading-dot12 loading-dot"></div>
+		<div class="loading_wrap">
+			<div class="loading_inner">
+				<div class="loadingio-spinner-spinner-76v2yr0v1qm">
+					<div class="ldio-ycr7xyx3w0m">
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="loading_txt">Loading...</div>
+			</div>
+			<div style="position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;z-index: 1;opacity: 0.2;background-color: rgb(0, 0, 0);"></div>
 		</div>
 		
 		<!-- <div class="wrapperModal"></div> -->
