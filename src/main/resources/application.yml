@@ -11,7 +11,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: local
+    active: dev
   devtools:
     livereload:
       enabled: true
@@ -74,18 +74,20 @@ spring:
       hikari:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://192.168.170.102:5432/postgres
+        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
         username: postgres
         password: 1234
+        
   read:
     datasource:
       hikari:
         pool-name: READ-DB
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    jdbc-url: jdbc:sqlserver://112.175.78.211:1433/CEWEB
-    username: cemms
-    password: cemms1234
-      
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+        username: cemms
+        password: cemms1234
+
+        
 logging:
   level:
     org.springframework: debug
