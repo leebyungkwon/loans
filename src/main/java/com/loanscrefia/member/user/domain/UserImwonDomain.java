@@ -37,10 +37,10 @@ public class UserImwonDomain extends BaseDomain {
 	@ExcelColumn(headerName="교육이수번호", vCell="E", vLenMin=10, vLenMax=10, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
-	@ExcelColumn(headerName="경력시작일", vCell="F", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="경력시작일", vCell="F", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String careerStartDate;	//경력시작일
 	
-	@ExcelColumn(headerName="경력종료일", vCell="G", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="경력종료일", vCell="G", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String careerEndDate;	//경력종료일
 	
 	@ExcelColumn(headerName="상근여부", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2")
@@ -69,6 +69,9 @@ public class UserImwonDomain extends BaseDomain {
 	private FileDomain fileType13;
 	private FileDomain fileType14;
 	private FileDomain fileType15;
+	private FileDomain fileType27;
+	private FileDomain fileType28;
+	private FileDomain fileType30;
 	
 	private Integer careerFileSeq;
 	private Integer newcomerFileSeq;

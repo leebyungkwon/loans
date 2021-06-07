@@ -432,6 +432,12 @@ public class UserService {
         				userRegInfo.setFileType10(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("11")) { //변경요청 시 증빙서류
         				userRegInfo.setFileType11(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("12")) {
+        				userRegInfo.setFileType12(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("13")) {
+        				userRegInfo.setFileType13(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("14")) {
+        				userRegInfo.setFileType14(fileList.get(i));
         			}
         		}
         	}
@@ -566,6 +572,10 @@ public class UserService {
 							imwonList.get(i).setFileType14(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("15")) {
 							imwonList.get(i).setFileType15(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("27")) {
+							imwonList.get(i).setFileType27(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("28")) {
+							imwonList.get(i).setFileType28(fileList.get(j));
 						}
 					}
 				}
@@ -713,6 +723,8 @@ public class UserService {
         				userRegInfo.setFileType25(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("26")) {
         				userRegInfo.setFileType26(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("29")) {
+        				userRegInfo.setFileType29(fileList.get(i));
         			}
         		}
         	}

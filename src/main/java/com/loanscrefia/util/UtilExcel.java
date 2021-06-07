@@ -162,9 +162,14 @@ public class UtilExcel<T> {
 	                				eduChkParam.setPlMName(cellVal);
 	                			}else if(chkDb.get(j).equals("edu3")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlMZId(cellVal);
+	                				String[] plMZId = cellVal.split("-");
+		                			String birth 	= plMZId[0];
+		                			String gender 	= plMZId[1].substring(0, 1);
+	                				eduChkParam.setPlMBirth(birth);
+	                				eduChkParam.setPlMGender(gender);
 	                			}else if(chkDb.get(j).equals("edu4")) {
 	                				//교육이수번호,인증서번호 유효 체크
+	                				//String plProduct = "LP0" + cellVal;
 	                				eduChkParam.setPlProduct(cellVal);
 	                			}else if(chkDb.get(j).equals("edu5")) {
 	                				//교육이수번호,인증서번호 유효 체크
@@ -202,7 +207,11 @@ public class UtilExcel<T> {
 	                				int dupChkResult = userRegDupChk(userChkParam);
 		                			
 	                				if(dupChkResult > 0) {
-                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
+	                					if(userChkParam.getPlProduct().equals("1")) {
+	                						errorMsg += "대출 상품으로 기등록된 데이터가 존재합니다.<br>";
+	                					}else {
+	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
+	                					}
                 					}
 	                			}
 	                		}

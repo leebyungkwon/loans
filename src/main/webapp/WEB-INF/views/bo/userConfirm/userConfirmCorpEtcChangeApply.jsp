@@ -46,15 +46,6 @@ function goUserRegInfoUpdt() {
 		</ul>
 	</div>
 
-	<c:if test="${result.userRegInfo.plStat ne '2' }"> 
-		<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
-		<div class="btn_wrap02">
-			<div class="right">
-				<a href="javascript:void(0);" class="btn_blue btn_middle" onclick="goUserRegInfoUpdt();">저장</a>
-			</div>
-		</div>
-	</c:if>
-
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/user/updateUserRegInfo" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
 		<input type="hidden" name="fileGrpSeq" value="${result.userRegInfo.fileSeq }"/>
@@ -149,6 +140,23 @@ function goUserRegInfoUpdt() {
 									</c:choose>
 								</td>
 							</tr>
+							<tr>
+								<th class="acenter">신용정보조회서 *</th>
+								<td>
+									<c:choose>
+										<c:when test="${result.userRegInfo.fileType29 ne null }">
+											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType29.fileSeq }">${result.userRegInfo.fileType29.fileFullNm }</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType29.fileSeq }" data-fileType="29" data-essential="Y">삭제</a>
+										</c:when>
+										<c:otherwise>
+											<input type="text" class="w50 file_input" readonly disabled>
+											<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+											<input type="hidden" name="fileTypeList" value="29"/>
+											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+										</c:otherwise>
+									</c:choose>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -202,6 +210,10 @@ function goUserRegInfoUpdt() {
 	
 			<div class="btn_wrap">
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserConfirmList();">목록</a>
+				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
+					<!-- 승인요청상태가 아닐 때만 수정/삭제 가능 -->
+					<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goUserRegInfoUpdt();">저장</a>
+				</c:if>
 			</div>
 		</div>
 	</form>

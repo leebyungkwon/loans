@@ -34,10 +34,10 @@ public class UserExpertDomain extends BaseDomain {
 	@ExcelColumn(headerName="교육이수번호", vCell="D", vLenMin=10, vLenMax=10, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
-	@ExcelColumn(headerName="경력시작일", vCell="E", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="경력시작일", vCell="E", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String careerStartDate;	//경력시작일
 	
-	@ExcelColumn(headerName="경력종료일", vCell="F", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="경력종료일", vCell="F", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String careerEndDate;	//경력종료일
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
@@ -52,6 +52,7 @@ public class UserExpertDomain extends BaseDomain {
 	private FileDomain fileType16;
 	private FileDomain fileType17;
 	private FileDomain fileType18;
+	private FileDomain fileType31;
 	
 	private Integer careerFileSeq;
 	private Integer newcomerFileSeq;

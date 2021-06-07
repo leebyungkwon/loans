@@ -5,8 +5,10 @@
 	<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopup();"></a>
 </div>
 <p class="popup_desc">
-	모집인 등록은 등록 유형에 따른 샘플파일을 다운로드 하시고 해당 양식에 따라 등록되어야 합니다.<br />
-	엑셀 업로드 이후에는 각 모집인별로 첨부파일을 등록완료 후에 승인신청을 하셔야 합니다.
+	모집인 유형에 따른 샘플파일을 다운로드 하시고 해당 양식에 따라 등록되어야 합니다.<br />
+	엑셀 업로드 이후에는 각 모집인별로 첨부파일을 등록완료 후에 승인신청을 하셔야 합니다.<br />
+	엑셀파일과 첨부파일 업로드 이후 등록신청을 하지 않고 1개월이 경과되는 경우에는 자동삭제 처리됩니다.<br />
+	신규 모집인은 평가일로부터 1주일 후에 업로드 가능합니다.
 </p>
 <form name="userRegInfoInsertFrm" id="userRegInfoInsertFrm" method="post" enctype="multipart/form-data">
 	<table class="popup_table">

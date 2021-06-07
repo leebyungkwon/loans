@@ -37,7 +37,7 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="자본금", vCell="G", vLenMin=1, vLenMax=1000000)
 	private int capital;			//자본금
 	
-	@ExcelColumn(headerName="금융상품유형", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2,3,4,5,6,7", chkPrd="prd1")
+	@ExcelColumn(headerName="금융상품유형", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2,3", chkPrd="prd1")
 	private String plProduct;		//금융상품유형(취급상품)
 	
 	@ExcelColumn(headerName="계약일자", vCell="I", vLenMin=10, vLenMax=10, chkCal="Y")
@@ -46,6 +46,6 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="위탁예정기간", vCell="J", vLenMin=10, vLenMax=10, chkCal="Y")
 	private String entrustDate;		//위탁예정일
 	
-	@ExcelColumn(headerName="CI", vCell="K", vLenMin=88, vLenMax=88, chkDb="user", chkPrd="prd2")
+	@ExcelColumn(headerName="CI", vCell="K", vLenMin=1, vLenMax=88, chkDb="user", chkPrd="prd2")
 	private String ci;				//CI
 }

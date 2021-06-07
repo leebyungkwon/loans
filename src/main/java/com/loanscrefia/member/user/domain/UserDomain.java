@@ -24,7 +24,7 @@ public class UserDomain extends BaseDomain {
 	private String plClass;			//분류							-> [CLS001]개인,법인
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
-	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,시설대여 및 연불판매,할부,어음할인,매출채권매입,지급보증,기타 대출성 상품
+	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,시설대여/할부/유사상품,기타 대출성 상품
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
 	@ExcelColumn(headerName = "모집인등록번호", order = 9)
@@ -123,6 +123,9 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType9;
 	private FileDomain fileType10;
 	private FileDomain fileType11;
+	private FileDomain fileType12;
+	private FileDomain fileType13;
+	private FileDomain fileType14;
 	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;
@@ -131,6 +134,7 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType24;
 	private FileDomain fileType25;
 	private FileDomain fileType26;
+	private FileDomain fileType29;
 	
 	//검색
 	private String srchInput1;
