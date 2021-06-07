@@ -21,7 +21,7 @@ function goRecruitApply(num){
 		plStat = "9";
 		plRegStat = "2";
 		// 기등록자인경우 자격취득 - 완료
-		if(preRegYn){
+		if(preRegYn == "Y"){
 			plStat = "9";
 			plRegStat = "3";
 		}
