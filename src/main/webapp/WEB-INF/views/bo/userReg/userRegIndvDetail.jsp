@@ -6,6 +6,8 @@
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
 <script type="text/javascript">
+var userRegFileCompYn = "${result.userRegInfo.fileCompYn}";
+
 function pageLoad(){
 	//승인요청상태이면 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";

@@ -287,7 +287,7 @@ function goCorpInfoReg(obj){
 //승인요청
 function goUserAcceptApply(){
 	//validation
-	if(!goFileEssentialChk() || "${result.userRegInfo.fileCompYn}" == "N"){
+	if(!goFileEssentialChk() || userRegFileCompYn == "N"){
 		alert(messages.COM0007);
 		return;
 	}
