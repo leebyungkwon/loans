@@ -289,6 +289,26 @@ function goCorpInfoReg(obj){
 //승인요청
 function goUserAcceptApply(){
 	if(confirm("승인요청하시겠습니까?")){
+		$("#userRegInfoUpdFrm").attr("action","/member/user/userAcceptApply2");
+		
+		goFileTypeListDisabled();
+		
+		var p = {
+			  name 		: "userRegInfoUpdFrm"
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("승인요청되었습니다.");
+					location.href = "/member/user/userRegPage";
+				}else{
+					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
+					return;
+				}
+	 	    }
+		}
+		AjaxUtil.files(p);
+		
+		/*
+		//기존
 		var p = {
 			  url		: "/member/user/userAcceptApply"	
 			, param		: {
@@ -306,6 +326,7 @@ function goUserAcceptApply(){
 		    }
 		}
 		AjaxUtil.post(p);
+		*/
 	}
 }
 

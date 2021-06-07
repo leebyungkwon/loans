@@ -315,6 +315,11 @@ function goUserChangeApplyPage(){
 					<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApplyPage();">변경요청</a>
 					<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
 				</c:if>
+				<%-- 
+				<c:if test="${result.userRegInfo.plStat eq '11' or result.userRegInfo.plStat eq '12' }">
+					<a href="javascript:void(0);" class="btn_black btn_right w100p">삭제</a>
+				</c:if>
+				 --%>
 			</c:if>
 		</div>
 	</div>

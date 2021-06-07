@@ -74,7 +74,7 @@
 		<where>
 			AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 			AND TLM.PL_REG_STAT != '1'																	-- 모집인상태가 승인전이 아닌 것
-			AND TLM.PL_STAT NOT IN ('1','2','5','8')													-- 처리상태가 미요청, 승인요청, 보완요청(=반려), 취소가 아닌 것
+			AND TLM.PL_STAT NOT IN ('1','2','5','8','10')												-- 처리상태가 미요청, 승인요청, 보완요청(=반려), 취소, 등록요건 불충족(=부적격)이 아닌 것
 	    </where>
    		)Z
    		<where>
@@ -335,7 +335,7 @@
 			<where>
 				AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 				AND TLM.PL_REG_STAT = '1'																	-- 모집인 상태가 승인전인 것
-				AND TLM.PL_STAT IN ('1','2','5')															-- 처리상태가 미요청, 승인요청, 반려(보완요청)인 것
+				AND TLM.PL_STAT IN ('1','2','5','10')														-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것
 		    </where>
    		)Z
    		<where>

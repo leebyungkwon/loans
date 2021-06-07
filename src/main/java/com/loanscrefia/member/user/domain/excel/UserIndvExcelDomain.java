@@ -40,7 +40,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp2", vEncrypt="N")
 	private String plMerchantNo;	//법인등록번호
 	
-	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=10, chkDb="edu5")
+	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=30, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
 	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10, chkCal="Y")

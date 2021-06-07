@@ -135,7 +135,10 @@ INSERT INTO tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_des
 	 ('MAS001','6','변경요청(보완)','변경요청(보완)',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
 	 ('MAS001','7','해지요청(보완)','해지요청(보완)',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
 	 ('MAS001','8','취소','취소',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
-	 ('MAS001','9','완료','완료','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL);
+	 ('MAS001','9','완료','완료','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
+	 ('MAS001','10','등록요건 불충족','등록요건 불충족',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
+	 ('MAS001','11','보완 미이행','보완 미이행',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
+	 ('MAS001','12','등록수수료 미결제','등록수수료 미결제',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL);
 	 
 	 
 	 

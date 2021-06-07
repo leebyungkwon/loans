@@ -382,8 +382,60 @@ public class UserService {
 					return -1;
 				}
 			}
+			//기본 이력 저장*****
+			this.insertUserHistory(userDomain);
+			
+			//상태값 수정
 			result += this.updateUserStat(userDomain);
 		}
+		return result;
+	}
+	
+	//모집인 등록 > 상세 > 승인요청
+	@Transactional
+	public int userAcceptApply2(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
+		
+		int result 				= 0;
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		
+		if(userRegInfo.getCorpUserYn().equals("Y")) {
+			//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음
+			int corpCheck = userRepo.corpStatCheck(userRegInfo);
+			
+			if(corpCheck == 0) {
+				return -1;
+			}
+		}
+		
+		//기본 이력 저장*****
+		this.insertUserHistory(userDomain);
+		
+		//첨부파일 저장
+		Map<String, Object> ret = utilFile.setPath("userReg")
+				.setFiles(files)
+				.setExt("all")
+				.setEntity(fileDomain)
+				.multiUpload();
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				userDomain.setFileSeq(file.get(0).getFileGrpSeq());
+			}else {
+				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
+			}
+		}
+		//수정
+		int updateResult1 = userRepo.updateUserRegInfo(userDomain);
+		
+		//상태값 수정
+		userDomain.setPlStat("2");
+		int updateResult2 = this.updateUserStat(userDomain);
+		
+		//결과
+		if(updateResult1 > 0 && updateResult2 > 0) {
+			result = updateResult1 + updateResult2;
+		}
+		
 		return result;
 	}
 	
@@ -1087,6 +1139,9 @@ public class UserService {
 				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능 합니다.");
 			}
 		}
+		//기본 이력 저장*****
+		this.insertUserHistory(userDomain);
+		
 		//수정
 		int updateResult = this.updateUserStat(userDomain);
 		

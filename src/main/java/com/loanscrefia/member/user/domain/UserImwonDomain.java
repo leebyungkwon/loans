@@ -33,7 +33,7 @@ public class UserImwonDomain extends BaseDomain {
 	
 	private String plProduct;		//금융상품유형
 	
-	@ExcelColumn(headerName="교육이수번호", vCell="E", vLenMin=10, vLenMax=10, chkDb="edu5")
+	@ExcelColumn(headerName="교육이수번호", vCell="E", vLenMin=10, vLenMax=30, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
 	@ExcelColumn(headerName="경력시작일", vCell="F", vLenMin=10, vLenMax=10, chkCal="Y")
