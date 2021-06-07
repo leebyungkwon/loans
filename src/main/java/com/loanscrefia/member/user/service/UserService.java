@@ -173,7 +173,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= utilExcel.upload(filePath, UserImwonDomain.class);
+				excelResult 	= utilExcel.setParam1(userImwonDomain.getPlProduct()).upload(filePath, UserImwonDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -242,7 +242,7 @@ public class UserService {
 			if(file.size() > 0) {
 				//엑셀 업로드
 				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= utilExcel.upload(filePath, UserExpertDomain.class);
+				excelResult 	= utilExcel.setParam1(userExpertDomain.getPlProduct()).upload(filePath, UserExpertDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -577,7 +577,7 @@ public class UserService {
 						}else if(fileList.get(j).getFileType().equals("28")) {
 							imwonList.get(i).setFileType28(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("30")) {
-							imwonList.get(i).setFileType28(fileList.get(j));
+							imwonList.get(i).setFileType30(fileList.get(j));
 						}
 					}
 				}
@@ -931,6 +931,22 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
 	}
 	
+	//모집인 등록 > 삭제 : 개인 
+	@Transactional
+	public ResponseMsg deleteUserRegInfo(UserDomain userDomain){
+		//상태값 체크*****
+		this.userValidation(userDomain.getMasterSeq());
+		
+		//삭제
+		int result = userRepo.deleteUserRegInfo(userDomain);
+		
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "COM0006", "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+	}
+	
 	//모집인 등록 > 삭제 : 법인(대표자 및 임원관련사항 탭)
 	@Transactional
 	public ResponseMsg deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain){
@@ -995,20 +1011,6 @@ public class UserService {
 		
 		return result; 
 	}
-	
-	//삭제
-	@Transactional
-	public int deleteUserRegInfo(UserDomain userDomain){
-		return userRepo.updateUserStat(userDomain);
-	}
-	
-	/*
-	//즉시취소
-	@Transactional
-	public ResponseMsg userCancel(UserDomain userDomain){
-		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
-	}
-	*/
 	
 	//변경요청
 	@Transactional

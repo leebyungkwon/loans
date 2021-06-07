@@ -25,7 +25,7 @@ public class UserItDomain extends BaseDomain {
 	@Pattern(regexp = "[가-힣]{1,10}", message = "이름은 한글 1~10자리로 입력해 주세요.")
 	private String operName;		//이름
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="B", vLenMin=14, vLenMax=14, vEncrypt="Y")
+	@ExcelColumn(headerName="주민등록번호", vCell="B", vLenMin=14, vLenMax=14, vEncrypt="N")
 	//@Pattern(regexp = "^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}${14,14}", message = "주민등록번호는 숫자 14자리(- 포함)로 입력해 주세요.")
 	private String plMZId;			//주민등록번호
 	

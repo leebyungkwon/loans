@@ -134,6 +134,7 @@ function goDataAreaAdd() {
 	<div id="file_table" class="mgt30">
 		<form name="userRegCorpImwonInfoInsertFrm" id="userRegCorpImwonInfoInsertFrm" action="/member/user/insertUserRegCorpImwonInfoByExcel" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+			<input type="hidden" name="plProduct" value="${result.userRegInfo.plProduct }"/>
 			
 			<table class="view_table">
 				<tbody>
@@ -391,17 +392,15 @@ function goDataAreaAdd() {
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType12.fileSeq }" data-fileType="12" data-essential="Y" data-realDel="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<c:choose>
-															<input type="text" class="w50 file_input" readonly disabled>
-															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-															<input type="hidden" name="fileTypeList" value="12"/>
-															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-														</c:choose>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="12"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
 										</tr>
-										<tr class="careerTypTwoTr" data-fileType="12" data-fileSeq="${corpImwonList.fileType30.fileSeq }" <c:if test="${corpImwonList.careerTyp eq '1' }">style="display: none;"</c:if>>
+										<tr class="careerTypTwoTr" data-fileType="30" data-fileSeq="${corpImwonList.fileType30.fileSeq }" <c:if test="${corpImwonList.careerTyp eq '1' }">style="display: none;"</c:if>>
 											<th class="acenter">대표 경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
 											<td>
 												<c:choose>
@@ -410,12 +409,10 @@ function goDataAreaAdd() {
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType30.fileSeq }" data-fileType="30" data-essential="Y" data-realDel="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<c:choose>
-															<input type="text" class="w50 file_input" readonly disabled>
-															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-															<input type="hidden" name="fileTypeList" value="30"/>
-															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-														</c:choose>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="30"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 													</c:otherwise>
 												</c:choose>
 											</td>

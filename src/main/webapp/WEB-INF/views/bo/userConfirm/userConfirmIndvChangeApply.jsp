@@ -12,6 +12,32 @@ var originPlCellphone 	= "${result.userRegInfo.plCellphone}";
 
 function pageLoad(){
 	goCallViolationCd();
+	
+	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
+	$("#plMName, #plMZId, #plCellphone").on("propertychange change keyup paste input",function(){
+		alert($(this).val() + " :: " + $(this).attr("id"));
+		
+		var inputVal 	= $(this).val();
+		var inputId		= $(this).attr("id");
+		
+		$("#esstIcon").remove();
+		
+		if(inputId == "plMName" || inputId == "plMZId"){
+			if(originPlMName != inputVal || originPlMZId != inputVal){
+				$("#chgVeriDoc1").prev().append("<span id='esstIcon'> *</span>");
+				$("#chgVeriDoc1 > .inputFile").attr("data-essential","Y");
+			}else{
+				$("#chgVeriDoc1 > .inputFile").attr("data-essential","N");
+			}
+		}else if(inputId == "plCellphone"){
+			if(originPlCellphone != inputVal){
+				$("#chgVeriDoc2").prev().append("<span id='esstIcon'> *</span>");
+				$("#chgVeriDoc2 > .inputFile").attr("data-essential","Y");
+			}else{
+				$("#chgVeriDoc2 > .inputFile").attr("data-essential","N");
+			}
+		}
+	});
 }
 
 //변경요청
@@ -21,26 +47,18 @@ function goUserChangeApply(){
 		$("#plHistTxt").focus();
 		return;
 	}
-	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
-	if(originPlMName != $("#plMName").val() || originPlMZId != $("#plMZId").val()){
-		$("#chgVeriDoc1").prev().append("<span id='esstIcon'> *</span>");
-		$("#chgVeriDoc1 > .inputFile").attr("data-essential","Y");
-	}else{
-		$("#esstIcon").remove();
-		$("#chgVeriDoc1 > .inputFile").attr("data-essential","N");
-	}
-	if(originPlCellphone != $("#plCellphone").val()){
-		$("#chgVeriDoc2").prev().append("<span id='esstIcon'> *</span>");
-		$("#chgVeriDoc2 > .inputFile").attr("data-essential","Y");
-	}else{
-		$("#esstIcon").remove();
-		$("#chgVeriDoc2 > .inputFile").attr("data-essential","N");
-	}
 	//validation
+	/*
 	if(!goFileEssentialChk()){
 		alert(messages.COM0007);
 		return;
 	}
+	*/
+	/*
+	alert("${result.userRegInfo.fileCompYn}");
+	return;
+	*/
+	
 	//요청
 	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
 		goFileTypeListDisabled();
@@ -230,57 +248,61 @@ function goUserChangeApply(){
 							</c:choose>
 						</td>
 					</tr>
-					<tr <c:if test="${result.userRegInfo.careerTyp eq '1' }">style="display: none;"</c:if>>
-						<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType3 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="3"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr <c:if test="${result.userRegInfo.careerTyp eq '1' }">style="display: none;"</c:if>>
-						<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType14 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="14"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr <c:if test="${result.userRegInfo.careerTyp eq '2' }">style="display: none;"</c:if>>
-						<th class="acenter">인증서(신규) *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType4 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="4"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
+					<c:if test="${result.userRegInfo.careerTyp eq '1' }">
+						<tr>
+							<th class="acenter">인증서(신규) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType4 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="Y">삭제</a>
+									</c:when>
+									<c:otherwise>
+										<input type="text" class="w50 file_input" readonly disabled>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+										<input type="hidden" name="fileTypeList" value="4"/>
+										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</c:if>
+					<c:if test="${result.userRegInfo.careerTyp eq '2' }">
+						<tr>
+							<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType3 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y">삭제</a>
+									</c:when>
+									<c:otherwise>
+										<input type="text" class="w50 file_input" readonly disabled>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+										<input type="hidden" name="fileTypeList" value="3"/>
+										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						<tr>
+							<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType14 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y">삭제</a>
+									</c:when>
+									<c:otherwise>
+										<input type="text" class="w50 file_input" readonly disabled>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+										<input type="hidden" name="fileTypeList" value="14"/>
+										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</c:if>
 					<tr>
 						<th class="acenter">경력증명서</th>
 						<td>

@@ -115,6 +115,7 @@ function goDataAreaAdd() {
 	<div id="file_table" class="mgt30">
 		<form name="userRegCorpExpertInfoInsertFrm" id="userRegCorpExpertInfoInsertFrm" action="/member/user/insertUserRegCorpExpertInfoByExcel" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="masterSeq" value="${result.userRegInfo.masterSeq }"/>
+			<input type="hidden" name="plProduct" value="${result.userRegInfo.plProduct }"/>
 			
 			<table class="view_table">
 				<tbody>

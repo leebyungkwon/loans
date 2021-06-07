@@ -52,26 +52,19 @@ function goUserChangeApply(){
 		$("#plHistTxt").focus();
 		return;
 	}
-	/*
-	//증빙서류 픽스되지 않음*****
-	if(originPlMName != $("#plMName").val() || originPlMZId != $("#plMZId").val()){
-		//$("#chgVeriDoc1").parent().prev().append(" *");
-		$("#chgVeriDoc1").attr("data-essential","Y");
-	}else{
-		$("#chgVeriDoc1").attr("data-essential","N");
-	}
-	if(originPlCellphone != $("#plCellphone").val()){
-		//$("#chgVeriDoc1").parent().prev().append(" *");
-		$("#chgVeriDoc2").attr("data-essential","Y");
-	}else{
-		$("#chgVeriDoc2").attr("data-essential","N");
-	}
-	*/
 	//validation
+	/*
 	if(!goFileEssentialChk()){
 		alert(messages.COM0007);
 		return;
 	}
+	*/
+	/*
+	alert("${result.userRegInfo.fileCompYn}");
+	return;
+	*/
+	
+	
 	//요청
 	if(confirm("모집인 변경사항을 요청하시겠습니까?")){
 		goFileTypeListDisabled();

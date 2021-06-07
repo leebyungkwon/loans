@@ -74,20 +74,16 @@ function goUserRegInfoUpdt() {
 	}
 }
 
-//모집인 등록 삭제(=취소)
+//모집인 등록 삭제
 function goUserRegInfoCancel() {
 	if(confirm("삭제하시겠습니까?")){
 		var p = {
 			  url		: "/member/user/deleteUserRegInfo"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
-				,plStat		: '8'
 			}
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("삭제되었습니다.");
-					goUserRegInfoList();
-				}
+				goUserRegInfoList();
 		    }
 		}
 		AjaxUtil.post(p);
@@ -253,57 +249,61 @@ function goUserRegInfoCancel() {
 							</c:choose>
 						</td>
 					</tr>
-					<tr <c:if test="${result.userRegInfo.careerTyp eq '1' }">style="display: none;"</c:if>>
-						<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType3 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y" data-realDel="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="3"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr <c:if test="${result.userRegInfo.careerTyp eq '1' }">style="display: none;"</c:if>>
-						<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType14 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y" data-realDel="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="14"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<tr <c:if test="${result.userRegInfo.careerTyp eq '2' }">style="display: none;"</c:if>>
-						<th class="acenter">인증서(신규) *</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.userRegInfo.fileType4 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="Y" data-realDel="Y">삭제</a>
-								</c:when>
-								<c:otherwise>
-									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="4"/>
-									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
+					<c:if test="${result.userRegInfo.careerTyp eq '1' }">
+						<tr>
+							<th class="acenter">인증서(신규) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType4 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">${result.userRegInfo.fileType4.fileFullNm }</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" data-fileType="4" data-essential="Y" data-realDel="Y">삭제</a>
+									</c:when>
+									<c:otherwise>
+										<input type="text" class="w50 file_input" readonly disabled>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+										<input type="hidden" name="fileTypeList" value="4"/>
+										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</c:if>
+					<c:if test="${result.userRegInfo.careerTyp eq '2' }">
+						<tr>
+							<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType3 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y" data-realDel="Y">삭제</a>
+									</c:when>
+									<c:otherwise>
+										<input type="text" class="w50 file_input" readonly disabled>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+										<input type="hidden" name="fileTypeList" value="3"/>
+										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						<tr>
+							<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.userRegInfo.fileType14 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y" data-realDel="Y">삭제</a>
+									</c:when>
+									<c:otherwise>
+										<input type="text" class="w50 file_input" readonly disabled>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+										<input type="hidden" name="fileTypeList" value="14"/>
+										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</c:if>
 					<tr>
 						<th class="acenter">경력증명서</th>
 						<td>

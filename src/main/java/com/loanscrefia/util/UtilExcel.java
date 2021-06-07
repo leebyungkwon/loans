@@ -22,10 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
+import com.loanscrefia.admin.edu.domain.EduDomain;
+import com.loanscrefia.admin.edu.repository.EduRepository;
+import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.CryptoUtil;
-//import com.loanscrefia.member.edu.domain.EduDomain;
-//import com.loanscrefia.member.edu.repository.EduRepository;
 import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.domain.UserExpertDomain;
+import com.loanscrefia.member.user.domain.UserImwonDomain;
+import com.loanscrefia.member.user.domain.UserItDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
@@ -39,8 +43,15 @@ public class UtilExcel<T> {
 	}
 	
 	@Autowired private CorpRepository corpRepo;
-	//@Autowired private EduRepository eduRepo; 
+	@Autowired private EduRepository eduRepo; 
 	@Autowired private UserRepository userRepo;
+	
+	private String param1;
+	
+	public UtilExcel<T> setParam1(String param) {
+		this.param1 = param;
+		return this;
+	}
 	
 	//참고 : https://eugene-kim.tistory.com/46
 	public List<Map<String, Object>> upload(String path, Class<?> dClass) {
@@ -56,6 +67,7 @@ public class UtilExcel<T> {
 		List<String> vEncrypt 	= new ArrayList<String>();
 		List<String> chkPrd 	= new ArrayList<String>();
 		List<String> chkCal 	= new ArrayList<String>();
+		List<String> chkCi 		= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -70,6 +82,7 @@ public class UtilExcel<T> {
 				vEncrypt.add(columnAnnotation.vEncrypt());
 				chkPrd.add(columnAnnotation.chkPrd());
 				chkCal.add(columnAnnotation.chkCal());
+				chkCi.add(columnAnnotation.chkCi());
 			}
 		}
 		
@@ -102,7 +115,7 @@ public class UtilExcel<T> {
 		    Map<String, Object> map = null;
 		    
 		    CorpDomain corpChkParam = new CorpDomain();
-		    //EduDomain eduChkParam 	= new EduDomain();
+		    EduDomain eduChkParam 	= new EduDomain();
 		    UserDomain userChkParam = new UserDomain();
 		    
 	        row = sheet.getRow(i);
@@ -152,9 +165,7 @@ public class UtilExcel<T> {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
 		                				}
 	                				}
-	                			}
-	                			/*
-	                			else if(chkDb.get(j).equals("edu1")) {
+	                			}else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				eduChkParam.setCareerTyp(cellVal);
 	                			}else if(chkDb.get(j).equals("edu2")) {
@@ -169,33 +180,39 @@ public class UtilExcel<T> {
 	                				eduChkParam.setPlMGender(gender);
 	                			}else if(chkDb.get(j).equals("edu4")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				//String plProduct = "LP0" + cellVal;
 	                				eduChkParam.setPlProduct(cellVal);
 	                			}else if(chkDb.get(j).equals("edu5")) {
 	                				//교육이수번호,인증서번호 유효 체크
+	                				if(eduChkParam.getPlProduct() == null || eduChkParam.getPlProduct().equals("")) {
+	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
+	                					eduChkParam.setPlProduct(this.param1);
+	                				}
+	                				
 	                				eduChkParam.setPlEduNo(cellVal);
 
-	                				int chkResult 	= plEduNoCheck(eduChkParam);
+	                				int chkResult 	= plEduNoChk(eduChkParam);
 		                			
 	                				if(chkResult == 0) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
 	                				}
-	                			}else if(chkDb.get(j).equals("user")) {
-	                				//CI 형식 체크
+	                			}
+	                		}
+	                		if(!vEncrypt.get(j).isEmpty()){
+	                			//암호화(주민번호,법인번호)
+	                			if(vEncrypt.get(j).equals("Y")) {
+	                				if(cellVal != null && !cellVal.equals("")) {
+			                			cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
+		                			}
+	                			}
+	                		}
+	                		if(!chkCi.get(j).isEmpty()) {
+	                			//CI 형식 체크
+	                			if(chkCi.get(j).equals("Y")) {
 	                				if(!cellVal.endsWith("==")) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
 	                				}
 	                			}
-	                			*/
 	                		}
-	                		/*
-	                		if(!vEncrypt.get(j).isEmpty()){
-	                			//암호화(주민번호,법인번호)
-	                			if(cellVal != null && !cellVal.equals("")) {
-		                			cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
-	                			}
-	                		}
-	                		*/
 	                		if(!chkPrd.get(j).isEmpty()) {
 	                			//상품별 등록여부 체크 : 대출 상품일 경우 회원사 통틀어서 하나 / 나머지는 중복 가능
 	                			if(chkPrd.get(j).equals("prd1")) {
@@ -217,8 +234,10 @@ public class UtilExcel<T> {
 	                		}
 	                		if(!chkCal.get(j).isEmpty()) {
 	                			//날짜 형식 체크
-	                			if(!dateFormatCheck(cellVal,"yyyy-MM-dd")) {
-	                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
+	                			if(chkCal.get(j).equals("Y")) {
+	                				if(!dateFormatCheck(cellVal,"yyyy-MM-dd")) {
+		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
+		                			}
 	                			}
 	                		}
 	                	}
@@ -236,12 +255,12 @@ public class UtilExcel<T> {
     	
     	if(plProductArr.length > 0) {
     		for(int i = 0;i < plProductArr.length;i++) {
-    			if(plProductArr[i].equals("1")) {
+    			if(plProductArr[i] != null && !plProductArr[i].equals("") && plProductArr[i].equals("1")) {
     				plProductDupChk++;
     			}
     		}
     		if(plProductDupChk > 1) {
-    			errorMsg = "금융상품유형이 [대출(코드 = 1)]인 모집인이 1명 이상입니다.";
+    			errorMsg = "엑셀 데이터에서 금융상품유형이 [대출(코드 = 1)]인 모집인이 1명 이상입니다.";
     		}
     	}
 		
@@ -305,13 +324,11 @@ public class UtilExcel<T> {
 		return corpRepo.selectCorpInfoCnt(corpDomain);
 	}
 	
-	/*
 	//교육이수번호,인증서번호 유효 체크
 	@Transactional(readOnly=true)
-	private int plEduNoCheck(EduDomain eduDomain) {
-		return eduRepo.plEduNoCheck(eduDomain);
+	private int plEduNoChk(EduDomain eduDomain) {
+		return eduRepo.plEduNoChk(eduDomain);
 	}
-	*/
 	
 	//모집인 중복체크
 	@Transactional(readOnly=true)
