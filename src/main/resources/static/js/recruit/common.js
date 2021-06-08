@@ -350,6 +350,34 @@ function goViolationDel(obj){
 }
 
 
+function ocrSuccess(id){
+	console.log("id == "+id);
+	var id = $("#"+id).attr("id");
+	var code = id.replace("check_cd", "");
+	var chk = $("#"+id).is(":checked");
+	var fileSeq = $("#"+id).attr("data-fileSeq");
+	var url = "";
+	if(!chk){
+		url = "/admin/apply/insertApplyCheck";
+	}else{
+		return false;
+	}
+	
+	var p = {
+		  url		: url	
+		, async		: false
+		, param		: {
+			 fileSeq 		: fileSeq
+			,checkCd		: code
+		}
+		, success 	: function (opt,result) {
+			 $("#"+id).prop("checked", true);
+	    }
+	}
+	AjaxUtil.post(p);
+}
+
+
 
 
 /* ===============================================================================================================================

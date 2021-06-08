@@ -393,11 +393,15 @@ function goUserRegInfoCancel() {
 			</div>
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
-					<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
+					<c:if test="${result.userRegInfo.plStat ne '10'}">
+						<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
+					</c:if>
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
-				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
-					<a href="javascript:void(0);" class="btn_blue btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
+				<c:if test="${result.userRegInfo.plStat ne '2'}">
+					<c:if test="${result.userRegInfo.plStat ne '10'}">
+						<a href="javascript:void(0);" class="btn_blue btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
+					</c:if>
 				</c:if>
 				<c:if test="${result.userRegInfo.plStat ne '2' || result.userRegInfo.plStat eq '10' }"> 
 					<a href="javascript:void(0);" class="btn_Lgray btn_right" onclick="goUserRegInfoCancel();">삭제</a>

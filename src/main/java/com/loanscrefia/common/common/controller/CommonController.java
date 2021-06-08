@@ -103,12 +103,15 @@ public class CommonController {
 		FileDomain f = commonService.getFile(fileDomain);
 		
 		// 암호화 해제
+		/*
 		String oFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "." + f.getFileExt();
 		String chFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "_dnc." + f.getFileExt();
 		CryptoUtil.decryptFile(oFile, chFile);
+		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "_dnc." + f.getFileExt());
+		*/
 		// 해제 끝
 		
-		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "_dnc." + f.getFileExt());
+		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
 		if(file != null) {
 			String name = f.getFileOrgNm() + "." + f.getFileExt();
 	        String header = request.getHeader("User-Agent");

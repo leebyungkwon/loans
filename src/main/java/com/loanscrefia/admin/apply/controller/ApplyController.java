@@ -197,7 +197,8 @@ public class ApplyController {
         try {
         	if(files.size() > 0) {
         		for(FileDomain file : files) {
-        			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())) {
+        			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())
+        					|| "7".equals(file.getFileType()) || "13".equals(file.getFileType()) || "14".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
         				/*
@@ -266,7 +267,22 @@ public class ApplyController {
             					}
             					
             				}else if("3".equals(file.getFileType())){ 
-            					// 경력이고 협회인증서인 경우
+            					// 경력이고 협회인 경우
+            					String eduNo = applyInfo.getPlEduNo();
+    	            			String resultEduNo = "";
+    	            			String patternType = "\\d{10}";
+    	    	                Pattern pattern = Pattern.compile(patternType);
+    	    	                Matcher matcher = pattern.matcher(replaceText);
+    	    	                while(matcher.find()) {
+    	    	                	resultEduNo =  matcher.group(0);
+    	    	                }
+            					if(eduNo.equals(resultEduNo)) {
+            						msgMap.put("fileType"+file.getFileType(), "일치");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType(), "불일치");
+            					}
+            				}else if("14".equals(file.getFileType())){ 
+            					// 경력이고 협회가 아닌경우(보험개발원)
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";
     	            			int st = replaceText.indexOf("(수료번호:");
@@ -283,13 +299,13 @@ public class ApplyController {
                 						msgMap.put("fileType"+file.getFileType(), "불일치");
                 					}
     	            			}else {
+                					// 경력이고 협회가 아닌경우(한국금융연구원)
     	            				int start = replaceText.indexOf("수료번호:");
     	            				if(start <= 0) {
     	            					msgMap.put("fileType"+file.getFileType(), "오류");
     	            			    	responseMsg.setData(msgMap);
     	            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
     	            				}
-    	            				
                 					resultEduNo = replaceText.substring(start+5, start+23);
                 					if(eduNo.equals(resultEduNo)) {
                 						msgMap.put("fileType"+file.getFileType(), "일치");
@@ -297,7 +313,6 @@ public class ApplyController {
                 						msgMap.put("fileType"+file.getFileType(), "불일치");
                 					}
     	            			}
-            					
             				}else if("4".equals(file.getFileType())){ 
             					// 신규일경우 인증서 추출
             					String eduNo = applyInfo.getPlEduNo();
@@ -317,30 +332,27 @@ public class ApplyController {
             					// 결격사유
             				    int lineCnt = 0;
             				    int fromIndex = -1;
+            				    int fromTwoIndex = -1;
             				    while ((fromIndex = replaceText.indexOf("불충족", fromIndex + 1)) >= 0) {
             				      lineCnt++;
             				    }
+            				    while ((fromTwoIndex = replaceText.indexOf("불중족", fromTwoIndex + 1)) >= 0) {
+              				      lineCnt++;
+              				    }
 
-            					if(lineCnt < 2) {
-            						msgMap.put("fileType"+file.getFileType(), "결격사유 충족");
+            					if(lineCnt == 1) {
+            						msgMap.put("fileType"+file.getFileType(), "충족");
             					}else {
-            						msgMap.put("fileType"+file.getFileType(), "결격사유 불충족");
+            						msgMap.put("fileType"+file.getFileType(), "불충족");
             					}
             					
-            				}else if("13".equals(file.getFileType())){ 
+            				}else if("13".equals(file.getFileType())){
             					// 후견부존재증명서
-            				    int lineCnt = 0;
-            				    int fromIndex = -1;
-            				    
-            				    
-            				    while ((fromIndex = replaceText.indexOf("불충족", fromIndex + 1)) >= 0) {
-            				      lineCnt++;
-            				    }
-
-            					if(lineCnt < 2) {
-            						msgMap.put("fileType"+file.getFileType(), "일치");
+            					int checkIndex = replaceText.indexOf("성년후견,한정후견에관한후견등기사항");
+            					if(checkIndex > 0) {
+            						msgMap.put("fileType"+file.getFileType(), "충족");
             					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불일치");
+            						msgMap.put("fileType"+file.getFileType(), "불충족");
             					}
             					
             				}else {

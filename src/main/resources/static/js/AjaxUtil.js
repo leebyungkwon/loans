@@ -69,6 +69,7 @@ var AjaxUtil = {
             method: "post",
             url: opt.url,
             data: param,
+            async:async,
             responseType: responseType,
             headers: { "Content-Type": contType }
         }).then(function(response) {

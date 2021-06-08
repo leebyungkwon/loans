@@ -87,7 +87,7 @@ public class AdminController {
 	public ResponseEntity<ResponseMsg> saveAdminUpdate(@RequestParam("files") MultipartFile[] files, @Valid AdminDomain adminDomain) {
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
-				.setExt("image") 
+				.setExt("all") 
 				.upload();
 		if((boolean) ret.get("success")) {
 			
@@ -115,7 +115,7 @@ public class AdminController {
 		
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
-				.setExt("image") 
+				.setExt("all") 
 				.upload();
 		if((boolean) ret.get("success")) {
 			

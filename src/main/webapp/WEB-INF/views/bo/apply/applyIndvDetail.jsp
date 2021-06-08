@@ -13,13 +13,33 @@ function pageLoad(){
 		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
 			var p = {
 				  url		: "/admin/apply/indvOcr"
+				, async		: false
 				, param		: {
 					 masterSeq 	: $("#masterSeq").val()
 				}
 				, success 	: function (opt,result) {
 					alert("성공");
 					console.log("RESULT == " , result);
-					//$("#zidCheck").val("일치");
+					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
+					// 경력이고 협회인 경우 - fileType3
+					// 경력이고 협회가 아닌경우(보험개발원, 한국금융연구원) - fileType14
+					// 신규일경우 인증서 추출 - fileType4
+					// 결격사유 - fileType7
+					// 후견부존재증명서 - fileType13
+					
+					if(result.data.fileType2 == "일치"){
+						ocrSuccess("check_cd2");
+					}if(result.data.fileType3 == "일치"){
+						ocrSuccess("check_cd3");
+					}if(result.data.fileType14 == "일치"){
+						ocrSuccess("check_cd14");
+					}if(result.data.fileType4 == "일치"){
+						ocrSuccess("check_cd4");
+					}if(result.data.fileType7 == "충족"){
+						ocrSuccess("check_cd7");
+					}if(result.data.fileType13 == "충족"){
+						ocrSuccess("check_cd13");
+					}
 			    }
 			}
 			AjaxUtil.post(p);
@@ -80,17 +100,20 @@ function goRecruitApply(num){
 
 //보완
 function goApplyImprove(num){
+	var plStat = '5';
+	var messageCheck = "";
+	if(num == "1"){
+		plStat = '10';
+		messageCheck = "부적격 사유를 입력해 주세요.";
+	}else{
+		messageCheck = "보완요청사유를 입력해 주세요.";
+	}
 	
 	var oldHistTxt = "${result.applyInfo.plHistTxt}";
 	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("보완요청사유를 입력해 주세요");
+		alert(messageCheck);
 		$("#plHistTxt").focus();
 		return false;
-	}
-	
-	var plStat = '5';
-	if(num == "1"){
-		plStat = '10'
 	}
 	
 	var confirmMessage = "";
@@ -98,6 +121,9 @@ function goApplyImprove(num){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
+	}
+	if(num == "1"){
+		confirmMessage = "부적격 처리를 하시겠습니까?";
 	}
 	
 	if(confirm(confirmMessage)){
@@ -224,7 +250,7 @@ function goApplyImprove(num){
 					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
 					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7'}">
 						<tr>
-							<th>보완요청 사유</th>
+							<th>사유</th>
 							<td colspan="3">
 								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }">
 							</td>
