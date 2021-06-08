@@ -374,7 +374,7 @@ public class ApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 법인 OCR
+	// 법인 등록정보 OCR
 	@PostMapping("/apply/corpOcr")
 	public ResponseEntity<ResponseMsg> corpOcr(ApplyDomain applyDomain) throws IOException { 
 		//상세
@@ -390,8 +390,7 @@ public class ApplyController {
         try {
         	if(files.size() > 0) {
         		for(FileDomain file : files) {
-        			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())
-        					|| "7".equals(file.getFileType()) || "13".equals(file.getFileType()) || "14".equals(file.getFileType())) {
+        			if("2".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
         				/*
@@ -444,22 +443,136 @@ public class ApplyController {
             				
             				// 파일 타입별로 추출영역 생성
             				if("2".equals(file.getFileType())) {
-    	            			// 등록하고자 하는 회원의 주민번호를 비교한다.
-    	            			String jumin = applyInfo.getPlMZId();
-    	            			String resultJumin = "";
-    	    	                String patternType = "\\d{6}\\-[1-4]\\d{6}";
+    	            			// 법인등기부등본
+    	            			//String corpNo = CryptoUtil.decrypt(applyInfo.getPlMerchantNo());
+    	            			String corpNo = applyInfo.getPlMerchantNo();
+    	            			String resultCorpNo = "";
+    	    	                String patternType = "\\d{6}\\-[0-9]\\d{6}";
     	    	                Pattern pattern = Pattern.compile(patternType);
     	    	                Matcher matcher = pattern.matcher(replaceText);
     	    	                while(matcher.find()) {
-    	    	                	resultJumin =  matcher.group(0);
+    	    	                	resultCorpNo =  matcher.group(0);
     	    	                }
-            					if(jumin.equals(resultJumin)) {
-            						msgMap.put("fileType"+file.getFileType(), "일치");
+            					if(corpNo.equals(resultCorpNo)) {
+            						msgMap.put("fileType"+file.getFileType()+"_12", "일치");
             					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불일치");
+            						msgMap.put("fileType"+file.getFileType()+"_12", "불일치");
             					}
             					
-            				}else if("3".equals(file.getFileType())){ 
+            					// 설립년월일
+            					String foundDate = applyInfo.getOcrCorpFoundDate();
+            					String ocrFoundDate = "";
+	            				int start = replaceText.indexOf("회사성립연월일");
+	            				if(start <= 0) {
+	            					msgMap.put("fileType"+file.getFileType()+"_13", "Read실패");
+	            			    	responseMsg.setData(msgMap);
+	            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	            				}
+	            				ocrFoundDate = replaceText.substring(start+7, start+28);
+            					if(foundDate.equals(ocrFoundDate)) {
+            						msgMap.put("fileType"+file.getFileType()+"_13", "일치");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType()+"_13", "불일치");
+            					}
+            					
+            				}else {
+            					// fileType에 포함X
+            					msgMap.put("fileType"+file.getFileType(), "fileType오류");
+            				}
+            			}else {
+            				msgMap.put("fileType"+file.getFileType(), "파일추출에 실패");
+            			}
+        			}
+        		}// for문 종료
+        	}else {
+        		msgMap.put("error", "조회된 첨부파일이 없습니다.");
+        	}
+        }catch (TesseractException e) {
+            e.printStackTrace();
+        }
+    	responseMsg.setData(msgMap);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+	// 법인 등록정보 OCR
+	@PostMapping("/apply/corpImwonOcr")
+	public ResponseEntity<ResponseMsg> corpImwonOcr(ApplyImwonDomain applyImwonDomain) throws IOException { 
+		//상세
+		ApplyImwonDomain applyInfo = applyRepository.getApplyImwonDetail(applyImwonDomain);
+		FileDomain fileDomain = new FileDomain();
+		fileDomain.setFileGrpSeq(applyInfo.getFileSeq());
+		List<FileDomain> files = commonService.selectFileList(fileDomain);
+		Tesseract tesseract = new Tesseract();
+    	tesseract.setLanguage("kor");										
+        tesseract.setDatapath("C:\\tessdata");
+        ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+        Map<String, Object> msgMap = new HashMap<String, Object>();
+        try {
+        	if(files.size() > 0) {
+        		for(FileDomain file : files) {
+        			if("27".equals(file.getFileType()) || "12".equals(file.getFileType()) || "30".equals(file.getFileType()) || "13".equals(file.getFileType())) {
+        				String realfilePath = this.filePath.toString() + "/userReg";
+        				
+        				/*
+        				// 암호화 해제
+        				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
+        				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
+        				CryptoUtil.decryptFile(oFile, chFile);
+        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				*/
+        				
+        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				
+            			// 흑색변환 처리시 필요한 랜덤파일명
+            			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
+            			File outputfile = new File(realfilePath, randomFileNm + ".png");
+            			String ocrText = "";
+            			
+            			// PDF인 경우 JPG 흑백으로 변경작업 필요(속도이슈)
+            			if("pdf".equals(file.getFileExt())) {
+            				PDDocument pdf = PDDocument.load(imageFile);
+            				PDFRenderer pdfRenderer = new PDFRenderer(pdf);
+            				BufferedImage imageObj = pdfRenderer.renderImageWithDPI(0, 100, ImageType.GRAY);
+            				ImageIO.write(imageObj, "png", outputfile);
+            				pdf.close();
+            				
+            			}else {
+            				// pdf가 아닌경우 image는 흑백으로 변경
+            				BufferedImage buImage = ImageIO.read(imageFile);
+            				for(int y = 0; y < buImage.getHeight(); y++) {
+            					for(int x = 0; x < buImage.getWidth(); x++) {
+            						Color colour = new Color(buImage.getRGB(x, y));
+            						int Y = (int) (0.2126 * colour.getRed() + 0.7152 * colour.getGreen() + 0.0722 * colour.getBlue());
+            						buImage.setRGB(x, y, new Color(Y, Y, Y).getRGB());
+            					}
+            				}
+            				ImageIO.write(buImage, "png", outputfile);
+            			}
+            			
+            			if(outputfile.exists()) {
+            				ocrText = tesseract.doOCR(outputfile);
+            				String replaceText = "";
+            				// 문자추출시 띄어쓰기 및 공백제거 실행
+            				if(ocrText != null) {
+            					replaceText = ocrText.replace(" ", "");
+            				}else {
+            					msgMap.put("fileType"+file.getFileType(), "파일추출에 실패");
+            			    	responseMsg.setData(msgMap);
+            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+            				}
+            				
+            				// 파일 타입별로 추출영역 생성
+            				if("27".equals(file.getFileType())) {
+            					// 후견부존재증명서
+            					int checkIndex = replaceText.indexOf("성년후견,한정후견에관한후견등기사항");
+            					if(checkIndex > 0) {
+            						msgMap.put("fileType"+file.getFileType(), "충족");
+            					}else {
+            						msgMap.put("fileType"+file.getFileType(), "불충족");
+            					}
+            				}else if("12".equals(file.getFileType())){ 
             					// 경력이고 협회인 경우
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";
@@ -474,7 +587,7 @@ public class ApplyController {
             					}else {
             						msgMap.put("fileType"+file.getFileType(), "불일치");
             					}
-            				}else if("14".equals(file.getFileType())){ 
+            				}else if("30".equals(file.getFileType())){ 
             					// 경력이고 협회가 아닌경우(보험개발원)
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";
@@ -506,7 +619,7 @@ public class ApplyController {
                 						msgMap.put("fileType"+file.getFileType(), "불일치");
                 					}
     	            			}
-            				}else if("4".equals(file.getFileType())){ 
+            				}else if("13".equals(file.getFileType())){ 
             					// 신규일경우 인증서 추출
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";
@@ -521,33 +634,6 @@ public class ApplyController {
             					}else {
             						msgMap.put("fileType"+file.getFileType(), "불일치");
             					}
-            				}else if("7".equals(file.getFileType())){ 
-            					// 결격사유
-            				    int lineCnt = 0;
-            				    int fromIndex = -1;
-            				    int fromTwoIndex = -1;
-            				    while ((fromIndex = replaceText.indexOf("불충족", fromIndex + 1)) >= 0) {
-            				      lineCnt++;
-            				    }
-            				    while ((fromTwoIndex = replaceText.indexOf("불중족", fromTwoIndex + 1)) >= 0) {
-              				      lineCnt++;
-              				    }
-
-            					if(lineCnt == 1) {
-            						msgMap.put("fileType"+file.getFileType(), "충족");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불충족");
-            					}
-            					
-            				}else if("13".equals(file.getFileType())){
-            					// 후견부존재증명서
-            					int checkIndex = replaceText.indexOf("성년후견,한정후견에관한후견등기사항");
-            					if(checkIndex > 0) {
-            						msgMap.put("fileType"+file.getFileType(), "충족");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불충족");
-            					}
-            					
             				}else {
             					// fileType에 포함X
             					msgMap.put("fileType"+file.getFileType(), "fileType오류");
@@ -566,4 +652,5 @@ public class ApplyController {
     	responseMsg.setData(msgMap);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
 }

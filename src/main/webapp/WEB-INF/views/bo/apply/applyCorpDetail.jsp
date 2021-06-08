@@ -17,26 +17,14 @@ function pageLoad(){
 					 masterSeq 	: $("#masterSeq").val()
 				}
 				, success 	: function (opt,result) {
-					alert("성공");
+					alert("완료");
 					console.log("RESULT == " , result);
-					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
-					// 경력이고 협회인 경우 - fileType3
-					// 경력이고 협회가 아닌경우(보험개발원, 한국금융연구원) - fileType14
-					// 신규일경우 인증서 추출 - fileType4
-					// 결격사유 - fileType7
-					// 후견부존재증명서 - fileType13
+					// 법인등기부등본(법인등록번호) - fileType2_12
+					// 법인등기부등본(설립년월일) - fileType2_13
 					
-					if(result.data.fileType2 == "일치"){
-						ocrSuccess("check_cd2");
-					}if(result.data.fileType3 == "일치"){
-						ocrSuccess("check_cd3");
-					}if(result.data.fileType14 == "일치"){
-						ocrSuccess("check_cd14");
-					}if(result.data.fileType4 == "일치"){
-						ocrSuccess("check_cd4");
-					}if(result.data.fileType7 == "충족"){
-						ocrSuccess("check_cd7");
-					}if(result.data.fileType13 == "충족"){
+					if(result.data.fileType2_12 == "일치"){
+						ocrSuccess("check_cd12");
+					}if(result.data.fileType2_13 == "일치"){
 						ocrSuccess("check_cd13");
 					}
 			    }
@@ -346,6 +334,20 @@ function goApplyImprove(num){
 							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
 							<label for="check_cd4">기재내용 일치 여부</label>
 						</div>
+						
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd12" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd12}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
+							<label for="check_cd12">법인번호 일치 여부</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd13" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd13}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
+							<label for="check_cd13">설립년월일 일치 여부</label>
+						</div>
+						
 					</td>
 				</tr>
 				<tr>

@@ -18,7 +18,7 @@ function pageLoad(){
 					 masterSeq 	: $("#masterSeq").val()
 				}
 				, success 	: function (opt,result) {
-					alert("성공");
+					alert("완료");
 					console.log("RESULT == " , result);
 					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
 					// 경력이고 협회인 경우 - fileType3

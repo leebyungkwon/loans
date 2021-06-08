@@ -377,6 +377,32 @@ function ocrSuccess(id){
 	AjaxUtil.post(p);
 }
 
+function ocrImwonSuccess(id, index){
+	var id = $("#index"+index).find('#'+id).attr("id");
+	var code = id.replace("check_cd", "");
+	var chk = $("#index"+index).find('#'+id).is(":checked");
+	var fileSeq = $("#index"+index).find('#'+id).attr("data-fileSeq");
+	var url = "";
+	if(!chk){
+		url = "/admin/apply/insertApplyCheck";
+	}else{
+		return false;
+	}
+	
+	var p = {
+		  url		: url	
+		, async		: false
+		, param		: {
+			 fileSeq 		: fileSeq
+			,checkCd		: code
+		}
+		, success 	: function (opt,result) {
+			 $("#index"+index).find('#'+id).prop("checked", true);
+	    }
+	}
+	AjaxUtil.post(p);
+}
+
 
 
 

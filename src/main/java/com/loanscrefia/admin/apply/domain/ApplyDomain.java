@@ -51,6 +51,7 @@ public class ApplyDomain extends BaseDomain {
 	private String plBusinessNo;	//사업자등록번호
 	private String compPhoneNo;		//회원사대표번호
 	private String corpFoundDate;	//법인설립일
+	private String ocrCorpFoundDate;	//법인설립일(OCR용)
 	private int capital;			//자본금
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)

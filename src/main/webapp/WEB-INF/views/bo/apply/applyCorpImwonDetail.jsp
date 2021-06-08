@@ -8,11 +8,48 @@
 <script type="text/javascript">
 function pageLoad(){
 	
+	$(".ocr_imwon_click").on("click", function(){
+		var fileSeq = $(this).attr("data-imwon-file-seq");
+		var excSeq = $(this).attr("data-imwon-seq");
+		var dataIndex = $(this).attr("data-index");
+		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
+			var p = {
+				  url		: "/admin/apply/corpImwonOcr"
+				, async		: false
+				, param		: {
+					excSeq 	: excSeq
+					 , fileSeq	: fileSeq
+				}
+				, success 	: function (opt,result) {
+					alert("완료");
+					console.log("RESULT == " , result);
+					// fileType27 - 후견부존재증명
+					// fileType12 - 경력이고 협회인 경우
+					// fileType30 - 경력이고 협회가 아닌경우(보험개발원, 한국금융연구원)
+					// fileType13 - 신규일경우 인증서 추출
+					
+					if(result.data.fileType27 == "충족"){
+						ocrImwonSuccess("check_cd113", dataIndex);
+						
+					}if(result.data.fileType12 == "일치"){
+						ocrImwonSuccess("check_cd106", dataIndex);
+						
+					}if(result.data.fileType30 == "일치"){
+						ocrImwonSuccess("check_cd115", dataIndex);
+						
+					}if(result.data.fileType13 == "일치"){
+						ocrImwonSuccess("check_cd108", dataIndex);
+					}
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
 }
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
-	<input type="hidden" name="masterSeq" value="${result.applyInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.applyInfo.masterSeq }"/>
 </form>
 
 <div class="cont_area">
@@ -36,7 +73,7 @@ function pageLoad(){
 		<c:choose>
 			<c:when test="${fn:length(result.imwonList) > 0 }">
 				<c:forEach var="corpImwonList" items="${result.imwonList }" varStatus="status">
-					<div class="data_wrap">
+					<div class="data_wrap" id="index${status.index}">
 						<h3>기본정보</h3>
 						<div id="table02">
 							<table class="view_table">
@@ -414,6 +451,13 @@ function pageLoad(){
 									</td>
 								</tr>
 							</table>
+						</div>
+						<div class="btn_wrap02">
+							<div class="right">
+								<a href="javascript:void(0);" class="btn_blue btn_middle mgr5 ocr_imwon_click" 
+								data-index="${status.index}" data-imwon-file-seq="${corpImwonList.fileSeq}"
+								data-imwon-seq="${corpImwonList.excSeq}" >OCR검증</a>
+							</div>
 						</div>
 					</div>
 				</c:forEach>

@@ -180,6 +180,15 @@
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
 			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
+			,case
+				when TLM.CORP_FOUND_DATE is null then ''
+				else
+				CONCAT(
+					TO_CHAR(to_timestamp(TLM.CORP_FOUND_DATE,'YYYYMMDD'), 'YYYY'), '년'
+					, TO_CHAR(to_timestamp(TLM.CORP_FOUND_DATE,'YYYYMMDD'), 'MM'), '월'
+					, TO_CHAR(to_timestamp(TLM.CORP_FOUND_DATE,'YYYYMMDD'), 'DD'), '일'
+					)
+				end OCR_CORP_FOUND_DATE 
 			,TLM.CAPITAL
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
@@ -344,5 +353,15 @@
    			, upd_timestamp = NOW()
    		WHERE master_seq = #{masterSeq}
    	</update>
+   	
+   	<!-- 모집인 조회 및 변경 > 법인 : 대표및임원 상세 -->
+   	<select id="getApplyImwonDetail" parameterType="applyImwon" resultType="applyImwon">
+  		SELECT
+  			*
+  		FROM
+  			TB_LC_MAS01_IMWON
+  		WHERE EXC_SEQ = #{excSeq}
+   	</select>
+   	
    	
 </mapper> 

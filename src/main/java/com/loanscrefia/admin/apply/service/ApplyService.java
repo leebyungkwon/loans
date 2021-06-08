@@ -223,6 +223,10 @@ public class ApplyService {
         					applyInfo.setCheckCd10(tmp.getCheckCd());
         				}else if("11".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd11(tmp.getCheckCd());
+        				}else if("12".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd12(tmp.getCheckCd());
+        				}else if("13".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd13(tmp.getCheckCd());
         				}
         			}
         			
