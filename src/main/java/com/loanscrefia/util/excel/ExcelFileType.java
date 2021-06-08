@@ -1,6 +1,5 @@
 package com.loanscrefia.util.excel;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,43 +11,26 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import sinsiway.CryptoUtil;
 
 public class ExcelFileType {
-	/**
-     * 
-     * ?��???��?��?�� ?��?��?�� Workbook 객체?�� 리턴?��?��.
-     * XLS?? XLSX ?��?��?���? 비교?��?��.
-     * 
-     * @param filePath
-     * @return
-     * 
-     */
-    public static Workbook getWorkbook(String uPath, String filePath, String fileSaveNm, String fileExt) { //String filePath
+	
+	public static Workbook getWorkbook(String uPath, String filePath, String fileSaveNm, String fileExt) {
         
-        /*
-         * FileInputStream?? ?��?��?�� 경로?�� ?��?�� ?��?��?��
-         * ?��?��?�� Byte�? �??��?��?��.
-         * 
-         * ?��?��?�� 존재?���? ?��?��?��면�?
-         * RuntimeException?�� 발생?��?��.
-         */
-        FileInputStream fis = null;
-        try {
+		FileInputStream fis = null;
+        
+		try {
         	//암호화 해제
-			String oFile 		= uPath + "/" + filePath + "/" + fileSaveNm + "." + fileExt;
+			String oFile 	= uPath + "/" + filePath + "/" + fileSaveNm + "." + fileExt;
 			String chFile 	= uPath + "/" + filePath + "/" + fileSaveNm + "_dnc." + fileExt;
 			CryptoUtil.decryptFile(oFile, chFile);
 			//해제 끝
-        	
+			
 			fis = new FileInputStream(chFile);
+			
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
         
         Workbook wb = null;
         
-        /*
-         * ?��?��?�� ?��?��?���? 체크?��?�� .XLS ?���? HSSFWorkbook?��
-         * .XLSX?���? XSSFWorkbook?�� 각각 초기?�� ?��?��.
-         */
         if(fileExt.toUpperCase().endsWith("XLS")) {
             try {
                 wb = new HSSFWorkbook(fis);
@@ -65,9 +47,6 @@ public class ExcelFileType {
         }
         
         return wb;
-        
     }
-
-
 }
 

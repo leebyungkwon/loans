@@ -61,20 +61,15 @@ public class CorpService {
 		
 		for(int i = 0;i < excelParam.size();i++) {
 			CorpDomain chkParam = new CorpDomain();
-			chkParam.setPlMerchantName((String)excelParam.get(i).get("A"));
-			chkParam.setPlMerchantNo((String)excelParam.get(i).get("C"));
+			String itemC 		= (String)excelParam.get(i).get("C");
+			String plMerchantNo = itemC.replaceAll("-", "");
 			
 			//중복체크
+			chkParam.setPlMerchantNo(CryptoUtil.encrypt(plMerchantNo));
 			int chkResult = corpRepo.selectCorpInfoCnt(chkParam);
 			
 			//결과
 			if(chkResult == 0) {
-				
-				// 2021-05-31 법인번호 암호화 진행예정
-				// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-				String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo()); // 암호화
-				chkParam.setPlMerchantNo(encMerchantNo);
-				
 				chkParam.setPathTyp("1");
 				corpRepo.insertCorpInfo(chkParam);
 			}

@@ -24,7 +24,6 @@ import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.admin.edu.domain.EduDomain;
 import com.loanscrefia.admin.edu.repository.EduRepository;
-import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
@@ -46,15 +45,35 @@ public class UtilExcel<T> {
 	@Autowired private EduRepository eduRepo; 
 	@Autowired private UserRepository userRepo;
 	
-	private String param1;
+	private String param1; //금융상품유형
+	private String param2; //개인,법인 구분값
+	private String param3;
+	private String param4;
+	private String param5;
 	
 	public UtilExcel<T> setParam1(String param) {
 		this.param1 = param;
 		return this;
 	}
+	public UtilExcel<T> setParam2(String param) {
+		this.param2 = param;
+		return this;
+	}
+	public UtilExcel<T> setParam3(String param) {
+		this.param3 = param;
+		return this;
+	}
+	public UtilExcel<T> setParam4(String param) {
+		this.param4 = param;
+		return this;
+	}
+	public UtilExcel<T> setParam5(String param) {
+		this.param5 = param;
+		return this;
+	}
 	
 	//참고 : https://eugene-kim.tistory.com/46
-	public List<Map<String, Object>> upload(String uPath, String filePath, String fileSaveNm, String fileExt, Class<?> dClass) { //String path, Class<?> dClass
+	public List<Map<String, Object>> upload(String uPath, String filePath, String fileSaveNm, String fileExt, Class<?> dClass) {
 
 		Field[] fields = dClass.getDeclaredFields();
 
@@ -87,7 +106,6 @@ public class UtilExcel<T> {
 		}
 		
 		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>(); 
-		//Workbook wb 						= ExcelFileType.getWorkbook(path);
 		Workbook wb 						= ExcelFileType.getWorkbook(uPath, filePath, fileSaveNm, fileExt);
 		Sheet sheet 						= wb.getSheetAt(0);
 		int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
@@ -190,9 +208,7 @@ public class UtilExcel<T> {
 	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
 	                					eduChkParam.setPlProduct(this.param1);
 	                				}
-	                				
 	                				eduChkParam.setPlEduNo(cellVal);
-
 	                				int chkResult 	= plEduNoChk(eduChkParam);
 		                			
 	                				if(chkResult == 0) {
@@ -224,6 +240,7 @@ public class UtilExcel<T> {
 	                				userChkParam.setPlProduct(cellVal);
 	                			}else if(chkPrd.get(j).equals("prd2")) {
 	                				userChkParam.setCi(cellVal);
+	                				userChkParam.setPlClass(this.param2);
 	                				
 	                				int dupChkResult = userRegDupChk(userChkParam);
 		                			

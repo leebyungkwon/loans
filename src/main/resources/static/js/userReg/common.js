@@ -118,7 +118,7 @@ $(document).on("click",".goFileDel",function(){
 					html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
 					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
 					
-					if(essential == "N"){
+					if(essential != "Y"){
 						html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
 					}
 					
@@ -148,17 +148,23 @@ function goFileTypeListDisabled(){
 
 //첨부파일 필수 체크
 function goFileEssentialChk(){
-	var vdChkResult = 0;
+	var resultCode		= "";
+	var vdChkResult 	= 0;
+	var hVdChkResult 	= 0; //경력일 때 교육증빙서류는 2개 중 하나만 첨부해도 된다.
 	
 	$(".inputFile").each(function(){
 		if($(this).attr("data-essential") == "Y" && $(this).val() == ""){
 			vdChkResult++;
+		}else if($(this).attr("data-essential") == "H" && $(this).val() == ""){
+			hVdChkResult++;
 		}
 	});
 	if(vdChkResult > 0){
-		return false;
+		resultCode = "E1";
+	}else if(hVdChkResult == 0){
+		resultCode = "E2";
 	}
-	return true;
+	return resultCode;
 }
 
 //모집인 등록 > 탭이동
@@ -287,7 +293,7 @@ function goCorpInfoReg(obj){
 //승인요청
 function goUserAcceptApply(){
 	//validation
-	if(!goFileEssentialChk() || userRegFileCompYn == "N"){
+	if(goFileEssentialChk() == "E1" || goFileEssentialChk() == "E2" || userRegFileCompYn == "N"){
 		alert(messages.COM0007);
 		return;
 	}

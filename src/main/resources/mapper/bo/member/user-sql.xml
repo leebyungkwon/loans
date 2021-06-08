@@ -233,7 +233,7 @@
 					WHEN 
 						TLM.PL_CLASS = '1' AND TLM.CAREER_TYP = '2' -- 개인(경력)
 							AND TLM.FILE_SEQ IS NOT NULL
-							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','6','7','8','9','13','14')) = 9
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','6','7','8','9','13','14')) = 8
 					THEN 'Y'
 					WHEN 
 						TLM.PL_CLASS = '2' 
@@ -254,7 +254,7 @@
 									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('7','8','9','10','27','11','12','30','14','15')
-								 ) = 10 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+								 ) = 9 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
 							AND (
 									SELECT 
 										COUNT(1) 
@@ -270,7 +270,7 @@
 									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('16','31','18')
-								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
 							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('21','22','23','24','25','26','29')) = 7 -- 법인(기타)
 					THEN 'Y'
 					ELSE 'N'
@@ -284,7 +284,7 @@
 					WHEN 
 						TLM.PL_CLASS = '1' AND TLM.CAREER_TYP = '2' -- 개인(경력)
 							AND TLM.FILE_SEQ IS NOT NULL 
-							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','6','7','8','9','13','14')) = 9  
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','6','7','8','9','13','14')) = 8  
 					THEN '완료'
 					WHEN 
 						TLM.PL_CLASS = '2' 
@@ -305,7 +305,7 @@
 									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('7','8','9','10','27','11','12','30','14','15')
-								 ) = 10 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+								 ) = 9 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
 							AND (
 									SELECT 
 										COUNT(1) 
@@ -321,7 +321,7 @@
 									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('16','31','18')
-								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
 							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('21','22','23','24','25','26','29')) = 7 -- 법인(기타)
 					THEN '완료'
 					ELSE '미완료'
@@ -388,15 +388,37 @@
    	<!-- 모집인 중복체크 -->
    	<select id="userRegDupChk" parameterType="user" resultType="int">
    		SELECT 
-   			COUNT(CI)
+   			COUNT(*)
    		FROM TB_LC_MAS01
-   		WHERE PL_PRODUCT 	= #{plProduct}
-   		AND PL_STAT 		!= '8'
+   		WHERE PL_STAT 		!= '8'						-- 처리상태가 취소가 아닌 것
+   		AND PL_PRODUCT 		= #{plProduct}
+   		<if test='plProduct != null and plProduct != "" and plProduct = "1"'>
+   		AND PL_CLASS		= #{plClass}
+   		</if>
    		<if test='plProduct != null and plProduct != "" and plProduct != "1"'>
    		AND CI 				= #{ci}
    		AND COM_CODE 		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    		</if>
    	</select>
+   	
+   	<!-- 모집인(법인) 중복체크 -->
+   	<select id="corpUserRegDubChk" parameterType="user" resultType="int">
+   		SELECT
+   			COUNT(*)
+   		FROM TB_LC_MAS01
+   		WHERE PL_STAT 		!= '8'						-- 처리상태가 취소가 아닌 것
+   		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+   	</select>
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
    
    	<!-- 모집인 등록 > 개인 등록 -->
    	<insert id="insertUserRegIndvInfoByExcel" parameterType="user">
@@ -444,12 +466,12 @@
 			</choose>
    			,#{item.A} 						-- 신규,경력
    			,#{item.B} 						-- 이름
-   			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
+   			,#{item.C}						-- 주민등록번호
    			,REPLACE(#{item.D}, '-', '')	-- 휴대폰번호
    			,#{item.E}						-- 주소
    			,#{item.F}						-- 금융상품유형
    			,#{item.G}						-- 법인명
-   			,REPLACE(#{item.H}, '-', '')	-- 법인등록번호
+   			,#{item.H}						-- 법인등록번호
    			,#{item.I}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.J}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.K}, '-', '')	-- 경력종료일
@@ -495,7 +517,7 @@
    			,#{plClass} 					-- 개인,법인
    			,#{item.A}						-- 상호
 			,#{item.B}						-- 대표이사
-			,REPLACE(#{item.C}, '-', '')	-- 법인등록번호
+			,#{item.C}						-- 법인등록번호
    			,REPLACE(#{item.D}, '-', '')	-- 설립년월일
 			,#{item.E}						-- 본점소재지
 			,#{item.F}						-- 상세주소(법인등기부본상)
@@ -531,7 +553,7 @@
    			,#{item.A}						-- 구분(신규,경력)
    			,#{item.B}						-- 직위
    			,#{item.C}						-- 성명
-   			,REPLACE(#{item.D}, '-', '')	-- 주민등록번호
+   			,#{item.D}						-- 주민등록번호
    			,#{item.E}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.F}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.G}, '-', '')	-- 경력종료일
@@ -563,7 +585,7 @@
    			,#{careerTyp}
    			,#{positionNm}
    			,#{excName}
-   			,REPLACE(#{plMZId}, '-', '')
+   			,#{plMZId}
    			,#{plEduNo}
    			,REPLACE(#{careerStartDate}, '-', '')
    			,REPLACE(#{careerEndDate}, '-', '')
@@ -591,7 +613,7 @@
    			 #{masterSeq}
    			,#{item.A}						-- 구분(신규,경력)
    			,#{item.B}						-- 성명
-   			,REPLACE(#{item.C}, '-', '')	-- 주민등록번호
+   			,#{item.C}						-- 주민등록번호
    			,#{item.D}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.E}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.F}, '-', '')	-- 경력종료일
@@ -617,7 +639,7 @@
    			 #{masterSeq}
    			,#{careerTyp}
    			,#{expName}
-   			,REPLACE(#{plMZId}, '-', '')
+   			,#{plMZId}
    			,#{plEduNo}
    			,REPLACE(#{careerStartDate}, '-', '')
    			,REPLACE(#{careerEndDate}, '-', '')
@@ -638,7 +660,7 @@
    		(
    			 #{masterSeq}
    			,#{item.A}						-- 성명
-   			,REPLACE(#{item.B}, '-', '')	-- 주민등록번호
+   			,#{item.B}						-- 주민등록번호
    		)
    		</foreach>
    	</insert>
@@ -656,7 +678,7 @@
    		(
    			 #{masterSeq}
    			,#{operName}
-   			,REPLACE(#{plMZId}, '-', '')
+   			,#{plMZId}
    			,#{fileSeq}
    		)
    	</insert>
@@ -730,7 +752,7 @@
 				WHEN 
 					TLM.PL_CLASS = '1' AND TLM.CAREER_TYP = '2' -- 개인(경력)
 						AND TLM.FILE_SEQ IS NOT NULL
-						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','6','7','8','9','13','14')) = 9
+						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','6','7','8','9','13','14')) = 8
 				THEN 'Y'
 				WHEN 
 					TLM.PL_CLASS = '2' 
@@ -751,7 +773,7 @@
 								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('7','8','9','10','27','11','12','30','14','15')
-							 ) = 10 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+							 ) = 9 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
 						AND (
 								SELECT 
 									COUNT(1) 
@@ -767,7 +789,7 @@
 								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('16','31','18')
-							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
 						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('21','22','23','24','25','26','29')) = 7 -- 법인(기타)
 				THEN 'Y'
 				ELSE 'N'
@@ -894,7 +916,7 @@
    			 ,PL_M_NAME 		= #{plMName}
    			</if>
    			<if test="plMZId != null and plMZId != ''">
-   			,PL_M_Z_ID 			= REPLACE(#{plMZId}, '-', '')
+   			,PL_M_Z_ID 			= #{plMZId}
    			</if>
    			<if test="plCellphone != null and plCellphone != ''">
    			,PL_CELLPHONE 		= REPLACE(#{plCellphone}, '-', '')
@@ -928,7 +950,7 @@
    			,PL_CEO_NAME 		= #{plCeoName}
    			</if>
    			<if test="plMerchantNo != null and plMerchantNo != ''">
-   			,PL_MERCHANT_NO 	= REPLACE(#{plMerchantNo}, '-', '')
+   			,PL_MERCHANT_NO 	= #{plMerchantNo}
    			</if>
    			<if test="corpFoundDate != null and corpFoundDate != ''">
    			,CORP_FOUND_DATE 	= REPLACE(#{corpFoundDate}, '-', '')
@@ -951,7 +973,7 @@
 			 CAREER_TYP			= #{careerTyp}
 			,POSITION_NM		= #{positionNm}
 			,EXC_NAME			= #{excName}
-			,PL_M_Z_ID			= REPLACE(#{plMZId}, '-', '')
+			,PL_M_Z_ID			= #{plMZId}
 			,PL_EDU_NO			= #{plEduNo}
 			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
 			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
@@ -969,7 +991,7 @@
 		SET
 			 CAREER_TYP			= #{careerTyp}
 			,EXP_NAME			= #{expName}
-			,PL_M_Z_ID			= REPLACE(#{plMZId}, '-', '')
+			,PL_M_Z_ID			= #{plMZId}
 			,PL_EDU_NO			= #{plEduNo}
 			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
 			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
@@ -984,7 +1006,7 @@
    		UPDATE TB_LC_MAS01_IT
    		SET
    			 OPER_NAME		= #{operName}
-			,PL_M_Z_ID		= REPLACE(#{plMZId}, '-', '')
+			,PL_M_Z_ID		= #{plMZId}
 			,FILE_SEQ		= #{fileSeq}
    		<where>
 	    	AND OPER_SEQ 	= #{operSeq}

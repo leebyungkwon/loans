@@ -182,7 +182,7 @@ function goUserChangeApplyPage(){
 				</c:if>
 				<c:if test="${result.userRegInfo.careerTyp eq '2' }">
 					<tr>
-						<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
+						<th class="acenter">경력교육과정 수료증(여신금융교육연수원)</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType3 ne null }">
@@ -193,7 +193,7 @@ function goUserChangeApplyPage(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+						<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원)</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType14 ne null }">

@@ -64,21 +64,23 @@
 			</colgroup>
 			<tbody>
 				<tr class="careerTypTwoTr" data-fileType="16" data-fileSeq="" style="display: none;">
-					<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
+					<th class="acenter">경력교육과정 수료증(여신금융교육연수원)</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="H" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="16"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="16" data-essential="H">초기화</a>
 					</td>
 				</tr>
 				<tr class="careerTypTwoTr" data-fileType="31" data-fileSeq="" style="display: none;">
-					<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
+					<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원)</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="H" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="31"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="31" data-essential="H">초기화</a>
 					</td>
 				</tr>
 				<tr class="careerTypOneTr" data-fileType="17" data-fileSeq="">
