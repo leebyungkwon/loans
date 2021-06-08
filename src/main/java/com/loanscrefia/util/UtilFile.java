@@ -357,10 +357,12 @@ public class UtilFile {
 						this.save(attach);
 					fileList.add(attach);
 
+					/*
 					if ("zip".equals(lowerExtension))
 						this.zip = true;
 					if (this.zip)
 						fileList = this.unZip(attach, file, fileList);
+					*/
 					success = true;
 					count++;
 					// if(this.zip) target.delete();
