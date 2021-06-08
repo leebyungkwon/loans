@@ -13,9 +13,6 @@ public interface EduRepository {
 	List<EduDomain> selectEduList(EduDomain eduDomain);
 	
 	//회원사 시스템 > 모집인 등록 : 엑셀 업로드 시 교육이수번호 체크
-	int plEduNoCheck(EduDomain eduDomain);
-	
-	//회원사 시스템 > 모집인 등록 : 엑셀 업로드 시 교육이수번호 체크
 	int plEduNoChk(EduDomain eduDomain);
 	
 }
