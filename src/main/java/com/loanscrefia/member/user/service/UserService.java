@@ -1,5 +1,6 @@
 package com.loanscrefia.member.user.service;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,8 @@ import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
+import sinsiway.CryptoUtil;
+
 @Service
 public class UserService {
 
@@ -40,6 +44,9 @@ public class UserService {
 	@Autowired private CodeService codeService;
 	@Autowired private UtilFile utilFile;
 	@Autowired private UtilExcel<T> utilExcel;
+	
+	@Value("${download.filePath}")
+	public String uPath;
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 조회 및 변경
@@ -65,7 +72,21 @@ public class UserService {
 	//모집인 등록 > 리스트
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){
-		return userRepo.selectUserRegList(userDomain);
+		List<UserDomain> userRegList = userRepo.selectUserRegList(userDomain);
+		/*
+		if(userRegList.size() > 0) {
+			for(int i = 0;i < userRegList.size();i++) {
+				String plMZId 			= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
+				String plMerchantNo = CryptoUtil.decrypt(userRegList.get(i).getPlMerchantNo());
+				plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+				plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+				
+				userRegList.get(i).setPlMZId(plMZId);
+				userRegList.get(i).setPlMerchantNo(plMerchantNo);
+			}
+		}
+		*/
+		return userRegList;
 	}
 	
 	//모집인 등록(엑셀) > 개인
@@ -85,8 +106,10 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				//엑셀 업로드
-				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult		= utilExcel.upload(filePath, UserIndvExcelDomain.class);
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserIndvExcelDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -125,8 +148,10 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				//엑셀 업로드
-				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= utilExcel.upload(filePath, UserCorpExcelDomain.class);
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserCorpExcelDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -172,8 +197,10 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				//엑셀 업로드
-				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= utilExcel.setParam1(userImwonDomain.getPlProduct()).upload(filePath, UserImwonDomain.class);
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserImwonDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -241,8 +268,10 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				//엑셀 업로드
-				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= utilExcel.setParam1(userExpertDomain.getPlProduct()).upload(filePath, UserExpertDomain.class);
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserExpertDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -310,8 +339,10 @@ public class UserService {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
 				//엑셀 업로드
-				String filePath = Paths.get(file.get(0).getFileFullPath(), file.get(0).getFileSaveNm()+"."+file.get(0).getFileExt()).toString();
-				excelResult 	= utilExcel.upload(filePath, UserItDomain.class);
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserItDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");

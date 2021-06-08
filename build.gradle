@@ -58,6 +58,8 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+	compile 'com.microsoft.sqlserver:mssql-jdbc'
+	
 }
 
 test {

@@ -2,7 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.admin.edu.repository.EduRepository">
 
+	<!-- 교육이수정보 리스트 -->
+	<select id="selectEduList" parameterType="edu" resultType="edu">
+		SELECT
+		<include refid="common.totalPages"/>
+			TLE.PL_M_NAME																				/*모집인 이름*/
+			,TLE.PL_M_BIRTH																				/*모집인 생년월일*/
+			,TLE.PL_M_GENDER																			/*모집인 성별*/
+			,TLE.CAREER_TYP																				/*구분*/
+			,TLE.PL_PRODUCT																			/*취급상품*/
+			,TLE.PL_EDU_NO																				/*교육이수번호*/
+			,TLE.PL_CRF_NO																				/*인증서번호*/
+			,TO_DATE(TLE.PL_EDU_DATE, 'YYYYMMDD') AS PL_EDU_DATE				/*수료일자*/
+			,TO_CHAR(TLE.REG_TIMESTAMP, 'YYYY-MM-DD') AS REG_TIMESTAMP		/*수정일시*/
+		FROM TB_LC_EDU01 TLE
+		<where>
+			<if test="plMName != null and plMName != ''">
+				AND TLE.PL_M_NAME LIKE CONCAT('%',#{plMName},'%')
+			</if>
+			<if test="plEduNo != null and plEduNo != ''">
+				AND TLE.PL_EDU_NO LIKE CONCAT('%',#{plEduNo},'%')
+			</if>
+		</where>
+		<include refid="common.pageBottom"/>
+	</select>
+	
 	<!-- 회원사 시스템 > 모집인 등록 : 엑셀 업로드 시 교육이수번호 체크 -->
+   	<select id="plEduNoCheck" parameterType="edu" resultType="int">
+   		SELECT 
+   			COUNT(1)
+   		FROM TB_LC_EDU01
+   		<where>
+   			AND PL_M_NAME 	= #{plMName}
+   			AND PL_M_Z_ID 	= SUBSTRING(REPLACE(#{plMZId}, '-', ''),1,7)
+   			AND PL_PRODUCT 	= #{plProduct}
+   			<if test="careerTyp.equals('1')">
+   			AND PL_EDU_NO 	= #{plEduNo}
+   			</if>
+   			<if test="careerTyp.equals('2')">
+   			AND PL_CRF_NO 	= #{plEduNo}
+   			</if>
+   		</where>
+   	</select>
+   	
 	<select id="plEduNoChk" parameterType="edu" resultType="int">
 		SELECT 
 			COUNT(*)
@@ -19,6 +61,5 @@
 		AND PL_CRF_NO 		= #{plEduNo}
 		</if>
 	</select>
-
 
 </mapper> 

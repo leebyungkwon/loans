@@ -211,10 +211,12 @@ public class UtilFile {
 						this.save(attach);
 					fileList.add(attach);
 
+					/*
 					if ("zip".equals(extension))
 						this.zip = true;
 					if (this.zip)
 						fileList = this.unZip(attach, file, fileList);
+					*/
 					success = true;
 					count++;
 					// if(this.zip) target.delete();
@@ -457,7 +459,7 @@ public class UtilFile {
 	}
 
 	public enum All {
-		gif, bmp, png, jpg, jpeg, pdf, hwp, xls, xlsx, txt, doc, docx
+		gif, bmp, png, jpg, jpeg, pdf, hwp, xls, xlsx, txt, doc, docx, zip
 	}
 
 	public enum Excel {

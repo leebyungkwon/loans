@@ -140,7 +140,7 @@ public class TempleteController {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			for(FileDomain exc : file) {
 				String path = Paths.get(exc.getFilePath(), exc.getFileSaveNm()+"."+exc.getFileExt()).toString();
-				result = new UtilExcel().upload(path,TempleteDomain.class);
+				//result = new UtilExcel().upload(path,TempleteDomain.class);
 			}
 			if(file.size() > 0) {
 				// 공통영역

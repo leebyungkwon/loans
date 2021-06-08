@@ -54,7 +54,7 @@ public class UtilExcel<T> {
 	}
 	
 	//참고 : https://eugene-kim.tistory.com/46
-	public List<Map<String, Object>> upload(String path, Class<?> dClass) {
+	public List<Map<String, Object>> upload(String uPath, String filePath, String fileSaveNm, String fileExt, Class<?> dClass) { //String path, Class<?> dClass
 
 		Field[] fields = dClass.getDeclaredFields();
 
@@ -87,7 +87,8 @@ public class UtilExcel<T> {
 		}
 		
 		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>(); 
-		Workbook wb 						= ExcelFileType.getWorkbook(path);
+		//Workbook wb 						= ExcelFileType.getWorkbook(path);
+		Workbook wb 						= ExcelFileType.getWorkbook(uPath, filePath, fileSaveNm, fileExt);
 		Sheet sheet 						= wb.getSheetAt(0);
 		int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
 		int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();
@@ -150,13 +151,14 @@ public class UtilExcel<T> {
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
+	                			/*
 	                			if(chkDb.get(j).equals("corp1")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantName(cellVal);
 	                			}else if(chkDb.get(j).equals("corp2")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantNo(cellVal);
-	                				//corpChkParam.setPlMerchantNo(CryptoUtil.encrypt(cellVal));
+	                				corpChkParam.setPlMerchantNo(CryptoUtil.encrypt(cellVal));
 	                				
 	                				if((corpChkParam.getPlMerchantName() != null && !corpChkParam.getPlMerchantName().equals("")) || (corpChkParam.getPlMerchantNo() != null && !corpChkParam.getPlMerchantNo().equals(""))) {
 	                					int chkResult = selectCorpInfoCnt(corpChkParam);
@@ -165,7 +167,8 @@ public class UtilExcel<T> {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
 		                				}
 	                				}
-	                			}else if(chkDb.get(j).equals("edu1")) {
+	                			}
+	                			else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				eduChkParam.setCareerTyp(cellVal);
 	                			}else if(chkDb.get(j).equals("edu2")) {
@@ -196,6 +199,7 @@ public class UtilExcel<T> {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
 	                				}
 	                			}
+	                			*/
 	                		}
 	                		if(!vEncrypt.get(j).isEmpty()){
 	                			//암호화(주민번호,법인번호)

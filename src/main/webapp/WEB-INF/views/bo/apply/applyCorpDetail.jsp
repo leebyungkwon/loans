@@ -8,6 +8,42 @@
 <script type="text/javascript">
 function pageLoad(){
 	
+	$("#corpOcr").on("click", function(){
+		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
+			var p = {
+				  url		: "/admin/apply/corpOcr"
+				, async		: false
+				, param		: {
+					 masterSeq 	: $("#masterSeq").val()
+				}
+				, success 	: function (opt,result) {
+					alert("성공");
+					console.log("RESULT == " , result);
+					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
+					// 경력이고 협회인 경우 - fileType3
+					// 경력이고 협회가 아닌경우(보험개발원, 한국금융연구원) - fileType14
+					// 신규일경우 인증서 추출 - fileType4
+					// 결격사유 - fileType7
+					// 후견부존재증명서 - fileType13
+					
+					if(result.data.fileType2 == "일치"){
+						ocrSuccess("check_cd2");
+					}if(result.data.fileType3 == "일치"){
+						ocrSuccess("check_cd3");
+					}if(result.data.fileType14 == "일치"){
+						ocrSuccess("check_cd14");
+					}if(result.data.fileType4 == "일치"){
+						ocrSuccess("check_cd4");
+					}if(result.data.fileType7 == "충족"){
+						ocrSuccess("check_cd7");
+					}if(result.data.fileType13 == "충족"){
+						ocrSuccess("check_cd13");
+					}
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
 }
 
 //승인
@@ -62,16 +98,20 @@ function goRecruitApply(num){
 
 //보완
 function goApplyImprove(num){
-	var oldHistTxt = "${result.applyInfo.plHistTxt}";
-	if(WebUtil.isNull($("#plHistTxt").val())){
-		alert("사유를 입력해 주세요");
-		$("#plHistTxt").focus();
-		return false;
+	var plStat = '5';
+	var messageCheck = "";
+	if(num == "1"){
+		plStat = '10';
+		messageCheck = "부적격 사유를 입력해 주세요.";
+	}else{
+		messageCheck = "보완요청사유를 입력해 주세요.";
 	}
 	
-	var plStat = '5';
-	if(num == "1"){
-		plStat = '10'
+	var oldHistTxt = "${result.applyInfo.plHistTxt}";
+	if(WebUtil.isNull($("#plHistTxt").val())){
+		alert(messageCheck);
+		$("#plHistTxt").focus();
+		return false;
 	}
 	
 	var confirmMessage = "";
@@ -79,6 +119,9 @@ function goApplyImprove(num){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
+	}
+	if(num == "1"){
+		confirmMessage = "부적격 처리를 하시겠습니까?";
 	}
 	
 	if(confirm(confirmMessage)){
@@ -103,30 +146,6 @@ function goApplyImprove(num){
 		}
 		AjaxUtil.post(p);
 	}
-}
-
-//OCR 검증
-function ocrRun(){
-	
-	if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
-		var p = {
-			  url		: "/admin/apply/corpOcr"
-			, param		: {
-				 masterSeq 	: $("#masterSeq").val()
-			}
-			, success 	: function (opt,result) {
-				
-				console.log("OCR 검증 완료");
-				
-				console.log("RESULT == " , result);
-				
-				
-				
-		    }
-		}
-		AjaxUtil.post(p);
-	}
-	
 }
 
 </script>
@@ -430,17 +449,17 @@ function ocrRun(){
 			<c:if test="${result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '2'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="ocrRun();">OCR검증</a>					
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>					
 			</c:if>
 			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 		</div>

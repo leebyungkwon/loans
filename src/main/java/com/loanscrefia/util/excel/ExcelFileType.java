@@ -1,5 +1,6 @@
 package com.loanscrefia.util.excel;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.io.IOException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import sinsiway.CryptoUtil;
 
 public class ExcelFileType {
 	/**
@@ -18,7 +21,7 @@ public class ExcelFileType {
      * @return
      * 
      */
-    public static Workbook getWorkbook(String filePath) {
+    public static Workbook getWorkbook(String uPath, String filePath, String fileSaveNm, String fileExt) { //String filePath
         
         /*
          * FileInputStream?? ?��?��?�� 경로?�� ?��?�� ?��?��?��
@@ -29,7 +32,13 @@ public class ExcelFileType {
          */
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(filePath);
+        	//암호화 해제
+			String oFile 		= uPath + "/" + filePath + "/" + fileSaveNm + "." + fileExt;
+			String chFile 	= uPath + "/" + filePath + "/" + fileSaveNm + "_dnc." + fileExt;
+			CryptoUtil.decryptFile(oFile, chFile);
+			//해제 끝
+        	
+			fis = new FileInputStream(chFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -40,14 +49,14 @@ public class ExcelFileType {
          * ?��?��?�� ?��?��?���? 체크?��?�� .XLS ?���? HSSFWorkbook?��
          * .XLSX?���? XSSFWorkbook?�� 각각 초기?�� ?��?��.
          */
-        if(filePath.toUpperCase().endsWith(".XLS")) {
+        if(fileExt.toUpperCase().endsWith("XLS")) {
             try {
                 wb = new HSSFWorkbook(fis);
             } catch (IOException e) {
                 throw new RuntimeException(e.getMessage(), e);
             }
         }
-        else if(filePath.toUpperCase().endsWith(".XLSX")) {
+        else if(fileExt.toUpperCase().endsWith("XLSX")) {
             try {
                 wb = new XSSFWorkbook(fis);
             } catch (IOException e) {
