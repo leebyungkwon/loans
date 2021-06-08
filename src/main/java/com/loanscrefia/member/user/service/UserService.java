@@ -74,7 +74,6 @@ public class UserService {
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){
 		List<UserDomain> userRegList = userRepo.selectUserRegList(userDomain);
 		
-		/*
 		if(userRegList.size() > 0) {
 			for(int i = 0;i < userRegList.size();i++) {
 				String plMZId 			= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
@@ -86,7 +85,6 @@ public class UserService {
 				userRegList.get(i).setPlMerchantNo(plMerchantNo);
 			}
 		}
-		*/
 		
 		return userRegList;
 	}
