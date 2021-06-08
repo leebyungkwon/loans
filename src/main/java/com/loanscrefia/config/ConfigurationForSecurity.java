@@ -45,6 +45,7 @@ public class ConfigurationForSecurity extends WebSecurityConfigurerAdapter {
     	
     	// 권한체크/
 		http.authorizeRequests()
+			.antMatchers("/").permitAll()
 			.antMatchers("/front/**").permitAll()
 			.antMatchers("/admin/**").hasAnyRole("ADMIN","SYSTEM")
 			.antMatchers("/member/admin/adminDetailUpdPage").hasAnyRole("TEMP_MEMBER", "MEMBER","SYSTEM")
