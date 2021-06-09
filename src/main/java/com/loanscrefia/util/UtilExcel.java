@@ -39,7 +39,6 @@ public class UtilExcel<T> {
 		
 	}
 	
-	@Autowired private CorpRepository corpRepo;
 	@Autowired private CorpService corpService;
 	@Autowired private EduRepository eduRepo; 
 	@Autowired private UserRepository userRepo;
@@ -132,7 +131,6 @@ public class UtilExcel<T> {
 		    String cellVal			= "";
 		    Map<String, Object> map = null;
 		    
-		    CorpDomain corpChkParam = new CorpDomain();
 		    EduDomain eduChkParam 	= new EduDomain();
 		    UserDomain userChkParam = new UserDomain();
 		    
@@ -168,20 +166,10 @@ public class UtilExcel<T> {
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
-	                			if(chkDb.get(j).equals("corp1")) {
+	                			if(chkDb.get(j).equals("corp")) {
 	                				//법인 정보 유효 체크(법인사용인)
-	                				corpChkParam.setPlMerchantName(cellVal);
-	                			}else if(chkDb.get(j).equals("corp2")) {
-	                				//법인 정보 유효 체크(법인사용인)
-	                				corpChkParam.setPlMerchantNo(cellVal);
-	                				corpChkParam.setPlMerchantNo(CryptoUtil.encrypt(cellVal));
-	                				
-	                				if((corpChkParam.getPlMerchantName() != null && !corpChkParam.getPlMerchantName().equals("")) || (corpChkParam.getPlMerchantNo() != null && !corpChkParam.getPlMerchantNo().equals(""))) {
-	                					int chkResult = selectCorpInfoCnt(corpChkParam);
-		                				
-		                				if(chkResult == 0) {
-		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
-		                				}
+	                				if(!selectCorpInfoChk(cellVal)) {
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
 	                				}
 	                			}else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
@@ -246,7 +234,6 @@ public class UtilExcel<T> {
 	                				userChkParam.setPlProduct(cellVal);
 	                			}else if(chkPrd.get(j).equals("prd2")) {
 	                				userChkParam.setCi(cellVal);
-	                				userChkParam.setPlClass(this.param2);
 	                				
 	                				int dupChkResult = userRegDupChk(userChkParam);
 		                			
@@ -347,8 +334,24 @@ public class UtilExcel<T> {
 	
 	//법인 정보 유효 체크(법인사용인)
 	@Transactional(readOnly=true)
-	private int selectCorpInfoCnt(CorpDomain corpDomain) {
-		return corpRepo.selectCorpInfoCnt(corpDomain);
+	private boolean selectCorpInfoChk(String plMerchantNo) {
+		
+		boolean result = false;
+		
+		CorpDomain corpParam 			= new CorpDomain();
+		List<CorpDomain> corpList 		= corpService.selectCorpList(corpParam); 
+		List<String> plMerchantNoList	= new ArrayList<>();
+		
+		for(int j = 0;j < corpList.size();j++) {
+			plMerchantNoList.add(corpList.get(j).getPlMerchantNo());
+		}
+		
+		if(plMerchantNoList.contains(plMerchantNo)) {
+			//법인 정보 유효함
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	//교육이수번호,인증서번호 유효 체크

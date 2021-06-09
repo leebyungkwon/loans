@@ -34,10 +34,10 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="금융상품유형", vCell="F", vLenMin=1, vLenMax=1, vEnum="1,2,3", chkDb="edu4", chkPrd="prd1")
 	private String plProduct;		//금융상품유형(취급상품)
 	
-	@ExcelColumn(headerName="법인명", vCell="G", vLenMin=0, vLenMax=30, chkDb="corp1")
+	@ExcelColumn(headerName="법인명", vCell="G", vLenMin=0, vLenMax=30)
 	private String plMerchantName;	//법인명
 	
-	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp2", vEncrypt="Y")
+	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp", vEncrypt="Y")
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=30, chkDb="edu5")
