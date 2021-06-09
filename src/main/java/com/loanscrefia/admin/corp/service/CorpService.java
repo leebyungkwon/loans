@@ -61,6 +61,7 @@ public class CorpService {
 		
 		for(int i = 0;i < excelParam.size();i++) {
 			CorpDomain chkParam = new CorpDomain();
+			String itemA 		= (String)excelParam.get(i).get("A");
 			String itemC 		= (String)excelParam.get(i).get("C");
 			String plMerchantNo = itemC.replaceAll("-", "");
 			
@@ -70,6 +71,7 @@ public class CorpService {
 			
 			//결과
 			if(chkResult == 0) {
+				chkParam.setPlMerchantName(itemA);
 				chkParam.setPathTyp("1");
 				corpRepo.insertCorpInfo(chkParam);
 			}
