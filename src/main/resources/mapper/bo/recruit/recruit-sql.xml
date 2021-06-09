@@ -31,7 +31,7 @@
 				,TLM.PL_REGIST_NO
 				,TLM.CI
 				,TLM.PL_M_NAME
-				,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+				,TLM.PL_M_Z_ID
 				,TLM.PL_M_Z_ID_EDU
 				,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 				,TLM.ADDR
@@ -43,7 +43,7 @@
 				,TLM.COM_CONT_DATE
 				,TLM.PL_MERCHANT_NAME
 				,TLM.PL_CEO_NAME
-				,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+				,TLM.PL_MERCHANT_NO
 				,TLM.PL_BUSINESS_NO
 				,TLM.COMP_PHONE_NO
 				,TLM.CORP_FOUND_DATE
@@ -71,7 +71,7 @@
 				,(SELECT TO_CHAR(pay.reg_timestamp, 'YYYY-MM-DD') from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_REG_DATE 
 		    FROM TB_LC_MAS01 TLM
 			<where>
-				AND TLM.PL_STAT IN ('3','4','5','6','7','9')													-- 처리상태가 변경, 해지, 보완, 완료
+				AND TLM.PL_STAT IN ('3','4','5','6','7','9','10','11','12')													
 				AND TLM.PL_REG_STAT NOT IN ('1')
 				<if test='creGrp != "2" '>
 					AND TLM.COM_CODE IN (
@@ -117,17 +117,11 @@
 			<if test="plMName != null and plMName != ''">
 				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
 			</if>
-			<if test="plMZId != null and plMZId != ''">
-				AND Z.PL_M_Z_ID LIKE '%' || #{plMZId} || '%'
-			</if>
 			<if test="plCellphone != null and plCellphone != ''">
 				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
 			</if>
 			<if test="plMerchantName != null and plMerchantName != ''">
 				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
-			</if>
-			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
 			</if>
 			<if test="plMerchantNo != null and plMerchantNo != ''">
 				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
@@ -192,7 +186,7 @@
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
-			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+			,TLM.PL_M_Z_ID
 			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 			,TLM.ADDR
 			,FN_CD_DTL('ADD001',TLM.ADDR) AS ADDR_NM
@@ -205,7 +199,7 @@
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
 			,TLM.PL_MERCHANT_NO AS ORIGIN_PL_MERCHANT_NO
-			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLM.PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
 			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
@@ -241,7 +235,7 @@
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
 			,POSITION_NM
 			,EXC_NAME
-			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
+			,PL_M_Z_ID
 			,PL_EDU_NO
 			,TO_DATE(CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
 			,TO_DATE(CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
@@ -265,7 +259,7 @@
 			,CAREER_TYP
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
 			,EXP_NAME
-			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
+			,PL_M_Z_ID
 			,PL_EDU_NO
 			,TO_DATE(CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
 			,TO_DATE(CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
@@ -283,7 +277,7 @@
 	   		 OPER_SEQ
 			,MASTER_SEQ
 			,OPER_NAME
-			,FN_PL_M_Z_ID(PL_M_Z_ID) AS PL_M_Z_ID
+			,PL_M_Z_ID
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IT
    		<where>
@@ -331,7 +325,11 @@
    			 MASTER_SEQ
    			,PL_REG_STAT
    			,PL_STAT
-   			,PL_HIST_TXT
+   			,CASE 
+				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
+				WHEN PL_STAT IN ('3','5','6','7') THEN PL_HIST_TXT
+				ELSE ''
+			 END AS PL_HIST_TXT
    			,NOW()
    			,#{regSeq}
    		FROM TB_LC_MAS01
@@ -365,7 +363,7 @@
 			,TLM.PL_REGIST_NO
 			,TLM.CI
 			,TLM.PL_M_NAME
-			,FN_PL_M_Z_ID(TLM.PL_M_Z_ID) AS PL_M_Z_ID
+			,TLM.PL_M_Z_ID
 			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
 			,TLM.ADDR
 			,FN_CD_DTL('ADD001',TLM.ADDR) AS ADDR_NM
@@ -378,7 +376,7 @@
 			,TLM.PL_MERCHANT_NAME
 			,TLM.PL_CEO_NAME
 			,TLM.PL_MERCHANT_NO AS ORIGIN_PL_MERCHANT_NO
-			,FN_PL_M_Z_ID(TLM.PL_MERCHANT_NO) AS PL_MERCHANT_NO
+			,TLM.PL_MERCHANT_NO
 			,TLM.PL_BUSINESS_NO
 			,TLM.COMP_PHONE_NO
 			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
