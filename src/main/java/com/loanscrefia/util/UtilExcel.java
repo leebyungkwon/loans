@@ -22,13 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
+import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.admin.edu.domain.EduDomain;
 import com.loanscrefia.admin.edu.repository.EduRepository;
 import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.member.user.domain.UserDomain;
-import com.loanscrefia.member.user.domain.UserExpertDomain;
-import com.loanscrefia.member.user.domain.UserImwonDomain;
-import com.loanscrefia.member.user.domain.UserItDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
@@ -42,6 +40,7 @@ public class UtilExcel<T> {
 	}
 	
 	@Autowired private CorpRepository corpRepo;
+	@Autowired private CorpService corpService;
 	@Autowired private EduRepository eduRepo; 
 	@Autowired private UserRepository userRepo;
 	
@@ -169,7 +168,6 @@ public class UtilExcel<T> {
 	        	                }
 	                		}
 	                		if(!chkDb.get(j).isEmpty()){
-	                			/*
 	                			if(chkDb.get(j).equals("corp1")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				corpChkParam.setPlMerchantName(cellVal);
@@ -185,37 +183,45 @@ public class UtilExcel<T> {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
 		                				}
 	                				}
-	                			}
-	                			else if(chkDb.get(j).equals("edu1")) {
+	                			}else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				eduChkParam.setCareerTyp(cellVal);
 	                			}else if(chkDb.get(j).equals("edu2")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlMName(cellVal);
+	                				eduChkParam.setUserName(cellVal);
 	                			}else if(chkDb.get(j).equals("edu3")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				String[] plMZId = cellVal.split("-");
 		                			String birth 	= plMZId[0];
 		                			String gender 	= plMZId[1].substring(0, 1);
-	                				eduChkParam.setPlMBirth(birth);
-	                				eduChkParam.setPlMGender(gender);
+	                				eduChkParam.setUserBirth(birth);
+	                				eduChkParam.setUserSex(gender);
 	                			}else if(chkDb.get(j).equals("edu4")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setPlProduct(cellVal);
+	                				if(cellVal.equals("1") || cellVal.equals("3")) {
+	                					cellVal = "LP0" + eduChkParam.getCareerTyp();
+	                				}else if(cellVal.equals("2")) {
+	                					cellVal = "LS0" + eduChkParam.getCareerTyp();
+	                				}
+	                				eduChkParam.setProcessCd(cellVal);
 	                			}else if(chkDb.get(j).equals("edu5")) {
 	                				//교육이수번호,인증서번호 유효 체크
-	                				if(eduChkParam.getPlProduct() == null || eduChkParam.getPlProduct().equals("")) {
+	                				if(eduChkParam.getProcessCd() == null || eduChkParam.getProcessCd().equals("")) {
 	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
-	                					eduChkParam.setPlProduct(this.param1);
+	                					if(this.param1.equals("1") || this.param1.equals("3")) {
+	                						this.param1 = "LP0" + eduChkParam.getCareerTyp();
+		                				}else if(this.param1.equals("2")) {
+		                					this.param1 = "LS0" + eduChkParam.getCareerTyp();
+		                				}
+	                					eduChkParam.setProcessCd(this.param1);
 	                				}
-	                				eduChkParam.setPlEduNo(cellVal);
-	                				int chkResult 	= plEduNoChk(eduChkParam);
+	                				eduChkParam.setSrchInput(cellVal);
+	                				int chkResult = plEduNoChk(eduChkParam);
 		                			
 	                				if(chkResult == 0) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
 	                				}
 	                			}
-	                			*/
 	                		}
 	                		if(!vEncrypt.get(j).isEmpty()){
 	                			//암호화(주민번호,법인번호)
