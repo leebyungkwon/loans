@@ -37,7 +37,7 @@
 				</tr>
 				<tr>
 					<th>교육이수번호</th>
-					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="10" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
+					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="30" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
 				</tr>
 				<tr>
 					<th>경력시작일</th>
