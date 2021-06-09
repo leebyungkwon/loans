@@ -222,7 +222,7 @@ public class UtilFile {
 					// if(this.zip) target.delete();
 					
 					// 떨군파일 암호화
-					//CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
+					CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -368,7 +368,7 @@ public class UtilFile {
 					// if(this.zip) target.delete();
 					
 					// 떨군파일 암호화
-					//CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
+					CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

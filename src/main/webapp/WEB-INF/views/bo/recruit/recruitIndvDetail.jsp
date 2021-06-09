@@ -225,7 +225,7 @@ function goRecruitImprove(rePlStat){
 				</c:choose>
 				
 				<c:choose>
-					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7' or result.recruitInfo.plStat eq '5' }">
+					<c:when test="${result.recruitInfo.plStat eq '4' or result.recruitInfo.plStat eq '7' or result.recruitInfo.plStat eq '5' or result.recruitInfo.plStat eq '9'}">
 						<c:if test="${!empty result.recruitInfo.plHistCdNm }">
 							<tr>
 								<th>해지요청사유</th>

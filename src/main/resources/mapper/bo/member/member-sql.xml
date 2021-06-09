@@ -46,7 +46,7 @@
 	</select>
 	
 	<!-- 아이디 중복 체크 -->
-	<select id="idCheck" parameterType="signup" resultType="Integer">
+	<select id="idCheck" parameterType="signup" resultType="signup">
         SELECT count(*)
         FROM TB_LC_MEMBERS
         WHERE MEMBER_ID = #{memberId}

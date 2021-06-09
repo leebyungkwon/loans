@@ -21,9 +21,8 @@ function pageLoad(){
 					alert("완료");
 					console.log("RESULT == " , result);
 					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
-					// 경력이고 협회인 경우 - fileType3
-					// 경력이고 협회가 아닌경우(보험개발원, 한국금융연구원) - fileType14
-					// 신규일경우 인증서 추출 - fileType4
+					// 경력인경우 - fileType3
+					// 신규인경우 인증서 추출 - fileType4
 					// 결격사유 - fileType7
 					// 후견부존재증명서 - fileType13
 					
@@ -31,8 +30,6 @@ function pageLoad(){
 						ocrSuccess("check_cd2");
 					}if(result.data.fileType3 == "일치"){
 						ocrSuccess("check_cd3");
-					}if(result.data.fileType14 == "일치"){
-						ocrSuccess("check_cd14");
 					}if(result.data.fileType4 == "일치"){
 						ocrSuccess("check_cd4");
 					}if(result.data.fileType7 == "충족"){
@@ -338,7 +335,7 @@ function goApplyImprove(num){
 				</tr>
 				<c:if test="${result.applyInfo.careerTyp eq '2' }">
 				<tr>
-					<td class="acenter">경력교육과정 수료증(여신금융교육연수원) *</td>
+					<td class="acenter">경력교육과정 수료증 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType3 ne null }">
@@ -354,29 +351,6 @@ function goApplyImprove(num){
 							<c:if test="${!empty result.applyInfo.checkCd3}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
 							<label for="check_cd3">교육 이수 및 인증내역 검증</label> 
-						</div>
-					</td>
-				</tr>
-				</c:if>
-				
-				<c:if test="${result.applyInfo.careerTyp eq '2' }">
-				<tr>
-					<td class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</td>
-					<td>
-						<c:choose>
-							<c:when test="${result.applyInfo.fileType14 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType14.fileSeq }">${result.applyInfo.fileType14.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<div class="input_check_wrap mgr10">
-							<input type="checkbox" id="check_cd14" class="check check_cd" 
-							<c:if test="${empty result.applyInfo.fileType14.fileSeq}">disabled</c:if>
-							<c:if test="${!empty result.applyInfo.checkCd14}">checked</c:if>
-							 data-fileSeq="${result.applyInfo.fileType14.fileSeq }" >
-							<label for="check_cd14">교육 이수 및 인증내역 검증</label> 
 						</div>
 					</td>
 				</tr>

@@ -191,10 +191,6 @@ function goGetDate(opt) {
 					<td class="">
 						<input type="text" name="plMName">
 					</td>
-					<th>주민등록번호</th>
-					<td class="">
-						<input type="text" name="plMZId">
-					</td>
 					<th>휴대폰번호</th>
 					<td class="">
 						<input type="text" name="plCellphone">
@@ -204,10 +200,6 @@ function goGetDate(opt) {
 					<th>법인명</th>
 					<td class="">
 						<input type="text" name="plMerchantName">
-					</td>
-					<th>법인번호</th>
-					<td class="">
-						<input type="text" name="plMerchantNo">
 					</td>
 					<th>모집인 등록번호</th>
 					<td class="">

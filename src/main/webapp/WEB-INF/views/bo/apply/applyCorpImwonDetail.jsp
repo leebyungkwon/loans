@@ -24,8 +24,7 @@ function pageLoad(){
 					alert("완료");
 					console.log("RESULT == " , result);
 					// fileType27 - 후견부존재증명
-					// fileType12 - 경력이고 협회인 경우
-					// fileType30 - 경력이고 협회가 아닌경우(보험개발원, 한국금융연구원)
+					// fileType12 - 경력
 					// fileType13 - 신규일경우 인증서 추출
 					
 					if(result.data.fileType27 == "충족"){
@@ -33,9 +32,6 @@ function pageLoad(){
 						
 					}if(result.data.fileType12 == "일치"){
 						ocrImwonSuccess("check_cd106", dataIndex);
-						
-					}if(result.data.fileType30 == "일치"){
-						ocrImwonSuccess("check_cd115", dataIndex);
 						
 					}if(result.data.fileType13 == "일치"){
 						ocrImwonSuccess("check_cd108", dataIndex);
@@ -310,7 +306,7 @@ function pageLoad(){
 								</tr>
 								<c:if test="${corpImwonList.careerTyp eq '2' }">
 									<tr>
-										<td class="acenter">대표 경력교육과정 수료증(여신금융교육연수원) *</td>
+										<td class="acenter">대표 경력교육과정 수료증 *</td>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType12 ne null }">
@@ -336,33 +332,6 @@ function pageLoad(){
 									</tr>
 								</c:if>
 								
-								<c:if test="${corpImwonList.careerTyp eq '2' }">
-									<tr>
-										<td class="acenter">대표 경력교육과정 수료증(보험개발원,한국금융연구원) *</td>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType30 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-										<td>
-											<div class="input_check_wrap mgr10">
-												<input type="checkbox" id="check_cd115" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd115}">checked</c:if>
-												<c:if test="${empty corpImwonList.fileType30.fileSeq}">disabled</c:if>
-												 data-fileSeq="${corpImwonList.fileType30.fileSeq }" >
-												<label for="check_cd115">교육이수 및 인증내역 검증</label>
-											</div>
-											<div class="input_check_wrap mgr10">
-												<input type="checkbox" id="check_cd116" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd116}">checked</c:if>
-												<c:if test="${empty corpImwonList.fileType30.fileSeq}">disabled</c:if>
-												 data-fileSeq="${corpImwonList.fileType30.fileSeq }" >
-												<label for="check_cd116">교육기관 직인 날인 여부</label>
-											</div>
-										</td>
-									</tr>
-								</c:if>
 								<c:if test="${corpImwonList.careerTyp eq '1' }">
 									<tr>
 										<td class="acenter">대표 인증서(신규) *</td>

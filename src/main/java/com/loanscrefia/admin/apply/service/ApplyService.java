@@ -27,6 +27,8 @@ import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 
+import sinsiway.CryptoUtil;
+
 @Service
 public class ApplyService {
 
@@ -43,7 +45,24 @@ public class ApplyService {
 		MemberDomain memberDomain = new MemberDomain();
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		applyDomain.setCreGrp(result.getCreGrp());
-		return applyRepository.selectApplyList(applyDomain);
+		
+		List<ApplyDomain> applyResultList = applyRepository.selectApplyList(applyDomain);
+		for(ApplyDomain list : applyResultList) {
+			StringBuilder jumin = new StringBuilder();
+			if(StringUtils.isNotEmpty(list.getPlMZId())) {
+				jumin.append(CryptoUtil.decrypt(list.getPlMZId()));
+				jumin.insert(5, "-");
+				list.setPlMZId(jumin.toString());
+			}
+			
+			StringBuilder merchantNo = new StringBuilder();
+			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
+				merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				merchantNo.insert(5, "-");
+				list.setPlMerchantNo(merchantNo.toString());
+			}
+		}
+		return applyResultList;
 	}
 	
 	//모집인 조회 및 변경 > 상세 : 개인
@@ -59,6 +78,30 @@ public class ApplyService {
 		
 		//상세
 		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		
+		// ORIGIN 법인번호 암호화 해제
+		StringBuilder orgMerchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
+			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
+			orgMerchantNo.insert(5, "-");
+			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
+		}
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(5, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(5, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
 		
 		//첨부파일
     	if(applyInfo.getFileSeq() != null) {
@@ -174,6 +217,31 @@ public class ApplyService {
 		//상세
 		ApplyDomain applyInfo 	= applyRepository.getApplyDetail(applyDomain);
 		
+		// ORIGIN 법인번호 암호화 해제
+		StringBuilder orgMerchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
+			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
+			orgMerchantNo.insert(5, "-");
+			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
+		}
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(5, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(5, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
+		
+		
 		//첨부파일
 		if(applyInfo.getFileSeq() != null) {
 			FileDomain fileParam 		= new FileDomain();
@@ -273,12 +341,45 @@ public class ApplyService {
 		dtlParam.setMasterSeq(applyImwonDomain.getMasterSeq());
 		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(dtlParam);
 		
+		// ORIGIN 법인번호 암호화 해제
+		StringBuilder orgMerchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
+			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
+			orgMerchantNo.insert(5, "-");
+			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
+		}
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(5, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(5, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
+		
+		
 		//대표자 및 임원 리스트
 		List<ApplyImwonDomain> imwonList = applyRepository.selectApplyCorpImwonList(applyImwonDomain);
 		
 		//첨부파일
 		if(imwonList.size() > 0) {
 			for(int i = 0;i < imwonList.size();i++) {
+				// 주민번호 암호화 해제		
+				StringBuilder imwonZid = new StringBuilder();
+				if(StringUtils.isNotEmpty(imwonList.get(i).getPlMZId())) {
+					imwonZid.append(CryptoUtil.decrypt(imwonList.get(i).getPlMZId()));
+					imwonZid.insert(5, "-");
+					imwonList.get(i).setPlMZId(imwonZid.toString());
+				}
+				
 				if(imwonList.get(i).getFileSeq() != null) {
 					FileDomain fileParam 		= new FileDomain();
 					fileParam.setFileGrpSeq(imwonList.get(i).getFileSeq());
@@ -384,12 +485,45 @@ public class ApplyService {
 		dtlParam.setMasterSeq(applyExpertDomain.getMasterSeq());
 		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(dtlParam);
 		
+		// ORIGIN 법인번호 암호화 해제
+		StringBuilder orgMerchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
+			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
+			orgMerchantNo.insert(5, "-");
+			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
+		}
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(5, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(5, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
+		
 		//전문인력 리스트
 		List<ApplyExpertDomain> expertList = applyRepository.selecApplyCorpExpertList(applyExpertDomain);
 		
 		//첨부파일
 		if(expertList.size() > 0) {
 			for(int i = 0;i < expertList.size();i++) {
+				
+				// 주민번호 암호화 해제		
+				StringBuilder expertZid = new StringBuilder();
+				if(StringUtils.isNotEmpty(expertList.get(i).getPlMZId())) {
+					expertZid.append(CryptoUtil.decrypt(expertList.get(i).getPlMZId()));
+					expertZid.insert(5, "-");
+					expertList.get(i).setPlMZId(expertZid.toString());
+				}
+				
 				if(expertList.get(i).getFileSeq() != null) {
 					FileDomain fileParam 		= new FileDomain();
 					fileParam.setFileGrpSeq(expertList.get(i).getFileSeq());
@@ -452,12 +586,46 @@ public class ApplyService {
 		dtlParam.setMasterSeq(applyItDomain.getMasterSeq());
 		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(dtlParam);
 		
+		
+		// ORIGIN 법인번호 암호화 해제
+		StringBuilder orgMerchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
+			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
+			orgMerchantNo.insert(5, "-");
+			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
+		}
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(5, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(5, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
+		
 		//전산인력 리스트
 		List<ApplyItDomain> itList 	= applyRepository.selectApplyCorpItList(applyItDomain);
 		
 		//첨부파일
 		if(itList.size() > 0) {
 			for(int i = 0;i < itList.size();i++) {
+				
+				// 주민번호 암호화 해제		
+				StringBuilder itZid = new StringBuilder();
+				if(StringUtils.isNotEmpty(itList.get(i).getPlMZId())) {
+					itZid.append(CryptoUtil.decrypt(itList.get(i).getPlMZId()));
+					itZid.insert(5, "-");
+					itList.get(i).setPlMZId(itZid.toString());
+				}
+				
 				if(itList.get(i).getFileSeq() != null) {
 					FileDomain fileParam 		= new FileDomain();
 					fileParam.setFileGrpSeq(itList.get(i).getFileSeq());
@@ -507,6 +675,30 @@ public class ApplyService {
 		
 		//상세
 		ApplyDomain applyInfo 		= applyRepository.getApplyDetail(applyDomain);
+		
+		// ORIGIN 법인번호 암호화 해제
+		StringBuilder orgMerchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
+			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
+			orgMerchantNo.insert(5, "-");
+			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
+		}
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(5, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(5, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
 		
 		//첨부파일
     	if(applyInfo.getFileSeq() != null) {

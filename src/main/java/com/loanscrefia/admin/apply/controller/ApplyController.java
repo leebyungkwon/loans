@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -201,15 +202,15 @@ public class ApplyController {
         					|| "7".equals(file.getFileType()) || "13".equals(file.getFileType()) || "14".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
-        				/*
+        				
         				// 암호화 해제
         				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
         				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
         				CryptoUtil.decryptFile(oFile, chFile);
         				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
-        				*/
         				
-        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				
+        				//File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
         				
             			// 흑색변환 처리시 필요한 랜덤파일명
             			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
@@ -266,23 +267,8 @@ public class ApplyController {
             						msgMap.put("fileType"+file.getFileType(), "불일치");
             					}
             					
-            				}else if("3".equals(file.getFileType())){ 
-            					// 경력이고 협회인 경우
-            					String eduNo = applyInfo.getPlEduNo();
-    	            			String resultEduNo = "";
-    	            			String patternType = "\\d{10}";
-    	    	                Pattern pattern = Pattern.compile(patternType);
-    	    	                Matcher matcher = pattern.matcher(replaceText);
-    	    	                while(matcher.find()) {
-    	    	                	resultEduNo =  matcher.group(0);
-    	    	                }
-            					if(eduNo.equals(resultEduNo)) {
-            						msgMap.put("fileType"+file.getFileType(), "일치");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불일치");
-            					}
-            				}else if("14".equals(file.getFileType())){ 
-            					// 경력이고 협회가 아닌경우(보험개발원)
+            				}else if("3".equals(file.getFileType())){
+            					// 경력
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";
     	            			int st = replaceText.indexOf("(수료번호:");
@@ -298,21 +284,32 @@ public class ApplyController {
                 					}else {
                 						msgMap.put("fileType"+file.getFileType(), "불일치");
                 					}
-    	            			}else {
-                					// 경력이고 협회가 아닌경우(한국금융연구원)
-    	            				int start = replaceText.indexOf("수료번호:");
-    	            				if(start <= 0) {
-    	            					msgMap.put("fileType"+file.getFileType(), "오류");
-    	            			    	responseMsg.setData(msgMap);
-    	            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-    	            				}
-                					resultEduNo = replaceText.substring(start+5, start+23);
-                					if(eduNo.equals(resultEduNo)) {
-                						msgMap.put("fileType"+file.getFileType(), "일치");
-                					}else {
-                						msgMap.put("fileType"+file.getFileType(), "불일치");
-                					}
     	            			}
+    	            			
+    	            			String patternType = "\\d{10}";
+    	    	                Pattern pattern = Pattern.compile(patternType);
+    	    	                Matcher matcher = pattern.matcher(replaceText);
+    	    	                while(matcher.find()) {
+    	    	                	resultEduNo =  matcher.group(0);
+    	    	                }
+    	    	                if(StringUtils.isNotEmpty(resultEduNo)) {
+    	    	                	if(eduNo.equals(resultEduNo)) {
+    	    	                		msgMap.put("fileType"+file.getFileType(), "일치");
+    	    	                	}else {
+    	    	                		msgMap.put("fileType"+file.getFileType(), "불일치");
+    	    	                	}
+    	    	                }else {
+                					int start = replaceText.indexOf("수료번호:");
+                					if(start > 0) {
+                    					resultEduNo = replaceText.substring(start+5, start+23);
+                    					if(eduNo.equals(resultEduNo)) {
+                    						msgMap.put("fileType"+file.getFileType(), "일치");
+                    					}else {
+                    						msgMap.put("fileType"+file.getFileType(), "불일치");
+                    					}
+                					}
+    	    	                }
+            					
             				}else if("4".equals(file.getFileType())){ 
             					// 신규일경우 인증서 추출
             					String eduNo = applyInfo.getPlEduNo();
@@ -393,15 +390,15 @@ public class ApplyController {
         			if("2".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
-        				/*
+        				
         				// 암호화 해제
         				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
         				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
         				CryptoUtil.decryptFile(oFile, chFile);
         				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
-        				*/
         				
-        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				
+        				//File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
         				
             			// 흑색변환 처리시 필요한 랜덤파일명
             			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
@@ -444,8 +441,8 @@ public class ApplyController {
             				// 파일 타입별로 추출영역 생성
             				if("2".equals(file.getFileType())) {
     	            			// 법인등기부등본
-    	            			//String corpNo = CryptoUtil.decrypt(applyInfo.getPlMerchantNo());
-    	            			String corpNo = applyInfo.getPlMerchantNo();
+    	            			String corpNo = CryptoUtil.decrypt(applyInfo.getPlMerchantNo());
+    	            			//String corpNo = applyInfo.getPlMerchantNo();
     	            			String resultCorpNo = "";
     	    	                String patternType = "\\d{6}\\-[0-9]\\d{6}";
     	    	                Pattern pattern = Pattern.compile(patternType);
@@ -496,7 +493,7 @@ public class ApplyController {
 	
 	
 	
-	// 법인 등록정보 OCR
+	// 법인 임원정보 OCR
 	@PostMapping("/apply/corpImwonOcr")
 	public ResponseEntity<ResponseMsg> corpImwonOcr(ApplyImwonDomain applyImwonDomain) throws IOException { 
 		//상세
@@ -515,15 +512,14 @@ public class ApplyController {
         			if("27".equals(file.getFileType()) || "12".equals(file.getFileType()) || "30".equals(file.getFileType()) || "13".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
-        				/*
+        				
         				// 암호화 해제
         				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
         				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
         				CryptoUtil.decryptFile(oFile, chFile);
         				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
-        				*/
         				
-        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				//File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
         				
             			// 흑색변환 처리시 필요한 랜덤파일명
             			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
@@ -573,22 +569,7 @@ public class ApplyController {
             						msgMap.put("fileType"+file.getFileType(), "불충족");
             					}
             				}else if("12".equals(file.getFileType())){ 
-            					// 경력이고 협회인 경우
-            					String eduNo = applyInfo.getPlEduNo();
-    	            			String resultEduNo = "";
-    	            			String patternType = "\\d{10}";
-    	    	                Pattern pattern = Pattern.compile(patternType);
-    	    	                Matcher matcher = pattern.matcher(replaceText);
-    	    	                while(matcher.find()) {
-    	    	                	resultEduNo =  matcher.group(0);
-    	    	                }
-            					if(eduNo.equals(resultEduNo)) {
-            						msgMap.put("fileType"+file.getFileType(), "일치");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불일치");
-            					}
-            				}else if("30".equals(file.getFileType())){ 
-            					// 경력이고 협회가 아닌경우(보험개발원)
+            					// 경력
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";
     	            			int st = replaceText.indexOf("(수료번호:");
@@ -604,21 +585,31 @@ public class ApplyController {
                 					}else {
                 						msgMap.put("fileType"+file.getFileType(), "불일치");
                 					}
-    	            			}else {
-                					// 경력이고 협회가 아닌경우(한국금융연구원)
-    	            				int start = replaceText.indexOf("수료번호:");
-    	            				if(start <= 0) {
-    	            					msgMap.put("fileType"+file.getFileType(), "오류");
-    	            			    	responseMsg.setData(msgMap);
-    	            					return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-    	            				}
-                					resultEduNo = replaceText.substring(start+5, start+23);
-                					if(eduNo.equals(resultEduNo)) {
-                						msgMap.put("fileType"+file.getFileType(), "일치");
-                					}else {
-                						msgMap.put("fileType"+file.getFileType(), "불일치");
-                					}
     	            			}
+    	            			
+    	            			String patternType = "\\d{10}";
+    	    	                Pattern pattern = Pattern.compile(patternType);
+    	    	                Matcher matcher = pattern.matcher(replaceText);
+    	    	                while(matcher.find()) {
+    	    	                	resultEduNo =  matcher.group(0);
+    	    	                }
+    	    	                if(StringUtils.isNotEmpty(resultEduNo)) {
+    	    	                	if(eduNo.equals(resultEduNo)) {
+    	    	                		msgMap.put("fileType"+file.getFileType(), "일치");
+    	    	                	}else {
+    	    	                		msgMap.put("fileType"+file.getFileType(), "불일치");
+    	    	                	}
+    	    	                }else {
+                					int start = replaceText.indexOf("수료번호:");
+                					if(start > 0) {
+                    					resultEduNo = replaceText.substring(start+5, start+23);
+                    					if(eduNo.equals(resultEduNo)) {
+                    						msgMap.put("fileType"+file.getFileType(), "일치");
+                    					}else {
+                    						msgMap.put("fileType"+file.getFileType(), "불일치");
+                    					}
+                					}
+    	    	                }
             				}else if("13".equals(file.getFileType())){ 
             					// 신규일경우 인증서 추출
             					String eduNo = applyInfo.getPlEduNo();
