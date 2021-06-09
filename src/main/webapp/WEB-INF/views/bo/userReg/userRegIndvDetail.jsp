@@ -234,37 +234,18 @@ function goUserRegInfoCancel() {
 					</c:if>
 					<c:if test="${result.userRegInfo.careerTyp eq '2' }">
 						<tr>
-							<th class="acenter">경력교육과정 수료증(여신금융교육연수원)</th>
+							<th class="acenter">경력교육과정 수료증 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.userRegInfo.fileType3 ne null }">
 										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">${result.userRegInfo.fileType3.fileFullNm }</a>
-										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="H" data-realDel="Y">삭제</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" data-fileType="3" data-essential="Y" data-realDel="Y">삭제</a>
 									</c:when>
 									<c:otherwise>
 										<input type="text" class="w50 file_input" readonly disabled>
-										<input type="file" name="files" class="inputFile" data-essential="H" style="display: none;"/>
+										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 										<input type="hidden" name="fileTypeList" value="3"/>
 										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-										<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="3" data-essential="H">초기화</a>
-									</c:otherwise>
-								</c:choose>
-							</td>
-						</tr>
-						<tr>
-							<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원)</th>
-							<td>
-								<c:choose>
-									<c:when test="${result.userRegInfo.fileType14 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
-										<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="H" data-realDel="Y">삭제</a>
-									</c:when>
-									<c:otherwise>
-										<input type="text" class="w50 file_input" readonly disabled>
-										<input type="file" name="files" class="inputFile" data-essential="H" style="display: none;"/>
-										<input type="hidden" name="fileTypeList" value="14"/>
-										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-										<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="14" data-essential="H">초기화</a>
 									</c:otherwise>
 								</c:choose>
 							</td>
@@ -395,13 +376,13 @@ function goUserRegInfoCancel() {
 			</div>
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
-					<c:if test="${result.userRegInfo.plStat ne '10'}">
+					<c:if test="${result.userRegInfo.plStat ne '10' }">
 						<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
 					</c:if>
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
-				<c:if test="${result.userRegInfo.plStat ne '2'}">
-					<c:if test="${result.userRegInfo.plStat ne '10'}">
+				<c:if test="${result.userRegInfo.plStat ne '2' }">
+					<c:if test="${result.userRegInfo.plStat ne '10' }">
 						<a href="javascript:void(0);" class="btn_blue btn_right02" onclick="goUserRegInfoUpdt();">저장</a>
 					</c:if>
 				</c:if>

@@ -148,23 +148,18 @@ function goFileTypeListDisabled(){
 
 //첨부파일 필수 체크
 function goFileEssentialChk(){
-	var resultCode		= "";
+	
 	var vdChkResult 	= 0;
-	var hVdChkResult 	= 0; //경력일 때 교육증빙서류는 2개 중 하나만 첨부해도 된다.
 	
 	$(".inputFile").each(function(){
 		if($(this).attr("data-essential") == "Y" && $(this).val() == ""){
 			vdChkResult++;
-		}else if($(this).attr("data-essential") == "H" && $(this).val() == ""){
-			hVdChkResult++;
 		}
 	});
 	if(vdChkResult > 0){
-		resultCode = "E1";
-	}else if(hVdChkResult == 0){
-		resultCode = "E2";
+		return false;
 	}
-	return resultCode;
+	return true;
 }
 
 //모집인 등록 > 탭이동
@@ -293,7 +288,7 @@ function goCorpInfoReg(obj){
 //승인요청
 function goUserAcceptApply(){
 	//validation
-	if(goFileEssentialChk() == "E1" || goFileEssentialChk() == "E2" || userRegFileCompYn == "N"){
+	if(!goFileEssentialChk() || userRegFileCompYn == "N"){
 		alert(messages.COM0007);
 		return;
 	}

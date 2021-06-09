@@ -54,7 +54,24 @@ public class UserService {
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserConfirmList(UserDomain userDomain){
-		return userRepo.selectUserConfirmList(userDomain);
+		
+		List<UserDomain> userConfirmList = userRepo.selectUserConfirmList(userDomain);
+		
+		if(userConfirmList.size() > 0) {
+			for(int i = 0;i < userConfirmList.size();i++) {
+				if(userConfirmList.get(i).getPlMZId() != null && !userConfirmList.get(i).getPlMZId().equals("")) {
+					String plMZId 			= CryptoUtil.decrypt(userConfirmList.get(i).getPlMZId());
+					plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+					userConfirmList.get(i).setPlMZId(plMZId);
+				}
+				if(userConfirmList.get(i).getPlMerchantNo() != null && !userConfirmList.get(i).getPlMerchantNo().equals("")) {
+					String plMerchantNo 	= CryptoUtil.decrypt(userConfirmList.get(i).getPlMerchantNo());
+					plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+					userConfirmList.get(i).setPlMerchantNo(plMerchantNo);
+				}
+			}
+		}
+		return userConfirmList;
 	}
 	
 	//모집인 조회 및 변경 > 

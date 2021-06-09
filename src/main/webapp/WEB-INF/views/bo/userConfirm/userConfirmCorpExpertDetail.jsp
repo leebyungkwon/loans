@@ -120,22 +120,11 @@ function goCorpExpertInfoDel(expSeq) {
 									</c:if>
 									<c:if test="${corpExpertList.careerTyp eq '2' }">
 										<tr>
-											<th class="acenter">경력교육과정 수료증(여신금융교육연수원)</th>
+											<th class="acenter">경력교육과정 수료증 *</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpExpertList.fileType16 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
-													</c:when>
-													<c:otherwise>-</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-										<tr>
-											<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원)</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpExpertList.fileType31 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType31.fileSeq }">${corpExpertList.fileType31.fileFullNm }</a>
 													</c:when>
 													<c:otherwise>-</c:otherwise>
 												</c:choose>

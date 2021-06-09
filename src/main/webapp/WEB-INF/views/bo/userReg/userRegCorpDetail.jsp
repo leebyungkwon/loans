@@ -260,12 +260,15 @@ function goUserRegInfoUpdt() {
 	
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
-					<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
+					<c:if test="${result.userRegInfo.plStat ne '10' }">
+						<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
+					</c:if>
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
 				<c:if test="${result.userRegInfo.plStat ne '2' }"> 
-					<!-- 승인요청상태가 아닐 때만 수정 가능 -->
-					<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goUserRegInfoUpdt();">저장</a>
+					<c:if test="${result.userRegInfo.plStat ne '10' }">
+						<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goUserRegInfoUpdt();">저장</a>
+					</c:if>
 				</c:if>
 			</div>
 		</div>

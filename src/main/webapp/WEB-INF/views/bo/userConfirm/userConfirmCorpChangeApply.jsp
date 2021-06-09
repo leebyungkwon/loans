@@ -26,7 +26,7 @@ function goUserChangeApply(){
 		return;
 	}
 	//validation
-	if(goFileEssentialChk() == "E1" || goFileEssentialChk() == "E2" || "${result.userRegInfo.fileCompYn}" == "N"){
+	if(!goFileEssentialChk() || "${result.userRegInfo.fileCompYn}" == "N"){
 		alert(messages.COM0007);
 		return;
 	}

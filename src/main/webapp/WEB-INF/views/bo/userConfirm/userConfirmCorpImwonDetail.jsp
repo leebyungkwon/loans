@@ -229,22 +229,11 @@ function goCorpImwonInfoDel(excSeq) {
 									</c:if>
 									<c:if test="${corpImwonList.careerTyp eq '2' }">
 										<tr>
-											<th class="acenter">대표 경력교육과정 수료증(여신금융교육연수원)</th>
+											<th class="acenter">대표 경력교육과정 수료증 *</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpImwonList.fileType12 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType12.fileSeq }">${corpImwonList.fileType12.fileFullNm }</a>
-													</c:when>
-													<c:otherwise>-</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-										<tr>
-											<th class="acenter">대표 경력교육과정 수료증(보험개발원,한국금융연구원)</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpImwonList.fileType30 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
 													</c:when>
 													<c:otherwise>-</c:otherwise>
 												</c:choose>
