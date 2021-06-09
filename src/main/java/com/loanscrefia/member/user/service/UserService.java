@@ -244,7 +244,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId()));
+		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.insertUserRegCorpImwonInfo(userImwonDomain);
 		
 		if(result > 0) {
@@ -316,7 +316,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId()));
+		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.insertUserRegCorpExpertInfo(userExpertDomain);
 		
 		if(result > 0) {
@@ -388,7 +388,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId()));
+		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.insertUserRegCorpItInfo(userItDomain);
 		
 		if(result > 0) {
@@ -462,10 +462,10 @@ public class UserService {
 		}
 		//수정
 		if(userDomain.getPlMZId() != null && !userDomain.getPlMZId().equals("")) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId()));
+			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}
 		if(userDomain.getPlMerchantNo() != null && !userDomain.getPlMerchantNo().equals("")) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo()));
+			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int updateResult1 = userRepo.updateUserRegInfo(userDomain);
 		
@@ -929,10 +929,10 @@ public class UserService {
 		}
 		//수정
 		if(userDomain.getPlMZId() != null && !userDomain.getPlMZId().equals("")) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId()));
+			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}
 		if(userDomain.getPlMerchantNo() != null && !userDomain.getPlMerchantNo().equals("")) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo()));
+			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		
@@ -998,7 +998,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId()));
+		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
 		
 		if(result > 0) {
@@ -1063,7 +1063,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId()));
+		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);
 		
 		if(result > 0) {
@@ -1094,7 +1094,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId()));
+		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpItInfo(userItDomain);
 		
 		if(result > 0) {
@@ -1210,10 +1210,10 @@ public class UserService {
 			}
 		}
 		if(userDomain.getPlMZId() != null && !userDomain.getPlMZId().equals("")) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId()));
+			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}
 		if(userDomain.getPlMerchantNo() != null && !userDomain.getPlMerchantNo().equals("")) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo()));
+			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		
