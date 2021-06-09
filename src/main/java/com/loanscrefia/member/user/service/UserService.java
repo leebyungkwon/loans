@@ -1,7 +1,5 @@
 package com.loanscrefia.member.user.service;
 
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,14 +162,14 @@ public class UserService {
 				}else {
 					//에러메세지 없음 -> 저장
 					
-					//(1)법인 정보 저장
+					//(1)모집인 정보 저장
+					userDomain.setExcelParam(excelResult);
+					int insertResult = userRepo.insertUserRegCorpInfoByExcel(userDomain);
+					
+					//(2)법인 정보 저장
 					CorpDomain corpDomain = new CorpDomain();
 					corpDomain.setExcelParam(excelResult);
 					corpService.insertCorpInfoByExcel(corpDomain);
-					
-					//(2)모집인 정보 저장
-					userDomain.setExcelParam(excelResult);
-					int insertResult = userRepo.insertUserRegCorpInfoByExcel(userDomain);
 					
 					if(insertResult > 0) {
 						return new ResponseMsg(HttpStatus.OK, "success", "모집인이 등록되었습니다.");
