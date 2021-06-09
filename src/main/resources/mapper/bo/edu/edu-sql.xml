@@ -6,22 +6,28 @@
 	<select id="selectEduList" parameterType="edu" resultType="edu">
 		SELECT
 		<include refid="common.totalPages"/>
-			TLE.PL_M_NAME																				/*모집인 이름*/
-			,TLE.PL_M_BIRTH																				/*모집인 생년월일*/
-			,TLE.PL_M_GENDER																			/*모집인 성별*/
-			,TLE.CAREER_TYP																				/*구분*/
-			,TLE.PL_PRODUCT																			/*취급상품*/
-			,TLE.PL_EDU_NO																				/*교육이수번호*/
-			,TLE.PL_CRF_NO																				/*인증서번호*/
-			,TO_DATE(TLE.PL_EDU_DATE, 'YYYYMMDD') AS PL_EDU_DATE				/*수료일자*/
-			,TO_CHAR(TLE.REG_TIMESTAMP, 'YYYY-MM-DD') AS REG_TIMESTAMP		/*수정일시*/
+			 TLE.USER_NAME
+			,TLE.USER_BIRTH
+			,TLE.USER_SEX
+			,TLE.PROCESS_CD
+			,TLE.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLE.CAREER_TYP) AS CAREER_TYP_NM
+			,TLE.COMPANY_GUBUN
+			,TLE.EXAM_CERT_NO
+			,TLE.DEPLOMA_NO
+			,CASE 
+				WHEN TLE.CAREER_TYP = '1' THEN TO_DATE(TLE.EXAM_DATE,'YYYYMMDD')
+				WHEN TLE.CAREER_TYP = '2' THEN TO_DATE(TLE.PASS_DATE,'YYYYMMDD')
+				ELSE ''
+			 END AS COMP_DATE
+			,TO_CHAR(TLE.CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE
 		FROM TB_LC_EDU01 TLE
 		<where>
-			<if test="plMName != null and plMName != ''">
-				AND TLE.PL_M_NAME LIKE CONCAT('%',#{plMName},'%')
+			<if test="userName != null and userName != ''">
+				AND TLE.USER_NAME LIKE CONCAT('%',#{userName},'%')
 			</if>
-			<if test="plEduNo != null and plEduNo != ''">
-				AND TLE.PL_EDU_NO LIKE CONCAT('%',#{plEduNo},'%')
+			<if test="srchInput != null and srchInput != ''">
+				AND TLE.DEPLOMA_NO LIKE CONCAT('%',#{srchInput},'%') OR TLE.EXAM_CERT_NO LIKE CONCAT('%',#{srchInput},'%')
 			</if>
 		</where>
 		<include refid="common.pageBottom"/>
@@ -32,16 +38,16 @@
 		SELECT 
 			COUNT(*)
 		FROM TB_LC_EDU01
-		WHERE CAREER_TYP 	= #{careerTyp}
-		AND PL_M_NAME 		= #{plMName}
-		AND PL_M_BIRTH 		= #{plMBirth}
-		AND PL_M_GENDER 	= #{plMGender}
-		AND PL_PRODUCT 		= #{plProduct}
+		WHERE CAREER_TYP 			= #{careerTyp}
+		AND USER_NAME 				= #{userName}
+		AND RIGHT(USER_BIRTH,6) 	= #{userBirth}
+		AND USER_SEX 				= #{userSex}
+		AND PROCESS_CD 				= #{processCd}
 		<if test='careerTyp.equals("1")'>
-		AND PL_EDU_NO 		= #{plEduNo}
+		AND EXAM_CERT_NO			= #{srchInput}
 		</if>
 		<if test='careerTyp.equals("2")'>
-		AND PL_CRF_NO 		= #{plEduNo}
+		AND DEPLOMA_NO 				= #{srchInput}
 		</if>
 	</select>
 

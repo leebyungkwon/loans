@@ -6,23 +6,23 @@
 var eduGrid = Object.create(GRID);
 
 function pageLoad(){
-	//법인 그리드
+	//교육이수번호 그리드
 	eduGrid.set({
-		  id				: "eduGrid"
-  		, url				: "/admin/edu/eduList"
+		  id			: "eduGrid"
+  		, url			: "/admin/edu/eduList"
 	    , width			: "100%"
   		, headCol		: ["모집인 이름", "모집인 생년월일", "모집인 성별", "구분", "취급상품", "교육이수번호", "인증서번호", "수료일자", "등록일시"]
   		, bodyCol		: 
   			[
-				{type:"string"	, name:'plMName'		, index:'plMName'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plMBirth'			, index:'plMBirth'			, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plMGender'		, index:'plMGender'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'careerTyp'		, index:'careerTyp'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plProduct'		, index:'plProduct'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plEduNo'			, index:'plEduNo'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plCrfNo'			, index:'plCrfNo'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plEduDate'		, index:'plEduDate'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, width:"10%"		, align:"center" ,id:true}
+				 {type:"string"	, name:'userName'		, index:'userName'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'userBirth'		, index:'userBirth'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'userSex'		, index:'userSex'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'careerTypNm'	, index:'careerTypNm'	, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'processCd'		, index:'processCd'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'deplomaNo'		, index:'deplomaNo'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'examCertNo'		, index:'examCertNo'	, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'compDate'		, index:'compDate'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'createDate'		, index:'createDate'	, width:"10%"		, align:"center" , id:true}
 			]
 		, sortNm 		: "REG_TIMESTAMP"
 		, sort 			: "DESC"
@@ -49,11 +49,11 @@ function pageLoad(){
 				<tr>
 					<th>모집인 이름</th>
 					<td>
-						<input type="text" name="plMName">
+						<input type="text" name="userName">
 					</td>
 					<th>교육이수번호</th>
 					<td>
-						<input type="text" name="plEduNo">
+						<input type="text" name="srchInput">
 					</td>
 				</tr>
 			</table>
