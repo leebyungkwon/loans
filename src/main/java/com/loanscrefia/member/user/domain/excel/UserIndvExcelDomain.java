@@ -22,7 +22,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="성명", vCell="B", vLenMin=2, vLenMax=20, chkDb="edu2")
 	private String plMName;			//모집인이름
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="N")
+	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y")
 	private String plMZId;			//모집인주민등록번호
 	
 	@ExcelColumn(headerName="휴대폰번호", vCell="D", vLenMin=13, vLenMax=13)
@@ -37,7 +37,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="법인명", vCell="G", vLenMin=0, vLenMax=30, chkDb="corp1")
 	private String plMerchantName;	//법인명
 	
-	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp2", vEncrypt="N")
+	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp2", vEncrypt="Y")
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=30, chkDb="edu5")

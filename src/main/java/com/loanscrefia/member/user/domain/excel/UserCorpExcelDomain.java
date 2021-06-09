@@ -22,7 +22,7 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="대표이사", vCell="B", vLenMin=2, vLenMax=10)
 	private String plCeoName;		//대표이사명
 	
-	@ExcelColumn(headerName="법인등록번호", vCell="C", vLenMin=14, vLenMax=14, vEncrypt="N")
+	@ExcelColumn(headerName="법인등록번호", vCell="C", vLenMin=14, vLenMax=14, vEncrypt="Y")
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="설립년월일", vCell="D", vLenMin=10, vLenMax=10)
