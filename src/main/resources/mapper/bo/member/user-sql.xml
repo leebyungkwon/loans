@@ -392,7 +392,7 @@
    		FROM TB_LC_MAS01
    		WHERE PL_STAT 		!= '8'						-- 처리상태가 취소가 아닌 것
    		AND PL_PRODUCT 		= #{plProduct}
-   		<if test='plProduct != null and plProduct != "" and plProduct = "1"'>
+   		<if test='plProduct != null and plProduct != "" and plProduct == "1"'>
    		AND PL_CLASS		= #{plClass}
    		</if>
    		<if test='plProduct != null and plProduct != "" and plProduct != "1"'>
