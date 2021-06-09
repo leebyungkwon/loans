@@ -137,7 +137,7 @@ function goUserChangeApply(){
 					</tr>
 					<tr>
 						<th>자본금(백만원)</th>
-						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" data-vd='{"type":"text","len":"1,200","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
+						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>계약일자</th>

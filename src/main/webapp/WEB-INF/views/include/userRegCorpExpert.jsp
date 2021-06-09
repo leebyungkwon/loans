@@ -37,17 +37,17 @@
 				</tr>
 				<tr>
 					<th>교육이수번호</th>
-					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="10" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
+					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="30" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
 				</tr>
 				<tr>
 					<th>경력시작일</th>
 					<td>
-						<input type="text" name="careerStartDate" class="w100" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}'>
+						<input type="text" name="careerStartDate" onclick="goDatepickerShow(this);" class="w100" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}'>
 						<div id="date_cal01" class="calendar01"></div>
 					</td>
 					<th>경력종료일</th>
 					<td>
-						<input type="text" name="careerEndDate" class="w100" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}'>
+						<input type="text" name="careerEndDate" onclick="goDatepickerShow(this);" class="w100" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}'>
 						<div id="date_cal02" class="calendar01"></div>
 					</td>
 				</tr>
