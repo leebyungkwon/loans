@@ -1296,9 +1296,10 @@ public class UserService {
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		
+		//위반이력 등록
 		String[] violationCdArr = userDomain.getViolationCdArr();
 		
-		if(violationCdArr.length > 0) {
+		if(violationCdArr != null && violationCdArr.length > 0) {
 			for(int i = 0;i < violationCdArr.length;i++) {
 				if(violationCdArr[i] != null && !violationCdArr[i].equals("")) {
 					userDomain.setViolationCd(violationCdArr[i]);
