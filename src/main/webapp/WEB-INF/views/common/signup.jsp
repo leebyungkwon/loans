@@ -125,7 +125,7 @@ function pageLoad(){
 	
 	// 아이디 수정시 중복체크 value 변경
 	$("#memberId").on("change", function(){
-			$("#checkId").val("N");
+		$("#checkId").val("N");
 	});
 	
 	// 첨부파일 찾기시 file tag 실행

@@ -61,7 +61,12 @@
 					var p = {
 						name       : "saveAdminUpdateFrm"
 						, success    : function (opt,result) {
-							location.href = "/member/admin/adminPage";
+							console.log("adminDetailUpdate.jsp == ", result);
+							if(WebUtil.isNull(result.message)){
+								alert(result.data[0].defaultMessage);
+							}else{
+								location.href = "/member/admin/adminPage";	
+							}
 						}
 					}
 					AjaxUtil.files(p);

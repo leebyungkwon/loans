@@ -87,7 +87,9 @@ var AjaxUtil = {
         		if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
             		else alert(messages[response.data.code])
-            	}
+            	}else{
+					alert("오류가 발생하였습니다.\n관리자에 문의해 주세요.");
+				}
         	}
 
         })
@@ -247,7 +249,9 @@ var AjaxUtil = {
         		if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
             		else alert(messages[response.data.code])
-            	}
+            	}else{
+					alert("오류가 발생하였습니다.\n관리자에 문의해 주세요.");
+				}
         	}
         })
         .catch(function(error) {
@@ -316,7 +320,7 @@ var AjaxUtil = {
                 }
             }
         } else {
-            // console.log("error", error.message);
+            alert("오류가 발생하였습니다. \n관리자에 문의해 주세요.");
         }
 
         errMsg = WebUtil.replaceAll(errMsg, "\\\\n", "\n");

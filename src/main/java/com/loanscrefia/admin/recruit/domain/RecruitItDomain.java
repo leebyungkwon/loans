@@ -22,7 +22,7 @@ public class RecruitItDomain extends BaseDomain {
 	private int masterSeq;			//접수번호시퀀스
 	
 	@ExcelColumn(headerName="성명", vCell="A", vLenMin=2, vLenMax=20)
-	@Pattern(regexp = "[가-힣]{1,10}", message = "이름은 한글 1~10자리로 입력해 주세요.")
+	//@Pattern(regexp = "[가-힣]{1,10}", message = "이름은 한글 1~10자리로 입력해 주세요.")
 	private String operName;		//이름
 	
 	@ExcelColumn(headerName="주민등록번호", vCell="B", vLenMin=14, vLenMax=14)

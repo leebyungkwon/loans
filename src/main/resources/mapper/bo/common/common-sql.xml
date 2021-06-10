@@ -99,9 +99,11 @@
 	<update id="deleteFile" parameterType="file">
    		UPDATE TB_LC_FILE01
    		SET
-   			 USE_YN = 'N'
+   			 USE_YN 		= 'N'
+   			,UPD_SEQ 		= #{updSeq}
+   			,UPD_TIMESTAMP 	= NOW()
    		<where>
-   			AND FILE_SEQ = #{fileSeq}
+   			AND FILE_SEQ 	= #{fileSeq}
    		</where>
    	</update>
    	

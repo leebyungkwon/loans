@@ -1052,6 +1052,7 @@ public class UserService {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
+		/*
 		if(!originCareerTyp.equals(userImwonDomain.getCareerTyp())) {
 			FileDomain fileParam 	= new FileDomain();
 			int fileSeq 			= 0;
@@ -1076,6 +1077,9 @@ public class UserService {
 				commonService.deleteFile(fileParam);
 			}
 		}
+		*/
+		
+		
 		//수정
 		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
@@ -1117,6 +1121,8 @@ public class UserService {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
+		/*
+		
 		if(!originCareerTyp.equals(userExpertDomain.getCareerTyp())) {
 			FileDomain fileParam 	= new FileDomain();
 			int fileSeq 			= 0;
@@ -1141,6 +1147,8 @@ public class UserService {
 				commonService.deleteFile(fileParam);
 			}
 		}
+		*/
+		
 		//수정
 		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);

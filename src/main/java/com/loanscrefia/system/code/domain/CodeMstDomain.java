@@ -17,11 +17,11 @@ public class CodeMstDomain extends BaseDomain {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	//@NotBlank(message = "코드마스터ID를 입력해 주세요.")
-	@Pattern(regexp = "[a-zA-Z0-9]{1,10}", message = "코드마스터ID는 영문/숫자 1~10자리로 입력해 주세요.")
+	//@Pattern(regexp = "[a-zA-Z0-9]{1,10}", message = "코드마스터ID는 영문/숫자 1~10자리로 입력해 주세요.")
 	private String codeMstCd;
 	
 	//@NotBlank(message = "코드마스터명을 입력해 주세요.")
-	@Pattern(regexp = "^[가-힣0-9]*${1,100}", message = "코드마스터명은 한글 1~100자리로 입력해 주세요.")
+	//@Pattern(regexp = "^[가-힣0-9]*${1,100}", message = "코드마스터명은 한글 1~100자리로 입력해 주세요.")
 	private String codeMstNm;
 	
 	private String codeMstDesc;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,7 +85,15 @@ public class AdminController {
 	
 	// 관리자 수정 페이지 -> Insert
 	@PostMapping(value="/saveAdminUpdate")
-	public ResponseEntity<ResponseMsg> saveAdminUpdate(@RequestParam("files") MultipartFile[] files, @Valid AdminDomain adminDomain) {
+	public ResponseEntity<ResponseMsg> saveAdminUpdate(@RequestParam("files") MultipartFile[] files, @Valid AdminDomain adminDomain, BindingResult bindingResult) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			System.out.println("#################### valid 에러 발생 #####################");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
 				.setExt("all") 
@@ -96,8 +105,8 @@ public class AdminController {
 				adminDomain.setFileSeq(file.get(0).getFileSeq());
 			}
 		}
-		ResponseMsg responseMsg = adminService.saveAdminUpdate(adminDomain);
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		ResponseMsg resultResponseMsg = adminService.saveAdminUpdate(adminDomain);
+		return new ResponseEntity<ResponseMsg>(resultResponseMsg ,HttpStatus.OK);
 	}
 	
 	// 체크박스 선택시 삭제

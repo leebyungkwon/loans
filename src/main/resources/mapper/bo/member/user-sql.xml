@@ -948,11 +948,9 @@
 	<update id="updateUserRegCorpImwonInfo" parameterType="userImwon">
 		UPDATE TB_LC_MAS01_IMWON
 		SET
-			 CAREER_TYP			= #{careerTyp}
-			,POSITION_NM		= #{positionNm}
+			 POSITION_NM		= #{positionNm}
 			,EXC_NAME			= #{excName}
 			,PL_M_Z_ID			= #{plMZId}
-			,PL_EDU_NO			= #{plEduNo}
 			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
 			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
 			,FULL_TM_STAT		= #{fullTmStat}
@@ -967,10 +965,8 @@
    	<update id="updateUserRegCorpExpertInfo" parameterType="userExpert">
    		UPDATE TB_LC_MAS01_EXPERT
 		SET
-			 CAREER_TYP			= #{careerTyp}
-			,EXP_NAME			= #{expName}
+			 EXP_NAME			= #{expName}
 			,PL_M_Z_ID			= #{plMZId}
-			,PL_EDU_NO			= #{plEduNo}
 			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
 			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
 			,FILE_SEQ			= #{fileSeq}
