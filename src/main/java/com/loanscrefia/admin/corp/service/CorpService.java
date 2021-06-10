@@ -77,7 +77,7 @@ public class CorpService {
 		if(excelParam.size() > 0) {
 			CorpDomain param = new CorpDomain();
 			param.setExcelParam(excelParam);
-			corpRepo.insertCorpInfo(param);
+			corpRepo.insertCorpInfoByExcel(param);
 		}
 	}
 	
