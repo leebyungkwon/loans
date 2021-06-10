@@ -14,26 +14,30 @@ function pageLoad(){
 	goCallViolationCd();
 	
 	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
-	$("#plMName, #plMZId, #plCellphone").on("propertychange change keyup paste input",function(){
+	$("#plMName, #plMZId").on("propertychange change keyup paste input",function(){
 		var inputVal 	= $(this).val();
-		var inputId		= $(this).attr("id");
 		
-		$("#esstIcon").remove();
+		if(originPlMName != inputVal || originPlMZId != inputVal){
+			$("#chgVeriDoc1").prev().empty().append("주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시) *");
+			$("#chgVeriDoc1 > .inputFile").attr("data-essential","Y");
+			$("#chgVeriDoc1 > .goFileReset").attr("data-essential","Y");
+		}else{
+			$("#chgVeriDoc1").prev().empty().append("주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)");
+			$("#chgVeriDoc1 > .inputFile").attr("data-essential","N");
+			$("#chgVeriDoc1 > .goFileReset").attr("data-essential","N");
+		}
+	});
+	$("#plCellphone").on("propertychange change keyup paste input",function(){
+		var inputVal 	= $(this).val();
 		
-		if(inputId == "plMName" || inputId == "plMZId"){
-			if(originPlMName != inputVal || originPlMZId != inputVal){
-				$("#chgVeriDoc1").prev().append("<span id='esstIcon'> *</span>");
-				$("#chgVeriDoc1 > .inputFile").attr("data-essential","Y");
-			}else{
-				$("#chgVeriDoc1 > .inputFile").attr("data-essential","N");
-			}
-		}else if(inputId == "plCellphone"){
-			if(originPlCellphone != inputVal){
-				$("#chgVeriDoc2").prev().append("<span id='esstIcon'> *</span>");
-				$("#chgVeriDoc2 > .inputFile").attr("data-essential","Y");
-			}else{
-				$("#chgVeriDoc2 > .inputFile").attr("data-essential","N");
-			}
+		if(originPlCellphone != inputVal){
+			$("#chgVeriDoc2").prev().empty().append("휴대폰 명의 확인서(휴대폰번호 변경 시) *");
+			$("#chgVeriDoc2 > .inputFile").attr("data-essential","Y");
+			$("#chgVeriDoc2 > .goFileReset").attr("data-essential","Y");
+		}else{
+			$("#chgVeriDoc2").prev().empty().append("휴대폰 명의 확인서(휴대폰번호 변경 시)");
+			$("#chgVeriDoc2 > .inputFile").attr("data-essential","N");
+			$("#chgVeriDoc2 > .goFileReset").attr("data-essential","N");
 		}
 	});
 }
