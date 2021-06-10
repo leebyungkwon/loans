@@ -24,7 +24,7 @@ function pageLoad(){
 				,{type:"string"	, name:'compDate'		, index:'compDate'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'createDate'		, index:'createDate'	, width:"10%"		, align:"center" , id:true}
 			]
-		, sortNm 		: "REG_TIMESTAMP"
+		, sortNm 		: "CREATE_DATE"
 		, sort 			: "DESC"
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
