@@ -74,6 +74,8 @@ var AjaxUtil = {
             headers: { "Content-Type": contType }
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
+			console.log("response.data.status == " , response.data.status);
+			console.log("responseData == " , response);
         	var status = WebUtil.nvl(response.data.status, 200);
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
@@ -235,7 +237,6 @@ var AjaxUtil = {
         }).then(function(response) {
             AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
-
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
@@ -249,7 +250,6 @@ var AjaxUtil = {
             	}
         	}
         })
-        
         .catch(function(error) {
             AjaxUtil.closeLoadBar(loadYn);
             AjaxUtil.errorHandler(opt.error, error);

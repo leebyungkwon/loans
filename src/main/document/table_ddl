@@ -521,8 +521,8 @@ create table tb_lc_edu01(
 	, company_gubun char(1) not null
 	, deploma_no varchar(30) not null
 	, pass_date varchar(8) not null
-	, exam_cert_no varchar(30) not null
-	, exam_date varchar(8) not null
+	, exam_cert_no varchar(30)
+	, exam_date varchar(8)
 	, create_date timestamp not null
 );
 
@@ -552,8 +552,8 @@ create table tb_lc_edu01_temp(
 	, company_gubun char(1) not null
 	, deploma_no varchar(30) not null
 	, pass_date varchar(8) not null
-	, exam_cert_no varchar(30) not null
-	, exam_date varchar(8) not null
+	, exam_cert_no varchar(30)
+	, exam_date varchar(8)
 	, create_date timestamp not null
 );
 

@@ -105,14 +105,19 @@ function pageLoad(){
 			param: param
 			,url: "/idcheck"
             ,success: function(opt, result) {
-            	if(result > 0){
-                    $("#memberId").val("");
-                    $("#checkId").val("N");
-                    alert("해당 아이디가 존재합니다.");    
+            	console.log("ajaxResult == " , result);
+            	if(result.message == "success"){
+                	if(result.data > 0){
+                        $("#memberId").val("");
+                        $("#checkId").val("N");
+                        alert("해당 아이디가 존재합니다.");    
+                	}else{
+                		$("#checkId").val("Y");
+                		alert("사용가능 아이디 입니다.");
+                	}
             	}else{
-            		$("#checkId").val("Y");
-            		alert("사용가능 아이디 입니다.");
-            	}        
+            		alert(result.data[0].defaultMessage);
+            	}
    			}
 		}
 		AjaxUtil.post(p);

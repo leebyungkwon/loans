@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,14 +95,23 @@ public class LoginController {
 
 	// 아이디 중복체크
 	@PostMapping("/idcheck")
-	public int idCheck(@Valid SignupDomain signupDomain) {
+	public ResponseEntity<ResponseMsg> idCheck(@Valid SignupDomain signupDomain, BindingResult bindingResult) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			System.out.println("#################### valid 에러 발생 #####################");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
 		int count = 0;
 		try {
 			count = loginService.idCheck(signupDomain);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return count;
+		responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	// 회원가입
