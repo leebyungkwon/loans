@@ -16,10 +16,15 @@ public class EduService {
 
 	@Autowired private EduRepository eduRepository;
 	
-	// 교육이수번호 리스트
+	//교육이수번호 리스트
 	@Transactional(readOnly=true)
 	public List<EduDomain> selectEduList(EduDomain eduDomain) {
 		return eduRepository.selectEduList(eduDomain);
 	}
-		
+	
+	//교육이수번호,인증서번호 유효 체크
+	@Transactional(readOnly=true)
+	public int plEduNoChk(EduDomain eduDomain) {
+		return eduRepository.plEduNoChk(eduDomain);
+	}
 }

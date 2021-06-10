@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.service.CorpService;
+import com.loanscrefia.admin.edu.domain.EduDomain;
+import com.loanscrefia.admin.edu.service.EduService;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.service.CommonService;
@@ -40,6 +42,7 @@ public class UserService {
 	@Autowired private CorpService corpService;
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
+	@Autowired private EduService eduService;
 	@Autowired private UtilFile utilFile;
 	@Autowired private UtilExcel<T> utilExcel;
 	
@@ -245,6 +248,11 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userImwonDomain.getMasterSeq());
 		
+		//상세
+		UserDomain param 		= new UserDomain();
+		param.setMasterSeq(userImwonDomain.getMasterSeq());
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -259,7 +267,32 @@ public class UserService {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		//수정
+		//교육이수번호 체크
+		EduDomain eduChkParam 	= new EduDomain();
+		String[] plMZId 		= userImwonDomain.getPlMZId().split("-");
+		String birth 			= plMZId[0];
+		String gender 			= plMZId[1].substring(0, 1);
+		String prdCd			= "";
+		
+		if(userRegInfo.getPlProduct().equals("1") || userRegInfo.getPlProduct().equals("3")) {
+			prdCd = "LP0" + userImwonDomain.getCareerTyp();
+		}else if(userRegInfo.getPlProduct().equals("2")) {
+			prdCd = "LS0" + userImwonDomain.getCareerTyp();
+		}
+		
+		eduChkParam.setCareerTyp(userImwonDomain.getCareerTyp());
+		eduChkParam.setUserName(userImwonDomain.getExcName());
+		eduChkParam.setUserBirth(birth);
+		eduChkParam.setUserSex(gender);
+		eduChkParam.setProcessCd(prdCd);
+		eduChkParam.setSrchInput(userImwonDomain.getPlEduNo());
+		
+		int chkResult = eduService.plEduNoChk(eduChkParam);
+		
+		if(chkResult == 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
+		}
+		//등록
 		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.insertUserRegCorpImwonInfo(userImwonDomain);
 		
@@ -317,6 +350,11 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userExpertDomain.getMasterSeq());
 				
+		//상세
+		UserDomain param 		= new UserDomain();
+		param.setMasterSeq(userExpertDomain.getMasterSeq());
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -331,7 +369,32 @@ public class UserService {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		//수정
+		//교육이수번호 체크
+		EduDomain eduChkParam 	= new EduDomain();
+		String[] plMZId 		= userExpertDomain.getPlMZId().split("-");
+		String birth 			= plMZId[0];
+		String gender 			= plMZId[1].substring(0, 1);
+		String prdCd			= "";
+		
+		if(userRegInfo.getPlProduct().equals("1") || userRegInfo.getPlProduct().equals("3")) {
+			prdCd = "LP0" + userExpertDomain.getCareerTyp();
+		}else if(userRegInfo.getPlProduct().equals("2")) {
+			prdCd = "LS0" + userExpertDomain.getCareerTyp();
+		}
+		
+		eduChkParam.setCareerTyp(userExpertDomain.getCareerTyp());
+		eduChkParam.setUserName(userExpertDomain.getExpName());
+		eduChkParam.setUserBirth(birth);
+		eduChkParam.setUserSex(gender);
+		eduChkParam.setProcessCd(prdCd);
+		eduChkParam.setSrchInput(userExpertDomain.getPlEduNo());
+		
+		int chkResult = eduService.plEduNoChk(eduChkParam);
+		
+		if(chkResult == 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
+		}
+		//등록
 		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.insertUserRegCorpExpertInfo(userExpertDomain);
 		
@@ -403,7 +466,7 @@ public class UserService {
 				userItDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		//수정
+		//등록
 		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.insertUserRegCorpItInfo(userItDomain);
 		

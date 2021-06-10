@@ -25,6 +25,7 @@ import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.admin.edu.domain.EduDomain;
 import com.loanscrefia.admin.edu.repository.EduRepository;
+import com.loanscrefia.admin.edu.service.EduService;
 import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
@@ -40,7 +41,7 @@ public class UtilExcel<T> {
 	}
 	
 	@Autowired private CorpService corpService;
-	@Autowired private EduRepository eduRepo; 
+	@Autowired private EduService eduService;
 	@Autowired private UserRepository userRepo;
 	
 	private String param1; //금융상품유형
@@ -188,12 +189,13 @@ public class UtilExcel<T> {
 	                				eduChkParam.setUserSex(gender);
 	                			}else if(chkDb.get(j).equals("edu4")) {
 	                				//교육이수번호,인증서번호 유효 체크
+	                				String prdCd = "";
 	                				if(cellVal.equals("1") || cellVal.equals("3")) {
-	                					cellVal = "LP0" + eduChkParam.getCareerTyp();
+	                					prdCd = "LP0" + eduChkParam.getCareerTyp();
 	                				}else if(cellVal.equals("2")) {
-	                					cellVal = "LS0" + eduChkParam.getCareerTyp();
+	                					prdCd = "LS0" + eduChkParam.getCareerTyp();
 	                				}
-	                				eduChkParam.setProcessCd(cellVal);
+	                				eduChkParam.setProcessCd(prdCd);
 	                			}else if(chkDb.get(j).equals("edu5")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				if(eduChkParam.getProcessCd() == null || eduChkParam.getProcessCd().equals("")) {
@@ -206,7 +208,7 @@ public class UtilExcel<T> {
 	                					eduChkParam.setProcessCd(this.param1);
 	                				}
 	                				eduChkParam.setSrchInput(cellVal);
-	                				int chkResult = plEduNoChk(eduChkParam);
+	                				int chkResult = eduService.plEduNoChk(eduChkParam);
 		                			
 	                				if(chkResult == 0) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
@@ -354,12 +356,6 @@ public class UtilExcel<T> {
 		}
 		
 		return result;
-	}
-	
-	//교육이수번호,인증서번호 유효 체크
-	@Transactional(readOnly=true)
-	private int plEduNoChk(EduDomain eduDomain) {
-		return eduRepo.plEduNoChk(eduDomain);
 	}
 	
 	//모집인 중복체크
