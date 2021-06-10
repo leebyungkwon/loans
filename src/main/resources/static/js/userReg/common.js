@@ -443,7 +443,7 @@ function goViolationAdd(obj){
 	html += '<th>위반이력사항</th>';
 	html += '<td colspan="3">';
 	html += '<select name="violationCdArr" class="violationCd"></select>';
-	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>';
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> ';
 	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
 	html += '</td>';
 	html += '</tr>';
@@ -473,6 +473,7 @@ function goViolationDataDel(violationSeq,obj){
 			}
 			, success 	: function (opt,result) {
 				$(obj).closest("tr").remove();
+				goViolationAdd(obj);
 		    }
 		}
 		AjaxUtil.post(p);
