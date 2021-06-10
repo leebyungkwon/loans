@@ -71,7 +71,11 @@ function goCorpInfoSave() {
 			name : 'corpInfoSaveFrm'
 			,data : WebUtil.getTagInParam("#corpInfoSaveFrm")
 			,success: function(opt, result) {
-				location.reload();
+				if(result.message == "success"){
+					location.reload();	
+				}else{
+					alert(result.data[0].defaultMessage);
+				}
 			}
 		}      
 		AjaxUtil.files(saveCorpInfoParam);

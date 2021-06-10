@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,8 +60,16 @@ public class CrefiaController {
 	
 	// 협회 관리자 관리 저장
 	@PostMapping(value="/crefia/saveCrefia")
-	public ResponseEntity<ResponseMsg> saveCrefia(@Valid CrefiaDomain crefiaDomain){
-		ResponseMsg responseMsg = crefiaService.saveCrefia(crefiaDomain);
+	public ResponseEntity<ResponseMsg> saveCrefia(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			System.out.println("#################### valid 에러 발생 #####################");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
+		responseMsg = crefiaService.saveCrefia(crefiaDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -93,8 +102,15 @@ public class CrefiaController {
 	
 	// 협회 관리자 업무분장 조회
 	@PostMapping(value="/crefiaWork/insertCrefiaWork")
-	public ResponseEntity<ResponseMsg> insertCrefiaWork(@Valid CrefiaDomain crefiaDomain){
-		ResponseMsg responseMsg = crefiaService.insertCrefiaWork(crefiaDomain);
+	public ResponseEntity<ResponseMsg> insertCrefiaWork(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			System.out.println("#################### valid 에러 발생 #####################");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		responseMsg = crefiaService.insertCrefiaWork(crefiaDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

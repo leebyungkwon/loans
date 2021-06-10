@@ -61,7 +61,6 @@
 					var p = {
 						name       : "saveAdminUpdateFrm"
 						, success    : function (opt,result) {
-							console.log("adminDetailUpdate.jsp == ", result);
 							if(WebUtil.isNull(result.message)){
 								alert(result.data[0].defaultMessage);
 							}else{

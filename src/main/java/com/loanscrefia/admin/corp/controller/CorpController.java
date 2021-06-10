@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,9 +60,14 @@ public class CorpController {
 	
 	//저장
 	@PostMapping(value="/saveCorpInfo")
-	public ResponseEntity<ResponseMsg> saveCorpInfo(@Valid CorpDomain corpDomain){
-		
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+	public ResponseEntity<ResponseMsg> saveCorpInfo(@Valid CorpDomain corpDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			System.out.println("#################### valid 에러 발생 #####################");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
 		
 		// 2021-05-31 법인번호 암호화 진행예정
 		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
@@ -69,13 +75,13 @@ public class CorpController {
 		corpDomain.setPlMerchantNo(encMerchantNo);
 		
 		int count = corpService.plMerchantNoCheck(corpDomain);
-		
 		if(count > 0) {
 			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
 		}else {
 			responseMsg = corpService.saveCorpInfo(corpDomain);
 		}
 		
+		responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

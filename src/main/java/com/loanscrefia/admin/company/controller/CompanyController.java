@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +68,13 @@ public class CompanyController {
 	
 	//처리 상태변경
 	@PostMapping(value="/mng/updateCompanyStat")
-	public ResponseEntity<ResponseMsg> updateCompanyStat(@Valid CompanyDomain companyDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+	public ResponseEntity<ResponseMsg> updateCompanyStat(@Valid CompanyDomain companyDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
     	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -127,8 +133,13 @@ public class CompanyController {
 	
 	// 회원사 코드 관리 - 디테일 리스트 -> Insert (글 등록)
 	@PostMapping(value="/company/saveCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(@Valid CompanyDomain companyDomain, BindingResult bindingResult) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
 		
 		// 2021-05-31 법인번호 암호화 진행예정
 		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
@@ -142,6 +153,7 @@ public class CompanyController {
 		}else {
 			responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
 			responseMsg.setData("1");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
 		}
 		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
@@ -149,8 +161,13 @@ public class CompanyController {
 
 	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
 	@PostMapping(value="/company/updCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain, BindingResult bindingResult) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
 		
 		// 2021-05-31 법인번호 암호화 진행예정
 		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
@@ -165,6 +182,7 @@ public class CompanyController {
 		}else {
 			responseMsg = companyService.updCompanyCodeDetail(companyDomain);
 			responseMsg.setData("1");
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
 		}
 		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

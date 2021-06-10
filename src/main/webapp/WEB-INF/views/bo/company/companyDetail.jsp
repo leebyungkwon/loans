@@ -42,11 +42,12 @@ function goCompanyStatUpdt(apprStat,roleName) {
 				,email	   : email
 			}
 			, success 	: function (opt,result) {
-				if(result.data.code == "success"){
-					alert(result.data.message);
-					location.href="/admin/mng/companyPage"
+				if(WebUtil.isNull(result.message)){
+					alert(result.data[0].defaultMessage);
 				}else{
-					alert(result.data.message);
+					$("#apprStat").val("2");
+					alert("가승인 처리 되었습니다.");
+					location.reload();
 				}
 		    }
 		}

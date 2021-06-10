@@ -20,9 +20,11 @@
 				var saveCompanyCodeDetailParam = {
 					name : 'companyCodeRegFrm'
 					,success: function(opt, result) {
-						if(result.data == 0) {
-							$("#plMerchantNo").val("");
-						} else {
+						if(WebUtil.isNull(result.message)){
+							alert(result.data[0].defaultMessage);
+						}
+						if(result.message == "success"){
+							alert("등록되었습니다.");
 							location.href = "/admin/company/companyCodePage";
 						}
 					}
@@ -38,9 +40,11 @@
 				var updCompanyCodeDetailParam = {
 					name : 'companyCodeRegFrm'
 					,success: function(opt, result) {
-						if(result.data == 0) {
-							$("#plMerchantNo").val("");
-						} else {
+						if(WebUtil.isNull(result.message)){
+							alert(result.data[0].defaultMessage);
+						}
+						if(result.message == "success"){
+							alert("등록되었습니다.");
 							location.href = "/admin/company/companyCodePage";
 						}
 					}

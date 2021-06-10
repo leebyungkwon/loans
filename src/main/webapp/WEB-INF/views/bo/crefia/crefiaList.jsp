@@ -189,9 +189,11 @@ function saveCrefia(){
 		param: param
 		,url: "/admin/crefia/saveCrefia"
 		,success: function(opt, result) {
-			if(result.code == "success"){
+			if(WebUtil.isNull(result.message)){
+				alert(result.data[0].defaultMessage);
+			}else{
 				PopUtil.closePopup();
-				location.reload();
+				location.reload();				
 			}
     	}
 	}

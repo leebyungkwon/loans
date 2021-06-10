@@ -72,9 +72,7 @@ public class CrefiaService {
 	// 협회 관리자 업무분장 - 등록
 	@Transactional
 	public ResponseMsg insertCrefiaWork(@Valid CrefiaDomain crefiaDomain) {
-		
-		deleteCrefiaWork(crefiaDomain);
-		
+		this.deleteCrefiaWork(crefiaDomain);
 		int insertResult 	= 0;
 		int memberSeqArr[] 	= crefiaDomain.getMemberSeqArr();
 		int comCodeArr[] 	= crefiaDomain.getComCodeArr();
@@ -84,13 +82,10 @@ public class CrefiaService {
 			crefiaDomain.setComCode(comCodeArr[i]);
 			insertResult += crefiaRepository.insertCrefiaWork(crefiaDomain);
 		}
-				
 		if(insertResult > 0) {
-			
-			return new ResponseMsg(HttpStatus.OK, "COM0001", "");
+			return new ResponseMsg(HttpStatus.OK, "COM0001", "success");
 		}
-		
-		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "success");
 	}
 	
 	//협회 관리자 업무분장 - 삭제
