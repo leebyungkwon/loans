@@ -132,12 +132,11 @@ function goUserRegInfoCancel() {
 									<option value="${addrCodeList.codeDtlCd }" <c:if test="${addrCodeList.codeDtlCd eq result.userRegInfo.addr }">selected="selected"</c:if>>${addrCodeList.codeDtlNm }</option>
 								</c:forEach>
 							</select>
-							<%-- <input type="text" name="addrDetail" class="w60" value="${result.userRegInfo.addrDetail }" maxlength="200"> --%>
 						</td>
 					</tr>
 					<tr>
 						<th>교육이수번호</th>
-						<td colspan="3"><input type="text" name="plEduNo" class="w100" value="${result.userRegInfo.plEduNo }" maxlength="30" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
+						<td colspan="3">${result.userRegInfo.plEduNo }</td>
 					</tr>
 					<tr>
 						<th>경력시작일</th>

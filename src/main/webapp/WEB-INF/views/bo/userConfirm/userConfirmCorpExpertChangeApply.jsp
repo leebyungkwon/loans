@@ -163,13 +163,7 @@ function goDataAreaAdd() {
 									<tbody>
 										<tr>
 											<th>신규경력 구분</th>
-											<td colspan="3">
-												<select name="careerTyp" class="careerTyp">
-													<c:forEach var="careerTypList" items="${result.careerTypList }">
-														<option value="${careerTypList.codeDtlCd }" <c:if test="${corpExpertList.careerTyp eq careerTypList.codeDtlCd }">selected="selected"</c:if>>${careerTypList.codeDtlNm }</option>
-													</c:forEach>
-												</select>
-											</td>
+											<td colspan="3">${corpExpertList.careerTypNm }</td>
 										</tr>
 										<tr>
 											<th>이름</th>
@@ -183,7 +177,7 @@ function goDataAreaAdd() {
 										</tr>
 										<tr>
 											<th>교육이수번호</th>
-											<td colspan="3"><input type="text" name="plEduNo" value="${corpExpertList.plEduNo }" class="w100" maxlength="30" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
+											<td colspan="3">${corpExpertList.plEduNo }</td>
 										</tr>
 										<tr>
 											<th>경력시작일</th>
@@ -209,40 +203,44 @@ function goDataAreaAdd() {
 										<col width="62%"/>
 									</colgroup>
 									<tbody>
-										<tr class="careerTypTwoTr" data-fileType="16" data-fileSeq="${corpExpertList.fileType16.fileSeq }" <c:if test="${corpExpertList.careerTyp eq '1' }">style="display: none;"</c:if>>
-											<th class="acenter">경력교육과정 수료증(여신금융교육연수원)</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpExpertList.fileType16 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType16.fileSeq }" data-fileType="16" data-essential="Y">삭제</a>
-													</c:when>
-													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="16"/>
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-													</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-										<tr class="careerTypOneTr" data-fileType="17" data-fileSeq="${corpExpertList.fileType17.fileSeq }" <c:if test="${corpExpertList.careerTyp eq '2' }">style="display: none;"</c:if>>
-											<th class="acenter">인증서(신규) *</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpExpertList.fileType17 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType17.fileSeq }" data-fileType="17" data-essential="Y">삭제</a>
-													</c:when>
-													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="17"/>
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-													</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
+										<c:if test="${corpExpertList.careerTyp eq '1' }">
+											<tr class="careerTypOneTr" data-fileType="17" data-fileSeq="${corpExpertList.fileType17.fileSeq }">
+												<th class="acenter">인증서(신규) *</th>
+												<td>
+													<c:choose>
+														<c:when test="${corpExpertList.fileType17 ne null }">
+															<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType17.fileSeq }">${corpExpertList.fileType17.fileFullNm }</a>
+															<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType17.fileSeq }" data-fileType="17" data-essential="Y">삭제</a>
+														</c:when>
+														<c:otherwise>
+															<input type="text" class="w50 file_input" readonly disabled>
+															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+															<input type="hidden" name="fileTypeList" value="17"/>
+															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														</c:otherwise>
+													</c:choose>
+												</td>
+											</tr>
+										</c:if>
+										<c:if test="${corpExpertList.careerTyp eq '2' }">
+											<tr class="careerTypTwoTr" data-fileType="16" data-fileSeq="${corpExpertList.fileType16.fileSeq }">
+												<th class="acenter">경력교육과정 수료증 *</th>
+												<td>
+													<c:choose>
+														<c:when test="${corpExpertList.fileType16 ne null }">
+															<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType16.fileSeq }">${corpExpertList.fileType16.fileFullNm }</a>
+															<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpExpertList.fileType16.fileSeq }" data-fileType="16" data-essential="Y">삭제</a>
+														</c:when>
+														<c:otherwise>
+															<input type="text" class="w50 file_input" readonly disabled>
+															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+															<input type="hidden" name="fileTypeList" value="16"/>
+															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														</c:otherwise>
+													</c:choose>
+												</td>
+											</tr>
+										</c:if>
 										<tr>
 											<th class="acenter">경력증명서(업무인력) *</th>
 											<td>
