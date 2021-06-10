@@ -51,14 +51,14 @@ public class ApplyService {
 			StringBuilder jumin = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMZId())) {
 				jumin.append(CryptoUtil.decrypt(list.getPlMZId()));
-				jumin.insert(5, "-");
+				jumin.insert(6, "-");
 				list.setPlMZId(jumin.toString());
 			}
 			
 			StringBuilder merchantNo = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
 				merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
-				merchantNo.insert(5, "-");
+				merchantNo.insert(6, "-");
 				list.setPlMerchantNo(merchantNo.toString());
 			}
 		}
@@ -83,7 +83,7 @@ public class ApplyService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -91,7 +91,7 @@ public class ApplyService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -99,7 +99,7 @@ public class ApplyService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
@@ -221,7 +221,7 @@ public class ApplyService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -229,7 +229,7 @@ public class ApplyService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -237,7 +237,7 @@ public class ApplyService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
@@ -345,7 +345,7 @@ public class ApplyService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -353,7 +353,7 @@ public class ApplyService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -361,7 +361,7 @@ public class ApplyService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
@@ -376,7 +376,7 @@ public class ApplyService {
 				StringBuilder imwonZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(imwonList.get(i).getPlMZId())) {
 					imwonZid.append(CryptoUtil.decrypt(imwonList.get(i).getPlMZId()));
-					imwonZid.insert(5, "-");
+					imwonZid.insert(6, "-");
 					imwonList.get(i).setPlMZId(imwonZid.toString());
 				}
 				
@@ -489,7 +489,7 @@ public class ApplyService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -497,7 +497,7 @@ public class ApplyService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -505,7 +505,7 @@ public class ApplyService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
@@ -520,7 +520,7 @@ public class ApplyService {
 				StringBuilder expertZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(expertList.get(i).getPlMZId())) {
 					expertZid.append(CryptoUtil.decrypt(expertList.get(i).getPlMZId()));
-					expertZid.insert(5, "-");
+					expertZid.insert(6, "-");
 					expertList.get(i).setPlMZId(expertZid.toString());
 				}
 				
@@ -591,7 +591,7 @@ public class ApplyService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -599,7 +599,7 @@ public class ApplyService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -607,7 +607,7 @@ public class ApplyService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
@@ -622,7 +622,7 @@ public class ApplyService {
 				StringBuilder itZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(itList.get(i).getPlMZId())) {
 					itZid.append(CryptoUtil.decrypt(itList.get(i).getPlMZId()));
-					itZid.insert(5, "-");
+					itZid.insert(6, "-");
 					itList.get(i).setPlMZId(itZid.toString());
 				}
 				
@@ -680,7 +680,7 @@ public class ApplyService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(applyInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			applyInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -688,7 +688,7 @@ public class ApplyService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -696,7 +696,7 @@ public class ApplyService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
 		

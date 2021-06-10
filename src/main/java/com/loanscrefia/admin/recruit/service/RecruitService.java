@@ -59,14 +59,14 @@ public class RecruitService {
 			StringBuilder jumin = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMZId())) {
 				jumin.append(CryptoUtil.decrypt(list.getPlMZId()));
-				jumin.insert(5, "-");
+				jumin.insert(6, "-");
 				list.setPlMZId(jumin.toString());
 			}
 			
 			StringBuilder merchantNo = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
 				merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
-				merchantNo.insert(5, "-");
+				merchantNo.insert(6, "-");
 				list.setPlMerchantNo(merchantNo.toString());
 			}
 		}
@@ -91,7 +91,7 @@ public class RecruitService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -99,7 +99,7 @@ public class RecruitService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -107,7 +107,7 @@ public class RecruitService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
 		
@@ -123,7 +123,7 @@ public class RecruitService {
 				StringBuilder histZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(recruitHistInfo.getPlMZId())) {
 					histZid.append(CryptoUtil.decrypt(recruitHistInfo.getPlMZId()));
-					histZid.insert(5, "-");
+					histZid.insert(6, "-");
 					recruitHistInfo.setHistPlMZId(histZid.toString());
 				}
 			}
@@ -249,7 +249,7 @@ public class RecruitService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -257,7 +257,7 @@ public class RecruitService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -265,7 +265,7 @@ public class RecruitService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
 		
@@ -367,7 +367,7 @@ public class RecruitService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -375,7 +375,7 @@ public class RecruitService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -383,7 +383,7 @@ public class RecruitService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
 		
@@ -398,7 +398,7 @@ public class RecruitService {
 				StringBuilder imwonZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(imwonList.get(i).getPlMZId())) {
 					imwonZid.append(CryptoUtil.decrypt(imwonList.get(i).getPlMZId()));
-					imwonZid.insert(5, "-");
+					imwonZid.insert(6, "-");
 					imwonList.get(i).setPlMZId(imwonZid.toString());
 				}
 				
@@ -468,7 +468,7 @@ public class RecruitService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -476,7 +476,7 @@ public class RecruitService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -484,7 +484,7 @@ public class RecruitService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
 		
@@ -499,7 +499,7 @@ public class RecruitService {
 				StringBuilder expertZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(expertList.get(i).getPlMZId())) {
 					expertZid.append(CryptoUtil.decrypt(expertList.get(i).getPlMZId()));
-					expertZid.insert(5, "-");
+					expertZid.insert(6, "-");
 					expertList.get(i).setPlMZId(expertZid.toString());
 				}
 				
@@ -546,7 +546,7 @@ public class RecruitService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -554,7 +554,7 @@ public class RecruitService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -562,7 +562,7 @@ public class RecruitService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
 		
@@ -577,7 +577,7 @@ public class RecruitService {
 				StringBuilder itZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(itList.get(i).getPlMZId())) {
 					itZid.append(CryptoUtil.decrypt(itList.get(i).getPlMZId()));
-					itZid.insert(5, "-");
+					itZid.insert(6, "-");
 					itList.get(i).setPlMZId(itZid.toString());
 				}
 				
@@ -617,7 +617,7 @@ public class RecruitService {
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
 			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
-			orgMerchantNo.insert(5, "-");
+			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
 		
@@ -625,7 +625,7 @@ public class RecruitService {
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
 			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
-			merchantNo.insert(5, "-");
+			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
 		
@@ -633,7 +633,7 @@ public class RecruitService {
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
-			zid.insert(5, "-");
+			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
 		
