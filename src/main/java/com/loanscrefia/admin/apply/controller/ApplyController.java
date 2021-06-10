@@ -187,6 +187,15 @@ public class ApplyController {
 	public ResponseEntity<ResponseMsg> indvOcr(ApplyDomain applyDomain) throws IOException { 
 		//상세
 		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			zid.insert(6, "-");
+			applyInfo.setPlMZId(zid.toString());
+		}
+		
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileGrpSeq(applyInfo.getFileSeq());
 		List<FileDomain> files = commonService.selectFileList(fileDomain);
@@ -376,6 +385,15 @@ public class ApplyController {
 	public ResponseEntity<ResponseMsg> corpOcr(ApplyDomain applyDomain) throws IOException { 
 		//상세
 		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			merchantNo.insert(6, "-");
+			applyInfo.setPlMerchantNo(merchantNo.toString());
+		}
+		
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileGrpSeq(applyInfo.getFileSeq());
 		List<FileDomain> files = commonService.selectFileList(fileDomain);
@@ -441,7 +459,7 @@ public class ApplyController {
             				// 파일 타입별로 추출영역 생성
             				if("2".equals(file.getFileType())) {
     	            			// 법인등기부등본
-    	            			String corpNo = CryptoUtil.decrypt(applyInfo.getPlMerchantNo());
+    	            			String corpNo = applyInfo.getPlMerchantNo();
     	            			//String corpNo = applyInfo.getPlMerchantNo();
     	            			String resultCorpNo = "";
     	    	                String patternType = "\\d{6}\\-[0-9]\\d{6}";

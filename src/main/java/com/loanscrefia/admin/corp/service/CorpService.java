@@ -25,8 +25,9 @@ public class CorpService {
 		
 		List<CorpDomain> corp = corpRepo.selectCorpList(corpDomain);
 		for(int i=0; i<corp.size(); i++) {
-			String dnc = CryptoUtil.decrypt(corp.get(i).getPlMerchantNo());
-			corp.get(i).setPlMerchantNo(dnc);
+			String plMerchantNo = CryptoUtil.decrypt(corp.get(i).getPlMerchantNo());
+			plMerchantNo = plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+			corp.get(i).setPlMerchantNo(plMerchantNo);
 		}
 		return corp;
 	}
