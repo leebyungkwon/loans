@@ -168,8 +168,10 @@ public class UtilExcel<T> {
 	                		if(!chkDb.get(j).isEmpty()){
 	                			if(chkDb.get(j).equals("corp")) {
 	                				//법인 정보 유효 체크(법인사용인)
-	                				if(!selectCorpInfoChk(cellVal)) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
+	                				if(cellVal != null && !cellVal.equals("")) {
+	                					if(!selectCorpInfoChk(cellVal)) {
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
+		                				}
 	                				}
 	                			}else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
