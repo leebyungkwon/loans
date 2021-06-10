@@ -124,7 +124,7 @@ public class RecruitService {
 				if(StringUtils.isNotEmpty(recruitHistInfo.getPlMZId())) {
 					histZid.append(CryptoUtil.decrypt(recruitHistInfo.getPlMZId()));
 					histZid.insert(6, "-");
-					recruitHistInfo.setHistPlMZId(histZid.toString());
+					recruitInfo.setHistPlMZId(histZid.toString());
 				}
 			}
 			if(!recruitHistInfo.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
@@ -757,7 +757,26 @@ public class RecruitService {
 	//변경사항
 	@Transactional(readOnly=true)
 	public RecruitDomain getRecruitHistDetail(RecruitDomain recruitDomain) {
-		return recruitRepository.getRecruitHistDetail(recruitDomain);
+		
+		RecruitDomain histDetail = recruitRepository.getRecruitHistDetail(recruitDomain);
+		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(histDetail.getPlMerchantNo())) {
+			merchantNo.append(CryptoUtil.decrypt(histDetail.getPlMerchantNo()));
+			merchantNo.insert(6, "-");
+			histDetail.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(histDetail.getPlMZId())) {
+			zid.append(CryptoUtil.decrypt(histDetail.getPlMZId()));
+			zid.insert(6, "-");
+			histDetail.setPlMZId(zid.toString());
+		}
+		
+		return histDetail; 
 	}
 	
 	
