@@ -40,6 +40,17 @@ function pageLoad(){
 		, size 			: 10
 	});
 	
+	//처리상태
+ 	var plStatCode = {
+		 useCode 	: true
+		,code 		: 'MAS001'
+		,target 	: '#plStat'
+		,property01 : 'Y'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plStatCode);
+	
 	//모집인 분류
 	var plClassCode = {
 		 useCode 	: true
@@ -284,12 +295,7 @@ function goGetDate(opt) {
 				<tr>
 					<th>승인상태</th>
 					<td class="half_input">
-						<select name="plStat">
-							<option value="">전체</option>
-							<option value="1">미요청</option>
-							<option value="2">승인요청</option>
-							<option value="5">보완요청</option>
-						</select>
+						<select name="plStat" id="plStat"></select>
 					</td>
 					<th>첨부상태</th>
 					<td class="half_input">

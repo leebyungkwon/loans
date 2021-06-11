@@ -63,7 +63,6 @@ public class CorpController {
 	public ResponseEntity<ResponseMsg> saveCorpInfo(@Valid CorpDomain corpDomain, BindingResult bindingResult){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
-			System.out.println("#################### valid 에러 발생 #####################");
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
@@ -77,8 +76,10 @@ public class CorpController {
 		int count = corpService.plMerchantNoCheck(corpDomain);
 		if(count > 0) {
 			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
+			responseMsg.setData("0");
 		}else {
 			responseMsg = corpService.saveCorpInfo(corpDomain);
+			responseMsg.setData("1");
 		}
 		
 		responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");

@@ -7,12 +7,16 @@
 
 	function pageLoad(){
 		
+		// 재승인 버튼 숨김
+		$("#reApprBtn").hide();
+		
 		$("#adminUpdBtn").on("click", function(){
 			if(confirm("정보를 수정 하시겠습니까?")){
 //////////////////////////////////////////////////////////////////////////////////////////////
 				var id					= $("#memberId").val();
 				var pw         		= $("#password").val();             // 비밀번호
 				var pwChk    		= $("#passwordChk").val();        // 비밀번호 확인
+				var fileName		= $("#fileName").val();
 				var checkCount 	= 0;
 
 				if(/[0-9]/.test(pw)){ //숫자
@@ -51,8 +55,11 @@
 				if (pw.search(/\s/) != -1){ 
 					alert("비밀번호는 공백 없이 입력해주세요.");
 					return false;
-				}else {
-					console.log("통과");
+				}
+				if(WebUtil.isNull(fileName)){
+					alert("파일을 첨부해 주세요.");
+					$("#fileName").focus();
+					return false;
 				}
 				
 				$("#saveAdminUpdateFrm").attr("action","/member/admin/saveAdminUpdate");
@@ -110,10 +117,10 @@
 			var memSeq = "${adminInfo.memberSeq}";
 			
 //////////////////////////////////////////////////////////////////////////////////////////////
-			var id					= $("#memberId").val();
+			var id				= $("#memberId").val();
 			var pw         		= $("#password").val();             // 비밀번호
-			var pwChk    		= $("#passwordChk").val();        // 비밀번호 확인
-			var fileName    		= $("#fileName").val();          // 첨부파일 체크
+			var pwChk    		= $("#passwordChk").val();        	// 비밀번호 확인
+			var fileName   		= $("#fileName").val();          	// 첨부파일 체크
 			var checkCount 	= 0;
 
 			if(/[0-9]/.test(pw)){ //숫자
@@ -158,6 +165,11 @@
 			
 			if(WebUtil.isNull(memSeq)){
 				alert("오류가 발생하였습니다.");
+				return false;
+			}
+			if(WebUtil.isNull(fileName)){
+				alert("파일을 첨부해 주세요.");
+				$("#fileName").focus();
 				return false;
 			}
 			

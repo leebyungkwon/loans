@@ -22,10 +22,12 @@
 					,success: function(opt, result) {
 						if(WebUtil.isNull(result.message)){
 							alert(result.data[0].defaultMessage);
-						}
-						if(result.message == "success"){
-							alert("등록되었습니다.");
-							location.href = "/admin/company/companyCodePage";
+						}else{
+							if(result.data == 1){
+								location.href = "/admin/company/companyCodePage";
+							}else{
+								$("#plMerchantNo").val("");
+							}
 						}
 					}
 				}      
@@ -42,10 +44,12 @@
 					,success: function(opt, result) {
 						if(WebUtil.isNull(result.message)){
 							alert(result.data[0].defaultMessage);
-						}
-						if(result.message == "success"){
-							alert("등록되었습니다.");
-							location.href = "/admin/company/companyCodePage";
+						}else{
+							if(result.data == 1){
+								location.href = "/admin/company/companyCodePage";
+							}else{
+								$("#plMerchantNo").val("");
+							}
 						}
 					}
 				}      
@@ -109,19 +113,19 @@
 					<tr>
 						<th>법인등록번호</th>
 						<td colspan="3">
-							<input type="text" id="plMerchantNo" name="plMerchantNo" maxlength="14" placeholder="법인등록번호 14자리를 입력해 주세요. ( -포함)"   value="${companyCodeInfo.plMerchantNo}" class="w60" data-vd='{"type":"plMerchant","len":"14,14","req":true,"msg":"법인번호( -포함) 14자리를 입력해 주세요."}' />
+							<input type="text" id="plMerchantNo" name="plMerchantNo" maxlength="14" placeholder="법인등록번호 14자리를 입력해 주세요. (- 포함)"   value="${companyCodeInfo.plMerchantNo}" class="w60" data-vd='{"type":"plMerchant","len":"14,14","req":true,"msg":"법인번호( -포함) 14자리를 입력해 주세요."}' />
 						</td>
 					</tr>
 					<tr>
 						<th>사업자등록번호</th>
 						<td colspan="3">
-							<input type="text" id="plBusinessNo" name="plBusinessNo" maxlength="12" value="${companyCodeInfo.plBusinessNo}" class="w60" placeholder="사업자등록번호 12자리를 입력해 주세요. ( -포함)"  data-vd='{"type":"plBusiness","len":"12,12","req":true,"msg":"사업자등록번호( -포함) 12자리를 입력해 주세요."}' />
+							<input type="text" id="plBusinessNo" name="plBusinessNo" maxlength="12" value="${companyCodeInfo.plBusinessNo}" class="w60" placeholder="사업자등록번호 12자리를 입력해 주세요. (- 포함)"  data-vd='{"type":"plBusiness","len":"12,12","req":true,"msg":"사업자등록번호( -포함) 12자리를 입력해 주세요."}' />
 						</td>
 					</tr>
 					<tr>
 						<th>회사대표번호</th>
 						<td colspan="3">
-							<input type="text" id="compPhoneNo" name="compPhoneNo" maxlength="13" placeholder="회사대표번호를 입력해 주세요. ( -포함)"   value="${companyCodeInfo.compPhoneNo}" class="w60"  data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사대표번호를 입력해 주세요!"}'  />
+							<input type="text" id="compPhoneNo" name="compPhoneNo" maxlength="13" placeholder="회사대표번호를 입력해 주세요. (- 포함)"   value="${companyCodeInfo.compPhoneNo}" class="w60"  data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사대표번호를 입력해 주세요!"}'  />
 						</td>
 					</tr>
 				</table>

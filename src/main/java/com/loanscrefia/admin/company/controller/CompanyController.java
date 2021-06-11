@@ -153,7 +153,6 @@ public class CompanyController {
 		}else {
 			responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
 			responseMsg.setData("1");
-			responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
 		}
 		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
@@ -182,7 +181,6 @@ public class CompanyController {
 		}else {
 			responseMsg = companyService.updCompanyCodeDetail(companyDomain);
 			responseMsg.setData("1");
-			responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
 		}
 		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

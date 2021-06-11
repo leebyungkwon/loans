@@ -71,10 +71,14 @@ function goCorpInfoSave() {
 			name : 'corpInfoSaveFrm'
 			,data : WebUtil.getTagInParam("#corpInfoSaveFrm")
 			,success: function(opt, result) {
-				if(result.message == "success"){
-					location.reload();	
-				}else{
+				if(WebUtil.isNull(result.message)){
 					alert(result.data[0].defaultMessage);
+				}else{
+					if(result.data == 1){
+						location.reload();
+					}else{
+						$("#plMerchantNo").val("");
+					}
 				}
 			}
 		}      

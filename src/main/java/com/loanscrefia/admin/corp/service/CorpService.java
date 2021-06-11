@@ -98,6 +98,7 @@ public class CorpService {
 	}
 
 	// 법인등록번호 중복체크
+	@Transactional(readOnly = true)
 	public int plMerchantNoCheck(CorpDomain corpDomain) {
 		return corpRepo.plMerchantNoCheck(corpDomain);
 	}

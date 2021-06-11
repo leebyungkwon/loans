@@ -58,7 +58,7 @@ function pageLoad(){
 		 useCode 	: true
 		,code 		: 'MAS001'
 		,target 	: '#plStat'
-		,property01 : 'Y'
+		,property02 : 'Y'
 		,updData 	: ''
 		,defaultMsg : '전체'
 	};
@@ -195,11 +195,19 @@ function goGetDate(opt) {
 					<td class="">
 						<input type="text" name="plCellphone">
 					</td>
+					<th>주민번호</th>
+					<td class="">
+						<input type="text" name="plMZId" placeholder="-를 빼고 입력해주세요.">
+					</td>
 				</tr>
 				<tr>
 					<th>법인명</th>
 					<td class="">
 						<input type="text" name="plMerchantName">
+					</td>
+					<th>법인명</th>
+					<td class="">
+						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
 					</td>
 					<th>모집인 등록번호</th>
 					<td class="">

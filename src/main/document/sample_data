@@ -127,16 +127,16 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('VIT001','5','위반이력5','위반이력5',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL);
 	 
 INSERT INTO tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
-	 ('MAS001','1','미요청','미요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:06.985935',NULL,NULL),
-	 ('MAS001','2','승인요청','승인요청',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
-	 ('MAS001','3','변경요청','변경요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
-	 ('MAS001','4','해지요청','해지요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
-	 ('MAS001','5','보완요청','보완요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
-	 ('MAS001','6','변경요청(보완)','변경요청(보완)',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
-	 ('MAS001','7','해지요청(보완)','해지요청(보완)',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
+	 ('MAS001','1','미요청','미요청','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:06.985935',NULL,NULL),
+	 ('MAS001','2','승인요청','승인요청','Y',NULL,'Y',NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
+	 ('MAS001','3','변경요청','변경요청',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:13.619766',NULL,NULL),
+	 ('MAS001','4','해지요청','해지요청',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
+	 ('MAS001','5','보완요청','보완요청','Y',NULL,'Y',NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
+	 ('MAS001','6','변경요청(보완)','변경요청(보완)',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
+	 ('MAS001','7','해지요청(보완)','해지요청(보완)',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
 	 ('MAS001','8','취소','취소',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
-	 ('MAS001','9','완료','완료','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
-	 ('MAS001','10','등록요건 불충족','등록요건 불충족',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
+	 ('MAS001','9','완료','완료',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
+	 ('MAS001','10','등록요건 불충족','등록요건 불충족','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','11','보완 미이행','보완 미이행',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','12','등록수수료 미결제','등록수수료 미결제',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL);
 	 

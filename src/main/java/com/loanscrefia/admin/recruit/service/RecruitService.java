@@ -54,6 +54,10 @@ public class RecruitService {
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		recruitDomain.setCreGrp(result.getCreGrp());
 		
+		// 주민번호 및 법인번호 암호화 후 비교
+		recruitDomain.setPlMerchantNo(CryptoUtil.encrypt(recruitDomain.getPlMerchantNo()));
+		recruitDomain.setPlMZId(CryptoUtil.encrypt(recruitDomain.getPlMZId()));
+		
 		List<RecruitDomain> recruitResultList = recruitRepository.selectRecruitList(recruitDomain);
 		for(RecruitDomain list : recruitResultList) {
 			StringBuilder jumin = new StringBuilder();
