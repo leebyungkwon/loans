@@ -64,6 +64,8 @@ public class SearchDomain extends BaseDomain {
 	private String creHaejiDate;	//협회해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private Integer fileSeq;		//첨부파일시퀀스
 	
+	private String compTel;
+	
 	//모집인단계별이력(tb_lc_mas01_step)
 	private int masterStepSeq;
 	

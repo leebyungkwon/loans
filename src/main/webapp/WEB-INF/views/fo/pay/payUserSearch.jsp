@@ -38,11 +38,8 @@ function goPayUserSearch() {
 	var p = {
 		 name 		: formNm
 		,success	: function(opt,result){
-			if(result.data == null){
-				alert("조회된 결과가 없습니다.");
-				return;
-			}else{
-				goPayUserSearchResultPage(formNm,result.data.masterSeq);
+			if(result.code != "fail"){
+				goPayUserSearchResultPage(formNm,result.masterSeq);
 			}
 		}
 	}
@@ -81,25 +78,25 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				<tr>
 					<th>금융회사 선택</th>
 					<td>
-						<select name="comCode" class="comCode"></select>
+						<select name="comCode" class="comCode" data-vd='{"type":"text","req":true,"msg":"금융회사를 선택해 주세요."}'></select>
 					</td>
 				</tr>
 				<tr>
 					<th>성명</th>
 					<td>
-						<input type="text" name="plMName" placeholder="이름을 입력해 주세요.">
+						<input type="text" name="plMName" placeholder="이름을 입력해 주세요." maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"이름을 입력해 주세요."}'>
 					</td>
 				</tr>
 				<tr>
 					<th>휴대폰번호</th>
 					<td>
-						<input type="text" name="plCellphone" placeholder="예) 01067384411">
+						<input type="text" name="plCellphone" placeholder="예) 010-1234-5678" maxlength="13" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호를 입력해 주세요."}'>
 					</td>
 				</tr>
 				<tr>
 					<th>생년월일</th>
 					<td>
-						<input type="text" name="plMZIdFront" placeholder="예) 790625">
+						<input type="text" name="plMZIdFront" placeholder="예) 790625" maxlength="6" data-vd='{"type":"num","len":"6,6","req":true,"msg":"생년월일을 입력해 주세요."}'>
 					</td>
 				</tr>
 				<tr>
@@ -142,19 +139,19 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				<tr>
 					<th>금융회사 선택</th>
 					<td>
-						<select name="comCode" class="comCode"></select>
+						<select name="comCode" class="comCode" data-vd='{"type":"text","req":true,"msg":"금융회사를 선택해 주세요."}'></select>
 					</td>
 				</tr>
 				<tr>
 					<th>법인번호</th>
 					<td>
-						<input type="text" name="plMerchantNo" placeholder="예) 110111-4088000">
+						<input type="text" name="plMerchantNo" placeholder="예) 110111-1234567" maxlength="14" data-vd='{"type":"plMerchant","len":"1,14","req":true,"msg":"법인번호를 입력해 주세요."}'>
 					</td>
 				</tr>
 				<tr>
 					<th>대표자 성명</th>
 					<td>
-						<input type="text" name="plCeoName" placeholder="이름을 입력해 주세요.">
+						<input type="text" name="plCeoName" placeholder="이름을 입력해 주세요." maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"대표자명을 입력해 주세요."}'>
 					</td>
 				</tr>
 			</table>

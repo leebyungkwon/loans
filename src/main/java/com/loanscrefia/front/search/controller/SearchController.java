@@ -26,10 +26,17 @@ public class SearchController {
 		return CosntPage.FoSearchPage+"/userSearch";
 	}
 	
-	//대출모집인 조회
-	@PostMapping(value="")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpExpertInfoByExcel(){
-		ResponseMsg responseMsg = new ResponseMsg();
+	//대출모집인 조회 : 개인
+	@PostMapping(value="/indvUserSearch")
+	public ResponseEntity<ResponseMsg> indvUserSearch(SearchDomain searchDomain){
+		ResponseMsg responseMsg = searchService.selectIndvUserInfo(searchDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//대출모집인 조회 : 법인
+	@PostMapping(value="corpUserSearch")
+	public ResponseEntity<ResponseMsg> corpUserSearch(SearchDomain searchDomain){
+		ResponseMsg responseMsg = searchService.selectCorpUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -37,6 +44,7 @@ public class SearchController {
 	@PostMapping(value="/userSearchResult")
 	public ModelAndView userSearchResult(SearchDomain searchDoamin){
 		ModelAndView mv = new ModelAndView(CosntPage.FoSearchPage+"/userSearchResult");
+		mv.addObject("result", searchService.userSearchResult(searchDoamin));
         return mv;
 	}
 }

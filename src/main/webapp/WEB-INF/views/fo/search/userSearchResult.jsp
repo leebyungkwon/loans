@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript">
 function pageLoad() {
@@ -23,36 +24,42 @@ function pageLoad() {
 				</colgroup>
 				<tr>
 					<th>등록번호</th>
-					<td>110121E1234</td>
+					<td>${result.searchUserInfo.masterToId }</td>
 				</tr>
 				<tr>
 					<th>성명</th>
-					<td>홍길동</td>
+					<td>${result.searchUserInfo.plMName }</td>
 				</tr>
 				<tr>
 					<th>계약금융회사</th>
-					<td>우리금융캐피탈</td>
-				</tr>
-				<tr>
-					<th>소속법인</th>
-					<td>개인</td>
-				</tr>
-				<tr>
-					<th>계약일</th>
-					<td>2021-03-05</td>
-				</tr>
-				<tr>
-					<th>위반확정일 (1)</th>
-					<td>2021-03-05</td>
-				</tr>
-				<tr>
-					<th>위반행위 사유 (1)</th>
-					<td>-</td>
+					<td>${result.searchUserInfo.comCodeNm }</td>
 				</tr>
 				<tr>
 					<th>금융회사 전화번호</th>
-					<td>16880077</td>
+					<td>${result.searchUserInfo.compTel }</td>
 				</tr>
+				<tr>
+					<th>소속법인</th>
+					<td>${result.searchUserInfo.plClassNm }</td>
+				</tr>
+				<tr>
+					<th>계약일</th>
+					<td>${result.searchUserInfo.comContDate }</td>
+				</tr>
+				<c:choose>
+					<c:when test="${fn:length(result.violationInfoList) > 0 }">
+						<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
+							<tr>
+								<th>위반확정일 (status.count)</th>
+								<td>${violationInfoList.regTimestamp }</td>
+							</tr>
+							<tr>
+								<th>위반행위 사유 (status.count)</th>
+								<td>${violationInfoList.violationCdNm }</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+				</c:choose>
 			</table>
 		</div>
 		<div class="table_wrap mgt60">
