@@ -532,7 +532,7 @@ public class UserService {
 		int result 				= 0;
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
-		if(userRegInfo.getCorpUserYn().equals("Y")) {
+		if(userRegInfo.getPlClass().equals("1") && userRegInfo.getCorpUserYn().equals("Y")) {
 			//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음
 			int corpCheck = userRepo.corpStatCheck(userRegInfo);
 			
@@ -1134,11 +1134,38 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
 	}
 	
-	//모집인 등록 > 삭제 : 개인 
+	//모집인 등록 > 삭제 
 	@Transactional
 	public ResponseMsg deleteUserRegInfo(UserDomain userDomain){
 		//상태값 체크*****
 		this.userValidation(userDomain.getMasterSeq());
+		
+		//상세
+		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+		
+		//법인 삭제 시 하위 데이터도 삭제
+		if(userRegInfo.getPlClass().equals("2")) {
+			/*
+			UserImwonDomain chkParam1 	= new UserImwonDomain();
+			UserExpertDomain chkParam2 	= new UserExpertDomain();
+			UserItDomain chkParam3 		= new UserItDomain();
+			
+			//법인사용인
+			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
+			
+			//임원
+			chkParam1.setMasterSeq(userDomain.getMasterSeq());
+			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
+			
+			//전문인력
+			chkParam2.setMasterSeq(userDomain.getMasterSeq());
+			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
+			
+			//전산인력
+			chkParam3.setMasterSeq(userDomain.getMasterSeq());
+			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
+			*/
+		}
 		
 		//삭제
 		int result = userRepo.deleteUserRegInfo(userDomain);

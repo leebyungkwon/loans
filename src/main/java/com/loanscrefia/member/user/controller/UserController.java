@@ -361,7 +361,7 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//삭제 -> 단계별 이력 쌓지 않음
+	//삭제
 	@PostMapping(value="/user/deleteUserRegInfo")
 	public ResponseEntity<ResponseMsg> deleteUserRegInfo(UserDomain userDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
