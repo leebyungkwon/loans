@@ -3,6 +3,7 @@ package com.loanscrefia.admin.corp.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,18 @@ public class CorpService {
 	@Transactional(readOnly=true)
 	public List<CorpDomain> selectCorpList(CorpDomain corpDomain) {
 		
+		//검색어 암호화
+		if(StringUtils.isNotEmpty(corpDomain.getPlMerchantNo())) {
+			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+		}
+		
+		//리스트
 		List<CorpDomain> corp = corpRepo.selectCorpList(corpDomain);
+		
+		//리스트 데이터 복호화
 		for(int i=0; i<corp.size(); i++) {
 			String plMerchantNo = CryptoUtil.decrypt(corp.get(i).getPlMerchantNo());
-			plMerchantNo = plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
 			corp.get(i).setPlMerchantNo(plMerchantNo);
 		}
 		return corp;
@@ -36,9 +45,8 @@ public class CorpService {
 	@Transactional
 	public ResponseMsg saveCorpInfo(CorpDomain corpDomain) {
 		
-		
-		
 		int result = 0;
+		
 		if(corpDomain.getCorpSeq() == null) {
 			//저장
 			result = corpRepo.insertCorpInfo(corpDomain);
@@ -59,25 +67,22 @@ public class CorpService {
 	public void insertCorpInfoByExcel(CorpDomain corpDomain) {
 		
 		List<Map<String, Object>> excelParam 	= corpDomain.getExcelParam();
-		List<CorpDomain> corpList 				= this.selectCorpList(corpDomain);
 		
-		if(corpList.size() > 0) {
-			for(int i = 0;i < excelParam.size();i++) {
-				String plMerchantNo = CryptoUtil.decrypt((String)excelParam.get(i).get("C"));
-				
-				for(int j = 0;j < corpList.size();j++) {
-					//중복제거
-					if(plMerchantNo.equals(corpList.get(j).getPlMerchantNo())) {
-						excelParam.remove(i);
-					}
-				}
-			}
-		}
-		//등록
-		if(excelParam.size() > 0) {
-			CorpDomain param = new CorpDomain();
-			param.setExcelParam(excelParam);
-			corpRepo.insertCorpInfoByExcel(param);
+		for(int i = 0;i < excelParam.size();i++) {
+			CorpDomain chkParam = new CorpDomain();
+			String itemA 		= (String)excelParam.get(i).get("A"); //법인명
+			String itemC 		= (String)excelParam.get(i).get("C"); //법인번호(암호화된 상태)
+
+			//중복체크
+			chkParam.setPlMerchantNo(itemC);
+			int chkResult = corpRepo.selectCorpInfoCnt(chkParam);
+			
+			//결과
+			if(chkResult == 0) {
+				chkParam.setPlMerchantName(itemA);
+				chkParam.setPathTyp("1");
+				corpRepo.insertCorpInfo(chkParam);
+		 	}
 		}
 	}
 	

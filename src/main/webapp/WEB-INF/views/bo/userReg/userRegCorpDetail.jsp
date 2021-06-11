@@ -39,6 +39,22 @@ function goUserRegInfoUpdt() {
 		AjaxUtil.files(p);
 	}
 }
+
+//모집인 등록 삭제
+function goUserRegInfoCancel() {
+	if(confirm("삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/deleteUserRegInfo"	
+			, param		: {
+				 masterSeq 	: $("#masterSeq").val()
+			}
+			, success 	: function (opt,result) {
+				goUserRegInfoList();
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -269,6 +285,9 @@ function goUserRegInfoUpdt() {
 					<c:if test="${result.userRegInfo.plStat ne '10' }">
 						<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goUserRegInfoUpdt();">저장</a>
 					</c:if>
+				</c:if>
+				<c:if test="${result.userRegInfo.plStat eq '10' }"> 
+					<a href="javascript:void(0);" class="btn_Lgray btn_right" onclick="goUserRegInfoCancel();">삭제</a>
 				</c:if>
 			</div>
 		</div>

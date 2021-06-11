@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
-import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.admin.edu.domain.EduDomain;
-import com.loanscrefia.admin.edu.repository.EduRepository;
 import com.loanscrefia.admin.edu.service.EduService;
 import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -40,12 +39,12 @@ public class UtilExcel<T> {
 		
 	}
 	
-	@Autowired private CorpService corpService;
+	@Autowired private CorpRepository corpRepo;
 	@Autowired private EduService eduService;
 	@Autowired private UserRepository userRepo;
 	
 	private String param1; //금융상품유형
-	private String param2; //개인,법인 구분값
+	private String param2;
 	private String param3;
 	private String param4;
 	private String param5;
@@ -86,6 +85,7 @@ public class UtilExcel<T> {
 		List<String> chkPrd 	= new ArrayList<String>();
 		List<String> chkCal 	= new ArrayList<String>();
 		List<String> chkCi 		= new ArrayList<String>();
+		List<String> chkPId 	= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -101,6 +101,7 @@ public class UtilExcel<T> {
 				chkPrd.add(columnAnnotation.chkPrd());
 				chkCal.add(columnAnnotation.chkCal());
 				chkCi.add(columnAnnotation.chkCi());
+				chkPId.add(columnAnnotation.chkPId());
 			}
 		}
 		
@@ -132,6 +133,7 @@ public class UtilExcel<T> {
 		    String cellVal			= "";
 		    Map<String, Object> map = null;
 		    
+		    CorpDomain corpChkParam = new CorpDomain();
 		    EduDomain eduChkParam 	= new EduDomain();
 		    UserDomain userChkParam = new UserDomain();
 		    
@@ -170,9 +172,10 @@ public class UtilExcel<T> {
 	                			if(chkDb.get(j).equals("corp")) {
 	                				//법인 정보 유효 체크(법인사용인)
 	                				if(cellVal != null && !cellVal.equals("")) {
-	                					if(!selectCorpInfoChk(cellVal)) {
-		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
-		                				}
+	                					corpChkParam.setPlMerchantNo(cellVal);
+	                					if(selectCorpInfoChk(corpChkParam) == 0) {
+	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
+	                					}
 	                				}
 	                			}else if(chkDb.get(j).equals("edu1")) {
 	                				//교육이수번호,인증서번호 유효 체크
@@ -215,6 +218,14 @@ public class UtilExcel<T> {
 	                				}
 	                			}
 	                		}
+	                		if(!chkPId.get(j).isEmpty()) {
+	                			//주민등록번호 형식 체크
+	                			if(chkPId.get(j).equals("Y")) {
+	                				if(!plMZIdFormatChk(cellVal)) {
+		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
+		                			}
+	                			}
+	                		}
 	                		if(!vEncrypt.get(j).isEmpty()){
 	                			//암호화(주민번호,법인번호)
 	                			if(vEncrypt.get(j).equals("Y")) {
@@ -253,7 +264,7 @@ public class UtilExcel<T> {
 	                		if(!chkCal.get(j).isEmpty()) {
 	                			//날짜 형식 체크
 	                			if(chkCal.get(j).equals("Y")) {
-	                				if(!dateFormatCheck(cellVal,"yyyy-MM-dd")) {
+	                				if(!dateFormatChk(cellVal,"yyyy-MM-dd")) {
 		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
 		                			}
 	                			}
@@ -338,23 +349,9 @@ public class UtilExcel<T> {
 	
 	//법인 정보 유효 체크(법인사용인)
 	@Transactional(readOnly=true)
-	private boolean selectCorpInfoChk(String plMerchantNo) {
-		
-		boolean result = false;
-		
-		CorpDomain corpParam 			= new CorpDomain();
-		List<CorpDomain> corpList 		= corpService.selectCorpList(corpParam); 
-		List<String> plMerchantNoList	= new ArrayList<>();
-		
-		for(int j = 0;j < corpList.size();j++) {
-			plMerchantNoList.add(corpList.get(j).getPlMerchantNo());
-		}
-		
-		if(plMerchantNoList.contains(plMerchantNo)) {
-			//법인 정보 유효함
-			result = true;
-		}
-		
+	private int selectCorpInfoChk(CorpDomain corpDomain) {
+		corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+		int result = corpRepo.selectCorpInfoCnt(corpDomain);
 		return result;
 	}
 	
@@ -365,7 +362,7 @@ public class UtilExcel<T> {
 	}
 	
 	//날짜 형식 및 값 체크
-	public boolean dateFormatCheck(String date, String format) {
+	private boolean dateFormatChk(String date, String format) {
 		SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
 		dateFormatParser.setLenient(false);
 		try {
@@ -374,6 +371,12 @@ public class UtilExcel<T> {
 		}catch(Exception exception) {
 			return false;
 		}
+	}
+	
+	//주민등록번호 형식 체크
+	private boolean plMZIdFormatChk(String plMZId) {
+		return Pattern.matches("^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$", plMZId);
+
 	}
 	
 

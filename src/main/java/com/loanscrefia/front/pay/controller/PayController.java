@@ -32,16 +32,14 @@ public class PayController {
 	//모집인 결제 > 모집인 조회 : 개인
 	@PostMapping(value="/payIndvUserSearch")
 	public ResponseEntity<ResponseMsg> payIndvUserSearch(SearchDomain searchDomain) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "");
-		responseMsg.setData(searchService.selectIndvUserInfo(searchDomain));
+		ResponseMsg responseMsg = searchService.selectPayIndvUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//모집인 결제 > 모집인 조회 : 법인
 	@PostMapping(value="/payCorpUserSearch")
 	public ResponseEntity<ResponseMsg> payCorpUserSearch(SearchDomain searchDomain) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "");
-		responseMsg.setData(searchService.selectCorpUserInfo(searchDomain));
+		ResponseMsg responseMsg = searchService.selectPayCorpUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -70,7 +68,7 @@ public class PayController {
 	//결제완료 페이지
 	@PostMapping(value="/payResult")
 	public ModelAndView payResult(SearchDomain searchDomain) {
-		System.out.println("PayController > payResult() :::::::: "+searchDomain.getMasterSeq()); //[추후 삭제]
+		System.out.println("PayController > payResult() :::::::: "+searchDomain.getMasterSeq()); //[결제 테스트 후 추후 삭제]
 		ModelAndView mv 			= new ModelAndView(CosntPage.FoPayPage+"/payResult");
 		searchDomain.setPlRegStat("3"); //모집인 상태가 자격취득인 것
 		SearchDomain payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);

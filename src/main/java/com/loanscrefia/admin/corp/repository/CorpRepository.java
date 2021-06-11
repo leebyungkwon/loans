@@ -15,9 +15,6 @@ public interface CorpRepository {
 	//법인 등록
 	int insertCorpInfo(CorpDomain corpDomain);
 	
-	//법인 등록 : 엑셀 업로드
-	int insertCorpInfoByExcel(CorpDomain corpDomain);
-	
 	//법인 상세
 	CorpDomain getCorpInfo(CorpDomain corpDomain);
 	

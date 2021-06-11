@@ -124,7 +124,7 @@
 							AND Z.ORIGIN_CRE_APP_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.ORIGIN_CRE_APP_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_CRE_APP_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 						</if>
 					</if>
 					<if test="srchSelect2.equals('payDate')">
@@ -132,7 +132,7 @@
 							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 						</if>
 					</if>
 					<if test="srchSelect2.equals('creLicenseDate')">
@@ -140,7 +140,7 @@
 							AND Z.ORIGIN_CRE_LICENSE_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.ORIGIN_CRE_LICENSE_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_CRE_LICENSE_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 						</if>
 					</if>
 				</when>
@@ -238,6 +238,9 @@
 					WHEN 
 						TLM.PL_CLASS = '2' 
 							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
 							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 -- 법인(등록정보)
 							AND (
 									SELECT 
@@ -289,6 +292,9 @@
 					WHEN 
 						TLM.PL_CLASS = '2' 
 							AND TLM.FILE_SEQ IS NOT NULL 
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
 							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 -- 법인(등록정보)
 							AND (
 									SELECT 
@@ -379,7 +385,7 @@
 				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
 			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
@@ -735,6 +741,9 @@
 				WHEN 
 					TLM.PL_CLASS = '2' 
 						AND TLM.FILE_SEQ IS NOT NULL 
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
 						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','6')) = 5 -- 법인(등록정보)
 						AND (
 								SELECT 

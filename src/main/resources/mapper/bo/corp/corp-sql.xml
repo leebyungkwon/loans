@@ -48,28 +48,6 @@
 		)
 	</insert>
 	
-	<!-- 법인 등록 : 엑셀 업로드 -->
-	<insert id="insertCorpInfoByExcel" parameterType="corp">
-		INSERT INTO TB_LC_CORP
-		(
-			 PL_MERCHANT_NAME
-			,PL_MERCHANT_NO
-			,PATH_TYP
-			,REG_SEQ
-			,REG_TIMESTAMP
-		)
-		VALUES
-		<foreach collection="excelParam" item="item" separator=",">
-		(
-			 #{item.A}
-			,#{item.C}
-			,'1'
-			,#{regSeq}
-			,NOW()
-		)
-		</foreach>
-	</insert>
-	
 	<!-- 법인 상세 -->
 	<select id="getCorpInfo" parameterType="corp" resultType="corp">
 		SELECT

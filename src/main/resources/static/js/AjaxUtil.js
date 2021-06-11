@@ -152,14 +152,12 @@ var AjaxUtil = {
         let frm = document.getElementsByName(opt.name);
         if(frm.length!=1) return false;
 
-		/*
         let f = true;
-        $.each(frm[0].querySelectorAll('input'), function(key, value) {
+        $.each(frm[0].querySelectorAll('input, select'), function(key, value) {
         	f = Valid.set(value);
         	if(!f) return false;
 		});
     	if(!f) return false;
-    	*/
 
         let p =  new URLSearchParams(new FormData(frm[0])).toString();
         let param = {
