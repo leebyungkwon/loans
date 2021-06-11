@@ -123,9 +123,15 @@
 			<if test="plMerchantName != null and plMerchantName != ''">
 				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
 			</if>
+			
 			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
+				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
 			</if>
+			
+			<if test="plMZId != null and plMZId != ''">
+				AND Z.PL_M_Z_ID = #{plMZId}
+			</if>
+			
 			<if test="plRegistNo != null and plRegistNo != ''">
 				AND Z.PL_REGIST_NO LIKE '%' || #{plRegistNo} || '%'
 			</if>
@@ -136,7 +142,7 @@
 							AND Z.CRE_APP_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.CRE_APP_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.CRE_APP_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 						</if>
 					</if>
 					<if test="srchSelect2.equals('payDate')">
@@ -144,7 +150,7 @@
 							AND Z.PAY_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.PAY_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.PAY_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 						</if>
 					</if>
 					<if test="srchSelect2.equals('creLicenseDate')">
@@ -152,7 +158,7 @@
 							AND Z.CRE_LICENSE_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.CRE_LICENSE_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.CRE_LICENSE_DATE::TIMESTAMP <![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 						</if>
 					</if>
 				</when>

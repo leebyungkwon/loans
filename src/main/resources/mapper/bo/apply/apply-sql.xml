@@ -120,11 +120,20 @@
 			<if test="plMerchantName != null and plMerchantName != ''">
 				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
 			</if>
+			
+			<if test="plMerchantNo != null and plMerchantNo != ''">
+				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
+			</if>
+			
+			<if test="plMZId != null and plMZId != ''">
+				AND Z.PL_M_Z_ID = #{plMZId}
+			</if>
+			
 			<if test="srchDate1 != null and srchDate1 != ''">
 				AND Z.COM_REG_DATE 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
 			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.COM_REG_DATE 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				AND Z.COM_REG_DATE 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
