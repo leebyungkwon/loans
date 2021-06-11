@@ -150,7 +150,7 @@ public class UserController {
 	
 	//승인요청 : 상세에서 모집인 정보 수정 후 승인요청했을 때 모두 반영될 수 있도록
 	@PostMapping(value="/user/userAcceptApply2")
-	public ResponseEntity<ResponseMsg> userAcceptApply2(@RequestParam("files") MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
+	public ResponseEntity<ResponseMsg> userAcceptApply2(@RequestParam(value = "files", required = false) MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(userService.userAcceptApply2(files, userDomain, fileDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
