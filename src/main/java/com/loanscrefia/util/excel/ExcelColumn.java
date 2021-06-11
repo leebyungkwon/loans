@@ -16,6 +16,7 @@ public @interface ExcelColumn {
 	String chkPrd() default "";
 	String chkCal() default "";
 	String chkCi() default "";
+	String chkPId() default "";
 	int vLenMin() default 0;
 	int vLenMax() default 10000;
 	

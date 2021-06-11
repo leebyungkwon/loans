@@ -25,7 +25,7 @@ public class UserExpertDomain extends BaseDomain {
 	@ExcelColumn(headerName="성명", vCell="B", vLenMin=2, vLenMax=20, chkDb="edu2")
 	private String expName;			//이름
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y")
+	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkPId="Y")
 	private String plMZId;			//주민등록번호
 	
 	private String plProduct;		//금융상품유형
