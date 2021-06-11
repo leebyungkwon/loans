@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,16 +59,25 @@ public class UserService {
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserConfirmList(UserDomain userDomain){
 		
+		//검색어 암호화
+		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
+			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
+		}
+		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
+			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replaceAll("-", "")));
+		}
+		
+		//리스트
 		List<UserDomain> userConfirmList = userRepo.selectUserConfirmList(userDomain);
 		
 		if(userConfirmList.size() > 0) {
 			for(int i = 0;i < userConfirmList.size();i++) {
-				if(userConfirmList.get(i).getPlMZId() != null && !userConfirmList.get(i).getPlMZId().equals("")) {
+				if(StringUtils.isNotEmpty(userConfirmList.get(i).getPlMZId())) {
 					String plMZId 			= CryptoUtil.decrypt(userConfirmList.get(i).getPlMZId());
 					plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 					userConfirmList.get(i).setPlMZId(plMZId);
 				}
-				if(userConfirmList.get(i).getPlMerchantNo() != null && !userConfirmList.get(i).getPlMerchantNo().equals("")) {
+				if(StringUtils.isNotEmpty(userConfirmList.get(i).getPlMerchantNo())) {
 					String plMerchantNo 	= CryptoUtil.decrypt(userConfirmList.get(i).getPlMerchantNo());
 					plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
 					userConfirmList.get(i).setPlMerchantNo(plMerchantNo);
@@ -91,16 +101,25 @@ public class UserService {
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){
 		
+		//검색어 암호화
+		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
+			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
+		}
+		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
+			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replaceAll("-", "")));
+		}
+		
+		//리스트
 		List<UserDomain> userRegList = userRepo.selectUserRegList(userDomain);
 		
 		if(userRegList.size() > 0) {
 			for(int i = 0;i < userRegList.size();i++) {
-				if(userRegList.get(i).getPlMZId() != null && !userRegList.get(i).getPlMZId().equals("")) {
+				if(StringUtils.isNotEmpty(userRegList.get(i).getPlMZId())) {
 					String plMZId 			= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
 					plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 					userRegList.get(i).setPlMZId(plMZId);
 				}
-				if(userRegList.get(i).getPlMerchantNo() != null && !userRegList.get(i).getPlMerchantNo().equals("")) {
+				if(StringUtils.isNotEmpty(userRegList.get(i).getPlMerchantNo())) {
 					String plMerchantNo 	= CryptoUtil.decrypt(userRegList.get(i).getPlMerchantNo());
 					plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
 					userRegList.get(i).setPlMerchantNo(plMerchantNo);
@@ -540,10 +559,10 @@ public class UserService {
 			}
 		}
 		//수정
-		if(userDomain.getPlMZId() != null && !userDomain.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}
-		if(userDomain.getPlMerchantNo() != null && !userDomain.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
 			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int updateResult1 = userRepo.updateUserRegInfo(userDomain);
@@ -574,13 +593,13 @@ public class UserService {
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
-		if(userRegInfo.getPlMZId() != null && !userRegInfo.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
 			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
-		if(userRegInfo.getPlMerchantNo() != null && !userRegInfo.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
 			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
@@ -659,13 +678,13 @@ public class UserService {
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
-		if(userRegInfo.getPlMZId() != null && !userRegInfo.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
 			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
-		if(userRegInfo.getPlMerchantNo() != null && !userRegInfo.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
 			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
@@ -739,13 +758,13 @@ public class UserService {
 		dtlParam.setMasterSeq(userImwonDomain.getMasterSeq());
 		UserDomain userRegInfo 		= userRepo.getUserRegDetail(dtlParam);
 		
-		if(userRegInfo.getPlMZId() != null && !userRegInfo.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
 			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
-		if(userRegInfo.getPlMerchantNo() != null && !userRegInfo.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
 			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
@@ -823,13 +842,13 @@ public class UserService {
 		dtlParam.setMasterSeq(userExpertDomain.getMasterSeq());
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(dtlParam);
 		
-		if(userRegInfo.getPlMZId() != null && !userRegInfo.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
 			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
-		if(userRegInfo.getPlMerchantNo() != null && !userRegInfo.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
 			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
@@ -884,13 +903,13 @@ public class UserService {
 		dtlParam.setMasterSeq(userItDomain.getMasterSeq());
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(dtlParam);
 		
-		if(userRegInfo.getPlMZId() != null && !userRegInfo.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
 			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
-		if(userRegInfo.getPlMerchantNo() != null && !userRegInfo.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
 			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
@@ -938,13 +957,13 @@ public class UserService {
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
-		if(userRegInfo.getPlMZId() != null && !userRegInfo.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
 			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
-		if(userRegInfo.getPlMerchantNo() != null && !userRegInfo.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
 			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
@@ -1007,10 +1026,10 @@ public class UserService {
 			}
 		}
 		//수정
-		if(userDomain.getPlMZId() != null && !userDomain.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}
-		if(userDomain.getPlMerchantNo() != null && !userDomain.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
 			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
@@ -1028,16 +1047,6 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userImwonDomain.getMasterSeq());
 		
-		//모집인 상세
-		UserDomain param 			= new UserDomain();
-		param.setMasterSeq(userImwonDomain.getMasterSeq());
-		UserDomain userRegInfo 		= userRepo.getUserRegDetail(param);
-		String plRegStat 			= userRegInfo.getPlRegStat();
-		
-		//대표자 및 임원 상세
-		UserImwonDomain imwonInfo 	= userRepo.getUserRegCorpImwonInfo(userImwonDomain);
-		String originCareerTyp		= imwonInfo.getCareerTyp();
-		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -1052,34 +1061,6 @@ public class UserService {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		/*
-		if(!originCareerTyp.equals(userImwonDomain.getCareerTyp())) {
-			FileDomain fileParam 	= new FileDomain();
-			int fileSeq 			= 0;
-			if(userImwonDomain.getCareerTyp().equals("1")) {
-				//신규 -> 기존 경력 첨부파일 삭제
-				if(imwonInfo.getCareerFileSeq() != null) {
-					fileSeq = imwonInfo.getCareerFileSeq();
-				}
-			}else {
-				//경력 -> 기존 신규 첨부파일 삭제
-				if(imwonInfo.getNewcomerFileSeq() != null) {
-					fileSeq = imwonInfo.getNewcomerFileSeq();
-				}
-			}
-			fileParam.setFileSeq(fileSeq);
-			
-			if(plRegStat.equals("1")) {
-				//승인 전에는 파일 delete
-				commonService.realDeleteFile(fileParam);
-			}else {
-				//승인 후에는 use_yn = "N"
-				commonService.deleteFile(fileParam);
-			}
-		}
-		*/
-		
-		
 		//수정
 		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
@@ -1097,16 +1078,6 @@ public class UserService {
 		//상태값 체크*****
 		this.userValidation(userExpertDomain.getMasterSeq());
 		
-		//모집인 상세
-		UserDomain param 			= new UserDomain();
-		param.setMasterSeq(userExpertDomain.getMasterSeq());
-		UserDomain userRegInfo 		= userRepo.getUserRegDetail(param);
-		String plRegStat 			= userRegInfo.getPlRegStat();
-		
-		//전문인력 상세
-		UserExpertDomain expertInfo = userRepo.getUserRegCorpExpertInfo(userExpertDomain);
-		String originCareerTyp		= expertInfo.getCareerTyp();
-		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
 				.setFiles(files)
@@ -1121,34 +1092,6 @@ public class UserService {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		/*
-		
-		if(!originCareerTyp.equals(userExpertDomain.getCareerTyp())) {
-			FileDomain fileParam 	= new FileDomain();
-			int fileSeq 			= 0;
-			if(userExpertDomain.getCareerTyp().equals("1")) {
-				//신규 -> 기존 경력 첨부파일 삭제
-				if(expertInfo.getCareerFileSeq() != null) {
-					fileSeq = expertInfo.getCareerFileSeq();
-				}
-			}else {
-				//경력 -> 기존 신규 첨부파일 삭제
-				if(userExpertDomain.getNewcomerFileSeq() != null) {
-					fileSeq = expertInfo.getNewcomerFileSeq();
-				}
-			}
-			fileParam.setFileSeq(fileSeq);
-			
-			if(plRegStat.equals("1")) {
-				//승인 전에는 파일 delete
-				commonService.realDeleteFile(fileParam);
-			}else {
-				//승인 후에는 use_yn = "N"
-				commonService.deleteFile(fileParam);
-			}
-		}
-		*/
-		
 		//수정
 		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);
@@ -1296,10 +1239,10 @@ public class UserService {
 				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		if(userDomain.getPlMZId() != null && !userDomain.getPlMZId().equals("")) {
+		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}
-		if(userDomain.getPlMerchantNo() != null && !userDomain.getPlMerchantNo().equals("")) {
+		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
 			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
