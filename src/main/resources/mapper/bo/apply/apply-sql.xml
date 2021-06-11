@@ -124,7 +124,7 @@
 				AND Z.COM_REG_DATE 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
 			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.COM_REG_DATE 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				AND Z.COM_REG_DATE 	<![CDATA[<=]]> #{srchDate2}::TIMESTAMP
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
