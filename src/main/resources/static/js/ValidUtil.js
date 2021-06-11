@@ -15,6 +15,7 @@ var Valid = {
     	if(val == '') {
     		if(typeof msg === 'undefined' || typeof msg === null || typeof msg === '') msg = '필수값을 입력하세요.';
     		alert(msg);
+    		$(obj).focus();
     		return false;
     	}
     	
@@ -22,6 +23,7 @@ var Valid = {
     		let e = document.getElementsByName(eq)[0].value;
     		if(e != val) {
     			alert(msg);
+    			$(obj).focus();
     			return false;
     		}
     	}
@@ -33,12 +35,14 @@ var Valid = {
     			if(typeof l[0] != 'undefined'){
     				if(l[0]>val.length){
     					alert('최소 ' + l[0]+ ' 자로 입력하세요.');
+    					$(obj).focus();
     					return false;
     				}
     			}
     			if(typeof l[1] != 'undefined'){
     				if(l[1]<val.length){
     					alert('최대 ' + l[1]+ ' 자로 입력하세요.');
+    					$(obj).focus();
     					return false;
     				}
     			}
@@ -48,50 +52,58 @@ var Valid = {
     	switch (el.type){
 	    	case 'plMerchant' :
 	    		regexp = /^(\d{6})-(\d{7})*$/;
-	    		if(!regexp.test(val))	alert('법인등록번호 형식을 확인해주세요.');
+	    		if(!regexp.test(val))	alert('법인등록번호 형식을 확인해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	    		break;
 	    	case 'plBusiness' :
 	    		regexp = /^(\d{3})-(\d{2})-(\d{5})*$/;
-	    		if(!regexp.test(val))	alert('사업자등록번호 형식을 확인해주세요.');
+	    		if(!regexp.test(val))	alert('사업자등록번호 형식을 확인해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	    		break;
 	    	case 'mobileNo' :
 	    		regexp = /^\d{3}-\d{3,4}-\d{4}$/;
-	    		if(!regexp.test(val))	alert('휴대폰번호 형식을 확인해주세요.');
+	    		if(!regexp.test(val))	alert('휴대폰번호 형식을 확인해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	    		break;
 	    	case 'extensionNo' :
 	    		regexp = /^\d{2,3}-\d{3,4}-\d{4}$/;
-	    		if(!regexp.test(val))	alert('회사전화번호 형식을 확인해주세요.');
+	    		if(!regexp.test(val))	alert('회사전화번호 형식을 확인해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	    		break;
 	        case 'num' :
 	        	regexp = /^[0-9]*$/;
-	    		if(!regexp.test(val))	alert('숫자만 입력하세요.');
+	    		if(!regexp.test(val))	alert('숫자만 입력해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	            break;
 	        case 'email' :
 	        	regexp=/^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
-	    		if(!regexp.test(val))	alert('이메일 형식으로 입력하세요.');
+	    		if(!regexp.test(val))	alert('이메일 형식으로 입력해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	            break;
 	        case 'id' :
 	        	regexp= /^[a-z][a-z0-9]{4,10}$/g;
 	        	if(!regexp.test(val))	alert('ID는 영문(소문자),숫자 5~11 자리로 입력해 주세요.');
 	        	else return true;
+	        	$(obj).focus();
 	        	return false;
 	        	break;
 	        case 'pw' :
 	        	regexp=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-	    		if(!regexp.test(val))	alert('비밀번호는 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력하세요.');
+	    		if(!regexp.test(val))	alert('비밀번호는 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자를 입력해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 	    		return false;
 	            break;
 	        case 'text' :
@@ -101,10 +113,11 @@ var Valid = {
 				regexp=/\.(jpg|gif|tif|bmp|png)$/i;
 				if(!regexp.test(val))	alert('파일 형식을 확인해 주세요.');
 	    		else return true;
+	    		$(obj).focus();
 				return false;
 	            break;
 	        default :
-	        	alert('유효성검사 TYPE을 확인 하세요');
+	        	alert('유효성검사 TYPE을 확인해 주세요.');
 	        	return false;
     	}
     	
