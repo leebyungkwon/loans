@@ -186,14 +186,12 @@ function goUserChangeApply(){
 						<th>위탁예정기간</th>
 						<td colspan="3">${result.userRegInfo.entrustDate }</td>
 					</tr>
-					
-					<c:if test="${!empty result.userRegInfo.plHistTxt and result.userRegInfo.plStat eq '5'}">
+					<c:if test="${result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '6' or result.userRegInfo.plStat eq '7' }">
 						<tr>
 							<th>보완요청사유</th>
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 						</tr>					
 					</c:if>
-					
 					<tr>
 						<th>변경사유</th>
 						<td colspan="3"><input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/></td>

@@ -161,7 +161,6 @@ function goUserChangeApply(){
 						<th>변경사유</th>
 						<td colspan="3"><input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/></td>
 					</tr>
-					
 					<c:choose>
 						<c:when test="${fn:length(result.violationInfoList) > 0 }">
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
