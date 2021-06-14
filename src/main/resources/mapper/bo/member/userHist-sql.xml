@@ -125,7 +125,7 @@
    			,PL_STAT
    			,CASE 
 				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
-				WHEN PL_STAT IN ('3','5','6','7') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('3','5','6','7','10','11','12') THEN PL_HIST_TXT
 				ELSE ''
 			 END AS PL_HIST_TXT
    			,NOW()
