@@ -45,6 +45,11 @@ public class CorpService {
 	@Transactional
 	public ResponseMsg saveCorpInfo(CorpDomain corpDomain) {
 		
+		//법인번호 암호화
+		if(StringUtils.isNotEmpty(corpDomain.getPlMerchantNo())) {
+			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+		}
+		
 		int result = 0;
 		
 		if(corpDomain.getCorpSeq() == null) {
@@ -90,11 +95,12 @@ public class CorpService {
 	@Transactional(readOnly=true)
 	public CorpDomain getCorpInfo(CorpDomain corpDomain) {
 
-		CorpDomain result = corpRepo.getCorpInfo(corpDomain);
-		String dnc = CryptoUtil.decrypt(result.getPlMerchantNo());
+		CorpDomain result 	= corpRepo.getCorpInfo(corpDomain);
+		String dnc 			= CryptoUtil.decrypt(result.getPlMerchantNo());
+		dnc 				= dnc.substring(0, 6) + "-" + dnc.substring(6);
 		result.setPlMerchantNo(dnc);
 		
-		return corpRepo.getCorpInfo(corpDomain);
+		return result;
 	}
 
 	// 법인등록번호 중복체크
