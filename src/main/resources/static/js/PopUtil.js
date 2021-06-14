@@ -50,6 +50,9 @@ var PopUtil = {
     	Element.style.display = 'none';
 		Element.querySelector('.popup_inner').innerHTML = "";
     }
+    , closePopupByReload: function(){
+    	location.reload();
+    }
     ,openWinPopup: function(opts){
    		var win = window.open(opts.popupUrl, "PopupWin", "width=500,height=600");
     }

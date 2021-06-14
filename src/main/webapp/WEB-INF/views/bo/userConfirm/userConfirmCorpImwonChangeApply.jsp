@@ -29,11 +29,11 @@ function pageLoad(){
 					
 					html += '<div class="title_wrap">';
 					html += '<h5>전산인력 등록</h5>';
-					html += '<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopup();"></a>';
+					html += '<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopupByReload();"></a>';
 					html += '</div>';
 					html += '<p class="popup_desc" style="line-height: 30px;">'+result.data+'</p>';
 					html += '<div class="popup_btn_wrap">';
-					html += '<a href="javascript:void(0);" class="pop_btn_black" onclick="PopUtil.closePopup();">확인</a>';
+					html += '<a href="javascript:void(0);" class="pop_btn_black" onclick="PopUtil.closePopupByReload();">확인</a>';
 					html += '</div>';
 					
 					$(".popup_inner").empty();
