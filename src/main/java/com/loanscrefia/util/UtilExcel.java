@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -124,7 +125,10 @@ public class UtilExcel<T> {
 		}
 		
 		//최초 등록 시 대출 상품 중복 체크용 배열
-		String plProductArr[] = new String[physicalNumberOfRows-1];
+		String plProductArr[] 	= new String[physicalNumberOfRows-1];
+		
+		//row check
+		int cellChkCnt 			= 0;
 		
 		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
 		    Row row 				= null;
@@ -140,6 +144,16 @@ public class UtilExcel<T> {
 	        row = sheet.getRow(i);
 	        
 	        if(row != null) {
+	        	for(int t = 0;t < vCell.size();t++) {
+            		if(StringUtils.isEmpty(ExcelCellRef.getValue(row.getCell(t)).trim())) {
+            			cellChkCnt++;
+            		}
+            	}
+	        	if(vCell.size() == cellChkCnt) {
+	        		errorMsg = row.getRowNum() + 1 + "번째 줄의 데이터가 잘못되었습니다. 해당 row 우클릭 삭제 후 업로드해 주세요.<br>";
+	        		break;
+	        	}
+	        	
 	            map = new HashMap<String, Object>();
 	            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
 	                cell 		= row.getCell(cellIndex);
