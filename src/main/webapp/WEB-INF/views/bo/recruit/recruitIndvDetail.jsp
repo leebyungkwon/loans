@@ -161,6 +161,18 @@ function goRecruitImprove(rePlStat){
 					<td colspan="3">${result.recruitInfo.plClassNm }</td>
 				</tr>
 				<tr>
+					<th>법인사용인여부</th>
+					<td colspan="3">${result.recruitInfo.corpUserYn }</td>
+				</tr>
+				<c:if test="${result.recruitInfo.corpUserYn eq 'Y' }">
+					<tr>
+						<th>법인명</th>
+						<td>${result.recruitInfo.plMerchantName }</td>
+						<th>법인등록번호</th>
+						<td>${result.recruitInfo.plMerchantNo }</td>
+					</tr>
+				</c:if>
+				<tr>
 					<th>신규경력구분</th>
 					<td colspan="3">${result.recruitInfo.careerTypNm }</td>
 				</tr>

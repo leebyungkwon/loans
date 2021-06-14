@@ -102,8 +102,10 @@ function goUserRegInfoCancel() {
 					</tr>
 					<c:if test="${result.userRegInfo.corpUserYn eq 'Y' }">
 						<tr>
+							<th>법인명</th>
+							<td>${result.userRegInfo.plMerchantName }</td>
 							<th>법인등록번호</th>
-							<td colspan="3">${result.userRegInfo.plMerchantNo }</td>
+							<td>${result.userRegInfo.plMerchantNo }</td>
 						</tr>
 					</c:if>
 					<tr>

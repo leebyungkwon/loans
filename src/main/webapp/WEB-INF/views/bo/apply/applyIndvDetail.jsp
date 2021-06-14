@@ -203,6 +203,18 @@ function goApplyImprove(num){
 					<td colspan="3">${result.applyInfo.plClassNm }</td>
 				</tr>
 				<tr>
+					<th>법인사용인여부</th>
+					<td colspan="3">${result.applyInfo.corpUserYn }</td>
+				</tr>
+				<c:if test="${result.applyInfo.corpUserYn eq 'Y' }">
+					<tr>
+						<th>법인명</th>
+						<td>${result.applyInfo.plMerchantName }</td>
+						<th>법인등록번호</th>
+						<td>${result.applyInfo.plMerchantNo }</td>
+					</tr>
+				</c:if>
+				<tr>
 					<th>신규경력구분</th>
 					<td colspan="3">${result.applyInfo.careerTypNm }</td>
 				</tr>
