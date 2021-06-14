@@ -934,9 +934,6 @@
    			<if test="plCeoName != null and plCeoName != ''">
    			,PL_CEO_NAME 		= #{plCeoName}
    			</if>
-   			<if test="plMerchantNo != null and plMerchantNo != ''">
-   			,PL_MERCHANT_NO 	= #{plMerchantNo}
-   			</if>
    			<if test="corpFoundDate != null and corpFoundDate != ''">
    			,CORP_FOUND_DATE 	= REPLACE(#{corpFoundDate}, '-', '')
    			</if>

@@ -112,7 +112,7 @@ function goUserChangeApply(){
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
-						<td><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }" maxlength="14" placeholder="- 포함" data-vd='{"type":"plMerchant","len":"1,14","req":true,"msg":"법인등록번호(- 포함)를 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plMerchantNo }</td>
 					</tr>
 					<tr>
 						<th>설립년월일</th>
