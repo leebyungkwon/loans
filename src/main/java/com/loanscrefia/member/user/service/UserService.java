@@ -508,6 +508,11 @@ public class UserService {
 			
 			UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
 			
+			if(userRegInfo.getPlRegStat().equals("2")) {
+				//모집인상태가 승인완료이면 승인요청 불가
+				return -2;
+			}
+			
 			if(userRegInfo.getCorpUserYn().equals("Y")) {
 				//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음
 				int corpCheck = userRepo.corpStatCheck(userRegInfo);
@@ -531,6 +536,11 @@ public class UserService {
 		
 		int result 				= 0;
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		
+		if(userRegInfo.getPlRegStat().equals("2")) {
+			//모집인상태가 승인완료이면 승인요청 불가
+			return -2;
+		}
 		
 		if(userRegInfo.getPlClass().equals("1") && userRegInfo.getCorpUserYn().equals("Y")) {
 			//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음

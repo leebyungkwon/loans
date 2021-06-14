@@ -240,8 +240,11 @@ function goApplyAccept() {
 			, success 	: function (opt,result) {
 				if(result.data > 0){
 					alert("승인요청되었습니다.");
+					location.href = "/member/user/userRegPage";
+				}else if(result.data == -2){
+					alert("이미 승인완료된 모집인입니다.");
 					userRegGrid.refresh();
-				}else{
+				}else if(result.data == -1){
 					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
 					userRegGrid.refresh();
 				}
