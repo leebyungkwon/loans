@@ -205,7 +205,7 @@ function goGetDate(opt) {
 					<td class="">
 						<input type="text" name="plMerchantName">
 					</td>
-					<th>법인명</th>
+					<th>법인번호</th>
 					<td class="">
 						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
 					</td>

@@ -73,34 +73,34 @@
 	    FROM TB_LC_MAS01 TLM
 		<where>
 			AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
-			AND TLM.PL_REG_STAT != '1'																	-- 모집인상태가 승인전이 아닌 것
+			AND TLM.PL_REG_STAT <![CDATA[!=]]> '1'														-- 모집인상태가 승인전이 아닌 것
 			AND TLM.PL_STAT NOT IN ('1','2','5','8','10')												-- 처리상태가 미요청, 승인요청, 보완요청(=반려), 취소, 등록요건 불충족(=부적격)이 아닌 것
 	    </where>
    		)Z
    		<where>
 			<if test="plRegStat != null and plRegStat != ''">
-				AND Z.PL_REG_STAT	= #{plRegStat}
+				AND Z.PL_REG_STAT = #{plRegStat}
 			</if>		
 			<if test="plStat != null and plStat != ''">
-				AND Z.PL_STAT 	= #{plStat}
+				AND Z.PL_STAT = #{plStat}
 			</if>
 			<if test="plClass != null and plClass != ''">
 				<if test='plClass.equals("1") || plClass.equals("2")'>
-					AND Z.PL_CLASS 	= #{plClass} 
+					AND Z.PL_CLASS = #{plClass} 
 				</if>
 				<if test='plClass.equals("3")'>
 					AND Z.PL_CLASS 		= '1' 
-					AND Z.CORP_USER_YN  	= 'Y'
+					AND Z.CORP_USER_YN  = 'Y'
 				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
-				AND Z.PL_PRODUCT 	= #{plProduct}
+				AND Z.PL_PRODUCT = #{plProduct}
 			</if>
 			<if test="plMName != null and plMName != ''">
 				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
 			</if>
 			<if test="plMZId != null and plMZId != ''">
-				AND Z.PL_M_Z_ID LIKE '%' || #{plMZId} || '%'
+				AND Z.PL_M_Z_ID = #{plMZId}
 			</if>
 			<if test="plCellphone != null and plCellphone != ''">
 				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
@@ -109,10 +109,7 @@
 				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
 			</if>
 			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
-			</if>
-			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
+				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
 			</if>
 			<if test="plRegistNo != null and plRegistNo != ''">
 				AND Z.PL_REGIST_NO LIKE '%' || #{plRegistNo} || '%'
@@ -155,7 +152,7 @@
    			COUNT(*)
    		FROM TB_LC_MAS01
    		WHERE CORP_USER_YN 	= 'Y'
-   		AND PL_REG_STAT 	!= '4'					-- 해지완료가 아닌 법인사용인
+   		AND PL_REG_STAT 	<![CDATA[!=]]> '4'					-- 해지완료가 아닌 법인사용인
    		AND PL_MERCHANT_NO 	= #{plMerchantNo}
    	</select>
    	
@@ -346,11 +343,11 @@
    		)Z
    		<where>
    			<if test="memberNm != null and memberNm != ''">
-				AND Z.MEMBER_NM LIKE CONCAT('%',#{memberNm},'%')
+				AND Z.MEMBER_NM LIKE '%' || #{memberNm} || '%'
 			</if>
 			<if test="plClass != null and plClass != ''">
 				<if test='plClass.equals("1") || plClass.equals("2")'>
-					AND Z.PL_CLASS 	= #{plClass} 
+					AND Z.PL_CLASS = #{plClass} 
 				</if>
 				<if test='plClass.equals("3")'>
 					AND Z.PL_CLASS 		= '1' 
@@ -358,13 +355,13 @@
 				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
-				AND Z.PL_PRODUCT 	= #{plProduct}
+				AND Z.PL_PRODUCT = #{plProduct}
 			</if>
 			<if test="plMName != null and plMName != ''">
 				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
 			</if>
 			<if test="plMZId != null and plMZId != ''">
-				AND Z.PL_M_Z_ID LIKE '%' || #{plMZId} || '%'
+				AND Z.PL_M_Z_ID LIKE = #{plMZId}
 			</if>
 			<if test="plCellphone != null and plCellphone != ''">
 				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
@@ -373,7 +370,7 @@
 				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
 			</if>
 			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO LIKE '%' || #{plMerchantNo} || '%'
+				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
 			</if>
 			<if test="fileCompYn != null and fileCompYn != ''">
 				AND Z.FILE_COMP_YN 	= #{fileCompYn}
@@ -396,7 +393,7 @@
    		SELECT 
    			COUNT(*)
    		FROM TB_LC_MAS01
-   		WHERE PL_STAT 		!= '8'						-- 처리상태가 취소가 아닌 것
+   		WHERE PL_STAT 		<![CDATA[!=]]> '8'						-- 처리상태가 취소가 아닌 것
    		AND PL_PRODUCT 		= #{plProduct}
    		<if test='plProduct != null and plProduct != "" and plProduct != "1"'>
    		AND CI 				= #{ci}
@@ -913,9 +910,6 @@
    			</if>
    			<if test="addrDetail != null and addrDetail != ''">
    			,ADDR_DETAIL		= #{addrDetail}
-   			</if>
-   			<if test="plEduNo != null and plEduNo != ''">
-   			,PL_EDU_NO 			= #{plEduNo}
    			</if>
    			<if test="careerStartDate != null and careerStartDate != ''">
    			,CAREER_START_DATE 	= REPLACE(#{careerStartDate}, '-', '')

@@ -176,7 +176,7 @@ function goGetDate(opt) {
 					</td>
 					<th>주민등록번호</th>
 					<td class="">
-						<input type="text" name="plMZId">
+						<input type="text" name="plMZId" placeholder="-를 빼고 입력해주세요.">
 					</td>
 				</tr>
 				<tr>
@@ -190,7 +190,7 @@ function goGetDate(opt) {
 					</td>
 					<th>법인번호</th>
 					<td class="">
-						<input type="text" name="plMerchantNo">
+						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
 					</td>
 				</tr>
 				<tr>
