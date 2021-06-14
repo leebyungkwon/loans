@@ -57,6 +57,13 @@ var Valid = {
 	    		$(obj).focus();
 	    		return false;
 	    		break;
+	    	case 'pId' :
+	    		regexp = /^(\d{6})-(\d{7})*$/;
+	    		if(!regexp.test(val))	alert('주민번호 형식을 확인해 주세요.');
+	    		else return true;
+	    		$(obj).focus();
+	    		return false;
+	    		break;
 	    	case 'plBusiness' :
 	    		regexp = /^(\d{3})-(\d{2})-(\d{5})*$/;
 	    		if(!regexp.test(val))	alert('사업자등록번호 형식을 확인해 주세요.');

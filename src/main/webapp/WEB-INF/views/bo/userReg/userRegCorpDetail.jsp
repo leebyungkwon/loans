@@ -115,7 +115,7 @@ function goUserRegInfoCancel() {
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
-						<td><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }" maxlength="14" placeholder="- 포함" data-vd='{"type":"text","len":"1,14","req":true,"msg":"법인등록번호(- 포함)를 입력해 주세요."}'></td>
+						<td><input type="text" name="plMerchantNo" class="w100" value="${result.userRegInfo.plMerchantNo }" maxlength="14" placeholder="- 포함" data-vd='{"type":"plMerchant","len":"1,14","req":true,"msg":"법인등록번호(- 포함)를 입력해 주세요."}'></td>
 						<th>설립년월일</th>
 						<td>
 							<input type="text" name="corpFoundDate" id="corpFoundDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.corpFoundDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"설립년월일(- 포함)을 입력해 주세요."}' readonly="readonly">
@@ -138,7 +138,7 @@ function goUserRegInfoCancel() {
 					</tr>
 					<tr>
 						<th>자본금(백만원)</th>
-						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
+						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" maxlength="10" data-vd='{"type":"num","len":"1,10","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>계약일자</th>
