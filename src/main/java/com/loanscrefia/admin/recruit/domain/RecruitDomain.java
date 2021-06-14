@@ -114,6 +114,7 @@ public class RecruitDomain extends BaseDomain {
 	
 	private String payType;
 	private String payName;
+	private String originPayRegDate;
 	private String payRegDate;
 	
 	private String afterData;						// 변경이력 현재데이터

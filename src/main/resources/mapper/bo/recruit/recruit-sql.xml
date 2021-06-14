@@ -68,6 +68,7 @@
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 				,(SELECT pay.pay_type from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_TYPE
 				,(SELECT pay.name from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_NAME
+				,(SELECT pay.reg_timestamp from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS ORIGIN_PAY_REG_DATE
 				,(SELECT TO_CHAR(pay.reg_timestamp, 'YYYY-MM-DD') from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_REG_DATE 
 		    FROM TB_LC_MAS01 TLM
 			<where>
@@ -141,10 +142,10 @@
 					</if>
 					<if test="srchSelect2.equals('payDate')">
 						<if test="srchDate1 != null and srchDate1 != ''">
-							AND Z.PAY_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+							AND Z.ORIGIN_PAY_REG_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.PAY_DATE::TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_PAY_REG_DATE::TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 						</if>
 					</if>
 					<if test="srchSelect2.equals('creLicenseDate')">
