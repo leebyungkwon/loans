@@ -5,13 +5,15 @@ server:
       cookie:
         name: K_IDF 
         http-only: true
+  tomcat:
+    max-swallow-size: 1
         
 
 spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: dev
+    active: prd
   devtools:
     livereload:
       enabled: true
@@ -19,6 +21,10 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 ---
 spring:
@@ -42,7 +48,7 @@ spring:
 
 logging:
   level:
-    #org.springframework: error
+    org.springframework: debug
     #worg.hibernate.type: info
     jdbc.audit: off
     jdbc.connection: off
@@ -74,7 +80,7 @@ spring:
       hikari:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        jdbc-url: jdbc:log4jdbc:postgresql://192.168.170.102:5432/postgres
         username: postgres
         password: 1234
         
@@ -83,7 +89,7 @@ spring:
       hikari:
         pool-name: READ-DB
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
         username: cemms
         password: cemms1234
 
@@ -107,14 +113,42 @@ download:
 ---
 
 spring:
-  profiles: prd
-  datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 1234
-    
+  profiles: prod
+  devtools:
+    restart:
+      enabled: true
+  mst:
+    datasource:
+      hikari:
+        pool-name: MASTER-DB
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        jdbc-url: jdbc:log4jdbc:postgresql://192.168.170.103:5432/postgres
+        username: postgres
+        password: crefiaL0ans!@
+        
+  read:
+    datasource:
+      hikari:
+        pool-name: READ-DB
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+        username: cemms
+        password: cemms1234
+
+        
 logging:
   level:
-    org.springframework: error
+    org.springframework: debug
+    jdbc.audit: off
+    jdbc.connection: off
+    jdbc.resultset: off
+    jdbc.sqlonly: error
+   
+   
+   
+upload:
+  filePath: Z:\loanscrefia\static\upload
+  
+download:
+  filePath: Z:\loanscrefia\static\upload
   

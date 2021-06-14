@@ -133,7 +133,7 @@ INSERT INTO tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_des
 	 ('MAS001','4','해지요청','해지요청',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:16:56.946822',NULL,NULL),
 	 ('MAS001','5','보완요청','보완요청','Y',NULL,'Y',NULL,NULL,'Y',142,'2021-05-03 17:17:03.410629',NULL,NULL),
 	 ('MAS001','6','변경요청(보완)','변경요청(보완)',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
-	 ('MAS001','7','해지요청(보완)','해지요청(보완)',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
+	 ('MAS001','7','해지요청(보완)','해지요청(보완)',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:03',NULL,NULL),
 	 ('MAS001','8','취소','취소',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','9','완료','완료',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
 	 ('MAS001','10','등록요건 불충족','등록요건 불충족','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),

@@ -91,6 +91,41 @@ public class RecruitService {
 		//상세
 		RecruitDomain recruitInfo = recruitRepository.getRecruitDetail(recruitDomain);
 		
+		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
+		recruitDomain.setSearchPlMName(recruitInfo.getPlMName());
+		recruitDomain.setSearchPlMZId(recruitInfo.getPlMZId());
+		recruitDomain.setSearchPlCellphone(recruitInfo.getPlCellphone());
+		//이력상세 - 이름
+		RecruitDomain recruitHistInfoName = recruitRepository.getRecruitHistDetail(recruitDomain);
+		if(recruitHistInfoName != null) {
+			if(!recruitHistInfoName.getPlMName().equals(recruitInfo.getPlMName())) {
+				recruitInfo.setHistPlMName(recruitHistInfoName.getPlMName());
+			}
+		}
+		
+		//이력상세 - 주민번호
+		RecruitDomain recruitHistInfoZid = recruitRepository.getRecruitHistDetail(recruitDomain);
+		if(recruitHistInfoZid != null) {
+			if(!recruitHistInfoZid.getPlMZId().equals(recruitInfo.getPlMZId())) {
+				
+				// 주민번호 암호화 해제		
+				StringBuilder histZid = new StringBuilder();
+				if(StringUtils.isNotEmpty(recruitHistInfoZid.getPlMZId())) {
+					histZid.append(CryptoUtil.decrypt(recruitHistInfoZid.getPlMZId()));
+					histZid.insert(6, "-");
+					recruitInfo.setHistPlMZId(histZid.toString());
+				}
+			}
+		}
+		
+		//이력상세 - 연락처
+		RecruitDomain recruitHistInfoPhone = recruitRepository.getRecruitHistDetail(recruitDomain);
+		if(recruitHistInfoPhone != null) {
+			if(!recruitHistInfoPhone.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
+				recruitInfo.setHistPlCellphone(recruitHistInfoPhone.getPlCellphone());
+			}
+		}
+		
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
@@ -113,27 +148,6 @@ public class RecruitService {
 			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
-		}
-		
-		//이력상세
-		RecruitDomain recruitHistInfo = recruitRepository.getRecruitHistDetail(recruitDomain);
-		if(recruitHistInfo != null) {
-			if(!recruitHistInfo.getPlMName().equals(recruitInfo.getPlMName())) {
-				recruitInfo.setHistPlMName(recruitHistInfo.getPlMName());
-			}
-			if(!recruitHistInfo.getPlMZId().equals(recruitInfo.getPlMZId())) {
-				
-				// 주민번호 암호화 해제		
-				StringBuilder histZid = new StringBuilder();
-				if(StringUtils.isNotEmpty(recruitHistInfo.getPlMZId())) {
-					histZid.append(CryptoUtil.decrypt(recruitHistInfo.getPlMZId()));
-					histZid.insert(6, "-");
-					recruitInfo.setHistPlMZId(histZid.toString());
-				}
-			}
-			if(!recruitHistInfo.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
-				recruitInfo.setHistPlCellphone(recruitHistInfo.getPlCellphone());
-			}
 		}
 		
 		//첨부파일

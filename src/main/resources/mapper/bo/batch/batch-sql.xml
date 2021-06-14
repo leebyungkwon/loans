@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.system.batch.repository.BatchRepository">
+
+    <select id="selectExcelUploadUserAndFileDelete" resultType="user">
+		select
+			 master_seq 
+			,file_seq 
+		from
+			tb_lc_mas01
+		where
+			pl_stat = '1'
+		and TO_CHAR(reg_timestamp + interval '1 month', 'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(NOW(), 'YYYYMMDD')
+    </select>
+    
+</mapper>

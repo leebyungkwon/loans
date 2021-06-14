@@ -123,6 +123,11 @@ public class RecruitDomain extends BaseDomain {
 	
 	private String preRegYn;						// 기등록여부
 	
+	private String searchPlMName;
+	private String searchPlMZId;
+	private String searchPlCellphone;
+	
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

@@ -51,8 +51,16 @@
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
 				,case
-					when CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일') = '일' then ''
-					else CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일')
+					when pl_stat = '5' then
+											case
+												when CONCAT((tlm.cre_app_fi_date::date), '일') = '일' then ''
+												else CONCAT((tlm.cre_app_fi_date::date), '일')
+											end
+					else
+						case
+							when CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일') = '일' then ''
+							else CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일')
+					end
 				end CRE_APP_FI_DATE
 				,COALESCE(TLM.CHK_YN,'N') AS CHK_YN
 				,CASE

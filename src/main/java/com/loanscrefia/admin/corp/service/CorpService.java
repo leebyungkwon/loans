@@ -50,21 +50,26 @@ public class CorpService {
 			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
 		}
 		
+		//법인번호 중복체크
+		int count = this.plMerchantNoCheck(corpDomain);
+		if(count > 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", 0, "해당 법인등록번호가 이미 등록되어 있습니다.");
+		}
+
+		//저장
 		int result = 0;
-		
 		if(corpDomain.getCorpSeq() == null) {
-			//저장
+			//등록
 			result = corpRepo.insertCorpInfo(corpDomain);
 		}else {
 			//수정
 			result = corpRepo.updateCorpInfo(corpDomain);
 		}
-		
 		//결과
 		if(result > 0) {
-			return new ResponseMsg(HttpStatus.OK, "COM0001", "");
+			return new ResponseMsg(HttpStatus.OK, "success", 1, "저장되었습니다.");
 		}
-		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
+		return new ResponseMsg(HttpStatus.OK, "fail", 0, "");
 	}
 	
 	//법인 저장 : 엑셀 업로드

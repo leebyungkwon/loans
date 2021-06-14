@@ -8,17 +8,14 @@ function pageLoad(){
 	// 회원가입 클릭
 	$("#signupBtn").on("click", function(){
 		if(confirm("회원가입을 진행 하시겠습니까?")){
-			var pw       = $("#password").val();               // 비밀번호
-			var pwChk  = $("#passwordChk").val();            // 비밀번호 확인
-			var id					  = $("#memberId").val();
+			var id					= $("#memberId").val();
+			var pw					= $("#password").val();               // 비밀번호
+			var pwChk				= $("#passwordChk").val();            // 비밀번호 확인
+			var fileName			= $("#fileName").val();
+			var comCode				= $("#comCode").val();
 			
-			if($("#checkId").val() == "N"){
-				alert("중복체크를 실행해 주세요.");
-				return false;
-			}
+			var checkCount = 0;
 			
-			var checkCount 	= 0;
-
 			if(/[0-9]/.test(pw)){ //숫자
 			    checkCount++;
 			}
@@ -31,6 +28,11 @@ function pageLoad(){
 			if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(pw)){ //특수문자
 			    checkCount++;
 			}
+			
+			if(comCode == 0){
+				alert("회원사를 선택해 주세요.");
+				return false;
+			}
 			if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(pw)){ 
 			    alert("비밀번호에 한글을 사용 할 수 없습니다.");
 			    return false;
@@ -40,7 +42,7 @@ function pageLoad(){
 			    return false;
 			}
 			if (pw.length < 8 || pw.length > 20){ 
-				alert("8자리 ~ 20자리 이내로 입력해주세요.");
+				alert("8자리 ~ 20자리 이내로 입력해 주세요.");
 				return false;
 			}
 			if (/(\w)\1\1/.test(pw)){ 
@@ -49,16 +51,21 @@ function pageLoad(){
 			}
 			if (pw.search(id) > -1){
 				alert("비밀번호에 아이디가 포함되었습니다.");
-				alert(id)
 				return false;
 			}
 			if (pw.search(/\s/) != -1){ 
-				alert("비밀번호는 공백 없이 입력해주세요.");
+				alert("비밀번호는 공백 없이 입력해 주세요.");
 				return false;
-			}else {
-				console.log("통과");
 			}
-//////////////////////////////////////////////////////////////////////////////////////////////
+			if($("#checkId").val() == "N"){
+				alert("중복체크를 실행해 주세요.");
+				return false;
+			}
+			if(WebUtil.isNull(fileName)){
+				alert("파일을 첨부해 주세요.");
+				$("#fileName").focus();
+				return false;
+			}
 			if( pw == pwChk ){
 				var signupParam = {
 					name : 'signup'
@@ -105,7 +112,6 @@ function pageLoad(){
 			param: param
 			,url: "/idcheck"
             ,success: function(opt, result) {
-            	console.log("ajaxResult == " , result);
             	if(result.message == "success"){
                 	if(result.data > 0){
                         $("#memberId").val("");

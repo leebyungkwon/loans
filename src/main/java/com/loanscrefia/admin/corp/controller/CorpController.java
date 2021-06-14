@@ -68,21 +68,7 @@ public class CorpController {
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
 		
-		// 2021-05-31 법인번호 암호화 진행예정
-		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-		String encMerchantNo = CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replace("-", "")); // 암호화
-		corpDomain.setPlMerchantNo(encMerchantNo);
-		
-		int count = corpService.plMerchantNoCheck(corpDomain);
-		if(count > 0) {
-			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
-			responseMsg.setData("0");
-		}else {
-			responseMsg = corpService.saveCorpInfo(corpDomain);
-			responseMsg.setData("1");
-		}
-		
-		responseMsg = new ResponseMsg(HttpStatus.OK, null, count, "success");
+		responseMsg = corpService.saveCorpInfo(corpDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

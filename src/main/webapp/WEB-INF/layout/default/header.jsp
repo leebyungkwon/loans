@@ -4,6 +4,11 @@
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<script>
+
+</script>
+
 <div class="wrap">
 	<div class="header">
 		<div class="inner">

@@ -398,6 +398,15 @@
 	    FROM TB_LC_MAS01_HIST TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ = #{masterSeq}
+	    	<if test="searchPlMName != null and searchPlMName != ''">
+	    		AND TLM.PL_M_NAME != #{searchPlMName}
+	    	</if>
+	    	<if test="searchPlMZId != null and searchPlMZId != ''">
+	    		AND TLM.PL_M_Z_ID != #{searchPlMZId}
+	    	</if>
+	    	<if test="searchPlCellphone != null and searchPlCellphone != ''">
+	    		AND TLM.PL_CELLPHONE != #{searchPlCellphone}
+	    	</if>
 	    </where>
 	    ORDER BY TLM.MASTER_HIST_SEQ DESC
 	    LIMIT 1
