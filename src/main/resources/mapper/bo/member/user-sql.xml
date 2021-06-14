@@ -70,6 +70,10 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+			,(SELECT TLP.PAY_TYPE FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_TYPE
+			,(SELECT TLP.NAME FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_NAME
+			,(SELECT TLP.REG_TIMESTAMP FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS ORIGIN_PAY_REG_DATE
+			,(SELECT TO_CHAR(TLP.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_REG_DATE
 	    FROM TB_LC_MAS01 TLM
 		<where>
 			AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
@@ -126,10 +130,10 @@
 					</if>
 					<if test="srchSelect2.equals('payDate')">
 						<if test="srchDate1 != null and srchDate1 != ''">
-							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+							AND Z.ORIGIN_PAY_REG_DATE::TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 						</if>
 						<if test="srchDate2 != null and srchDate2 != ''">
-							AND Z.ORIGIN_PAY_DATE::TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							AND Z.ORIGIN_PAY_REG_DATE::TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 						</if>
 					</if>
 					<if test="srchSelect2.equals('creLicenseDate')">
@@ -1065,7 +1069,7 @@
 		WHERE PL_CLASS 		= '2' 				-- 법인
 		AND PL_MERCHANT_NO 	= #{plMerchantNo}
 		AND PL_REG_STAT 	IN ('2','3')		-- 모집인상태 : 승인완료,자격취득
-		AND PL_STAT			= '7'				-- 처리상태 : 완료
+		AND PL_STAT			= '9'				-- 처리상태 : 완료
 	</select>
 	
 	<!-- ====================================================================================================== -->

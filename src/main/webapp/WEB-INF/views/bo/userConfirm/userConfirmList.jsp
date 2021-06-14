@@ -31,7 +31,7 @@ function pageLoad(){
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plRegistNo'		, index:'plRegistNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'creAppDate'		, index:'creAppDate'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'payDate'		, index:'payDate'			, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'payRegDate'		, index:'payRegDate'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'creLicenseDate'	, index:'creLicenseDate'	, width:"15%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"

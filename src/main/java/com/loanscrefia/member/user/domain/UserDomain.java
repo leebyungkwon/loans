@@ -108,6 +108,12 @@ public class UserDomain extends BaseDomain {
 	private String originRegTimestamp;
 	private String originUpdTimestamp;
 	
+	//결제
+	private String payType;
+	private String payName;
+	private String originPayRegDate;
+	private String payRegDate;
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
