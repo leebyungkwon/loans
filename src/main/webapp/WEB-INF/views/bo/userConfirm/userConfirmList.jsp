@@ -29,7 +29,7 @@ function pageLoad(){
 				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plRegistNo'		, index:'plRegistNo'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'creAppDate'		, index:'creAppDate'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'payRegDate'		, index:'payRegDate'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'creLicenseDate'	, index:'creLicenseDate'	, width:"15%"		, align:"center"}
@@ -196,7 +196,7 @@ function goGetDate(opt) {
 				<tr>
 					<th>모집인 등록번호</th>
 					<td class="">
-						<input type="text" name="plRegistNo">
+						<input type="text" name="masterToId">
 					</td>
 				</tr>
 				<tr>
