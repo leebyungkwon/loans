@@ -113,5 +113,35 @@ public class CorpService {
 	public int plMerchantNoCheck(CorpDomain corpDomain) {
 		return corpRepo.plMerchantNoCheck(corpDomain);
 	}
+
+	// 법인등록번호 
+	@Transactional(readOnly = true)
+	public int plMerchantNoSearchCheck(CorpDomain corpDomain) {
+		return corpRepo.plMerchantNoSearchCheck(corpDomain);
+	}
 	
+	
+	// 법인삭제
+	public ResponseMsg deleteCorpInfo(CorpDomain corpDomain) {
+		int[] corpSeqArr = corpDomain.getCorpSeqArr();
+		if(corpSeqArr.length > 0) {
+			int searchCnt = 0;
+			int resultCnt = 0;
+			for(int tmp : corpSeqArr) {
+				CorpDomain search = new CorpDomain();
+				search.setCorpSeq(tmp);
+				searchCnt = corpRepo.plMerchantNoSearchCheck(search);
+				resultCnt = resultCnt+searchCnt;
+			}
+			
+			if(resultCnt > 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", 0, "사용중인 법인번호가 존재합니다.");
+			}else {
+				corpRepo.deleteCorpInfo(corpDomain);
+				return new ResponseMsg(HttpStatus.OK, "success", 1, "삭제되었습니다.");
+			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", 0, "오류가 발생하였습니다.");
+		}
+	}
 }

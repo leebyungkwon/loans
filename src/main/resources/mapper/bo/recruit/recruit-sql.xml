@@ -130,6 +130,11 @@
 			<if test="plRegistNo != null and plRegistNo != ''">
 				AND Z.PL_REGIST_NO LIKE '%' || #{plRegistNo} || '%'
 			</if>
+			
+			<if test="masterToId != null and masterToId != ''">
+				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+			</if>
+			
 	    	<choose>
    				<when test="srchSelect2 != null and srchSelect2 != ''">
 					<if test="srchSelect2.equals('creAppDate')">
@@ -176,6 +181,7 @@
 			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
 			,TLM.PL_PRODUCT

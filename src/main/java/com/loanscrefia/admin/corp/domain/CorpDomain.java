@@ -31,4 +31,6 @@ public class CorpDomain extends BaseDomain {
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
+	
+	private int[] corpSeqArr;	// 삭제 배열
 }

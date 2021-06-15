@@ -158,11 +158,9 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
-					<td colspan="3">${result.recruitInfo.plClassNm }</td>
-				</tr>
-				<tr>
+					<td>${result.recruitInfo.plClassNm }</td>
 					<th>법인사용인여부</th>
-					<td colspan="3">${result.recruitInfo.corpUserYn }</td>
+					<td>${result.recruitInfo.corpUserYn }</td>
 				</tr>
 				<c:if test="${result.recruitInfo.corpUserYn eq 'Y' }">
 					<tr>

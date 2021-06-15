@@ -72,4 +72,12 @@ public class CorpController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//법인삭제
+	@PostMapping(value="/deleteCorpInfo")
+	public ResponseEntity<ResponseMsg> deleteCorpInfo(CorpDomain corpDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		responseMsg = corpService.deleteCorpInfo(corpDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 }

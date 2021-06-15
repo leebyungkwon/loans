@@ -103,6 +103,9 @@ public class RecruitService {
 			}
 		}
 		
+		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
+		recruitDomain.setSearchPlMName("");
+		recruitDomain.setSearchPlMZId(recruitInfo.getPlMZId());
 		//이력상세 - 주민번호
 		RecruitDomain recruitHistInfoZid = recruitRepository.getRecruitHistDetail(recruitDomain);
 		if(recruitHistInfoZid != null) {
@@ -118,6 +121,10 @@ public class RecruitService {
 			}
 		}
 		
+		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
+		recruitDomain.setSearchPlMName("");
+		recruitDomain.setSearchPlMZId("");
+		recruitDomain.setSearchPlCellphone(recruitInfo.getPlCellphone());
 		//이력상세 - 연락처
 		RecruitDomain recruitHistInfoPhone = recruitRepository.getRecruitHistDetail(recruitDomain);
 		if(recruitHistInfoPhone != null) {

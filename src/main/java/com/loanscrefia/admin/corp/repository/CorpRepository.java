@@ -26,4 +26,10 @@ public interface CorpRepository {
 	
 	//법인 정보 존재여부 체크
 	int selectCorpInfoCnt(CorpDomain corpDomain);
+	
+	//법인등록번호 사용여부 체크
+	int plMerchantNoSearchCheck(CorpDomain corpDomain);
+	
+	//법인 삭제
+	int deleteCorpInfo(CorpDomain corpDomain);
 }

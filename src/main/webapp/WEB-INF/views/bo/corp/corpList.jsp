@@ -27,6 +27,35 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 	});
+	
+	
+	// 삭제
+	$("#deleteCorp").on("click", function(){
+		var chkedLen = $("tbody > tr > td > input:checkbox:checked").length;
+		if(chkedLen == 0){
+			alert("법인을 선택해 주세요.");
+			return;
+		}
+		
+		if(confirm("삭제하시겠습니까?")){
+			var chkData = corpGrid.getChkData();
+			var corpSeqArr = [];
+			for(var i = 0;i < chkedLen;i++){
+				corpSeqArr.push(chkData[i].corpSeq);
+			}
+			var p = {
+				  url : "/admin/corp/deleteCorpInfo"	
+				, param : {
+					corpSeqArr : corpSeqArr
+				}
+				, success : function (opt,result) {
+					corpGrid.refresh();
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
+	
 }
 
 //법인 row 클릭 이벤트
@@ -134,6 +163,7 @@ function goCorpInfoSave() {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpInfoSavePopup();">등록</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="deleteCorp">삭제</a>
 			</div>
 		</div>
 		<div id="corpGrid" class="long_table"></div>

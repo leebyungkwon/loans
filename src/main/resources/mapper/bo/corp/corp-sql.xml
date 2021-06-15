@@ -108,10 +108,25 @@
 		</where>
 	</select>
 	
+	<!-- 법인등록번호 사용여부 체크 -->
+	<select id="plMerchantNoSearchCheck" parameterType="corp" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TB_LC_MAS01
+		WHERE pl_merchant_no = (SELECT pl_merchant_no FROM TB_LC_CORP WHERE CORP_SEQ = #{corpSeq})
+	</select>
+	
+	<delete id="deleteCorpInfo" parameterType="corp">
+		DELETE FROM TB_LC_CORP
+		WHERE CORP_SEQ IN 
+		<foreach collection="corpSeqArr" item="seq" open="(" close=")" separator=",">
+			#{seq}
+		</foreach>
+	</delete>
 	
 	
-	
-	
+
 	
 	
 	
