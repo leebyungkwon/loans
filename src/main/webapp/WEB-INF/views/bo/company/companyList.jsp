@@ -13,7 +13,7 @@ function pageLoad(){
 		, url			: "/admin/mng/companyList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","회원사", "아이디", "부서명", "담당자명", "직위", "회원가입일", "승인상태"]
+		, headCol		: ["","회원사", "아이디", "부서명", "담당자명", "직위", "가입일", "승인상태"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, width:"10px"	, hidden:true  	, id:true}

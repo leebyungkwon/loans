@@ -107,7 +107,7 @@ function companyList(){
 					<tr>
 						<th>직장 전화번호</th>
 						<td>${companyDetail.extensionNo}</td>
-						<th>회원가입일</th>
+						<th>가입일</th>
 						<td>${companyDetail.joinDt}</td>
 					</tr>
 					<tr>
@@ -119,7 +119,7 @@ function companyList(){
 						<td colspan="3">${companyDetail.apprStatNm}</td>
 					</tr>
 					<tr>
-						<th class="acenter">첨부서류</th>
+						<th class="acenter">첨부파일</th>
 						<td colspan="3">
 							<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 						</td>
