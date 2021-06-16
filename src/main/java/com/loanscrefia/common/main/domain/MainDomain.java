@@ -22,4 +22,6 @@ public class MainDomain extends BaseDomain {
 	private int dropUpdCnt;			// 해지신청 - 보완요청건수
 	private int dropAdminCnt;		// 해지신청 - 관리자 승인대기건수
 
+	private int memberNoRegCnt;		// 회원가입 - 가승인건수
+	private int memberRegAdminCnt;	// 회원가입 - 관리자 승인대기건수
 }

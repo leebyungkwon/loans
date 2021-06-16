@@ -16,6 +16,30 @@ function pageLoad(){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
+			<h2>회원가입</h2>
+		</div>
+	</div>
+	<div class="contents">
+		<div id="table">
+			<table>
+				<thead>
+					<tr>
+						<th>가승인 건수</th>
+						<th>관리자 승인대기건수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${result.memberNoRegCnt}</td>
+						<td>${result.memberRegAdminCnt}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class="top_box">
+		<div class="title">
 			<h2>등록신청</h2>
 		</div>
 	</div>

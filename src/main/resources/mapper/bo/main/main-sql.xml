@@ -6,7 +6,7 @@
    	<!-- 대쉬보드 조회 -->
    	<select id="selectDashBoard" parameterType="main" resultType="main">
    		SELECT
-   			(select count(*) from tb_lc_mas01 mas where mas.pl_stat = '2' and mas.pl_reg_stat = '1') AS REG_CNT
+   			 (select count(*) from tb_lc_mas01 mas where mas.pl_stat = '2' and mas.pl_reg_stat = '1') AS REG_CNT
    			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat = '5' and mas.pl_reg_stat = '1') AS REG_UPD_CNT
    			,(
    				select count(*) from tb_lc_mas01 mas 
@@ -16,20 +16,22 @@
 			) AS REG_FI_CNT
 			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat in ('2', '5') and mas.pl_reg_stat = '1') AS REG_ADMIN_CNT
 			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat = '3' and mas.pl_reg_stat = '3') AS UPD_CNT
-			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat = '5' and mas.pl_reg_stat = '3') AS UPD_UPD_CNT
-			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat IN ('2', '3', '5') and mas.pl_reg_stat = '3') AS UPD_ADMIN_CNT
+			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat = '6' and mas.pl_reg_stat = '3') AS UPD_UPD_CNT
+			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat IN ('3', '6') and mas.pl_reg_stat = '3') AS UPD_ADMIN_CNT
 			,(select count(*) from tb_lc_mas01 mas where mas.pl_stat = '4' and mas.pl_reg_stat = '3') AS DROP_CNT
 			,(
 				select count(*) from tb_lc_mas01 mas
-				where mas.pl_stat = '5'
+				where mas.pl_stat = '7'
 				and mas.pl_reg_stat = '3'
 				and pl_hist_cd is not null
 			) AS DROP_UPD_CNT
 			,(
 				select count(*) from tb_lc_mas01 mas
-				where mas.pl_stat in ('4', '5')
+				where mas.pl_stat in ('4', '7')
 				and mas.pl_reg_stat = '3'
 				and pl_hist_cd is not null
 			) AS DROP_ADMIN_CNT
+			,(select count(*) from tb_lc_members tlm where tlm.appr_stat = '2' and tlm.cre_yn = 'N' and tlm.drop_yn = 'N') AS MEMBER_NO_REG_CNT
+			,(select count(*) from tb_lc_members tlm where tlm.appr_stat = '1' and tlm.cre_yn = 'N' and tlm.drop_yn = 'N') AS MEMBER_REG_ADMIN_CNT
    	</select>
 </mapper> 
