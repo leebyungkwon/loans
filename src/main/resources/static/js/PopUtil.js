@@ -4,6 +4,7 @@ var PopUtil = {
 		var params = {
 			  url 		: opts.url
 			, param 	: p
+			, loadYn	: false
 			, success 	: function(opt,data){
 		    	const Element = document.querySelector('.popup_wrap');
 				

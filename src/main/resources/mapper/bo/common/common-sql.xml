@@ -122,7 +122,13 @@
 			,COM_NAME		AS CODE_DTL_NM
 		FROM TB_LC_COMPANY
 		WHERE COM_CODE <![CDATA[!=]]> 1
-		AND DEL_YN = 'N'
+		<choose>
+			<when test='creYn != null and !creYn.equals("") and creYn.equals("Y")'>
+				<if test='creGrp.equals("1")'>
+					AND COM_CODE IN (SELECT TLW.COM_CODE FROM TB_LC_WORK TLW WHERE MEMBER_SEQ = #{regSeq})
+				</if>
+			</when>
+		</choose>
 	</select>
 	
 	<!-- session 회원정보 조회 -->

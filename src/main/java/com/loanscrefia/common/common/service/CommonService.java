@@ -3,11 +3,16 @@ package com.loanscrefia.common.common.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
@@ -60,7 +65,20 @@ public class CommonService {
 	//회원사 리스트
 	@Transactional(readOnly=true)
 	public List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain){
-		return commonRepository.selectCompanyCodeList(codeDtlDomain);
+		
+		//세션 체크
+		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session 		= request.getSession();
+		MemberDomain loginInfo 		= (MemberDomain)session.getAttribute("member");
+		
+		if(loginInfo != null) {
+			codeDtlDomain.setCreYn(loginInfo.getCreYn());
+			codeDtlDomain.setCreGrp(loginInfo.getCreGrp());
+		}
+		
+		List<CodeDtlDomain> comList = commonRepository.selectCompanyCodeList(codeDtlDomain);
+		
+		return comList;
 	}
 	
 	//로그인 회원상세조회

@@ -164,8 +164,7 @@
 		FROM TB_LC_COMPANY TLC
 		LEFT OUTER JOIN TB_LC_WORK TLW
 		ON TLC.COM_CODE = TLW.COM_CODE
-		WHERE TLC.DEL_YN = 'N'
-		AND TLC.COM_CODE != 1
+		WHERE TLC.COM_CODE <![CDATA[!=]]> 1
 	</select>
 	
 	<!-- 협회 관리자 업무분장 - 등록  -->

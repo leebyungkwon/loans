@@ -11,24 +11,21 @@ function pageLoad(){
 		  id		: "companyCodeGrid"
 		, url		: "/admin/company/companyCodeList"
 		, width		: "100%" 
-		, headCol	: ["번호","회원사(상호)", "법인등록번호", "사업자등록번호", "회사대표번호"]
+		, headCol	: ["회원사코드","회원사명", "등록일"]
 		, bodyCol	: 
 		[
 			 {type:"string"		,name:'comCode'			,index:'comCode'		,width:"3%"		,id:true		}
 			,{type:"string"		,name:'comName'			,index:'comName'		,width:"20%"	,align:"center"	}
-			,{type:"string"		,name:'plMerchantNo'	,index:'plMerchantNo'	,width:"15%"	,align:"center" }
-			,{type:"string"		,name:'plBusinessNo'	,index:'plBusinessNo'	,width:"15%"	,align:"center" }		
-			,{type:"string"		,name:'compPhoneNo'		,index:'compPhoneNo'	,width:"10%"	,align:"center" }		
+			,{type:"string"		,name:'regTimestamp'	,index:'regTimestamp'	,width:"10%"	,align:"center" }		
 		]
 		, sortNm 		: "com_code"
-		, sort 			: "DESC"
-		, rowClick		: {color:"#ccc", retFunc : companyCodeDetail}
+		, sort 			: "ASC"
 		, gridSearch 	: "search,searchBtn"
 		, isPaging 		: true
 		, size 			: 10
 	});
 	
-	// 회원사 코드
+	//회원사 코드
  	var companyCode = {
 		 useCode 	: false
 		,code 		: 'COM001'
@@ -42,16 +39,31 @@ function pageLoad(){
 	DataUtil.selectBox(companyCode);
 }
 
-function companyCodeDetail(idx, data){
-	var comCode = companyCodeGrid.gridData[idx].comCode;
-	$("#comCodeDetail").val(comCode);
-	$("#companyCodeDetailFrm").submit();
+//회원사 등록 팝업 열기
+function goCompanyCodeSavePopOpen() {
+	let p = {
+		  id 		: "companyCodeSavePop"
+		, url 		: "/admin/company/companyCodeSavePopup"
+		, success	: function(opt, result){
+			$("input[name='comCode']","#companyCodeSaveFrm").focus();
+		}
+	}
+	PopUtil.openPopup(p);
+}
+
+//회원사 등록
+function goCompanyCodeSave() {
+	var p = {
+		 name 		: "companyCodeSaveFrm"
+		,success	: function(opt,result){
+			if(result.code == "COM0001"){
+				location.reload();
+			}
+		}
+	}
+	AjaxUtil.form(p);
 }
 </script>
-
-<form id="companyCodeDetailFrm" method="post" action="/admin/company/companyCodeDetailInsPage">
-	<input type="hidden" name="comCode" id="comCodeDetail"/>
-</form>
 
 <div class="cont_area">
 	<div class="top_box">
@@ -67,11 +79,11 @@ function companyCodeDetail(idx, data){
 					<col width="305">
 				</colgroup>
 				<tr>
-					<th>회원사</th>
+					<th>회원사코드</th>
 					<td class="half_input">
 						<select id="comCode" name="comCode"></select>
 					</td>
-					<th>회원사(상호)</th>
+					<th>회원사명</th>
 					<td>
 						<input type="text" id="comName" name="comName"/>
 					</td>
@@ -86,7 +98,7 @@ function companyCodeDetail(idx, data){
 			<div class="data total_result"></div>
 			<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
 			<div class="action">
-				<a href="/admin/company/companyCodeDetailPage" class="btn_black btn_small mgr5">등록</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCompanyCodeSavePopOpen();">등록</a>
 			</div>
 			</sec:authorize>
 		</div>

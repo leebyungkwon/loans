@@ -150,40 +150,20 @@ COMMENT ON COLUMN tb_lc_members.upd_timestamp IS '수정일시';
 
 commit;
 
--- 회원사 정보 seq
-CREATE SEQUENCE tb_lc_company_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START 1
-	CACHE 1
-	NO CYCLE;
-
-commit;
-
 -- 회원사 정보
 create table tb_lc_company(
-	com_code integer not null default nextval('tb_lc_company_seq')
-	, com_name varchar(30)
-	, pl_merchant_no varchar(100)
-	, pl_business_no varchar(30)
-	, comp_phone_no varchar(20)
-	, del_yn char(1) not null default 'N'
+	com_code integer not null
+	, com_name varchar(30) not null
 	, reg_timestamp timestamp
 	, reg_seq integer
 	, upd_timestamp timestamp
 	, upd_seq integer
-	, PRIMARY KEY (com_code)
 );
 
 
 COMMENT ON TABLE tb_lc_company IS '회원사정보';
 COMMENT ON COLUMN tb_lc_company.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_company.com_name IS '회원사명';
-COMMENT ON COLUMN tb_lc_company.pl_merchant_no IS '법인등록번호';
-COMMENT ON COLUMN tb_lc_company.pl_business_no IS '사업자등록번호';
-COMMENT ON COLUMN tb_lc_company.comp_phone_no IS '회원사대표번호';
-COMMENT ON COLUMN tb_lc_company.del_yn IS '삭제여부';
 COMMENT ON COLUMN tb_lc_company.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_company.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_company.upd_timestamp IS '수정일시';

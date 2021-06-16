@@ -94,18 +94,18 @@ public class CompanyController {
  		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 협회 시스템 > 회원사 관리
+	 * -------------------------------------------------------------------------------------------------------
+	 */
 	
-	
-	
-	// ------------------------------- 회원사 관리 영역 --------------------------------------- //
-	
-	// 회원사 코드 관리
+	//리스트 페이지
 	@GetMapping(value="/company/companyCodePage")
 	public String companyCodePage() {
 		return CosntPage.BoCompanyCodePage+"/companyCodeList";
 	}
 	
-	// 회원사 코드 관리 - 리스트
+	//리스트
 	@PostMapping(value="/company/companyCodeList")
 	public ResponseEntity<ResponseMsg> companyCodeList(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -113,86 +113,20 @@ public class CompanyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 회원사 코드 관리 - 디테일 리스트
-	@GetMapping(value="/company/companyCodeDetailPage")
-	public ModelAndView getCompanyCodeDetail(CompanyDomain companyDomain) {
-		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
-		return mv;
+	//등록 팝업
+	@GetMapping(value="/company/companyCodeSavePopup")
+	public ModelAndView companyCodeSavePopup() {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/companyCodeSavePopup");
+        return mav;
 	}
 	
-	// 회원사 코드 관리 - 디테일 수정 리스트
-	@PostMapping(value="/company/companyCodeDetailInsPage")
-	public ModelAndView companyCodeDetailIns(CompanyDomain companyDomain) {
-		ModelAndView mv = new ModelAndView(CosntPage.BoCompanyCodePage+"/companyCodeDetail");
-		
-		CompanyDomain companyCodeInfo = companyService.getCompanyCodeDetail(companyDomain);
-		mv.addObject("companyCodeInfo", companyCodeInfo);
-		
-		return mv;
-	}
-	
-	// 회원사 코드 관리 - 디테일 리스트 -> Insert (글 등록)
-	@PostMapping(value="/company/saveCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(@Valid CompanyDomain companyDomain, BindingResult bindingResult) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
-		if(bindingResult.hasErrors()) {
-			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
-	    	responseMsg.setData(bindingResult.getAllErrors());
-	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-		}
-		
-		// 2021-05-31 법인번호 암호화 진행예정
-		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-		String encMerchantNo = CryptoUtil.encrypt(companyDomain.getPlMerchantNo()); // 암호화
-		companyDomain.setPlMerchantNo(encMerchantNo);
-		int count = companyService.plMerchantNoCheck(companyDomain);
-		
-		if(count > 0) {
-			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
-			responseMsg.setData("0");
-		}else {
-			responseMsg = companyService.saveCompanyCodeDetail(companyDomain);
-			responseMsg.setData("1");
-		}
-		
+	//등록
+	@PostMapping(value="/company/saveCompanyCode")
+	public ResponseEntity<ResponseMsg> saveCompanyCodeDetail(CompanyDomain companyDomain, BindingResult bindingResult) {
+		ResponseMsg responseMsg = companyService.saveCompanyCode(companyDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 
-	// 회원사 코드 관리 - 디테일 리스트 -> Update (글 수정)
-	@PostMapping(value="/company/updCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> updCompanyCodeDetail(@Valid CompanyDomain companyDomain, BindingResult bindingResult) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
-		if(bindingResult.hasErrors()) {
-			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
-	    	responseMsg.setData(bindingResult.getAllErrors());
-	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-		}
-		
-		// 2021-05-31 법인번호 암호화 진행예정
-		// insert 및 update쿼리 -> REPLACE함수 제거 -> java에서 replace 제거 후 진행
-		String encMerchantNo = CryptoUtil.encrypt(companyDomain.getPlMerchantNo()); // 암호화
-		companyDomain.setPlMerchantNo(encMerchantNo);
-		
-		int count = companyService.plMerchantNoCheck(companyDomain);
-		
-		if(count > 0) {
-			responseMsg = new ResponseMsg(HttpStatus.OK, "COM0001", "해당 법인등록번호가 이미 등록되어 있습니다.");
-			responseMsg.setData("0");
-		}else {
-			responseMsg = companyService.updCompanyCodeDetail(companyDomain);
-			responseMsg.setData("1");
-		}
-		
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-
-	// 회원사 코드 관리 - 디테일 리스트 -> Delete (글 삭제)
-	@PostMapping(value="/company/delCompanyCodeDetail")
-	public ResponseEntity<ResponseMsg> delCompanyCodeDetail(CompanyDomain companyDomain) {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-		responseMsg.setData(companyService.delCompanyCodeDetail(companyDomain));
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
 	
 	 
 }

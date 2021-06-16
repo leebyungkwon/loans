@@ -40,4 +40,7 @@ public class CodeDtlDomain extends BaseDomain {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	private String saveType;
+	
+	private String creYn;
+	private String creGrp;
 }

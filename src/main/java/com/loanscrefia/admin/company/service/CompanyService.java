@@ -26,6 +26,11 @@ public class CompanyService {
 	@Autowired
 	private EmailRepository emailRepository;
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 협회 시스템 > 회원사 담당자 관리
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
 	//회원사 담당자 리스트 조회
 	@Transactional(readOnly = true)
 	public List<CompanyDomain> selectCompanyList(CompanyDomain companyDomain){
@@ -101,53 +106,38 @@ public class CompanyService {
 		
 		return result;
 	}
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 협회 시스템 > 회원사 관리
+	 * -------------------------------------------------------------------------------------------------------
+	 */
 
-	//회원사 관리 리스트 조회
+	//리스트
 	@Transactional(readOnly = true)
 	public List<CompanyDomain> selectCompanyCodeList(CompanyDomain companyDomain){
+		return companyRepository.selectCompanyCodeList(companyDomain);
+	}
+	
+	//등록
+	@Transactional
+	public ResponseMsg saveCompanyCode(CompanyDomain companyDomain) {
 		
-		List<CompanyDomain> companyCodeList = companyRepository.selectCompanyCodeList(companyDomain);
-		for(int i=0; i< companyCodeList.size(); i++) {
-			String dnc = CryptoUtil.decrypt(companyCodeList.get(i).getPlMerchantNo());
-			companyCodeList.get(i).setPlMerchantNo(dnc);
+		//회원사코드 중복체크
+		int dupChkResult = companyRepository.comCodeDupChk(companyDomain);
+		
+		if(dupChkResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "이미 등록된 회원사코드 입니다.");
 		}
 		
-		return companyCodeList;
-	}
-	
-	//회원사 관리 상세 조회
-	@Transactional(readOnly=true)
-	public CompanyDomain getCompanyCodeDetail(CompanyDomain companyDomain){
+		//등록
+		int insertResult = companyRepository.saveCompanyCode(companyDomain);
 		
-		CompanyDomain result = companyRepository.getCompanyCodeDetail(companyDomain);
-		String dnc = CryptoUtil.decrypt(result.getPlMerchantNo());
-		result.setPlMerchantNo(dnc);
-		
-		return result;
-	}
-
-	// 법인등록번호 중복체크
-	public int plMerchantNoCheck(CompanyDomain companyDomain) {
-		return companyRepository.plMerchantNoCheck(companyDomain);
-	}
-
-	// 회원사 관리 -> Insert (등록)
-	public ResponseMsg saveCompanyCodeDetail(CompanyDomain companyDomain) {
-		companyRepository.saveCompanyCodeDetail(companyDomain);
-		return new ResponseMsg(HttpStatus.OK, "COM0001", "정보가 등록 되었습니다.");
+		if(insertResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "COM0001", "");
+		}
+		return new ResponseMsg(HttpStatus.OK, "COM0002", "");
 	}
 	
-	// 회원사 관리 -> Update (수정)
-	public ResponseMsg updCompanyCodeDetail(CompanyDomain companyDomain) {
-		companyRepository.updCompanyCodeDetail(companyDomain);
-		return new ResponseMsg(HttpStatus.OK, "COM0001", "정보가 수정 되었습니다.");
-	}
-	
-	// 회원사 관리 -> Delete (글 삭제)
-	public ResponseMsg delCompanyCodeDetail(CompanyDomain companyDomain) {
-		companyRepository.delCompanyCodeDetail(companyDomain);
-		return new ResponseMsg(HttpStatus.OK, "COM0001", "정보가 삭제 되었습니다.");
-	}
 	
 	
 }
