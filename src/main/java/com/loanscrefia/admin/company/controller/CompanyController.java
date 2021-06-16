@@ -80,7 +80,7 @@ public class CompanyController {
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
-    	responseMsg.setData(companyService.updateCompanyStat(companyDomain));
+		responseMsg = companyService.updateCompanyStat(companyDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

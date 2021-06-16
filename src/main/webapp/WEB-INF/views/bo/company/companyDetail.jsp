@@ -45,8 +45,6 @@ function goCompanyStatUpdt(apprStat,roleName) {
 				if(WebUtil.isNull(result.message)){
 					alert(result.data[0].defaultMessage);
 				}else{
-					$("#apprStat").val("2");
-					alert("가승인 처리 되었습니다.");
 					location.reload();
 				}
 		    }
