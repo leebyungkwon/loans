@@ -160,7 +160,8 @@
    			COUNT(*)
    		FROM TB_LC_MAS01
    		WHERE CORP_USER_YN 	= 'Y'
-   		AND PL_REG_STAT 	<![CDATA[!=]]> '4'					-- 해지완료가 아닌 법인사용인
+   		AND PL_REG_STAT <![CDATA[!=]]> '4'					-- 해지완료가 아닌 법인사용인
+   		AND PL_STAT <![CDATA[!=]]> '8'						-- 즉시취소가 아닌 법인사용인
    		AND PL_MERCHANT_NO 	= #{plMerchantNo}
    	</select>
    	
@@ -1078,10 +1079,10 @@
    	<!-- ====================================================================================================== -->
 	
 	<!-- 위반이력 삭제 -->
-	<insert id="deleteUserViolationInfo" parameterType="user">
+	<delete id="deleteUserViolationInfo" parameterType="user">
 		DELETE FROM TB_LC_VIOLATION
 		WHERE VIOLATION_SEQ = #{violationSeq}
-	</insert>
+	</delete>
 	
 	<!-- 위반이력 저장 -->
 	<insert id="insertUserViolationInfo" parameterType="user">
