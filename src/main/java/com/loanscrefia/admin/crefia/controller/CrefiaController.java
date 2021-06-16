@@ -1,7 +1,6 @@
 package com.loanscrefia.admin.crefia.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -14,17 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.crefia.domain.CrefiaDomain;
 import com.loanscrefia.admin.crefia.service.CrefiaService;
-import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
-import com.loanscrefia.member.admin.domain.AdminDomain;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -33,13 +27,18 @@ public class CrefiaController {
 	@Autowired 
 	private CrefiaService crefiaService;
 	
-	// 협회 관리자 관리 페이지
+	/* -------------------------------------------------------------------------------------------------------
+	 * 협회 시스템 > 협회 관리자 관리
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//리스트 페이지
 	@GetMapping(value="/crefia/crefiaPage")
 	public String companyPage() {
 		return CosntPage.BoCrefiaPage+"/crefiaList";
 	}
 	
-	// 협회 관리자 관리 조회
+	//리스트
 	@PostMapping(value="/crefia/crefiaList")
 	public ResponseEntity<ResponseMsg> crefiaList(CrefiaDomain crefiaDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -47,7 +46,7 @@ public class CrefiaController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 협회 관리자 관리 등록 / 상세 팝업
+	//등록,상세 팝업
 	@GetMapping("/crefia/crefiaSavePopup")
     public ModelAndView templeteSavePopup(@ModelAttribute CrefiaDomain crefiaDomain) {
     	ModelAndView mv = new ModelAndView(CosntPage.Popup+"/crefiaSavePopup");
@@ -58,54 +57,51 @@ public class CrefiaController {
         return mv;
     }
 	
-	// 협회 관리자 관리 저장
+	//저장
 	@PostMapping(value="/crefia/saveCrefia")
 	public ResponseEntity<ResponseMsg> saveCrefia(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
-			System.out.println("#################### valid 에러 발생 #####################");
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
-		
 		responseMsg = crefiaService.saveCrefia(crefiaDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	
-	// 협회 관리자 관리 저장
+	//삭제
 	@PostMapping(value="/crefia/deleteCrefia")
 	public ResponseEntity<ResponseMsg> deleteCrefia(CrefiaDomain crefiaDomain){
 		ResponseMsg responseMsg = crefiaService.deleteCrefia(crefiaDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 협회 시스템 > 협회 관리자 업무분장
+	 * -------------------------------------------------------------------------------------------------------
+	 */
 	
-	
-	
-	/*----------------  업무분장 영역   -----------------------------------*/
-
-	
-	// 협회 관리자 업무분장 페이지
+	//리스트
 	@GetMapping(value="/crefiaWork/crefiaWorkPage")
 	public ModelAndView crefiaWorkPage(CrefiaDomain crefiaDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoCrefiaPage+"/crefiaWorkList");
     	
 		List<CrefiaDomain> memberInfo = crefiaService.selectCrefiaWorkMemberList(crefiaDomain);
 		List<CrefiaDomain> companyInfo = crefiaService.selectCrefiaWorkCompanyList(crefiaDomain);
+		
     	mv.addObject("memberInfo", memberInfo);
     	mv.addObject("companyInfo", companyInfo);
     	
 		return mv;
 	}
 	
-	// 협회 관리자 업무분장 조회
+	//등록
 	@PostMapping(value="/crefiaWork/insertCrefiaWork")
 	public ResponseEntity<ResponseMsg> insertCrefiaWork(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
-			System.out.println("#################### valid 에러 발생 #####################");
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

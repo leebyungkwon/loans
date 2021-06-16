@@ -77,7 +77,7 @@ function goCorpInfoSavePopup() {
 		  id 		: "corpInfoSavePop"
 		, url 		: "/admin/corp/corpSavePopup"
 		, success	: function(opt, result) { 
-			
+			$("#plMerchantName","#corpInfoSaveFrm").focus();
         }
 	}
 	PopUtil.openPopup(p);

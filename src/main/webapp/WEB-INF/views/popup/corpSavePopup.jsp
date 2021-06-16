@@ -25,7 +25,7 @@
 			<tr>
 				<th>법인번호</th>
 				<td class="file">
-					<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인등록번호 14자리를 입력해 주세요. ( -포함)" maxlength="14" value="${corpInfo.plMerchantNo }" class="w70 file_input" data-vd='{"type":"plMerchant","len":"14,14","req":true,"msg":"법인번호(- 포함) 14자리를 입력해 주세요."}'/>
+					<input type="text" id="plMerchantNo" name="plMerchantNo" placeholder="법인번호(- 포함) 14자리를 입력해 주세요." maxlength="14" value="${corpInfo.plMerchantNo }" class="w70 file_input" data-vd='{"type":"plMerchant","len":"14,14","req":true,"msg":"법인번호(- 포함) 14자리를 입력해 주세요."}'/>
 				</td>
 			</tr>
 			<c:if test="${corpInfo.corpSeq ne null }">

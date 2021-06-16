@@ -29,13 +29,14 @@ function pageLoad(){
 		, size 			: 10
 	});
 	
-	// 협회 관리자 등록팝업
+	// 협회 관리자 등록 팝업
 	$("#regCrefia").on("click", function(){
 		let p = {
 			id : "crefiaRegPop"
 			, params : {"memberSeq" : 0}
 			, url : "/admin/crefia/crefiaSavePopup"
 			, success : function (opt,result) {
+				$(".popup_inner").css("width","55%");
 				companyCodeCall();
 		    }
 		}
@@ -70,7 +71,7 @@ function pageLoad(){
 	});
 }
 
-// 협회 관리자 관리 상세
+// 협회 관리자 상세
 function crefiaDetail(idx, data){
 	var memberSeq = crefiaGrid.gridData[idx].memberSeq;
 	let p = {
@@ -78,25 +79,25 @@ function crefiaDetail(idx, data){
 		, params : {"memberSeq" : memberSeq}
 		, url : "/admin/crefia/crefiaSavePopup"
 		, success : function (opt,result) {
+			$(".popup_inner").css("width","55%");
 			companyCodeCall();
 	    }
 	}
 	PopUtil.openPopup(p);
 }
 
+//회원사 코드
 function companyCodeCall(){
-	// 회원사 코드
 	var companyCode = {
-		useCode : true
-		,code : 'CRE001'
-		,target : '#popCreGrp'
-		,updData : $("#hiddenCreGrp").val()
+		 useCode 	: true
+		,code 		: 'CRE001'
+		,target 	: '#popCreGrp'
+		,updData 	: $("#hiddenCreGrp").val()
 	};
 	DataUtil.selectBox(companyCode);
 }
 
-
-// 협회관리자 저장
+// 협회 관리자 저장
 function saveCrefia(){
 	var password = $("#popPassword").val();
 	var passwordChk = $("#popPasswordChk").val();
@@ -180,8 +181,6 @@ function saveCrefia(){
 	if (password.search(/\s/) != -1){ 
 		alert("비밀번호는 공백 없이 입력해주세요.");
 		return false;
-	}else {
-		console.log("통과");
 	}
 //////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -199,7 +198,6 @@ function saveCrefia(){
 	}
 	AjaxUtil.post(crefiaParam);
 }
-
 </script>
 
 <div class="cont_area">

@@ -52,7 +52,7 @@ var DataUtil = {
 		var codeList = data.data;
 		if(codeList.length > 0){
 			if(WebUtil.isNotNull(opt.defaultMsg))	html += '<option value="">'+opt.defaultMsg+'</option>';
-			else							html += '<option value="">선택해 주세요</option>';
+			else							html += '<option value="">선택해 주세요.</option>';
 			for(var i = 0; i < codeList.length; i++){
 				if(codeList[i][key] == opt.updData){
 					html += '<option value="'+codeList[i][key]+'" selected="selected">'+codeList[i][value]+'</option>';

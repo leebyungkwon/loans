@@ -36,13 +36,18 @@ public class CompanyController {
 	@Autowired private CommonService commonService;
 	@Autowired UtilFile utilFile;
 	
-	// 협회 - 회원사 담당자 조회 페이지
+	/* -------------------------------------------------------------------------------------------------------
+	 * 협회 시스템 > 회원사 담당자 관리
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//리스트 페이지
 	@GetMapping(value="/mng/companyPage")
 	public String companyPage() {
 		return CosntPage.BoCompanyPage+"/companyList";
 	}
 	
-	// 협회 - 회원사 담당자 리스트 페이지
+	//리스트
 	@PostMapping(value="/mng/companyList")
 	public ResponseEntity<ResponseMsg> companyList(CompanyDomain companyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -50,7 +55,7 @@ public class CompanyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 협회 - 회원사 당담자 상세 페이지
+	//상세
 	@PostMapping(value="/mng/companyDetail")
     public ModelAndView companyDetail(CompanyDomain companyDomain) {
     	ModelAndView mv = new ModelAndView(CosntPage.BoCompanyPage+"/companyDetail");
@@ -66,7 +71,7 @@ public class CompanyController {
         return mv;
     }
 	
-	//처리 상태변경
+	//승인상태 변경
 	@PostMapping(value="/mng/updateCompanyStat")
 	public ResponseEntity<ResponseMsg> updateCompanyStat(@Valid CompanyDomain companyDomain, BindingResult bindingResult){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
@@ -87,7 +92,7 @@ public class CompanyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//엑셀 업로드
+	//엑셀 다운로드
 	@PostMapping("/mng/excelDown")
 	public void writeExcel(CompanyDomain companyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
  		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
