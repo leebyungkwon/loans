@@ -71,7 +71,7 @@
 							if(WebUtil.isNull(result.message)){
 								alert(result.data[0].defaultMessage);
 							}else{
-								location.href = "/member/admin/adminPage";	
+								$("#reApprBtn").show();	
 							}
 						}
 					}
@@ -277,7 +277,7 @@
 					<tr>
 						<th>첨부파일</th>
 						<td id="fileTag">
-							<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly" maxlength="60"   placeholder="이미지 파일을 첨부해 주세요." data-vd='{"type":"fileupload","len":"1,60","req":true,"msg":"이미지 파일을 첨부해 주세요"}' >
+							<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly">
 							<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 							<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
