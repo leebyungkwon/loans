@@ -419,11 +419,11 @@ function ocrImwonSuccess(id, index){
 }
 
 //변경사항-정보
- function goRecruitHistoryShow(masterSeq, type, afterData){
+ function goRecruitHistoryShow(masterHistSeq, type, afterData){
 	var encAfterData = encodeURIComponent(afterData);
 	let p = {
 	  	  id 		: "recruitHistoryPop"
-		, url 		: "/admin/recruit/recruitHistoryPopup?masterSeq="+masterSeq+"&histType="+type+"&afterData="+encAfterData
+		, url 		: "/admin/recruit/recruitHistoryPopup?masterHistSeq="+masterHistSeq+"&histType="+type+"&afterData="+encAfterData
 	}
 	PopUtil.openPopup(p);
 }

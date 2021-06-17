@@ -127,6 +127,10 @@ public class RecruitDomain extends BaseDomain {
 	private String searchPlMZId;
 	private String searchPlCellphone;
 	
+	private int histNameSeq;
+	private int histZidSeq;
+	private int histPhoneSeq;
+	
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

@@ -93,19 +93,21 @@ public class RecruitService {
 		
 		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
 		recruitDomain.setSearchPlMName(recruitInfo.getPlMName());
-		recruitDomain.setSearchPlMZId(recruitInfo.getPlMZId());
-		recruitDomain.setSearchPlCellphone(recruitInfo.getPlCellphone());
+		recruitDomain.setSearchPlMZId("");
+		recruitDomain.setSearchPlCellphone("");
 		//이력상세 - 이름
 		RecruitDomain recruitHistInfoName = recruitRepository.getRecruitHistDetail(recruitDomain);
 		if(recruitHistInfoName != null) {
 			if(!recruitHistInfoName.getPlMName().equals(recruitInfo.getPlMName())) {
 				recruitInfo.setHistPlMName(recruitHistInfoName.getPlMName());
+				recruitInfo.setHistNameSeq(recruitHistInfoName.getMasterHistSeq());
 			}
 		}
 		
 		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
 		recruitDomain.setSearchPlMName("");
 		recruitDomain.setSearchPlMZId(recruitInfo.getPlMZId());
+		recruitDomain.setSearchPlCellphone("");
 		//이력상세 - 주민번호
 		RecruitDomain recruitHistInfoZid = recruitRepository.getRecruitHistDetail(recruitDomain);
 		if(recruitHistInfoZid != null) {
@@ -117,6 +119,7 @@ public class RecruitService {
 					histZid.append(CryptoUtil.decrypt(recruitHistInfoZid.getPlMZId()));
 					histZid.insert(6, "-");
 					recruitInfo.setHistPlMZId(histZid.toString());
+					recruitInfo.setHistZidSeq(recruitHistInfoName.getMasterHistSeq());
 				}
 			}
 		}
@@ -124,12 +127,13 @@ public class RecruitService {
 		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
 		recruitDomain.setSearchPlMName("");
 		recruitDomain.setSearchPlMZId("");
-		recruitDomain.setSearchPlCellphone(recruitInfo.getPlCellphone());
+		recruitDomain.setSearchPlCellphone(recruitInfo.getPlCellphone().replaceAll("-", ""));
 		//이력상세 - 연락처
 		RecruitDomain recruitHistInfoPhone = recruitRepository.getRecruitHistDetail(recruitDomain);
 		if(recruitHistInfoPhone != null) {
 			if(!recruitHistInfoPhone.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
 				recruitInfo.setHistPlCellphone(recruitHistInfoPhone.getPlCellphone());
+				recruitInfo.setHistPhoneSeq(recruitHistInfoName.getMasterHistSeq());
 			}
 		}
 		
