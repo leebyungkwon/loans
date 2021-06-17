@@ -2,15 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.system.batch.repository.BatchRepository">
 
+	<!-- 모집인 엑셀 업로드 후 1개월동안 처리상태가 미요청 + 모집인상태가 승인전인 경우 -> 모집인 데이터 및 모집인 관련 첨부파일 삭제 -->
     <select id="selectExcelUploadUserAndFileDelete" resultType="user">
-		select
-			 master_seq 
-			,file_seq 
-		from
-			tb_lc_mas01
-		where
-			pl_stat = '1'
-		and TO_CHAR(reg_timestamp + interval '1 month', 'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(NOW(), 'YYYYMMDD')
+		SELECT
+			 MASTER_SEQ 
+		FROM TB_LC_MAS01
+		WHERE PL_STAT 	= '1'	-- 처리상태 	: 미요청
+		AND PL_REG_STAT = '1'	-- 모집인상태 	: 승인전
+		AND TO_CHAR(REG_TIMESTAMP + INTERVAL '1 month', 'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(NOW(), 'YYYYMMDD')
     </select>
+    
+    
     
 </mapper>

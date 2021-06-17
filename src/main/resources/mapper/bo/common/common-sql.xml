@@ -19,7 +19,7 @@
 		<where>
 			AND FILE_GRP_SEQ 	= #{fileGrpSeq}
 			<choose>
-				<when test='useYn == "N" '>
+				<when test='useYn == "N"'>
 					AND USE_YN = 'N'
 				</when>
 				<otherwise>
@@ -29,6 +29,25 @@
 			<if test="histType != null and histType != ''">
 				AND FILE_TYPE = #{histType}
 			</if>
+		</where>
+	</select>
+	
+	<!-- 첨부파일 리스트(그룹 시퀀스 사용) -->
+	<select id="selectFileListByGrpSeq" parameterType="file" resultType="file">
+		SELECT
+			 FILE_SEQ
+			,FILE_GRP_SEQ
+			,FILE_TYPE
+			,FILE_EXT
+			,FILE_ORG_NM
+			,FILE_PATH
+			,FILE_SAVE_NM
+			,CONCAT(FILE_ORG_NM,'.',FILE_EXT) AS FILE_FULL_NM
+			,USE_YN
+			,TO_CHAR(REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+		FROM TB_LC_FILE01
+		<where>
+			AND FILE_GRP_SEQ 	= #{fileGrpSeq}
 		</where>
 	</select>
 
@@ -114,6 +133,14 @@
 			AND FILE_SEQ = #{fileSeq}
 		</where> 
 	</delete>
+	
+	<!-- 첨부파일 real 삭제(그룹 시퀀스 사용) -->
+    <delete id="realDeleteFileByGrpSeq" parameterType="file">
+    	DELETE FROM TB_LC_FILE01
+    	<where>
+			AND FILE_GRP_SEQ = #{fileGrpSeq}
+		</where> 
+    </delete>
 	
 	<!-- 회원사 리스트 -->
 	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">

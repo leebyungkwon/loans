@@ -1002,6 +1002,16 @@
 	    	AND MASTER_SEQ = #{masterSeq}
 	    </where>
 	</delete>
+	
+	<!-- 모집인 등록 : 법인사용인 정보 삭제 -->
+   	<delete id="deleteCorpUserRegInfo" parameterType="user">
+		DELETE FROM TB_LC_MAS01
+		<where>
+	    	AND PL_CLASS 		= '1'
+	    	AND CORP_USER_YN 	= 'Y'
+	   		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+	    </where>
+	</delete>
    	
 	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 삭제 -->
 	<delete id="deleteUserRegCorpImwonInfo" parameterType="userImwon">
@@ -1024,6 +1034,30 @@
    		DELETE FROM TB_LC_MAS01_IT
 		<where>
 	    	AND OPER_SEQ 	= #{operSeq}
+	    </where>
+	</delete>
+	
+	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 삭제(masterSeq 사용) -->
+	<delete id="deleteUserRegCorpImwonInfoByMasterSeq" parameterType="userImwon">
+		DELETE FROM TB_LC_MAS01_IMWON
+		<where>
+	    	AND MASTER_SEQ = #{masterSeq}
+	    </where>
+	</delete>
+ 	
+   	<!-- 모집인 등록 > 법인 : 전문인력 정보 삭제(masterSeq 사용) -->
+   	<delete id="deleteUserRegCorpExpertInfoByMasterSeq" parameterType="userExpert">
+   		DELETE FROM TB_LC_MAS01_EXPERT
+		<where>
+	    	AND MASTER_SEQ = #{masterSeq}
+	    </where>
+	</delete>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 정보 삭제(masterSeq 사용) -->
+   	<delete id="deleteUserRegCorpItInfoByMasterSeq" parameterType="userIt">
+   		DELETE FROM TB_LC_MAS01_IT
+		<where>
+	    	AND MASTER_SEQ = #{masterSeq}
 	    </where>
 	</delete>
    	

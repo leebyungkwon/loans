@@ -1,5 +1,6 @@
 package com.loanscrefia.common.common.service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class CommonService {
 	@Autowired private VersionRepository verRepo;
 	@Autowired private CommonRepository commonRepository;
 	
+	@Value("${upload.filePath}")
+	public String uploadPath;
+	
 	@CacheEvict(value = "static", allEntries=true)
 	public VersionDomain verSave(VersionDomain versionDomain) {
 		return verRepo.save(versionDomain);
@@ -44,6 +49,12 @@ public class CommonService {
 		return commonRepository.selectFileList(fileDomain);
 	}
 	
+	//첨부파일 리스트(그룹 시퀀스 사용)
+	@Transactional(readOnly=true)
+	public List<FileDomain> selectFileListByGrpSeq(FileDomain fileDomain){
+		return commonRepository.selectFileListByGrpSeq(fileDomain);
+	}
+	
 	//첨부파일 단건 조회
 	@Transactional(readOnly=true)
 	public FileDomain getFile(FileDomain fileDomain) {
@@ -56,10 +67,52 @@ public class CommonService {
 		return commonRepository.deleteFile(fileDomain);
 	}
 	
-	//첨부파일 real 삭제 [TO-DO 서버 파일도 삭제]*****
+	//첨부파일 real 삭제
 	@Transactional
 	public int realDeleteFile(FileDomain fileDomain) {
+		
+		FileDomain fileInfo = this.getFile(fileDomain);
+		
+		String oFile = this.uploadPath.toString() + "/" + fileInfo.getFilePath() + "/" + fileInfo.getFileSaveNm() + "." + fileInfo.getFileExt();
+		String dFile = this.uploadPath.toString() + "/" + fileInfo.getFilePath() + "/" + fileInfo.getFileSaveNm() + "_dnc." + fileInfo.getFileExt();
+		
+		File delFile1 = new File(oFile);
+		File delFile2 = new File(dFile);
+		
+		if(delFile1.exists()) {
+			delFile1.delete();
+		}
+		if(delFile2.exists()) {
+			delFile2.delete();
+		}
+		
 		return commonRepository.realDeleteFile(fileDomain);
+	}
+	
+	//첨부파일 real 삭제(그룹 시퀀스 사용)
+	@Transactional
+	public int realDeleteFileByGrpSeq(FileDomain fileDomain) {
+		
+		List<FileDomain> list = this.selectFileListByGrpSeq(fileDomain);
+		
+		if(list.size() > 0) {
+			for(int i = 0;i < list.size();i++) {
+				String oFile = this.uploadPath.toString() + "/" + list.get(i).getFilePath() + "/" + list.get(i).getFileSaveNm() + "." + list.get(i).getFileExt();
+				String dFile = this.uploadPath.toString() + "/" + list.get(i).getFilePath() + "/" + list.get(i).getFileSaveNm() + "_dnc." + list.get(i).getFileExt();
+				
+				File delFile1 = new File(oFile);
+				File delFile2 = new File(dFile);
+				
+				if(delFile1.exists()) {
+					delFile1.delete();
+				}
+				if(delFile2.exists()) {
+					delFile2.delete();
+				}
+			}
+		}
+		
+		return commonRepository.realDeleteFileByGrpSeq(fileDomain);
 	}
 
 	//회원사 리스트

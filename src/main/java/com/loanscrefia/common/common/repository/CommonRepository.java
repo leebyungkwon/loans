@@ -15,6 +15,9 @@ public interface CommonRepository {
 	//첨부파일 리스트
 	List<FileDomain> selectFileList(FileDomain fileDomain);
 	
+	//첨부파일 리스트(그룹 시퀀스 사용)
+	List<FileDomain> selectFileListByGrpSeq(FileDomain fileDomain);
+	
 	//첨부파일 그룹 시퀀스 조회
 	int selectFileGrpSeq(FileDomain fileDomain);
 	
@@ -29,6 +32,9 @@ public interface CommonRepository {
 	
 	//첨부파일 real 삭제
 	int realDeleteFile(FileDomain fileDomain);
+	
+	//첨부파일 real 삭제(그룹 시퀀스 사용)
+	int realDeleteFileByGrpSeq(FileDomain fileDomain);
 	
 	//회원사 리스트
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);

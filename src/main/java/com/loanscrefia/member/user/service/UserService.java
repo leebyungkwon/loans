@@ -1151,30 +1151,35 @@ public class UserService {
 		this.userValidation(userDomain.getMasterSeq());
 		
 		//상세
-		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		
+		//관련 첨부파일 삭제
+		if(userRegInfo.getFileSeq() != null) {
+			FileDomain fileParam 	= new FileDomain();
+			fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
+			commonService.realDeleteFileByGrpSeq(fileParam);
+		}
 		
 		//법인 삭제 시 하위 데이터도 삭제
 		if(userRegInfo.getPlClass().equals("2")) {
-			/*
 			UserImwonDomain chkParam1 	= new UserImwonDomain();
 			UserExpertDomain chkParam2 	= new UserExpertDomain();
 			UserItDomain chkParam3 		= new UserItDomain();
 			
-			//법인사용인
-			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
+			//법인사용인 삭제
+			userRepo.deleteCorpUserRegInfo(userRegInfo);
 			
-			//임원
+			//임원 삭제
 			chkParam1.setMasterSeq(userDomain.getMasterSeq());
-			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
+			userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
 			
-			//전문인력
+			//전문인력 삭제
 			chkParam2.setMasterSeq(userDomain.getMasterSeq());
-			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
+			userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
 			
-			//전산인력
+			//전산인력 삭제
 			chkParam3.setMasterSeq(userDomain.getMasterSeq());
-			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
-			*/
+			userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
 		}
 		
 		//삭제
