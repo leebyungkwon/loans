@@ -6,16 +6,11 @@
 <script type="text/javascript">
 
 	function pageLoad(){
-		
-		// 재승인 버튼 숨김
-		$("#reApprBtn").hide();
-		
 		$("#adminUpdBtn").on("click", function(){
 			if(confirm("정보를 수정 하시겠습니까?")){
-//////////////////////////////////////////////////////////////////////////////////////////////
-				var id					= $("#memberId").val();
+				var id				= $("#memberId").val();
 				var pw         		= $("#password").val();             // 비밀번호
-				var pwChk    		= $("#passwordChk").val();        // 비밀번호 확인
+				var pwChk    		= $("#passwordChk").val();			// 비밀번호 확인
 				var fileName		= $("#fileName").val();
 				var checkCount 	= 0;
 
@@ -63,7 +58,6 @@
 				}
 				
 				$("#saveAdminUpdateFrm").attr("action","/member/admin/saveAdminUpdate");
-//////////////////////////////////////////////////////////////////////////////////////////////
 				if( pw == pwChk ){
 					var p = {
 						name       : "saveAdminUpdateFrm"
@@ -71,7 +65,7 @@
 							if(WebUtil.isNull(result.message)){
 								alert(result.data[0].defaultMessage);
 							}else{
-								$("#reApprBtn").show();	
+								location.href="/member/admin/adminPage"
 							}
 						}
 					}
@@ -97,6 +91,31 @@
 			// IE일 경우
 			//$("#u_file").replaceWith( $("#u_file").clone(true) );
 			$("#u_file").val("");
+			
+			var fileSeq = $("#fileSeq").val();
+			var fileName = $("#fileName").val();
+			
+			if(WebUtil.isNull(fileName)){
+				alert("파일을 첨부해 주세요.");
+				$("#fileName").focus();
+				return false;
+			}
+			
+			if(confirm("첨부파일을 삭제하시겠습니까?")){
+				var p = {
+					url : "/common/fileRealDelete"
+					, param : {
+						'fileSeq'	:	fileSeq	
+					}
+					, success : function(opt, result){
+						alert("첨부파일이 삭제되었습니다.");
+						$("#fileName").val("");
+						// IE일 경우
+						//$("#u_file").replaceWith( $("#u_file").clone(true) );
+						$("#u_file").val("");
+					}
+				}
+			}
 		});
 		
 		// 첨부파일 찾기
@@ -278,9 +297,12 @@
 						<th>첨부파일</th>
 						<td id="fileTag">
 							<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly">
-							<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
+							<input type="hidden" id="fileSeq" name="fileSeq" value="${file.fileSeq}" />
 							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
-							<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
+							<c:if test="${!empty file}">
+								<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
+							</c:if>
+							<input type="file" id="u_file" class="" name="files" style="display:none;">
 						</td>
 					</tr>
 					<tr>
@@ -301,11 +323,11 @@
    <div class="btn_wrap">
 		<c:if test="${adminInfo.tempMemberCheck ne 'Y' }">
 			<a href="javascript:void(0);" id="adminCancelBtn" class="btn_gray">취소</a>
+			<a href="javascript:void(0);" id="adminUpdBtn" class="btn_blue btn_right">저장</a>
 		</c:if>
 		<c:if test="${adminInfo.tempMemberCheck eq 'Y' }">
 			<a href="javascript:void(0);" id="reApprBtn" class="btn_gray">재승인요청</a>
 		</c:if>
-		<a href="javascript:void(0);" id="adminUpdBtn" class="btn_blue btn_right">저장</a>
 	</div>
 </div>
 

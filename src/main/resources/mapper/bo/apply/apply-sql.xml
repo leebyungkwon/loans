@@ -53,8 +53,8 @@
 				,case
 					when pl_stat = '5' then
 											case
-												when CONCAT((tlm.cre_app_fi_date::date), '일') = '일' then ''
-												else CONCAT((tlm.cre_app_fi_date::date), '일')
+												when CONCAT((tlm.cre_app_fi_date::date - cre_app_fi_date::date) + cre_app_fi_date::date, '일') = '일' then ''
+												else CONCAT((tlm.cre_app_fi_date::date - cre_app_fi_date::date) + cre_app_fi_date::date, '일')
 											end
 					else
 						case

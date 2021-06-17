@@ -16,6 +16,15 @@ function pageLoad(){
 			
 			var checkCount = 0;
 			
+			if(comCode == 0){
+				alert("회원사를 선택해 주세요.");
+				return false;
+			}
+			if(WebUtil.isNull(id)){
+				alert("아이디를 입력해 주세요.");
+				$("#memberId").focus();
+				return false;
+			}
 			if(/[0-9]/.test(pw)){ //숫자
 			    checkCount++;
 			}
@@ -27,11 +36,6 @@ function pageLoad(){
 			}
 			if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(pw)){ //특수문자
 			    checkCount++;
-			}
-			
-			if(comCode == 0){
-				alert("회원사를 선택해 주세요.");
-				return false;
 			}
 			if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(pw)){ 
 			    alert("비밀번호에 한글을 사용 할 수 없습니다.");
@@ -255,7 +259,7 @@ function pageLoad(){
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/담당자신청서_샘플.png','담당자신청서_샘플')">샘플다운로드</a>
-					<input type="file" id="u_file" class="" name="files" multiple="multiple" style="display:none;">
+					<input type="file" id="u_file" class="" name="files" style="display:none;">
 				</td>
 			</tr>
 		</table>
