@@ -83,9 +83,9 @@ public class CrefiaService {
 			insertResult += crefiaRepository.insertCrefiaWork(crefiaDomain);
 		}
 		if(insertResult > 0) {
-			return new ResponseMsg(HttpStatus.OK, "COM0001", "success");
+			return new ResponseMsg(HttpStatus.OK, "COM0001");
 		}
-		return new ResponseMsg(HttpStatus.OK, "COM0002", "success");
+		return new ResponseMsg(HttpStatus.OK, "COM0002");
 	}
 	
 	//협회 관리자 업무분장 - 삭제
