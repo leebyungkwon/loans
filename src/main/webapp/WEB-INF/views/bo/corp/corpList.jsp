@@ -11,25 +11,25 @@ function pageLoad(){
 		  id			: "corpGrid"
   		, url			: "/admin/corp/corpList"
 	    , width			: "100%"
+	    , check			: true
   		, headCol		: ["번호", "법인명", "법인번호", "등록경로", "등록일"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'corpSeq'				, index:'corpSeq'				, width:"3%"		, id:true}
-				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plMerchantNo'		, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'pathTypNm'			, index:'pathTypNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'		, index:'regTimestamp'		, width:"10%"		, align:"center"}
+				 {type:"string"	, name:'corpSeq'			, index:'corpSeq'			, width:"10%"		, id:true}
+				,{type:"string"	, name:'plMerchantName'		, index:'plMerchantName'	, width:"30%"		, align:"center"}
+				,{type:"string"	, name:'plMerchantNo'		, index:'plMerchantNo'		, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'pathTypNm'			, index:'pathTypNm'			, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'regTimestamp'		, index:'regTimestamp'		, width:"20%"		, align:"center"}
 			]
 		, sortNm 		: "corp_seq"
 		, sort 			: "DESC"
-		, rowClick		: {retFunc : goCorpDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 	});
 	
 	
-	// 삭제
+	//삭제
 	$("#deleteCorp").on("click", function(){
 		var chkedLen = $("tbody > tr > td > input:checkbox:checked").length;
 		if(chkedLen == 0){
