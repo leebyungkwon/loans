@@ -48,6 +48,9 @@
 		FROM TB_LC_FILE01
 		<where>
 			AND FILE_GRP_SEQ 	= #{fileGrpSeq}
+			<if test="filePath != null and filePath != ''">
+			AND FILE_PATH = #{filePath}
+			</if>
 		</where>
 	</select>
 
@@ -139,6 +142,9 @@
     	DELETE FROM TB_LC_FILE01
     	<where>
 			AND FILE_GRP_SEQ = #{fileGrpSeq}
+			<if test="filePath != null and filePath != ''">
+			AND FILE_PATH = #{filePath}
+			</if>
 		</where> 
     </delete>
 	

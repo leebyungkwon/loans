@@ -129,6 +129,14 @@ public class UserService {
 		return userRegList;
 	}
 	
+	//모집인 등록(엑셀) > 업로드한 엑셀 파일 삭제(+서버)
+	public void userRegExcelFileDelete(int fileGrpSeq) {
+		FileDomain fileParam = new FileDomain();
+		fileParam.setFileGrpSeq(fileGrpSeq);
+		fileParam.setFilePath("excel");
+		commonService.realDeleteFileByGrpSeq(fileParam);
+	}
+	
 	//모집인 등록(엑셀) > 개인
 	@Transactional
 	public ResponseMsg insertUserRegIndvInfoByExcel(MultipartFile[] files, UserDomain userDomain){
@@ -153,6 +161,11 @@ public class UserService {
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				
+				//업로드한 엑셀 파일 삭제
+				if(file.get(0).getFileGrpSeq() != null) {
+					this.userRegExcelFileDelete(file.get(0).getFileGrpSeq());
+				}
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
@@ -195,6 +208,11 @@ public class UserService {
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				
+				//업로드한 엑셀 파일 삭제
+				if(file.get(0).getFileGrpSeq() != null) {
+					this.userRegExcelFileDelete(file.get(0).getFileGrpSeq());
+				}
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
@@ -244,6 +262,11 @@ public class UserService {
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				
+				//업로드한 엑셀 파일 삭제
+				if(file.get(0).getFileGrpSeq() != null) {
+					this.userRegExcelFileDelete(file.get(0).getFileGrpSeq());
+				}
 				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
@@ -347,6 +370,11 @@ public class UserService {
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
 				
+				//업로드한 엑셀 파일 삭제
+				if(file.get(0).getFileGrpSeq() != null) {
+					this.userRegExcelFileDelete(file.get(0).getFileGrpSeq());
+				}
+				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
@@ -449,6 +477,11 @@ public class UserService {
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
 
+				//업로드한 엑셀 파일 삭제
+				if(file.get(0).getFileGrpSeq() != null) {
+					this.userRegExcelFileDelete(file.get(0).getFileGrpSeq());
+				}
+				
 				if(errorMsg != null && !errorMsg.equals("")) {
 					//에러메세지 있음
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
@@ -1155,7 +1188,7 @@ public class UserService {
 		
 		//관련 첨부파일 삭제
 		if(userRegInfo.getFileSeq() != null) {
-			FileDomain fileParam 	= new FileDomain();
+			FileDomain fileParam = new FileDomain();
 			fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
 			commonService.realDeleteFileByGrpSeq(fileParam);
 		}
