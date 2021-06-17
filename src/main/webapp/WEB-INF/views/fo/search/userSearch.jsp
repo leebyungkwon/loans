@@ -62,7 +62,7 @@ function goUserSearchResultPage(formNm,masterSeq) {
 						</div>
 					</div>
 				</div>
-				<a href="#" class="btn_login">조회</a>
+				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
 			</div>
 		</form>
 		<div class="bottom_box">
@@ -97,7 +97,7 @@ function goUserSearchResultPage(formNm,masterSeq) {
 						</div>
 					</div>
 				</div>
-				<a href="#" class="btn_login">조회</a>
+				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
 			</div>
 		</form>
 		<div class="bottom_box">

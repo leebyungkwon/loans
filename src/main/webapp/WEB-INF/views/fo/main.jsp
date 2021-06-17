@@ -11,6 +11,28 @@ function pageLoad() {
 		$(".tap_cont").removeClass("on").eq(tap_index).addClass("on");
 	});
 }
+
+//모집인 조회
+function goUserSearch() {
+	var tabIndex 	= $(".tap_wrap > ul > li.on").index();
+	var formNm 		= $("form").eq(tabIndex).attr("name");
+	var p = {
+		 name 		: formNm
+		,success	: function(opt,result){
+			if(result.code != "fail"){
+				goUserSearchResultPage(formNm,result.masterSeq);
+			}
+		}
+	}
+	AjaxUtil.form(p);
+}
+
+//조회 결과 있을 때
+function goUserSearchResultPage(formNm,masterSeq) {
+	$("#"+formNm).append('<input type="hidden" name="masterSeq" value="'+masterSeq+'">');
+	$("#"+formNm).attr("action","/front/search/userSearchResult");
+	$("#"+formNm).submit();
+}
 </script>
 
 <div class="visual_wrap">
@@ -32,21 +54,21 @@ function pageLoad() {
 		</ul>
 	</div>
 	<div class="tap_cont on">
-		<form name="indvUserSearchFrm" method="post">
+		<form name="indvUserSearchFrm" id="indvUserSearchFrm" method="post" action="/front/search/indvUserSearch">
 			<div class="input_wrap clfix">
 				<div class="left_box">
 					<div class="input_box mgt0">
 						<div class="value">
-							<input type="text" placeholder="등록번호">
+							<input type="text" name="masterToId" placeholder="등록번호" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
 						</div>
 					</div>
 					<div class="input_box">
 						<div class="value">
-							<input type="text" placeholder="휴대폰번호">
+							<input type="text" name="plCellphone" placeholder="예) 010-1234-5678" maxlength="13" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호를 입력해 주세요."}'>
 						</div>
 					</div>
 				</div>
-				<a href="#" class="btn_login">조회</a>
+				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
 			</div>
 		</form>
 		<div class="bottom_box">
@@ -67,21 +89,21 @@ function pageLoad() {
 		</div>
 	</div>
 	<div class="tap_cont">
-		<form name="corpUserSearchFrm" method="post">
+		<form name="corpUserSearchFrm" id="corpUserSearchFrm" method="post" action="/front/search/corpUserSearch">
 			<div class="input_wrap clfix">
 				<div class="left_box">
 					<div class="input_box mgt0">
 						<div class="value">
-							<input type="text" placeholder="등록번호">
+							<input type="text" name="masterToId" placeholder="등록번호" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
 						</div>
 					</div>
 					<div class="input_box">
 						<div class="value">
-							<input type="text" placeholder="법인명">
+							<input type="text" name="plMerchantName" placeholder="법인명" maxlength="30" data-vd='{"type":"text","len":"1,30","req":true,"msg":"법인명을 입력해 주세요."}'>
 						</div>
 					</div>
 				</div>
-				<a href="#" class="btn_login">조회</a>
+				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
 			</div>
 		</form>
 		<div class="bottom_box">
@@ -102,6 +124,4 @@ function pageLoad() {
 		</div>
 	</div>
 </div>
-
-
 
