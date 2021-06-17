@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	<div class="contents">
-		<div id="table">
+		<div id="table" style="height: 670px; overflow: scroll;">
 			<table>
 				<thead>
 					<tr>
@@ -92,7 +92,7 @@
 			</table>
 		</div>
 		<div class="btn_wrap">
-		<a href="javascript:void(0);" class="btn_black btn_right" id="saveCrefiaWorkBtn">저장</a>
+			<a href="javascript:void(0);" class="btn_black btn_right" id="saveCrefiaWorkBtn">저장</a>
 		</div>
 	</div>
 </div>
