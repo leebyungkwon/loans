@@ -8,7 +8,10 @@
 		<include refid="common.totalPages"/>
 			 TLE.USER_NAME
 			,TLE.USER_BIRTH
-			,TLE.USER_SEX
+			,CASE 
+				WHEN TLE.USER_SEX = '1' THEN '남자'
+				WHEN TLE.USER_SEX = '2' THEN '여자'
+			 END AS USER_SEX
 			,TLE.PROCESS_CD
 			,TLE.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLE.CAREER_TYP) AS CAREER_TYP_NM
