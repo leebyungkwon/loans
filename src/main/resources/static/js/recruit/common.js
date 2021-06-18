@@ -37,6 +37,7 @@ $(document).on("change",".check_cd",function(){
 	}
 	var p = {
 		  url		: url	
+		, loadYn	: false
 		, param		: {
 			 fileSeq 		: fileSeq
 			,checkCd		: code
