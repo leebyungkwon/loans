@@ -58,19 +58,6 @@ function pageLoad(){
 	
 }
 
-//법인 row 클릭 이벤트
-function goCorpDetail(idx, data){
-	var corpSeq = corpGrid.gridData[idx].corpSeq;
-	let p = {
-		id : "corpSavePop"
-		, params : {"corpSeq" : corpSeq}
-		, url : "/admin/corp/corpSavePopup"
-		, success : function (opt,result) {
-	    }
-	}
-	PopUtil.openPopup(p);
-}
-
 //법인 등록 팝업
 function goCorpInfoSavePopup() {
 	let p = {
