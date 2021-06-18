@@ -14,12 +14,9 @@ public @interface ExcelColumn {
 	String chkDb() default "";
 	String vEncrypt() default "";
 	String chkPrd() default "";
-	String chkCal() default "";
-	String chkCi() default "";
-	String chkPId() default "";
+	String chkFormat() default "";
 	int vLenMin() default 0;
 	int vLenMax() default 10000;
-	
 	
 	int order() default 0;
 }

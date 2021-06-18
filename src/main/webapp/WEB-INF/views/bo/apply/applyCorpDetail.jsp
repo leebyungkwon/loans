@@ -209,12 +209,16 @@ function goApplyImprove(num){
 					<td>${result.applyInfo.plCeoName }</td>
 				</tr>
 				<tr>
-					<th>법인등록번호</th>
-					<td colspan="3">${result.applyInfo.plMerchantNo }</td>
+					<th>대표이사 주민번호</th>
+					<td>${result.applyInfo.plMZId }</td>
+					<th>대표이사 휴대폰번호</th>
+					<td>${result.applyInfo.plCellphone }</td>
 				</tr>
 				<tr>
+					<th>법인등록번호</th>
+					<td>${result.applyInfo.plMerchantNo }</td>
 					<th>설립년월일</th>
-					<td colspan="3">${result.applyInfo.corpFoundDate }</td>
+					<td>${result.applyInfo.corpFoundDate }</td>
 				</tr>
 				<tr>
 					<th>본점소재지</th>

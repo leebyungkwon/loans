@@ -28,7 +28,7 @@ public class UserImwonDomain extends BaseDomain {
 	@ExcelColumn(headerName="성명", vCell="C", vLenMin=2, vLenMax=20, chkDb="edu2")
 	private String excName;			//이름
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="D", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkPId="Y")
+	@ExcelColumn(headerName="주민등록번호", vCell="D", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkFormat="pId")
 	private String plMZId;			//주민등록번호
 	
 	private String plProduct;		//금융상품유형
@@ -36,10 +36,10 @@ public class UserImwonDomain extends BaseDomain {
 	@ExcelColumn(headerName="교육이수번호", vCell="E", vLenMin=10, vLenMax=30, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
-	@ExcelColumn(headerName="경력시작일", vCell="F", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="경력시작일", vCell="F", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String careerStartDate;	//경력시작일
 	
-	@ExcelColumn(headerName="경력종료일", vCell="G", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="경력종료일", vCell="G", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String careerEndDate;	//경력종료일
 	
 	@ExcelColumn(headerName="상근여부", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2")

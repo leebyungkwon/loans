@@ -22,7 +22,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="성명", vCell="B", vLenMin=2, vLenMax=20, chkDb="edu2")
 	private String plMName;			//모집인이름
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkPId="Y")
+	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkFormat="pId")
 	private String plMZId;			//모집인주민등록번호
 	
 	@ExcelColumn(headerName="휴대폰번호", vCell="D", vLenMin=13, vLenMax=13)
@@ -37,24 +37,24 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="법인명", vCell="G", vLenMin=0, vLenMax=30)
 	private String plMerchantName;	//법인명
 	
-	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp", vEncrypt="Y")
+	@ExcelColumn(headerName="법인등록번호", vCell="H", vLenMin=0, vLenMax=14, chkDb="corp", vEncrypt="Y", chkFormat="mNo")
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="교육이수번호", vCell="I", vLenMin=10, vLenMax=30, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
-	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="경력시작일", vCell="J", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String careerStartDate;	//경력시작일
 	
-	@ExcelColumn(headerName="경력종료일", vCell="K", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="경력종료일", vCell="K", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String careerEndDate;	//경력종료일
 	
-	@ExcelColumn(headerName="계약일자", vCell="L", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="계약일자", vCell="L", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String comContDate;		//계약일자
 	
-	@ExcelColumn(headerName="위탁예정기간", vCell="M", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="위탁예정기간", vCell="M", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String entrustDate;		//위탁예정일
 	
-	@ExcelColumn(headerName="CI", vCell="N", vLenMin=1, vLenMax=88, chkCi="Y", chkPrd="prd2")
+	@ExcelColumn(headerName="CI", vCell="N", vLenMin=1, vLenMax=88, chkFormat="ci", chkPrd="prd2")
 	private String ci;				//CI
 }

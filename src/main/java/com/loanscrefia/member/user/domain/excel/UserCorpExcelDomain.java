@@ -22,30 +22,36 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="대표이사", vCell="B", vLenMin=2, vLenMax=10)
 	private String plCeoName;		//대표이사명
 	
-	@ExcelColumn(headerName="법인등록번호", vCell="C", vLenMin=14, vLenMax=14, vEncrypt="Y")
+	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="pId")
+	private String plMZId;			//모집인주민등록번호
+	
+	@ExcelColumn(headerName="휴대폰번호", vCell="D", vLenMin=13, vLenMax=13)
+	private String plCellphone;		//모집인휴대전화번호
+	
+	@ExcelColumn(headerName="법인등록번호", vCell="E", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="mNo")
 	private String plMerchantNo;	//법인등록번호
 	
-	@ExcelColumn(headerName="설립년월일", vCell="D", vLenMin=10, vLenMax=10)
+	@ExcelColumn(headerName="설립년월일", vCell="F", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String corpFoundDate;	//법인설립일
 	
-	@ExcelColumn(headerName="본점소재지", vCell="E", vLenMin=1, vLenMax=2, vEnum="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17")
+	@ExcelColumn(headerName="본점소재지", vCell="G", vLenMin=1, vLenMax=2, vEnum="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17")
 	private String addr;			//본점소재지
 	
-	@ExcelColumn(headerName="상세주소", vCell="F", vLenMin=1, vLenMax=200)
+	@ExcelColumn(headerName="상세주소", vCell="H", vLenMin=1, vLenMax=200)
 	private String addrDetail;		//상세주소
 	
-	@ExcelColumn(headerName="자본금", vCell="G", vLenMin=1, vLenMax=1000000)
+	@ExcelColumn(headerName="자본금", vCell="I", vLenMin=1, vLenMax=1000000)
 	private int capital;			//자본금
 	
-	@ExcelColumn(headerName="금융상품유형", vCell="H", vLenMin=1, vLenMax=1, vEnum="1,2,3", chkPrd="prd1")
+	@ExcelColumn(headerName="금융상품유형", vCell="J", vLenMin=1, vLenMax=1, vEnum="1,2,3", chkPrd="prd1")
 	private String plProduct;		//금융상품유형(취급상품)
 	
-	@ExcelColumn(headerName="계약일자", vCell="I", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="계약일자", vCell="K", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String comContDate;		//계약일자
 	
-	@ExcelColumn(headerName="위탁예정기간", vCell="J", vLenMin=10, vLenMax=10, chkCal="Y")
+	@ExcelColumn(headerName="위탁예정기간", vCell="L", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String entrustDate;		//위탁예정일
 	
-	@ExcelColumn(headerName="CI", vCell="K", vLenMin=1, vLenMax=88, chkCi="Y", chkPrd="prd2")
+	@ExcelColumn(headerName="CI", vCell="M", vLenMin=1, vLenMax=88, chkFormat="ci", chkPrd="prd2")
 	private String ci;				//CI
 }

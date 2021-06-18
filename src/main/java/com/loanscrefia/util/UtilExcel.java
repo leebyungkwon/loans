@@ -85,9 +85,7 @@ public class UtilExcel<T> {
 		List<String> chkDb 		= new ArrayList<String>();
 		List<String> vEncrypt 	= new ArrayList<String>();
 		List<String> chkPrd 	= new ArrayList<String>();
-		List<String> chkCal 	= new ArrayList<String>();
-		List<String> chkCi 		= new ArrayList<String>();
-		List<String> chkPId 	= new ArrayList<String>();
+		List<String> chkFormat 	= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -101,9 +99,7 @@ public class UtilExcel<T> {
 				chkDb.add(columnAnnotation.chkDb());
 				vEncrypt.add(columnAnnotation.vEncrypt());
 				chkPrd.add(columnAnnotation.chkPrd());
-				chkCal.add(columnAnnotation.chkCal());
-				chkCi.add(columnAnnotation.chkCi());
-				chkPId.add(columnAnnotation.chkPId());
+				chkFormat.add(columnAnnotation.chkFormat());
 			}
 		}
 		
@@ -116,9 +112,14 @@ public class UtilExcel<T> {
 		Map<String, Object> errorMsgMap		= new HashMap<String, Object>();
 		String errorMsg						= "";
 		
-		//엑셀에 입력된 데이터가 하나도 없을 때
 		if(physicalNumberOfRows == 1) {
 			errorMsg = "엑셀 양식에 입력된 데이터가 없습니다.";
+			errorMsgMap.put("errorMsg", errorMsg);
+        	result.clear();
+        	result.add(errorMsgMap);
+        	return result;
+		}else if(physicalNumberOfRows > 51) {
+			errorMsg = "최대 50명까지 등록할 수 있습니다.";
 			errorMsgMap.put("errorMsg", errorMsg);
         	result.clear();
         	result.add(errorMsgMap);
@@ -186,7 +187,7 @@ public class UtilExcel<T> {
 	                		if(!chkDb.get(j).isEmpty()){
 	                			if(chkDb.get(j).equals("corp")) {
 	                				//법인 정보 유효 체크(법인사용인)
-	                				if(cellVal != null && !cellVal.equals("")) {
+	                				if(StringUtils.isNotEmpty(cellVal)) {
 	                					corpChkParam.setPlMerchantNo(cellVal);
 	                					if(selectCorpInfoChk(corpChkParam) == 0) {
 	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
@@ -233,27 +234,36 @@ public class UtilExcel<T> {
 	                				}
 	                			}
 	                		}
-	                		if(!chkPId.get(j).isEmpty()) {
-	                			//주민등록번호 형식 체크
-	                			if(chkPId.get(j).equals("Y")) {
+	                		if(!chkFormat.get(j).isEmpty()){
+	                			if(chkFormat.get(j).equals("pId")) {
+	                				//주민등록번호 형식 체크
 	                				if(!plMZIdFormatChk(cellVal)) {
 		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
 		                			}
+	                			}else if(chkFormat.get(j).equals("cal")) {
+	                				//날짜 형식 체크
+	                				if(!dateFormatChk(cellVal,"yyyy-MM-dd")) {
+		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
+		                			}
+	                			}else if(chkFormat.get(j).equals("ci")) {
+	                				//CI 형식 체크
+	                				if(!cellVal.endsWith("==")) {
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
+	                				}
+	                			}else if(chkFormat.get(j).equals("mNo")) {
+	                				//법인번호 형식 체크
+	                				if(StringUtils.isNotEmpty(cellVal)) {
+	                					if(!plMerchantNoFormatChk(cellVal)) {
+			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
+			                			}
+	                				}
 	                			}
 	                		}
 	                		if(!vEncrypt.get(j).isEmpty()){
 	                			//암호화(주민번호,법인번호)
 	                			if(vEncrypt.get(j).equals("Y")) {
-	                				if(cellVal != null && !cellVal.equals("")) {
-			                			cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
-		                			}
-	                			}
-	                		}
-	                		if(!chkCi.get(j).isEmpty()) {
-	                			//CI 형식 체크
-	                			if(chkCi.get(j).equals("Y")) {
-	                				if(!cellVal.endsWith("==")) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
+	                				if(StringUtils.isNotEmpty(cellVal)) {
+	                					cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
 	                				}
 	                			}
 	                		}
@@ -276,14 +286,6 @@ public class UtilExcel<T> {
                 					}
 	                			}
 	                		}
-	                		if(!chkCal.get(j).isEmpty()) {
-	                			//날짜 형식 체크
-	                			if(chkCal.get(j).equals("Y")) {
-	                				if(!dateFormatChk(cellVal,"yyyy-MM-dd")) {
-		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
-		                			}
-	                			}
-	                		}
 	                	}
 	                }
 	                //map.put(cellName, ExcelCellRef.getValue(cell));
@@ -299,7 +301,7 @@ public class UtilExcel<T> {
     	
     	if(plProductArr.length > 0) {
     		for(int i = 0;i < plProductArr.length;i++) {
-    			if(plProductArr[i] != null && !plProductArr[i].equals("") && plProductArr[i].equals("1")) {
+    			if(StringUtils.isNotEmpty(plProductArr[i]) && plProductArr[i].equals("1")) {
     				plProductDupChk++;
     			}
     		}
@@ -309,7 +311,7 @@ public class UtilExcel<T> {
     	}
 		
     	//에러메세지 있을 때 
-        if(errorMsg != null && !errorMsg.equals("")) {
+        if(StringUtils.isNotEmpty(errorMsg)) {
         	errorMsgMap.put("errorMsg", errorMsg);
         	result.clear();
         	result.add(errorMsgMap);
@@ -391,9 +393,12 @@ public class UtilExcel<T> {
 	//주민등록번호 형식 체크
 	private boolean plMZIdFormatChk(String plMZId) {
 		return Pattern.matches("^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$", plMZId);
-
 	}
 	
+	//법인번호 형식 체크
+	private boolean plMerchantNoFormatChk(String plMerchantNo) {
+		return Pattern.matches("^[0-9]{6}-[0-9]{7}$", plMerchantNo);
+	}
 
 
 }

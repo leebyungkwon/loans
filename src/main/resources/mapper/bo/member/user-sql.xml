@@ -484,6 +484,8 @@
 			,PL_CLASS
 			,PL_MERCHANT_NAME
 			,PL_CEO_NAME
+			,PL_M_Z_ID
+			,PL_CELLPHONE
 			,PL_MERCHANT_NO
 			,CORP_FOUND_DATE
 			,ADDR
@@ -506,15 +508,17 @@
    			,#{plClass} 					-- 개인,법인
    			,#{item.A}						-- 상호
 			,#{item.B}						-- 대표이사
-			,#{item.C}						-- 법인등록번호
-   			,REPLACE(#{item.D}, '-', '')	-- 설립년월일
-			,#{item.E}						-- 본점소재지
-			,#{item.F}						-- 상세주소(법인등기부본상)
-			,CAST(#{item.G} AS INT4)		-- 자본금
-			,#{item.H}						-- 금융상품유형
-			,REPLACE(#{item.I}, '-', '')	-- 계약일자
-   			,REPLACE(#{item.J}, '-', '')	-- 위탁예정기간
-   			,#{item.K}						-- CI
+			,#{item.C}						-- 주민등록번호
+   			,REPLACE(#{item.D}, '-', '')	-- 휴대폰번호
+			,#{item.E}						-- 법인등록번호
+   			,REPLACE(#{item.F}, '-', '')	-- 설립년월일
+			,#{item.G}						-- 본점소재지
+			,#{item.H}						-- 상세주소(법인등기부본상)
+			,CAST(#{item.I} AS INT4)		-- 자본금
+			,#{item.J}						-- 금융상품유형
+			,REPLACE(#{item.K}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.L}, '-', '')	-- 위탁예정기간
+   			,#{item.M}						-- CI
    			,NOW()
    		)
    		</foreach>

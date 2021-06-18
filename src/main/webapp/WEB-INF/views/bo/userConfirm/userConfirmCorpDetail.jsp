@@ -79,12 +79,16 @@ function goUserChangeApplyPage(){
 					<td>${result.userRegInfo.plCeoName }</td>
 				</tr>
 				<tr>
-					<th>법인등록번호</th>
-					<td colspan="3">${result.userRegInfo.plMerchantNo }</td>
+					<th>대표이사 주민번호</th>
+					<td>${result.userRegInfo.plMZId }</td>
+					<th>대표이사 휴대폰번호</th>
+					<td>${result.userRegInfo.plCellphone }</td>
 				</tr>
 				<tr>
+					<th>법인등록번호</th>
+					<td>${result.userRegInfo.plMerchantNo }</td>
 					<th>설립년월일</th>
-					<td colspan="3">${result.userRegInfo.corpFoundDate }</td>
+					<td>${result.userRegInfo.corpFoundDate }</td>
 				</tr>
 				<tr>
 					<th>본점소재지</th>

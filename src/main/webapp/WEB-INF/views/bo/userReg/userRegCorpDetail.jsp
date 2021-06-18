@@ -114,6 +114,12 @@ function goUserRegInfoCancel() {
 						<td><input type="text" name="plCeoName" class="w100" value="${result.userRegInfo.plCeoName }" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"대표이사명을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
+						<th>대표이사 주민번호</th>
+						<td><input type="text" name="plMZId" class="w100" value="${result.userRegInfo.plMZId }" maxlength="14" placeholder="- 포함" data-vd='{"type":"pId","len":"14,14","req":true,"msg":"주민등록번호(- 포함)를 입력해 주세요."}'></td>
+						<th>대표이사 휴대폰번호</th>
+						<td><input type="text" name="plCellphone" class="w100" value="${result.userRegInfo.plCellphone }" maxlength="13" placeholder="- 포함" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호(- 포함)를 입력해 주세요."}'></td>
+					</tr>
+					<tr>
 						<th>법인등록번호</th>
 						<td>${result.userRegInfo.plMerchantNo }</td>
 						<th>설립년월일</th>

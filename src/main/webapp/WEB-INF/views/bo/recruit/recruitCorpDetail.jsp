@@ -180,12 +180,16 @@ function goRecruitImprove(rePlStat){
 					<td>${result.recruitInfo.plCeoName }</td>
 				</tr>
 				<tr>
-					<th>법인등록번호</th>
-					<td colspan="3">${result.recruitInfo.plMerchantNo }</td>
+					<th>대표이사 주민번호</th>
+					<td>${result.recruitInfo.plMZId }</td>
+					<th>대표이사 휴대폰번호</th>
+					<td>${result.recruitInfo.plCellphone }</td>
 				</tr>
 				<tr>
+					<th>법인등록번호</th>
+					<td>${result.recruitInfo.plMerchantNo }</td>
 					<th>설립년월일</th>
-					<td colspan="3">${result.recruitInfo.corpFoundDate }</td>
+					<td>${result.recruitInfo.corpFoundDate }</td>
 				</tr>
 				<tr>
 					<th>본점소재지</th>

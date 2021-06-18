@@ -65,6 +65,6 @@ public class ExcelCellRef {
             }
         }
         
-        return value;
+        return value.trim();
     }
 }
