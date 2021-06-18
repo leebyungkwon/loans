@@ -28,6 +28,8 @@ public class BatchController {
 	 * -------------------------------------------------------------------------------------------
 	 */
 	
+	/*
+	
 	//모집인 엑셀 업로드 후 1개월동안 처리상태가 미요청 + 모집인상태가 승인전인 경우 -> 모집인 데이터 및 모집인 관련 첨부파일 삭제(+서버)
 	@Scheduled(cron = "0/3 * * * * *")
 	@SchedulerLock(name = "scheduledTaskName")
@@ -62,6 +64,8 @@ public class BatchController {
     	
     	log.info("================ userUploadExcelFileDelete() END ================");
     }
+    
+    */
     
 	
 }

@@ -13,7 +13,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: prd
+    active: prod
   devtools:
     livereload:
       enabled: true
