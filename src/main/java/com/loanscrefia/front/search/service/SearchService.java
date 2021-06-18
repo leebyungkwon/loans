@@ -10,11 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.front.search.repository.SearchRepository;
 import com.loanscrefia.member.user.domain.UserDomain;
+
+import sinsiway.CryptoUtil;
 
 @Service
 public class SearchService {

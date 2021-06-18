@@ -1081,11 +1081,13 @@
 			,COM_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			,CRE_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>
+			<if test='plStat.equals("5") or plStat.equals("6") or plStat.equals("7")'>
 			,CRE_APP_FI_DATE = case
 									when cre_app_fi_date is null or cre_app_fi_date = '' then TO_CHAR(NOW()::date + interval '60 days', 'YYYYMMDD')
 									when cre_app_fi_date is not null or cre_app_fi_date != '' then TO_CHAR((NOW()::date - com_upd_date::date) + cre_app_fi_date::date, 'YYYYMMDD')
 								else cre_app_fi_date
 								end
+			</if>
 			<if test='plStat.equals("2") or plStat.equals("3") or plStat.equals("4")'>
 			,COM_REG_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>

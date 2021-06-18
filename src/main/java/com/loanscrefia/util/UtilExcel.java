@@ -26,12 +26,13 @@ import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.admin.edu.domain.EduDomain;
 import com.loanscrefia.admin.edu.service.EduService;
-import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
 import com.loanscrefia.util.excel.ExcelFileType;
+
+import sinsiway.CryptoUtil;
 
 @Component
 public class UtilExcel<T> {

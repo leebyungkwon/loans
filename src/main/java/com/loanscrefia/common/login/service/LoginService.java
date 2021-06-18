@@ -1,6 +1,5 @@
 package com.loanscrefia.common.login.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -17,12 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.loanscrefia.common.login.domain.SecurityMember;
 import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.common.member.domain.MemberDomain;
-import com.loanscrefia.common.member.domain.MemberRoleDomain;
 import com.loanscrefia.common.member.repository.MemberRepository;
-import com.loanscrefia.common.member.repository.MemberRoleRepository;
-import com.loanscrefia.config.CryptoUtil;
 import com.loanscrefia.config.message.ResponseMsg;
-import com.loanscrefia.system.code.domain.CodeMstDomain;
 
 @Service
 public class LoginService implements UserDetailsService {
