@@ -16,8 +16,8 @@ function pageLoad(){
 		, headCol		: ["","회원사", "아이디", "부서명", "담당자명", "직위", "가입일", "승인상태"]
 		, bodyCol		: 
 			[
-				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, width:"10px"	, hidden:true  	, id:true}
-				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'		, width:"15%"	, align:"center"}
+				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, width:"10%"	, hidden:true  	, id:true}
+				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'		, width:"25%"	, align:"center"}
 				,{type:"string"	, name:'memberId'		, index:'memberId'		, width:"15%"	, align:"center"}
 				,{type:"string"	, name:'deptNm'			, index:'deptNm'		, width:"15%"	, align:"center"}
 				,{type:"string"	, name:'memberName'		, index:'memberName'	, width:"10%"	, align:"center"}

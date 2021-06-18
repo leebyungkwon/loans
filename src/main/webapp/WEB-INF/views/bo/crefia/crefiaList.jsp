@@ -143,7 +143,6 @@ function saveCrefia(){
 		param.password = password
 	}
 	
-//////////////////////////////////////////////////////////////////////////////////////////////
 	var checkCount 	= 0;
 
 	if(/[0-9]/.test(password)){ //숫자
@@ -182,7 +181,6 @@ function saveCrefia(){
 		alert("비밀번호는 공백 없이 입력해주세요.");
 		return false;
 	}
-//////////////////////////////////////////////////////////////////////////////////////////////
 	
 	var crefiaParam = {
 		param: param
@@ -197,6 +195,14 @@ function saveCrefia(){
     	}
 	}
 	AjaxUtil.post(crefiaParam);
+}
+
+function checkCapsLock(event){
+	if(event.getModifierState("CapsLock")){
+		$("#message").text("※ Caps Lock이 켜져 있습니다.");
+	}else{
+		$("#message").text("");
+	}
 }
 </script>
 

@@ -46,17 +46,18 @@
 		<tr>
 			<th>비밀번호</th>
 			<td>
-				<input type="password" class="w50 file_input" id="popPassword" name="password" placeholder="8자리~20자리 (2종류 이상의 문자구성)" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
+				<input type="password" class="w50 file_input" id="popPassword" name="password" onkeyup="checkCapsLock(event);" placeholder="8자리~20자리 (2종류 이상의 문자구성)" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}'/>
 				<p class="noti" style="margin-top: 5px;">
 					※ 알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br>
 					※ 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용이 불가능 합니다.
 				</p>
+				<div id="message" class="orange"></div>
 			</td>
 		</tr>
 		<tr>
-			<th>비밀번호확인</th>
+			<th>비밀번호 확인</th>
 			<td>
-				<input type="password" class="w50 file_input" id="popPasswordChk" placeholder="동일한 비밀번호를 입력" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
+				<input type="password" class="w50 file_input" id="popPasswordChk" onkeyup="checkCapsLock(event);" placeholder="동일한 비밀번호를 입력" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"동일한 비밀번호를 입력해 주세요"}'/>
 			</td>
 		</tr>
 	</tbody>
