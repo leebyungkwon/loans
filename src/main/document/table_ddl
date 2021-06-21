@@ -223,7 +223,7 @@ create table tb_lc_mas01(
 	, pl_business_no varchar(10)
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
-	, capital integer
+	, capital bigint
 	, com_cont_date varchar(8)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
@@ -638,7 +638,7 @@ create table tb_lc_mas01_hist(
 	, pl_business_no varchar(10)
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
-	, capital integer
+	, capital bigint
 	, com_cont_date varchar(8)	
 	, com_reg_date varchar(8)
 	, chk_yn char(1)

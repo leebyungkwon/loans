@@ -24,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,16 +35,10 @@ import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.admin.apply.service.ApplyService;
-import com.loanscrefia.admin.recruit.domain.RecruitDomain;
-import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
-import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
-import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
-import com.loanscrefia.member.user.domain.UserDomain;
-import com.loanscrefia.member.user.service.UserService;
 import com.loanscrefia.util.UtilExcel;
 
 import net.sourceforge.tess4j.Tesseract;
@@ -661,5 +654,4 @@ public class ApplyController {
     	responseMsg.setData(msgMap);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
-	
 }
