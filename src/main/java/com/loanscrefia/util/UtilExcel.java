@@ -129,9 +129,6 @@ public class UtilExcel<T> {
 		//최초 등록 시 대출 상품 중복 체크용 배열
 		String plProductArr[] 	= new String[physicalNumberOfRows-1];
 		
-		//row check
-		int cellChkCnt 			= 0;
-		
 		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
 		    Row row 				= null;
 		    Cell cell 				= null;
@@ -142,6 +139,9 @@ public class UtilExcel<T> {
 		    CorpDomain corpChkParam = new CorpDomain();
 		    EduDomain eduChkParam 	= new EduDomain();
 		    UserDomain userChkParam = new UserDomain();
+		    
+		    //row check
+			int cellChkCnt 			= 0;
 		    
 	        row = sheet.getRow(i);
 	        
