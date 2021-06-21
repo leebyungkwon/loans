@@ -785,19 +785,19 @@ public class ApplyService {
 		
 		if("5".equals(applyDomain.getPlStat())) {
 			// 승인요청에 대한 보완
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("141");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());			
 		}else if("9".equals(applyDomain.getPlStat()) && "2".equals(applyDomain.getPlRegStat()) && "N".equals(applyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 		}else if("9".equals(applyDomain.getPlStat()) && "3".equals(applyDomain.getPlRegStat()) && "Y".equals(applyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("143");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 		}else if("10".equals(applyDomain.getPlStat())) {
 			// 승인요청에 대한 부적격
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("144");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
@@ -805,9 +805,9 @@ public class ApplyService {
 		
 		int result = applyRepository.updateApplyPlStat(applyDomain);
 		
-		//emailResult = emailRepository.sendEmail(emailDomain);
+		emailResult = emailRepository.sendEmail(emailDomain);
 		// 임시 성공
-		emailResult = 1;
+		//emailResult = 1;
 		if(emailResult > 0 && result > 0) {
 			// 모집인단계이력
 			applyRepository.insertMasterStep(applyDomain);

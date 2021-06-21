@@ -22,6 +22,7 @@ import com.loanscrefia.admin.recruit.repository.RecruitRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
+import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -46,6 +47,8 @@ public class RecruitService {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private UserRepository userRepo;
+	@Autowired
+	private EmailRepository emailRepository;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
@@ -747,29 +750,31 @@ public class RecruitService {
 		
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 승인
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("145");
 			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 		}else if("6".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 보완요청
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("146");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
 		}else if("4".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 해지요청에 대한 승인
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("147");
 			emailDomain.setSubsValue(statCheck.getMasterToId());	
 		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 승인요청에 대한 승인
-			emailDomain.setInstId("추후고정값");
+			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
+		}else{
+			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
 		
 		
 		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 		// 임시처리
-		//emailResult = commonRepository.sendEmail(emailDomain);
-		emailResult = 1;
+		emailResult = emailRepository.sendEmail(emailDomain);
+		//emailResult = 1;
 		if(emailResult > 0 && result > 0) {
 			// 모집인단계이력
 			recruitRepository.insertMasterStep(recruitDomain);
