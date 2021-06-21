@@ -417,6 +417,7 @@
 .calendar01 {
   position: absolute;
   display: none;
+  z-index: 1;
 }
 
 .calendar02 {

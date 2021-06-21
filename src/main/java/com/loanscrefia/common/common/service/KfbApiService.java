@@ -47,18 +47,18 @@ public class KfbApiService {
 		String authToken 		= "";
 		
 		try {
-			
 			//URL 설정
 			URL url 				= new URL(ApiDomain+"/oauth/2.0/token");
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 	        
 			conn.setRequestMethod("POST"); //POST, GET, PUT, DELETE 가능
-			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Content-Type", "application/json"); //요청
+			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientPw);
-			conn.setDoOutput(true);
+			conn.setDoOutput(true); //POST일때만
 	        
-	        //응답 결과
+	        //요청 결과
 	        int responseCode = conn.getResponseCode();
 	        
 	        log.info("KfbApiService >> getAuthToken() > responseCode :: " + responseCode);
@@ -73,10 +73,10 @@ public class KfbApiService {
 	            }
 	            
 	            JSONObject responseJson = new JSONObject(sb.toString());
-	            authToken 				= responseJson.getString("authorization");
+	            //authToken 				= responseJson.getString("authorization");
 	            
 	            log.info("KfbApiService >> getAuthToken() > responseJson :: " + responseJson);
-	            log.info("KfbApiService >> getAuthToken() > authToken :: " + authToken);
+	            log.info("KfbApiService >> getAuthToken() > authToken :: " + responseJson.getString("authorization"));
 	        }
 			
 		} catch (Exception e) {
@@ -94,7 +94,7 @@ public class KfbApiService {
 	
 	//등록가능 여부 조회
 	@Transactional
-	public ResponseMsg checkLoan(String authToken, KfbApiDomain kfbApiDomain) {
+	public ResponseMsg checkLoan(String authToken, JsonObject reqParam) {
 		
 	    try {
 	        //URL 설정
@@ -104,44 +104,32 @@ public class KfbApiService {
 	        conn.setRequestMethod("GET"); //POST, GET, PUT, DELETE 가능
 	        conn.setRequestProperty("Content-Type", "application/json");
 	        conn.setRequestProperty("Authorization", authToken);
-	        //conn.setRequestProperty("Transfer-Encoding", "chunked");
-	        //conn.setRequestProperty("Connection", "keep-alive");
-	        conn.setDoOutput(true);
+	        //conn.setDoOutput(true); //POST일때만?
 	        
+	        //요청 데이터 전송
 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-	        // JSON 형식의 데이터 셋팅
-	        JsonObject commands = new JsonObject();
-	        JsonArray jsonArray = new JsonArray();
-	        
-	        commands.addProperty("key", 1);
-	        commands.addProperty("age", 20);
-	        commands.addProperty("userNm", "홍길동");
-
-	        // 자기 자신을 넣는것 확인 
-	        commands.add("userInfo", commands);
-	         // JSON 형식의 데이터 셋팅 끝
-	        
-	        // 데이터를 STRING으로 변경
-	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	        String jsonOutput = gson.toJson(commands);
-	             
-	        bw.write(commands.toString());
+	        bw.write(reqParam.toString());
 	        bw.flush();
 	        bw.close();
 	        
-	        // 보내고 결과값 받기
+	        //요청 결과
 	        int responseCode = conn.getResponseCode();
-	        if (responseCode == 200) {
-	        	BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	            StringBuilder sb = new StringBuilder();
-	            String line = "";
-	            while ((line = br.readLine()) != null) {
-	                sb.append(line);
+	        
+	        log.info("KfbApiService >> checkLoan() > responseCode :: " + responseCode);
+	        
+	        if(responseCode == 200) {
+	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        	String line 		= "";
+	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	            while((line = br.readLine()) != null) {
+	            	sb.append(line);
 	            }
+	            
 	            JSONObject responseJson = new JSONObject(sb.toString());
 	            
-	            // 응답 데이터
-	            System.out.println("responseJson :: " + responseJson);
+	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
+	            log.info("KfbApiService >> checkLoan() > reg_yn :: " + responseJson.getString("reg_yn"));
 	        } 
 	    } catch (MalformedURLException e) {
 	        e.printStackTrace();
