@@ -420,11 +420,11 @@ function ocrImwonSuccess(id, index){
 }
 
 //변경사항-정보
- function goRecruitHistoryShow(masterHistSeq, type, afterData){
+ function goRecruitHistoryShow(masterSeq, masterHistSeq, type, afterData){
 	var encAfterData = encodeURIComponent(afterData);
 	let p = {
 	  	  id 		: "recruitHistoryPop"
-		, url 		: "/admin/recruit/recruitHistoryPopup?masterHistSeq="+masterHistSeq+"&histType="+type+"&afterData="+encAfterData
+		, url 		: "/admin/recruit/recruitHistoryPopup?masterSeq="+masterSeq+"&masterHistSeq="+masterHistSeq+"&histType="+type+"&afterData="+encAfterData
 	}
 	PopUtil.openPopup(p);
 }

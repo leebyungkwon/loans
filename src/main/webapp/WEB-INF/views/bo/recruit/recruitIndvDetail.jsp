@@ -182,13 +182,13 @@ function goRecruitImprove(rePlStat){
 					<th>이름</th>
 					<td>${result.recruitInfo.plMName }
 					<c:if test="${!empty result.recruitInfo.histPlMName}">
-						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.histNameSeq }','keyName', '${result.recruitInfo.plMName }');">변경사항</a>
+						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.masterSeq }','${result.recruitInfo.histNameSeq }','keyName', '${result.recruitInfo.plMName }');">변경사항</a>
 					</c:if>
 					</td>
 					<th>주민번호</th>
 					<td>${result.recruitInfo.plMZId }
 					<c:if test="${!empty result.recruitInfo.histPlMZId}">
-						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.histZidSeq }','keyId', '${result.recruitInfo.plMZId }');">변경사항</a>
+						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.masterSeq }','${result.recruitInfo.histZidSeq }','keyId', '${result.recruitInfo.plMZId }');">변경사항</a>
 					</c:if>
 					</td>
 				</tr>
@@ -196,7 +196,7 @@ function goRecruitImprove(rePlStat){
 					<th>휴대폰번호</th>
 					<td colspan="3">${result.recruitInfo.plCellphone }
 					<c:if test="${!empty result.recruitInfo.histPlCellphone}">
-						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.histPhoneSeq }','keyPhone', '${result.recruitInfo.plCellphone }');">변경사항</a>
+						<a href="javascript:void(0);" class="btn_blue btn_small mgl5" onclick="goRecruitHistoryShow('${result.recruitInfo.masterSeq }','${result.recruitInfo.histPhoneSeq }','keyPhone', '${result.recruitInfo.plCellphone }');">변경사항</a>
 					</c:if>
 					</td>
 				</tr>
