@@ -30,7 +30,7 @@ public class ConfigurationForInterceptor extends HandlerInterceptorAdapter {
 		//세션 체크
 		boolean isContinue	= false;
 		
-		if(url.indexOf("/") >= 0 || url.indexOf("/front/") >= 0 ||
+		if(url.equals("/") || url.indexOf("/front/") >= 0 ||
 				url.indexOf("/login") >= 0 ||
 				url.indexOf("/terms") >= 0 ||
 				url.indexOf("/signup") >= 0 ||
