@@ -175,7 +175,10 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 	</div>
 	<div class="btn_wrap">
 		<a href="javascript:void(0);" class="btn_black_long" onclick="goPayUserSearch();">조회</a>
+		<a href="javascript:void(0);" class="btn_black_long" onclick="ftn_approval(document.fm);">결제하기(테스트)</a>
 	</div>
 </div>
+
+<jsp:include page="allat_include.jsp"></jsp:include>
       
       

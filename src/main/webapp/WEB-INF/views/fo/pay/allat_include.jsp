@@ -43,10 +43,11 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_pmember_id" value="1" maxlength="20"> <!-- 쇼핑몰의 회원ID : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_product_cd" value="결제상품코드" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_product_nm" value="결제상품명" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) -->
-	<input type="hidden" name="allat_buyer_nm" value="${searchUserInfo.plMName }" maxlength="20"> <!-- 결제자성명 -->
+	<input type="hidden" name="allat_buyer_nm" value="테스트" maxlength="20"> <!-- 결제자성명 ${searchUserInfo.plMName } -->
 	<input type="hidden" name="allat_recp_nm" value="여신금융협회" maxlength="20"> <!-- 수취인성명 -->
 	<input type="hidden" name="allat_recp_addr" value="서울" maxlength="120"> <!-- 수취인주소 -->
-	<input type="hidden" name="shop_receive_url" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive"> <!-- 인증정보수신URL : Full URL 입력 -->
+	<input type="hidden" name="shop_receive_url" value="http://loanagent.crefia.or.kr/front/pay/allatReceive"> <!-- 인증정보수신URL : Full URL 입력 -->
+	<!-- <input type="hidden" name="shop_receive_url" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive"> --> <!-- 인증정보수신URL : Full URL 입력 -->
 	<input type="hidden" name="allat_enc_data" value=""> <!-- 주문정보암호화필드 : 값은 자동으로 설정됨 -->
 	<!-- 옵션정보 -->
 	<input type="hidden" name="allat_card_yn" value="Y" maxlength="1"> <!-- 신용카드 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
@@ -63,6 +64,6 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_email_addr" value="" maxlength="50"> <!-- 결제 정보 수신 E-mail : 에스크로 서비스 사용시에 필수 필드.(결제창에서 E-Mail주소를 넣을 수도 있음) -->
 	<input type="hidden" name="allat_test_yn" value="N" maxlength="1"> <!-- 테스트 여부 : 테스트(Y),서비스(N) - Default : N(테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴) -->
 	<!-- 필요정보 -->
-	<input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/>
+	<input type="hidden" name="masterSeq" value="1"/> <!-- ${searchUserInfo.masterSeq } -->
 </form>
 
