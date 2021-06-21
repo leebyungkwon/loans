@@ -43,7 +43,7 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_pmember_id" value="1" maxlength="20"> <!-- 쇼핑몰의 회원ID : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_product_cd" value="결제상품코드" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_product_nm" value="결제상품명" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) -->
-	<input type="hidden" name="allat_buyer_nm" value="성명" maxlength="20"> <!-- 결제자성명 -->
+	<input type="hidden" name="allat_buyer_nm" value="${searchUserInfo.plMName }" maxlength="20"> <!-- 결제자성명 -->
 	<input type="hidden" name="allat_recp_nm" value="여신금융협회" maxlength="20"> <!-- 수취인성명 -->
 	<input type="hidden" name="allat_recp_addr" value="서울" maxlength="120"> <!-- 수취인주소 -->
 	<input type="hidden" name="shop_receive_url" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive"> <!-- 인증정보수신URL : Full URL 입력 -->

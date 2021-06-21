@@ -130,8 +130,8 @@ function goPayTest() {
 		</div>
 	</div>
 	<div class="btn_wrap">
-		<a href="javascript:void(0);" class="btn_black_long" onclick="goPayTest();">결제하기(테스트)</a>
-		<!-- <a href="javascript:void(0);" class="btn_black_long" onclick="ftn_approval(document.fm);">결제하기</a> -->
+		<!-- <a href="javascript:void(0);" class="btn_black_long" onclick="goPayTest();">결제하기(테스트)</a> -->
+		<a href="javascript:void(0);" class="btn_black_long" onclick="ftn_approval(document.fm);">결제하기</a>
 	</div>
 </div>
 
