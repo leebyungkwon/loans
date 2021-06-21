@@ -74,8 +74,6 @@ var AjaxUtil = {
             headers: { "Content-Type": contType }
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
-			console.log("response.data.status == " , response.data.status);
-			console.log("responseData == " , response);
         	var status = WebUtil.nvl(response.data.status, 200);
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
