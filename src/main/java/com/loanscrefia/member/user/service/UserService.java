@@ -21,6 +21,7 @@ import com.loanscrefia.admin.edu.service.EduService;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
@@ -46,6 +47,9 @@ public class UserService {
 	@Autowired private EduService eduService;
 	@Autowired private UtilFile utilFile;
 	@Autowired private UtilExcel<T> utilExcel;
+	
+	//은행연합회
+	@Autowired private KfbApiService kfbApiService;
 	
 	@Value("${download.filePath}")
 	public String uPath;
