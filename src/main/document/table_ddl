@@ -154,10 +154,6 @@ commit;
 create table tb_lc_company(
 	com_code integer not null
 	, com_name varchar(30) not null
-	, pl_merchant_no varchar(100)
-	, pl_business_no varchar(20)
-	, comp_phone_no varchar(20)
-	, del_yn char(1) not null default 'N'
 	, reg_timestamp timestamp
 	, reg_seq integer
 	, upd_timestamp timestamp
@@ -168,10 +164,6 @@ create table tb_lc_company(
 COMMENT ON TABLE tb_lc_company IS '회원사정보';
 COMMENT ON COLUMN tb_lc_company.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_company.com_name IS '회원사명';
-COMMENT ON COLUMN tb_lc_company.pl_merchant_no IS '법인등록번호';
-COMMENT ON COLUMN tb_lc_company.pl_business_no IS '사업자등록번호';
-COMMENT ON COLUMN tb_lc_company.comp_phone_no IS '회원사대표번호';
-COMMENT ON COLUMN tb_lc_company.del_yn IS '삭제여부';
 COMMENT ON COLUMN tb_lc_company.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_company.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_company.upd_timestamp IS '수정일시';
@@ -889,10 +881,6 @@ COMMENT ON COLUMN tb_lc_file_check.reg_seq IS '등록자시퀀스';
 commit;
 
 
-
-
-
-
 -- 모집인업무분담정보
 create table tb_lc_work(
 	member_seq integer not null
@@ -908,37 +896,38 @@ commit;
 
 
 -- 토큰, 요청url, 요청데이터, 요청자, 요청일시
-create table tb_lc_bank_req(
+create table tb_lc_kfb_req(
 	token varchar(100) not null
 	, url varchar(100) not null
 	, send_data text
 	, send_user int not null
-	, send_tm timestamp not null
+	, send_timestamp timestamp not null
 )
 
-COMMENT ON TABLE tb_lc_bank_req IS '은행연합회송신정보';
-COMMENT ON COLUMN tb_lc_bank_req.token IS '토큰';
-COMMENT ON COLUMN tb_lc_bank_req.url IS '요청URL';
-COMMENT ON COLUMN tb_lc_bank_req.send_data IS '요청데이터';
-COMMENT ON COLUMN tb_lc_bank_req.send_user IS '요청자';
-COMMENT ON COLUMN tb_lc_bank_req.send_tm IS '요청일시';
+COMMENT ON TABLE tb_lc_kfb_req IS '은행연합회송신정보';
+COMMENT ON COLUMN tb_lc_kfb_req.token IS '토큰';
+COMMENT ON COLUMN tb_lc_kfb_req.url IS '요청URL';
+COMMENT ON COLUMN tb_lc_kfb_req.send_data IS '요청데이터';
+COMMENT ON COLUMN tb_lc_kfb_req.send_user IS '요청자';
+COMMENT ON COLUMN tb_lc_kfb_req.send_tm IS '요청일시';
 
 -- 토큰, 요청url, 응답코드, 응답메세지, 응답일시
-create table tb_lc_bank_res(
+create table tb_lc_kfb_res(
 	token varchar(100) not null
 	, url varchar(100) not null
 	, res_code varchar(3) not null
 	, res_msg varchar(200) not null
-	, res_tm varchar(14)
 	, res_data TEXT
+	, res_timestamp timestamp not null
 )
 
-COMMENT ON TABLE tb_lc_bank_res IS '은행연합회수신정보';
-COMMENT ON COLUMN tb_lc_bank_res.token IS '토큰';
-COMMENT ON COLUMN tb_lc_bank_res.url IS '요청URL';
-COMMENT ON COLUMN tb_lc_bank_res.res_code IS '응답코드';
-COMMENT ON COLUMN tb_lc_bank_res.res_msg IS '응답메세지';
-COMMENT ON COLUMN tb_lc_bank_res.res_tm IS '응답일시';
+COMMENT ON TABLE tb_lc_kfb_res IS '은행연합회수신정보';
+COMMENT ON COLUMN tb_lc_kfb_res.token IS '토큰';
+COMMENT ON COLUMN tb_lc_kfb_res.url IS '요청URL';
+COMMENT ON COLUMN tb_lc_kfb_res.res_code IS '응답코드';
+COMMENT ON COLUMN tb_lc_kfb_res.res_msg IS '응답메세지';
+COMMENT ON COLUMN tb_lc_kfb_res.res_data IS '응답데이터';
+COMMENT ON COLUMN tb_lc_kfb_res.res_tm IS '응답일시';
 
 
  
