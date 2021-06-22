@@ -75,7 +75,13 @@ function pageLoad(){
 				var signupParam = {
 					name : 'signup'
 					,success: function(opt, result) {
- 		 				location.href="/login";
+						if(result.data > 0){
+							location.href="/login";
+						}else{
+							$("#memberId").val("");
+							$("#checkId").val("N");
+							$("#memberId").focus();
+						}
 					}
 				}      
 				AjaxUtil.files(signupParam);

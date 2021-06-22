@@ -41,16 +41,23 @@ public class LoginService implements UserDetailsService {
 	
 	// 아이디 중복체크
 	@Transactional
-	public int idCheck(SignupDomain signupDomain) throws Exception {
+	public int idCheck(SignupDomain signupDomain) {
 	 	return memberRepository.idCheck(signupDomain);
 	}
 	
 	@Transactional
-	public ResponseMsg insertSignup(SignupDomain signupDomain){
+	public ResponseMsg insertSignup(SignupDomain signupDomain) {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
+    	
+    	int count = this.idCheck(signupDomain);
+    	
+    	if(count > 0) {
+    		return new ResponseMsg(HttpStatus.OK, "fail", 0, "이미 사용중인 아이디 입니다. \n중복체크를 다시 확인해 주세요.");
+    	}
+    	
     	memberRepository.insertSignup(signupDomain);
-		return new ResponseMsg(HttpStatus.OK, "COM0001", "회원가입 신청이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
+		return new ResponseMsg(HttpStatus.OK, "success", 1, "회원가입 신청이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
 	}
 
 }
