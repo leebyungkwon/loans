@@ -13,7 +13,7 @@ import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
+import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 
 import lombok.extern.log4j.Log4j2;
@@ -32,9 +33,36 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class KfbApiService {
 	
-	public static String ApiDomain 	= "http://localhost:8080"; //API 서버 도메인
-	public static String ClientId 	= "ClientId"; //요청자 아이디
-	public static String ClientPw 	= "ClientPw"; //요청자 비밀번호
+	@Autowired private KfbApiRepository kfbApiRepo;
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 은행연합회 API 연동 > 필요정보
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//API 서버 도메인
+	public static String ApiDomain 			= "http://localhost:8080";
+	
+	//개인
+	public static String CheckLoanUrl 		= ApiDomain+"/loan/v1/check-loan-consultants"; 		//GET(등록가능 여부 조회)
+	public static String PreLoanUrl			= ApiDomain+"/loan/v1/pre-loan-consultants"; 		//POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
+	public static String LoanUrl 			= ApiDomain+"/loan/v1/loan-consultants"; 			//POST(본등록 처리),GET(조회),PUT(수정),DELETE(삭제)
+	
+	//법인
+	public static String CheckLoanCorpUrl 	= ApiDomain+"/loan/v1/check-loan-corp-consultants"; //GET(등록가능 여부 조회)
+	public static String PreLoanCorpUrl		= ApiDomain+"/loan/v1/pre-loan-corp-consultants"; 	//POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
+	public static String LoanCorpUrl 		= ApiDomain+"/loan/v1/loan-corp-consultants"; 		//POST(본등록 처리),GET(조회),PUT(수정),DELETE(삭제)
+	
+	//위반이력
+	public static String ViolationUrl		= ApiDomain+"/loan/v1/violation-consultants"; 		//POST(등록),GET(조회),PUT(수정),DELETE(삭제)
+	
+	//토큰 발급
+	public static String TokenUrl			= ApiDomain+"/oauth/2.0/token";		//POST
+	public static String ClientId 			= "ClientId"; 						//요청자 아이디
+	public static String ClientPw 			= "ClientPw"; 						//요청자 비밀번호
+	
+	//금융기관 조회
+	public static String FinUrl				= ApiDomain+"/loan/v1/fin-info";	//GET
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 은행연합회 API 연동 > 공통
@@ -48,10 +76,10 @@ public class KfbApiService {
 		
 		try {
 			//URL 설정
-			URL url 				= new URL(ApiDomain+"/oauth/2.0/token");
+			URL url 				= new URL(TokenUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 	        
-			conn.setRequestMethod("POST"); //POST, GET, PUT, DELETE 가능
+			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
@@ -87,21 +115,32 @@ public class KfbApiService {
 		return authToken;
 	}
 	
+	//요청 이력 등록
+	@Transactional
+	public void insertKfbApiReqLog(KfbApiDomain kfbApiDomain) {
+		kfbApiRepo.insertKfbApiReqLog(kfbApiDomain);
+	}
+	
+	//응답 이력 등록
+	@Transactional
+	public void insertKfbApiResLog(KfbApiDomain kfbApiDomain) {
+		kfbApiRepo.insertKfbApiResLog(kfbApiDomain);
+	}
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 은행연합회 API 연동 > 개인
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
 	//등록가능 여부 조회
-	@Transactional
 	public ResponseMsg checkLoan(String authToken, JsonObject reqParam) {
 		
 	    try {
 	        //URL 설정
-	        URL url 				= new URL(ApiDomain+"/loan/v1/check-loan-consultants");
+	        URL url 				= new URL(CheckLoanUrl);
 	        HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 	        
-	        conn.setRequestMethod("GET"); //POST, GET, PUT, DELETE 가능
+	        conn.setRequestMethod("GET");
 	        conn.setRequestProperty("Content-Type", "application/json");
 	        conn.setRequestProperty("Authorization", authToken);
 	        //conn.setDoOutput(true); //POST일때만?
@@ -111,6 +150,13 @@ public class KfbApiService {
 	        bw.write(reqParam.toString());
 	        bw.flush();
 	        bw.close();
+	        
+	        //요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken(authToken);
+	        logParam.setUrl(CheckLoanUrl);
+	        logParam.setSendData(reqParam.toString());
+	        this.insertKfbApiReqLog(logParam);
 	        
 	        //요청 결과
 	        int responseCode = conn.getResponseCode();
@@ -127,6 +173,12 @@ public class KfbApiService {
 	            }
 	            
 	            JSONObject responseJson = new JSONObject(sb.toString());
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(responseJson.getString("res_msg"));
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
 	            
 	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
 	            log.info("KfbApiService >> checkLoan() > reg_yn :: " + responseJson.getString("reg_yn"));
