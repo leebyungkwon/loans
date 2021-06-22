@@ -902,14 +902,14 @@ create table tb_lc_kfb_req(
 	, send_data text
 	, send_user int not null
 	, send_timestamp timestamp not null
-)
+);
 
 COMMENT ON TABLE tb_lc_kfb_req IS '은행연합회송신정보';
 COMMENT ON COLUMN tb_lc_kfb_req.token IS '토큰';
 COMMENT ON COLUMN tb_lc_kfb_req.url IS '요청URL';
 COMMENT ON COLUMN tb_lc_kfb_req.send_data IS '요청데이터';
 COMMENT ON COLUMN tb_lc_kfb_req.send_user IS '요청자';
-COMMENT ON COLUMN tb_lc_kfb_req.send_tm IS '요청일시';
+COMMENT ON COLUMN tb_lc_kfb_req.send_timestamp IS '요청일시';
 
 -- 토큰, 요청url, 응답코드, 응답메세지, 응답일시
 create table tb_lc_kfb_res(
@@ -919,7 +919,7 @@ create table tb_lc_kfb_res(
 	, res_msg varchar(200) not null
 	, res_data TEXT
 	, res_timestamp timestamp not null
-)
+);
 
 COMMENT ON TABLE tb_lc_kfb_res IS '은행연합회수신정보';
 COMMENT ON COLUMN tb_lc_kfb_res.token IS '토큰';
@@ -927,7 +927,7 @@ COMMENT ON COLUMN tb_lc_kfb_res.url IS '요청URL';
 COMMENT ON COLUMN tb_lc_kfb_res.res_code IS '응답코드';
 COMMENT ON COLUMN tb_lc_kfb_res.res_msg IS '응답메세지';
 COMMENT ON COLUMN tb_lc_kfb_res.res_data IS '응답데이터';
-COMMENT ON COLUMN tb_lc_kfb_res.res_tm IS '응답일시';
+COMMENT ON COLUMN tb_lc_kfb_res.res_timestamp IS '응답일시';
 
 
  
