@@ -22,10 +22,10 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="대표이사", vCell="B", vLenMin=2, vLenMax=10)
 	private String plCeoName;		//대표이사명
 	
-	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="pId")
+	@ExcelColumn(headerName="대표이사 주민등록번호", vCell="C", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="pId")
 	private String plMZId;			//모집인주민등록번호
 	
-	@ExcelColumn(headerName="휴대폰번호", vCell="D", vLenMin=13, vLenMax=13)
+	@ExcelColumn(headerName="대표이사 휴대폰번호", vCell="D", vLenMin=13, vLenMax=13)
 	private String plCellphone;		//모집인휴대전화번호
 	
 	@ExcelColumn(headerName="법인등록번호", vCell="E", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="mNo")

@@ -24,4 +24,8 @@ public class MainDomain extends BaseDomain {
 
 	private int memberNoRegCnt;		// 회원가입 - 가승인건수
 	private int memberRegAdminCnt;	// 회원가입 - 관리자 승인대기건수
+	
+	//세션 정보
+	private String creYn;			// 협회여부
+	private String creGrp;			// 협회그룹 - [CRE001]1:실무자 / 2:관리자
 }

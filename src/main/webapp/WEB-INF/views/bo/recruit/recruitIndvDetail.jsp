@@ -473,10 +473,7 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
-				
-				
-				
-				<c:if test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '6'}">
+				<c:if test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '6' or result.rerecruitInfo.plStat eq '9' }">
 					<tr>
 						<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 						<td>
@@ -493,7 +490,6 @@ function goRecruitImprove(rePlStat){
 							</c:if>
 						</td>
 					</tr>
-					
 					<tr>
 						<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
 						<td>

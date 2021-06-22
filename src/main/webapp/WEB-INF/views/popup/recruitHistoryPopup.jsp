@@ -33,7 +33,7 @@
 			<td class="acenter">
 				${afterData}	
 			</td>
-			<td class="acenter">${recruitHistDetail.regTimestamp }</td>
+			<td class="acenter">${recruitHistDetail.updTimestamp }</td>
 		</tr>
 	</tbody>
 </table>
