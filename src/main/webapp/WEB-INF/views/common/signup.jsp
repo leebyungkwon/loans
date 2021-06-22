@@ -97,10 +97,6 @@ function pageLoad(){
 	// 첨부파일 삭제
 	$("#fileDelete").on("click", function(){
 		$("#fileName").val("");
-		
-		// IE일 경우
-		//$("#u_file").replaceWith( $("#u_file").clone(true) );
-		$("#u_file").val("");
 	});
 	
 	// 첨부파일 찾기
