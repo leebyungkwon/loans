@@ -72,7 +72,7 @@ function goUserChangeApply(){
 	}
 	if("${result.userRegInfo.etcFileCompYn}" == "N"){
 		if(confirm("기타 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
-			goTab3("4");
+			goTab3("5");
 			return;
 		}else{
 			return;
