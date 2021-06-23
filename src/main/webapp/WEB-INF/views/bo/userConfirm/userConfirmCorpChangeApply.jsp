@@ -33,31 +33,49 @@ function goUserChangeApply(){
 	if("${result.userRegInfo.imwonCnt}" == 0){
 		if(confirm("최소 1명 이상의 대표자 및 임원을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("2");
+			return;
+		}else{
+			return;
 		}
 	}
 	if("${result.userRegInfo.expertCnt}" == 0){
 		if(confirm("최소 1명 이상의 전문인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("3");
+			return;
+		}else{
+			return;
 		}
 	}
 	if("${result.userRegInfo.itCnt}" == 0){
 		if(confirm("최소 1명 이상의 전산인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("4");
+			return;
+		}else{
+			return;
 		}
 	}
 	if("${result.userRegInfo.imwonFileCompYn}" == "N"){
 		if(confirm("대표자 및 임원의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("2");
+			return;
+		}else{
+			return;
 		}
 	}
 	if("${result.userRegInfo.expertFileCompYn}" == "N"){
 		if(confirm("전문인력의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("3");
+			return;
+		}else{
+			return;
 		}
 	}
 	if("${result.userRegInfo.etcFileCompYn}" == "N"){
 		if(confirm("기타 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("4");
+			return;
+		}else{
+			return;
 		}
 	}
 	//요청
