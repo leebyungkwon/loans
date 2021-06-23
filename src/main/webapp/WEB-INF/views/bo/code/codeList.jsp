@@ -7,12 +7,12 @@ var codeMstGrid = Object.create(GRID);
 var codeDtlGrid = Object.create(GRID);
 
 function pageLoad(){
-	//코드 마스터 그리드
+	//코드마스터 그리드
 	codeMstGrid.set({
 		  id			: "codeMstGrid"
   		, url			: "/system/code/codeMstList"
 	    , width			: "100%"
-  		, headCol		: ["번호", "코드명", "코드설명"]
+  		, headCol		: ["코드마스터ID", "코드마스터명", "설명"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'codeMstCd'		, index:'codeMstCd'		, id:true}
@@ -25,50 +25,59 @@ function pageLoad(){
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: false					//페이징여부
 	});
-	/*
-	//코드 마스터 등록 버튼
-	document.getElementById("goCodeMstSavePop").onclick = function () {
-		let p = {
-			  id 	: "codeMstSavePop"
-			, url 	: "/bo/system/code/p/codeMstSavePop?saveType=reg"
+	
+	//코드상세 그리드
+	goCodeDtlGridDraw("");
+	
+	//코드마스터 저장
+	$("#codeMstSaveBtn").on("click",function(){
+		var p = {
+			  name 		: "codeMstSave"
+			, success 	: function (opt,result) {
+				codeMstGrid.refresh();
+    	    }
 		}
-		LibUtil.openPopup(p);
-	};
-
-	//코드 상세 등록 버튼
-	document.getElementById("goCodeDtlSavePop").onclick = function () {
-		let p = {
-			  id 	: "codeDtlSavePop"
-			, url 	: "/bo/system/code/p/codeDtlSavePop"
+		AjaxUtil.form(p);
+	});
+	
+	//코드상세 저장
+	$("#codeDtlSaveBtn").on("click",function(){
+		var p = {
+			  name 		: "codeDtlSave"
+			, success 	: function (opt,result) {
+				codeDtlGrid.refresh();
+    	    }
 		}
-		LibUtil.openPopup(p);
-	};
-	*/
+		AjaxUtil.form(p);
+	});
 }
 
-//코드 마스터 클릭 이벤트
+//코드마스터 클릭 이벤트
 function goCodeDtlList(idx, data){
 	//saveType 변경
 	$("#codeMstCdSaveType").val("upd");
 	
-	//코드 마스터 정보 보여주기
+	//코드마스터 정보 보여주기
 	$("#pCodeMstCd").val(data.codeMstCd);
 	$("#pCodeMstCd").attr("readonly","readonly");
-	//$("#codeMstCdDupCheckResult").val("Y");
-	//$("#goCodeMstCdDupCheck").hide();
 	$("#pCodeMstNm").val(data.codeMstNm);
 	$("#pCodeMstDesc").val(data.codeMstDesc);
 	$("#hCodeMstCd").val(data.codeMstCd);		//코드 상세 관련
 	$("#codeMstCdText").text(data.codeMstCd);	//코드 상세 관련
 	
-	//코드 상세 그리드
+	//코드상세 그리드
+	goCodeDtlGridDraw(data.codeMstCd);
+}
+
+//코드상세 그리드
+function goCodeDtlGridDraw(codeMstCd) {
 	codeDtlGrid.set({
 		  id			: "codeDtlGrid"
-  		, url			: "/system/code/codeDtlList?codeMstCd="+data.codeMstCd
+		, url			: "/system/code/codeDtlList?codeMstCd="+codeMstCd
 	    , width			: "100%"
-  		, headCol		: ["번호", "코드명", "코드설명"]
-  		, bodyCol		: 
-  			[
+		, headCol		: ["코드상세ID", "코드상세명", "설명"]
+		, bodyCol		: 
+			[
 				 {type:"string"	, name:'codeDtlCd'		, index:'codeDtlCd'		, id:true}
 				,{type:"string"	, name:'codeDtlNm'		, index:'codeDtlNm'				 }
 				,{type:"string"	, name:'codeDtlDesc'	, index:'codeDtlDesc'			 }
@@ -81,16 +90,14 @@ function goCodeDtlList(idx, data){
 	});
 }
 
-//코드 상세 클릭 이벤트
+//코드상세 클릭 이벤트
 function goCodeDtlInfo(idx, data){
 	//saveType 변경
 	$("#codeDtlCdSaveType").val("upd");
 	
-	//코드 상세 정보 보여주기
+	//코드상세 정보 보여주기
 	$("#pCodeDtlCd").val(data.codeDtlCd);
 	$("#pCodeDtlCd").attr("readonly","readonly");
-	//$("#codeDtlCdDupCheckResult").val("Y");
-	//$("#goCodeDtlCdDupCheck").hide();
 	$("#pCodeDtlNm").val(data.codeDtlNm);
 	$("#pCodeDtlDesc").val(data.codeDtlDesc);
 }
@@ -104,10 +111,8 @@ function goCodeDtlInfo(idx, data){
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table">
 				<colgroup>
-					<col width="80"/>
-					<col width="200"/>
-					<col width="80"/>
-					<col width="200"/>
+					<col width="150"/>
+					<col width="300"/>
 				</colgroup>
 				<tr>
 					<th>코드마스터명</th>
@@ -119,10 +124,90 @@ function goCodeDtlInfo(idx, data){
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
 	</div>
-	<div id="codeMstGrid"></div>
-	<div id="codeDtlGrid"></div>
+	
+	<div id="codeMstGrid" style="width: 49%; float: left; height: 650px; overflow: scroll;"></div>
+	<div id="codeDtlGrid" style="width: 49%; float: right; height: 650px; overflow: scroll;"></div>
 </div>
 
-<%@include file="/WEB-INF/views/bo/code/p/codeMstSavePop.jsp"%>
-<%@include file="/WEB-INF/views/bo/code/p/codeDtlSavePop.jsp"%>
+<div class="cont_area">
+	<div class="top_box" style="width: 49%; float: left;">
+		<div class="title">
+			<h2>코드마스터 저장</h2>
+		</div>
+		<div class="info_box" style="height: 270px;">
+			<form name="codeMstSave" action="/system/code/codeMstSave" method="POST">
+				<input type="hidden" name="saveType" id="codeMstCdSaveType" value="reg"/>
+			
+				<table class="info_box_table">
+					<colgroup>
+						<col width="150"/>
+						<col width="300"/>
+					</colgroup>
+					<tr>
+						<th>코드마스터ID *</th>
+						<td>
+							<input type="text" name="codeMstCd" id="pCodeMstCd" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"코드마스터ID를 입력해 주세요."}'>
+						</td>
+					</tr>
+					<tr>
+						<th class="pdt10">코드마스터명 *</th>
+						<td class="pdt10"> 
+							<input type="text" name="codeMstNm" id="pCodeMstNm" maxlength="100" data-vd='{"type":"text","len":"1,100","req":true,"msg":"코드마스터명을 입력해 주세요."}'>
+						</td>
+					</tr>
+					<tr>
+						<th class="pdt10">설명</th>
+						<td class="pdt10">
+							<textarea rows="5" cols="1" name="codeMstDesc" id="pCodeMstDesc" class="w100" maxlength="100"></textarea>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<a href="javascript:void(0);" class="btn_inquiry" id="codeMstSaveBtn">저장</a>
+		</div>
+	</div>
+	
+	<div class="top_box" style="width: 49%; float: right;">
+		<div class="title">
+			<h2>코드상세 저장</h2>
+		</div>
+		<div class="info_box" style="height: 270px;">
+			<form name="codeDtlSave" action="/system/code/codeDtlSave" method="POST">
+				<input type="hidden" name="saveType" id="codeDtlCdSaveType" value="reg"/>
+				<input type="hidden" name="codeMstCd" id="hCodeMstCd"/>
+			
+				<table class="info_box_table">
+					<colgroup>
+						<col width="150"/>
+						<col width="300"/>
+					</colgroup>
+					<tr>
+						<th>코드마스터ID *</th>
+						<td id="codeMstCdText">코드마스터를 선택해 주세요.</td>
+					</tr>
+					<tr>
+						<th class="pdt10">코드상세ID *</th>
+						<td class="pdt10">
+							<input type="text" name="codeDtlCd" id="pCodeDtlCd" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"코드상세ID를 입력해 주세요."}'>
+						</td>
+					</tr>
+					<tr>
+						<th class="pdt10">코드상세명 *</th>
+						<td class="pdt10"> 
+							<input type="text" name="codeDtlNm" id="pCodeDtlNm" maxlength="100" data-vd='{"type":"text","len":"1,100","req":true,"msg":"코드상세명을 입력해 주세요."}'>
+						</td>
+					</tr>
+					<tr>
+						<th class="pdt10">설명</th>
+						<td class="pdt10">
+							<textarea rows="5" cols="1" name="codeDtlDesc" id="pCodeDtlDesc" class="w100" maxlength="100"></textarea>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<a href="javascript:void(0);" class="btn_inquiry" id="codeDtlSaveBtn">저장</a>
+		</div>
+	</div>
+</div>
+
 

@@ -21,7 +21,7 @@
 		,PROPERTY05
 	</sql>
 	
-	<!-- 코드 마스터 리스트 -->
+	<!-- 코드마스터 리스트 -->
 	<select id="selectCodeMstList" parameterType="codeMst" resultType="codeMst">
 		SELECT
 			 CODE_MST_CD
@@ -31,14 +31,15 @@
 			<include refid="baseColumns"></include>
 		FROM TB_LC_COD01
 		<where>
+				AND USE_YN = 'Y'
 			<if test="codeMstNm != null and codeMstNm != ''">
-				AND CODE_MST_NM = #{codeMstNm}
+				AND CODE_MST_NM LIKE '%' || #{codeMstNm} || '%'
 			</if>
 		</where>
 		ORDER BY CODE_MST_CD ASC
 	</select>
 	
-	<!-- 코드 마스터 아이디 중복체크 -->
+	<!-- 코드마스터 아이디 중복체크 -->
 	<select id="codeMstCdDupCheck" parameterType="codeMst" resultType="int">
 		SELECT 
 			COUNT(*)
@@ -48,7 +49,7 @@
 		</where>
 	</select>
 
-	<!-- 코드 마스터 등록 -->
+	<!-- 코드마스터 등록 -->
 	<insert id="insertCodeMst" parameterType="codeMst">
 		INSERT INTO TB_LC_COD01
 		(
@@ -78,7 +79,7 @@
 		)
 	</insert>
 	
-	<!-- 코드 마스터 수정 -->
+	<!-- 코드마스터 수정 -->
 	<update id="updateCodeMst" parameterType="codeMst">
 		UPDATE TB_LC_COD01
 		SET 
@@ -91,7 +92,7 @@
 		</where>
 	</update>
 	
-	<!-- 코드 상세 리스트 -->
+	<!-- 코드상세 리스트 -->
 	<select id="selectCodeDtlList" parameterType="codeDtl" resultType="codeDtl">
 		SELECT
 			 CODE_MST_CD
@@ -103,6 +104,7 @@
 		FROM TB_LC_COD01_DETAIL
 		<where>
 				AND CODE_MST_CD = #{codeMstCd}
+				AND USE_YN = 'Y'
 			<if test="property01 != null and property01 != ''">
 				AND PROPERTY01 = #{property01}
 			</if>
@@ -118,14 +120,11 @@
 			<if test="property05 != null and property05 != ''">
 				AND PROPERTY05 = #{property05}
 			</if>
-			<if test="useYn != null and useYn != ''">
-				AND USE_YN = #{useYn}
-			</if>
 		</where>
 		ORDER BY CODE_DTL_CD ASC
 	</select>
 	
-	<!-- 코드 상세 아이디 중복체크 -->
+	<!-- 코드상세 아이디 중복체크 -->
 	<select id="codeDtlCdDupCheck" parameterType="codeDtl" resultType="int">
 		SELECT 
 			COUNT(*)
@@ -136,7 +135,7 @@
 		</where>
 	</select>
 	
-	<!-- 코드 상세 등록 -->
+	<!-- 코드상세 등록 -->
 	<insert id="insertCodeDtl" parameterType="codeDtl">
 		INSERT INTO TB_LC_COD01_DETAIL
 		(
@@ -168,7 +167,7 @@
 		)
 	</insert>
 	
-	<!-- 코드 상세 수정 -->
+	<!-- 코드상세 수정 -->
 	<update id="updateCodeDtl" parameterType="codeDtl">
 		UPDATE TB_LC_COD01_DETAIL
 		SET 
