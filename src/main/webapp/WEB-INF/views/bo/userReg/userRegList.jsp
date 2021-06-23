@@ -211,22 +211,30 @@ function goApplyAccept() {
 	var chkData 		= userRegGrid.getChkData();
 	var masterSeqArr	= [];
 	var fileChk			= 0;
+	var pvtChk			= 0;
 	
 	for(var i = 0;i < chkedLen;i++){
-		if(chkData[i].plStat != "2"){
+		if(chkData[i].plStat != "2" && chkData[i].plStat != "10"){
 			masterSeqArr.push(chkData[i].masterSeq);
+		}
+		if(chkData[i].plStat == "10"){
+			pvtChk++;
 		}
 		if(chkData[i].fileCompYn == "N"){
 			fileChk++;
 		}
 	}
 	
-	if(masterSeqArr.length == 0){
-		alert("선택하신 모집인은 이미 승인요청된 상태입니다.");
+	if(pvtChk > 0){
+		alert("등록요건 불충족인 건이 존재합니다.");
 		return;
 	}
 	if(fileChk > 0){
 		alert("필수첨부서류 업로드가 미완료된 건이 존재합니다.");
+		return;
+	}
+	if(masterSeqArr.length == 0){
+		alert("선택하신 모집인은 이미 승인요청된 상태입니다.");
 		return;
 	}
 	
