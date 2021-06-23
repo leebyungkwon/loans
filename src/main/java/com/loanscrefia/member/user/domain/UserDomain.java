@@ -99,6 +99,9 @@ public class UserDomain extends BaseDomain {
 	private String plPayStatNm;		//결제상태명
 	private String fileCompYn;		//첨부상태							-> Y,N
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
+	private String imwonFileCompYn;
+	private String expertFileCompYn;
+	private String etcFileCompYn;
 	private String plHistCdNm;		//해지사유코드명
 	private String violationCdNm;	//위반코드명
 	
@@ -108,6 +111,10 @@ public class UserDomain extends BaseDomain {
 	private String originCreLicenseDate;
 	private String originRegTimestamp;
 	private String originUpdTimestamp;
+	
+	private int imwonCnt;
+	private int expertCnt;
+	private int itCnt;
 	
 	//결제
 	private String payType;

@@ -285,58 +285,6 @@ function goCorpInfoReg(obj){
  * ===============================================================================================================================
  */
 
-//승인요청
-function goUserAcceptApply(){
-	//validation
-	if(!goFileEssentialChk() || userRegFileCompYn == "N"){
-		alert(messages.COM0007);
-		return;
-	}
-	if(confirm("승인요청하시겠습니까?")){
-		$("#userRegInfoUpdFrm").attr("action","/member/user/userAcceptApply2");
-		
-		goFileTypeListDisabled();
-		
-		var p = {
-			  name 		: "userRegInfoUpdFrm"
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("승인요청되었습니다.");
-					location.href = "/member/user/userRegPage";
-				}else if(result.data == -2){
-					alert("이미 승인완료된 모집인입니다.");
-					location.reload();
-				}else if(result.data == -1){
-					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
-					return;
-				}
-	 	    }
-		}
-		AjaxUtil.files(p);
-		
-		/*
-		//기존
-		var p = {
-			  url		: "/member/user/userAcceptApply"	
-			, param		: {
-				 masterSeqArr 	: $("#masterSeq").val()  
-				,plStat			: '2'
-			}
-			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("승인요청되었습니다.");
-					location.href = "/member/user/userRegPage";
-				}else{
-					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
-					return;
-				}
-		    }
-		}
-		AjaxUtil.post(p);
-		*/
-	}
-}
-
 //즉시취소 클릭 시
 function goUserCancelPage(){
 	var html = '';

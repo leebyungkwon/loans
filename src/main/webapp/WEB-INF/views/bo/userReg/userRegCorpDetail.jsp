@@ -5,8 +5,6 @@
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
 <script type="text/javascript">
-var userRegFileCompYn = "${result.userRegInfo.fileCompYn}";
-
 function pageLoad(){
 	//승인요청상태이면 수정 불가
 	var plStat = "${result.userRegInfo.plStat}";
@@ -53,6 +51,68 @@ function goUserRegInfoCancel() {
 		    }
 		}
 		AjaxUtil.post(p);
+	}
+}
+
+//승인요청
+function goUserAcceptApply(){
+	//validation
+	if(!goFileEssentialChk()){
+		alert(messages.COM0007);
+		return;
+	}
+	if("${result.userRegInfo.imwonCnt}" == 0){
+		if(confirm("최소 1명 이상의 대표자 및 임원을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("2");
+		}
+	}
+	if("${result.userRegInfo.expertCnt}" == 0){
+		if(confirm("최소 1명 이상의 전문인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("3");
+		}
+	}
+	if("${result.userRegInfo.itCnt}" == 0){
+		if(confirm("최소 1명 이상의 전산인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("4");
+		}
+	}
+	if("${result.userRegInfo.imwonFileCompYn}" == "N"){
+		if(confirm("대표자 및 임원의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("2");
+		}
+	}
+	if("${result.userRegInfo.expertFileCompYn}" == "N"){
+		if(confirm("전문인력의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("3");
+		}
+	}
+	if("${result.userRegInfo.etcFileCompYn}" == "N"){
+		if(confirm("기타 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("4");
+		}
+	}
+	//요청
+	if(confirm("승인요청하시겠습니까?")){
+		$("#userRegInfoUpdFrm").attr("action","/member/user/userAcceptApply2");
+		
+		goFileTypeListDisabled();
+		
+		var p = {
+			  name 		: "userRegInfoUpdFrm"
+			, success 	: function (opt,result) {
+				if(result.data > 0){
+					alert("승인요청되었습니다.");
+					location.href = "/member/user/userRegPage";
+				}else if(result.data == -2){
+					alert("이미 승인완료된 모집인입니다.");
+					location.reload();
+				}else if(result.data == -1){
+					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
+					return;
+				}
+	 	    }
+		}
+		AjaxUtil.files(p);
 	}
 }
 </script>
