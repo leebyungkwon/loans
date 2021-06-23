@@ -194,32 +194,6 @@ function pageLoad(){
 									<col width="62%">
 								</colgroup>
 								<tbody>
-									<c:if test="${corpImwonList.careerTyp eq '2' }">
-										<tr>
-											<th class="acenter">대표 경력교육과정 수료증(여신금융교육연수원) *</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpImwonList.fileType12 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType12.fileSeq }">${corpImwonList.fileType12.fileFullNm }</a>
-													</c:when>
-													<c:otherwise>-</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-									</c:if>
-									<c:if test="${corpImwonList.careerTyp eq '2' }">
-										<tr>
-											<th class="acenter">대표 경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpImwonList.fileType30 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
-													</c:when>
-													<c:otherwise>-</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-									</c:if>
 									<c:if test="${corpImwonList.careerTyp eq '1' }">
 										<tr>
 											<th class="acenter">대표 인증서(신규) *</th>
@@ -227,6 +201,19 @@ function pageLoad(){
 												<c:choose>
 													<c:when test="${corpImwonList.fileType13 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType13.fileSeq }">${corpImwonList.fileType13.fileFullNm }</a>
+													</c:when>
+													<c:otherwise>-</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${corpImwonList.careerTyp eq '2' }">
+										<tr>
+											<th class="acenter">대표 경력교육과정 수료증 *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType12 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType12.fileSeq }">${corpImwonList.fileType12.fileFullNm }</a>
 													</c:when>
 													<c:otherwise>-</c:otherwise>
 												</c:choose>
