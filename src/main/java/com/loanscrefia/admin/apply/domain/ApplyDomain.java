@@ -53,6 +53,9 @@ public class ApplyDomain extends BaseDomain {
 	private String corpFoundDate;	//법인설립일
 	private String ocrCorpFoundDate;	//법인설립일(OCR용)
 	private int capital;			//자본금
+	
+	private long votingStockCnt;	// 의결권있는주식총수
+	
 	private String comContDate;		//계약일자(회원사)
 	@ExcelColumn(headerName = "요청일", order = 9)
 	private String comRegDate;		//신청일(심사요청일)

@@ -21,6 +21,10 @@ ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_edu_no type varchar(30);
 ALTER TABLE tb_lc_mas01 ALTER COLUMN pre_lc_num type varchar(14);
 ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pre_lc_num type varchar(14);
 
+ALTER TABLE tb_lc_mas01 ADD COLUMN voting_stock_cnt bigint;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN voting_stock_cnt bigint;
+
+
 INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES
 	 (1,'여신금융협회','2021-06-16 10:58:24.658721',11,NULL,NULL),
 	 (11,'볼보파이낸셜','2021-06-16 11:00:00.633574',11,NULL,NULL),

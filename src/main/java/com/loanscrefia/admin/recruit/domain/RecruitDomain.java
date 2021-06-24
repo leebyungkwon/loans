@@ -54,6 +54,7 @@ public class RecruitDomain extends BaseDomain {
 	private String compPhoneNo;		//회원사대표번호
 	private String corpFoundDate;	//법인설립일
 	private int capital;			//자본금
+	private long votingStockCnt;	// 의결권있는주식총수
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부
