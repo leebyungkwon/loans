@@ -103,14 +103,12 @@ function pageLoad(){
 				<thead>
 					<tr>
 						<th>해지 요청 건수</th>
-						<th>보완 요청 건수</th>
 						<th>관리자 승인대기건수</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>${result.dropCnt}</td>
-						<td>${result.dropUpdCnt}</td>
 						<td>${result.dropAdminCnt}</td>
 					</tr>
 				</tbody>

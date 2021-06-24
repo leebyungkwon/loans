@@ -192,6 +192,7 @@ create table tb_lc_mas01(
 	, master_to_id varchar(20)
 	, com_code integer
 	, member_seq integer
+	, sub_yn char(1) not null default 'N'
 	, pre_reg_yn char(1) not null default 'N'
 	, pre_lc_num varchar(14)
 	, pl_class varchar(2)
@@ -248,6 +249,9 @@ COMMENT ON COLUMN tb_lc_mas01.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
+
+COMMENT ON COLUMN tb_lc_mas01.sub_yn IS '약식등록여부';
+
 COMMENT ON COLUMN tb_lc_mas01.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01.pre_lc_num IS '가등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
@@ -475,6 +479,7 @@ create table tb_lc_mas01_hist(
 	, master_to_id varchar(20)
 	, com_code integer
 	, member_seq integer
+	, sub_yn char(1) not null default 'N'
 	, pre_reg_yn char(1) not null default 'N'
 	, pre_lc_num varchar(14)
 	, pl_class varchar(2)
@@ -532,6 +537,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.sub_yn IS '약식등록여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.pre_lc_num IS '가등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
