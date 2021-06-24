@@ -934,7 +934,7 @@ COMMENT ON COLUMN tb_lc_kfb_res.res_data IS '응답데이터';
 COMMENT ON COLUMN tb_lc_kfb_res.res_timestamp IS '응답일시';
 
 
- 
+-- 멀티서버 스케쥴 처리 
 create table shedlock (
 	name VARCHAR(64),
     lock_until TIMESTAMP(3) NULL ,
@@ -942,3 +942,11 @@ create table shedlock (
     locked_by VARCHAR(255), 
     PRIMARY KEY(name)
 );
+
+
+-- 은행연합회 api_key 배치
+create table kfb_api_key(
+	key varchar(200);
+	, upd_timestamp timestamp not null
+)
+

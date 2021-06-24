@@ -44,6 +44,19 @@
 		)
 	</insert>
 	
+	<!-- 은행연합회 api_key_update 배치 -->
+	<update id="updateKfbApiKey" parameterType="string">
+   		UPDATE KFB_API_KEY
+   		SET
+   			KEY = #{key}
+   			, UPD_TIMESTAMP = NOW()
+	</update>
 	
+	<!-- 은행연합회 api_key_조회 -->
+	<select id="selectKfbApiKey" resultType="string">
+		SELECT
+			KEY
+		FROM KFB_API_KEY
+	</select>
 	
 </mapper> 

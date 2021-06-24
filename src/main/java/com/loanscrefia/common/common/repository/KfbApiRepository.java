@@ -17,4 +17,12 @@ public interface KfbApiRepository {
 	
 	//응답 이력 등록
 	int insertKfbApiResLog(KfbApiDomain kfbApiDomain);
+	
+	//은행연합회 api_key_update 배치
+	void updateKfbApiKey(String key);
+	
+	//은행연합회 api_key 조회
+	String selectKfbApiKey();
+	
+	
 }
