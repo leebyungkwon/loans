@@ -54,6 +54,9 @@ function pageLoad(){
 
 //코드마스터 클릭 이벤트
 function goCodeDtlList(idx, data){
+	//표시
+	$("#tbl_codeMstGrid_body > tbody > tr").eq(idx).css("background-color","#eee");
+	
 	//saveType 변경
 	$("#codeMstCdSaveType").val("upd");
 	
@@ -92,6 +95,9 @@ function goCodeDtlGridDraw(codeMstCd) {
 
 //코드상세 클릭 이벤트
 function goCodeDtlInfo(idx, data){
+	//표시
+	$("#tbl_codeDtlGrid_body > tbody > tr").eq(idx).css("background-color","#eee");
+	
 	//saveType 변경
 	$("#codeDtlCdSaveType").val("upd");
 	
