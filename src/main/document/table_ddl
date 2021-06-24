@@ -220,6 +220,7 @@ create table tb_lc_mas01(
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
 	, capital bigint
+	, voting_stock_cnt bigint
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
@@ -274,6 +275,7 @@ COMMENT ON COLUMN tb_lc_mas01.pl_business_no IS '사업자등록번호';
 COMMENT ON COLUMN tb_lc_mas01.comp_phone_no IS '회원사대표번호';
 COMMENT ON COLUMN tb_lc_mas01.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
+COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 총수';
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
@@ -501,6 +503,7 @@ create table tb_lc_mas01_hist(
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
 	, capital bigint
+	, voting_stock_cnt bigint
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
@@ -556,6 +559,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pl_business_no IS '사업자등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.comp_phone_no IS '회원사대표번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
+COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행주식 총수';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
