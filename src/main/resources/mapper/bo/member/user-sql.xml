@@ -411,12 +411,17 @@
    		SELECT 
    			COUNT(*)
    		FROM TB_LC_MAS01
-   		WHERE PL_STAT 		<![CDATA[!=]]> '8'						-- 처리상태가 취소가 아닌 것
-   		AND PL_PRODUCT 		= #{plProduct}
-   		<if test='plProduct != null and plProduct != "" and plProduct != "1"'>
-   		AND CI 				= #{ci}
-   		AND COM_CODE 		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
-   		</if>
+   		WHERE PL_STAT <![CDATA[!=]]> '8'						-- 처리상태가 취소가 아닌 것
+   		<choose>
+  			<when test='plProduct.equals("1") or plProduct.equals("3")'>
+				AND PL_PRODUCT 		IN ('1','3')
+			</when>
+			<when test='!plProduct.equals("1") and !plProduct.equals("3")'>
+				AND PL_PRODUCT 		= #{plProduct}
+				AND CI 				= #{ci}
+   				AND COM_CODE 		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+			</when>
+		</choose>
    	</select>
    
    	<!-- 모집인 등록 > 개인 등록 -->

@@ -187,7 +187,7 @@ public class UtilExcel<T> {
 	                		if(!chkDb.get(j).isEmpty()){
 	                			if(chkDb.get(j).equals("corp")) {
 	                				//법인 정보 유효 체크(법인사용인)
-	                				if(StringUtils.isNotEmpty(cellVal)) {
+	                				if(StringUtils.isNotEmpty(cellVal)) { // && !cellVal.equals("도이치 법인번호") 추가해야해************************
 	                					corpChkParam.setPlMerchantNo(cellVal);
 	                					if(selectCorpInfoChk(corpChkParam) == 0) {
 	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
@@ -211,7 +211,7 @@ public class UtilExcel<T> {
 	                				String prdCd = "";
 	                				if(cellVal.equals("1") || cellVal.equals("3")) {
 	                					prdCd = "LP0" + eduChkParam.getCareerTyp();
-	                				}else if(cellVal.equals("2")) {
+	                				}else if(cellVal.equals("2") || cellVal.equals("4")) {
 	                					prdCd = "LS0" + eduChkParam.getCareerTyp();
 	                				}
 	                				eduChkParam.setProcessCd(prdCd);
@@ -221,7 +221,7 @@ public class UtilExcel<T> {
 	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
 	                					if(this.param1.equals("1") || this.param1.equals("3")) {
 	                						this.param1 = "LP0" + eduChkParam.getCareerTyp();
-		                				}else if(this.param1.equals("2")) {
+		                				}else if(this.param1.equals("2") || this.param1.equals("4")) {
 		                					this.param1 = "LS0" + eduChkParam.getCareerTyp();
 		                				}
 	                					eduChkParam.setProcessCd(this.param1);
@@ -263,6 +263,7 @@ public class UtilExcel<T> {
 	                			//암호화(주민번호,법인번호)
 	                			if(vEncrypt.get(j).equals("Y")) {
 	                				if(StringUtils.isNotEmpty(cellVal)) {
+	                					//cellVal = cellVal.replaceAll("-", ""); //로컬 테스트용
 	                					cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
 	                				}
 	                			}
@@ -301,12 +302,12 @@ public class UtilExcel<T> {
     	
     	if(plProductArr.length > 0) {
     		for(int i = 0;i < plProductArr.length;i++) {
-    			if(StringUtils.isNotEmpty(plProductArr[i]) && plProductArr[i].equals("1")) {
+    			if(StringUtils.isNotEmpty(plProductArr[i]) && (plProductArr[i].equals("1") || plProductArr[i].equals("3"))) {
     				plProductDupChk++;
     			}
     		}
     		if(plProductDupChk > 1) {
-    			errorMsg = "엑셀 데이터에서 금융상품유형이 [대출(코드 = 1)]인 모집인이 1명 이상입니다.";
+    			errorMsg = "엑셀 데이터에서 금융상품유형이 대출 또는 TM대출인 모집인이 1명 이상입니다.";
     		}
     	}
 		

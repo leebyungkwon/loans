@@ -354,7 +354,7 @@ public class UserService {
 		
 		if(userRegInfo.getPlProduct().equals("1") || userRegInfo.getPlProduct().equals("3")) {
 			prdCd = "LP0" + userImwonDomain.getCareerTyp();
-		}else if(userRegInfo.getPlProduct().equals("2")) {
+		}else if(userRegInfo.getPlProduct().equals("2") || userRegInfo.getPlProduct().equals("4")) {
 			prdCd = "LS0" + userImwonDomain.getCareerTyp();
 		}
 		
@@ -461,7 +461,7 @@ public class UserService {
 		
 		if(userRegInfo.getPlProduct().equals("1") || userRegInfo.getPlProduct().equals("3")) {
 			prdCd = "LP0" + userExpertDomain.getCareerTyp();
-		}else if(userRegInfo.getPlProduct().equals("2")) {
+		}else if(userRegInfo.getPlProduct().equals("2") || userRegInfo.getPlProduct().equals("4")) {
 			prdCd = "LS0" + userExpertDomain.getCareerTyp();
 		}
 		

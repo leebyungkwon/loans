@@ -120,8 +120,9 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('CAR001','1','신규','신규',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('CAR001','2','경력','경력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD001','1','대출','대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','2','시설대여,할부,유사상품','시설대여,할부,유사상품',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','3','기타 대출성 상품','기타 대출성 상품',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL);
+	 ('PRD001','2','리스','리스',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','3','TM대출','TM대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','4','TM리스','TM리스',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('ADD001','1','서울','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:39.107933',NULL,NULL),
 	 ('ADD001','2','경기','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:45.203197',NULL,NULL),
