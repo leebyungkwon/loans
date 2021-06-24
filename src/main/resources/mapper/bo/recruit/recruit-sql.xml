@@ -102,11 +102,12 @@
 			</if>
 			<if test="plClass != null and plClass != ''">
 				<if test='plClass.equals("1") || plClass.equals("2")'>
-					AND Z.PL_CLASS 	= #{plClass} 
+					AND Z.PL_CLASS 		= #{plClass}
+					AND Z.CORP_USER_YN  = 'N' 
 				</if>
 				<if test='plClass.equals("3")'>
 					AND Z.PL_CLASS 		= '1' 
-					AND Z.CORP_USER_YN  	= 'Y'
+					AND Z.CORP_USER_YN  = 'Y'
 				</if>
 			</if>
 			<if test="plProduct != null and plProduct != ''">
