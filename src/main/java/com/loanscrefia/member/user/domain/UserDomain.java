@@ -21,6 +21,7 @@ public class UserDomain extends BaseDomain {
 	private String masterToId;		//접수번호ID(조회)
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
+	private String subYn;			//약식등록여부
 	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
 	private String preLcNum;		//가등록번호
 	private String plClass;			//분류							-> [CLS001]개인,법인
@@ -53,8 +54,8 @@ public class UserDomain extends BaseDomain {
 	private String plBusinessNo;	//사업자등록번호
 	private String compPhoneNo;		//회원사대표번호
 	private String corpFoundDate;	//법인설립일
-	private int capital;			//자본금
-	private int votingStockCnt;		//의결권있는 발행주식 총수
+	private String capital;			//자본금
+	private String votingStockCnt;		//의결권있는 발행주식 총수
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부

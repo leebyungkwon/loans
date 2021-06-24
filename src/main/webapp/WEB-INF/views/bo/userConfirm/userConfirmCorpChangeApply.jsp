@@ -6,12 +6,8 @@
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
 <script type="text/javascript">
-var originPlMerchantName 	= "${result.userRegInfo.plMerchantName}"
-var originPlCeoName 		= "${result.userRegInfo.plCeoName}"
-var originAddr 				= "${result.userRegInfo.addr}"
-var originCapital 			= "${result.userRegInfo.capital}"
-
 function pageLoad(){
+	//위반이력 코드
 	goCallViolationCd();
 	
 	//datepicker
@@ -189,11 +185,11 @@ function goUserChangeApply(){
 					</tr>
 					<tr>
 						<th>자본금(백만원)</th>
-						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" maxlength="10" data-vd='{"type":"num","len":"1,10","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
+						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" maxlength="20" data-vd='{"type":"num","len":"1,20","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>의결권있는 발행주식 총수</th>
-						<td colspan="3"><input type="text" name="votingStockCnt" class="w100" value="${result.userRegInfo.votingStockCnt }" maxlength="10" data-vd='{"type":"num","len":"1,10","req":true,"msg":"의결권있는 발행주식 총수를 입력해 주세요."}'></td>
+						<td colspan="3"><input type="text" name="votingStockCnt" class="w100" value="${result.userRegInfo.votingStockCnt }" maxlength="20" data-vd='{"type":"num","len":"1,20","req":true,"msg":"의결권있는 발행주식 총수를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>계약일자</th>

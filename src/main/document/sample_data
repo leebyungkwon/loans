@@ -24,8 +24,13 @@ ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pre_lc_num type varchar(14);
 ALTER TABLE tb_lc_mas01 ADD COLUMN voting_stock_cnt bigint;
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN voting_stock_cnt bigint;
 
-ALTER TABLE tb_lc_mas01 ADD COLUMN sub_yn char(1) not null default 'N'
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN sub_yn char(1) not null default 'N'
+ALTER TABLE tb_lc_mas01 ADD COLUMN sub_yn char(1) not null default 'N';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN sub_yn char(1) not null default 'N';
+
+ALTER TABLE tb_lc_mas01 ALTER COLUMN capital type varchar(20);
+ALTER TABLE tb_lc_mas01 ALTER COLUMN voting_stock_cnt type varchar(20);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN capital type varchar(20);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN voting_stock_cnt type varchar(20);
 
 
 INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES

@@ -220,8 +220,8 @@ create table tb_lc_mas01(
 	, pl_business_no varchar(10)
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
-	, capital bigint
-	, voting_stock_cnt bigint
+	, capital varchar(20)
+	, voting_stock_cnt varchar(20)
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
@@ -507,8 +507,8 @@ create table tb_lc_mas01_hist(
 	, pl_business_no varchar(10)
 	, comp_phone_no varchar(20)
 	, corp_found_date varchar(8)
-	, capital bigint
-	, voting_stock_cnt bigint
+	, capital varchar(20)
+	, voting_stock_cnt varchar(20)
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)

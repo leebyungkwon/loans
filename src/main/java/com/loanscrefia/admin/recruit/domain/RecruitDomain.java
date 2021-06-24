@@ -53,8 +53,8 @@ public class RecruitDomain extends BaseDomain {
 	private String plBusinessNo;	//사업자등록번호
 	private String compPhoneNo;		//회원사대표번호
 	private String corpFoundDate;	//법인설립일
-	private int capital;			//자본금
-	private long votingStockCnt;	// 의결권있는주식총수
+	private String capital;			//자본금
+	private String votingStockCnt;	//의결권있는주식총수
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부
@@ -119,11 +119,12 @@ public class RecruitDomain extends BaseDomain {
 	private String originPayRegDate;
 	private String payRegDate;
 	
-	private String afterData;						// 변경이력 현재데이터
+	private String afterData;		//변경이력 현재데이터
 	
-	private String updFileCheck;					// 변경정보에 대한 리스트 조회용 필드
+	private String updFileCheck;	//변경정보에 대한 리스트 조회용 필드
 	
-	private String preRegYn;						// 기등록여부
+	private String preRegYn;		//기등록여부
+	private String subYn;			//약식등록여부
 	
 	private String searchPlMName;
 	private String searchPlMZId;

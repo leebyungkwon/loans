@@ -21,6 +21,7 @@
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+			,TLM.SUB_YN
 			,TLM.PRE_REG_YN
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
@@ -190,6 +191,7 @@
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 				,TLM.MEMBER_SEQ
 				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+				,TLM.SUB_YN
 				,TLM.PRE_REG_YN
 				,TLM.PL_CLASS
 				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
@@ -525,8 +527,8 @@
    			,REPLACE(#{item.F}, '-', '')	-- 설립년월일
 			,#{item.G}						-- 본점소재지
 			,#{item.H}						-- 상세주소(법인등기부본상)
-			,CAST(#{item.I} AS INT4)		-- 자본금
-			,CAST(#{item.J} AS INT4)		-- 의결권있는 발행주식 총수
+			,#{item.I}						-- 자본금
+			,#{item.J}						-- 의결권있는 발행주식 총수
 			,#{item.K}						-- 금융상품유형
 			,REPLACE(#{item.L}, '-', '')	-- 계약일자
    			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
@@ -699,6 +701,7 @@
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,(SELECT EMAIL FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS EMAIL
 			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
+			,TLM.SUB_YN
 			,TLM.PRE_REG_YN
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM

@@ -14,6 +14,7 @@
 		    	 TLM.MASTER_SEQ
 				,TLM.COM_CODE
 		    	,TLM.MASTER_TO_ID
+		    	,TLM.SUB_YN
 		    	,TLM.PRE_REG_YN
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 				,TLM.MEMBER_SEQ
@@ -177,6 +178,7 @@
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 	    	,TLM.MASTER_TO_ID
+	    	,TLM.SUB_YN
 	    	,TLM.PRE_REG_YN
 			,TLM.MEMBER_SEQ
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
@@ -348,11 +350,12 @@
    	<!-- 모집인 조회 및 변경 > 상세 -->
    	<select id="getRecruitHistDetail" parameterType="recruit" resultType="recruit">
    		SELECT
-   			TLM.MASTER_HIST_SEQ
+   			 TLM.MASTER_HIST_SEQ
 	    	,TLM.MASTER_SEQ
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 	    	,TLM.MASTER_TO_ID
+	    	,TLM.SUB_YN
 	    	,TLM.PRE_REG_YN
 			,TLM.MEMBER_SEQ
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM

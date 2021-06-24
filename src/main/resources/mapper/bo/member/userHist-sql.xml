@@ -14,6 +14,7 @@
    			,MASTER_TO_ID
 			,COM_CODE
 			,MEMBER_SEQ
+			,SUB_YN
 			,PRE_REG_YN
 			,PL_CLASS
 			,CORP_USER_YN
@@ -63,6 +64,7 @@
    			,MASTER_TO_ID
 			,COM_CODE
 			,MEMBER_SEQ
+			,SUB_YN
 			,PRE_REG_YN
 			,PL_CLASS
 			,CORP_USER_YN
