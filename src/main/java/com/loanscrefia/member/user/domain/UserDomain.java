@@ -157,4 +157,7 @@ public class UserDomain extends BaseDomain {
 	private String srchSelect2;
 	private String srchDate1;
 	private String srchDate2;
+	
+	//세션
+	private String creGrp;
 }

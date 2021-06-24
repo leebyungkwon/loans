@@ -23,6 +23,7 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.common.service.KfbApiService;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
@@ -63,6 +64,11 @@ public class UserService {
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserConfirmList(UserDomain userDomain){
+		
+		//세션 정보
+		MemberDomain memberDomain 	= new MemberDomain();
+		MemberDomain loginInfo 		= commonService.getMemberDetail(memberDomain);
+		userDomain.setCreGrp(loginInfo.getCreGrp());
 		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
@@ -105,6 +111,11 @@ public class UserService {
 	//모집인 등록 > 리스트
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){
+		
+		//세션 정보
+		MemberDomain memberDomain 	= new MemberDomain();
+		MemberDomain loginInfo 		= commonService.getMemberDetail(memberDomain);
+		userDomain.setCreGrp(loginInfo.getCreGrp());
 		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
