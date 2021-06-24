@@ -43,15 +43,18 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="자본금", vCell="I", vLenMin=1, vLenMax=1000000)
 	private int capital;			//자본금
 	
-	@ExcelColumn(headerName="금융상품유형", vCell="J", vLenMin=1, vLenMax=1, vEnum="1,2,3", chkPrd="prd1")
+	@ExcelColumn(headerName="의결권있는 발행주식 총수", vCell="J", vLenMin=1, vLenMax=1000000)
+	private int votingStockCnt;		//의결권있는 발행주식 총수
+	
+	@ExcelColumn(headerName="금융상품유형", vCell="K", vLenMin=1, vLenMax=1, vEnum="1,2,3", chkPrd="prd1")
 	private String plProduct;		//금융상품유형(취급상품)
 	
-	@ExcelColumn(headerName="계약일자", vCell="K", vLenMin=10, vLenMax=10, chkFormat="cal")
+	@ExcelColumn(headerName="계약일자", vCell="L", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String comContDate;		//계약일자
 	
-	@ExcelColumn(headerName="위탁예정기간", vCell="L", vLenMin=10, vLenMax=10, chkFormat="cal")
+	@ExcelColumn(headerName="위탁예정기간", vCell="M", vLenMin=10, vLenMax=10, chkFormat="cal")
 	private String entrustDate;		//위탁예정일
 	
-	@ExcelColumn(headerName="CI", vCell="M", vLenMin=1, vLenMax=88, chkFormat="ci", chkPrd="prd2")
+	@ExcelColumn(headerName="CI", vCell="N", vLenMin=1, vLenMax=88, chkFormat="ci", chkPrd="prd2")
 	private String ci;				//CI
 }

@@ -103,6 +103,10 @@ function goUserChangeApplyPage(){
 					<td colspan="3">${result.userRegInfo.capital }</td>
 				</tr>
 				<tr>
+					<th>의결권있는 발행주식 총수</th>
+					<td colspan="3">${result.userRegInfo.votingStockCnt }</td>
+				</tr>
+				<tr>
 					<th>계약일자</th>
 					<td>${result.userRegInfo.comContDate }</td>
 					<th>위탁예정기간</th>

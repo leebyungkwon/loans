@@ -53,6 +53,7 @@
 			,TLM.COMP_PHONE_NO
 			,TLM.CORP_FOUND_DATE
 			,TLM.CAPITAL
+			,TLM.VOTING_STOCK_CNT
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
@@ -220,6 +221,7 @@
 				,TLM.COMP_PHONE_NO
 				,TLM.CORP_FOUND_DATE
 				,TLM.CAPITAL
+				,TLM.VOTING_STOCK_CNT
 				,TLM.PL_PAY_STAT
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TLM.COM_REG_DATE
@@ -429,6 +431,7 @@
 			,PL_M_Z_ID
 			,PL_CELLPHONE
 			,ADDR
+			,ADDR_DETAIL
 			,PL_PRODUCT
 			,PL_MERCHANT_NAME
 			,PL_MERCHANT_NO
@@ -462,15 +465,16 @@
    			,#{item.C}						-- 주민등록번호
    			,REPLACE(#{item.D}, '-', '')	-- 휴대폰번호
    			,#{item.E}						-- 주소
-   			,#{item.F}						-- 금융상품유형
-   			,#{item.G}						-- 법인명
-   			,#{item.H}						-- 법인등록번호
-   			,#{item.I}						-- 교육이수번호/인증서번호
-   			,REPLACE(#{item.J}, '-', '')	-- 경력시작일
-   			,REPLACE(#{item.K}, '-', '')	-- 경력종료일
-   			,REPLACE(#{item.L}, '-', '')	-- 계약일자
-   			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
-   			,#{item.N}						-- CI
+   			,#{item.F}						-- 상세주소
+   			,#{item.G}						-- 금융상품유형
+   			,#{item.H}						-- 법인명
+   			,#{item.I}						-- 법인등록번호
+   			,#{item.J}						-- 교육이수번호/인증서번호
+   			,REPLACE(#{item.K}, '-', '')	-- 경력시작일
+   			,REPLACE(#{item.L}, '-', '')	-- 경력종료일
+   			,REPLACE(#{item.M}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.N}, '-', '')	-- 위탁예정기간
+   			,#{item.O}						-- CI
    			,NOW()
    		)
    		</foreach>
@@ -495,6 +499,7 @@
 			,ADDR
 			,ADDR_DETAIL
 			,CAPITAL
+			,VOTING_STOCK_CNT
 			,PL_PRODUCT
 			,COM_CONT_DATE
 			,ENTRUST_DATE
@@ -519,10 +524,11 @@
 			,#{item.G}						-- 본점소재지
 			,#{item.H}						-- 상세주소(법인등기부본상)
 			,CAST(#{item.I} AS INT4)		-- 자본금
-			,#{item.J}						-- 금융상품유형
-			,REPLACE(#{item.K}, '-', '')	-- 계약일자
-   			,REPLACE(#{item.L}, '-', '')	-- 위탁예정기간
-   			,#{item.M}						-- CI
+			,CAST(#{item.J} AS INT4)		-- 의결권있는 발행주식 총수
+			,#{item.K}						-- 금융상품유형
+			,REPLACE(#{item.L}, '-', '')	-- 계약일자
+   			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
+   			,#{item.N}						-- CI
    			,NOW()
    		)
    		</foreach>
@@ -724,6 +730,7 @@
 			,TLM.COMP_PHONE_NO
 			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
 			,TLM.CAPITAL
+			,TLM.VOTING_STOCK_CNT
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
@@ -1010,6 +1017,9 @@
    			</if>
    			<if test="capital != null and capital != ''">
    			,CAPITAL 			= #{capital}
+   			</if>
+   			<if test="votingStockCnt != null and votingStockCnt != ''">
+   			,VOTING_STOCK_CNT	= #{votingStockCnt}
    			</if>
    			,UPD_SEQ 			= #{updSeq}
    			,UPD_TIMESTAMP 		= NOW()

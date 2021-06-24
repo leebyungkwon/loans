@@ -192,6 +192,10 @@ function goUserChangeApply(){
 						<td colspan="3"><input type="text" name="capital" class="w100" value="${result.userRegInfo.capital }" maxlength="10" data-vd='{"type":"num","len":"1,10","req":true,"msg":"자본금(백만원)을 입력해 주세요."}'></td>
 					</tr>
 					<tr>
+						<th>의결권있는 발행주식 총수</th>
+						<td colspan="3"><input type="text" name="votingStockCnt" class="w100" value="${result.userRegInfo.votingStockCnt }" maxlength="10" data-vd='{"type":"num","len":"1,10","req":true,"msg":"의결권있는 발행주식 총수를 입력해 주세요."}'></td>
+					</tr>
+					<tr>
 						<th>계약일자</th>
 						<td>
 							<input type="text" name="comContDate" id="comContDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
