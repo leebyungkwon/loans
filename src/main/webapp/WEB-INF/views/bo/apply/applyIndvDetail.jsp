@@ -7,7 +7,6 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	
 	// 개인 OCR 진행
 	$("#indvOcr").on("click", function(){
 		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
@@ -42,7 +41,6 @@ function pageLoad(){
 			AjaxUtil.post(p);
 		}
 	});
-	
 }
 
 //승인
@@ -69,7 +67,6 @@ function goRecruitApply(num){
 		alert("오류가 발생하였습니다.");
 		return false;
 	}
-	
 	
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
@@ -146,9 +143,6 @@ function goApplyImprove(num){
 		AjaxUtil.post(p);
 	}
 }
-
-
-
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -235,6 +229,10 @@ function goApplyImprove(num){
 				<tr>
 					<th>주소</th>
 					<td colspan="3">${result.applyInfo.addrNm }</td>
+				</tr>
+				<tr>
+					<th>상세주소</th>
+					<td colspan="3">${result.applyInfo.addrDetail }</td>
 				</tr>
 				<tr>
 					<th>교육이수번호 또는 인증번호</th>

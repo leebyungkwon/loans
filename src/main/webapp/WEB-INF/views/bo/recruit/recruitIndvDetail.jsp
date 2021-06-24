@@ -205,6 +205,10 @@ function goRecruitImprove(rePlStat){
 					<td colspan="3">${result.recruitInfo.addrNm }</td>
 				</tr>
 				<tr>
+					<th>상세주소</th>
+					<td colspan="3">${result.recruitInfo.addrDetail }</td>
+				</tr>
+				<tr>
 					<th>교육이수번호 또는 인증번호</th>
 					<td colspan="3">${result.recruitInfo.plEduNo }</td>
 				</tr>

@@ -4,12 +4,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script type="text/javascript" src="/static/js/recruit/common.js"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
 function pageLoad(){
 
 }
-
 
 //승인
 function goRecruitApply(num){
@@ -112,7 +111,6 @@ function goRecruitImprove(rePlStat){
 		AjaxUtil.post(p);
 	}
 }
-
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -202,6 +200,10 @@ function goRecruitImprove(rePlStat){
 				<tr>
 					<th>자본금(백만원)</th>
 					<td colspan="3">${result.recruitInfo.capital }</td>
+				</tr>
+				<tr>
+					<th>의결권있는 발행주식 총수</th>
+					<td colspan="3">${result.recruitInfo.votingStockCnt }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>

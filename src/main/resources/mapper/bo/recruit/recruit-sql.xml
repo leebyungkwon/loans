@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.admin.recruit.repository.RecruitRepository">
+
    	<!-- 모집인 조회 및 변경 > 리스트 -->
    	<select id="selectRecruitList" parameterType="recruit" resultType="recruit">
    	   	SELECT 
@@ -48,6 +49,7 @@
 				,TLM.COMP_PHONE_NO
 				,TLM.CORP_FOUND_DATE
 				,TLM.CAPITAL
+				,TLM.VOTING_STOCK_CNT
 				,TLM.PL_PAY_STAT
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
@@ -212,6 +214,7 @@
 			,TLM.COMP_PHONE_NO
 			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
 			,TLM.CAPITAL
+			,TLM.VOTING_STOCK_CNT
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
@@ -386,6 +389,7 @@
 			,TLM.COMP_PHONE_NO
 			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
 			,TLM.CAPITAL
+			,TLM.VOTING_STOCK_CNT
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE

@@ -7,7 +7,6 @@
 
 <script type="text/javascript">
 function pageLoad(){
-	
 	$("#corpOcr").on("click", function(){
 		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
 			var p = {
@@ -135,7 +134,6 @@ function goApplyImprove(num){
 		AjaxUtil.post(p);
 	}
 }
-
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
@@ -231,6 +229,10 @@ function goApplyImprove(num){
 				<tr>
 					<th>자본금(백만원)</th>
 					<td colspan="3">${result.applyInfo.capital }</td>
+				</tr>
+				<tr>
+					<th>의결권있는 발행주식 총수</th>
+					<td colspan="3">${result.applyInfo.votingStockCnt }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>
