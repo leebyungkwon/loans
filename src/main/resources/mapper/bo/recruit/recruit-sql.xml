@@ -300,7 +300,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 승인처리 -->
-   	<update id="updateRecruitPlStat" parameterType="recruitIt">
+   	<update id="updateRecruitPlStat" parameterType="recruit">
    		UPDATE tb_lc_mas01
    		SET
    			pl_stat = #{plStat}

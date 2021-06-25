@@ -14,6 +14,7 @@
 		    	,TLM.MASTER_TO_ID
 		    	,TLM.SUB_YN
 		    	,TLM.PRE_REG_YN
+		    	,TLM.PRE_LC_NUM
 		    	,(select FN_MEMBER_NAME(b.member_seq) from tb_lc_work b where TLM.com_code = b.com_code) as MEMBER_NM
 				,TLM.COM_CODE
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
@@ -155,6 +156,7 @@
 	    	,TLM.MASTER_TO_ID
 	    	,TLM.SUB_YN
 	    	,TLM.PRE_REG_YN
+	    	,TLM.PRE_LC_NUM
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
@@ -287,7 +289,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 승인처리 -->
-   	<update id="updateApplyPlStat" parameterType="applyIt">
+   	<update id="updateApplyPlStat" parameterType="apply">
    		UPDATE tb_lc_mas01
    		SET
    			pl_stat = #{plStat}
