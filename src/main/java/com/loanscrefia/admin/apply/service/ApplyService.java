@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.gson.JsonObject;
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
@@ -19,7 +21,9 @@ import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
+import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -32,12 +36,27 @@ import sinsiway.CryptoUtil;
 @Service
 public class ApplyService {
 
-	@Autowired private ApplyRepository applyRepository;
-	@Autowired private CommonService commonService;
-	@Autowired private CodeService codeService;
-	@Autowired private UserRepository userRepo;
+	@Autowired
+	private ApplyRepository applyRepository;
+	
+	@Autowired
+	private CommonService commonService;
+	
+	@Autowired
+	private CodeService codeService;
+	
+	@Autowired
+	private UserRepository userRepo;
+	
 	@Autowired
 	private EmailRepository emailRepository;
+	
+	//은행연합회
+	@Autowired 
+	private KfbApiService kfbApiService;
+	
+	@Autowired
+	private KfbApiRepository kfbApiRepository;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
@@ -766,6 +785,7 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
 	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
 		
 		// 현재 승인상태와 화면에 있는 승인상태 비교
@@ -783,39 +803,115 @@ public class ApplyService {
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(statCheck.getEmail());
 		
+		// API성공여부
+		boolean apiCheck = false;
+		
 		if("5".equals(applyDomain.getPlStat())) {
 			// 승인요청에 대한 보완
 			emailDomain.setInstId("141");
-			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());			
+			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());		
+			apiCheck = true;
 		}else if("9".equals(applyDomain.getPlStat()) && "2".equals(applyDomain.getPlRegStat()) && "N".equals(applyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인
 			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
+			apiCheck = true;
 		}else if("9".equals(applyDomain.getPlStat()) && "3".equals(applyDomain.getPlRegStat()) && "Y".equals(applyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
 			emailDomain.setInstId("143");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
+			
+			/*
+			
+			// 2021-06-25 은행연합회 API 통신 - 개인 등록
+			String apiKey = kfbApiRepository.selectKfbApiKey();
+			JsonObject jsonParam = new JsonObject();
+			if("1".equals(statCheck.getPlClass())) {
+				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.CheckLoanUrl, "POST");				
+			}else {
+				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.PreLoanCorpUrl, "POST");
+			}
+			
+			if(responseMsg != null) {
+				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+				if("success".equals(responseMsg.getCode())) {
+					// 가등록에서 본등록시 등록번호 발급
+					String lcNum = "";
+					UserDomain userDomain = new UserDomain();
+					if("1".equals(statCheck.getPlClass())) {
+						lcNum = responseJson.getString("lc_num");
+					}else {
+						lcNum = responseJson.getString("lc_corp_num");
+					}
+					userDomain.setMasterSeq(applyDomain.getMasterSeq());
+					userDomain.setPlRegistNo(lcNum);
+					int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
+					if(updateCnt > 0) {
+						apiCheck = true;
+					}else {
+						return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+					}
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "fail", responseJson.getString("res_msg"));
+				}
+			}
+			*/
+			
+			apiCheck = true;
+			
 		}else if("10".equals(applyDomain.getPlStat())) {
 			// 승인요청에 대한 부적격
 			emailDomain.setInstId("144");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());
+
+			/*
+			
+			// 2021-06-25 은행연합회 API 통신 - 개인 삭제
+			String apiKey = kfbApiRepository.selectKfbApiKey();
+			JsonObject jsonParam = new JsonObject();
+			if("1".equals(statCheck.getPlClass())) {
+				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.PreLoanUrl, "DELETE");
+			}else {
+				jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.PreLoanCorpUrl, "DELETE");
+			}
+
+			if(responseMsg != null) {
+				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+				if("success".equals(responseMsg.getCode())) {
+					apiCheck = true;
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "fail", responseJson.getString("res_msg"));
+				}
+			}
+			
+			*/
+			apiCheck = true;
+			
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		int result = applyRepository.updateApplyPlStat(applyDomain);
 		
-		emailResult = emailRepository.sendEmail(emailDomain);
-		// 임시 성공
-		//emailResult = 1;
-		if(emailResult > 0 && result > 0) {
-			// 모집인단계이력
-			applyRepository.insertMasterStep(applyDomain);
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
-		}else if(emailResult == 0){
-			return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
+		if(apiCheck) {
+			int result = applyRepository.updateApplyPlStat(applyDomain);
+			emailResult = emailRepository.sendEmail(emailDomain);
+			// 임시 성공
+			//emailResult = 1;
+			if(emailResult > 0 && result > 0) {
+				// 모집인단계이력
+				applyRepository.insertMasterStep(applyDomain);
+				return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+			}else if(emailResult == 0){
+				return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+			}
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "API오류가 발생하였습니다.");
 		}
 	}
 

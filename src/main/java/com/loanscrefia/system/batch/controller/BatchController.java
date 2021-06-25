@@ -89,7 +89,7 @@ public class BatchController {
         // 결과값 apiToken Update(파라미터 String시 오류발생하면 도메인으로 변경예정)
     	// 임시 - random활용 key update
     	String tempKey = LocalDateTime.now().toString();
-    	kfbApiRepository.updateKfbApiKey(tempKey);
+    	kfbApiRepository.insertKfbApiKey(tempKey);
     	log.info("================ apiKeyConnection() END ================");
     }
 	

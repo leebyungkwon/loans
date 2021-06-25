@@ -40,7 +40,7 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	//API 서버 도메인
+	//API 서버 도메인							- 개발 : "172.16.123.10:43003"
 	public static String ApiDomain 			= "http://localhost:8080";
 	
 	//개인
@@ -200,9 +200,136 @@ public class KfbApiService {
 	//가등록
 	
 	//가등록 취소
+	public boolean indvTempRegCancel(String authToken, JsonObject reqParam) {
+		
+		boolean tempRegCheck = false;
+	    try {
+	        //URL 설정
+	        URL url 				= new URL(PreLoanUrl);
+	        HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+	        
+	        conn.setRequestMethod("DELETE");
+	        conn.setRequestProperty("Content-Type", "application/json");
+	        conn.setRequestProperty("Authorization", authToken);
+	        
+	        //요청 데이터 전송
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+	        bw.write(reqParam.toString());
+	        bw.flush();
+	        bw.close();
+	        
+	        //요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken(authToken);
+	        logParam.setUrl(PreLoanUrl);
+	        logParam.setSendData(reqParam.toString());
+	        this.insertKfbApiReqLog(logParam);
+	        
+	        //요청 결과
+	        int responseCode = conn.getResponseCode();
+	        
+	        log.info("KfbApiService >> checkLoan() > responseCode :: " + responseCode);
+	        
+	        if(responseCode == 200) {
+	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        	String line 		= "";
+	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	            while((line = br.readLine()) != null) {
+	            	sb.append(line);
+	            }
+	            
+	            JSONObject responseJson = new JSONObject(sb.toString());
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(responseJson.getString("res_msg"));
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+	            
+	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
+	            log.info("KfbApiService >> checkLoan() > reg_yn :: " + responseJson.getString("reg_yn"));
+	            
+	            tempRegCheck = true;
+	        }
+	        
+	    } catch (MalformedURLException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (JSONException e) {
+	        System.out.println("not JSON Format response");
+	        e.printStackTrace();
+	    }
+	    
+	    return tempRegCheck;
+	}
+	
+	
 	
 	//등록(본등록)
-	
+	public boolean indvReg(String authToken, JsonObject reqParam) {
+		boolean indvReg = false;
+	    try {
+	        //URL 설정
+	        URL url 				= new URL(PreLoanUrl);
+	        HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+	        
+	        conn.setRequestMethod("DELETE");
+	        conn.setRequestProperty("Content-Type", "application/json");
+	        conn.setRequestProperty("Authorization", authToken);
+	        
+	        //요청 데이터 전송
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+	        bw.write(reqParam.toString());
+	        bw.flush();
+	        bw.close();
+	        
+	        //요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken(authToken);
+	        logParam.setUrl(PreLoanUrl);
+	        logParam.setSendData(reqParam.toString());
+	        this.insertKfbApiReqLog(logParam);
+	        
+	        //요청 결과
+	        int responseCode = conn.getResponseCode();
+	        
+	        log.info("KfbApiService >> checkLoan() > responseCode :: " + responseCode);
+	        
+	        if(responseCode == 200) {
+	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        	String line 		= "";
+	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	            while((line = br.readLine()) != null) {
+	            	sb.append(line);
+	            }
+	            
+	            JSONObject responseJson = new JSONObject(sb.toString());
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(responseJson.getString("res_msg"));
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+	            
+	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
+	            log.info("KfbApiService >> checkLoan() > reg_yn :: " + responseJson.getString("reg_yn"));
+	            indvReg = true;
+	        }
+	        
+	    } catch (MalformedURLException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (JSONException e) {
+	        System.out.println("not JSON Format response");
+	        e.printStackTrace();
+	    }
+	    
+	    return indvReg;
+	}
 	//수정
 	
 	//삭제
@@ -231,4 +358,80 @@ public class KfbApiService {
 	
 	
 	
+	
+	
+	
+	// 공통 샘플
+	public ResponseMsg commonKfbApi(String authToken, JsonObject reqParam, String apiNm, String methodType) {
+		
+        Map<String, Object> msgMap = new HashMap<String, Object>();
+        String successCheck = "fail";
+	    try {
+	        //URL 설정
+	        URL url 				= new URL(apiNm);
+	        HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+	        
+	        conn.setRequestMethod(methodType);
+	        conn.setRequestProperty("Content-Type", "application/json");
+	        conn.setRequestProperty("Authorization", authToken);
+	        
+	        /*
+	        if(methodType.equals("POST")) {
+	        	conn.setDoOutput(true); //POST일때만?	        	
+	        }
+	        */
+
+	        //요청 데이터 전송
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+	        bw.write(reqParam.toString());
+	        bw.flush();
+	        bw.close();
+	        
+	        //요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken(authToken);
+	        logParam.setUrl(apiNm);
+	        logParam.setSendData(reqParam.toString());
+	        this.insertKfbApiReqLog(logParam);
+	        
+	        //요청 결과
+	        int responseCode = conn.getResponseCode();
+	        
+	        log.info("KfbApiService >> checkLoan() > responseCode :: " + responseCode);
+	        
+	        
+	        // responseCode값 확인 - JSONObject로 변환한 데이터를 넘겨서 각 service에서 처리 (ApplyService - updateApplyPlStat 샘플)
+	        if(responseCode == 200) {
+	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        	String line 		= "";
+	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	            while((line = br.readLine()) != null) {
+	            	sb.append(line);
+	            }
+	            
+	            JSONObject responseJson = new JSONObject(sb.toString());
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(responseJson.getString("res_msg"));
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
+	            
+	            successCheck = "success";
+	            msgMap.put("resultData", responseJson);
+	        }
+	    } catch (MalformedURLException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (JSONException e) {
+	        System.out.println("not JSON Format response");
+	        e.printStackTrace();
+	    }
+	    
+	    return new ResponseMsg(HttpStatus.OK, successCheck, msgMap);
+		
+	}
 }

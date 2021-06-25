@@ -44,19 +44,37 @@
 		)
 	</insert>
 	
-	<!-- 은행연합회 api_key_update 배치 -->
-	<update id="updateKfbApiKey" parameterType="string">
-   		UPDATE KFB_API_KEY
-   		SET
-   			KEY = #{key}
-   			, UPD_TIMESTAMP = NOW()
-	</update>
+	<!-- 은행연합회 api_key_insert 배치 -->
+	<insert id="insertKfbApiKey" parameterType="string">
+   		INSERT INTO KFB_API_KEY
+   		VALUES(
+   			TO_CHAR(NOW(), 'YYYYMMDD')
+   			, #{key}
+   			, NOW()
+   		)
+	</insert>
 	
 	<!-- 은행연합회 api_key_조회 -->
 	<select id="selectKfbApiKey" resultType="string">
 		SELECT
 			KEY
 		FROM KFB_API_KEY
+		WHERE INS_DT = TO_CHAR(NOW(), 'YYYYMMDD')
 	</select>
+	
+	<!-- 은행연합회에서 전달받은 등록번호 update -->
+	<update id="updateKfbApiByUserInfo" parameterType="user">
+		UPDATE TB_LC_MAS01
+		SET
+			UPD_SEQ 		= #{updSeq}
+			,UPD_TIMESTAMP 	= NOW()
+			<if test="plRegistNo != null and plRegistNo != ''">
+				,PL_REGIST_NO 	= #{plRegistNo}
+			</if>
+		<where>
+			AND MASTER_SEQ 	= #{masterSeq}
+		</where>
+		
+	</update>
 	
 </mapper> 

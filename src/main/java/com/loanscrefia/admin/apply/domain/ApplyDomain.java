@@ -111,6 +111,8 @@ public class ApplyDomain extends BaseDomain {
 	private String preRegYn;		//기등록여부
 	private String subYn;			//약식등록여부
 	
+	private String preLcNum;		//가등록번호
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
