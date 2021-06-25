@@ -16,7 +16,7 @@
 			<tr>
 				<th>회원사코드</th>
 				<td>
-					<input type="text" name="comCode" placeholder="회원사코드를 입력해 주세요." maxlength="10" class="w70" data-vd='{"type":"text","len":"1,10","req":true,"msg":"회원사코드를 입력해 주세요."}'>
+					<input type="text" name="comCode" placeholder="회원사코드를 입력해 주세요." maxlength="8" class="w70" data-vd='{"type":"text","len":"1,10","req":true,"msg":"회원사코드를 입력해 주세요."}'>
 				</td>
 			</tr>
 			<tr>

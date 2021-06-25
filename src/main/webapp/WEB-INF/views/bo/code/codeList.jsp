@@ -31,24 +31,30 @@ function pageLoad(){
 	
 	//코드마스터 저장
 	$("#codeMstSaveBtn").on("click",function(){
+		var params = $('#codeMstSave').serialize();
+		var url = $('#codeMstSave').attr("action");
 		var p = {
-			  name 		: "codeMstSave"
-			, success 	: function (opt,result) {
+			url		: url
+			,param 		: params
+			,success	: function(opt,result){
 				codeMstGrid.refresh();
-    	    }
+			}
 		}
-		AjaxUtil.form(p);
+		AjaxUtil.post(p);
 	});
 	
 	//코드상세 저장
 	$("#codeDtlSaveBtn").on("click",function(){
+		var params = $('#codeDtlSave').serialize();
+		var url = $('#codeDtlSave').attr("action");
 		var p = {
-			  name 		: "codeDtlSave"
-			, success 	: function (opt,result) {
+			url		: url
+			,param 		: params
+			,success	: function(opt,result){
 				codeDtlGrid.refresh();
-    	    }
+			}
 		}
-		AjaxUtil.form(p);
+		AjaxUtil.post(p);
 	});
 }
 

@@ -19,8 +19,12 @@ function pageLoad() {
 //결제 테스트
 function goPayTest() {
 	if(confirm("결제 후 환불은 불가능 합니다.\n계속 진행하시겠습니까?")){
+		
+		var params = $('#payTestFrm').serialize();
+		var url = $('#payTestFrm').attr("action");
 		var p = {
-			 name 		: "payTestFrm"
+			url		: url
+			,param 		: params
 			,success	: function(opt,result){
 				if(result.data){
 					$("#payResultFrm").submit();
@@ -30,7 +34,7 @@ function goPayTest() {
 				}
 			}
 		}
-		AjaxUtil.form(p);
+		AjaxUtil.post(p);
 	}
 }
 </script>

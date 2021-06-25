@@ -53,15 +53,20 @@ function goCompanyCodeSavePopOpen() {
 
 //회원사 등록
 function goCompanyCodeSave() {
+	
+	var params = $('#companyCodeSaveFrm').serialize();
+	var url = $('#companyCodeSaveFrm').attr("action");
+	
 	var p = {
-		 name 		: "companyCodeSaveFrm"
+		url		: url
+		,param 		: params
 		,success	: function(opt,result){
 			if(result.code == "COM0001"){
 				location.reload();
 			}
 		}
 	}
-	AjaxUtil.form(p);
+	AjaxUtil.post(p);
 }
 </script>
 

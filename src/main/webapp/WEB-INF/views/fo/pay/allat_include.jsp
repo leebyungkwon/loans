@@ -37,6 +37,9 @@ function result_submit(result_cd,result_msg,enc_data) {
 
 <form name="fm" id="payFrm" method="post" action="allat_approval.jsp"> <!--승인요청 및 결과수신페이지 지정 //-->
 	<!-- 필수정보 -->
+	
+	<input type="hidden" name="allat_encode_type" value="U" > <!-- 인코딩문제 -->
+	
 	<input type="hidden" name="allat_shop_id" value="crefia" maxlength="20"> <!-- Allat에서 발급한 고유 상점 ID -->
 	<input type="hidden" name="allat_order_no" value="1" maxlength="70"> <!-- 쇼핑몰에서 사용하는 고유 주문번호 : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
 	<input type="hidden" name="allat_amt" id="allat_amt" value="1000" maxlength="10"> <!-- 총 결제금액 : 숫자(0~9)만 사용가능 -->
