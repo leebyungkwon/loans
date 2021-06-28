@@ -413,13 +413,21 @@
    		FROM TB_LC_MAS01
    		WHERE PL_STAT <![CDATA[!=]]> '8'						-- 처리상태가 취소가 아닌 것
    		<choose>
-  			<when test='plProduct.equals("1") or plProduct.equals("3")'>
-				AND PL_PRODUCT 		IN ('1','3')
+  			<when test='plClass != null and !plClass.equals("") and plClass.equals("1")'> -- 개인일 때
+  				AND PL_CALSS 	= '1'
+  				AND PL_PRODUCT 	= #{plProduct}
+  				AND CI 			= #{ci}
+  				<if test='plProduct != null and !plProduct.equals("") and plProduct.equals("2")'>
+  				AND COM_CODE	= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+  				</if>
 			</when>
-			<when test='!plProduct.equals("1") and !plProduct.equals("3")'>
-				AND PL_PRODUCT 		= #{plProduct}
-				AND CI 				= #{ci}
-   				AND COM_CODE 		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+			<when test='plClass != null and !plClass.equals("") and plClass.equals("2")'> -- 법인일 때
+				AND PL_CALSS 	= '2'
+				AND PL_PRODUCT 	= #{plProduct}
+				AND CI 			= #{ci}
+				<if test='plProduct != null and !plProduct.equals("") and plProduct.equals("2") or plProduct.equals("4")'>
+  				AND COM_CODE	= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+  				</if>
 			</when>
 		</choose>
    	</select>

@@ -173,7 +173,7 @@ public class UserService {
 				String filePath		= file.get(0).getFilePath();
 				String fileSaveNm	= file.get(0).getFileSaveNm();
 				String fileExt		= file.get(0).getFileExt();
-				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserIndvExcelDomain.class);
+				excelResult			= utilExcel.setParam2(userDomain.getPlClass()).upload(uPath, filePath, fileSaveNm, fileExt, UserIndvExcelDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -240,7 +240,7 @@ public class UserService {
 				String filePath		= file.get(0).getFilePath();
 				String fileSaveNm	= file.get(0).getFileSaveNm();
 				String fileExt		= file.get(0).getFileExt();
-				excelResult			= utilExcel.upload(uPath, filePath, fileSaveNm, fileExt, UserCorpExcelDomain.class);
+				excelResult			= utilExcel.setParam2(userDomain.getPlClass()).upload(uPath, filePath, fileSaveNm, fileExt, UserCorpExcelDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");

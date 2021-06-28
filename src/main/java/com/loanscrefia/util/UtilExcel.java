@@ -46,7 +46,7 @@ public class UtilExcel<T> {
 	@Autowired private UserRepository userRepo;
 	
 	private String param1; //금융상품유형
-	private String param2;
+	private String param2; //분류(개인,법인)
 	private String param3;
 	private String param4;
 	private String param5;
@@ -276,10 +276,11 @@ public class UtilExcel<T> {
 	                			}else if(chkPrd.get(j).equals("prd2")) {
 	                				userChkParam.setCi(cellVal);
 	                				
+	                				userChkParam.setPlClass(this.param2);
 	                				int dupChkResult = userRegDupChk(userChkParam);
 		                			
 	                				if(dupChkResult > 0) {
-	                					if(userChkParam.getPlProduct().equals("1")) {
+	                					if(userChkParam.getPlProduct().equals("1") || userChkParam.getPlProduct().equals("3")) {
 	                						errorMsg += "대출 상품으로 기등록된 데이터가 존재합니다.<br>";
 	                					}else {
 	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
