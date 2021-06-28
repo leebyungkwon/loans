@@ -414,7 +414,7 @@
    		WHERE PL_STAT <![CDATA[!=]]> '8'						-- 처리상태가 취소가 아닌 것
    		<choose>
   			<when test='plClass != null and !plClass.equals("") and plClass.equals("1")'> -- 개인일 때
-  				AND PL_CALSS 	= '1'
+  				AND PL_CLASS 	= '1'
   				AND PL_PRODUCT 	= #{plProduct}
   				AND CI 			= #{ci}
   				<if test='plProduct != null and !plProduct.equals("") and plProduct.equals("2")'>
@@ -422,7 +422,7 @@
   				</if>
 			</when>
 			<when test='plClass != null and !plClass.equals("") and plClass.equals("2")'> -- 법인일 때
-				AND PL_CALSS 	= '2'
+				AND PL_CLASS 	= '2'
 				AND PL_PRODUCT 	= #{plProduct}
 				AND CI 			= #{ci}
 				<if test='plProduct != null and !plProduct.equals("") and plProduct.equals("2") or plProduct.equals("4")'>
