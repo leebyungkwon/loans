@@ -287,11 +287,14 @@ public class UtilExcel<T> {
 	                				int dupChkResult = userRegDupChk(userChkParam);
 		                			
 	                				if(dupChkResult > 0) {
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
+	                					/*
 	                					if(userChkParam.getPlProduct().equals("1") || userChkParam.getPlProduct().equals("3")) {
 	                						errorMsg += "대출 상품으로 기등록된 데이터가 존재합니다.<br>";
 	                					}else {
 	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
 	                					}
+	                					*/
                 					}
 	                			}
 	                		}

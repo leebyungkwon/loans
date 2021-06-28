@@ -47,7 +47,7 @@
 	[공통]<br />
 	- 구분 : 신규 = 1 / 경력 = 2<br />
 	- 금융상품유형 : 등록하고자 하는 금융상품유형이 복수인 경우 개별 건별로 신청서 작성<br />
-	- 금융상품유형별 코드 : <span class="red">대출 = 1 / 시설대여,할부,유사상품 = 2 / 기타 대출성 상품 = 3 (등록시스템 전체 적용)</span><br />
+	- 금융상품유형별 코드 : <span class="red">대출 = 1 / 리스 = 2 / TM대출 = 3 / TM리스 = 4 (등록시스템 전체 적용)</span><br />
 	- 주민등록번호, 법인등록번호, 휴대폰번호, 일자 입력 시 중간에 “-” 입력<br />
 	- 주소,본점소재지 코드 : 서울 = 1 / 경기 = 2 / 충청북도 = 3 / 충청남도 = 4 / 강원도 = 5<br />
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;경상북도 = 6 / 경상남도 = 7 / 전라북도 = 8 / 전라남도 = 9 / 인천 = 10<br />
