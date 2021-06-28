@@ -69,8 +69,7 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	/*
-	//토큰 발급 -> kfb_api_key 테이블에서 select하는 방식으로 변경(2021.06.28)
+	//토큰 발급
 	public String getAuthToken() {
 		
 		String authToken 		= "";
@@ -115,7 +114,6 @@ public class KfbApiService {
 		
 		return authToken;
 	}
-	*/
 	
 	//요청 이력 등록
 	@Transactional
@@ -127,6 +125,12 @@ public class KfbApiService {
 	@Transactional
 	public void insertKfbApiResLog(KfbApiDomain kfbApiDomain) {
 		kfbApiRepo.insertKfbApiResLog(kfbApiDomain);
+	}
+	
+	//은행연합회 토큰 조회
+	@Transactional(readOnly=true)
+	public String selectKfbApiKey() {
+		return kfbApiRepo.selectKfbApiKey();
 	}
 	
 	/* -------------------------------------------------------------------------------------------------------
@@ -361,9 +365,11 @@ public class KfbApiService {
 	
 	
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 은행연합회 API 연동 > 샘플
+	 * -------------------------------------------------------------------------------------------------------
+	 */
 	
-	
-	// 공통 샘플
 	public ResponseMsg commonKfbApi(String authToken, JsonObject reqParam, String apiNm, String methodType) {
 		
         Map<String, Object> msgMap = new HashMap<String, Object>();
@@ -432,8 +438,6 @@ public class KfbApiService {
 	        System.out.println("not JSON Format response");
 	        e.printStackTrace();
 	    }
-	    
 	    return new ResponseMsg(HttpStatus.OK, successCheck, msgMap);
-		
 	}
 }

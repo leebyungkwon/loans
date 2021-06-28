@@ -19,14 +19,14 @@ public interface KfbApiRepository {
 	//응답 이력 등록
 	int insertKfbApiResLog(KfbApiDomain kfbApiDomain);
 	
-	//은행연합회 api_key_insert 배치
+	//은행연합회 토큰 저장
 	void insertKfbApiKey(String key);
 	
-	//은행연합회 api_key 조회
+	//은행연합회 토큰 조회
 	String selectKfbApiKey();
 	
 	//회원정보 수정 - 은행연합회에서 전달받은 등록번호 update
-	int updateKfbApiByUserInfo(UserDomain userDomain);
+	//int updateKfbApiByUserInfo(UserDomain userDomain);
 	
 	
 }
