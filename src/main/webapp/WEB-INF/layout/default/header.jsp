@@ -17,14 +17,14 @@
 					<img src="/static/images/common/top_logo_ov.png" alt="" />
 				</a>
 			</h1>
-			<sec:authorize access="isAuthenticated()">
+			<c:if test="${sessionScope.member ne null }">
 				<div class="log_menu">
 					<span>${member.memberName }님</span>
 					<div class="logout">
 						<a href="/logout">로그아웃</a>
 					</div>
 				</div>
-			</sec:authorize>
+			</c:if>
 		</div>
 	</div>
 	
