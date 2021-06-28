@@ -202,8 +202,15 @@ public class UtilExcel<T> {
 	                			}else if(chkDb.get(j).equals("edu3")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				String[] plMZId = cellVal.split("-");
-		                			String birth 	= plMZId[0];
-		                			String gender 	= plMZId[1].substring(0, 1);
+	                				String birth 	= "";
+	                				String gender 	= "";
+	                				
+	                				if(plMZId == null) {
+	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 주민번호가 유효하지 않습니다.<br>";
+	                				}else {
+	                					birth 	= plMZId[0];
+			                			gender 	= plMZId[1].substring(0, 1);
+	                				}
 	                				eduChkParam.setUserBirth(birth);
 	                				eduChkParam.setUserSex(gender);
 	                			}else if(chkDb.get(j).equals("edu4")) {
