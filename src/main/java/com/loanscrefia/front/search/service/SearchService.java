@@ -40,7 +40,6 @@ public class SearchService {
 		
 		//데이터 복호화해서 검색어와 비교
 		String rPlMZId 		= CryptoUtil.decrypt(result.getPlMZId());
-		//String rPlMZId 		= result.getPlMZId();
 		String rPlMZIdFront = rPlMZId.substring(0, 6);
 		String rPlMZIdEnd	= rPlMZId.substring(6);
 		String rGender 		= "";
@@ -53,7 +52,6 @@ public class SearchService {
 		
 		if(plMZIdFront.equals(rPlMZIdFront) && gender.equals(rGender)) {
 			return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
-			//return new ResponseMsg(HttpStatus.OK, "success", (int)result.getMasterSeq(), "");
 		}
 		return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
 	}
@@ -73,7 +71,7 @@ public class SearchService {
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
 		}
-		return new ResponseMsg(HttpStatus.OK, "success", (int)result.getMasterSeq(), "");
+		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 	}
 
 	//모집인 조회 : 개인
@@ -87,7 +85,7 @@ public class SearchService {
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
 		}
-		return new ResponseMsg(HttpStatus.OK, "success", (int)result.getMasterSeq(), "");
+		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 	}
 	
 	//모집인 조회 : 법인
@@ -100,7 +98,7 @@ public class SearchService {
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
 		}
-		return new ResponseMsg(HttpStatus.OK, "success", (int)result.getMasterSeq(), "");
+		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 	}
 	
 	//모집인 조회 결과
@@ -136,7 +134,6 @@ public class SearchService {
 		if(StringUtils.isNotEmpty(result.getPlMZId())) {
 			//주민번호
 			String plMZId 			= CryptoUtil.decrypt(result.getPlMZId());
-			//String plMZId 			= result.getPlMZId();
 			String plMZIdFront		= plMZId.substring(0, 6);
 			String plMZIdEnd		= plMZId.substring(6);
 			plMZId 					= plMZIdFront + "-" + plMZIdEnd;

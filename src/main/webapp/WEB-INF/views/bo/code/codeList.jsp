@@ -31,8 +31,9 @@ function pageLoad(){
 	
 	//코드마스터 저장
 	$("#codeMstSaveBtn").on("click",function(){
-		var params = $('#codeMstSave').serialize();
-		var url = $('#codeMstSave').attr("action");
+		var params 	= $("#codeMstSave").serialize();
+		var url 	= $("#codeMstSave").attr("action");
+		
 		var p = {
 			url		: url
 			,param 		: params
@@ -45,10 +46,11 @@ function pageLoad(){
 	
 	//코드상세 저장
 	$("#codeDtlSaveBtn").on("click",function(){
-		var params = $('#codeDtlSave').serialize();
-		var url = $('#codeDtlSave').attr("action");
+		var params 	= $("#codeDtlSave").serialize();
+		var url 	= $("#codeDtlSave").attr("action");
+		
 		var p = {
-			url		: url
+			 url		: url
 			,param 		: params
 			,success	: function(opt,result){
 				codeDtlGrid.refresh();
@@ -147,7 +149,7 @@ function goCodeDtlInfo(idx, data){
 			<h2>코드마스터 저장</h2>
 		</div>
 		<div class="info_box" style="height: 270px;">
-			<form name="codeMstSave" action="/system/code/codeMstSave" method="POST">
+			<form name="codeMstSave" id="codeMstSave" action="/system/code/codeMstSave" method="POST">
 				<input type="hidden" name="saveType" id="codeMstCdSaveType" value="reg"/>
 			
 				<table class="info_box_table">
@@ -184,7 +186,7 @@ function goCodeDtlInfo(idx, data){
 			<h2>코드상세 저장</h2>
 		</div>
 		<div class="info_box" style="height: 270px;">
-			<form name="codeDtlSave" action="/system/code/codeDtlSave" method="POST">
+			<form name="codeDtlSave" id="codeDtlSave" action="/system/code/codeDtlSave" method="POST">
 				<input type="hidden" name="saveType" id="codeDtlCdSaveType" value="reg"/>
 				<input type="hidden" name="codeMstCd" id="hCodeMstCd"/>
 			

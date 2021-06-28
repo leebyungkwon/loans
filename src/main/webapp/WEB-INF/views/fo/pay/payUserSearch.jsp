@@ -35,10 +35,11 @@ function pageLoad() {
 function goPayUserSearch() {
 	var tabIndex 	= $(".tap_wrap > ul > li.on").index();
 	var formNm 		= $("form").eq(tabIndex).attr("name");
-	var params = $('#'+formNm).serialize();
-	var url = $('#'+formNm).attr("action");
+	var params 		= $("#"+formNm).serialize();
+	var url 		= $("#"+formNm).attr("action");
+	
 	var p = {
-		url		: url
+		 url		: url
 		,param 		: params
 		,success	: function(opt,result){
 			if(result.code != "fail"){
@@ -46,7 +47,6 @@ function goPayUserSearch() {
 			}
 		}
 	}
-	
 	AjaxUtil.post(p);
 }
 
@@ -63,10 +63,10 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 	<div class="tap_wrap">
 		<ul>
 			<li class="on">
-				<a href="javascipt:void(0);">개인</a>
+				<a href="javascript:void(0);">개인</a>
 			</li>
 			<li>
-				<a href="javascipt:void(0);">법인</a>
+				<a href="javascript:void(0);">법인</a>
 			</li>
 		</ul>
 	</div>

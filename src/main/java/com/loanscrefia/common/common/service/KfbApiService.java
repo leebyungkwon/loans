@@ -69,7 +69,8 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	//토큰 발급
+	/*
+	//토큰 발급 -> kfb_api_key 테이블에서 select하는 방식으로 변경(2021.06.28)
 	public String getAuthToken() {
 		
 		String authToken 		= "";
@@ -114,6 +115,7 @@ public class KfbApiService {
 		
 		return authToken;
 	}
+	*/
 	
 	//요청 이력 등록
 	@Transactional

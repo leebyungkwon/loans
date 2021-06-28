@@ -19,11 +19,11 @@ function pageLoad() {
 //결제 테스트
 function goPayTest() {
 	if(confirm("결제 후 환불은 불가능 합니다.\n계속 진행하시겠습니까?")){
+		var params 	= $("#payTestFrm").serialize();
+		var url 	= $("#payTestFrm").attr("action");
 		
-		var params = $('#payTestFrm').serialize();
-		var url = $('#payTestFrm').attr("action");
 		var p = {
-			url		: url
+			 url		: url
 			,param 		: params
 			,success	: function(opt,result){
 				if(result.data){
@@ -40,7 +40,7 @@ function goPayTest() {
 </script>
 
 <!-- 결제 테스트 -->
-<form name="payTestFrm" method="post" action="/front/pay/payTest">
+<form name="payTestFrm" id="payTestFrm" method="post" action="/front/pay/payTest">
 	<input type="hidden" name="orderNo" value="ORDNO"/>
 	<input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/>
 	<input type="hidden" name="payType" value="CARD"/>
