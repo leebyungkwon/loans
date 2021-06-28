@@ -46,10 +46,10 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="교육이수번호", vCell="J", vLenMin=10, vLenMax=30, chkDb="edu5")
 	private String plEduNo;			//교육이수번호
 	
-	@ExcelColumn(headerName="경력시작일", vCell="K", vLenMin=10, vLenMax=10, chkFormat="cal")
+	@ExcelColumn(headerName="경력시작일", vCell="K", vLenMin=0, vLenMax=10) //, chkFormat="cal"
 	private String careerStartDate;	//경력시작일
 	
-	@ExcelColumn(headerName="경력종료일", vCell="L", vLenMin=10, vLenMax=10, chkFormat="cal")
+	@ExcelColumn(headerName="경력종료일", vCell="L", vLenMin=0, vLenMax=10) //, chkFormat="cal"
 	private String careerEndDate;	//경력종료일
 	
 	@ExcelColumn(headerName="계약일자", vCell="M", vLenMin=10, vLenMax=10, chkFormat="cal")
