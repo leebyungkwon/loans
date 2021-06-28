@@ -11,15 +11,14 @@ function pageLoad(){
   		, url			: "/admin/crefia/crefiaList"
 	    , width			: "100%"
 	    , check			: true
-  		, headCol		: ["번호", "그룹", "이름", "아이디", "등록일", ""]
+  		, headCol		: ["", "그룹", "이름", "아이디", "등록일"]
   		, bodyCol		: 
   			[
-				{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10%"		, id:true}
-				,{type:"string"	, name:'creGrpNm'		, index:'creGrpNm'			, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'memberName'		, index:'memberName'		, width:"30%"		, align:"center"}
-				,{type:"string"	, name:'memberId'		, index:'memberId'			, width:"20%"		, align:"center"}
-				,{type:"string"	, name:'joinDt'			, index:'joinDt'			, width:"20%"		, align:"center"}
-				,{type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10%"		, hidden:true}
+				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'			, width:"10%"		, id:true	, hidden:true}
+				,{type:"string"	, name:'creGrpNm'		, index:'creGrpNm'			, width:"15%"		, align:"center"		 }
+				,{type:"string"	, name:'memberName'		, index:'memberName'		, width:"30%"		, align:"center"		 }
+				,{type:"string"	, name:'memberId'		, index:'memberId'			, width:"20%"		, align:"center"		 }
+				,{type:"string"	, name:'joinDt'			, index:'joinDt'			, width:"20%"		, align:"center"		 }
 			]
 		, sortNm 		: "member_seq"
 		, sort 			: "DESC"

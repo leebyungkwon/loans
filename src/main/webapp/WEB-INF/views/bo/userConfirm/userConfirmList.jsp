@@ -11,28 +11,27 @@ function pageLoad(){
 		  id			: "userConfirmGrid"
   		, url			: "/member/confirm/userConfirmList"
 	    , width			: "100%"
-  		, headCol		: ["번호", /*"접수번호",*/ "", "모집인 상태", "","처리상태", "", "모집인 분류", "법인사용인 여부", "금융상품 유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "모집인 등록번호", "승인완료일", "결제완료일", "자격취득일"]
+  		, headCol		: ["", "접수번호", "", "모집인<br>상태", "","처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
-				//,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plRegStat'		, index:'plRegStat'			, width:"10%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plRegStatNm'	, index:'plRegStatNm'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"10%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
+				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
+				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'plRegStat'		, index:'plRegStat'			, width:"0%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plRegStatNm'	, index:'plRegStatNm'		, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"0%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"9%"		, align:"center"}
+				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'creAppDate'		, index:'creAppDate'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'payRegDate'		, index:'payRegDate'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'creLicenseDate'	, index:'creLicenseDate'	, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'creAppDate'		, index:'creAppDate'		, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'payRegDate'		, index:'payRegDate'		, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'creLicenseDate'	, index:'creLicenseDate'	, width:"8%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
@@ -194,7 +193,7 @@ function goGetDate(opt) {
 					</td>
 				</tr>
 				<tr>
-					<th>모집인 등록번호</th>
+					<th>접수번호</th>
 					<td class="">
 						<input type="text" name="masterToId">
 					</td>

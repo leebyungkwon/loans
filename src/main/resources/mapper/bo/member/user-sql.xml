@@ -187,6 +187,7 @@
    		(
    			SELECT 
 		    	 TLM.MASTER_SEQ
+		    	,TLM.MASTER_TO_ID
 				,TLM.COM_CODE
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 				,TLM.MEMBER_SEQ
@@ -395,6 +396,9 @@
 			</if>
 	    	<if test="plStat != null and plStat != ''">
 				AND Z.PL_STAT 		= #{plStat}
+			</if>
+			<if test="masterToId != null and masterToId != ''">
+				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
 			</if>
 			<if test="srchDate1 != null and srchDate1 != ''">
 				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP

@@ -12,25 +12,26 @@ function pageLoad(){
   		, url			: "/member/user/userRegList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
-  		, headCol		: ["번호", "담당자", "", "모집인분류", "법인사용인<br>여부", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "", "승인상태"]
+  		, headCol		: ["", "접수번호", "담당자", "", "모집인<br>분류", "법인사용인<br>여부", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "첨부서류", "", "승인상태"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
-				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
+				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
+				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"0%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"9%"		, align:"center"}
+				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"16%"		, align:"center"}
+				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"17%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"13%"		, align:"center"}
 				,{type:"string"	, name:'fileCompYn'		, index:'fileCompYn'		, width:"0%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
-				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
@@ -341,6 +342,12 @@ function goGetDate(opt) {
 					<th>법인번호</th>
 					<td class="">
 						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
+					</td>
+				</tr>
+				<tr>
+					<th>접수번호</th>
+					<td class="">
+						<input type="text" name="masterToId">
 					</td>
 				</tr>
 				<tr>

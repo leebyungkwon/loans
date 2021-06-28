@@ -7,34 +7,34 @@
 var noticeListGrid = Object.create(GRID);
 
 function pageLoad(){
-
+	//공지사항 그리드
 	noticeListGrid.set({
 		  id      	 	: "noticeListGrid"
 		, url      	 	: "/common/board/noticeList"
 		, width     	: "100%"
-		, headCol   : ["번호", "제목", "조회수", "등록일"]
-		, bodyCol   : 
-		[
-			 {type:"string"		, name:'noticeSeq'		, index:'noticeSeq'			, width:"10%"		, align:"center" 	, id:true }		// No.
-			,{type:"string"		, name:'title'				, index:'title'			, width:"60%"		, align:"left"					}	// 제목
-			,{type:"string"		, name:'viewCnt'			, index:'viewCnt'		, width:"15%"		, align:"center"				}	// 조회수
-			,{type:"string"		, name:'regTimestamp'	, index:'regTimestamp'		, width:"15%"		, align:"center"				}	// 등록일
-		]
-			, sortNm 	: "notice_seq"
-			, sort 	: "DESC"
-			, size 	: 10
-			, gridSearch : "searchDiv,searchBtn"
-			, rowClick : {retFunc : detailPop}
-			, isPaging : true
+		, headCol   	: ["", "제목", "조회수", "등록일"]
+		, bodyCol   	: 
+			[
+				 {type:"string"		, name:'noticeSeq'		, index:'noticeSeq'		, width:"10%"		, align:"center" 	, id:true , hidden:true}
+				,{type:"string"		, name:'title'			, index:'title'			, width:"60%"		, align:"left"							   }
+				,{type:"string"		, name:'viewCnt'		, index:'viewCnt'		, width:"15%"		, align:"center"						   }
+				,{type:"string"		, name:'regTimestamp'	, index:'regTimestamp'	, width:"15%"		, align:"center"						   }
+			]
+		, sortNm 		: "notice_seq"
+		, sort 			: "DESC"
+		, size 			: 10
+		, gridSearch 	: "searchDiv,searchBtn"
+		, rowClick 		: {retFunc : detailPop}
+		, isPaging 		: true
 	});
 	
+	//등록 버튼 클릭 이벤트
 	$("#noticeWriteBtn").on("click", function(){
 		$("#noticeRegFrm").submit();
 	});
-
 }
 
-//AdminDetail 페이지로 이동
+//공지사항 row 클릭 이벤트
 function detailPop(idx, data){
 	var noticeSeq = noticeListGrid.gridData[idx].noticeSeq;
 	$("#hNoticeSeq").val(noticeSeq);

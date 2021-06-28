@@ -11,10 +11,11 @@ function pageLoad(){
 		  id			: "applyGrid"
   		, url			: "/admin/apply/applyList"
 	    , width			: "100%"
-  		, headCol		: ["번호", "회원사", "", "담당자명","모집인 분류", "법인사용인<br>여부", "금융상품유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "승인상태"]
+  		, headCol		: ["", "접수번호", "회원사", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "승인상태"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true}
+				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
+				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"12%"		, align:"center"}
 				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}

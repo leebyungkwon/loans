@@ -138,7 +138,9 @@
 			<if test="plMZId != null and plMZId != ''">
 				AND Z.PL_M_Z_ID = #{plMZId}
 			</if>
-			
+			<if test="masterToId != null and masterToId != ''">
+				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+			</if>
 			<if test="srchDate1 != null and srchDate1 != ''">
 				AND Z.COM_REG_DATE 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
