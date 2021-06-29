@@ -131,7 +131,7 @@ var Valid = {
     },
 
  	fileCheck: function(fileSize, ext, excelYn){
-		var maxSize = 7 * 1024 * 1024; //50mb
+		var maxSize = 50 * 1024 * 1024; //50MB
 		if(fileSize > maxSize){
 			alert("50MB 이하의 파일만 업로드 가능합니다.");
 			return false;	

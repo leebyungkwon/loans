@@ -60,9 +60,10 @@ $(document).on("change",".inputFile",function(){
 		var fileName 	= fileVal[fileVal.length - 1];
 		$(this).prev().val(fileName);
 		
-		//첨부파일 확장자 체크
+		//첨부파일 크기 및 확장자 체크
+		var size 	= $(this)[0].files[0].size;
 		var ext 	= fileName.split(".").pop().toLowerCase();
-		if(!Valid.fileCheck(ext,"N")){
+		if(!Valid.fileCheck(size,ext,"N")){
 			$(this).val("");
 			$(this).prev().val("");
 		}
@@ -394,7 +395,7 @@ function goViolationAdd(obj){
 	html += '<th>위반이력사항</th>';
 	html += '<td colspan="3">';
 	html += '<select name="violationCdArr" class="violationCd"></select>';
-	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> ';
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '; //공백 제거 금지
 	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
 	html += '</td>';
 	html += '</tr>';
@@ -429,7 +430,7 @@ function goViolationDataDel(violationSeq,obj){
 				if(violationAreaLen == 0){
 					goViolationAdd(obj);
 				}else{
-					$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> ');
+					$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
 				}
 		    }
 		}

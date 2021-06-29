@@ -111,7 +111,7 @@ function goUserChangeApply(){
 						<th>회원사</th>
 						<td>${result.userRegInfo.comCodeNm }</td>
 						<th>담당자</th>
-						<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }, ${result.userRegInfo.mobileNo })</td>
+						<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }<c:if test="${result.userRegInfo.mobileNo ne null && result.userRegInfo.mobileNo ne '' }">, ${result.userRegInfo.mobileNo }</c:if>)</td>
 					</tr>
 					<tr>
 						<th>모집인 상태</th>
