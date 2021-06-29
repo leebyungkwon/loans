@@ -188,8 +188,8 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
-					/*
 					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X?
+					/*
 					String apiToken = kfbApiService.selectKfbApiKey();
 					
 					for(int i = 0;i < excelResult.size();i++) {
@@ -203,7 +203,11 @@ public class UserService {
 						
 						System.out.println("JsonObject >> "+reqParam);
 						
-						kfbApiService.checkLoan(apiToken, reqParam);
+						ResponseMsg apiResult = kfbApiService.checkLoan(apiToken, reqParam);
+						
+						if(apiResult.getCode().equals("success")) {
+							
+						}
 					}
 					*/
 					
