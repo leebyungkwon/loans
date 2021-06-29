@@ -36,7 +36,7 @@ function goUserChangeApplyPage(){
 					<th>회원사</th>
 					<td>${result.userRegInfo.comCodeNm }</td>
 					<th>담당자</th>
-					<td>${result.userRegInfo.memberNm } (<a href="${result.userRegInfo.email }">${result.userRegInfo.email }</a>, ${result.userRegInfo.mobileNo })</td>
+					<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }, ${result.userRegInfo.mobileNo })</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>

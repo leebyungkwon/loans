@@ -187,7 +187,7 @@ function goApplyImprove(num){
 					<th>회원사</th>
 					<td>${result.applyInfo.comCodeNm }</td>
 					<th>담당자</th>
-					<td>${result.applyInfo.memberNm } (<a href="${result.applyInfo.email }">${result.applyInfo.email }</a>, ${result.applyInfo.mobileNo })</td>
+					<td>${result.applyInfo.memberNm } (${result.applyInfo.email }, ${result.applyInfo.mobileNo })</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>

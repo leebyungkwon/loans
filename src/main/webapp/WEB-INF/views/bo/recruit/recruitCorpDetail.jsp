@@ -144,7 +144,7 @@ function goRecruitImprove(rePlStat){
 					<th>회원사</th>
 					<td>${result.recruitInfo.comCodeNm }</td>
 					<th>담당자</th>
-					<td>${result.recruitInfo.memberNm } (<a href="${result.recruitInfo.email }">${result.recruitInfo.email }</a>, ${result.recruitInfo.mobileNo })</td>
+					<td>${result.recruitInfo.memberNm } (${result.recruitInfo.email }, ${result.recruitInfo.mobileNo })</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>
