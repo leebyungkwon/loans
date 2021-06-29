@@ -955,6 +955,6 @@ create table kfb_api_key(
 	ins_dt varchar(8) not null
 	, key varchar(200) not null
 	, upd_timestamp timestamp not null
-	PRIMARY KEY(ins_dt)
+	, PRIMARY KEY(ins_dt)
 );
 

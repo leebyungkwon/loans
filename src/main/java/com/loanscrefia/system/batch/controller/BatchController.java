@@ -78,8 +78,8 @@ public class BatchController {
     */
 	
 	
-	//매일0시0분
-	@Scheduled(cron = "0 0 0 * * *")
+	//매일0시1분
+	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "apiKeyConnection")
     public void apiKeyConnection() {
     	log.info("================ apiKeyConnection() START ================");

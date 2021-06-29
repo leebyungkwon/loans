@@ -54,6 +54,11 @@ let GRID = {
 		this.check = (obj.check == undefined) ? false : obj.check;
 		this.excel = (obj.excel == undefined) ? false : obj.excel;
 		this.initTable = (obj.initTable == undefined) ? true : obj.initTable;
+		
+		// 2021-06-28 엑셀다운로드 파일명 설정
+		this.excelBtnName = (obj.excelBtnName == undefined) ? "엑셀다운로드" : obj.excelBtnName;
+		
+		
 		this.params = {
 			'page': this.page
 			, 'isPaging': this.isPaging
@@ -86,6 +91,14 @@ let GRID = {
 					var idCheck = $(this).closest(".k_search");
 					param = Object.assign({}, _this.params, WebUtil.getTagInParam(document.getElementById(idCheck.attr("id"))));
 				}
+				
+				// 2021-06-28 엑셀다운로드 파일명 설정
+				param.excelBtnName = this.excelBtnName;
+				
+				console.log("###########" , this.excelBtnName);
+				
+				console.log("엑셀 파라미터" , param);
+				
 				let p = {
 					url: _this.excel
 					, param: param

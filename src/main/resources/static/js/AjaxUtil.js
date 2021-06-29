@@ -124,6 +124,9 @@ var AjaxUtil = {
 		    const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
 		    const link = document.createElement('a');
 		    link.href = url;
+		    
+		    console.log("엑셀다운로드 response == " , response);
+		    
 		    link.setAttribute('download', 'test.xlsx');
 		    document.body.appendChild(link);
 		    link.click();

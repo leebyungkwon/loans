@@ -120,6 +120,30 @@
 			,UPD_SEQ				=	#{updSeq}										/*수정자 시퀀스*/
 			,UPD_TIMESTAMP	=	NOW()											/*수정 일시*/
 			,FILE_SEQ				=	#{fileSeq}										/*첨부파일ID*/
+			<if test="memberId != null and memberId != ''">
+				,MEMBER_ID				= #{memberId}						/*담당자ID*/
+			</if>
+			<if test="password != null and password != ''">
+				,PASSWORD				= #{password}						/*패스워드*/
+			</if>
+			<if test="deptNm != null and deptNm != ''">
+				,DEPT_NM				= #{deptNm}						/*부서명*/
+			</if>
+			<if test="memberName != null and memberName != ''">
+				,MEMBER_NAME			= #{memberName}						/*담당자이름*/
+			</if>
+			<if test="positionNm != null and positionNm != ''">
+				,POSITION_NM			= #{positionNm}						/*직위명*/			
+			</if>
+			<if test="email != null and email != ''">
+				,EMAIL					= #{email}						/*이메일*/
+			</if>
+			<if test="extensionNo != null and extensionNo != ''">
+				,EXTENSION_NO			= REPLACE(#{extensionNo}, '-', '')	/*회사전화번호*/
+			</if>
+			<if test="mobileNo != null and mobileNo != ''">
+				,MOBILE_NO				= REPLACE(#{mobileNo}, '-', '')		/*휴대폰번호*/
+			</if>
 		WHERE
 			MEMBER_SEQ = #{memberSeq}
 	</update>

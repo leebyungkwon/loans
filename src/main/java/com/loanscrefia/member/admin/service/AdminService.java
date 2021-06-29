@@ -42,9 +42,6 @@ public class AdminService {
     	adminDomain.setPassword(passwordEncoder.encode(adminDomain.getPassword()));
     	String memCheck = adminDomain.getTempMemberCheck();
     	adminDomain = AdminRepository.saveAdminUpdate(adminDomain);
-    	
-    	
-    	
     	if("Y".equals(memCheck)) {
     		return new ResponseMsg(HttpStatus.OK, "COM0001", "정보변경이 완료되었습니다. \n재승인을 요청해 주세요. \n승인 후에 로그인 가능합니다.");
     	}else {
@@ -70,6 +67,8 @@ public class AdminService {
 	// 재승인 요청
 	@Transactional
 	public int reAppr(AdminDomain adminDomain) {
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	adminDomain.setPassword(passwordEncoder.encode(adminDomain.getPassword()));
 		return AdminRepository.reAppr(adminDomain);
 	}
 	

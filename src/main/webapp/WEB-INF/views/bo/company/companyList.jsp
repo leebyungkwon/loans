@@ -30,6 +30,7 @@ function pageLoad(){
 		, rowClick		: {color:"#ccc", retFunc : companyDetail}
 		, gridSearch 	: "search,searchBtn"
 		, excel 		: "/admin/mng/excelDown"
+		, excelBtnName	: "회원사담당자관리"
 		, isPaging 		: true
 		, size 			: 10
 	});
