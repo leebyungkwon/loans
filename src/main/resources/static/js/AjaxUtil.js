@@ -127,12 +127,19 @@ var AjaxUtil = {
     		headers: {"Content-Type": "application/json"},
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
-		    const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
-		    const link = document.createElement('a');
-		    link.href = url;
-		    link.setAttribute('download', excelBtnName+'.xlsx');
-		    document.body.appendChild(link);
-		    link.click();
+			
+			// 2021-06-29 IE 엑셀다운로드 수정
+		    if(window.navigator.msSaveOrOpenBlob){
+				var aa = new Blob([response.data]);
+				window.navigator.msSaveBlob(aa, excelBtnName+'.xlsx');
+			}else{
+				const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));	
+			    const link = document.createElement('a');
+			    link.href = url;
+			    link.setAttribute('download', excelBtnName+'.xlsx');
+			    document.body.appendChild(link);
+			    link.click();
+			}
         })
         /*
         .catch(function(error) {
