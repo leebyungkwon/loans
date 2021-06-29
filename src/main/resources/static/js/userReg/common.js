@@ -428,6 +428,8 @@ function goViolationDataDel(violationSeq,obj){
 				var violationAreaLen = $(".violationArea").length;
 				if(violationAreaLen == 0){
 					goViolationAdd(obj);
+				}else{
+					$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> ');
 				}
 		    }
 		}
