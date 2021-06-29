@@ -55,11 +55,7 @@
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
 				,case
-					when pl_stat = '5' then
-											case
-												when CONCAT(replace((tlm.cre_app_fi_date::date + INTERVAL '0 day' - NOW()::date)::VARCHAR, ' days', ''), '일') = '일' then ''
-												else CONCAT(replace((tlm.cre_app_fi_date::date + INTERVAL '0 day' - NOW()::date)::VARCHAR, ' days', ''), '일')
-											end
+					when pl_stat = '5' then '-'
 					else
 						case
 							when CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일') = '일' then ''

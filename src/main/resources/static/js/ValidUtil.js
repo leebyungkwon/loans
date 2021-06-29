@@ -130,14 +130,19 @@ var Valid = {
     	
     },
 
- 	fileCheck: function(ext, excelYn){
+ 	fileCheck: function(fileSize, ext, excelYn){
+		var maxSize = 7 * 1024 * 1024; //50mb
+		if(fileSize > maxSize){
+			alert("50MB 이하의 파일만 업로드 가능합니다.");
+			return false;	
+		}
 		if(excelYn == "Y"){
 			if($.inArray(ext, ["xls", "xlsx"]) == -1) {
 				alert("엑셀파일만 첨부해 주세요.");
 				return false;
 			}
 		}else{
-			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "hwp", "doc", "docx", "txt", "zip"]) == -1) {
+			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "zip"]) == -1) {
 				alert("첨부파일 확장자를 확인해 주세요.");
 				return false;
 			}

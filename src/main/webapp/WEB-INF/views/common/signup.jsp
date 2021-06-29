@@ -145,7 +145,8 @@ function pageLoad(){
 	$("#u_file").on("change", function(){
 		var ext = $(this).val().split(".").pop().toLowerCase();
 		var excelYn = $(this).attr("data-excel");
-		if(!Valid.fileCheck(ext, excelYn)){
+		var fileSize = $("#u_file")[0].files[0].size;
+		if(!Valid.fileCheck(fileSize, ext, excelYn)){
 			return false;
 		}
 		

@@ -136,6 +136,17 @@ let GRID = {
 		}
 		this.init = false;
 		this.initTable = true;
+		
+		// 2021-06-29 조회 총 갯수 추가
+		$(".total_result p").remove();
+		var totCntTag = "";
+		if(data[0] != null){
+			totCntTag = "<p>총 : "+data[0].totalCnt+"건</p>";
+		}else{
+			totCntTag = "<p>총 : 0건</p>";
+		}
+		$(".total_result").append(totCntTag);
+		
 	},
 	setFrame: function() {
 		let _this = this;

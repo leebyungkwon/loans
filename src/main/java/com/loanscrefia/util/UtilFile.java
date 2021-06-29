@@ -461,7 +461,7 @@ public class UtilFile {
 	}
 
 	public enum All {
-		gif, bmp, png, jpg, jpeg, pdf, hwp, xls, xlsx, txt, doc, docx, zip
+		gif, bmp, png, jpg, jpeg, pdf, xls, xlsx, zip
 	}
 
 	public enum Excel {
