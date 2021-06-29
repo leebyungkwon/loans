@@ -110,6 +110,12 @@ var AjaxUtil = {
 		var loadYn = WebUtil.nvl(opt.loadYn, true);
         // 로딩바 열기
         this.openLoadBar(loadYn);
+        
+        // 2021-06-29 엑셀버튼명 추가
+        var excelBtnName = opt.param.excelBtnName;
+        if(WebUtil.isNull(excelBtnName)){
+			excelBtnName = "엑셀다운로드";
+		}
 
         param = JSON.stringify(opt.param);
         // ajax 호출
@@ -124,10 +130,7 @@ var AjaxUtil = {
 		    const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
 		    const link = document.createElement('a');
 		    link.href = url;
-		    
-		    console.log("엑셀다운로드 response == " , response);
-		    
-		    link.setAttribute('download', 'test.xlsx');
+		    link.setAttribute('download', excelBtnName+'.xlsx');
 		    document.body.appendChild(link);
 		    link.click();
         })
