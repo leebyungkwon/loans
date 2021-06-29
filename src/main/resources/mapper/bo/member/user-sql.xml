@@ -380,7 +380,7 @@
 				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
 			</if>
 			<if test="plMZId != null and plMZId != ''">
-				AND Z.PL_M_Z_ID LIKE = #{plMZId}
+				AND Z.PL_M_Z_ID = #{plMZId}
 			</if>
 			<if test="plCellphone != null and plCellphone != ''">
 				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
@@ -392,19 +392,19 @@
 				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
 			</if>
 			<if test="fileCompYn != null and fileCompYn != ''">
-				AND Z.FILE_COMP_YN 	= #{fileCompYn}
+				AND Z.FILE_COMP_YN = #{fileCompYn}
 			</if>
 	    	<if test="plStat != null and plStat != ''">
-				AND Z.PL_STAT 		= #{plStat}
+				AND Z.PL_STAT = #{plStat}
 			</if>
 			<if test="masterToId != null and masterToId != ''">
 				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
 			</if>
 			<if test="srchDate1 != null and srchDate1 != ''">
-				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+				AND Z.ORIGIN_REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
 			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.ORIGIN_REG_TIMESTAMP 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				AND Z.ORIGIN_REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 			</if>
 	    </where>
 	    <include refid="common.pageBottom"/>
