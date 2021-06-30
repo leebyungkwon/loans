@@ -42,6 +42,8 @@ public class KfbApiService {
 	
 	//API 서버 도메인							- 개발 : "172.16.123.10:43003"
 	public static String ApiDomain 			= "http://localhost:8080";
+	public static String ClientId 			= "ClientId"; 				//요청자 아이디
+	public static String ClientSecret		= "ClientSecret"; 			//요청자 비밀번호
 	
 	//개인
 	public static String CheckLoanUrl 		= ApiDomain+"/loan/v1/check-loan-consultants"; 		//GET(등록가능 여부 조회)
@@ -56,10 +58,11 @@ public class KfbApiService {
 	//위반이력
 	public static String ViolationUrl		= ApiDomain+"/loan/v1/violation-consultants"; 		//POST(등록),GET(조회),PUT(수정),DELETE(삭제)
 	
+	//Authorize Code 발급
+	public static String AuthCodeUrl		= ApiDomain+"/oauth/2.0/authorize";	//POST
+	
 	//토큰 발급
 	public static String TokenUrl			= ApiDomain+"/oauth/2.0/token";		//POST
-	public static String ClientId 			= "ClientId"; 						//요청자 아이디
-	public static String ClientPw 			= "ClientPw"; 						//요청자 비밀번호
 	
 	//금융기관 조회
 	public static String FinUrl				= ApiDomain+"/loan/v1/fin-info";	//GET
@@ -68,6 +71,52 @@ public class KfbApiService {
 	 * 은행연합회 API 연동 > 공통
 	 * -------------------------------------------------------------------------------------------------------
 	 */
+	
+	//Authorize Code 발급
+	public String getAuthCode() {
+		
+		String authCode 		= "";
+		
+		try {
+			//URL 설정
+			URL url 				= new URL(AuthCodeUrl);
+			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+	        
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json"); //요청
+			conn.setRequestProperty("Accept", "application/json"); //응답
+			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
+			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
+			conn.setDoOutput(true); //POST일때만
+			
+			//요청 결과
+			int responseCode = conn.getResponseCode();
+			
+			log.info("KfbApiService >> getAuthCode() > responseCode :: " + responseCode);
+			
+			if(responseCode == 200) {
+				BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				String line 		= "";
+				StringBuilder sb 	= new StringBuilder();
+				
+				while((line = br.readLine()) != null) {
+					sb.append(line);
+				}
+				
+				JSONObject responseJson = new JSONObject(sb.toString());
+				//authCode 				= responseJson.getString("authorize_code");
+				
+				log.info("KfbApiService >> getAuthCode() > responseJson :: " + responseJson);
+				log.info("KfbApiService >> getAuthCode() > authCode :: " + responseJson.getString("authorize_code"));
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return authCode;
+	}
 	
 	//토큰 발급
 	public String getAuthToken() {
@@ -83,7 +132,8 @@ public class KfbApiService {
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
-			conn.setRequestProperty("X-Kfb-User-Secret", ClientPw);
+			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
+			conn.setRequestProperty("Authorize_code", this.getAuthCode());
 			conn.setDoOutput(true); //POST일때만
 			
 			//요청 결과
