@@ -421,7 +421,7 @@
   				AND PL_CLASS 	= '1'
   				AND PL_PRODUCT 	= #{plProduct}
   				AND CI 			= #{ci}
-  				<if test='plProduct != null and !plProduct.equals("") and plProduct.equals("2")'>
+  				<if test='plProduct != null and !plProduct.equals("") and plProduct.equals("05")'>
   				AND COM_CODE	= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
   				</if>
 			</when>
@@ -429,7 +429,7 @@
 				AND PL_CLASS 	= '2'
 				AND PL_PRODUCT 	= #{plProduct}
 				AND CI 			= #{ci}
-				<if test='plProduct != null and !plProduct.equals("") and !plProduct.equals("1")'>
+				<if test='plProduct != null and !plProduct.equals("") and !plProduct.equals("01")'>
   				AND COM_CODE	= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
   				</if>
 			</when>
