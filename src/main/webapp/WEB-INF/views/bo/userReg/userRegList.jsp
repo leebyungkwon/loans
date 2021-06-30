@@ -144,9 +144,10 @@ function goFileNmShow(obj) {
 	var fileName 	= fileVal[fileVal.length - 1];
 	$("#userRegFile").prev().val(fileName);
 	
-	//첨부파일 확장자 체크
-	var ext = fileName.split(".").pop().toLowerCase();
-	if(!Valid.fileCheck(ext,"Y")){
+	//첨부파일 크기 및 확장자 체크
+	var size 	= $("#userRegFile")[0].files[0].size;
+	var ext 	= fileName.split(".").pop().toLowerCase();
+	if(!Valid.fileCheck(size,ext,"Y")){
 		$("#userRegFile").val("");
 		$("#userRegFile").prev().val("");
 	}
