@@ -154,7 +154,7 @@
 			 COM_CODE		AS CODE_DTL_CD
 			,COM_NAME		AS CODE_DTL_NM
 		FROM TB_LC_COMPANY
-		WHERE COM_CODE <![CDATA[!=]]> 1
+		WHERE COM_CODE <![CDATA[!=]]> 3000001
 		<choose>
 			<when test='creYn != null and !creYn.equals("") and creYn.equals("Y")'>
 				<if test='creGrp != null and !creYn.equals("") and creGrp.equals("1")'>

@@ -353,7 +353,7 @@
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				<if test='creGrp != "2"'>
-					AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+					AND	TLM.COM_CODE IN ('3000001',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 				</if>
 					AND TLM.PL_REG_STAT = '1'																	-- 모집인 상태가 승인전인 것
 					AND TLM.PL_STAT IN ('1','2','5','10')														-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것

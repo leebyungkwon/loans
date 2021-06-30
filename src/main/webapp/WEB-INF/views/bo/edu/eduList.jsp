@@ -14,15 +14,15 @@ function pageLoad(){
   		, headCol		: ["모집인 이름", "모집인 생년월일", "모집인 성별", "구분", "취급상품", "교육이수번호", "인증서번호", "수료일자", "등록일시"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'userName'		, index:'userName'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'userBirth'		, index:'userBirth'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'userSex'		, index:'userSex'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'careerTypNm'	, index:'careerTypNm'	, width:"15%"		, align:"center"}
+				 {type:"string"	, name:'userName'		, index:'userName'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'userBirth'		, index:'userBirth'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'userSex'		, index:'userSex'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'careerTypNm'	, index:'careerTypNm'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'processCd'		, index:'processCd'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'deplomaNo'		, index:'deplomaNo'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'examCertNo'		, index:'examCertNo'	, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'compDate'		, index:'compDate'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'createDate'		, index:'createDate'	, width:"10%"		, align:"center" , id:true}
+				,{type:"string"	, name:'deplomaNo'		, index:'deplomaNo'		, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'examCertNo'		, index:'examCertNo'	, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'compDate'		, index:'compDate'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'createDate'		, index:'createDate'	, width:"15%"		, align:"center" , id:true}
 			]
 		, sortNm 		: "CREATE_DATE"
 		, sort 			: "DESC"
@@ -51,7 +51,7 @@ function pageLoad(){
 					<td>
 						<input type="text" name="userName">
 					</td>
-					<th>교육이수번호</th>
+					<th>교육이수번호/인증서번호</th>
 					<td>
 						<input type="text" name="srchInput">
 					</td>

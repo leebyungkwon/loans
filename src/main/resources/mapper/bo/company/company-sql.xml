@@ -31,7 +31,7 @@
 			,TLM.UPD_TIMESTAMP
 			,TLM.MSG
 	    FROM TB_LC_MEMBERS TLM
-	    WHERE COM_CODE != 1
+	    WHERE COM_CODE != 3000001
 	    	<if test="comCode != null and comCode != ''">
 				AND	TLM.COM_CODE 	    = #{comCode}
 			</if>
@@ -107,7 +107,7 @@
 			,TO_CHAR(TLC.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 		FROM TB_LC_COMPANY TLC
 		<where>
-			AND TLC.COM_CODE <![CDATA[!=]]> 1
+			AND TLC.COM_CODE <![CDATA[!=]]> 3000001
 			<if test="comCode != null and comCode != ''">
 			AND TLC.COM_CODE = #{comCode}
 			</if>

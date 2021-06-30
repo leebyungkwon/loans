@@ -18,7 +18,7 @@
 			, MEM.CRE_GRP																				/*협회그룹*/
 			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
 		FROM TB_LC_MEMBERS MEM
-			WHERE MEM.COM_CODE = 1
+			WHERE MEM.COM_CODE = 3000001
 				AND MEM.DROP_YN = 'N'
 			<if test="memberId != null and memberId != ''">
 				AND MEMBER_ID LIKE CONCAT('%',#{memberId},'%')
@@ -47,7 +47,7 @@
 			, MEM.CRE_GRP																				/*협회그룹*/
 			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
 		FROM TB_LC_MEMBERS MEM
-			WHERE MEM.COM_CODE = 1
+			WHERE MEM.COM_CODE = 3000001
 			<if test="memberSeq != null and memberSeq != ''">
 				AND MEMBER_SEQ = #{memberSeq}
 			</if>
@@ -148,7 +148,7 @@
 			, MEM.DROP_YN																				/*담당자회원삭제여부*/
 			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
 		FROM TB_LC_MEMBERS MEM
-			WHERE MEM.COM_CODE 	= 1
+			WHERE MEM.COM_CODE 	= 3000001
 				AND MEM.DROP_YN 	= 'N'
 				AND MEM.CRE_YN		= 'Y'
 				AND MEM.CRE_GRP		= '1'
@@ -164,7 +164,7 @@
 		FROM TB_LC_COMPANY TLC
 		LEFT OUTER JOIN TB_LC_WORK TLW
 		ON TLC.COM_CODE = TLW.COM_CODE
-		WHERE TLC.COM_CODE <![CDATA[!=]]> 1
+		WHERE TLC.COM_CODE <![CDATA[!=]]> 3000001
 	</select>
 	
 	<!-- 협회 관리자 업무분장 - 등록  -->

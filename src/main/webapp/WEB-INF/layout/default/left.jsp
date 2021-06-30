@@ -53,7 +53,7 @@ function menuActiveFunction(){
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
 		<li id="menuRecruit"><a href="/admin/recruit/recruitPage">모집인 조회 및 변경</a></li>
 		<li id="menuApply"><a href="/admin/apply/applyPage">모집인 승인처리</a></li>
-		<li id=""><a href="javascript:alert('준비중입니다.');">타협회 내역 다운로드</a></li> 
+		<!-- <li id=""><a href="javascript:alert('준비중입니다.');">타협회 내역 다운로드</a></li> --> 
 		<li id="menuCompany"><a href="/admin/company/companyCodePage">회원사 관리</a></li> 
 		<li id="menuMng"><a href="/admin/mng/companyPage">회원사 담당자 관리</a></li>
 		<li id="menuCrefia"><a href="/admin/crefia/crefiaPage">협회 관리자 관리</a></li>
