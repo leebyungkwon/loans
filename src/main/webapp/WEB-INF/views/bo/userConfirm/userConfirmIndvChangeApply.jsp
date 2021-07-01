@@ -119,8 +119,8 @@ function goUserChangeApply(){
 						<th>결제여부</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.userRegInfo.plPayStat ne null }">
-									${result.userRegInfo.plPayStat } (국민카드 / 2021.10.20)
+								<c:when test="${!empty result.payResult}">
+									결제완료 (${result.payResult.name} / ${result.payResult.regTimestamp})
 								</c:when>
 								<c:otherwise>-</c:otherwise>
 							</c:choose>
