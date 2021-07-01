@@ -53,8 +53,26 @@ public class UserService {
 	//은행연합회
 	@Autowired private KfbApiService kfbApiService;
 	
+	//첨부파일 경로
 	@Value("${download.filePath}")
 	public String uPath;
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신 X(임시) -> 추후 조건문 주석
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	public boolean kfbApiContinue(String plProduct) {
+		
+		boolean kfbApiContinue = true;
+		
+		//03 : TM대출, 06 : TM리스
+		if(plProduct.equals("03") || plProduct.equals("06")) {
+			kfbApiContinue = false;
+		}
+		
+		return kfbApiContinue;
+	}
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 조회 및 변경
@@ -188,37 +206,77 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
-					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X?
+					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X
 					/*
 					String apiToken = kfbApiService.selectKfbApiKey();
+					String apiMsg 	= "";
 					
 					for(int i = 0;i < excelResult.size();i++) {
-						JsonObject reqParam = new JsonObject();
+						if(kfbApiContinue(excelResult.get(i).get("G").toString())) {
+							JsonObject checkLoanApiReqParam = new JsonObject();
 						
-						reqParam.addProperty("name", excelResult.get(i).get("B").toString());
-						reqParam.addProperty("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
-						reqParam.addProperty("ci", excelResult.get(i).get("O").toString());
-						reqParam.addProperty("loan_type", excelResult.get(i).get("G").toString());
-						
-						System.out.println("#########################################");
-						System.out.println("insertUserRegIndvInfoByExcel() >> JsonObject >> "+reqParam);
-						System.out.println("#########################################");
-						
-						ResponseMsg apiResult = kfbApiService.checkLoan(apiToken, reqParam);
-						
-						if(apiResult.getCode().equals("success")) {
-							//(2)은행연합회 통신(가등록)
-							JsonObject resResult = (JsonObject)apiResult.getData();
+							checkLoanApiReqParam.addProperty("name", excelResult.get(i).get("B").toString());
+							checkLoanApiReqParam.addProperty("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
+							checkLoanApiReqParam.addProperty("ci", excelResult.get(i).get("O").toString());
+							checkLoanApiReqParam.addProperty("loan_type", excelResult.get(i).get("G").toString());
+							
 							System.out.println("#########################################");
-							System.out.println("insertUserRegIndvInfoByExcel() >> resResult >> "+resResult);
+							System.out.println("insertUserRegIndvInfoByExcel() >> checkLoanApiReqParam >> "+checkLoanApiReqParam);
 							System.out.println("#########################################");
-						}else {
-							return apiResult;
+							
+							ResponseMsg checkLoanApiResult = kfbApiService.checkLoan(apiToken, checkLoanApiReqParam);
+							
+							if(checkLoanApiResult.getCode().equals("success")) {
+								//(2)등록이 가능할 때(reg_yn = "Y") 은행연합회 통신(가등록)
+								JsonObject checkLoanApiResponse = (JsonObject)checkLoanApiResult.getData();
+								System.out.println("#########################################");
+								System.out.println("insertUserRegIndvInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
+								System.out.println("#########################################");
+								
+								if(checkLoanApiResponse.get("reg_yn").toString().equals("Y")) {
+									JsonObject preLoanIndvApiReqParam = new JsonObject();
+									
+									checkLoanApiReqParam.addProperty("name", excelResult.get(i).get("B").toString());
+									checkLoanApiReqParam.addProperty("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
+									checkLoanApiReqParam.addProperty("ci", excelResult.get(i).get("O").toString());
+									checkLoanApiReqParam.addProperty("mobile", excelResult.get(i).get("D").toString());
+									
+									System.out.println("#########################################");
+									System.out.println("insertUserRegIndvInfoByExcel() >> preLoanIndvApiReqParam >> "+preLoanIndvApiReqParam);
+									System.out.println("#########################################");
+									
+									ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, preLoanIndvApiReqParam, "POST");
+									
+									if(preLoanIndvApiResult.getCode().equals("success")) {
+										JsonObject preLoanIndvApiResponse = (JsonObject)preLoanIndvApiResult.getData();
+										System.out.println("#########################################");
+										System.out.println("insertUserRegIndvInfoByExcel() >> preLoanIndvApiResponse >> "+preLoanIndvApiResponse);
+										System.out.println("#########################################");
+										
+										excelResult.get(i).put("preLcNum", preLoanIndvApiResponse.get("pre_lc_num").toString()); 	//가등록 번호
+										excelResult.get(i).put("preRegYn", preLoanIndvApiResponse.get("fee_yn").toString()); 		//수수료 기 납부 여부
+									}else {
+										return preLoanIndvApiResult;
+									}
+								}else {
+									//checkLoanApiResponse의 reg_yn = "N"일 때
+									apiMsg += "은행연합회 등록가능 여부 조회 결과 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님은 등록이 불가능합니다.";
+									return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+								}
+							}else {
+								return checkLoanApiResult;
+							}
 						}
 					}
 					*/
 					
-					//(3)
+					/*
+					if(apiMsg != null && !apiMsg.equals("")) {
+						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+					}
+					*/
+					
+					//(3)저장 : [TO-DO]insertUserRegIndvInfoByExcel 쿼리에 가등록 번호,수수료 기 납부 여부 파라미터 받는거 추가하기*****
 					userDomain.setExcelParam(excelResult);
 					int insertResult = userRepo.insertUserRegIndvInfoByExcel(userDomain);
 					
