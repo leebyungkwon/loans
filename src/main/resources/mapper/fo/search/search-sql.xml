@@ -38,8 +38,8 @@
 		<if test="masterToId != null and masterToId != ''">
 		AND TLM.MASTER_TO_ID	= #{masterToId}
 		</if>
-		<if test="plRegistNo != null and plRegistNo != ''">
-		AND TLM.PL_REGIST_NO	= #{plRegistNo}
+		<if test="conNum != null and conNum != ''">
+		AND TLM.CON_NUM			= #{conNum}
 		</if>
 		AND TLM.PL_CELLPHONE 	= #{plCellphone}
 		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 자격취득
@@ -55,8 +55,8 @@
 		<if test="masterToId != null and masterToId != ''">
 		AND TLM.MASTER_TO_ID		= #{masterToId}
 		</if>
-		<if test="plRegistNo != null and plRegistNo != ''">
-		AND TLM.PL_REGIST_NO		= #{plRegistNo}
+		<if test="conNum != null and conNum != ''">
+		AND TLM.CON_NUM				= #{conNum}
 		</if>
 		AND TLM.PL_MERCHANT_NAME 	= #{plMerchantName}
 		AND TLM.PL_REG_STAT 		= '3' 				-- 모집인상태 : 자격취득
@@ -85,6 +85,7 @@
 			,TLM.PL_STAT
 			,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
 			,TLM.PL_REGIST_NO
+			,TLM.CON_NUM
 			,TLM.CI
 			,TLM.PL_M_NAME
 			,TLM.PL_M_Z_ID
@@ -129,7 +130,10 @@
 	<update id="updatePlRegStat" parameterType="search">
 		UPDATE TB_LC_MAS01
 		SET
-			 PL_REG_STAT 	= '3'			-- 자격취득
+			 PL_REG_STAT 	= #{plRegStat}
+			<if test="conNum != null and conNum != ''">
+			,CON_NUM 		= #{conNum}		-- 은행연합회 계약번호
+			</if> 
 			,UPD_SEQ 		= #{updSeq}
 			,UPD_TIMESTAMP 	= NOW()
 		<where>

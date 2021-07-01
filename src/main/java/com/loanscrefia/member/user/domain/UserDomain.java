@@ -31,7 +31,8 @@ public class UserDomain extends BaseDomain {
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,리스,TM대출,TM리스
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
-	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보
+	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
+	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 5)
 	private String plMName;			//모집인이름
@@ -63,8 +64,8 @@ public class UserDomain extends BaseDomain {
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "자격취득일", order = 13)
 	private String creLicenseDate;	//자격취득일
-	@ExcelColumn(headerName = "결제완료일", order = 12)
 	private String plPayStat;		//결제상태							-> []
+	@ExcelColumn(headerName = "결제완료일", order = 12)
 	private String payDate;			//결제완료일
 	private String sendMsg;			//전달메세지
 	private String plHistCd;		//해지사유코드

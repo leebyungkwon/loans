@@ -16,6 +16,8 @@ public class SearchDomain extends BaseDomain {
 	private String masterToId;		//접수번호ID(조회)
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
+	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
+	private String preLcNum;		//가등록번호
 	private String plClass;			//분류							-> [CLS001]개인,법인
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
@@ -23,7 +25,8 @@ public class SearchDomain extends BaseDomain {
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
 	@ExcelColumn(headerName = "모집인등록번호", order = 9)
-	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보
+	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
+	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 4)
 	private String plMName;			//모집인이름

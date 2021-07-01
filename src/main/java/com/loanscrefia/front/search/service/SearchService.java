@@ -159,10 +159,17 @@ public class SearchService {
 		return result;
 	}
 	
-	//모집인 상태 변경 : 자격취득
+	//모집인 상태 변경
 	@Transactional
 	public int updatePlRegStat(SearchDomain searchDomain) {
-		return searchRepo.updatePlRegStat(searchDomain);
+		
+		int updateResult = searchRepo.updatePlRegStat(searchDomain);
+		
+		if(updateResult > 0) {
+			this.insertSearchUserStepHistory(searchDomain);
+		}
+		
+		return updateResult;
 	}
 	
 	//모집인 정보 단계별(STATUS) 이력 저장
