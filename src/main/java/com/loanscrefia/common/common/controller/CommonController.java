@@ -29,9 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 
@@ -47,6 +50,9 @@ public class CommonController {
 	@Autowired ResourceLoader resourceLoader;
 	@Value("${download.filePath}")
 	public String filePath;
+	
+	@Autowired
+	private KfbApiService kfbApiService;
 	
 	@GetMapping(value="/isConnecting")
 	public ResponseEntity<ResponseMsg> isConnecting(HttpServletRequest request){
@@ -143,46 +149,6 @@ public class CommonController {
 		}
 	}
 	
-	/*
-	// 첨부파일 다운로드
-	@PostMapping("/common/testFileDown")
-	public ResponseEntity<Resource> fileDown(@RequestParam int fileSeq, @RequestHeader("User-Agent") String userAgent,  HttpServletRequest request, HttpServletResponse response) throws IOException {
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		FileDomain fileDomain = new FileDomain();
-		fileDomain.setFileSeq(fileSeq);
-
-		// 첨부파일번호가 하나인 경우
-		FileDomain getFile = commonService.getFile(fileDomain);
-		String fileName = getFile.getFileSaveNm()+ "." + getFile.getFileExt();
- 		try {
- 			
- 			Resource resource = resourceLoader.getResource("classpath:\\static\\upload\\"+getFile.getFilePath()+"\\"+ fileName);
- 			//파일이 없는 경우 fileNotFoundException error가 난다.
- 			File resultFile = resource.getFile();
- 			
- 			String orgfileName = getFile.getFileOrgNm()+ "." + getFile.getFileExt();
-			String downloadName = URLEncoder.encode(orgfileName,"UTF-8").replace("\\+", "%20");
-			
-			String tempFileName = "test_download."+ getFile.getFileExt();
-
- 			return ResponseEntity.ok()
- 					.header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" +tempFileName)	//다운 받아지는 파일 명 설정
- 					.header("Content-Transfer-Encoding", "binary")
- 					.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(resultFile.length()))	//파일 사이즈 설정
- 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())	//바이너리 데이터로 받아오기 설정
- 					.body(resource);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return ResponseEntity.badRequest()
-					.body(null);
-		} catch (Exception e ) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-		//utilFile.setEntity(file).fileDownload(request,response);
-	}
-	*/
-	
 	//첨부파일 삭제
 	@PostMapping(value="/common/fileDelete")
 	public ResponseEntity<ResponseMsg> fileDelete(FileDomain fileDomain){
@@ -198,4 +164,41 @@ public class CommonController {
 		responseMsg.setData(commonService.realDeleteFile(fileDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	
+	
+	@GetMapping("/common/api/apiPage")
+	public ModelAndView apiPage() {
+		ModelAndView mv = new ModelAndView(CosntPage.BoMainPage + "api/apiList");
+		return mv;
+	}
+	
+	@PostMapping(value="/common/selectApiList")
+	public ResponseEntity<ResponseMsg> selectApiList(CodeDtlDomain codeDtlDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+    	//responseMsg.setData(codeService.selectCodeDtlList(codeDtlDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/common/getApiCode")
+	public ResponseEntity<ResponseMsg> getApiCode(KfbApiDomain kfbApiDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+		responseMsg.setData(kfbApiService.getAuthCode());
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/common/getAuthToken")
+	public ResponseEntity<ResponseMsg> getAuthToken(KfbApiDomain kfbApiDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+		responseMsg.setData(kfbApiService.getAuthToken());
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/common/getHealthCheck")
+	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+		responseMsg.setData(kfbApiService.getHealthCheck());
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 }

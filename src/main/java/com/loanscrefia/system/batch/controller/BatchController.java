@@ -19,7 +19,7 @@ import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
 @Log4j2
 @Component
 @EnableScheduling
-@EnableSchedulerLock(defaultLockAtMostFor = "PT10S")
+@EnableSchedulerLock(defaultLockAtMostFor = "PT30S")
 public class BatchController {
 
 	@Autowired 
@@ -33,6 +33,8 @@ public class BatchController {
 	
 	@Autowired
 	private KfbApiRepository kfbApiRepository;
+	
+	private static final String ONE_MIN = "PT30S"; // 1분동안 Lock
 	
 	/* -------------------------------------------------------------------------------------------
 	 * cron =  0~59(초) 0~59(분) 0~23(시) 1~31(일) 1~12(월) 0~6(요일) 생략가능(연도)
@@ -80,7 +82,7 @@ public class BatchController {
 	
 	//매일0시1분
 	@Scheduled(cron = "0 1 0 * * *")
-    @SchedulerLock(name = "apiKeyConnection")
+    @SchedulerLock(name = "apiKeyConnection" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() {
     	log.info("================ apiKeyConnection() START ================");
     	//String apiKey = kfbApiService.getAuthToken();
@@ -96,11 +98,18 @@ public class BatchController {
 	
 	/*
 	//30분마다 한번씩 테스트용
-    @Scheduled(cron = "* 0/30 * * * *")
-    @SchedulerLock(name = "shedlockTest")
+    //@Scheduled(cron = "* 0/30 * * * *")
+    
+	//30분마다 한번씩 테스트용
+    @Scheduled(cron = "0/50 * * * * *")
+    @SchedulerLock(name = "shedlockTest", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void shedlockTest() {
-    	log.info("================ shedlockTest() START ================");
-    	log.info("================ shedlockTest() END ================");
+    	log.info("================ shedlockTest()1111111111111111111111 START ================");
+    	
+    	String tempKey = LocalDateTime.now().toString();
+    	kfbApiRepository.insertKfbApiKey(tempKey);
+    	
+    	log.info("================ shedlockTest()11111111111111111111111111111 END ================");
     }
     
     */

@@ -86,9 +86,13 @@ function goRecruitApply(num){
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
-				,preLcNum		: preLcNum
+				/* ,preLcNum		: preLcNum */
 			}
 			, success 	: function (opt,result) {
+				
+				console.log("승인결과 데이터 == " , result);
+				console.log("승인결과 데이터 == " + JSON.stringify(result));
+				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/apply/applyPage";
@@ -154,9 +158,13 @@ function goApplyImprove(num){
 				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
-				,preLcNum	: preLcNum
+				/* ,preLcNum	: preLcNum */
 			}
 			, success 	: function (opt,result) {
+				
+				console.log("보완요청 데이터 == " , result);
+				console.log("보완요청 데이터 == " + JSON.stringify(result));
+				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/apply/applyPage";

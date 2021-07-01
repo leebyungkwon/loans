@@ -1,5 +1,7 @@
 package com.loanscrefia.common.common.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.common.common.domain.KfbApiDomain;
@@ -27,6 +29,11 @@ public interface KfbApiRepository {
 	
 	//회원정보 수정 - 은행연합회에서 전달받은 등록번호 update
 	//int updateKfbApiByUserInfo(UserDomain userDomain);
+	
+	
+	
+	// API리스트 조회
+	List<KfbApiDomain> selectApiList(KfbApiDomain kfbApiDomain);
 	
 	
 }

@@ -57,6 +57,19 @@ function goCompanyCodeSave() {
 	var params = $('#companyCodeSaveFrm').serialize();
 	var url = $('#companyCodeSaveFrm').attr("action");
 	
+	var comCode = $("#comCode").val(); 
+	var comName = $("#comName").val();
+	
+	if(WebUtil.isNull(comCode)){
+		alert("회원사코드를 입력해 주세요.\n여신코드3+0000+회원사코드2자리 ex)30000XX");
+		return false;
+	}
+	
+	if(WebUtil.isNull(comName)){
+		alert("회원사명을 입력해 주세요.");
+		return false;
+	}
+	
 	var p = {
 		url		: url
 		,param 		: params

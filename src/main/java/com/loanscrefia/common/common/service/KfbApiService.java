@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -40,10 +41,13 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	//API 서버 도메인							- 개발 : "172.16.123.10:43003"
-	public static String ApiDomain 			= "http://localhost:8080";
-	public static String ClientId 			= "ClientId"; 				//요청자 아이디
-	public static String ClientSecret		= "ClientSecret"; 			//요청자 비밀번호
+	//API 서버 도메인							- 개발 : "172.16.123.10:43003" // "http://localhost:8080";
+	public static String ApiDomain 			= "http://172.16.123.10:43003";
+	public static String ClientId 			= "crefia"; 					//요청자 아이디
+	public static String ClientSecret		= "781r671t905ehq46"; 			//요청자 비밀번호
+	
+	//Authorize Code 발급
+	public static String AuthCodeUrl		= ApiDomain+"/oauth/2.0/authorize";	//POST
 	
 	//개인
 	public static String CheckLoanUrl 		= ApiDomain+"/loan/v1/check-loan-consultants"; 		//GET(등록가능 여부 조회)
@@ -58,8 +62,8 @@ public class KfbApiService {
 	//위반이력
 	public static String ViolationUrl		= ApiDomain+"/loan/v1/violation-consultants"; 		//POST(등록),GET(조회),PUT(수정),DELETE(삭제)
 	
-	//Authorize Code 발급
-	public static String AuthCodeUrl		= ApiDomain+"/oauth/2.0/authorize";	//POST
+	//네트워크 및 서버상태확인
+	public static String HealthCheckUrl		= ApiDomain+"/loan/v1/health-check";//POST
 	
 	//토큰 발급
 	public static String TokenUrl			= ApiDomain+"/oauth/2.0/token";		//POST
@@ -72,12 +76,45 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
+	//네트워크 및 서버상태확인
+	public String getHealthCheck() {
+		
+		String result = "fail";
+		
+		try {
+			//URL 설정
+			URL url 				= new URL(CheckLoanUrl);
+			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Content-Type", "application/json"); //요청
+			conn.setRequestProperty("Accept", "application/json"); //응답
+			conn.connect();
+			
+			//요청 결과
+			int responseCode = conn.getResponseCode();
+			log.info("KfbApiService >> getAuthCode() > responseCode :: " + responseCode);
+			
+			if(responseCode == 200) {
+				result = "success";
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	//Authorize Code 발급
 	public String getAuthCode() {
 		
 		String authCode 		= "";
 		
 		try {
+			
+			/*
 			//URL 설정
 			URL url 				= new URL(AuthCodeUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
@@ -88,9 +125,58 @@ public class KfbApiService {
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
 			conn.setDoOutput(true); //POST일때만
+
+	        //요청 데이터 전송
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+	        bw.flush();
+	        bw.close();
+	        
+			*/
+			
+			Map<String, Object> jsonParamMap = new HashMap<String, Object>();
+
+			// Connect
+			URL url = new URL(PreLoanUrl);
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			 
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Content-Type", "application/json"); //요청
+			conn.setRequestProperty("Accept", "application/json"); //응답
+			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
+			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
+			conn.setRequestMethod("POST");
+			
+			System.out.println("###########################");
+			System.out.println("########11111111##################");
+			System.out.println("############"+conn+"###############");
+			System.out.println("###########################");
+			System.out.println("############"+conn.getRequestMethod()+"###############");
+			
+			
+			
+			conn.connect();
+			
+			
+			// write
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+			OutputStream os = conn.getOutputStream();
+			String stringParam = new GsonBuilder().create().toJson( jsonParamMap, Map.class );
+			bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+			bw.write(stringParam);
+			bw.close();
+			os.close();
+			
+			
 			
 			//요청 결과
 			int responseCode = conn.getResponseCode();
+			
+			System.out.println("#############################");
+			System.out.println("#############################");
+			System.out.println("#######"+responseCode+"#######################");
+			System.out.println("#############################");
+			System.out.println("#############################");
+			
 			
 			log.info("KfbApiService >> getAuthCode() > responseCode :: " + responseCode);
 			
@@ -133,11 +219,32 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
-			conn.setRequestProperty("Authorize_code", this.getAuthCode());
+			//conn.setRequestProperty("Authorize_code", this.getAuthCode());
+			conn.setRequestProperty("Authorize_code", "3");
 			conn.setDoOutput(true); //POST일때만
+			//conn.setDoInput(true);
+			
+			
+			System.out.println("###########################");
+			System.out.println("########11111111##################");
+			System.out.println("############"+conn+"###############");
+			System.out.println("###########################");
+			System.out.println("############"+conn.getRequestMethod()+"###############");
+			
+			
+			
+			conn.connect();
+			
+			
 			
 			//요청 결과
 			int responseCode = conn.getResponseCode();
+			
+			System.out.println("#############################");
+			System.out.println("#############################");
+			System.out.println("#######"+responseCode+"#######################");
+			System.out.println("#############################");
+			System.out.println("#############################");
 			
 			log.info("KfbApiService >> getAuthToken() > responseCode :: " + responseCode);
 			
@@ -202,6 +309,7 @@ public class KfbApiService {
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
+			//conn.setDoOutput(true); //POST일때만?
 			
 	        //요청 데이터 전송
 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
@@ -243,6 +351,7 @@ public class KfbApiService {
 	            resultMap.put("responseJson", responseJson);
 	            
 	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
+	            log.info("KfbApiService >> checkLoan() > reg_yn :: " + responseJson.getString("reg_yn"));
 	        } 
 	    } catch (MalformedURLException e) {
 	        e.printStackTrace();
