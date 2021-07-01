@@ -189,14 +189,14 @@ public class UserService {
 				}else {
 					//에러메세지 없음 -> 저장
 					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X?
-					String apiToken = "ddfafdadfasdfsdf"; //kfbApiService.selectKfbApiKey();
+					/*
+					String apiToken = kfbApiService.selectKfbApiKey();
 					
 					for(int i = 0;i < excelResult.size();i++) {
 						JsonObject reqParam = new JsonObject();
 						
 						reqParam.addProperty("name", excelResult.get(i).get("B").toString());
-						//reqParam.addProperty("jumin", CryptoUtil.decrypt(excelResult.get(i).get("C").toString().substring(0, 6)));
-						reqParam.addProperty("ssn", excelResult.get(i).get("C").toString().substring(0, 6));
+						reqParam.addProperty("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
 						reqParam.addProperty("ci", excelResult.get(i).get("O").toString());
 						reqParam.addProperty("loan_type", excelResult.get(i).get("G").toString());
 						
@@ -216,6 +216,7 @@ public class UserService {
 							return apiResult;
 						}
 					}
+					*/
 					
 					//(3)
 					userDomain.setExcelParam(excelResult);

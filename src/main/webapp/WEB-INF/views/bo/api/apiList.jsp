@@ -13,7 +13,7 @@ function pageLoad(){
   		, headCol		: ["등록일", "토큰"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"20%"		, align:"center"}
+				 {type:"string"	, name:'masterSeq'	, index:'masterSeq'		, width:"20%"		, align:"center"}
 				,{type:"string"	, name:'key'		, index:'key'			, width:"20%"		, align:"center"}
 			]
 		, sortNm 		: "ins_dt"
@@ -39,8 +39,6 @@ function pageLoad(){
 		}
 	});
 	
-	
-	
 	$("#apiCode").on("click", function(){
 		var p = {
 			  url		: "/system/api/getApiCode"	
@@ -58,32 +56,41 @@ function pageLoad(){
 	
 	$("#apiKey").on("click", function(){
 		var p = {
-				  url		: "/system/api/getAuthToken"	
-				, param		: {
-					code	: 	$("#resultCode").val()
-				}
-				, success 	: function (opt,result) {
-					console.log("##########", result);
-					console.log("결과값 ===" + JSON.stringify(result));
-			    }
+			  url		: "/system/api/getAuthToken"	
+			, param		: {
+				code	: 	$("#resultCode").val()
 			}
-			AjaxUtil.post(p);
+			, success 	: function (opt,result) {
+				console.log("##########", result);
+				console.log("결과값 ===" + JSON.stringify(result));
+		    }
+		}
+		AjaxUtil.post(p);
 	});
 	
 	$("#apiHealthCheck").on("click", function(){
 		var p = {
-				  url		: "/system/api/getHealthCheck"	
-				, param		: {}
-				, success 	: function (opt,result) {
-					alert(result.data);
-			    }
-			}
-			AjaxUtil.post(p);
+			  url		: "/system/api/getHealthCheck"	
+			, param		: {}
+			, success 	: function (opt,result) {
+				alert(result.data);
+		    }
+		}
+		AjaxUtil.post(p);
 	});
 	
-	
-	
-	
+	//개인 등록가능 여부 조회 테스트
+	$("#loanCheckTest").on("click", function(){
+		var p = {
+			  url		: "/system/api/loanCheckTest"	
+			, param		: {}
+			, success 	: function (opt,result) {
+				console.log("loanCheckTest :: "+result);
+				alert(result.data);
+		    }
+		}
+		AjaxUtil.post(p);
+	});
 }
 
 //날짜 가져오기
@@ -92,7 +99,6 @@ function goGetDate(opt) {
 	$("#srchDate1").val(result);
 	$("#srchDate2").val(WebUtil.getDate("today"));
 }
-
 </script>
 
 <div class="cont_area">
@@ -146,6 +152,7 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiKey">key조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanCheckTest">개인 등록가능 여부 조회</a>
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>
