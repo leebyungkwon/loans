@@ -364,8 +364,7 @@ public class UserController {
 	//삭제
 	@PostMapping(value="/user/deleteUserRegInfo")
 	public ResponseEntity<ResponseMsg> deleteUserRegInfo(UserDomain userDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(userService.deleteUserRegInfo(userDomain));
+		ResponseMsg responseMsg = userService.deleteUserRegInfo(userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
