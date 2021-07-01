@@ -202,7 +202,6 @@ public class KfbApiService {
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
-			//conn.setDoOutput(true); //POST일때만?
 			
 	        //요청 데이터 전송
 	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
@@ -244,7 +243,6 @@ public class KfbApiService {
 	            resultMap.put("responseJson", responseJson);
 	            
 	            log.info("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
-	            log.info("KfbApiService >> checkLoan() > reg_yn :: " + responseJson.getString("reg_yn"));
 	        } 
 	    } catch (MalformedURLException e) {
 	        e.printStackTrace();
