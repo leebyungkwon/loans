@@ -49,9 +49,12 @@ public class ApiController {
 	@PostMapping(value="/api/getHealthCheck")
 	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg.setData(kfbApiService.getHealthCheck());
+		responseMsg = kfbApiService.commonKfbApi("healthCheck", null, KfbApiService.HealthCheckUrl, "GET");
+		//responseMsg.setData(kfbApiService.getHealthCheck());
+		responseMsg.setData(responseMsg);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
 	
 	// API코드발급
 	@PostMapping(value="/api/getApiCode")

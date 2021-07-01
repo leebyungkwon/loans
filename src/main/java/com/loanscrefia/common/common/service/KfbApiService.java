@@ -579,7 +579,7 @@ public class KfbApiService {
         String message = "";
         JSONObject responseJson = new JSONObject();
         
-        if(authToken == null) {
+        if(authToken == null && !"healthCheck".equals(authToken)) {
         	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : 토큰을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
         }else if(apiNm == null) {
         	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : API명을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
@@ -635,7 +635,34 @@ public class KfbApiService {
 	        }else if(responseCode == 406) {
 	        	System.out.println("406 : JSON 형식의 요청이 아닐 경우");
 	        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "406 : JSON 형식 요청 확인\n시스템관리자에게 문의해 주세요.");
-	        }else {
+	        }else if(responseCode == 420) {
+				System.out.println("420 : 필수 파라미터 미입력");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "420 : 필수 파라미터 미입력\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 421) {
+				System.out.println("421 : 파라미터 형식 오류");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "421 : 파라미터 형식 오류\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 422) {
+				System.out.println("422 : 타 협회 가등록 진행 중");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "422 : 타 협회 가등록 진행 중\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 423) {
+				System.out.println("423 : 대출모집인 유형 중복");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "423 : 대출모집인 유형 중복\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 424) {
+				System.out.println("424 : 해당 데이터 없음");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "424 : 해당 데이터 없음\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 425) {
+				System.out.println("425 : 본 등록 완료 된 가등록");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "425 : 본 등록 완료 된 가등록\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 426) {
+				System.out.println("426 : 취소 된 가등록");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "426 : 취소 된 가등록\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 427) {
+				System.out.println("427 : 가등록 기간 만료");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "427 : 가등록 기간 만료\n시스템관리자에게 문의해 주세요.");
+			}else if(responseCode == 428) {
+				System.out.println("428 : 업권이 일치하지 않음");
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "428 : 업권이 일치하지 않음\n시스템관리자에게 문의해 주세요.");
+			}else {
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
