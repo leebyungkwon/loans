@@ -40,8 +40,7 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 		, excel			: "/member/confirm/userConfirmListExcelDown"
-		, excelBtnName	: "모집인조회및변경"
-		, excelFileNm	: "모집인 조회 및 변경"
+		, excelFileNm	: "모집인조회및변경"
 	});
 	
 	//모집인 상태

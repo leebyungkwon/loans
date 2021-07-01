@@ -56,7 +56,7 @@ let GRID = {
 		this.initTable = (obj.initTable == undefined) ? true : obj.initTable;
 		
 		// 2021-06-28 엑셀다운로드 파일명 설정
-		this.excelBtnName = (obj.excelBtnName == undefined) ? "엑셀다운로드" : obj.excelBtnName;
+		this.excelFileNm = (obj.excelFileNm == undefined) ? "엑셀다운로드" : obj.excelFileNm;
 		
 		
 		this.params = {
@@ -64,7 +64,7 @@ let GRID = {
 			, 'isPaging': this.isPaging
 			, 'size': this.size
 			, 'sort': this.sortNm + ',' + this.sort
-			, 'excelBtnName' : this.excelBtnName
+			, 'excelFileNm' : this.excelFileNm
 		};
 
 		this.opts = obj;

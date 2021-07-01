@@ -112,9 +112,9 @@ var AjaxUtil = {
         this.openLoadBar(loadYn);
         
         // 2021-06-29 엑셀버튼명 추가
-        var excelBtnName = opt.param.excelBtnName;
-        if(WebUtil.isNull(excelBtnName)){
-			excelBtnName = "엑셀다운로드";
+        var excelFileNm = opt.param.excelFileNm;
+        if(WebUtil.isNull(excelFileNm)){
+			excelFileNm = "엑셀다운로드";
 		}
 
         param = JSON.stringify(opt.param);
@@ -131,12 +131,12 @@ var AjaxUtil = {
 			// 2021-06-29 IE 엑셀다운로드 수정
 		    if(window.navigator.msSaveOrOpenBlob){
 				var aa = new Blob([response.data]);
-				window.navigator.msSaveBlob(aa, excelBtnName+'.xlsx');
+				window.navigator.msSaveBlob(aa, excelFileNm+'.xlsx');
 			}else{
 				const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));	
 			    const link = document.createElement('a');
 			    link.href = url;
-			    link.setAttribute('download', excelBtnName+'.xlsx');
+			    link.setAttribute('download', excelFileNm+'.xlsx');
 			    document.body.appendChild(link);
 			    link.click();
 			}
