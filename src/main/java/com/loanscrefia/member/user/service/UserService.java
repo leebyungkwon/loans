@@ -189,29 +189,35 @@ public class UserService {
 				}else {
 					//에러메세지 없음 -> 저장
 					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X?
-					/*
-					String apiToken = kfbApiService.selectKfbApiKey();
+					String apiToken = "ddfafdadfasdfsdf"; //kfbApiService.selectKfbApiKey();
 					
 					for(int i = 0;i < excelResult.size();i++) {
 						JsonObject reqParam = new JsonObject();
 						
 						reqParam.addProperty("name", excelResult.get(i).get("B").toString());
 						//reqParam.addProperty("jumin", CryptoUtil.decrypt(excelResult.get(i).get("C").toString().substring(0, 6)));
-						reqParam.addProperty("jumin", excelResult.get(i).get("C").toString().substring(0, 6));
-						reqParam.addProperty("mypin", excelResult.get(i).get("N").toString());
-						reqParam.addProperty("loan_cate", excelResult.get(i).get("F").toString());
+						reqParam.addProperty("ssn", excelResult.get(i).get("C").toString().substring(0, 6));
+						reqParam.addProperty("ci", excelResult.get(i).get("O").toString());
+						reqParam.addProperty("loan_type", excelResult.get(i).get("G").toString());
 						
-						System.out.println("JsonObject >> "+reqParam);
+						System.out.println("#########################################");
+						System.out.println("insertUserRegIndvInfoByExcel() >> JsonObject >> "+reqParam);
+						System.out.println("#########################################");
 						
 						ResponseMsg apiResult = kfbApiService.checkLoan(apiToken, reqParam);
 						
 						if(apiResult.getCode().equals("success")) {
-							
+							//(2)은행연합회 통신(가등록)
+							JsonObject resResult = (JsonObject)apiResult.getData();
+							System.out.println("#########################################");
+							System.out.println("insertUserRegIndvInfoByExcel() >> resResult >> "+resResult);
+							System.out.println("#########################################");
+						}else {
+							return apiResult;
 						}
 					}
-					*/
 					
-					//(2)
+					//(3)
 					userDomain.setExcelParam(excelResult);
 					int insertResult = userRepo.insertUserRegIndvInfoByExcel(userDomain);
 					
