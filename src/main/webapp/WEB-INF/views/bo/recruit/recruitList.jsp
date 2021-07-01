@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "recruitGrid"
   		, url			: "/admin/recruit/recruitList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호","등록번호" "회원사", "모집인<br>상태", "처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
+  		, headCol		: ["", "접수번호","등록번호" ,"회원사", "모집인<br>상태", "처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}

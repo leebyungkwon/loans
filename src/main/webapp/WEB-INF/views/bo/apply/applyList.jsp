@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "applyGrid"
   		, url			: "/admin/apply/applyList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호", "회원사","가등록번호" "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "승인상태"]
+  		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
