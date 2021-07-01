@@ -65,6 +65,9 @@ public class ApplyService {
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		applyDomain.setCreGrp(result.getCreGrp());
 		
+		List<ApplyDomain> applyResultList = applyRepository.selectApplyList(applyDomain);
+		
+		/*
 		
 		// 주민번호 및 법인번호 암호화 후 비교
 		applyDomain.setPlMerchantNo(CryptoUtil.encrypt(applyDomain.getPlMerchantNo()));
@@ -87,6 +90,7 @@ public class ApplyService {
 			}
 		}
 		
+		*/
 		
 		return applyResultList;
 	}
@@ -104,6 +108,8 @@ public class ApplyService {
 		
 		//상세
 		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		
+		/*
 		
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
@@ -128,6 +134,8 @@ public class ApplyService {
 			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
+		
+		*/
 		
 		//첨부파일
     	if(applyInfo.getFileSeq() != null) {
@@ -243,6 +251,8 @@ public class ApplyService {
 		//상세
 		ApplyDomain applyInfo 	= applyRepository.getApplyDetail(applyDomain);
 		
+		/*
+		
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getOriginPlMerchantNo())) {
@@ -267,6 +277,7 @@ public class ApplyService {
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
+		*/
 		
 		//첨부파일
 		if(applyInfo.getFileSeq() != null) {
@@ -951,6 +962,14 @@ public class ApplyService {
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
+	}
+	
+	//기등록검증여부확인
+	@Transactional
+	public ResponseMsg prevRegCheck(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
+		return new ResponseMsg(HttpStatus.OK, "fail", "API오류가 발생하였습니다.");
 	}
 	
 }

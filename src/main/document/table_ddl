@@ -195,13 +195,14 @@ create table tb_lc_mas01(
 	, sub_yn char(1) not null default 'N'
 	, pre_reg_yn char(1) not null default 'N'
 	, pre_lc_num varchar(14)
+	, pl_regist_no varchar(20)
+	, con_num varchar(10)
 	, pl_class varchar(2)
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
-	, pl_regist_no varchar(20)
 	, ci varchar(88)
 	, pl_m_name varchar(20)
 	, pl_m_z_id varchar(100)
@@ -231,7 +232,7 @@ create table tb_lc_mas01(
 	, cre_license_date varchar(8)
 	, pay_date varchar(8)
 	, send_msg varchar(200)
-	, pl_hist_cd varchar(2)
+	, pl_hist_cd varchar(10)
 	, pl_hist_txt varchar(200) 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
@@ -254,13 +255,15 @@ COMMENT ON COLUMN tb_lc_mas01.sub_yn IS '약식등록여부';
 
 COMMENT ON COLUMN tb_lc_mas01.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01.pre_lc_num IS '가등록번호';
+COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
+COMMENT ON COLUMN tb_lc_mas01.con_num IS '계약번호';
+
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
-COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
@@ -482,13 +485,14 @@ create table tb_lc_mas01_hist(
 	, sub_yn char(1) not null default 'N'
 	, pre_reg_yn char(1) not null default 'N'
 	, pre_lc_num varchar(14)
+	, pl_regist_no varchar(20)
+	, con_num varchar(10)
 	, pl_class varchar(2)
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
-	, pl_regist_no varchar(20)
 	, ci varchar(88)
 	, pl_m_name varchar(20)
 	, pl_m_z_id varchar(100)
@@ -518,7 +522,7 @@ create table tb_lc_mas01_hist(
 	, cre_license_date varchar(8)
 	, pay_date varchar(8)
 	, send_msg varchar(200)
-	, pl_hist_cd varchar(2)
+	, pl_hist_cd varchar(10)
 	, pl_hist_txt varchar(200) 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
@@ -540,13 +544,14 @@ COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.sub_yn IS '약식등록여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.pre_lc_num IS '가등록번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_regist_no IS '등록번호';
+COMMENT ON COLUMN tb_lc_mas01_hist.con_num IS '계약번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat IS '처리상태';
-COMMENT ON COLUMN tb_lc_mas01_hist.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01_hist.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id IS '모집인주민등록번호';
@@ -857,7 +862,7 @@ commit;
 create table tb_lc_violation(
 	violation_seq integer not null default nextval('tb_lc_violation_seq')
 	, master_seq integer not null
-	, violation_cd varchar(2) not null
+	, violation_cd varchar(10) not null
 	, reg_timestamp timestamp not null
 	, reg_seq integer not null
 	, primary key (violation_seq, master_seq)

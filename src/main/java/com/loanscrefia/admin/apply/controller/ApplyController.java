@@ -654,4 +654,14 @@ public class ApplyController {
     	responseMsg.setData(msgMap);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	//기등록여부체크리스트
+	@GetMapping(value="/apply/prevRegCheckPopup")
+	public ModelAndView prevRegCheck(ApplyDomain applyDomain) {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/prevRegCheckPopup");
+		List<ApplyDomain> result = applyRepository.selectPrevRegCheckList(applyDomain);
+		mav.addObject("result", result);
+        return mav;
+	}
+	
 }

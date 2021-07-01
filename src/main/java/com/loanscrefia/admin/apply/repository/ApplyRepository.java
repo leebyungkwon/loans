@@ -49,5 +49,8 @@ public interface ApplyRepository {
 	//모집인 조회 > 법인 : 대표 및 임원 상세(OCR)
 	ApplyImwonDomain getApplyImwonDetail(ApplyImwonDomain applyImwonDomain);
 	
+	//기등록여부체크리스트
+	List<ApplyDomain> selectPrevRegCheckList(ApplyDomain applyDomain);
+	
 	
 }

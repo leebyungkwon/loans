@@ -33,6 +33,22 @@ function pageLoad(){
 	});
 }
 
+
+//기등록여부체크리스트
+function prevRegCheckPopup() {
+	let p = {
+		  id 		: "prevRegCheckPopup"
+		, url 		: "/admin/apply/prevRegCheckPopup"
+		, params 	: {
+			"masterSeq" : $("#masterSeq").val()
+		}
+		, success	: function(opt, result) { 
+			
+        }
+	}
+	PopUtil.openPopup(p);
+}
+
 //승인
 function goRecruitApply(num){
 	
@@ -505,6 +521,7 @@ function goApplyImprove(num){
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>					
 			</c:if>
 			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
+			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="prevRegCheckPopup()">기등록확인</a>
 		</div>
 	</div>
 </div>

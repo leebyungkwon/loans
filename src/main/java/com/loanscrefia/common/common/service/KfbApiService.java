@@ -615,7 +615,9 @@ public class KfbApiService {
 	        KfbApiDomain logParam = new KfbApiDomain();
 	        logParam.setToken(authToken);
 	        logParam.setUrl(apiNm);
-	        logParam.setSendData(reqParam.toString());
+	        if(reqParam != null) {
+	        	logParam.setSendData(reqParam.toString());
+	        }
 	        this.insertKfbApiReqLog(logParam);
 	        
 	        //요청 결과
