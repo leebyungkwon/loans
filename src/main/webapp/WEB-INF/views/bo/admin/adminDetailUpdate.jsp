@@ -294,7 +294,7 @@
 						<th>첨부파일</th>
 						<td id="fileTag">
 							<input type="text" id="fileName" name="fileName" value="${file.fileFullNm}" class="w40" readonly="readonly">
-							<input type="hidden" id="fileSeq" name="fileSeq" value="${file.fileSeq}" />
+							<input type="hidden" id="fileSeq" value="${file.fileSeq}" />
 							<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
 							<c:if test="${!empty file}">
 								<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>

@@ -6,24 +6,24 @@
 	<select id="selectAdminList" parameterType="admin" resultType="admin">
 		SELECT 
 		<include refid="common.totalPages"/>
-			TLM.MEMBER_SEQ															/*담당자시퀀스*/
-			,TLM.MEMBER_ID																/*담당자ID*/
-			,TLM.PASSWORD																/*비밀번호*/
-			,TLM.COM_CODE																/*회원사코드*/
-			,TLM.MEMBER_NAME														/*담당자이름*/
-			,TLM.EMAIL																		/*이메일*/
+			TLM.MEMBER_SEQ										/*담당자시퀀스*/
+			,TLM.MEMBER_ID										/*담당자ID*/
+			,TLM.PASSWORD										/*비밀번호*/
+			,TLM.COM_CODE										/*회원사코드*/
+			,TLM.MEMBER_NAME									/*담당자이름*/
+			,TLM.EMAIL											/*이메일*/
 			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO		/*회사전화번호*/
-			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO				/*휴대폰번호*/
-			,TLM.DEPT_NM																/*부서명*/
-			,TLM.POSITION_NM															/*직위명*/
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT				/*가입일*/
-			,TLM.APPR_STAT																/*승인상태*/
-			,TLM.FILE_SEQ																	/*첨부파일ID*/
-			,TLM.FAIL_CNT																/*로그인 실패횟수*/
-			,TLM.CRE_YN																	/*협회여부*/
-			,TLM.DROP_YN																/*탈퇴여부*/
-			,TLM.UPD_SEQ																/*수정자 시퀀스*/
-			,TLM.UPD_TIMESTAMP														/*수정 일시*/
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO			/*휴대폰번호*/
+			,TLM.DEPT_NM										/*부서명*/
+			,TLM.POSITION_NM									/*직위명*/
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT		/*가입일*/
+			,TLM.APPR_STAT										/*승인상태*/
+			,TLM.FILE_SEQ										/*첨부파일ID*/
+			,TLM.FAIL_CNT										/*로그인 실패횟수*/
+			,TLM.CRE_YN											/*협회여부*/
+			,TLM.DROP_YN										/*탈퇴여부*/
+			,TLM.UPD_SEQ										/*수정자 시퀀스*/
+			,TLM.UPD_TIMESTAMP									/*수정 일시*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
@@ -37,17 +37,17 @@
 	<!-- 회원사 회원 상세 조회 -->
 	<select id="getAdminDetail" parameterType="admin" resultType="admin">
 		SELECT 
-			TLM.MEMBER_SEQ															/*담당자시퀀스*/
-			,TLM.MEMBER_ID																/*담당자ID*/
-			,TLM.MEMBER_NAME														/*담당자이름*/
-			,TLM.EMAIL																		/*이메일*/
+			 TLM.MEMBER_SEQ										/*담당자시퀀스*/
+			,TLM.MEMBER_ID										/*담당자ID*/
+			,TLM.MEMBER_NAME									/*담당자이름*/
+			,TLM.EMAIL											/*이메일*/
 			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO		/*회사전화번호*/
-			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO				/*휴대폰번호*/
-			,TLM.DEPT_NM																/*부서명*/
-			,TLM.POSITION_NM															/*직위명*/
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT				/*가입일*/
-			,TLM.FILE_SEQ																	/*첨부파일ID*/
-			,TLM.MSG																		/*가승인 사유*/
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO			/*휴대폰번호*/
+			,TLM.DEPT_NM										/*부서명*/
+			,TLM.POSITION_NM									/*직위명*/
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT		/*가입일*/
+			,TLM.FILE_SEQ										/*첨부파일ID*/
+			,TLM.MSG											/*가승인 사유*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND TLM.MEMBER_SEQ = #{memberSeq}
@@ -57,18 +57,18 @@
 	<!-- 회원사 회원 수정 조회 -->
 	<select id="getAdminDetailUpd" parameterType="admin" resultType="admin">
 		SELECT 
-			TLM.MEMBER_SEQ															/*담당자시퀀스*/
-			,TLM.MEMBER_ID																/*담당자ID*/
-			,TLM.MEMBER_NAME														/*담당자이름*/
-			,TLM.EMAIL																		/*이메일*/
+			 TLM.MEMBER_SEQ										/*담당자시퀀스*/
+			,TLM.MEMBER_ID										/*담당자ID*/
+			,TLM.MEMBER_NAME									/*담당자이름*/
+			,TLM.EMAIL											/*이메일*/
 			,FN_CELLPHONE(TLM.EXTENSION_NO) AS EXTENSION_NO		/*회사전화번호*/
-			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO				/*휴대폰번호*/
-			,TLM.DEPT_NM																/*부서명*/
-			,TLM.POSITION_NM															/*직위명*/
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT				/*가입일*/
-			,TLM.FILE_SEQ																	/*첨부파일ID*/
-			,TLM.MSG																		/*가승인 사유*/
-			,TLM.APPR_STAT																/*승인여부*/
+			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO			/*휴대폰번호*/
+			,TLM.DEPT_NM										/*부서명*/
+			,TLM.POSITION_NM									/*직위명*/
+			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT		/*가입일*/
+			,TLM.FILE_SEQ										/*첨부파일ID*/
+			,TLM.MSG											/*가승인 사유*/
+			,TLM.APPR_STAT										/*승인여부*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND TLM.MEMBER_SEQ = #{memberSeq}
@@ -79,35 +79,37 @@
 	<select id="saveAdminUpdate" parameterType="admin">
 		UPDATE TB_LC_MEMBERS
 		SET
-				UPD_TIMESTAMP 		= NOW()									/*수정일시*/
-				,UPD_SEQ					= 	#{updSeq}					/*수정자 시퀀스*/
-				,FILE_SEQ					=	#{fileSeq}					/*첨부파일시퀀스*/
+			 UPD_TIMESTAMP 		= NOW()									/*수정일시*/
+			,UPD_SEQ			= #{updSeq}								/*수정자 시퀀스*/
+			<if test="fileSeq != null and fileSeq != ''">
+			,FILE_SEQ			= #{fileSeq}							/*첨부파일시퀀스*/
+			</if>
 			<if test="memberId != null and memberId != ''">
-				,MEMBER_ID				= #{memberId}						/*담당자ID*/
+			,MEMBER_ID			= #{memberId}							/*담당자ID*/
 			</if>
 			<if test="password != null and password != ''">
-				,PASSWORD				= #{password}						/*패스워드*/
+			,PASSWORD			= #{password}							/*패스워드*/
 			</if>
 			<if test="deptNm != null and deptNm != ''">
-				,DEPT_NM					= #{deptNm}						/*부서명*/
+			,DEPT_NM			= #{deptNm}								/*부서명*/
 			</if>
 			<if test="memberName != null and memberName != ''">
-				,MEMBER_NAME			= #{memberName}						/*담당자이름*/
+			,MEMBER_NAME		= #{memberName}							/*담당자이름*/
 			</if>
 			<if test="positionNm != null and positionNm != ''">
-				,POSITION_NM			= #{positionNm}						/*직위명*/			
+			,POSITION_NM		= #{positionNm}							/*직위명*/			
 			</if>
 			<if test="email != null and email != ''">
-				,EMAIL						= #{email}						/*이메일*/
+			,EMAIL				= #{email}								/*이메일*/
 			</if>
 			<if test="extensionNo != null and extensionNo != ''">
-				,EXTENSION_NO			= REPLACE(#{extensionNo}, '-', '')	/*회사전화번호*/
+			,EXTENSION_NO		= REPLACE(#{extensionNo}, '-', '')		/*회사전화번호*/
 			</if>
 			<if test="mobileNo != null and mobileNo != ''">
-				,MOBILE_NO				= REPLACE(#{mobileNo}, '-', '')		/*휴대폰번호*/
+			,MOBILE_NO			= REPLACE(#{mobileNo}, '-', '')			/*휴대폰번호*/
 			</if>
 		<where>
-			AND MEMBER_SEQ			= #{memberSeq}
+			AND MEMBER_SEQ		= #{memberSeq}
 		</where>
 	</select>
 	
@@ -115,34 +117,36 @@
 	<update id="reAppr" parameterType="admin">
 		UPDATE TB_LC_MEMBERS
 		SET
-			ROLE_NAME 			= 'NO_MEMBER'									/*권한명*/
-			, APPR_STAT 			= '1'													/*승인여부*/
-			,UPD_SEQ				=	#{updSeq}										/*수정자 시퀀스*/
-			,UPD_TIMESTAMP	=	NOW()											/*수정 일시*/
-			,FILE_SEQ				=	#{fileSeq}										/*첨부파일ID*/
+			 ROLE_NAME 			= 'NO_MEMBER'							/*권한명*/
+			,APPR_STAT 			= '1'									/*승인여부*/
+			,UPD_SEQ			= #{updSeq}								/*수정자 시퀀스*/
+			,UPD_TIMESTAMP		= NOW()									/*수정 일시*/
+			<if test="fileSeq != null and fileSeq != ''">
+			,FILE_SEQ			= #{fileSeq}							/*첨부파일ID*/
+			</if>
 			<if test="memberId != null and memberId != ''">
-				,MEMBER_ID				= #{memberId}						/*담당자ID*/
+			,MEMBER_ID			= #{memberId}							/*담당자ID*/
 			</if>
 			<if test="password != null and password != ''">
-				,PASSWORD				= #{password}						/*패스워드*/
+			,PASSWORD			= #{password}							/*패스워드*/
 			</if>
 			<if test="deptNm != null and deptNm != ''">
-				,DEPT_NM				= #{deptNm}						/*부서명*/
+			,DEPT_NM			= #{deptNm}								/*부서명*/
 			</if>
 			<if test="memberName != null and memberName != ''">
-				,MEMBER_NAME			= #{memberName}						/*담당자이름*/
+			,MEMBER_NAME		= #{memberName}							/*담당자이름*/
 			</if>
 			<if test="positionNm != null and positionNm != ''">
-				,POSITION_NM			= #{positionNm}						/*직위명*/			
+			,POSITION_NM		= #{positionNm}							/*직위명*/			
 			</if>
 			<if test="email != null and email != ''">
-				,EMAIL					= #{email}						/*이메일*/
+			,EMAIL				= #{email}								/*이메일*/
 			</if>
 			<if test="extensionNo != null and extensionNo != ''">
-				,EXTENSION_NO			= REPLACE(#{extensionNo}, '-', '')	/*회사전화번호*/
+			,EXTENSION_NO		= REPLACE(#{extensionNo}, '-', '')		/*회사전화번호*/
 			</if>
 			<if test="mobileNo != null and mobileNo != ''">
-				,MOBILE_NO				= REPLACE(#{mobileNo}, '-', '')		/*휴대폰번호*/
+			,MOBILE_NO			= REPLACE(#{mobileNo}, '-', '')			/*휴대폰번호*/
 			</if>
 		WHERE
 			MEMBER_SEQ = #{memberSeq}

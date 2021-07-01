@@ -44,7 +44,7 @@ public class AdminDomain extends BaseDomain{
 	private String 	mobileNo;					// 휴대폰번호
 	private String 	joinDt;						// 가입일
 	private String 	apprStat;					// 승인여부
-	private int 	fileSeq;					// 첨부파일시퀀스
+	private Integer	fileSeq;					// 첨부파일시퀀스
 	private int 	failCnt;					// 로그인 실패횟수
 	private String	creYn;						// 협회여부
 	private String 	dropYn;						// 탈퇴여부
