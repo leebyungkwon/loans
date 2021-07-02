@@ -659,11 +659,15 @@ public class UserService {
 					return -1;
 				}
 			}
-			//기본 이력 저장*****
-			this.insertUserHistory(userDomain);
 			
-			//상태값 수정
-			result += this.updateUserStat(userDomain);
+			if(!userRegInfo.getPlStat().equals("2")) {
+				//처리상태가 승인요청중이면 이력 저장 X
+				//기본 이력 저장*****
+				this.insertUserHistory(userDomain);
+				
+				//상태값 수정
+				result += this.updateUserStat(userDomain);
+			}
 		}
 		return result;
 	}

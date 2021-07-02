@@ -236,7 +236,7 @@ function goApplyAccept() {
 		return;
 	}
 	if(masterSeqArr.length == 0){
-		alert("선택하신 모집인은 이미 승인요청된 상태입니다.");
+		alert("선택하신 모집인은 승인요청이 불가능한 상태입니다.");
 		return;
 	}
 	
