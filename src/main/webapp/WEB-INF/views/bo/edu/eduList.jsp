@@ -41,10 +41,10 @@ function pageLoad(){
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
-					<col width="120">
-					<col width="305">
-					<col width="120">
-					<col width="305">
+					<col width="10%">
+					<col width="20%">
+					<col width="15%">
+					<col width="20%">
 				</colgroup>
 				<tr>
 					<th>모집인 이름</th>

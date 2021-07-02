@@ -14,8 +14,9 @@ function pageLoad(){
 		$(this).prev().val(fileName);
 		
 		//첨부파일 확장자 체크
+		var size 	= $(this)[0].files[0].size;
 		var ext 	= fileName.split(".").pop().toLowerCase();
-		if(!Valid.fileCheck(ext,"Y")){
+		if(!Valid.fileCheck(size,ext,"Y")){
 			$(this).val("");
 			$(this).prev().val("");
 			return;
