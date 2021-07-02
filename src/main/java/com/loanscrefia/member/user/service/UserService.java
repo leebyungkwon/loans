@@ -660,8 +660,8 @@ public class UserService {
 				}
 			}
 			
-			if(!userRegInfo.getPlStat().equals("2")) {
-				//처리상태가 승인요청중이면 이력 저장 X
+			if(!userRegInfo.getPlStat().equals("2") && !userRegInfo.getPlStat().equals("10")) {
+				//처리상태가 승인요청중이거나 등록요건 불충족이면 이력 저장 X, 상태값 수정 X
 				//기본 이력 저장*****
 				this.insertUserHistory(userDomain);
 				
