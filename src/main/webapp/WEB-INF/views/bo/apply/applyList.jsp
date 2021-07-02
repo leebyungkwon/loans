@@ -16,8 +16,8 @@ function pageLoad(){
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
 				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"12%"		, align:"center"}
-				,{type:"string"	, name:'preLcNum'		, index:'preLcNum'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'comCodeNm'		, index:'comCodeNm'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'preLcNum'		, index:'preLcNum'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClass'		, index:'plClass'			, width:"10%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"8%"		, align:"center"}
