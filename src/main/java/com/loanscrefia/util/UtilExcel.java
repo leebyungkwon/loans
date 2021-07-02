@@ -128,6 +128,7 @@ public class UtilExcel<T> {
 		
 		//최초 등록 시 대출 상품 중복 체크용 배열
 		String plProductArr[] 	= new String[physicalNumberOfRows-1];
+		int arrPosition 		= 0;
 		
 		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
 		    Row row 				= null;
@@ -278,7 +279,7 @@ public class UtilExcel<T> {
 	                		if(!chkPrd.get(j).isEmpty()) {
 	                			//상품별 등록여부 체크 : 대출 상품일 경우 회원사 통틀어서 하나 / 나머지는 중복 가능
 	                			if(chkPrd.get(j).equals("prd1")) {
-	                				plProductArr[i-1] = cellVal; //최초 등록 시 대출 상품 중복 체크용 배열
+	                				plProductArr[arrPosition] = cellVal; //최초 등록 시 대출 상품 중복 체크용 배열
 	                				userChkParam.setPlProduct(cellVal);
 	                			}else if(chkPrd.get(j).equals("prd2")) {
 	                				userChkParam.setCi(cellVal);
@@ -288,21 +289,14 @@ public class UtilExcel<T> {
 		                			
 	                				if(dupChkResult > 0) {
 	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
-	                					/*
-	                					if(userChkParam.getPlProduct().equals("1") || userChkParam.getPlProduct().equals("3")) {
-	                						errorMsg += "대출 상품으로 기등록된 데이터가 존재합니다.<br>";
-	                					}else {
-	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
-	                					}
-	                					*/
                 					}
 	                			}
 	                		}
 	                	}
 	                }
-	                //map.put(cellName, ExcelCellRef.getValue(cell));
 	                map.put(cellName, cellVal);
 	            }
+	            arrPosition++;
 	            result.add(map);
 		    }
 		}
