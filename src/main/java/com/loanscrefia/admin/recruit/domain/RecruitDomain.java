@@ -30,12 +30,14 @@ public class RecruitDomain extends BaseDomain {
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
 	private String oldPlStat;		//현재처리상태
-	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보
+	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
+	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 6)
 	private String plMName;			//모집인이름
 	@ExcelColumn(headerName = "주민번호", order = 7)
 	private String plMZId;			//모집인주민등록번호
+	private String plMZIdEnc;		//모집인주민등록번호암호화비교
 	private String plMZIdEdu;		//교육수료대조(모집인주민등록번호 대체값)
 	@ExcelColumn(headerName = "휴대폰번호", order = 8)
 	private String plCellphone;		//모집인휴대전화번호

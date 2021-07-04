@@ -17,6 +17,16 @@ function goRecruitApply(num){
 	var plRegStat = "";
 	var preRegYn = $("#preRegYn").val();
 	
+	/*
+	var plRegistNo = $("#plRegistNo").val();
+	if(WebUtil.isNull(plRegistNo)){
+		alert("은행연합회 등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
+		return false;
+	}
+	
+	*/
+	var plMZIdEnc = $("#encId").val();
+	
 	if(num == "2"){
 		plStat = "9";
 		plRegStat = "2";
@@ -47,8 +57,15 @@ function goRecruitApply(num){
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
+/* 				,plRegistNo		: plRegistNo
+				,plMZIdEnc		: plMZIdEnc */
 			}
 			, success 	: function (opt,result) {
+				
+				
+				console.log("승인결과 데이터 == " , result);
+				console.log("승인결과 데이터 == " + JSON.stringify(result));
+				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/recruit/recruitPage";
@@ -89,6 +106,9 @@ function goRecruitImprove(rePlStat){
 	
 	var plStat = rePlStat;
 	
+	// 2021-07-04 은행연합회 API 추가
+	//var plRegistNo = $("#plRegistNo").val();
+	
 	if(confirm(confirmMessage)){
 		var p = {
 			  url		: "/admin/recruit/updatePlStat"	
@@ -97,8 +117,13 @@ function goRecruitImprove(rePlStat){
 				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
+				/* ,plRegistNo	: plRegistNo */
 			}
 			, success 	: function (opt,result) {
+				
+				console.log("보완요청 데이터 == " , result);
+				console.log("보완요청 데이터 == " + JSON.stringify(result));
+				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/recruit/recruitPage";
@@ -120,6 +145,8 @@ function goRecruitImprove(rePlStat){
 	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.recruitInfo.plStat }"/>
 	<input type="hidden" name="masterToId" id="masterToId" value="${result.recruitInfo.masterToId }"/>
 	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.recruitInfo.preRegYn }"/>
+	<input type="hidden" name="plRegistNo" id="plRegistNo" value="${result.recruitInfo.plRegistNo }"/>
+	<input type="hidden" name="encId" id="encId" value="${result.recruitInfo.plMZIdEnc }"/>
 </form>
 
 <div class="cont_area">

@@ -82,17 +82,12 @@ public class BatchController {
 	
 	//매일0시1분
 	@Scheduled(cron = "0 1 0 * * *")
-    @SchedulerLock(name = "apiKeyConnection" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() {
-    	log.info("================ apiKeyConnection() START ================");
-    	//String apiKey = kfbApiService.getAuthToken();
-    	
-    	
-        // 결과값 apiToken Update(파라미터 String시 오류발생하면 도메인으로 변경예정)
-    	// 임시 - random활용 key update
-    	String tempKey = LocalDateTime.now().toString();
-    	kfbApiRepository.insertKfbApiKey(tempKey);
-    	log.info("================ apiKeyConnection() END ================");
+    	log.info("================ apiAuthToken() START ================");
+    	String token = kfbApiService.getAuthToken();
+    	kfbApiRepository.insertKfbApiKey(token);
+    	log.info("================ apiAuthToken() END ================");
     }
 	
 	

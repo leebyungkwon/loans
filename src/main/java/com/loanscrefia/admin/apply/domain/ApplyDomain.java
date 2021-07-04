@@ -29,7 +29,8 @@ public class ApplyDomain extends BaseDomain {
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
 	private String oldPlStat;		//현재처리상태
 	@ExcelColumn(headerName = "모집인등록번호", order = 10)
-	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보
+	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
+	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 5)
 	private String plMName;			//모집인이름

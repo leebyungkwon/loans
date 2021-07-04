@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -795,7 +796,7 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
 	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
 		
 		// 현재 승인상태와 화면에 있는 승인상태 비교
@@ -831,42 +832,67 @@ public class ApplyService {
 			emailDomain.setInstId("143");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
+			
 			/*
 			
-			// 2021-06-25 은행연합회 API 통신 - 개인 등록
+			// 2021-06-25 은행연합회 API 통신 - 등록
 			String apiKey = kfbApiRepository.selectKfbApiKey();
 			JsonObject jsonParam = new JsonObject();
 			if("1".equals(statCheck.getPlClass())) {
 				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
 				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.CheckLoanUrl, "POST");				
 			}else {
-				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+				jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
 				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.PreLoanCorpUrl, "POST");
 			}
 			
-			if(responseMsg != null) {
+			if("success".equals(responseMsg.getCode())) {
 				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-				if("success".equals(responseMsg.getCode())) {
-					// 가등록에서 본등록시 등록번호 발급
-					String lcNum = "";
-					UserDomain userDomain = new UserDomain();
-					if("1".equals(statCheck.getPlClass())) {
-						lcNum = responseJson.getString("lc_num");
-					}else {
-						lcNum = responseJson.getString("lc_corp_num");
-					}
-					userDomain.setMasterSeq(applyDomain.getMasterSeq());
-					userDomain.setPlRegistNo(lcNum);
-					int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
-					if(updateCnt > 0) {
-						apiCheck = true;
-					}else {
-						return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
-					}
+				// 가등록에서 본등록시 등록번호 발급
+				String lcNum = "";
+				UserDomain userDomain = new UserDomain();
+				if("1".equals(statCheck.getPlClass())) {
+					lcNum = responseJson.getString("lc_num");
 				}else {
-					return new ResponseMsg(HttpStatus.OK, "fail", responseJson.getString("res_msg"));
+					lcNum = responseJson.getString("lc_corp_num");
 				}
+				
+				// 계약번호 갖고오기[배열]
+				// 등록시 가등록번호를 은행연합회에 던지고 1:N인 등록번호를 받고
+				// 하나의 KEY인 계약번호를 받는데 계약번호가 배열로 리턴되면 뭐가 내번호인지 어케알수있음?????
+				// 계약금융기관코드로 판별????
+				// 가등록시 계약금융기관코드가 필수임 확인해야함 - 중요
+
+				String conNum = "";
+				JSONObject jsonObj = new JSONObject();
+				JSONArray conArr = responseJson.getJSONArray("con_arr");
+				for(int i=0; i<conArr.length(); i++){
+					jsonObj = conArr.getJSONObject(i);
+					// 가등록시 등록되어있던 금융기관코드 확인
+					String comCode = statCheck.getComCode();
+					String finCode = jsonObj.getString("fin_code"); 
+					if(comCode.equals(finCode)) {
+						conNum = jsonObj.getString("con_num");
+					}
+				}
+				
+				if(StringUtils.isEmpty(conNum)) {
+					return new ResponseMsg(HttpStatus.OK, "fail", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
+				}
+				
+				userDomain.setMasterSeq(applyDomain.getMasterSeq());
+				userDomain.setPlRegistNo(lcNum);
+				userDomain.setConNum(conNum);
+				int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
+				if(updateCnt > 0) {
+					apiCheck = true;
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+				}
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
 			}
+			
 			*/
 			
 			apiCheck = true;
@@ -878,7 +904,7 @@ public class ApplyService {
 
 			/*
 			
-			// 2021-06-25 은행연합회 API 통신 - 개인 삭제
+			// 2021-06-25 은행연합회 API 통신 - 가등록 취소
 			String apiKey = kfbApiRepository.selectKfbApiKey();
 			JsonObject jsonParam = new JsonObject();
 			if("1".equals(statCheck.getPlClass())) {
@@ -889,16 +915,15 @@ public class ApplyService {
 				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.PreLoanCorpUrl, "DELETE");
 			}
 
-			if(responseMsg != null) {
-				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-				if("success".equals(responseMsg.getCode())) {
-					apiCheck = true;
-				}else {
-					return new ResponseMsg(HttpStatus.OK, "fail", responseJson.getString("res_msg"));
-				}
+			if("success".equals(responseMsg.getCode())) {
+				apiCheck = true;
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
 			}
 			
 			*/
+			
+			
 			apiCheck = true;
 			
 		}else{
@@ -921,7 +946,7 @@ public class ApplyService {
 				return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 			}
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "API오류가 발생하였습니다.");
+			return new ResponseMsg(HttpStatus.OK, "fail", responseMsg, "API오류가 발생하였습니다.");
 		}
 	}
 

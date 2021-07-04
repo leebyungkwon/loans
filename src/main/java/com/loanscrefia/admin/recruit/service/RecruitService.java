@@ -7,12 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
@@ -23,7 +27,9 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
+import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -49,6 +55,10 @@ public class RecruitService {
 	@Autowired private UserRepository userRepo;
 	@Autowired
 	private EmailRepository emailRepository;
+	@Autowired
+	private KfbApiRepository kfbApiRepository;
+	@Autowired 
+	private KfbApiService kfbApiService;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
@@ -731,6 +741,7 @@ public class RecruitService {
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
 	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		RecruitDomain statCheck = recruitRepository.getRecruitDetail(recruitDomain);
 		
 		// 현재 승인상태와 화면에 있는 승인상태 비교
@@ -748,44 +759,191 @@ public class RecruitService {
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(statCheck.getEmail());
 		
+		
+		// API성공여부
+		boolean apiCheck = false;
+		
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 승인
 			emailDomain.setInstId("145");
 			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
 			emailDomain.setSubsValue(statCheck.getMasterToId());
+			
+			// 2021-07-04 은행연합회 API 통신 - 수정
+			String apiKey = kfbApiRepository.selectKfbApiKey();
+			JsonObject jsonParam = new JsonObject();
+			JsonObject jsonArrayParam = new JsonObject();
+			JsonArray jsonArray = new JsonArray();
+			
+			
+			// 중요!! 
+			// 정보수정시 등록번호 + 계약번호 = 단독수정
+			// 등록번호만 던질시 전체수정임
+			
+			// 주민번호 변경은 정보변경과 다른 API 분기
+			// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
+			if("1".equals(statCheck.getPlClass())) {
+				jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanUrl, "GET");
+			}else {
+				jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanCorpUrl, "GET");
+			}
+			
+			// 정보조회 성공시
+			if("success".equals(responseMsg.getCode())) {
+				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+				if("1".equals(statCheck.getPlClass())) {
+					// 성명				- name
+					// 주민번호			- ssn
+					// 휴대폰번호			- mobile
+					// 나머지 배열 [계약번호, 업권코드 등등] - con_num, biz_code....
+					// 법인사용인 경우 법인등록번호 - corp_num
+					// 계약금융기관 		- fin_code
+					
+					String name = responseJson.getString("name");			// API 결과값 - 이름
+					String mobile = responseJson.getString("mobile");		// API 결과값 - 휴대폰번호
+					String ssn = responseJson.getString("ssn");				// API 결과값 - 주민번호
+					
+					// -------------------------------------------------------------------------------- //
+					
+					String dbName = recruitDomain.getPlMName();							// DB결과값 - 이름
+					String dbMobile = recruitDomain.getPlCellphone();					// DB결과값 - 휴대폰번호
+					String dbZId = CryptoUtil.decrypt(recruitDomain.getPlMZId());		// DB결과값 - 주민번호
+					
+					// 정보변경 API호출
+					if(!dbName.equals(name) || !dbMobile.equals(mobile)) {
+						jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
+						jsonParam.addProperty("name", recruitDomain.getPlMName());
+						jsonParam.addProperty("mobile", recruitDomain.getPlCellphone());
+						
+						// 계약번호 및 기타는 배열
+						jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
+						jsonArray.add(jsonArrayParam);
+						jsonParam.add("con_arr", jsonArray);
+						
+						System.out.println("########################");
+						System.out.println("########################");
+						System.out.println("JSONObject In JSONArray :: " + jsonParam);
+						System.out.println("########################");
+						System.out.println("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanUrl, "PUT");
+						
+					}
+					
+					// 주민번호 변경 API 호출
+					if(!dbZId.equals(ssn)) {
+						jsonParam.addProperty("bef_ssn", ssn);												// 변경 전 주민번호 - API 조회된 결과값
+						jsonParam.addProperty("aft_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 변경 후 주민번호 - DB데이터
+						
+						System.out.println("########################");
+						System.out.println("########################");
+						System.out.println("jsonParam :: " + jsonParam);
+						System.out.println("########################");
+						System.out.println("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.modUrl, "PUT");
+					}
+					
+				}else {
+					// 법인등록번호			- corp_num
+					// 법인명				- corp_name
+					// 법인대표성명			- corp_rep_name
+					// 법인대표주민번호		- corp_rep_ssn
+					// 경력여부			- career_yn
+					// 나머지 배열 [계약번호, 업권 등등] - con_num, biz_code.....
+					
+					String corpNum = responseJson.getString("corp_num");					// API 결과값 - 법인등록번호
+					String corpName = responseJson.getString("corp_name");					// API 결과값 - 법인명
+					String corpRepName = responseJson.getString("corp_rep_name");			// API 결과값 - 법인대표성명
+					String corpRepSsn = responseJson.getString("corp_rep_ssn");				// API 결과값 - 법인대표주민번호
+					
+					// ------------------------ 법인쪽 수정가능 데이터 확인 후 추가예정 -------------------------------------------- //
+					
+					String dbCorpName = responseJson.getString("corp_name");					// DB 결과값 - 법인명
+					if(!dbCorpName.equals(corpName)) {
+						jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());					// 등록번호
+						
+						// 아래 필수 아님 - 수정되는 데이터 확인 필요함
+						//jsonParam.addProperty("corp_name", recruitDomain.getPlMerchantName());				// 법인명
+						//jsonParam.addProperty("corp_rep_name", recruitDomain.getPlCeoName());					// 법인대표성명
+						//jsonParam.addProperty("corp_rep_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 법인대표주민번호
+						//jsonParam.addProperty("corp_rep_ci", recruitDomain.getCi());							// 법인대표CI
+						
+						
+						// 계약번호 및 기타는 배열
+						jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
+						jsonArray.add(jsonArrayParam);
+						jsonParam.add("con_arr", jsonArray);
+						
+						System.out.println("########################");
+						System.out.println("########################");
+						System.out.println("JSONObject In JSONArray :: " + jsonParam);
+						System.out.println("########################");
+						System.out.println("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanCorpUrl, "PUT");						
+					}
+				}
+				
+				
+				apiCheck = true;
+				
+				
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", "정보조회에 실패하였습니다 == " + responseMsg.getMessage());
+			}
+			
+			// ---------------- 조회 후 분기 처리 -------------------------------------- //
+			
+			
+			
+			apiCheck = true;
+			
 		}else if("6".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 보완요청
 			emailDomain.setInstId("146");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
+			apiCheck = true;
 		}else if("4".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 해지요청에 대한 승인
 			emailDomain.setInstId("147");
-			emailDomain.setSubsValue(statCheck.getMasterToId());	
+			emailDomain.setSubsValue(statCheck.getMasterToId());
+			
+			
+			
+			
+			
+			apiCheck = true;
+			
 		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 승인요청에 대한 승인
 			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
+			apiCheck = true;
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
 		
-		
-		int result = recruitRepository.updateRecruitPlStat(recruitDomain);
-		// 임시처리
-		emailResult = emailRepository.sendEmail(emailDomain);
-		//emailResult = 1;
-		if(emailResult > 0 && result > 0) {
-			// 모집인단계이력
-			recruitRepository.insertMasterStep(recruitDomain);
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
-		}else if(emailResult == 0){
-			return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
+		if(apiCheck) {
+			int result = recruitRepository.updateRecruitPlStat(recruitDomain);
+			emailResult = emailRepository.sendEmail(emailDomain);
+			// 임시 성공
+			//emailResult = 1;
+			if(emailResult > 0 && result > 0) {
+				// 모집인단계이력
+				recruitRepository.insertMasterStep(recruitDomain);
+				return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+			}else if(emailResult == 0){
+				return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+			}
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+			return new ResponseMsg(HttpStatus.OK, "fail", responseMsg,  "API오류가 발생하였습니다.");
 		}
-		
-		
 	}
 	
 	//변경사항

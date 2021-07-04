@@ -28,7 +28,7 @@ public interface KfbApiRepository {
 	String selectKfbApiKey();
 	
 	//회원정보 수정 - 은행연합회에서 전달받은 등록번호 update
-	//int updateKfbApiByUserInfo(UserDomain userDomain);
+	int updateKfbApiByUserInfo(UserDomain userDomain);
 	
 	
 	

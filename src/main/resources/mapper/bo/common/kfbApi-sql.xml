@@ -74,6 +74,9 @@
 			<if test="plRegistNo != null and plRegistNo != ''">
 				,PL_REGIST_NO 	= #{plRegistNo}
 			</if>
+			<if test="conNum != null and conNum != ''">
+				,CON_NUM 		= #{conNum}
+			</if>
 		<where>
 			AND MASTER_SEQ 	= #{masterSeq}
 		</where>

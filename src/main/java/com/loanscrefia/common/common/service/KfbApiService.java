@@ -72,6 +72,10 @@ public class KfbApiService {
 	//금융기관 조회
 	public static String FinUrl				= ApiDomain+"/loan/v1/fin-info";	//GET
 	
+	//주민등록번호 변경
+	public static String modUrl				= ApiDomain+"/loan/v1/mod-ssn";		//PUT
+	
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 은행연합회 API 연동 > 공통
 	 * -------------------------------------------------------------------------------------------------------
@@ -220,8 +224,8 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
-			//conn.setRequestProperty("Authorize_code", this.getAuthCode());
-			conn.setRequestProperty("Authorize_code", "3");
+			conn.setRequestProperty("Authorize_code", this.getAuthCode());
+			//conn.setRequestProperty("Authorize_code", "3");
 			conn.setDoOutput(true); //POST일때만
 			//conn.setDoInput(true);
 			
@@ -259,7 +263,7 @@ public class KfbApiService {
 				}
 				
 				JSONObject responseJson = new JSONObject(sb.toString());
-				//authToken 				= responseJson.getString("authorization");
+				authToken 				= responseJson.getString("authorization");
 				
 				log.info("KfbApiService >> getAuthToken() > responseJson :: " + responseJson);
 				log.info("KfbApiService >> getAuthToken() > authToken :: " + responseJson.getString("authorization"));
@@ -597,7 +601,7 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
-			conn.setRequestProperty("Authorize_code", "3");
+			//conn.setRequestProperty("Authorize_code", "3");
 			
 	        if(methodType.equals("POST")) {
 	        	conn.setDoOutput(true);
