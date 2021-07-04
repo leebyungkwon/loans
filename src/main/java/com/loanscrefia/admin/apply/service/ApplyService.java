@@ -939,7 +939,7 @@ public class ApplyService {
 			if(emailResult > 0 && result > 0) {
 				// 모집인단계이력
 				applyRepository.insertMasterStep(applyDomain);
-				return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
 			}else if(emailResult == 0){
 				return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
 			}else {

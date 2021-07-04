@@ -912,13 +912,49 @@ public class RecruitService {
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
 			
+			// 2021-07-04 말소가 뭐였지... 확인해봐야함
+			// 2021-07-04 은행연합회 API 통신 - 수정
+			String apiKey = kfbApiRepository.selectKfbApiKey();
+			JsonObject jsonParam = new JsonObject();
+			JsonObject jsonArrayParam = new JsonObject();
+			JsonArray jsonArray = new JsonArray();
 			
-			
+
+			if("1".equals(statCheck.getPlClass())) {
+				// 개인 해지 - 개인수정에 해지일, 해지사유코드
+				// 한번에 해지하려면 대출모집인 등록번호만 넣고 해지일 해지사유코드
+				// 계약금융기관별로 해지하려면 등록번호, [계약번호, 해지일, 해지사유코드]
+				jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
+				
+				// 계약번호 및 기타는 배열
+				jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
+				jsonArrayParam.addProperty("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
+				jsonArrayParam.addProperty("cancel_code", recruitDomain.getPlHistCd());
+				jsonArray.add(jsonArrayParam);
+				jsonParam.add("con_arr", jsonArray);
+				
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanUrl, "PUT");
+				
+			}else {
+				// 법인 해지 - 법인해지에 해지일, 해지사유코드
+				// 한번에 해지하려면 대출모집인 등록번호만 넣고 해지일 해지사유코드
+				// 계약금융기관별로 해지하려면 등록번호, [계약번호, 해지일, 해지사유코드]
+				
+				jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());
+				// 계약번호 및 기타는 배열
+				jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
+				jsonArrayParam.addProperty("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
+				jsonArrayParam.addProperty("cancel_code", recruitDomain.getPlHistCd());
+				jsonArray.add(jsonArrayParam);
+				jsonParam.add("con_arr", jsonArray);
+				
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanCorpUrl, "PUT");
+			}
 			
 			apiCheck = true;
 			
 		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
-			// 승인요청에 대한 승인
+			// 승인요청에 대한 승인 - 제외됐음
 			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			apiCheck = true;
@@ -935,7 +971,7 @@ public class RecruitService {
 			if(emailResult > 0 && result > 0) {
 				// 모집인단계이력
 				recruitRepository.insertMasterStep(recruitDomain);
-				return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
 			}else if(emailResult == 0){
 				return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
 			}else {
