@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 
 import com.google.gson.Gson;
@@ -42,38 +43,39 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	//API 서버 도메인							- 개발 : "172.16.123.10:43003" // "http://localhost:8080";
-	public static String ApiDomain 			= "http://172.16.123.10:43003";
-	public static String ClientId 			= "crefia"; 					//요청자 아이디
-	public static String ClientSecret		= "781r671t905ehq46"; 			//요청자 비밀번호
+	//API 서버 도메인(개발 : "http://172.16.123.10:43003")
+	@Value("${kfbApi.url}")
+	public String ApiDomain;
+	public static String ClientId 		= "crefia"; 					//요청자 아이디
+	public static String ClientSecret	= "781r671t905ehq46"; 			//요청자 비밀번호
 	
 	//Authorize Code 발급
-	public static String AuthCodeUrl		= ApiDomain+"/oauth/2.0/authorize";	//POST
+	public String AuthCodeUrl			= ApiDomain+"/oauth/2.0/authorize";	//POST
 	
 	//개인
-	public static String CheckLoanUrl 		= ApiDomain+"/loan/v1/check-loan-consultants"; 		//GET(등록가능 여부 조회)
-	public static String PreLoanUrl			= ApiDomain+"/loan/v1/pre-loan-consultants"; 		//POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
-	public static String LoanUrl 			= ApiDomain+"/loan/v1/loan-consultants"; 			//POST(본등록 처리),GET(조회),PUT(수정),DELETE(등록 말소)
+	public String CheckLoanUrl 			= ApiDomain+"/loan/v1/check-loan-consultants"; 		//GET(등록가능 여부 조회)
+	public String PreLoanUrl			= ApiDomain+"/loan/v1/pre-loan-consultants"; 		//POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
+	public String LoanUrl 				= ApiDomain+"/loan/v1/loan-consultants"; 			//POST(본등록 처리),GET(조회),PUT(수정),DELETE(등록 말소)
 	
 	//법인
-	public static String CheckLoanCorpUrl 	= ApiDomain+"/loan/v1/check-loan-corp-consultants"; //GET(등록가능 여부 조회)
-	public static String PreLoanCorpUrl		= ApiDomain+"/loan/v1/pre-loan-corp-consultants"; 	//POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
-	public static String LoanCorpUrl 		= ApiDomain+"/loan/v1/loan-corp-consultants"; 		//POST(본등록 처리),GET(조회),PUT(수정),DELETE(등록 말소)
+	public String CheckLoanCorpUrl 		= ApiDomain+"/loan/v1/check-loan-corp-consultants"; //GET(등록가능 여부 조회)
+	public String PreLoanCorpUrl		= ApiDomain+"/loan/v1/pre-loan-corp-consultants"; 	//POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
+	public String LoanCorpUrl 			= ApiDomain+"/loan/v1/loan-corp-consultants"; 		//POST(본등록 처리),GET(조회),PUT(수정),DELETE(등록 말소)
 	
 	//위반이력
-	public static String ViolationUrl		= ApiDomain+"/loan/v1/violation-consultants"; 		//POST(등록),GET(조회),PUT(수정),DELETE(삭제)
+	public String ViolationUrl			= ApiDomain+"/loan/v1/violation-consultants"; 		//POST(등록),GET(조회),PUT(수정),DELETE(삭제)
 	
 	//네트워크 및 서버상태확인
-	public static String HealthCheckUrl		= ApiDomain+"/loan/v1/health-check";//POST
+	public String HealthCheckUrl		= ApiDomain+"/loan/v1/health-check";//POST
 	
 	//토큰 발급
-	public static String TokenUrl			= ApiDomain+"/oauth/2.0/token";		//POST
+	public String TokenUrl				= ApiDomain+"/oauth/2.0/token";		//POST
 	
 	//금융기관 조회
-	public static String FinUrl				= ApiDomain+"/loan/v1/fin-info";	//GET
+	public String FinUrl				= ApiDomain+"/loan/v1/fin-info";	//GET
 	
 	//주민등록번호 변경
-	public static String modUrl				= ApiDomain+"/loan/v1/mod-ssn";		//PUT
+	public String modUrl				= ApiDomain+"/loan/v1/mod-ssn";		//PUT
 	
 	
 	/* -------------------------------------------------------------------------------------------------------

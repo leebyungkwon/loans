@@ -13,7 +13,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   profiles:
-    active: prod
+    active: local
   devtools:
     livereload:
       enabled: true
@@ -48,7 +48,7 @@ spring:
 
 logging:
   level:
-    org.springframework: debug
+    org.springframework: error
     #worg.hibernate.type: info
     jdbc.audit: off
     jdbc.connection: off
@@ -57,13 +57,13 @@ logging:
 
 
 upload:
-  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
   
 download:
-  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
 
-#upload:
-#  filePath: static\upload
+kfbApi:
+  url: http://localhost:8080
   
 ---
 
@@ -109,6 +109,9 @@ upload:
   
 download:
   filePath: Z:\loanscrefia\static\upload
+
+kfbApi:
+  url: http://172.16.123.10:43003
     
 ---
 
@@ -151,4 +154,6 @@ upload:
   
 download:
   filePath: Z:\loanscrefia\static\upload
-  
+
+kfbApi:
+  url: http://172.16.123.10:43003
