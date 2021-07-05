@@ -23,8 +23,8 @@ spring:
       suffix: .jsp
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 ---
 spring:
@@ -47,8 +47,11 @@ spring:
     password: 1234
 
 logging:
+  file:
+    path: C:\
+    max-history: 1
   level:
-    org.springframework: error
+    org.springframework: debug
     #worg.hibernate.type: info
     jdbc.audit: off
     jdbc.connection: off
@@ -57,14 +60,13 @@ logging:
 
 
 upload:
-  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
   
 download:
-  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
 
 kfbApi:
-  url: http://localhost:8080
-  
+  url: http://172.16.123.10:43003
 ---
 
 
@@ -109,10 +111,9 @@ upload:
   
 download:
   filePath: Z:\loanscrefia\static\upload
-
+    
 kfbApi:
   url: http://172.16.123.10:43003
-    
 ---
 
 spring:
@@ -154,6 +155,7 @@ upload:
   
 download:
   filePath: Z:\loanscrefia\static\upload
+  
 
 kfbApi:
-  url: http://172.16.123.10:43003
+  url: http://172.16.33.10:33003

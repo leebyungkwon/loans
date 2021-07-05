@@ -784,10 +784,10 @@ public class RecruitService {
 			// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
 			if("1".equals(statCheck.getPlClass())) {
 				jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanUrl, "GET");
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "GET");
 			}else {
 				jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanCorpUrl, "GET");
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "GET");
 			}
 			
 			// 정보조회 성공시
@@ -828,7 +828,7 @@ public class RecruitService {
 						System.out.println("########################");
 						System.out.println("########################");
 						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanUrl, "PUT");
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT");
 						
 					}
 					
@@ -843,7 +843,7 @@ public class RecruitService {
 						System.out.println("########################");
 						System.out.println("########################");
 						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.modUrl, "PUT");
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT");
 					}
 					
 				}else {
@@ -883,7 +883,7 @@ public class RecruitService {
 						System.out.println("########################");
 						System.out.println("########################");
 						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanCorpUrl, "PUT");						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT");						
 					}
 				}
 				
@@ -929,7 +929,7 @@ public class RecruitService {
 				jsonArray.add(jsonArrayParam);
 				jsonParam.add("con_arr", jsonArray);
 				
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanUrl, "PUT");
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT");
 				
 			}else {
 				// 법인 해지 - 법인해지에 해지일, 해지사유코드
@@ -944,7 +944,7 @@ public class RecruitService {
 				jsonArray.add(jsonArrayParam);
 				jsonParam.add("con_arr", jsonArray);
 				
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.LoanCorpUrl, "PUT");
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT");
 			}
 			
 			apiCheck = true;

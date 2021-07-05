@@ -49,8 +49,7 @@ public class ApiController {
 	@PostMapping(value="/api/getHealthCheck")
 	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg = kfbApiService.commonKfbApi("healthCheck", null, KfbApiService.HealthCheckUrl, "GET");
-		//responseMsg.setData(kfbApiService.getHealthCheck());
+		responseMsg.setData(kfbApiService.getHealthCheck(KfbApiService.ApiDomain));
 		responseMsg.setData(responseMsg);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}

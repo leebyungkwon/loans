@@ -197,7 +197,7 @@ public class CommonController {
 	@PostMapping(value="/common/getHealthCheck")
 	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg.setData(kfbApiService.getHealthCheck());
+		responseMsg.setData(kfbApiService.getHealthCheck(KfbApiService.ApiDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
