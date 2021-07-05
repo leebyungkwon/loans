@@ -141,7 +141,7 @@ public class KfbApiService {
 			Map<String, Object> jsonParamMap = new HashMap<String, Object>();
 
 			// Connect
-			URL url = new URL(PreLoanUrl);
+			URL url = new URL(AuthCodeUrl);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			 
 			conn.setDoOutput(true);
