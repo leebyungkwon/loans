@@ -713,11 +713,9 @@ public class KfbApiService {
 	        conn.setRequestMethod(methodType);
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
-			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
-			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
-			//conn.setRequestProperty("Authorize_code", "3");
+			conn.setRequestProperty("Authorization", "Bearer "+authToken);
 			
-	        if(methodType.equals("POST")) {
+	        if(!methodType.equals("GET")) {
 	        	conn.setDoOutput(true);
 	        }
 	        
@@ -757,11 +755,17 @@ public class KfbApiService {
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
 	            successCheck = "success";
-	        
+	            br.close();
+	            
 	            return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, responseJson.getString("res_msg"));
 	            
 	        }else {
-	        	// 통신오류
+	        	// 통신오류 - 응답 이력 저장
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg("API통신오류발생");
+	            logParam.setResData("empty");
+	            this.insertKfbApiResLog(logParam);
+	        	
 	        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API통신오류 : 시스템관리자에게 문의해 주세요.");
 	        }
 	        

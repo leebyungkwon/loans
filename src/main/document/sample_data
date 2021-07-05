@@ -33,70 +33,68 @@ ALTER TABLE tb_lc_mas01_hist ALTER COLUMN capital type varchar(20);
 ALTER TABLE tb_lc_mas01_hist ALTER COLUMN voting_stock_cnt type varchar(20);
 
 
-INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES
-	 (3000001,'여신금융협회','2021-06-16 10:58:24.658721',11,NULL,NULL),
-	 (3000011,'볼보파이낸셜','2021-06-16 11:00:00.633574',11,NULL,NULL),
-	 (3000012,'IBK캐피탈','2021-06-16 11:19:48.229906',11,NULL,NULL),
-	 (3000013,'하나캐피탈','2021-06-16 11:19:58.643117',11,NULL,NULL),
-	 (3000014,'벤츠파이낸셜','2021-06-16 11:20:07.691612',11,NULL,NULL),
-	 (3000015,'JT캐피탈','2021-06-16 11:24:51.977548',11,NULL,NULL),
-	 (3000016,'토요타파이낸셜','2021-06-16 11:25:01.73541',11,NULL,NULL),
-	 (3000017,'오릭스캐피탈','2021-06-16 11:25:22.176024',11,NULL,NULL),
-	 (3000018,'RCI파이낸셜','2021-06-16 11:25:50.11303',11,NULL,NULL),
-	 (3000019,'폭스바겐파이낸셜','2021-06-16 11:26:09.359326',11,NULL,NULL);
-INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES
-	 (3000020,'DB캐피탈','2021-06-16 11:26:20.492035',11,NULL,NULL),
-	 (3000021,'도이치파이낸셜','2021-06-16 11:26:27.220422',11,NULL,NULL),
-	 (3000022,'케이카캐피탈','2021-06-16 11:26:33.620306',11,NULL,NULL),
-	 (3000023,'롯데오토리스','2021-06-16 11:26:41.396306',11,NULL,NULL),
-	 (3000024,'코스모캐피탈','2021-06-16 11:26:50.199723',11,NULL,NULL),
-	 (3000025,'NH농협캐피탈','2021-06-16 11:27:05.64217',11,NULL,NULL),
-	 (3000026,'메리츠캐피탈','2021-06-16 11:27:17.087857',11,NULL,NULL),
-	 (3000027,'애큐온캐피탈','2021-06-16 11:27:25.567339',11,NULL,NULL),
-	 (3000028,'sy오토캐피탈','2021-06-16 11:27:38.58871',11,NULL,NULL),
-	 (3000029,'신한캐피탈','2021-06-16 11:27:48.447869',11,NULL,NULL);
-INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES
-	 (3000030,'엠캐피탈','2021-06-16 11:27:55.287875',11,NULL,NULL),
-	 (3000031,'BMW파이낸셜','2021-06-16 11:28:04.900266',11,NULL,NULL),
-	 (3000032,'현대캐피탈','2021-06-16 11:28:12.540104',11,NULL,NULL),
-	 (3000033,'현대커머셜','2021-06-16 11:28:18.142747',11,NULL,NULL),
-	 (3000034,'롯데캐피탈','2021-06-16 11:28:25.178683',11,NULL,NULL),
-	 (3000035,'BNK캐피탈','2021-06-16 11:28:33.771208',11,NULL,NULL),
-	 (3000036,'KB캐피탈','2021-06-16 11:28:40.6957',11,NULL,NULL),
-	 (3000037,'DGB캐피탈','2021-06-16 11:28:54.558517',11,NULL,NULL),
-	 (3000038,'한국캐피탈','2021-06-16 11:29:04.744849',11,NULL,NULL),
-	 (3000039,'우리금융캐피탈','2021-06-16 11:29:12.948429',11,NULL,NULL);
-INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES
-	 (3000040,'오케이캐피탈','2021-06-16 11:29:23.121124',11,NULL,NULL),
-	 (3000041,'JB우리캐피탈','2021-06-16 11:29:31.358764',11,NULL,NULL),
-	 (3000042,'미래에셋캐피탈','2021-06-16 11:29:38.87002',11,NULL,NULL),
-	 (3000043,'AJ캐피탈파트너스','2021-06-16 11:29:48.689121',11,NULL,NULL),
-	 (3000044,'산은캐피탈','2021-06-16 11:29:57.294718',11,NULL,NULL),
-	 (3000045,'스타파이낸셜','2021-06-16 11:30:07.962549',11,NULL,NULL),
-	 (3000046,'웰릭스캐피탈','2021-06-16 11:30:16.890363',11,NULL,NULL),
-	 (3000047,'롯데카드','2021-06-16 11:30:23.712631',11,NULL,NULL),
-	 (3000048,'삼성카드','2021-06-16 11:30:30.026527',11,NULL,NULL),
-	 (3000049,'신한카드','2021-06-16 11:30:35.425402',11,NULL,NULL);
-INSERT INTO public.tb_lc_company (com_code,com_name,reg_timestamp,reg_seq,upd_timestamp,upd_seq) VALUES
-	 (3000050,'우리카드','2021-06-16 11:30:40.496004',11,NULL,NULL),
-	 (3000051,'하나카드','2021-06-16 11:30:46.357925',11,NULL,NULL),
-	 (3000052,'현대카드','2021-06-16 11:30:51.329615',11,NULL,NULL),
-	 (3000053,'KB국민카드','2021-06-16 11:30:57.641344',11,NULL,NULL),
-	 (3000054,'NH농협카드','2021-06-16 11:31:06.000566',11,NULL,NULL),
-	 (3000055,'ES파이낸셜','2021-06-16 11:31:11.81534',11,NULL,NULL),
-	 (3000056,'CNH캐피탈','2021-06-16 11:31:19.670004',11,NULL,NULL),
-	 (3000057,'스카니아파이낸스','2021-06-16 11:31:27.127705',11,NULL,NULL),
-	 (3000058,'비씨카드','2021-06-16 11:31:34.343775',11,NULL,NULL);
 
-------------------------------- 사용금지-----------------------------
 
-INSERT INTO tb_lc_company (com_name,pl_merchant_no,pl_business_no,comp_phone_no) VALUES
-	 ('여신금융협회','12341234','44443330','01031672126'),
-	 ('현대카드','12341234','44443330','01031672126'),
-	 ('볼보파이낸셜','55556666','11112345','01031672162'),
-	 ('우체국','45674567','88888888','01031672162');
-	 
-	 
+
+
+
+
+
+
+
+INSERT INTO tb_lc_company VALUES('3000011','볼보파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000012','IBK캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000013','하나캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000014','벤츠파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000015','JT캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000016','토요타파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000017','오릭스캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000018','RCI파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000019','폭스바겐파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000020','DB캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000021','도이치파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000022','케이카캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000023','롯데오토리스',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000024','코스모캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000025','NH농협캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000026','메리츠캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000027','애큐온캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000028','SY오토캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000029','신한캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000030','엠캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000031','BMW파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000032','현대캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000033','현대커머셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000034','롯데캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000035','BNK캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000036','KB캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000037','DGB캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000038','한국캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000039','우리금융캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000040','오케이캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000041','JB우리캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000042','미래에셋캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000043','AJ캐피탈파트너스',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000044','산은캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000045','스타파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000046','웰릭스캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000047','롯데카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000048','삼성카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000049','신한카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000050','우리카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000051','하나카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000052','현대카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000053','KB국민카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000054','NH농협카드',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000055','ES파이낸셜',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000056','CNH캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000057','스카니아파이낸스',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000058','리딩에이스캐피탈',NOW(),1,NOW(),1		);
+INSERT INTO tb_lc_company VALUES('3000059','비씨카드',NOW(),1,NOW(),1		);
+
+
+
+
 	 
 INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('CAR001','구분','구분',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:02.734948',NULL,NULL),

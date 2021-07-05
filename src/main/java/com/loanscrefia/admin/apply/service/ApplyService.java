@@ -835,63 +835,66 @@ public class ApplyService {
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
 			// 금융상품 3, 6번 제외
-			
-			// 2021-06-25 은행연합회 API 통신 - 등록
-			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-			JsonObject jsonParam = new JsonObject();
-			if("1".equals(statCheck.getPlClass())) {
-				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.CheckLoanUrl, "POST");				
-			}else {
-				jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "POST");
-			}
-			
-			if("success".equals(responseMsg.getCode())) {
-				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-				// 가등록에서 본등록시 등록번호 발급
-				String lcNum = "";
-				UserDomain userDomain = new UserDomain();
+			String prdCheck = statCheck.getPlProduct();
+			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+				
+				// 2021-06-25 은행연합회 API 통신 - 등록
+				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+				JsonObject jsonParam = new JsonObject();
 				if("1".equals(statCheck.getPlClass())) {
-					lcNum = responseJson.getString("lc_num");
+					jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST");				
 				}else {
-					lcNum = responseJson.getString("lc_corp_num");
+					jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST");
 				}
 				
-				// 계약번호 갖고오기[배열]
-				// 등록시 가등록번호를 은행연합회에 던지고 1:N인 등록번호를 받고
-				// 하나의 KEY인 계약번호를 받는데 계약번호가 배열로 리턴되면 뭐가 내번호인지 어케알수있음?????
-				// 계약금융기관코드로 판별????
-				// 가등록시 계약금융기관코드가 필수임 확인해야함 - 중요
-
-				String conNum = "";
-				JSONObject jsonObj = new JSONObject();
-				JSONArray conArr = responseJson.getJSONArray("con_arr");
-				for(int i=0; i<conArr.length(); i++){
-					jsonObj = conArr.getJSONObject(i);
-					// 가등록시 등록되어있던 금융기관코드 확인
-					String comCode = statCheck.getComCode();
-					String finCode = jsonObj.getString("fin_code"); 
-					if(comCode.equals(finCode)) {
-						conNum = jsonObj.getString("con_num");
+				if("success".equals(responseMsg.getCode())) {
+					JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+					// 가등록에서 본등록시 등록번호 발급
+					String lcNum = "";
+					UserDomain userDomain = new UserDomain();
+					if("1".equals(statCheck.getPlClass())) {
+						lcNum = responseJson.getString("lc_num");
+					}else {
+						lcNum = responseJson.getString("lc_corp_num");
 					}
-				}
-				
-				if(StringUtils.isEmpty(conNum)) {
-					return new ResponseMsg(HttpStatus.OK, "fail", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
-				}
-				
-				userDomain.setMasterSeq(applyDomain.getMasterSeq());
-				userDomain.setPlRegistNo(lcNum);
-				userDomain.setConNum(conNum);
-				int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
-				if(updateCnt > 0) {
-					apiCheck = true;
+					
+					// 계약번호 갖고오기[배열]
+					// 등록시 가등록번호를 은행연합회에 던지고 1:N인 등록번호를 받고
+					// 하나의 KEY인 계약번호를 받는데 계약번호가 배열로 리턴되면 뭐가 내번호인지 어케알수있음?????
+					// 계약금융기관코드로 판별????
+					// 가등록시 계약금융기관코드가 필수임 확인해야함 - 중요
+					
+					String conNum = "";
+					JSONObject jsonObj = new JSONObject();
+					JSONArray conArr = responseJson.getJSONArray("con_arr");
+					for(int i=0; i<conArr.length(); i++){
+						jsonObj = conArr.getJSONObject(i);
+						// 가등록시 등록되어있던 금융기관코드 확인
+						String comCode = statCheck.getComCode();
+						String finCode = jsonObj.getString("fin_code"); 
+						if(comCode.equals(finCode)) {
+							conNum = jsonObj.getString("con_num");
+						}
+					}
+					
+					if(StringUtils.isEmpty(conNum)) {
+						return new ResponseMsg(HttpStatus.OK, "fail", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
+					}
+					
+					userDomain.setMasterSeq(applyDomain.getMasterSeq());
+					userDomain.setPlRegistNo(lcNum);
+					userDomain.setConNum(conNum);
+					int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
+					if(updateCnt > 0) {
+						apiCheck = true;
+					}else {
+						return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+					}
 				}else {
-					return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+					return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
 				}
-			}else {
-				return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
 			}
 			
 		}else if("10".equals(applyDomain.getPlStat())) {
@@ -901,7 +904,6 @@ public class ApplyService {
 
 			
 			// 2021-06-25 은행연합회 API 통신 - 가등록 취소
-			
 			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JsonObject jsonParam = new JsonObject();
 			if("1".equals(statCheck.getPlClass())) {
