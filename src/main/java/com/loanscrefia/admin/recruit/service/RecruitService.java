@@ -897,10 +897,6 @@ public class RecruitService {
 			
 			// ---------------- 조회 후 분기 처리 -------------------------------------- //
 			
-			
-			
-			apiCheck = true;
-			
 		}else if("6".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 보완요청
 			emailDomain.setInstId("146");

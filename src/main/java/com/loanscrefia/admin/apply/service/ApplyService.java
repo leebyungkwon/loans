@@ -832,9 +832,6 @@ public class ApplyService {
 			emailDomain.setInstId("143");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
-			
-			/*
-			
 			// 2021-06-25 은행연합회 API 통신 - 등록
 			String apiKey = kfbApiRepository.selectKfbApiKey();
 			JsonObject jsonParam = new JsonObject();
@@ -893,16 +890,11 @@ public class ApplyService {
 				return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
 			}
 			
-			*/
-			
-			apiCheck = true;
-			
 		}else if("10".equals(applyDomain.getPlStat())) {
 			// 승인요청에 대한 부적격
 			emailDomain.setInstId("144");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());
 
-			/*
 			
 			// 2021-06-25 은행연합회 API 통신 - 가등록 취소
 			String apiKey = kfbApiRepository.selectKfbApiKey();
@@ -920,11 +912,6 @@ public class ApplyService {
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
 			}
-			
-			*/
-			
-			
-			apiCheck = true;
 			
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
