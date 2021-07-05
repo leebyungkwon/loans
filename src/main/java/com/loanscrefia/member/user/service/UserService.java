@@ -207,7 +207,6 @@ public class UserService {
 				}else {
 					//에러메세지 없음 -> 저장
 					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X
-					/*
 					String apiToken = kfbApiService.selectKfbApiKey();
 					String apiMsg 	= "";
 					
@@ -268,7 +267,6 @@ public class UserService {
 							}
 						}
 					}
-					*/
 					
 					/*
 					if(apiMsg != null && !apiMsg.equals("")) {
