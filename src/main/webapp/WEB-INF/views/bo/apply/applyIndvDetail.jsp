@@ -244,7 +244,9 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>처리상태</th>
-					<td colspan="3">${result.applyInfo.plStatNm }</td>
+					<td>${result.applyInfo.plStatNm }</td>
+					<th>가등록번호</th>
+					<td>${result.applyInfo.preLcNum}</td>
 				</tr>
 				<tr>
 					<th>모집인 분류</th>

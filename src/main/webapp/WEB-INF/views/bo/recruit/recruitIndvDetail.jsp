@@ -181,7 +181,9 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>처리상태</th>
-					<td colspan="3">${result.recruitInfo.plStatNm }</td>
+					<td>${result.recruitInfo.plStatNm }</td>
+					<th>등록번호</th>
+					<td>${result.recruitInfo.plRegistNo}</td>
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
