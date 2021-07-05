@@ -54,7 +54,7 @@ public class UserService {
 	@Autowired private KfbApiService kfbApiService;
 	
 	//첨부파일 경로
-	@Value("${download.filePath}")
+	@Value("${upload.filePath}")
 	public String uPath;
 	
 	/* -------------------------------------------------------------------------------------------------------
