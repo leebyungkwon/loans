@@ -30,9 +30,12 @@ public interface KfbApiRepository {
 	//회원정보 수정 - 은행연합회에서 전달받은 등록번호 update
 	int updateKfbApiByUserInfo(UserDomain userDomain);
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 시스템 > API관리
+	 * -------------------------------------------------------------------------------------------------------
+	 */
 	
-	
-	// API리스트 조회
+	//API리스트 조회
 	List<KfbApiDomain> selectApiList(KfbApiDomain kfbApiDomain);
 	
 	

@@ -200,9 +200,9 @@ public class KfbApiService {
 		        System.out.println("#########################################");
 		        
 		        //응답 이력 저장
-	            logParam.setResCode("");
-	            logParam.setResMsg("getAuthCode() > conn.getResponseCode()가 200이 아닙니다.");
-	            logParam.setResData("");
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg("getAuthCode() 메소드 확인 필요");
+	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
 			}
 			
@@ -291,9 +291,9 @@ public class KfbApiService {
 		        System.out.println("#########################################");
 		        
 		        //응답 이력 저장
-	            logParam.setResCode("");
-	            logParam.setResMsg("getAuthToken() > conn.getResponseCode()가 200이 아닙니다.");
-	            logParam.setResData("");
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg("getAuthToken() 메소드 확인 필요");
+	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
 			}
 			
@@ -339,11 +339,12 @@ public class KfbApiService {
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
+		}else {
+			authToken = "Bearer " + authToken;
 		}
 		
 		try {
 			//URL 설정
-			
 			String param = "?name=테스트&ssn=8801021155715&ci=0000000000000000000000000000000==&loan_type=05";
 			
 			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl+param);
@@ -353,7 +354,7 @@ public class KfbApiService {
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("Authorization", authToken);
-			
+			conn.connect();
 			
 			//conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			//conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
@@ -371,8 +372,6 @@ public class KfbApiService {
 	        bw.close();
 			*/
 			
-			conn.connect();
-			
             System.out.println("#########################################");
             System.out.println("conn :: " + conn);
             System.out.println("#########################################");
@@ -387,6 +386,7 @@ public class KfbApiService {
 	        
 	        //요청 결과
 	        int responseCode = conn.getResponseCode();
+	        
 	        if(responseCode == 200) {
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	StringBuilder sb 	= new StringBuilder();
@@ -396,9 +396,11 @@ public class KfbApiService {
 	            	sb.append(line);
 	            }
 	            
-	            br.close();
-	            
+	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
+	            
+	            //message
+		        message = responseJson.getString("res_msg");
 	            
 	            System.out.println("#########################################");
 	            System.out.println("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
@@ -408,13 +410,13 @@ public class KfbApiService {
 	            if(responseJson.getString("res_code").equals("200")) {
 	            	//successCheck
 	            	successCheck = "success";
-		            
-		            //응답 이력 저장
-		            logParam.setResCode(responseJson.getString("res_code"));
-		            logParam.setResMsg(responseJson.getString("res_msg"));
-		            logParam.setResData(responseJson.toString());
-		            this.insertKfbApiResLog(logParam);
 	            }
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(message);
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
 	        	
 	        }else {
 	        	System.out.println("#########################################");
@@ -423,9 +425,12 @@ public class KfbApiService {
 		        System.out.println("#########################################");
 		        System.out.println("#########################################");
 		        
+		        //message
+		        message = "checkLoan() 메소드 확인 필요";
+		        
 		        //응답 이력 저장
-	            logParam.setResCode("ER");
-	            logParam.setResMsg("checkLoan() > conn.getResponseCode() ==" + responseCode);
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg(message);
 	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
 	        }
