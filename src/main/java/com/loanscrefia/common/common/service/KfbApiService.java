@@ -105,7 +105,6 @@ public class KfbApiService {
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
-			conn.connect();
 			
 			//요청 결과
 			int responseCode = conn.getResponseCode();
@@ -152,7 +151,6 @@ public class KfbApiService {
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
 			conn.setDoOutput(false);
-			conn.connect();
 			
 			//요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
@@ -238,7 +236,6 @@ public class KfbApiService {
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
 			conn.setRequestProperty("Authorize_code", authCode);
 			conn.setDoOutput(false);
-			conn.connect();
 			
 			//요청 결과
 			int responseCode = conn.getResponseCode();
@@ -354,28 +351,6 @@ public class KfbApiService {
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("Authorization", authToken);
-			conn.connect();
-			
-			//conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
-			//conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
-			//conn.setRequestProperty("Authorize_code", authCode);
-			
-			//conn.setRequestProperty("name", "테스트");
-			//conn.setRequestProperty("ssn", "8801021155715");
-			//conn.setRequestProperty("ci", "0000000000000000000000000000000==");
-			//conn.setRequestProperty("loan_type", "05");
-			
-			/*
-	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-	        bw.write(reqParam.toString());
-	        bw.flush();
-	        bw.close();
-			*/
-			
-            System.out.println("#########################################");
-            System.out.println("conn :: " + conn);
-            System.out.println("#########################################");
-
 	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
@@ -395,6 +370,9 @@ public class KfbApiService {
 	            while((line = br.readLine()) != null) {
 	            	sb.append(line);
 	            }
+	            
+	            br.close();
+	            
 	            
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());

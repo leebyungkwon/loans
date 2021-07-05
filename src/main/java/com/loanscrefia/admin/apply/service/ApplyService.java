@@ -834,6 +834,8 @@ public class ApplyService {
 			emailDomain.setInstId("143");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
+			// 금융상품 3, 6번 제외
+			
 			// 2021-06-25 은행연합회 API 통신 - 등록
 			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JsonObject jsonParam = new JsonObject();

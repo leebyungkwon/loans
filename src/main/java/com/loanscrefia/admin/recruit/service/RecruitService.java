@@ -765,6 +765,9 @@ public class RecruitService {
 		boolean apiCheck = false;
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		
+		// 금융상품 3, 6번 제외
+		
+		
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 승인
 			emailDomain.setInstId("145");

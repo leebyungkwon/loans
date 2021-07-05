@@ -119,7 +119,20 @@ public class ApiController {
 	
 	
 	
+
 	
+	// 개인 가등록 테스트
+	@PostMapping(value="/api/loanRegTest")
+	public ResponseEntity<ResponseMsg> loanRegTest(KfbApiDomain kfbApiDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
+		String tempToken 		= kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JsonObject reqParam 	= new JsonObject();
+		responseMsg.setData(kfbApiService.preLoanIndv(tempToken,reqParam, "POST"));
+		
+		
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 	

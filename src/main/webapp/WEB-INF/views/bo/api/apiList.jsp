@@ -95,7 +95,30 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
+	
+	//개인 등록가능 여부 조회 테스트
+	$("#loanRegTest").on("click", function(){
+		var p = {
+			  url		: "/system/api/loanRegTest"	
+			, param		: {}
+			, success 	: function (opt,result) {
+				console.log("결과값 ===" + JSON.stringify(result));
+				console.log("loanRegTest :: "+result);
+				alert(result.data);
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	
+	
+	
+	
 }
+
+
+
+
 
 //날짜 가져오기
 function goGetDate(opt) {
@@ -157,6 +180,7 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanCheckTest">개인등록여부조회</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanRegTest">가등록테스트</a>
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>
