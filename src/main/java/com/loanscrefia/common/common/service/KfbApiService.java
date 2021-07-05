@@ -227,13 +227,16 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+TokenUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//authCode
+			String authCode 		= this.getAuthCode();
 	        
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
 			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
-			conn.setRequestProperty("Authorize_code", this.getAuthCode());
+			conn.setRequestProperty("Authorize_code", authCode);
 			conn.setDoOutput(false);
 			conn.connect();
 			
@@ -244,7 +247,7 @@ public class KfbApiService {
 	        KfbApiDomain logParam = new KfbApiDomain();
 	        logParam.setToken("");
 	        logParam.setUrl(this.getApiDomain()+TokenUrl);
-	        logParam.setSendData("Authorize_code :: " + this.getAuthCode());
+	        logParam.setSendData("Authorize_code :: " + authCode);
 	        this.insertKfbApiReqLog(logParam);
 			
 			if(responseCode == 200) {
@@ -340,21 +343,40 @@ public class KfbApiService {
 		
 		try {
 			//URL 설정
-			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl);
+			
+			String param = "?name=테스트&ssn=8801021155715&ci=0000000000000000000000000000000==&loan_type=05";
+			
+			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl+param);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("Authorization", authToken);
-			conn.setDoOutput(true);
-			conn.connect();
 			
-	        //요청 데이터 전송
-	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
+			
+			//conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
+			//conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
+			//conn.setRequestProperty("Authorize_code", authCode);
+			
+			//conn.setRequestProperty("name", "테스트");
+			//conn.setRequestProperty("ssn", "8801021155715");
+			//conn.setRequestProperty("ci", "0000000000000000000000000000000==");
+			//conn.setRequestProperty("loan_type", "05");
+			
+			/*
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 	        bw.write(reqParam.toString());
 	        bw.flush();
 	        bw.close();
+			*/
+			
+			conn.connect();
+			
+            System.out.println("#########################################");
+            System.out.println("conn :: " + conn);
+            System.out.println("#########################################");
+
 	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
@@ -365,7 +387,6 @@ public class KfbApiService {
 	        
 	        //요청 결과
 	        int responseCode = conn.getResponseCode();
-	        
 	        if(responseCode == 200) {
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	StringBuilder sb 	= new StringBuilder();
@@ -375,12 +396,12 @@ public class KfbApiService {
 	            	sb.append(line);
 	            }
 	            
+	            br.close();
+	            
 	            responseJson = new JSONObject(sb.toString());
 	            
 	            System.out.println("#########################################");
-	            System.out.println("#########################################");
 	            System.out.println("KfbApiService >> checkLoan() > responseJson :: " + responseJson);
-	            System.out.println("#########################################");
 	            System.out.println("#########################################");
 	            
 	            //결과
@@ -403,9 +424,9 @@ public class KfbApiService {
 		        System.out.println("#########################################");
 		        
 		        //응답 이력 저장
-	            logParam.setResCode("");
-	            logParam.setResMsg("checkLoan() > conn.getResponseCode()가 200이 아닙니다.");
-	            logParam.setResData("");
+	            logParam.setResCode("ER");
+	            logParam.setResMsg("checkLoan() > conn.getResponseCode() ==" + responseCode);
+	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
 	        }
 	        
