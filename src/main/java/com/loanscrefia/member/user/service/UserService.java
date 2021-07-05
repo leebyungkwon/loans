@@ -20,6 +20,7 @@ import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.admin.edu.domain.EduDomain;
 import com.loanscrefia.admin.edu.service.EduService;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.common.service.KfbApiService;
@@ -207,7 +208,8 @@ public class UserService {
 				}else {
 					//에러메세지 없음 -> 저장
 					//(1)은행연합회 통신(등록가능 여부 조회) : 한건이라도 등록이 불가능한 모집인이 있으면 데이터 등록 X
-					String apiToken = kfbApiService.selectKfbApiKey();
+					KfbApiDomain kfbApiDomain = new KfbApiDomain();
+					String apiToken = kfbApiService.selectKfbApiKey(kfbApiDomain);
 					String apiMsg 	= "";
 					
 					for(int i = 0;i < excelResult.size();i++) {

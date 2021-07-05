@@ -25,7 +25,7 @@ public interface KfbApiRepository {
 	void insertKfbApiKey(KfbApiDomain kfbApiDomain);
 	
 	//은행연합회 토큰 조회
-	String selectKfbApiKey();
+	String selectKfbApiKey(KfbApiDomain kfbApiDomain);
 	
 	//회원정보 수정 - 은행연합회에서 전달받은 등록번호 update
 	int updateKfbApiByUserInfo(UserDomain userDomain);

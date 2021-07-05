@@ -318,8 +318,8 @@ public class KfbApiService {
 	
 	//은행연합회 토큰 조회
 	@Transactional(readOnly=true)
-	public String selectKfbApiKey() {
-		return kfbApiRepo.selectKfbApiKey();
+	public String selectKfbApiKey(KfbApiDomain kfbApiDomain) {
+		return kfbApiRepo.selectKfbApiKey(kfbApiDomain);
 	}
 	
 	/* -------------------------------------------------------------------------------------------------------

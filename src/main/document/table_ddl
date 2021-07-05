@@ -958,7 +958,7 @@ create table shedlock (
 -- 은행연합회 api_key 배치
 create table kfb_api_key(
 	ins_dt varchar(8) not null
-	, key varchar(200) not null
+	, key text not null
 	, reg_timestamp timestamp not null
 	, PRIMARY KEY(ins_dt)
 );

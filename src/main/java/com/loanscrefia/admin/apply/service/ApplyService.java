@@ -20,6 +20,7 @@ import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
@@ -816,6 +817,7 @@ public class ApplyService {
 		
 		// API성공여부
 		boolean apiCheck = false;
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		
 		if("5".equals(applyDomain.getPlStat())) {
 			// 승인요청에 대한 보완
@@ -833,7 +835,7 @@ public class ApplyService {
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
 			// 2021-06-25 은행연합회 API 통신 - 등록
-			String apiKey = kfbApiRepository.selectKfbApiKey();
+			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JsonObject jsonParam = new JsonObject();
 			if("1".equals(statCheck.getPlClass())) {
 				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
@@ -897,7 +899,8 @@ public class ApplyService {
 
 			
 			// 2021-06-25 은행연합회 API 통신 - 가등록 취소
-			String apiKey = kfbApiRepository.selectKfbApiKey();
+			
+			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JsonObject jsonParam = new JsonObject();
 			if("1".equals(statCheck.getPlClass())) {
 				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());

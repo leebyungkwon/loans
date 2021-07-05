@@ -62,7 +62,20 @@ public class ApiController {
 	@PostMapping(value="/api/getApiCode")
 	public ResponseEntity<ResponseMsg> getApiCode(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg.setData(kfbApiService.getAuthCode());
+		//responseMsg.setData(kfbApiService.getAuthCode());
+		
+		
+		String authCode = kfbApiService.getAuthCode();
+		System.out.println("코드 결과값 :: " + authCode);
+		System.out.println("코드 결과값 :: " + authCode);
+		System.out.println("코드 결과값 :: " + authCode);
+		System.out.println("코드 결과값 :: " + authCode);
+		System.out.println("코드 결과값 :: " + authCode);
+		System.out.println("코드 결과값 :: " + authCode);
+		System.out.println("코드 결과값 :: " + authCode);
+		
+		
+		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -80,10 +93,20 @@ public class ApiController {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		
 		
-		String apiKey = kfbApiRepository.selectKfbApiKey();
+		System.out.println("####### 조회시작 #######");
 		
-		String tempToken 		= apiKey;
+		
+		
+		String tempToken 		= kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 		JsonObject reqParam 	= new JsonObject();
+		
+		
+		
+		System.out.println("####### 조회시작 끝 #######");
+		System.out.println("####### 조회시작 끝 #######");
+		System.out.println("####### 조회시작 끝 #######");
+		System.out.println("####### 조회시작 끝 #######");
+		
 		
 		reqParam.addProperty("name", "테스트");
 		reqParam.addProperty("ssn", "8801021155715");

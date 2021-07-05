@@ -24,6 +24,7 @@ import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.admin.recruit.repository.RecruitRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
@@ -762,6 +763,7 @@ public class RecruitService {
 		
 		// API성공여부
 		boolean apiCheck = false;
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 승인
@@ -770,7 +772,7 @@ public class RecruitService {
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
 			// 2021-07-04 은행연합회 API 통신 - 수정
-			String apiKey = kfbApiRepository.selectKfbApiKey();
+			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JsonObject jsonParam = new JsonObject();
 			JsonObject jsonArrayParam = new JsonObject();
 			JsonArray jsonArray = new JsonArray();
@@ -910,7 +912,7 @@ public class RecruitService {
 			
 			// 2021-07-04 말소가 뭐였지... 확인해봐야함
 			// 2021-07-04 은행연합회 API 통신 - 수정
-			String apiKey = kfbApiRepository.selectKfbApiKey();
+			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JsonObject jsonParam = new JsonObject();
 			JsonObject jsonArrayParam = new JsonObject();
 			JsonArray jsonArray = new JsonArray();
