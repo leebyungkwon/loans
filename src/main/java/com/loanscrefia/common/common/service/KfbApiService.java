@@ -328,7 +328,7 @@ public class KfbApiService {
 	 */
 	
 	//등록가능 여부 조회
-	public ResponseMsg checkLoan(String authToken, JsonObject reqParam) {
+	public ResponseMsg checkLoan(String authToken, JSONObject reqParam) {
 		
 		String successCheck 	= "fail";
 		String message 			= "";
@@ -341,9 +341,14 @@ public class KfbApiService {
 		}
 		
 		try {
-			//URL 설정
-			String param = "?name=테스트&ssn=8801021155715&ci=0000000000000000000000000000000==&loan_type=05";
+			//파라미터 설정
+			String param = "?";
+			param += "name="+reqParam.getString("name");
+			param += "&ssn="+reqParam.getString("ssn");
+			param += "&ci="+reqParam.getString("ci");
+			param += "&loan_type="+reqParam.getString("loan_type");
 			
+			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl+param);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 			
@@ -372,7 +377,6 @@ public class KfbApiService {
 	            }
 	            
 	            br.close();
-	            
 	            
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
@@ -428,11 +432,17 @@ public class KfbApiService {
 	}
 	
 	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
-	public ResponseMsg preLoanIndv(String authToken, JsonObject reqParam, String method) {
+	public ResponseMsg preLoanIndv(String authToken, JSONObject reqParam, String method) {
 		
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		
+		if(StringUtils.isEmpty(authToken)) {
+			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
+		}else {
+			authToken = "Bearer " + authToken;
+		}
 		
 		try {
 			//URL 설정
@@ -444,17 +454,15 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
 			
-			if(method.equals("POST")) {
+			if(!method.equals("GET")) {
 				conn.setDoOutput(true);
-			}else {
-				conn.setDoOutput(false);
+				
+				//요청 데이터 전송
+		        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+		        bw.write(reqParam.toString());
+		        bw.flush();
+		        bw.close();
 			}
-			
-	        //요청 데이터 전송
-	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-	        bw.write(reqParam.toString());
-	        bw.flush();
-	        bw.close();
 	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
@@ -466,56 +474,7 @@ public class KfbApiService {
 	        //요청 결과
 	        int responseCode = conn.getResponseCode();
 	        
-	        System.out.println("#########################################");
-	        System.out.println("#########################################");
-	        System.out.println("KfbApiService >> preLoanIndv() > responseCode :: " + responseCode);
-	        System.out.println("#########################################");
-	        System.out.println("#########################################");
-	        
-	        if(responseCode == 401) {
-				System.out.println("401 : 인증오류");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "401 : 인증오류\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 403) {
-				System.out.println("403 : 접근권한이 없는 리소스 요청");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "403 : 접근권한이 없는 리소스 요청\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 404) {
-				System.out.println("404 : 해당 URI 없음");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "404 : 해당 URI 없음\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 405) {
-				System.out.println("405 : 지원하지 않는 메소드 호출");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "405 : 지원하지 않는 메소드 호출\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 406) {
-				System.out.println("406 : JSON 형식의 요청이 아닐 경우");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "406 : JSON 형식 요청 확인\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 420) {
-				System.out.println("420 : 필수 파라미터 미입력");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "420 : 필수 파라미터 미입력\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 421) {
-				System.out.println("421 : 파라미터 형식 오류");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "421 : 파라미터 형식 오류\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 422) {
-				System.out.println("422 : 타 협회 가등록 진행 중");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "422 : 타 협회 가등록 진행 중\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 423) {
-				System.out.println("423 : 대출모집인 유형 중복");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "423 : 대출모집인 유형 중복\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 424) {
-				System.out.println("424 : 해당 데이터 없음");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "424 : 해당 데이터 없음\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 425) {
-				System.out.println("425 : 본 등록 완료 된 가등록");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "425 : 본 등록 완료 된 가등록\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 426) {
-				System.out.println("426 : 취소 된 가등록");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "426 : 취소 된 가등록\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 427) {
-				System.out.println("427 : 가등록 기간 만료");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "427 : 가등록 기간 만료\n시스템관리자에게 문의해 주세요.");
-			}else if(responseCode == 428) {
-				System.out.println("428 : 업권이 일치하지 않음");
-				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "428 : 업권이 일치하지 않음\n시스템관리자에게 문의해 주세요.");
-			}else {
-				//성공
+	        if(responseCode == 200) {
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -524,20 +483,49 @@ public class KfbApiService {
 	            	sb.append(line);
 	            }
 	            
+	            br.close();
+	            
+	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
 	            
+	            //message
+		        message = responseJson.getString("res_msg");
+	            
 	            System.out.println("#########################################");
-		        System.out.println("#########################################");
-		        System.out.println("KfbApiService >> preLoanIndv() > responseJson :: " + responseJson);
-		        System.out.println("#########################################");
-		        System.out.println("#########################################");
+	            System.out.println("KfbApiService >> preLoanIndv() > responseJson :: " + responseJson);
+	            System.out.println("#########################################");
+	            
+	            //결과
+	            if(responseJson.getString("res_code").equals("200")) {
+	            	//successCheck
+	            	successCheck = "success";
+	            }
 	            
 	            //응답 이력 저장
 	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(responseJson.getString("res_msg"));
+	            logParam.setResMsg(message);
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
-	        } 
+	            
+	        }else {
+	        	System.out.println("#########################################");
+		        System.out.println("#########################################");
+		        System.out.println("KfbApiService >> preLoanIndv() > 통신오류");
+		        System.out.println("#########################################");
+		        System.out.println("#########################################");
+		        
+		        //message
+		        message = "preLoanIndv() 메소드 확인 필요";
+		        
+		        //응답 이력 저장
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg(message);
+	            logParam.setResData("empty");
+	            this.insertKfbApiResLog(logParam);
+	        }
+	        
+	        conn.disconnect();
+	        
 	    } catch (MalformedURLException e) {
 	        e.printStackTrace();
 	    } catch (IOException e) {

@@ -1,6 +1,6 @@
 package com.loanscrefia.system.api.controller;
 
-
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonObject;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.KfbApiService;
@@ -91,48 +90,18 @@ public class ApiController {
 	@PostMapping(value="/api/loanCheckTest")
 	public ResponseEntity<ResponseMsg> loanCheckTest(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		
-		
-		System.out.println("####### 조회시작 #######");
-		
-		
-		
 		String tempToken 		= kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-		JsonObject reqParam 	= new JsonObject();
+		JSONObject reqParam 	= new JSONObject();
 		
-		
-		
-		System.out.println("####### 조회시작 끝 #######");
-		System.out.println("####### 조회시작 끝 #######");
-		System.out.println("####### 조회시작 끝 #######");
-		System.out.println("####### 조회시작 끝 #######");
-		
-		
-		reqParam.addProperty("name", "테스트");
-		reqParam.addProperty("ssn", "8801021155715");
-		reqParam.addProperty("ci", "0000000000000000000000000000000==");
-		reqParam.addProperty("loan_type", "05");
+		reqParam.put("name", "테스트");
+		reqParam.put("ssn", "8801021155715");
+		reqParam.put("ci", "0000000000000000000000000000000==");
+		reqParam.put("loan_type", "05");
 		
 		responseMsg.setData(kfbApiService.checkLoan(tempToken,reqParam));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
-	
-
-	
-	// 개인 가등록 테스트
-	@PostMapping(value="/api/loanRegTest")
-	public ResponseEntity<ResponseMsg> loanRegTest(KfbApiDomain kfbApiDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		String tempToken 		= kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-		JsonObject reqParam 	= new JsonObject();
-		responseMsg.setData(kfbApiService.preLoanIndv(tempToken,reqParam, "POST"));
-		
-		
-		
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
 	
 	
 	

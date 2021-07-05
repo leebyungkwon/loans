@@ -464,6 +464,8 @@
 			,COM_CONT_DATE
 			,ENTRUST_DATE
 			,CI
+			,PRE_LC_NUM
+			,PRE_REG_YN
 			,REG_TIMESTAMP
    		)
    		VALUES
@@ -474,7 +476,7 @@
    			,#{regSeq}
    			,'1'							-- 승인전
    			,'1'							-- 승인미요청
-   			,#{plClass} 					-- 개인,법인
+   			,'1'		 					-- 개인,법인
    			<choose>
    				<when test="(item.G != null and item.G != '') and (item.H != null and item.H != '')">
 					,'Y'
@@ -498,6 +500,8 @@
    			,REPLACE(#{item.M}, '-', '')	-- 계약일자
    			,REPLACE(#{item.N}, '-', '')	-- 위탁예정기간
    			,#{item.O}						-- CI
+   			,#{item.preLcNum}				-- 가등록 번호
+   			,#{item.preRegYn}				-- 수수료 기 납부 여부
    			,NOW()
    		)
    		</foreach>
@@ -527,6 +531,8 @@
 			,COM_CONT_DATE
 			,ENTRUST_DATE
 			,CI
+			,PRE_LC_NUM
+			,PRE_REG_YN
 			,REG_TIMESTAMP
    		)
    		VALUES
@@ -537,7 +543,7 @@
    			,#{regSeq}
    			,'1'							-- 승인전
    			,'1'							-- 승인미요청
-   			,#{plClass} 					-- 개인,법인
+   			,'2' 							-- 개인,법인
    			,#{item.A}						-- 상호
 			,#{item.B}						-- 대표이사
 			,#{item.C}						-- 주민등록번호
@@ -552,6 +558,8 @@
 			,REPLACE(#{item.L}, '-', '')	-- 계약일자
    			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
    			,#{item.N}						-- CI
+   			,#{item.preLcNum}				-- 가등록 번호
+   			,#{item.preRegYn}				-- 수수료 기 납부 여부
    			,NOW()
    		)
    		</foreach>
