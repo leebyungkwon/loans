@@ -45,7 +45,7 @@
 	</insert>
 	
 	<!-- 은행연합회 토큰 저장 -->
-	<insert id="insertKfbApiKey" parameterType="string">
+	<insert id="insertKfbApiKey" parameterType="kfbApi">
    		INSERT INTO KFB_API_KEY
    		VALUES(
    			 TO_CHAR(NOW(),'YYYYMMDD')

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonObject;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
+import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -29,6 +30,9 @@ public class ApiController {
 	
 	@Autowired
 	private ApiService apiService;
+	
+	@Autowired
+	private KfbApiRepository kfbApiRepository;
 
 	// API관리 페이지
 	@GetMapping("/api/apiPage")
@@ -50,7 +54,6 @@ public class ApiController {
 	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		responseMsg.setData(kfbApiService.getHealthCheck(KfbApiService.ApiDomain));
-		responseMsg.setData(responseMsg);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -76,7 +79,10 @@ public class ApiController {
 	public ResponseEntity<ResponseMsg> loanCheckTest(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		
-		String tempToken 		= "adfadfasdfasdfasdfasd";
+		
+		String apiKey = kfbApiRepository.selectKfbApiKey();
+		
+		String tempToken 		= apiKey;
 		JsonObject reqParam 	= new JsonObject();
 		
 		reqParam.addProperty("name", "테스트");

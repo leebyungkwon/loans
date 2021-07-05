@@ -22,7 +22,7 @@ public interface KfbApiRepository {
 	int insertKfbApiResLog(KfbApiDomain kfbApiDomain);
 	
 	//은행연합회 토큰 저장
-	void insertKfbApiKey(String key);
+	void insertKfbApiKey(KfbApiDomain kfbApiDomain);
 	
 	//은행연합회 토큰 조회
 	String selectKfbApiKey();

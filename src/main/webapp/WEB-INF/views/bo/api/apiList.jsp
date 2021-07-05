@@ -75,7 +75,8 @@ function pageLoad(){
 			  url		: "/system/api/getHealthCheck"	
 			, param		: {}
 			, success 	: function (opt,result) {
-				alert(result.data);
+				console.log("결과값 ===" + JSON.stringify(result));
+				console.log("???? == ", result);
 		    }
 		}
 		AjaxUtil.post(p);
@@ -87,6 +88,7 @@ function pageLoad(){
 			  url		: "/system/api/loanCheckTest"	
 			, param		: {}
 			, success 	: function (opt,result) {
+				console.log("결과값 ===" + JSON.stringify(result));
 				console.log("loanCheckTest :: "+result);
 				alert(result.data);
 		    }
@@ -154,7 +156,7 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanCheckTest">개인 등록가능 여부 조회</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanCheckTest">개인등록여부조회</a>
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>

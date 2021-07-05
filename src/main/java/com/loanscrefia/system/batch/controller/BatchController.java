@@ -85,8 +85,7 @@ public class BatchController {
     @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() {
     	log.info("================ apiAuthToken() START ================");
-    	String token = kfbApiService.getAuthToken();
-    	kfbApiRepository.insertKfbApiKey(token);
+    	kfbApiService.getAuthToken();
     	log.info("================ apiAuthToken() END ================");
     }
 	
