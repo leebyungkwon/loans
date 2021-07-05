@@ -118,8 +118,8 @@ public class UtilExcel<T> {
         	result.clear();
         	result.add(errorMsgMap);
         	return result;
-		}else if(physicalNumberOfRows > 51) {
-			errorMsg = "최대 50명까지 등록할 수 있습니다.";
+		}else if(physicalNumberOfRows > 31) {
+			errorMsg = "최대 30명까지 등록할 수 있습니다.";
 			errorMsgMap.put("errorMsg", errorMsg);
         	result.clear();
         	result.add(errorMsgMap);
