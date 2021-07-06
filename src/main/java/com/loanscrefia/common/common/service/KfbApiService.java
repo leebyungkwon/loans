@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.member.user.domain.UserDomain;
 
 import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
@@ -419,11 +420,16 @@ public class KfbApiService {
 	}
 	
 	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
-	public ResponseMsg preLoanIndv(String authToken, String reqParam, String method) {
+	public ResponseMsg preLoanIndv(String authToken, UserDomain reqDomain, String method) {
 		
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		
+		//요청 파라미터
+		JSONObject preLoanIndvApiReqParam 	= new JSONObject();
+		JSONObject conArrParam 				= new JSONObject();
+		JSONArray conArr					= new JSONArray();
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -435,16 +441,12 @@ public class KfbApiService {
 			//connect URL
 			String connUrl = this.getApiDomain()+PreLoanUrl;
 			
-			/*
-			
 			//파라미터 설정
-			if(method.equals("GET")) {
-				String param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
+			if(method.equals("GET") || method.equals("DELETE")) {
+				String param = "?pre_lc_num="+reqDomain.getPreLcNum();
 				
 				connUrl = connUrl + param;
 			}
-			
-			*/
 			
 			//URL 설정
 			URL url 				= new URL(connUrl);
@@ -455,28 +457,48 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
 
-			if(!method.equals("GET")) {
+			if(method.equals("POST")) {
+				preLoanIndvApiReqParam.put("name", reqDomain.getPlMerchantName());
+				preLoanIndvApiReqParam.put("ssn", CryptoUtil.decrypt(reqDomain.getPlMZId()));
+				preLoanIndvApiReqParam.put("ci", reqDomain.getCi());
+				
+				conArrParam.put("corp_num", reqDomain.getPlMerchantNo());
+				conArrParam.put("con_mobile", reqDomain.getPlCellphone());
+				conArrParam.put("con_date", reqDomain.getComContDate());
+				conArrParam.put("fin_code", Integer.toString(reqDomain.getComCode()));
+				conArrParam.put("fin_phone", "");
+				conArrParam.put("loan_type", reqDomain.getPlProduct());
+				conArr.put(conArrParam);
+				
+				preLoanIndvApiReqParam.put("con_arr", conArr);
+				
+				log.info("#########################################");
+				log.info("KfbApiService >> preLoanIndv() >> reqJson :: "+preLoanIndvApiReqParam);
+				log.info("#########################################");
+				
+				//파라미터 보내기
 				conn.setDoInput(true);
 				conn.setDoOutput(true);
 				
+				OutputStream os = conn.getOutputStream(); 
+				os.write(preLoanIndvApiReqParam.toString().getBytes()); 
+				os.flush();
+				os.close();
+				
+				/*
 				OutputStream os = null;
 				os = conn.getOutputStream(); 
-				os.write(reqParam.getBytes()); 
+				os.write(preLoanIndvApiReqParam.toString().getBytes()); 
 				os.flush();
-				
-				//요청 데이터 전송
-		        //BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-		        //bw.write(reqParam.toString());
-		        //bw.flush();
-		        //bw.close();
+				os.close();
+				*/
 			}
 			
-	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
 	        logParam.setToken(authToken);
 	        logParam.setUrl(this.getApiDomain()+PreLoanUrl);
-	        logParam.setSendData(reqParam.toString());
+	        logParam.setSendData(preLoanIndvApiReqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
 	        //요청 결과

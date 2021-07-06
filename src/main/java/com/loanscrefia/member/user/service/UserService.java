@@ -264,6 +264,25 @@ public class UserService {
 					//(3)가등록
 					for(int j = 0;j < excelResult.size();j++) {
 						if(kfbApiContinue(excelResult.get(j).get("G").toString())) { //******
+							
+							UserDomain reqDomain = new UserDomain();
+							
+							reqDomain.setPlMerchantName(excelResult.get(j).get("B").toString());
+							reqDomain.setPlMZId(CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
+							reqDomain.setCi(excelResult.get(j).get("O").toString());
+							
+							if(excelResult.get(j).get("I") == null || excelResult.get(j).get("I").equals("")) {
+								reqDomain.setPlMerchantNo("");
+							}else {
+								reqDomain.setPlMerchantNo(excelResult.get(j).get("I").toString());
+							}
+							reqDomain.setPlCellphone(excelResult.get(j).get("D").toString());
+							reqDomain.setComContDate(excelResult.get(j).get("M").toString());
+							reqDomain.setComCode(loginInfo.getComCode());
+							reqDomain.setPlProduct(excelResult.get(j).get("G").toString());
+							
+							
+							/*
 							JSONObject preLoanIndvApiReqParam 	= new JSONObject();
 							JSONObject conArrParam 				= new JSONObject();
 							JSONArray conArr					= new JSONArray();
@@ -271,9 +290,9 @@ public class UserService {
 							preLoanIndvApiReqParam.put("name", excelResult.get(j).get("B").toString());
 							preLoanIndvApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
 							preLoanIndvApiReqParam.put("ci", excelResult.get(j).get("O").toString());
-							preLoanIndvApiReqParam.put("mobile", excelResult.get(j).get("D").toString());
 							
 							conArrParam.put("corp_num", excelResult.get(j).get("I"));
+							conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
 							conArrParam.put("con_date", excelResult.get(j).get("M").toString());
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
@@ -285,8 +304,9 @@ public class UserService {
 							log.info("#########################################");
 							log.info("insertUserRegIndvInfoByExcel() >> preLoanIndvApiReqParam >> "+preLoanIndvApiReqParam);
 							log.info("#########################################");
+							*/
 							
-							ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, preLoanIndvApiReqParam.toString(), "POST");
+							ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, reqDomain, "POST");
 							
 							if(preLoanIndvApiResult.getCode().equals("success")) {
 								JSONObject preLoanIndvApiResponse = (JSONObject)preLoanIndvApiResult.getData();
