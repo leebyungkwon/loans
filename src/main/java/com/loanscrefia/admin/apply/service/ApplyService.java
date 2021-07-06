@@ -861,6 +861,10 @@ public class ApplyService {
 						lcNum = responseJson.getString("lc_corp_num");
 					}
 					
+					if(StringUtils.isEmpty(lcNum)) {
+						return new ResponseMsg(HttpStatus.OK, "fail", "가등록시 전달받은 등록번호 오류.\n관리자에 문의해 주세요.");
+					}
+					
 					// 계약번호 갖고오기[배열]
 					// 등록시 가등록번호를 은행연합회에 던지고 1:N인 등록번호를 받고
 					// 하나의 KEY인 계약번호를 받는데 계약번호가 배열로 리턴되면 뭐가 내번호인지 어케알수있음?????
@@ -870,14 +874,14 @@ public class ApplyService {
 					String conNum = "";
 					JSONObject jsonObj = new JSONObject();
 					JSONArray conArr = responseJson.getJSONArray("con_arr");
+					// 계약금융기관코드(저장되어있는 데이터 비교)
+					String comCode = statCheck.getComCode();
 					for(int i=0; i<conArr.length(); i++){
 						jsonObj = conArr.getJSONObject(i);
-						// 가등록시 등록되어있던 금융기관코드 확인
-						String comCode = statCheck.getComCode();
-						String finCode = jsonObj.getString("fin_code"); 
 						String loanType = jsonObj.getString("loan_type");
-						// 리턴받은 데이터(회원사, 대출모집인유형(상품))와 동일한 데이터가 자기 자신의 key임
-						if(comCode.equals(finCode) && prdCheck.equals(loanType)) {
+						String finCode = jsonObj.getString("fin_code");
+						// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+						if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
 							conNum = jsonObj.getString("con_num");
 						}
 					}

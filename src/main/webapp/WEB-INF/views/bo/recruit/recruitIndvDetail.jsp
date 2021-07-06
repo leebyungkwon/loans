@@ -337,7 +337,7 @@ function goRecruitImprove(rePlStat){
 				
 				<c:if test="${result.recruitInfo.careerTyp eq '2' }">
 				<tr>
-					<th class="acenter">경력교육과정 수료증(여신금융교육연수원) *</th>
+					<th class="acenter">경력교육과정 수료증 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType3 ne null }">
@@ -348,25 +348,6 @@ function goRecruitImprove(rePlStat){
 						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
 							<c:if test="${!empty result.recruitInfo.histFileType3}">
 								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType3.fileGrpSeq }', '3');">변경사항</a>
-							</c:if>
-						</c:if>
-					</td>
-				</tr>
-				</c:if>
-				
-				<c:if test="${result.recruitInfo.careerTyp eq '2' }">
-				<tr>
-					<th class="acenter">경력교육과정 수료증(보험개발원,한국금융연구원) *</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.recruitInfo.fileType14 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType14.fileSeq }">${result.recruitInfo.fileType14.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
-							<c:if test="${!empty result.recruitInfo.histFileType14}">
-								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType14.fileGrpSeq }', '14');">변경사항</a>
 							</c:if>
 						</c:if>
 					</td>
