@@ -187,15 +187,15 @@ function goUserAcceptApply(){
 					</tr>
 					<tr>
 						<th>상호</th>
-						<td><input type="text" name="plMerchantName" class="w100" value="${result.userRegInfo.plMerchantName }" maxlength="30" data-vd='{"type":"text","len":"1,30","req":true,"msg":"상호를 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plMerchantName }</td>
 						<th>대표이사</th>
-						<td><input type="text" name="plCeoName" class="w100" value="${result.userRegInfo.plCeoName }" maxlength="10" data-vd='{"type":"text","len":"1,10","req":true,"msg":"대표이사명을 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plCeoName }</td>
 					</tr>
 					<tr>
 						<th>대표이사 주민번호</th>
-						<td><input type="text" name="plMZId" class="w100" value="${result.userRegInfo.plMZId }" maxlength="14" placeholder="- 포함" data-vd='{"type":"pId","len":"14,14","req":true,"msg":"주민등록번호(- 포함)를 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plMZId }</td>
 						<th>대표이사 휴대폰번호</th>
-						<td><input type="text" name="plCellphone" class="w100" value="${result.userRegInfo.plCellphone }" maxlength="13" placeholder="- 포함" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호(- 포함)를 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plCellphone }</td>
 					</tr>
 					<tr>
 						<th>법인등록번호</th>
@@ -230,15 +230,9 @@ function goUserAcceptApply(){
 					</tr>
 					<tr>
 						<th>계약일자</th>
-						<td>
-							<input type="text" name="comContDate" id="comContDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal02" class="calendar01"></div>
-						</td>
+						<td>${result.userRegInfo.comContDate }</td>
 						<th>위탁예정기간</th>
-						<td>
-							<input type="text" name="entrustDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal03" class="calendar01"></div>
-						</td>
+						<td>${result.userRegInfo.entrustDate }</td>
 					</tr>
 					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
 						<tr>

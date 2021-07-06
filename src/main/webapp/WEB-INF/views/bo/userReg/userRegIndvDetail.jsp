@@ -147,13 +147,13 @@ function goUserAcceptApply(){
 					</tr>
 					<tr>
 						<th>이름</th>
-						<td><input type="text" name="plMName" class="w100" value="${result.userRegInfo.plMName }" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"이름을 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plMName }</td>
 						<th>주민번호</th>
-						<td><input type="text" name="plMZId" class="w100" value="${result.userRegInfo.plMZId }" maxlength="14" placeholder="- 포함" data-vd='{"type":"pId","len":"14,14","req":true,"msg":"주민등록번호(- 포함)를 입력해 주세요."}'></td>
+						<td>${result.userRegInfo.plMZId }</td>
 					</tr>
 					<tr>
 						<th>휴대폰번호</th>
-						<td colspan="3"><input type="text" name="plCellphone" class="w100" value="${result.userRegInfo.plCellphone }" maxlength="13" placeholder="- 포함" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호(- 포함)를 입력해 주세요."}'></td>
+						<td colspan="3">${result.userRegInfo.plCellphone }</td>
 					</tr>
 					<tr>
 						<th>주소</th>
@@ -175,27 +175,15 @@ function goUserAcceptApply(){
 					</tr>
 					<tr>
 						<th>경력시작일</th>
-						<td>
-							<input type="text" name="careerStartDate" id="careerStartDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.careerStartDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력시작일(- 포함)을 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal01" class="calendar01"></div>
-						</td>
+						<td>${result.userRegInfo.careerStartDate }</td>
 						<th>경력종료일</th>
-						<td>
-							<input type="text" name="careerEndDate" id="careerEndDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.careerEndDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"경력종료일(- 포함)을 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal02" class="calendar01"></div>
-						</td>
+						<td>${result.userRegInfo.careerEndDate }</td>
 					</tr>
 					<tr>
 						<th>계약일자</th>
-						<td>
-							<input type="text" name="comContDate" id="comContDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.comContDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"계약일자(- 포함)를 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal03" class="calendar01"></div>
-						</td>
+						<td>${result.userRegInfo.comContDate }</td>
 						<th>위탁예정기간</th>
-						<td>
-							<input type="text" name="entrustDate" id="entrustDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.entrustDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"위탁예정기간(- 포함)을 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal04" class="calendar01"></div>
-						</td>
+						<td>${result.userRegInfo.entrustDate }</td>
 					</tr>
 					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
 						<tr>
