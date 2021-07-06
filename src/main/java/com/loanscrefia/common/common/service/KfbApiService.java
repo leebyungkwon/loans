@@ -702,7 +702,7 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	public ResponseMsg commonKfbApi(String authToken, JSONObject reqParam, String apiNm, String methodType) {
+	public ResponseMsg commonKfbApi(String authToken, JSONObject reqParam, String apiNm, String methodType, String plClass) {
 		
         String successCheck = "fail";
         String message = "";
@@ -718,10 +718,15 @@ public class KfbApiService {
         
 	    try {
 			String connUrl = apiNm;
+			String param = "";
 			
 			//파라미터 설정
 			if(methodType.equals("GET") || methodType.equals("DELETE")) {
-				String param = "?pre_lc_num="+reqParam.getString("prd_lc_num");
+				if("1".equals(plClass)) {
+					param = "?pre_lc_num="+reqParam.getString("prd_lc_num");
+				}else {
+					param = "?pre_corp_lc_num="+reqParam.getString("pre_corp_lc_num");
+				}
 				connUrl = connUrl + param;
 			}
 	    	
