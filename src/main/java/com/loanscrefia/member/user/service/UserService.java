@@ -301,29 +301,28 @@ public class UserService {
 								
 								insertParam.set(0, excelResult.get(j));
 								
-								/*
-								insertDomain.setCareerTyp(excelResult.get(j).get("A").toString());
-								insertDomain.setPlMName(excelResult.get(j).get("B").toString());
-								insertDomain.setPlMZId(excelResult.get(j).get("C").toString());
-								insertDomain.setPlCellphone(excelResult.get(j).get("D").toString());
-								insertDomain.setAddr(excelResult.get(j).get("E").toString());
-								insertDomain.setAddrDetail(excelResult.get(j).get("F").toString());
-								insertDomain.setPlProduct(excelResult.get(j).get("G").toString());
-								*/
-								
 								insertDomain.setExcelParam(insertParam);
 								insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
 								
 							}else {
 								apiMsg += "은행연합회 가등록 결과 :: " + excelResult.get(j).get("B").toString() + "("+excelResult.get(j).get("D").toString()+")" + "님은 가등록에 실패했습니다.<br>";
 							}
+						}else {
+							//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
+							UserDomain insertDomain 				= new UserDomain();
+							List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
+							
+							insertParam.set(0, excelResult.get(j));
+							
+							insertDomain.setExcelParam(insertParam);
+							insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
 						}
 					}
-					//================================================[E : 은행연합회 통신]================================================
 					
 					if(StringUtils.isNotEmpty(apiMsg)) {
 						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
 					}
+					//================================================[E : 은행연합회 통신]================================================
 					
 					//(5)모집인 테이블 저장 결과
 					if(insertResult > 0) {
