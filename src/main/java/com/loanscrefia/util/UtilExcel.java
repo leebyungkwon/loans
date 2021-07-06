@@ -6,9 +6,11 @@ import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -32,8 +34,10 @@ import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
 import com.loanscrefia.util.excel.ExcelFileType;
 
+import lombok.extern.log4j.Log4j;
 import sinsiway.CryptoUtil;
 
+@Log4j
 @Component
 public class UtilExcel<T> {
 	
@@ -126,8 +130,8 @@ public class UtilExcel<T> {
         	return result;
 		}
 		
-		//최초 등록 시 대출 상품 중복 체크용 배열
-		String plProductArr[] 	= new String[physicalNumberOfRows-1];
+		//최초 등록 시 대출 상품 중복 체크용 리스트
+		List<Map<String, Object>> plProductArr = new ArrayList<Map<String, Object>>(); //String plProductArr[] 	= new String[physicalNumberOfRows-1];
 		int arrPosition 		= 0;
 		
 		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
@@ -163,7 +167,7 @@ public class UtilExcel<T> {
 	                cellName 	= ExcelCellRef.getName(cell, cellIndex);
 	                cellVal 	= ExcelCellRef.getValue(cell);
 	                
-	                //System.out.println(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
+	                //log.info(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
 	                
 	                boolean valChkResult = false;
 	                
@@ -178,7 +182,7 @@ public class UtilExcel<T> {
 	                		if(!vEnum.get(j).isEmpty()){
 	                			String val[] = vEnum.get(j).split(",");
 	        	                for(int k = 0;k < val.length;k++) {
-	        	                	//System.out.println(val[k]+ " , " + cellVal + " = " + val[k].equals(cellVal));
+	        	                	//log.info(val[k]+ " , " + cellVal + " = " + val[k].equals(cellVal));
 	        	                	if(val[k].equals(cellVal)) valChkResult = true;
 	        	                }
 	        	                if(!valChkResult) {
@@ -278,12 +282,19 @@ public class UtilExcel<T> {
 	                		}
 	                		if(!chkPrd.get(j).isEmpty()) {
 	                			//상품별 등록여부 체크 : 대출 상품일 경우 회원사 통틀어서 하나 / 나머지는 중복 가능
+	                			Map<String, Object> prdMap = new HashMap<String, Object>();
+	                			
 	                			if(chkPrd.get(j).equals("prd1")) {
-	                				plProductArr[arrPosition] = cellVal; //최초 등록 시 대출 상품 중복 체크용 배열
 	                				userChkParam.setPlProduct(cellVal);
 	                			}else if(chkPrd.get(j).equals("prd2")) {
-	                				userChkParam.setCi(cellVal);
+	                				//S : 엑셀 파일 내 중복 확인용
+                					prdMap.put("plProduct", userChkParam.getPlProduct());
+	                				prdMap.put("ci", cellVal);
+	                				plProductArr.add(arrPosition, prdMap);
+	                				//E : 엑셀 파일 내 중복 확인용
 	                				
+	                				//모집인 테이블(mas01) 중복 체크
+	                				userChkParam.setCi(cellVal);
 	                				userChkParam.setPlClass(this.param2);
 	                				int dupChkResult = userRegDupChk(userChkParam);
 		                			
@@ -300,19 +311,23 @@ public class UtilExcel<T> {
 	            result.add(map);
 		    }
 		}
-		//System.out.println("errorMsg :: " + errorMsg);
+		//log.info("errorMsg :: " + errorMsg);
+		
+		log.info("#########################################");
+		log.info("UtilExcel > plProductArr :: "+ plProductArr);
+		log.info("#########################################");
 		
 		//최초 등록 시 대출 상품 중복 체크
-    	int plProductDupChk = 0;
-    	
-    	if(plProductArr.length > 0) {
-    		for(int i = 0;i < plProductArr.length;i++) {
-    			if(StringUtils.isNotEmpty(plProductArr[i]) && (plProductArr[i].equals("01") || plProductArr[i].equals("03"))) {
-    				plProductDupChk++;
-    			}
-    		}
-    		if(plProductDupChk > 1) {
-    			errorMsg = "엑셀 데이터에서 금융상품유형이 대출 또는 TM대출인 모집인이 1명 이상입니다.";
+    	if(plProductArr.size() > 0) {
+    		//중복제거
+    		Set<Map<String, Object>> set = new HashSet<Map<String, Object>>(plProductArr);
+    		
+    		log.info("#########################################");
+    		log.info("UtilExcel > set :: "+ set);
+    		log.info("#########################################");
+    		
+    		if(plProductArr.size() != set.size()) {
+    			errorMsg = "엑셀 데이터에서 동일한 금융상품유형에 중복된 CI가 존재합니다.";
     		}
     	}
 		
