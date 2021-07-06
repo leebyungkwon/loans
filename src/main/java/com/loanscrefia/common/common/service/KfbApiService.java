@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -444,10 +445,25 @@ public class KfbApiService {
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 			
 			conn.setRequestMethod(method);
-			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
 			
+			JSONObject job = new JSONObject();
+			job.put("phoneNum", "01000000000");
+			job.put("name", "test name");
+			job.put("address", "test address"); 
+			
+			OutputStream os = null;
+			os = conn.getOutputStream(); 
+			os.write(job.toString().getBytes()); 
+			os.flush();
+			
+			
+			
+			/*
 			if(!method.equals("GET")) {
 				conn.setDoOutput(true);
 				
@@ -457,6 +473,7 @@ public class KfbApiService {
 		        bw.flush();
 		        bw.close();
 			}
+			*/
 	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
