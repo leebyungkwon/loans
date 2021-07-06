@@ -275,7 +275,7 @@ public class UserService {
 							
 							conArrParam.put("corp_num", excelResult.get(j).get("I"));
 							//conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
-							conArrParam.put("con_date", excelResult.get(j).get("M").toString());
+							conArrParam.put("con_date", excelResult.get(j).get("M").toString().replace("-", ""));
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
 							conArrParam.put("loan_type", excelResult.get(j).get("G").toString());
@@ -431,7 +431,7 @@ public class UserService {
 							preLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
 							preLoanApiReqParam.put("corp_rep_ci", excelResult.get(j).get("N").toString());
 							
-							conArrParam.put("con_date", excelResult.get(j).get("L").toString());
+							conArrParam.put("con_date", excelResult.get(j).get("L").toString().replace("-", ""));
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
 							conArrParam.put("loan_type", excelResult.get(j).get("K").toString());
