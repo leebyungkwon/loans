@@ -98,7 +98,6 @@ public class LoginController {
 	public ResponseEntity<ResponseMsg> idCheck(@Valid SignupDomain signupDomain, BindingResult bindingResult) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
-			System.out.println("#################### valid 에러 발생 #####################");
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

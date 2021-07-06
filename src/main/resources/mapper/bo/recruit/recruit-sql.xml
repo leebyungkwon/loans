@@ -414,7 +414,7 @@
 	    FROM TB_LC_MAS01_HIST TLM
 	    <where>
 	    	<if test="masterHistSeq != null and masterHistSeq != ''">
-	    		AND TLM.MASTER_HIST_SEQ != #{masterHistSeq}
+	    		AND TLM.MASTER_HIST_SEQ = #{masterHistSeq}
 	    	</if>
 	    	<if test="masterSeq != null and masterSeq != ''">
 	    		AND TLM.MASTER_SEQ = #{masterSeq}

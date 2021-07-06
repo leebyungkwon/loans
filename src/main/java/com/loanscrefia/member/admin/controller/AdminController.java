@@ -88,7 +88,6 @@ public class AdminController {
 	public ResponseEntity<ResponseMsg> saveAdminUpdate(@RequestParam("files") MultipartFile[] files, @Valid AdminDomain adminDomain, BindingResult bindingResult) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
-			System.out.println("#################### valid 에러 발생 #####################");
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

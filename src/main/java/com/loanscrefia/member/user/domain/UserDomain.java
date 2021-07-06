@@ -17,7 +17,7 @@ public class UserDomain extends BaseDomain {
 
 	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
-	@ExcelColumn(headerName = "접수번호", order = 10)
+	@ExcelColumn(headerName = "접수번호", order = 0)
 	private String masterToId;		//접수번호ID(조회)
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
@@ -25,7 +25,7 @@ public class UserDomain extends BaseDomain {
 	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
 	private String preLcNum;		//가등록번호
 	private String plClass;			//분류							-> [CLS001]개인,법인
-	@ExcelColumn(headerName = "법인사용인여부", order = 3)
+	@ExcelColumn(headerName = "법인사용인여부", order = 4)
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,리스,TM대출,TM리스
@@ -34,12 +34,12 @@ public class UserDomain extends BaseDomain {
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
 	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
 	private String ci;				//CI값
-	@ExcelColumn(headerName = "이름", order = 5)
+	@ExcelColumn(headerName = "이름", order = 6)
 	private String plMName;			//모집인이름
-	@ExcelColumn(headerName = "주민번호", order = 6)
+	@ExcelColumn(headerName = "주민번호", order = 7)
 	private String plMZId;			//모집인주민등록번호
 	private String plMZIdEdu;		//교육수료대조(모집인주민등록번호 대체값)
-	@ExcelColumn(headerName = "휴대폰번호", order = 7)
+	@ExcelColumn(headerName = "휴대폰번호", order = 8)
 	private String plCellphone;		//모집인휴대전화번호
 	private String addr;			//본점소재지						-> [ADD001]1~17
 	private String addrDetail;		//상세주소(법인등기부등본상)
@@ -47,10 +47,10 @@ public class UserDomain extends BaseDomain {
 	private String careerStartDate;	//경력시작일
 	private String careerEndDate;	//경력종료일 
 	private String entrustDate;		//위탁예정일
-	@ExcelColumn(headerName = "법인명", order = 8)
+	@ExcelColumn(headerName = "법인명", order = 9)
 	private String plMerchantName;	//법인명
 	private String plCeoName;		//대표이사명
-	@ExcelColumn(headerName = "법인번호", order = 9)
+	@ExcelColumn(headerName = "법인번호", order = 10)
 	private String plMerchantNo;	//법인등록번호
 	private String plBusinessNo;	//사업자등록번호
 	private String compPhoneNo;		//회원사대표번호
@@ -90,14 +90,14 @@ public class UserDomain extends BaseDomain {
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
 	private String mobileNo;		//담당자휴대폰번호
-	@ExcelColumn(headerName = "모집인분류", order = 2)
+	@ExcelColumn(headerName = "모집인분류", order = 3)
 	private String plClassNm;		//분류명
 	private String careerTypNm;		//구분명
-	@ExcelColumn(headerName = "금융상품유형", order = 4)
+	@ExcelColumn(headerName = "금융상품유형", order = 5)
 	private String plProductNm;		//취급상품명
-	@ExcelColumn(headerName = "모집인상태", order = 0)
+	@ExcelColumn(headerName = "모집인상태", order = 1)
 	private String plRegStatNm;		//모집인상태명
-	@ExcelColumn(headerName = "처리상태", order = 1)
+	@ExcelColumn(headerName = "처리상태", order = 2)
 	private String plStatNm;		//처리상태명
 	private String addrNm;			//주소명
 	private String plPayStatNm;		//결제상태명

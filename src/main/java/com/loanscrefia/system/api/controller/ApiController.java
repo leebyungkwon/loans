@@ -62,19 +62,7 @@ public class ApiController {
 	public ResponseEntity<ResponseMsg> getApiCode(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		//responseMsg.setData(kfbApiService.getAuthCode());
-		
-		
 		String authCode = kfbApiService.getAuthCode();
-		System.out.println("코드 결과값 :: " + authCode);
-		System.out.println("코드 결과값 :: " + authCode);
-		System.out.println("코드 결과값 :: " + authCode);
-		System.out.println("코드 결과값 :: " + authCode);
-		System.out.println("코드 결과값 :: " + authCode);
-		System.out.println("코드 결과값 :: " + authCode);
-		System.out.println("코드 결과값 :: " + authCode);
-		
-		
-		
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

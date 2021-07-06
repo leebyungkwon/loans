@@ -27,12 +27,12 @@ import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.log4j.Log4j;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Log4j2
+@Log4j
 @Service
 public class KfbApiService {
 	
@@ -173,9 +173,9 @@ public class KfbApiService {
 				
 				JSONObject responseJson = new JSONObject(sb.toString());
 				
-				System.out.println("#########################################");
-		        System.out.println("KfbApiService >> getAuthCode() > responseJson :: 결과값 :: " + responseJson);
-		        System.out.println("#########################################");
+				log.info("#########################################");
+		        log.info("KfbApiService >> getAuthCode() > responseJson :: 결과값 :: " + responseJson);
+		        log.info("#########################################");
 				
 				if(responseJson.getString("res_code").equals("200")) {
 					authCode = responseJson.getString("authorize_code");
@@ -189,9 +189,9 @@ public class KfbApiService {
 		        
 			}else {
 				//통신오류
-				System.out.println("#########################################");
-		        System.out.println("KfbApiService >> getAuthCode() > 통신오류");
-		        System.out.println("#########################################");
+				log.info("#########################################");
+		        log.info("KfbApiService >> getAuthCode() > 통신오류");
+		        log.info("#########################################");
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -254,9 +254,9 @@ public class KfbApiService {
 				
 				responseJson = new JSONObject(sb.toString());
 				
-				System.out.println("#########################################");
-		        System.out.println("KfbApiService >> getAuthToken() > responseJson :: 결과값 :: " + responseJson);
-		        System.out.println("#########################################");
+				log.info("#########################################");
+		        log.info("KfbApiService >> getAuthToken() > responseJson :: 결과값 :: " + responseJson);
+		        log.info("#########################################");
 				
 				if(responseJson.getString("res_code").equals("200")) {
 					//successCheck
@@ -275,9 +275,9 @@ public class KfbApiService {
 	            this.insertKfbApiResLog(logParam);
 		        
 			}else{
-				System.out.println("#########################################");
-		        System.out.println("KfbApiService >> getAuthToken() > 통신오류");
-		        System.out.println("#########################################");
+				log.info("#########################################");
+		        log.info("KfbApiService >> getAuthToken() > 통신오류");
+		        log.info("#########################################");
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -376,9 +376,9 @@ public class KfbApiService {
 	            //message
 		        message = responseJson.getString("res_msg");
 	            
-	            System.out.println("#########################################");
-	            System.out.println("KfbApiService >> checkLoan() > responseJson :: 결과값 :: " + responseJson);
-	            System.out.println("#########################################");
+	            log.info("#########################################");
+	            log.info("KfbApiService >> checkLoan() > responseJson :: 결과값 :: " + responseJson);
+	            log.info("#########################################");
 	            
 	            //결과
 	            if(responseJson.getString("res_code").equals("200")) {
@@ -393,9 +393,9 @@ public class KfbApiService {
 	            this.insertKfbApiResLog(logParam);
 	        	
 	        }else {
-		        System.out.println("#########################################");
-		        System.out.println("KfbApiService >> checkLoan() > 통신오류");
-		        System.out.println("#########################################");
+		        log.info("#########################################");
+		        log.info("KfbApiService >> checkLoan() > 통신오류");
+		        log.info("#########################################");
 		        
 		        //message
 		        message = "checkLoan() 메소드 확인 필요";
@@ -414,7 +414,7 @@ public class KfbApiService {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } catch (JSONException e) {
-	        System.out.println("not JSON Format response");
+	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
 	    
@@ -491,9 +491,9 @@ public class KfbApiService {
 	            //message
 		        message = responseJson.getString("res_msg");
 	            
-	            System.out.println("#########################################");
-	            System.out.println("KfbApiService >> preLoanIndv() > responseJson :: 결과값 :: " + responseJson);
-	            System.out.println("#########################################");
+	            log.info("#########################################");
+	            log.info("KfbApiService >> preLoanIndv() > responseJson :: 결과값 :: " + responseJson);
+	            log.info("#########################################");
 	            
 	            //결과
 	            if(responseJson.getString("res_code").equals("200")) {
@@ -508,9 +508,9 @@ public class KfbApiService {
 	            this.insertKfbApiResLog(logParam);
 	            
 	        }else {
-		        System.out.println("#########################################");
-		        System.out.println("KfbApiService >> preLoanIndv() > 통신오류");
-		        System.out.println("#########################################");
+		        log.info("#########################################");
+		        log.info("KfbApiService >> preLoanIndv() > 통신오류");
+		        log.info("#########################################");
 		        
 		        //message
 		        message = "preLoanIndv() 메소드 확인 필요";
@@ -529,7 +529,7 @@ public class KfbApiService {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } catch (JSONException e) {
-	        System.out.println("not JSON Format response");
+	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
 	    
@@ -599,9 +599,9 @@ public class KfbApiService {
 	            //message
 		        message = responseJson.getString("res_msg");
 	            
-		        System.out.println("#########################################");
-		        System.out.println("KfbApiService >> loanIndv() > responseJson :: 결과값 :: " + responseJson);
-		        System.out.println("#########################################");
+		        log.info("#########################################");
+		        log.info("KfbApiService >> loanIndv() > responseJson :: 결과값 :: " + responseJson);
+		        log.info("#########################################");
 		        
 		        //결과
 	            if(responseJson.getString("res_code").equals("200")) {
@@ -616,9 +616,9 @@ public class KfbApiService {
 	            this.insertKfbApiResLog(logParam);
 	            
 	        }else {
-		        System.out.println("#########################################");
-		        System.out.println("KfbApiService >> loanIndv() > 통신오류");
-		        System.out.println("#########################################");
+		        log.info("#########################################");
+		        log.info("KfbApiService >> loanIndv() > 통신오류");
+		        log.info("#########################################");
 		        
 		        //message
 		        message = "loanIndv() 메소드 확인 필요";
@@ -637,7 +637,7 @@ public class KfbApiService {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } catch (JSONException e) {
-	        System.out.println("not JSON Format response");
+	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
 	    
@@ -746,7 +746,7 @@ public class KfbApiService {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } catch (JSONException e) {
-	        System.out.println("not JSON Format response");
+	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
 	    return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);

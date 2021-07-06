@@ -44,8 +44,10 @@ import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
+import lombok.extern.log4j.Log4j;
 import sinsiway.CryptoUtil;
 
+@Log4j
 @Service
 public class UserService {
 
@@ -240,9 +242,9 @@ public class UserService {
 							if(checkLoanApiResult.getCode().equals("success")) {
 								//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
 								JSONObject checkLoanApiResponse = (JSONObject)checkLoanApiResult.getData();
-								System.out.println("#########################################");
-								System.out.println("insertUserRegIndvInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
-								System.out.println("#########################################");
+								log.info("#########################################");
+								log.info("insertUserRegIndvInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
+								log.info("#########################################");
 								
 								if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
 									//checkLoanApiResponse의 reg_yn = "N"일 때
@@ -280,17 +282,17 @@ public class UserService {
 							
 							preLoanIndvApiReqParam.put("con_arr", conArr);
 							
-							System.out.println("#########################################");
-							System.out.println("insertUserRegIndvInfoByExcel() >> preLoanIndvApiReqParam >> "+preLoanIndvApiReqParam);
-							System.out.println("#########################################");
+							log.info("#########################################");
+							log.info("insertUserRegIndvInfoByExcel() >> preLoanIndvApiReqParam >> "+preLoanIndvApiReqParam);
+							log.info("#########################################");
 							
 							ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, preLoanIndvApiReqParam, "POST");
 							
 							if(preLoanIndvApiResult.getCode().equals("success")) {
 								JSONObject preLoanIndvApiResponse = (JSONObject)preLoanIndvApiResult.getData();
-								System.out.println("#########################################");
-								System.out.println("insertUserRegIndvInfoByExcel() >> preLoanIndvApiResponse >> "+preLoanIndvApiResponse);
-								System.out.println("#########################################");
+								log.info("#########################################");
+								log.info("insertUserRegIndvInfoByExcel() >> preLoanIndvApiResponse >> "+preLoanIndvApiResponse);
+								log.info("#########################################");
 								
 								excelResult.get(j).put("preLcNum", preLoanIndvApiResponse.getString("pre_lc_num")); 		//가등록 번호
 								excelResult.get(j).put("preRegYn", preLoanIndvApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부

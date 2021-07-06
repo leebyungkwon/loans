@@ -45,8 +45,10 @@ import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
+import lombok.extern.log4j.Log4j;
 import sinsiway.CryptoUtil;
 
+@Log4j
 @Service
 public class RecruitService {
 
@@ -830,11 +832,11 @@ public class RecruitService {
 							jsonArray.add(jsonArrayParam);
 							jsonParam.add("con_arr", jsonArray);
 							
-							System.out.println("########################");
-							System.out.println("########################");
-							System.out.println("JSONObject In JSONArray :: " + jsonParam);
-							System.out.println("########################");
-							System.out.println("########################");
+							log.info("########################");
+							log.info("########################");
+							log.info("JSONObject In JSONArray :: " + jsonParam);
+							log.info("########################");
+							log.info("########################");
 							
 							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT");
 							
@@ -845,11 +847,11 @@ public class RecruitService {
 							jsonParam.addProperty("bef_ssn", ssn);												// 변경 전 주민번호 - API 조회된 결과값
 							jsonParam.addProperty("aft_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 변경 후 주민번호 - DB데이터
 							
-							System.out.println("########################");
-							System.out.println("########################");
-							System.out.println("jsonParam :: " + jsonParam);
-							System.out.println("########################");
-							System.out.println("########################");
+							log.info("########################");
+							log.info("########################");
+							log.info("jsonParam :: " + jsonParam);
+							log.info("########################");
+							log.info("########################");
 							
 							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT");
 						}
@@ -885,11 +887,11 @@ public class RecruitService {
 							jsonArray.add(jsonArrayParam);
 							jsonParam.add("con_arr", jsonArray);
 							
-							System.out.println("########################");
-							System.out.println("########################");
-							System.out.println("JSONObject In JSONArray :: " + jsonParam);
-							System.out.println("########################");
-							System.out.println("########################");
+							log.info("########################");
+							log.info("########################");
+							log.info("JSONObject In JSONArray :: " + jsonParam);
+							log.info("########################");
+							log.info("########################");
 							
 							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT");						
 						}
