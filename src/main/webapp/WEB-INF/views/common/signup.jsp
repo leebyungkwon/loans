@@ -47,7 +47,7 @@ function pageLoad(){
 			    return false;
 			}
 			if (pw.length < 8 || pw.length > 20){ 
-				alert("8자리 ~ 20자리 이내로 입력해 주세요.");
+				alert("비밀번호는 8자리 ~ 20자리 이내로 입력해 주세요.");
 				return false;
 			}
 			if (/(\w)\1\1/.test(pw)){ 
