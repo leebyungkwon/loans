@@ -448,6 +448,8 @@ public class KfbApiService {
 				connUrl = connUrl + param;
 			}
 			
+			OutputStream os = null;
+			
 			//URL 설정
 			URL url 				= new URL(connUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
@@ -457,33 +459,40 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
 
+			
+			
+			preLoanIndvApiReqParam.put("name", reqDomain.getPlMerchantName());
+			preLoanIndvApiReqParam.put("ssn", reqDomain.getPlMZId());
+			preLoanIndvApiReqParam.put("ci", reqDomain.getCi());
+			
+			conArrParam.put("corp_num", reqDomain.getPlMerchantNo());
+			conArrParam.put("con_mobile", reqDomain.getPlCellphone());
+			conArrParam.put("con_date", reqDomain.getComContDate());
+			conArrParam.put("fin_code", Integer.toString(reqDomain.getComCode()));
+			conArrParam.put("fin_phone", "");
+			conArrParam.put("loan_type", reqDomain.getPlProduct());
+			conArr.put(conArrParam);
+			
+			
+			
+			preLoanIndvApiReqParam.put("con_arr", conArr);
+			
+			log.info("#########################################");
+			log.info("KfbApiService >> preLoanIndv() >> reqJson :: "+preLoanIndvApiReqParam);
+			log.info("#########################################");
+			
+			//파라미터 보내기
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			
+			
+			os = conn.getOutputStream(); 
+			os.write(preLoanIndvApiReqParam.toString().getBytes("utf-8")); 
+			os.flush();
+			os.close();
+			
 			if(method.equals("POST")) {
-				preLoanIndvApiReqParam.put("name", reqDomain.getPlMerchantName());
-				preLoanIndvApiReqParam.put("ssn", reqDomain.getPlMZId());
-				preLoanIndvApiReqParam.put("ci", reqDomain.getCi());
-				
-				conArrParam.put("corp_num", reqDomain.getPlMerchantNo());
-				conArrParam.put("con_mobile", reqDomain.getPlCellphone());
-				conArrParam.put("con_date", reqDomain.getComContDate());
-				conArrParam.put("fin_code", Integer.toString(reqDomain.getComCode()));
-				conArrParam.put("fin_phone", "");
-				conArrParam.put("loan_type", reqDomain.getPlProduct());
-				conArr.put(conArrParam);
-				
-				preLoanIndvApiReqParam.put("con_arr", conArr);
-				
-				log.info("#########################################");
-				log.info("KfbApiService >> preLoanIndv() >> reqJson :: "+preLoanIndvApiReqParam);
-				log.info("#########################################");
-				
-				//파라미터 보내기
-				conn.setDoInput(true);
-				conn.setDoOutput(true);
-				
-				OutputStream os = conn.getOutputStream(); 
-				os.write(preLoanIndvApiReqParam.toString().getBytes()); 
-				os.flush();
-				os.close();
+
 				
 				/*
 				OutputStream os = null;
@@ -708,8 +717,16 @@ public class KfbApiService {
         }
         
 	    try {
+			String connUrl = apiNm;
+			
+			//파라미터 설정
+			if(methodType.equals("GET") || methodType.equals("DELETE")) {
+				String param = "?pre_lc_num="+reqParam.getString("prd_lc_num");
+				connUrl = connUrl + param;
+			}
+	    	
 	        //URL 설정
-	        URL url 				= new URL(apiNm);
+	        URL url 				= new URL(connUrl);
 	        HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 	        
 	        conn.setRequestMethod(methodType);
@@ -717,22 +734,22 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("Authorization", "Bearer "+authToken);
 			
-	        if(!methodType.equals("GET")) {
+	        if(!methodType.equals("GET") || !methodType.equals("DELETE")) {
 	        	conn.setDoOutput(true);
-	        }
-	        
-	        if(reqParam != null) {
-		        //요청 데이터 전송
-		        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-		        bw.write(reqParam.toString());
-		        bw.flush();
-		        bw.close();
+		        if(reqParam != null) {
+			        //요청 데이터 전송
+					OutputStream os = null;
+					os = conn.getOutputStream(); 
+					os.write(reqParam.toString().getBytes("utf-8")); 
+					os.flush();
+					os.close();
+		        }
 	        }
 	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
 	        logParam.setToken(authToken);
-	        logParam.setUrl(apiNm);
+	        logParam.setUrl(connUrl);
 	        if(reqParam != null) {
 	        	logParam.setSendData(reqParam.toString());
 	        }
