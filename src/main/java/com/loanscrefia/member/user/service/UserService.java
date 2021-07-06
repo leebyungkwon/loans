@@ -248,7 +248,7 @@ public class UserService {
 								
 								if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
 									//checkLoanApiResponse의 reg_yn = "N"일 때
-									apiMsg += "은행연합회 등록가능 여부 조회 결과 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님은 등록이 불가능합니다.<br>";
+									apiMsg += "은행연합회 등록가능 여부 조회 결과 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님은 가등록이 불가능합니다.<br>";
 									
 								}
 							}else {
@@ -264,58 +264,39 @@ public class UserService {
 					//(3)가등록
 					for(int j = 0;j < excelResult.size();j++) {
 						if(kfbApiContinue(excelResult.get(j).get("G").toString())) { //******
+							JSONObject preLoanApiReqParam 	= new JSONObject();
+							JSONObject conArrParam 			= new JSONObject();
+							JSONArray conArr				= new JSONArray();
 							
-							UserDomain reqDomain = new UserDomain();
-							
-							reqDomain.setPlMerchantName(excelResult.get(j).get("B").toString());
-							reqDomain.setPlMZId(CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
-							reqDomain.setCi(excelResult.get(j).get("O").toString());
-							
-							if(excelResult.get(j).get("I") == null || excelResult.get(j).get("I").equals("")) {
-								reqDomain.setPlMerchantNo("");
-							}else {
-								reqDomain.setPlMerchantNo(excelResult.get(j).get("I").toString());
-							}
-							reqDomain.setPlCellphone(excelResult.get(j).get("D").toString());
-							reqDomain.setComContDate(excelResult.get(j).get("M").toString());
-							reqDomain.setComCode(loginInfo.getComCode());
-							reqDomain.setPlProduct(excelResult.get(j).get("G").toString());
-							
-							
-							/*
-							JSONObject preLoanIndvApiReqParam 	= new JSONObject();
-							JSONObject conArrParam 				= new JSONObject();
-							JSONArray conArr					= new JSONArray();
-							
-							preLoanIndvApiReqParam.put("name", excelResult.get(j).get("B").toString());
-							preLoanIndvApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
-							preLoanIndvApiReqParam.put("ci", excelResult.get(j).get("O").toString());
+							preLoanApiReqParam.put("name", excelResult.get(j).get("B").toString());
+							preLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
+							preLoanApiReqParam.put("ci", excelResult.get(j).get("O").toString());
+							preLoanApiReqParam.put("mobile", excelResult.get(j).get("D").toString()); //임시
 							
 							conArrParam.put("corp_num", excelResult.get(j).get("I"));
-							conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
+							//conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
 							conArrParam.put("con_date", excelResult.get(j).get("M").toString());
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
 							conArrParam.put("loan_type", excelResult.get(j).get("G").toString());
 							conArr.put(conArrParam);
 							
-							preLoanIndvApiReqParam.put("con_arr", conArr);
+							preLoanApiReqParam.put("con_arr", conArr);
 							
 							log.info("#########################################");
-							log.info("insertUserRegIndvInfoByExcel() >> preLoanIndvApiReqParam >> "+preLoanIndvApiReqParam);
+							log.info("insertUserRegIndvInfoByExcel() >> preLoanApiReqParam >> "+preLoanApiReqParam);
 							log.info("#########################################");
-							*/
 							
-							ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, reqDomain, "POST");
+							ResponseMsg preLoanApiResult = kfbApiService.preLoanIndv(apiToken, preLoanApiReqParam, "POST");
 							
-							if(preLoanIndvApiResult.getCode().equals("success")) {
-								JSONObject preLoanIndvApiResponse = (JSONObject)preLoanIndvApiResult.getData();
+							if(preLoanApiResult.getCode().equals("success")) {
+								JSONObject preLoanApiResponse = (JSONObject)preLoanApiResult.getData();
 								log.info("#########################################");
-								log.info("insertUserRegIndvInfoByExcel() >> preLoanIndvApiResponse >> "+preLoanIndvApiResponse);
+								log.info("insertUserRegIndvInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
 								log.info("#########################################");
 								
-								excelResult.get(j).put("preLcNum", preLoanIndvApiResponse.getString("pre_lc_num")); 		//가등록 번호
-								excelResult.get(j).put("preRegYn", preLoanIndvApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 		//가등록 번호
+								excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
 								
 								//(4)모집인 테이블 저장
 								UserDomain insertDomain 				= new UserDomain();
@@ -359,6 +340,12 @@ public class UserService {
 	//모집인 등록(엑셀) > 법인
 	@Transactional
 	public ResponseMsg insertUserRegCorpInfoByExcel(MultipartFile[] files, UserDomain userDomain){
+		
+		//세션 정보
+		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session 		= request.getSession();
+		MemberDomain loginInfo 		= (MemberDomain)session.getAttribute("member");
+		
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -391,15 +378,120 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
+					//================================================[S : 은행연합회 통신]================================================
+					KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
+					String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
+					String apiMsg 				= "";
+					int insertResult 			= 0;
 					
-					//(1)모집인 정보 저장
-					userDomain.setExcelParam(excelResult);
-					int insertResult = userRepo.insertUserRegCorpInfoByExcel(userDomain);
+					for(int i = 0;i < excelResult.size();i++) {
+						if(kfbApiContinue(excelResult.get(i).get("G").toString())) { //******
+							//(1)등록가능 여부 조회
+							JSONObject checkLoanApiReqParam = new JSONObject();
+						
+							checkLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(i).get("E").toString()));
+							checkLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
+							checkLoanApiReqParam.put("corp_rep_ci", excelResult.get(i).get("N").toString());
+							checkLoanApiReqParam.put("loan_type", excelResult.get(i).get("K").toString());
+							
+							ResponseMsg checkLoanApiResult = kfbApiService.checkLoan(apiToken, checkLoanApiReqParam);
+							
+							if(checkLoanApiResult.getCode().equals("success")) {
+								//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
+								JSONObject checkLoanApiResponse = (JSONObject)checkLoanApiResult.getData();
+								log.info("#########################################");
+								log.info("insertUserRegCorpInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
+								log.info("#########################################");
+								
+								if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
+									//checkLoanApiResponse의 reg_yn = "N"일 때
+									apiMsg += "은행연합회 등록가능 여부 조회 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: 가등록이 불가능합니다.<br>";
+									
+								}
+							}else {
+								apiMsg += "은행연합회 등록가능 여부 조회 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: " + checkLoanApiResult.getMessage() + "<br>";
+							}
+						}
+					}
 					
-					//(2)법인 정보 저장
-					CorpDomain corpDomain = new CorpDomain();
-					corpDomain.setExcelParam(excelResult);
-					corpService.insertCorpInfoByExcel(corpDomain);
+					if(StringUtils.isNotEmpty(apiMsg)) {
+						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+					}
+					
+					//(3)가등록
+					for(int j = 0;j < excelResult.size();j++) {
+						if(kfbApiContinue(excelResult.get(j).get("G").toString())) { //******
+							JSONObject preLoanApiReqParam 	= new JSONObject();
+							JSONObject conArrParam 			= new JSONObject();
+							JSONArray conArr				= new JSONArray();
+							
+							preLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("E").toString()));
+							preLoanApiReqParam.put("corp_name", excelResult.get(j).get("A").toString());
+							preLoanApiReqParam.put("corp_rep_name", excelResult.get(j).get("B").toString());
+							preLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
+							preLoanApiReqParam.put("corp_rep_ci", excelResult.get(j).get("N").toString());
+							
+							conArrParam.put("con_date", excelResult.get(j).get("L").toString());
+							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
+							conArrParam.put("fin_phone", "");
+							conArrParam.put("loan_type", excelResult.get(j).get("K").toString());
+							conArr.put(conArrParam);
+							
+							preLoanApiReqParam.put("con_arr", conArr);
+							
+							log.info("#########################################");
+							log.info("insertUserRegCorpInfoByExcel() >> preLoanApiReqParam >> "+preLoanApiReqParam);
+							log.info("#########################################");
+							
+							ResponseMsg preLoanApiResult = kfbApiService.preLoanCorp(apiToken, preLoanApiReqParam, "POST");
+							
+							if(preLoanApiResult.getCode().equals("success")) {
+								JSONObject preLoanApiResponse = (JSONObject)preLoanApiResult.getData();
+								log.info("#########################################");
+								log.info("insertUserRegCorpInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
+								log.info("#########################################");
+								
+								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_corp_lc_num")); 	//가등록 번호
+								excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+								
+								//(4)모집인 테이블 저장
+								UserDomain insertDomain 				= new UserDomain();
+								List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
+								
+								insertParam.set(0, excelResult.get(j));
+								
+								insertDomain.setExcelParam(insertParam);
+								insertResult += userRepo.insertUserRegCorpInfoByExcel(insertDomain);
+								
+								//(5)법인 정보 저장
+								CorpDomain corpDomain = new CorpDomain();
+								corpDomain.setExcelParam(insertParam);
+								corpService.insertCorpInfoByExcel(corpDomain);
+								
+							}else {
+								apiMsg += "은행연합회 가등록 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(j).get("E").toString()) + " :: 가등록에 실패했습니다.<br>";
+							}
+						}else {
+							//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
+							UserDomain insertDomain 				= new UserDomain();
+							List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
+							
+							insertParam.set(0, excelResult.get(j));
+							
+							insertDomain.setExcelParam(insertParam);
+							insertResult += userRepo.insertUserRegCorpInfoByExcel(insertDomain);
+							
+							//(5)법인 정보 저장
+							CorpDomain corpDomain = new CorpDomain();
+							corpDomain.setExcelParam(insertParam);
+							corpService.insertCorpInfoByExcel(corpDomain);
+						}
+					}
+					
+					if(StringUtils.isNotEmpty(apiMsg)) {
+						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+					}
+					//================================================[E : 은행연합회 통신]================================================
 					
 					if(insertResult > 0) {
 						return new ResponseMsg(HttpStatus.OK, "success", "모집인이 등록되었습니다.");

@@ -231,12 +231,13 @@ public class UtilExcel<T> {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				if(eduChkParam.getProcessCd() == null || eduChkParam.getProcessCd().equals("")) {
 	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
+	                					String prdCd = "";
 	                					if(this.param1.equals("01") || this.param1.equals("03")) {
-	                						this.param1 = "LP0" + eduChkParam.getCareerTyp();
+	                						prdCd = "LP0" + eduChkParam.getCareerTyp();
 		                				}else if(this.param1.equals("05") || this.param1.equals("06")) {
-		                					this.param1 = "LS0" + eduChkParam.getCareerTyp();
+		                					prdCd = "LS0" + eduChkParam.getCareerTyp();
 		                				}
-	                					eduChkParam.setProcessCd(this.param1);
+	                					eduChkParam.setProcessCd(prdCd);
 	                				}
 	                				eduChkParam.setSrchInput(cellVal);
 	                				int chkResult = eduService.plEduNoChk(eduChkParam);
