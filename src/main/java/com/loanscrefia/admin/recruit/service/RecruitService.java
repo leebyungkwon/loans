@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -769,9 +770,9 @@ public class RecruitService {
 			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
 				// 2021-07-04 은행연합회 API 통신 - 수정
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-				JsonObject jsonParam = new JsonObject();
-				JsonObject jsonArrayParam = new JsonObject();
-				JsonArray jsonArray = new JsonArray();
+				JSONObject jsonParam = new JSONObject();
+				JSONObject jsonArrayParam = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
 				
 				
 				// 중요!! 
@@ -781,10 +782,10 @@ public class RecruitService {
 				// 주민번호 변경은 정보변경과 다른 API 분기
 				// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
 				if("1".equals(statCheck.getPlClass())) {
-					jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
+					jsonParam.put("lc_num", recruitDomain.getPlRegistNo());
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "GET");
 				}else {
-					jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());
+					jsonParam.put("corp_lc_num", recruitDomain.getPlRegistNo());
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "GET");
 				}
 				
@@ -811,14 +812,14 @@ public class RecruitService {
 						
 						// 정보변경 API호출
 						if(!dbName.equals(name) || !dbMobile.equals(mobile)) {
-							jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
-							jsonParam.addProperty("name", recruitDomain.getPlMName());
-							jsonParam.addProperty("mobile", recruitDomain.getPlCellphone());
+							jsonParam.put("lc_num", recruitDomain.getPlRegistNo());
+							jsonParam.put("name", recruitDomain.getPlMName());
+							jsonParam.put("mobile", recruitDomain.getPlCellphone());
 							
 							// 계약번호 및 기타는 배열
-							jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
-							jsonArray.add(jsonArrayParam);
-							jsonParam.add("con_arr", jsonArray);
+							jsonArrayParam.put("con_num", recruitDomain.getConNum());
+							jsonArray.put(jsonArrayParam);
+							jsonParam.put("con_arr", jsonArray);
 							
 							log.info("########################");
 							log.info("########################");
@@ -832,8 +833,8 @@ public class RecruitService {
 						
 						// 주민번호 변경 API 호출
 						if(!dbZId.equals(ssn)) {
-							jsonParam.addProperty("bef_ssn", ssn);												// 변경 전 주민번호 - API 조회된 결과값
-							jsonParam.addProperty("aft_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 변경 후 주민번호 - DB데이터
+							jsonParam.put("bef_ssn", ssn);												// 변경 전 주민번호 - API 조회된 결과값
+							jsonParam.put("aft_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 변경 후 주민번호 - DB데이터
 							
 							log.info("########################");
 							log.info("########################");
@@ -861,7 +862,7 @@ public class RecruitService {
 						
 						String dbCorpName = responseJson.getString("corp_name");					// DB 결과값 - 법인명
 						if(!dbCorpName.equals(corpName)) {
-							jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());					// 등록번호
+							jsonParam.put("corp_lc_num", recruitDomain.getPlRegistNo());					// 등록번호
 							
 							// 아래 필수 아님 - 수정되는 데이터 확인 필요함
 							//jsonParam.addProperty("corp_name", recruitDomain.getPlMerchantName());				// 법인명
@@ -871,9 +872,9 @@ public class RecruitService {
 							
 							
 							// 계약번호 및 기타는 배열
-							jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
-							jsonArray.add(jsonArrayParam);
-							jsonParam.add("con_arr", jsonArray);
+							jsonArrayParam.put("con_num", recruitDomain.getConNum());
+							jsonArray.put(jsonArrayParam);
+							jsonParam.put("con_arr", jsonArray);
 							
 							log.info("########################");
 							log.info("########################");
@@ -908,23 +909,23 @@ public class RecruitService {
 			// 2021-07-04 말소가 뭐였지... 확인해봐야함
 			// 2021-07-04 은행연합회 API 통신 - 수정
 			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-			JsonObject jsonParam = new JsonObject();
-			JsonObject jsonArrayParam = new JsonObject();
-			JsonArray jsonArray = new JsonArray();
+			JSONObject jsonParam = new JSONObject();
+			JSONObject jsonArrayParam = new JSONObject();
+			JSONArray jsonArray = new JSONArray();
 			
 
 			if("1".equals(statCheck.getPlClass())) {
 				// 개인 해지 - 개인수정에 해지일, 해지사유코드
 				// 한번에 해지하려면 대출모집인 등록번호만 넣고 해지일 해지사유코드
 				// 계약금융기관별로 해지하려면 등록번호, [계약번호, 해지일, 해지사유코드]
-				jsonParam.addProperty("lc_num", recruitDomain.getPlRegistNo());
+				jsonParam.put("lc_num", recruitDomain.getPlRegistNo());
 				
 				// 계약번호 및 기타는 배열
-				jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
-				jsonArrayParam.addProperty("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
-				jsonArrayParam.addProperty("cancel_code", recruitDomain.getPlHistCd());
-				jsonArray.add(jsonArrayParam);
-				jsonParam.add("con_arr", jsonArray);
+				jsonArrayParam.put("con_num", recruitDomain.getConNum());
+				jsonArrayParam.put("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
+				jsonArrayParam.put("cancel_code", recruitDomain.getPlHistCd());
+				jsonArray.put(jsonArrayParam);
+				jsonParam.put("con_arr", jsonArray);
 				
 				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT");
 				
@@ -933,13 +934,13 @@ public class RecruitService {
 				// 한번에 해지하려면 대출모집인 등록번호만 넣고 해지일 해지사유코드
 				// 계약금융기관별로 해지하려면 등록번호, [계약번호, 해지일, 해지사유코드]
 				
-				jsonParam.addProperty("corp_lc_num", recruitDomain.getPlRegistNo());
+				jsonParam.put("corp_lc_num", recruitDomain.getPlRegistNo());
 				// 계약번호 및 기타는 배열
-				jsonArrayParam.addProperty("con_num", recruitDomain.getConNum());
-				jsonArrayParam.addProperty("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
-				jsonArrayParam.addProperty("cancel_code", recruitDomain.getPlHistCd());
-				jsonArray.add(jsonArrayParam);
-				jsonParam.add("con_arr", jsonArray);
+				jsonArrayParam.put("con_num", recruitDomain.getConNum());
+				jsonArrayParam.put("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
+				jsonArrayParam.put("cancel_code", recruitDomain.getPlHistCd());
+				jsonArray.put(jsonArrayParam);
+				jsonParam.put("con_arr", jsonArray);
 				
 				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT");
 			}

@@ -693,7 +693,7 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	public ResponseMsg commonKfbApi(String authToken, JsonObject reqParam, String apiNm, String methodType) {
+	public ResponseMsg commonKfbApi(String authToken, JSONObject reqParam, String apiNm, String methodType) {
 		
         String successCheck = "fail";
         String message = "";

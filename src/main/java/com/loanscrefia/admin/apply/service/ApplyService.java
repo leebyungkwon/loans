@@ -840,12 +840,12 @@ public class ApplyService {
 				
 				// 2021-06-25 은행연합회 API 통신 - 등록
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-				JsonObject jsonParam = new JsonObject();
+				JSONObject jsonParam = new JSONObject();
 				if("1".equals(statCheck.getPlClass())) {
-					jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+					jsonParam.put("pre_lc_num", applyDomain.getPreLcNum());
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST");				
 				}else {
-					jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
+					jsonParam.put("pre_corp_lc_num", applyDomain.getPreLcNum());
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST");
 				}
 				
@@ -909,12 +909,12 @@ public class ApplyService {
 			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
 				// 2021-06-25 은행연합회 API 통신 - 가등록 취소
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-				JsonObject jsonParam = new JsonObject();
+				JSONObject jsonParam = new JSONObject();
 				if("1".equals(statCheck.getPlClass())) {
-					jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+					jsonParam.put("pre_lc_num", applyDomain.getPreLcNum());
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE");
 				}else {
-					jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
+					jsonParam.put("pre_corp_lc_num", applyDomain.getPreLcNum());
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE");
 				}
 				
