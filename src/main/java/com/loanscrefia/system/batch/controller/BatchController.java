@@ -1,7 +1,5 @@
 package com.loanscrefia.system.batch.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,11 +10,11 @@ import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.member.user.service.UserService;
 import com.loanscrefia.system.batch.repository.BatchRepository;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.SchedulerLock;
 import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
 
-@Log4j2
+@Slf4j
 @Component
 @EnableScheduling
 @EnableSchedulerLock(defaultLockAtMostFor = "PT30S")

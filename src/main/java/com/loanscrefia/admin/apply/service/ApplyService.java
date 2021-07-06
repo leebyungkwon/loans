@@ -874,7 +874,9 @@ public class ApplyService {
 						// 가등록시 등록되어있던 금융기관코드 확인
 						String comCode = statCheck.getComCode();
 						String finCode = jsonObj.getString("fin_code"); 
-						if(comCode.equals(finCode)) {
+						String loanType = jsonObj.getString("loan_type");
+						// 리턴받은 데이터(회원사, 대출모집인유형(상품))와 동일한 데이터가 자기 자신의 key임
+						if(comCode.equals(finCode) && prdCheck.equals(loanType)) {
 							conNum = jsonObj.getString("con_num");
 						}
 					}
@@ -902,22 +904,25 @@ public class ApplyService {
 			emailDomain.setInstId("144");
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());
 
-			
-			// 2021-06-25 은행연합회 API 통신 - 가등록 취소
-			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-			JsonObject jsonParam = new JsonObject();
-			if("1".equals(statCheck.getPlClass())) {
-				jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE");
-			}else {
-				jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE");
-			}
-
-			if("success".equals(responseMsg.getCode())) {
-				apiCheck = true;
-			}else {
-				return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
+			// 금융상품 3, 6번 제외
+			String prdCheck = statCheck.getPlProduct();
+			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+				// 2021-06-25 은행연합회 API 통신 - 가등록 취소
+				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+				JsonObject jsonParam = new JsonObject();
+				if("1".equals(statCheck.getPlClass())) {
+					jsonParam.addProperty("pre_lc_num", applyDomain.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE");
+				}else {
+					jsonParam.addProperty("pre_corp_lc_num", applyDomain.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE");
+				}
+				
+				if("success".equals(responseMsg.getCode())) {
+					apiCheck = true;
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
+				}
 			}
 			
 		}else{

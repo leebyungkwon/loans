@@ -34,10 +34,10 @@ import com.loanscrefia.util.excel.ExcelCellRef;
 import com.loanscrefia.util.excel.ExcelColumn;
 import com.loanscrefia.util.excel.ExcelFileType;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
 
-@Log4j
+@Slf4j
 @Component
 public class UtilExcel<T> {
 	

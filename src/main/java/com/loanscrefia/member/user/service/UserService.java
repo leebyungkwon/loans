@@ -44,10 +44,10 @@ import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
 
-@Log4j
+@Slf4j
 @Service
 public class UserService {
 

@@ -1,23 +1,18 @@
 package com.loanscrefia.admin.recruit.service;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
@@ -34,21 +29,14 @@ import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.UserDomain;
-import com.loanscrefia.member.user.domain.UserExpertDomain;
-import com.loanscrefia.member.user.domain.UserImwonDomain;
-import com.loanscrefia.member.user.domain.UserItDomain;
-import com.loanscrefia.member.user.domain.excel.UserCorpExcelDomain;
-import com.loanscrefia.member.user.domain.excel.UserIndvExcelDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
-import com.loanscrefia.util.UtilExcel;
-import com.loanscrefia.util.UtilFile;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
 
-@Log4j
+@Slf4j
 @Service
 public class RecruitService {
 

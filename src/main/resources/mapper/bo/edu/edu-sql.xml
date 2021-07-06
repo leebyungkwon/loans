@@ -19,7 +19,12 @@
 			,TLE.EXAM_CERT_NO
 			,TLE.DEPLOMA_NO
 			,CASE 
-				WHEN TLE.CAREER_TYP = '1' THEN TO_DATE(TLE.EXAM_DATE,'YYYYMMDD')
+				WHEN TLE.CAREER_TYP = '1' THEN 
+												case
+													when TLE.EXAM_DATE = '' then null
+													when TLE.EXAM_DATE is null then null
+													else TO_DATE(TLE.EXAM_DATE,'YYYYMMDD')
+												end
 				WHEN TLE.CAREER_TYP = '2' THEN TO_DATE(TLE.PASS_DATE,'YYYYMMDD')
 			 END AS COMP_DATE
 			,TO_CHAR(TLE.CREATE_DATE,'YYYY-MM-DD') AS CREATE_DATE

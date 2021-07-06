@@ -1,6 +1,5 @@
 package com.loanscrefia.config;
 
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.loanscrefia.common.common.domain.BaseDomain;
 import com.loanscrefia.common.login.domain.SecurityMember;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
-@Log4j2
+@Slf4j
 @Component
 @Aspect
 public class ConfigurationForAop {
