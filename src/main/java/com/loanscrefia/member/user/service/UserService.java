@@ -286,7 +286,7 @@ public class UserService {
 							log.info("insertUserRegIndvInfoByExcel() >> preLoanIndvApiReqParam >> "+preLoanIndvApiReqParam);
 							log.info("#########################################");
 							
-							ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, preLoanIndvApiReqParam, "POST");
+							ResponseMsg preLoanIndvApiResult = kfbApiService.preLoanIndv(apiToken, preLoanIndvApiReqParam.toString(), "POST");
 							
 							if(preLoanIndvApiResult.getCode().equals("success")) {
 								JSONObject preLoanIndvApiResponse = (JSONObject)preLoanIndvApiResult.getData();

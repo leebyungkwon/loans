@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 
 import lombok.extern.slf4j.Slf4j;
+import sinsiway.CryptoUtil;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -417,7 +419,7 @@ public class KfbApiService {
 	}
 	
 	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
-	public ResponseMsg preLoanIndv(String authToken, JSONObject reqParam, String method) {
+	public ResponseMsg preLoanIndv(String authToken, String reqParam, String method) {
 		
 		String successCheck 	= "fail";
 		String message 			= "";
@@ -433,12 +435,16 @@ public class KfbApiService {
 			//connect URL
 			String connUrl = this.getApiDomain()+PreLoanUrl;
 			
+			/*
+			
 			//파라미터 설정
 			if(method.equals("GET")) {
 				String param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
 				
 				connUrl = connUrl + param;
 			}
+			
+			*/
 			
 			//URL 설정
 			URL url 				= new URL(connUrl);
@@ -448,21 +454,14 @@ public class KfbApiService {
 			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Authorization", authToken);
-			
-			
-			
-			JSONObject job = new JSONObject();
-			job.put("phoneNum", "01000000000");
-			job.put("name", "test name");
-			job.put("address", "test address");
 
 			if(!method.equals("GET")) {
-				
 				conn.setDoInput(true);
 				conn.setDoOutput(true);
+				
 				OutputStream os = null;
 				os = conn.getOutputStream(); 
-				os.write(job.toString().getBytes()); 
+				os.write(reqParam.getBytes()); 
 				os.flush();
 				
 				//요청 데이터 전송
