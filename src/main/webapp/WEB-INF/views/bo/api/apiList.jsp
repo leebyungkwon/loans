@@ -48,7 +48,6 @@ function pageLoad(){
 			, success 	: function (opt,result) {
 				console.log("##########", result);
 				console.log("결과값 ===" + JSON.stringify(result));
-				$("#resultCode").val(result.data.authorize_code);
 				alert("권한코드 :: " + result.data.authorize_code);
 		    }
 		}
@@ -59,7 +58,7 @@ function pageLoad(){
 		var p = {
 			  url		: "/system/api/getAuthToken"	
 			, param		: {
-				code	: 	$("#resultCode").val()
+				
 			}
 			, success 	: function (opt,result) {
 				console.log("##########", result);
@@ -109,16 +108,7 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
-	
-	
-	
-	
-	
 }
-
-
-
-
 
 //날짜 가져오기
 function goGetDate(opt) {

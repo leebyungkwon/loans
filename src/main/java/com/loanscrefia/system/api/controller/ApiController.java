@@ -63,6 +63,8 @@ public class ApiController {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
 		//responseMsg.setData(kfbApiService.getAuthCode());
 		String authCode = kfbApiService.getAuthCode();
+		kfbApiDomain.setCode(authCode);
+		responseMsg.setData(kfbApiDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

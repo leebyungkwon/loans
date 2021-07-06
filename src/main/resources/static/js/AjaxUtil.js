@@ -75,6 +75,7 @@ var AjaxUtil = {
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
+        	console.log("#AjaxUtil.post()#" , response);
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);

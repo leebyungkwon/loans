@@ -763,7 +763,6 @@ public class RecruitService {
 			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
-			
 			String prdCheck = statCheck.getPlProduct();
 			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
 				// 2021-07-04 은행연합회 API 통신 - 수정
