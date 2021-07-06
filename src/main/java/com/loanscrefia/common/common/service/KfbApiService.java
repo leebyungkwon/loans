@@ -459,7 +459,7 @@ public class KfbApiService {
 
 			if(method.equals("POST")) {
 				preLoanIndvApiReqParam.put("name", reqDomain.getPlMerchantName());
-				preLoanIndvApiReqParam.put("ssn", CryptoUtil.decrypt(reqDomain.getPlMZId()));
+				preLoanIndvApiReqParam.put("ssn", reqDomain.getPlMZId());
 				preLoanIndvApiReqParam.put("ci", reqDomain.getCi());
 				
 				conArrParam.put("corp_num", reqDomain.getPlMerchantNo());
