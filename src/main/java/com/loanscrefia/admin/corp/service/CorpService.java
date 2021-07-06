@@ -81,10 +81,10 @@ public class CorpService {
 		for(int i = 0;i < excelParam.size();i++) {
 			CorpDomain chkParam = new CorpDomain();
 			String itemA 		= (String)excelParam.get(i).get("A"); //법인명
-			String itemC 		= (String)excelParam.get(i).get("C"); //법인번호(암호화된 상태)
+			String itemE 		= (String)excelParam.get(i).get("E"); //법인번호(암호화된 상태)
 
 			//중복체크
-			chkParam.setPlMerchantNo(itemC);
+			chkParam.setPlMerchantNo(itemE);
 			int chkResult = corpRepo.selectCorpInfoCnt(chkParam);
 			
 			//결과
