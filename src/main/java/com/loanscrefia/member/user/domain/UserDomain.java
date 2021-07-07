@@ -80,6 +80,7 @@ public class UserDomain extends BaseDomain {
 	//위반이력정보(tb_lc_violation)
 	private int violationSeq;
 	private String violationCd;		//위반코드
+	private String vioNum;			//위반이력번호						-> 은행연합회에서 던져주는 정보
 	
 	//배열
 	private int[] masterSeqArr;
