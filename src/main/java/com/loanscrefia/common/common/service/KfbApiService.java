@@ -872,6 +872,12 @@ public class KfbApiService {
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
 		
+		if(StringUtils.isEmpty(authToken)) {
+			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
+		}else {
+			authToken = "Bearer " + authToken;
+		}
+		
 		try {
 			//connect URL
 			String connUrl = this.getApiDomain()+LoanCorpUrl;
@@ -975,10 +981,125 @@ public class KfbApiService {
 	}
 	
 	/* -------------------------------------------------------------------------------------------------------
-	 * 은행연합회 API 연동 > 위반이력
+	 * 은행연합회 API 연동 > 위반이력 : POST(등록),GET(조회),PUT(수정),DELETE(삭제)
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
+	public ResponseMsg violation(String authToken, JSONObject reqParam, String method) {
+		
+		String successCheck 	= "fail";
+		String message 			= "";
+		JSONObject responseJson = new JSONObject();
+		
+		if(StringUtils.isEmpty(authToken)) {
+			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
+		}else {
+			authToken = "Bearer " + authToken;
+		}
+		
+		try {
+			//connect URL
+			String connUrl 	= this.getApiDomain()+ViolationUrl;
+			String param	= "";
+			
+			//파라미터 설정
+			if(method.equals("GET")) {
+				param = "?ssn="+reqParam.getString("ssn");
+			}else if(method.equals("DELETE")) {
+				param = "?vio_num="+reqParam.getString("vio_num");
+			}
+			connUrl = connUrl + param;
+			
+			//URL 설정
+			URL url 				= new URL(connUrl);
+			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			conn.setRequestMethod(method);
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Authorization", authToken);
+			
+			if(method.equals("POST") || method.equals("PUT")) {
+				conn.setDoOutput(true);
+				
+				//요청 데이터 전송
+				OutputStream os = conn.getOutputStream(); 
+				os.write(reqParam.toString().getBytes("utf-8")); //*****
+				os.flush();
+				os.close();
+			}
+	        
+	        //요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken(authToken);
+	        logParam.setUrl(this.getApiDomain()+ViolationUrl);
+	        logParam.setSendData(reqParam.toString());
+	        this.insertKfbApiReqLog(logParam);
+	        
+	        //요청 결과
+	        int responseCode = conn.getResponseCode();
+	        
+	        if(responseCode == 200) {
+	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        	StringBuilder sb 	= new StringBuilder();
+	        	String line 		= "";
+	        	
+	            while((line = br.readLine()) != null) {
+	            	sb.append(line);
+	            }
+	            
+	            br.close();
+	            
+	            //응답 JSON
+	            responseJson = new JSONObject(sb.toString());
+	            
+	            //message
+		        message = responseJson.getString("res_msg");
+	            
+		        log.info("#########################################");
+		        log.info("KfbApiService >> violoation() > responseJson :: 결과값 :: " + responseJson);
+		        log.info("#########################################");
+		        
+		        //결과
+	            if(responseJson.getString("res_code").equals("200")) {
+	            	//successCheck
+	            	successCheck = "success";
+	            }
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(message);
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+	            
+	        }else {
+		        log.info("#########################################");
+		        log.info("KfbApiService >> violoation() > 통신오류");
+		        log.info("#########################################");
+		        
+		        //message
+		        message = "violoation() 메소드 확인 필요";
+		        
+		        //응답 이력 저장
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg(message);
+	            logParam.setResData("empty");
+	            this.insertKfbApiResLog(logParam);
+	        }
+	        
+	        conn.disconnect();
+	        
+	    } catch (MalformedURLException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (JSONException e) {
+	        log.info("not JSON Format response");
+	        e.printStackTrace();
+	    }
+	    
+		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
+	}
 	
 	
 	/* -------------------------------------------------------------------------------------------------------
@@ -988,8 +1109,8 @@ public class KfbApiService {
 	
 	public ResponseMsg commonKfbApi(String authToken, JSONObject reqParam, String apiNm, String methodType, String plClass) {
 		
-        String successCheck = "fail";
-        String message = "";
+        String successCheck 	= "fail";
+        String message 			= "";
         JSONObject responseJson = new JSONObject();
         
         if(authToken == null && !"healthCheck".equals(authToken)) {
@@ -1001,8 +1122,8 @@ public class KfbApiService {
         }
         
 	    try {
-			String connUrl = apiNm;
-			String param = "";
+			String connUrl 	= apiNm;
+			String param 	= "";
 			
 			//파라미터 설정
 			if(methodType.equals("GET") || methodType.equals("DELETE")) {
