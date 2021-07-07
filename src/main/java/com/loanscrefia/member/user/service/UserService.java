@@ -399,7 +399,7 @@ public class UserService {
 							checkLoanApiReqParam.put("corp_rep_ci", excelResult.get(i).get("N").toString());
 							checkLoanApiReqParam.put("loan_type", excelResult.get(i).get("K").toString());
 							
-							ResponseMsg checkLoanApiResult = kfbApiService.checkLoan(apiToken, checkLoanApiReqParam);
+							ResponseMsg checkLoanApiResult = kfbApiService.checkLoanCorp(apiToken, checkLoanApiReqParam);
 							
 							if(checkLoanApiResult.getCode().equals("success")) {
 								//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
