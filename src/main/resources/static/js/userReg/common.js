@@ -310,17 +310,14 @@ function goUserCancel(){
 	}
 	if(confirm("취소하시겠습니까?")){
 		var p = {
-			  url		: "/member/user/updateUserStat"	
+			  url		: "/member/confirm/userCancel"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: '8'
 				,plHistTxt	: $("#plHistTxt").val()
 			}
 			, success 	: function (opt,result) {
-				if(result.data > 0){
-					alert("취소되었습니다.");
-					goUserConfirmList();
-				}
+				goUserConfirmList();
 		    }
 		}
 		AjaxUtil.post(p);
@@ -361,7 +358,7 @@ function goUserDropApply(){
 	}
 	if(confirm("모집인 해지를 요청하시겠습니까?")){
 		var p = {
-			  url		: "/member/user/userDropApply"	
+			  url		: "/member/confirm/userDropApply"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: '4'
@@ -388,21 +385,9 @@ function goCallViolationCd(){
 
 //위반이력사항 영역 추가
 function goViolationAdd(obj){
-	
-	var html = '';
-	
-	html += '<tr class="violationArea">';
-	html += '<th>위반이력사항</th>';
-	html += '<td colspan="3">';
-	html += '<select name="violationCdArr" class="violationCd"></select>';
-	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '; //공백 제거 금지
-	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
-	html += '</td>';
-	html += '</tr>';
-	
-	goCallViolationCd();
-	
+	var html = $(".violationArea").last().clone();
 	$("#table > table").append(html);
+	$(".violationArea").last().find("td").find("select").find("option").eq(0).attr("selected","selected");
 }
 
 //위반이력사항 영역 삭제
@@ -415,22 +400,18 @@ function goViolationDel(obj){
 	$(obj).closest("tr").remove();
 }
 
-//위반이력사항 데이터 삭제
+//위반이력사항 데이터 삭제요청
 function goViolationDataDel(violationSeq,obj){
-	if(confirm("위반이력을 삭제하시겠습니까?")){
+	if(confirm("위반이력 삭제를 요청하시겠습니까?")){
 		var p = {
-			  url		: "/member/confirm/deleteViolationInfo"	
+			  url		: "/member/confirm/applyDeleteViolationInfo"	
 			, param		: {
-				 violationSeq : violationSeq
+				  violationSeq 	: violationSeq
 			}
 			, success 	: function (opt,result) {
-				$(obj).closest("tr").remove();
-				
-				var violationAreaLen = $(".violationArea").length;
-				if(violationAreaLen == 0){
-					goViolationAdd(obj);
-				}else{
-					$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
+				if(result.code == "success"){
+					$(obj).closest("tr").find("td").find("a:last").remove();
+					$(obj).closest("tr").find("td").addClass("red");
 				}
 		    }
 		}

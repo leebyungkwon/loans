@@ -218,12 +218,14 @@ function goUserChangeApply(){
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 								<tr class="violationArea">
 									<th>위반이력${status.count }</th>
-									<td colspan="3">
+									<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>
 										${violationInfoList.violationCdNm }
 										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
-										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
+											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
 										</c:if>
-										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
+										<c:if test="${violationInfoList.applyYn ne 'Y' }">
+											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>

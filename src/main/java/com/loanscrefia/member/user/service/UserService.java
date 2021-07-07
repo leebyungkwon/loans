@@ -252,7 +252,7 @@ public class UserService {
 									
 								}
 							}else {
-								apiMsg += "은행연합회 등록가능 여부 조회 결과 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님 :: " + checkLoanApiResult.getMessage() + "<br>";
+								apiMsg += "은행연합회 등록가능 여부 조회 실패 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님 :: " + checkLoanApiResult.getMessage() + "<br>";
 							}
 						}
 					}
@@ -273,7 +273,12 @@ public class UserService {
 							preLoanApiReqParam.put("ci", excelResult.get(j).get("O").toString());
 							preLoanApiReqParam.put("mobile", excelResult.get(j).get("D").toString()); //임시
 							
-							conArrParam.put("corp_num", excelResult.get(j).get("I"));
+							if(excelResult.get(j).get("I") == null || excelResult.get(j).get("I").equals("")) {
+								conArrParam.put("corp_num", "");
+							}else {
+								conArrParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("I").toString()));
+							}
+							
 							//conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
 							conArrParam.put("con_date", excelResult.get(j).get("M").toString().replace("-", ""));
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
@@ -308,7 +313,7 @@ public class UserService {
 								insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
 								
 							}else {
-								apiMsg += "은행연합회 가등록 결과 :: " + excelResult.get(j).get("B").toString() + "("+excelResult.get(j).get("D").toString()+")" + "님은 가등록에 실패했습니다.<br>";
+								apiMsg += "은행연합회 가등록 실패 :: " + excelResult.get(j).get("B").toString() + "("+excelResult.get(j).get("D").toString()+")" + "님 :: " + preLoanApiResult.getMessage() +"<br>";
 							}
 						}else {
 							//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
@@ -409,7 +414,7 @@ public class UserService {
 									
 								}
 							}else {
-								apiMsg += "은행연합회 등록가능 여부 조회 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: " + checkLoanApiResult.getMessage() + "<br>";
+								apiMsg += "은행연합회 등록가능 여부 조회 실패 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: " + checkLoanApiResult.getMessage() + "<br>";
 							}
 						}
 					}
@@ -469,7 +474,7 @@ public class UserService {
 								corpService.insertCorpInfoByExcel(corpDomain);
 								
 							}else {
-								apiMsg += "은행연합회 가등록 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(j).get("E").toString()) + " :: 가등록에 실패했습니다.<br>";
+								apiMsg += "은행연합회 가등록 실패 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(j).get("E").toString()) + " :: "+ preLoanApiResult.getMessage() +"<br>";
 							}
 						}else {
 							//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
@@ -1454,39 +1459,75 @@ public class UserService {
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
-		//관련 첨부파일 삭제
-		if(userRegInfo.getFileSeq() != null) {
-			FileDomain fileParam = new FileDomain();
-			fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
-			commonService.realDeleteFileByGrpSeq(fileParam);
+		//부적격일 때 우리 테이블에서 삭제 + 나머지는 취소 API 태우고 삭제***
+		boolean deleteContinue 	= false;
+		int deleteResult 		= 0;
+		
+		if(userRegInfo.getPlStat().equals("10")) {
+			//부적격인 상태는 이미 협회쪽에서 가등록 취소 API 완료된 상태 -> 따라서 우리쪽 테이블에서 삭제만 시키면 OK
+			deleteContinue = true;
+		}else {
+			//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
+			if(kfbApiContinue(userRegInfo.getPlProduct())) {
+				KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
+				String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
+				JSONObject preLoanApiReqParam	= new JSONObject(); //여기
+				ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+				
+				if("1".equals(userRegInfo.getPlClass())) {
+					preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass());
+				}else {
+					preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass());
+				}
+				
+				if("success".equals(responseMsg.getCode())) {
+					deleteContinue = true;
+				}else {
+					return responseMsg;
+				}
+				
+			}else {
+				deleteContinue = true;
+			}
 		}
 		
-		//법인 삭제 시 하위 데이터도 삭제
-		if(userRegInfo.getPlClass().equals("2")) {
-			UserImwonDomain chkParam1 	= new UserImwonDomain();
-			UserExpertDomain chkParam2 	= new UserExpertDomain();
-			UserItDomain chkParam3 		= new UserItDomain();
+		if(deleteContinue) {
+			//관련 첨부파일 삭제
+			if(userRegInfo.getFileSeq() != null) {
+				FileDomain fileParam = new FileDomain();
+				fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
+				commonService.realDeleteFileByGrpSeq(fileParam);
+			}
 			
-			//법인사용인 삭제
-			userRepo.deleteCorpUserRegInfo(userRegInfo);
+			//법인 삭제 시 하위 데이터도 삭제
+			if(userRegInfo.getPlClass().equals("2")) {
+				UserImwonDomain chkParam1 	= new UserImwonDomain();
+				UserExpertDomain chkParam2 	= new UserExpertDomain();
+				UserItDomain chkParam3 		= new UserItDomain();
+				
+				//법인사용인 삭제
+				userRepo.deleteCorpUserRegInfo(userRegInfo);
+				
+				//임원 삭제
+				chkParam1.setMasterSeq(userRegInfo.getMasterSeq());
+				userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
+				
+				//전문인력 삭제
+				chkParam2.setMasterSeq(userRegInfo.getMasterSeq());
+				userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
+				
+				//전산인력 삭제
+				chkParam3.setMasterSeq(userRegInfo.getMasterSeq());
+				userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
+			}
 			
-			//임원 삭제
-			chkParam1.setMasterSeq(userDomain.getMasterSeq());
-			userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
-			
-			//전문인력 삭제
-			chkParam2.setMasterSeq(userDomain.getMasterSeq());
-			userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
-			
-			//전산인력 삭제
-			chkParam3.setMasterSeq(userDomain.getMasterSeq());
-			userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
+			//삭제
+			deleteResult = userRepo.deleteUserRegInfo(userRegInfo);
 		}
 		
-		//삭제
-		int result = userRepo.deleteUserRegInfo(userDomain);
-		
-		if(result > 0) {
+		if(deleteResult > 0) {
 			return new ResponseMsg(HttpStatus.OK, "COM0006", "");
 		}
 		
@@ -1558,9 +1599,57 @@ public class UserService {
 		return result; 
 	}
 	
+	//즉시취소
+	@Transactional
+	public ResponseMsg userCancel(UserDomain userDomain){
+		
+		//상세
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		
+		boolean updateContinue 	= false;
+		int updateResult 		= 0;
+		
+		//가등록 취소 API(TM 제외) + 우리쪽 테이블 UPDATE
+		if(kfbApiContinue(userRegInfo.getPlProduct())) {
+			KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
+			String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
+			JSONObject preLoanApiReqParam	= new JSONObject(); //여기
+			ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+			
+			if("1".equals(userRegInfo.getPlClass())) {
+				preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass());
+			}else {
+				preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass());
+			}
+			
+			if("success".equals(responseMsg.getCode())) {
+				updateContinue = true;
+			}else {
+				return responseMsg;
+			}
+			
+		}else {
+			updateContinue = true;
+		}
+		
+		if(updateContinue) {
+			//상태 수정*****
+			updateResult = this.updateUserStat(userDomain);
+		}
+		
+		if(updateResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "취소되었습니다.");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
 	//변경요청
 	@Transactional
 	public ResponseMsg userChangeApply(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
+		
 		//기본 이력 저장*****
 		this.insertUserHistory(userDomain);
 		
@@ -1574,6 +1663,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -1613,6 +1703,7 @@ public class UserService {
 	//해지요청 
 	@Transactional
 	public ResponseMsg userDropApply(UserDomain userDomain){
+		
 		//상세
 		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
 		
@@ -1675,8 +1766,6 @@ public class UserService {
 		return userRepo.selectUserStepHistoryList(userDomain);
 	}
 	
-	
-	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 위반이력
 	 * -------------------------------------------------------------------------------------------------------
@@ -1694,6 +1783,17 @@ public class UserService {
 		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
 	}
 	
+	//위반이력 삭제요청
+	@Transactional
+	public ResponseMsg applyDeleteViolationInfo(UserDomain userDomain){
+		
+		int updateResult = userRepo.applyDeleteUserViolationInfo(userDomain);
+		
+		if(updateResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "삭제요청되었습니다.");
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * (공통)모집인 등록 > 상태값 체크
@@ -1708,7 +1808,7 @@ public class UserService {
 		param.setMasterSeq(masterSeq);
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
 		String plRegStat 		= userRegInfo.getPlRegStat(); 	//모집인 상태 	-> [REG001]승인전,승인완료,자격취득,해지완료
-		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
+		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
 		
 		String code = "";
 		String msg 	= "";

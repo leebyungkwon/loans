@@ -120,7 +120,7 @@ function goUserChangeApplyPage(){
 						<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 							<tr>
 								<th>위반이력${status.count }</th>
-								<td colspan="3">${violationInfoList.violationCdNm }</td>
+								<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>${violationInfoList.violationCdNm }</td>
 							</tr>
 						</c:forEach>
 					</c:when>

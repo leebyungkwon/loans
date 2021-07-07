@@ -10,14 +10,18 @@ var originPlMName 		= "${result.userRegInfo.plMName}";
 var originPlMZId 		= "${result.userRegInfo.plMZId}";
 var originPlCellphone 	= "${result.userRegInfo.plCellphone}";
 
+var chgPlMName			= "";
+var chgPlMZId			= "";
+
 function pageLoad(){
+	//위반이력코드 호출
 	goCallViolationCd();
 	
 	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
 	$("#plMName").on("propertychange change keyup paste input",function(){
-		var inputVal 	= $(this).val();
+		chgPlMName = $(this).val();
 		
-		if(originPlMName != inputVal){
+		if(originPlMName != chgPlMName || (chgPlMZId != "" && originPlMZId != chgPlMZId)){
 			$("#chgVeriDoc1").prev().empty().append("주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시) *");
 			$("#chgVeriDoc1 > .inputFile").attr("data-essential","Y");
 			$("#chgVeriDoc1 > .goFileReset").attr("data-essential","Y");
@@ -30,9 +34,9 @@ function pageLoad(){
 		}
 	});
 	$("#plMZId").on("propertychange change keyup paste input",function(){
-		var inputVal 	= $(this).val();
+		chgPlMZId = $(this).val();
 		
-		if(originPlMZId != inputVal){
+		if(originPlMZId != chgPlMZId || (chgPlMName != "" && originPlMName != chgPlMName)){
 			$("#chgVeriDoc1").prev().empty().append("주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시) *");
 			$("#chgVeriDoc1 > .inputFile").attr("data-essential","Y");
 			$("#chgVeriDoc1 > .goFileReset").attr("data-essential","Y");
@@ -45,7 +49,7 @@ function pageLoad(){
 		}
 	});
 	$("#plCellphone").on("propertychange change keyup paste input",function(){
-		var inputVal 	= $(this).val();
+		var inputVal = $(this).val();
 		
 		if(originPlCellphone != inputVal){
 			$("#chgVeriDoc2").prev().empty().append("휴대폰 명의 확인서(휴대폰번호 변경 시) *");
@@ -205,12 +209,14 @@ function goUserChangeApply(){
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 								<tr class="violationArea">
 									<th>위반이력${status.count }</th>
-									<td colspan="3">
+									<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>
 										${violationInfoList.violationCdNm }
 										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
-										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
+											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
 										</c:if>
-										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
+										<c:if test="${violationInfoList.applyYn ne 'Y' }">
+											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>

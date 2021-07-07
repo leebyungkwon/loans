@@ -121,6 +121,13 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//위반이력 삭제요청
+	@PostMapping(value="/confirm/applyDeleteViolationInfo")
+	public ResponseEntity<ResponseMsg> applyDeleteViolationInfo(UserDomain userDomain){
+		ResponseMsg responseMsg = userService.applyDeleteViolationInfo(userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 등록
 	 * -------------------------------------------------------------------------------------------------------
@@ -422,6 +429,13 @@ public class UserController {
 		return mv;
 	}
 	
+	//즉시취소
+	@PostMapping(value="/confirm/userCancel")
+    public ResponseEntity<ResponseMsg> userCancel(UserDomain userDomain) {
+		ResponseMsg responseMsg = userService.userCancel(userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+    }
+	
 	//변경요청
 	@PostMapping(value="/confirm/userChangeApply")
     public ResponseEntity<ResponseMsg> userChangeApply(@RequestParam(value = "files", required = false) MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain) {
@@ -430,7 +444,7 @@ public class UserController {
     }
 	
 	//해지요청 
-	@PostMapping(value="/user/userDropApply")
+	@PostMapping(value="/confirm/userDropApply")
 	public ResponseEntity<ResponseMsg> userDropApply(UserDomain userDomain){
 		ResponseMsg responseMsg = userService.userDropApply(userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

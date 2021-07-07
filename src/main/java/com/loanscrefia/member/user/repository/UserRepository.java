@@ -135,6 +135,9 @@ public interface UserRepository {
 	//위반이력 삭제
 	int deleteUserViolationInfo(UserDomain userDomain);
 	
+	//위반이력 삭제요청
+	int applyDeleteUserViolationInfo(UserDomain userDomain);
+	
 	//위반이력 저장
 	int insertUserViolationInfo(UserDomain userDomain);
 	

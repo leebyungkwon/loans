@@ -417,7 +417,7 @@
    		SELECT 
    			COUNT(*)
    		FROM TB_LC_MAS01
-   		WHERE PL_STAT <![CDATA[!=]]> '8'						-- 처리상태가 취소가 아닌 것
+   		WHERE PL_STAT NOT IN ('8','10','11','12')
    		<choose>
   			<when test='plClass != null and !plClass.equals("") and plClass.equals("1")'> -- 개인일 때
   				AND PL_CLASS 	= '1'
@@ -1229,6 +1229,17 @@
 		WHERE VIOLATION_SEQ = #{violationSeq}
 	</delete>
 	
+	<!-- 위반이력 삭제요청 -->
+	<update id="applyDeleteUserViolationInfo" parameterType="user">
+		UPDATE TB_LC_VIOLATION
+		SET
+			 APPLY_YN 		= 'Y'
+			,UPD_SEQ		= #{updSeq}
+			,UPD_TIMESTAMP	= NOW()
+		WHERE
+			VIOLATION_SEQ = #{violationSeq}
+	</update>
+	
 	<!-- 위반이력 저장 -->
 	<insert id="insertUserViolationInfo" parameterType="user">
 		INSERT INTO TB_LC_VIOLATION
@@ -1254,8 +1265,12 @@
 			,MASTER_SEQ
 			,VIOLATION_CD
 			,FN_CD_DTL('VIT001',VIOLATION_CD) AS VIOLATION_CD_NM
+			,VIO_NUM
+			,APPLY_YN
 			,REG_SEQ
 			,TO_CHAR(REG_TIMESTAMP, 'YYYYMMDD') AS REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
 		FROM TB_LC_VIOLATION
 		WHERE MASTER_SEQ = #{masterSeq}
 		<if test="vioNum != null and vioNum != ''">
