@@ -141,6 +141,9 @@ public interface UserRepository {
 	//위반이력 리스트
 	List<UserDomain> selectUserViolationInfoList(UserDomain userDomain);
 	
+	//위반이력 수정
+	int updateUserViolationInfo(UserDomain userDomain);
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 모집인 기본 이력 / 단계별 이력 관련
 	 * -------------------------------------------------------------------------------------------------------

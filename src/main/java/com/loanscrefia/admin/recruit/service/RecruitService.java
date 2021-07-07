@@ -737,6 +737,18 @@ public class RecruitService {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		RecruitDomain statCheck = recruitRepository.getRecruitDetail(recruitDomain);
 		
+		//위반이력
+    	UserDomain userDomain = new UserDomain();
+    	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
+    	userDomain.setVioNum("empty");
+    	// 등록해야할 위반이력
+    	List<UserDomain> violationRegList = userRepo.selectUserViolationInfoList(userDomain);
+    	
+    	// 삭제해야할 위반이력
+    	userDomain.setVioNum("notEmpty");
+    	List<UserDomain> violationDelList = userRepo.selectUserViolationInfoList(userDomain);    	
+    	
+		
 		// 현재 승인상태와 화면에 있는 승인상태 비교
 		if(!recruitDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
@@ -796,18 +808,26 @@ public class RecruitService {
 					log.info("########################");
 					
 					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
-					
-					// 주민번호 변경 API 호출 - 은행연합회 확인
-					boolean zIdCheck = false;
-					if(zIdCheck) {
-						jsonParam.put("bef_ssn", "");											// 변경 전 주민번호 - API 조회된 결과값
-						jsonParam.put("aft_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 변경 후 주민번호 - DB데이터
+					if("success".equals(responseMsg.getCode())) {
+						// 주민번호 변경 API 호출 - 은행연합회 확인
+						boolean zIdCheck = false;
+						JSONObject zIdParam = new JSONObject();
+						if(zIdCheck) {
+							zIdParam.put("bef_ssn", "");											// 변경 전 주민번호 - API 조회된 결과값
+							zIdParam.put("aft_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 변경 후 주민번호 - DB데이터
+							log.info("########################");
+							log.info("jsonParam :: " + zIdParam);
+							log.info("########################");
+							responseMsg = kfbApiService.commonKfbApi(apiKey, zIdParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass);
+							if(!"success".equals(responseMsg.getCode())) {
+								return responseMsg;
+							}
+						}
 						
-						log.info("########################");
-						log.info("jsonParam :: " + jsonParam);
-						log.info("########################");
+						apiCheck = true;
 						
-						//responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass);
+					}else {
+						return responseMsg;
 					}
 					
 				}else {
@@ -832,7 +852,50 @@ public class RecruitService {
 					log.info(":::::::::::::API통신 시작 :::::::::");
 					log.info("########################");
 					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);	
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);
+					if(!"success".equals(responseMsg.getCode())) {
+						return responseMsg;
+					}
+				}
+				
+				if(violationRegList.size() > 0) {
+					// 위반이력 등록
+					for(UserDomain regVio : violationRegList) {
+						JSONObject jsonRegVioParam = new JSONObject();
+						jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
+						jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
+						jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
+						jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
+						jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
+						
+						responseMsg = kfbApiService.violation(apiKey, jsonRegVioParam, "POST");
+						if("success".equals(responseMsg.getCode())) {
+							JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+							String apiVioNum = responseJson.getString("vio_num");
+							UserDomain vioRegDomain = new UserDomain();
+							vioRegDomain.setVioNum(apiVioNum);
+							vioRegDomain.setViolationSeq(regVio.getViolationSeq());
+							userRepo.updateUserViolationInfo(vioRegDomain);
+						}else {
+							return responseMsg;
+						}
+					}
+				}
+				
+				if(violationDelList.size() > 0) {
+					// 위반이력 삭제
+					for(UserDomain delVio : violationDelList) {
+						JSONObject jsonDelVioParam = new JSONObject();
+						jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
+						responseMsg = kfbApiService.violation(apiKey, jsonDelVioParam, "DELETE");
+						if("success".equals(responseMsg.getCode())) {
+							UserDomain vioDelDomain = new UserDomain();
+							vioDelDomain.setViolationSeq(delVio.getViolationSeq());
+							userRepo.deleteUserViolationInfo(vioDelDomain);
+						}else {
+							return responseMsg;
+						}
+					}
 				}
 				
 				if("success".equals(responseMsg.getCode())) {
@@ -845,7 +908,6 @@ public class RecruitService {
 				apiCheck = true;
 			}
 			
-			
 		}else if("6".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 보완요청
 			emailDomain.setInstId("146");
@@ -856,8 +918,6 @@ public class RecruitService {
 			emailDomain.setInstId("147");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
-			
-			// 2021-07-04 말소가 뭐였지... 확인해봐야함
 			// 2021-07-04 은행연합회 API 통신 - 수정
 			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 			JSONObject jsonParam = new JSONObject();
@@ -875,7 +935,7 @@ public class RecruitService {
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", "");
+					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 					jsonArrayParam.put("cancel_date", "");
 					jsonArrayParam.put("cancel_code", "");
 					
@@ -899,7 +959,7 @@ public class RecruitService {
 					jsonArrayParam.put("con_num", statCheck.getConNum());
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", "");
+					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 					jsonArrayParam.put("cancel_date", "");
 					jsonArrayParam.put("cancel_code", "");
 					

@@ -1255,12 +1255,27 @@
 			,VIOLATION_CD
 			,FN_CD_DTL('VIT001',VIOLATION_CD) AS VIOLATION_CD_NM
 			,REG_SEQ
-			,REG_TIMESTAMP
+			,TO_CHAR(REG_TIMESTAMP, 'YYYYMMDD') AS REG_TIMESTAMP
 		FROM TB_LC_VIOLATION
 		WHERE MASTER_SEQ = #{masterSeq}
+		<if test="vioNum != null and vioNum != ''">
+			<if test='vioNum.equals("empty")'>
+				AND (VIO_NUM IS NULL OR VIO_NUM = '')
+				AND APPLY_YN = 'N'
+			</if>
+			<if test='vioNum.equals("notEmpty")'>
+				AND APPLY_YN = 'Y'
+			</if>			
+		</if>
 	</select>
 	
-	
-	
+	<!-- 위반이력 수정 -->
+	<insert id="updateUserViolationInfo" parameterType="user">
+		UPDATE TB_LC_VIOLATION
+		SET
+			VIO_NUM = #{vioNum}
+		WHERE
+			VIOLATION_SEQ = #{violationSeq}
+	</insert>
    	
 </mapper> 
