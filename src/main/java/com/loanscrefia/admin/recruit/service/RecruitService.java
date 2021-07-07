@@ -100,6 +100,7 @@ public class RecruitService {
 		recruitDomain.setSearchPlMName(recruitInfo.getPlMName());
 		recruitDomain.setSearchPlMZId("");
 		recruitDomain.setSearchPlCellphone("");
+		
 		//이력상세 - 이름
 		RecruitDomain recruitHistInfoName = recruitRepository.getRecruitHistDetail(recruitDomain);
 		if(recruitHistInfoName != null) {
@@ -124,7 +125,7 @@ public class RecruitService {
 					histZid.append(CryptoUtil.decrypt(recruitHistInfoZid.getPlMZId()));
 					histZid.insert(6, "-");
 					recruitInfo.setHistPlMZId(histZid.toString());
-					recruitInfo.setHistZidSeq(recruitHistInfoName.getMasterHistSeq());
+					recruitInfo.setHistZidSeq(recruitHistInfoZid.getMasterHistSeq());
 				}
 			}
 		}
@@ -138,7 +139,7 @@ public class RecruitService {
 		if(recruitHistInfoPhone != null) {
 			if(!recruitHistInfoPhone.getPlCellphone().equals(recruitInfo.getPlCellphone())) {
 				recruitInfo.setHistPlCellphone(recruitHistInfoPhone.getPlCellphone());
-				recruitInfo.setHistPhoneSeq(recruitHistInfoName.getMasterHistSeq());
+				recruitInfo.setHistPhoneSeq(recruitHistInfoPhone.getMasterHistSeq());
 			}
 		}
 		
@@ -782,9 +783,9 @@ public class RecruitService {
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", "");
-					//jsonArrayParam.put("cancel_date", "");
-					//jsonArrayParam.put("cancel_code", "");
+					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
@@ -808,6 +809,7 @@ public class RecruitService {
 						
 						//responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass);
 					}
+					
 				}else {
 					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
 					jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
@@ -818,9 +820,9 @@ public class RecruitService {
 					jsonArrayParam.put("con_num", statCheck.getConNum());
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", "");
-					//jsonArrayParam.put("cancel_date", "");
-					//jsonArrayParam.put("cancel_code", "");
+					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
@@ -874,8 +876,8 @@ public class RecruitService {
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", "");
-					//jsonArrayParam.put("cancel_date", "");
-					//jsonArrayParam.put("cancel_code", "");
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
@@ -898,8 +900,8 @@ public class RecruitService {
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", "");
-					//jsonArrayParam.put("cancel_date", "");
-					//jsonArrayParam.put("cancel_code", "");
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);

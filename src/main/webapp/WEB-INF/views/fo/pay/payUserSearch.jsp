@@ -94,7 +94,7 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				<tr>
 					<th>휴대폰번호</th>
 					<td>
-						<input type="text" name="plCellphone" placeholder="예) -제외" maxlength="11" data-vd='{"type":"mobileNo","len":"1,11","req":true,"msg":"휴대폰번호를 입력해 주세요."}'>
+						<input type="text" name="plCellphone" placeholder="예) 01077778888 (-제외)" maxlength="11" data-vd='{"type":"mobileNo","len":"1,11","req":true,"msg":"휴대폰번호를 입력해 주세요."}'>
 					</td>
 				</tr>
 				<tr>
@@ -149,7 +149,7 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				<tr>
 					<th>법인번호</th>
 					<td>
-						<input type="text" name="plMerchantNo" placeholder="예) -제외" maxlength="13" data-vd='{"type":"plMerchant","len":"1,13","req":true,"msg":"법인번호를 입력해 주세요."}'>
+						<input type="text" name="plMerchantNo" placeholder="예) 1234567890123 (-제외)" maxlength="13" data-vd='{"type":"plMerchant","len":"1,13","req":true,"msg":"법인번호를 입력해 주세요."}'>
 					</td>
 				</tr>
 				<tr>

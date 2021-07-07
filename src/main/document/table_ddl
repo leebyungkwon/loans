@@ -864,8 +864,11 @@ create table tb_lc_violation(
 	, vio_num varchar(10)
 	, master_seq integer not null
 	, violation_cd varchar(10) not null
+	, apply_yn char(1) not null default 'N'
 	, reg_timestamp timestamp not null
 	, reg_seq integer not null
+	, upd_timestamp timestamp NULL
+	, upd_seq INTEGER NULL
 	, primary key (violation_seq, master_seq)
 );
 
@@ -874,8 +877,11 @@ COMMENT ON COLUMN tb_lc_violation.violation_seq IS '위반이력정보시퀀스'
 COMMENT ON COLUMN tb_lc_violation.vio_num IS '위반이력번호';
 COMMENT ON COLUMN tb_lc_violation.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_violation.violation_cd IS '위반이력코드';
+COMMENT ON COLUMN tb_lc_violation.apply_yn IS '승인여부';
 COMMENT ON COLUMN tb_lc_violation.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_violation.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_violation.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_violation.upd_seq IS '수정자시퀀스';
 
 
 commit;

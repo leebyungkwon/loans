@@ -1176,15 +1176,22 @@ public class KfbApiService {
 	            	sb.append(line);
 	            }
 	            
+	            br.close();
+	            
 	            responseJson = new JSONObject(sb.toString());
+	            
+	            //결과
+	            if(responseJson.getString("res_code").equals("200")) {
+	            	//successCheck
+	            	successCheck = "success";
+	            }
 	            
 	            //응답 이력 저장
 	            logParam.setResCode(responseJson.getString("res_code"));
 	            logParam.setResMsg(responseJson.getString("res_msg"));
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
-	            successCheck = "success";
-	            br.close();
+	            
 	            
 	            return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, responseJson.getString("res_msg"));
 	            

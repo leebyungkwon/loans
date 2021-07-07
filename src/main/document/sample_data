@@ -34,13 +34,9 @@ ALTER TABLE tb_lc_mas01_hist ALTER COLUMN voting_stock_cnt type varchar(20);
 
 
 ALTER TABLE tb_lc_violation ADD COLUMN vio_num varchar(10);
-
-
-
-
-
-
-
+ALTER TABLE tb_lc_violation ADD COLUMN apply_yn varchar(10);
+ALTER TABLE tb_lc_violation ADD COLUMN upd_timestamp timestamp;
+ALTER TABLE tb_lc_violation ADD COLUMN upd_seq INTEGER;
 
 
 
