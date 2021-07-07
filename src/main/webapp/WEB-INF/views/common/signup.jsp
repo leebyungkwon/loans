@@ -15,6 +15,12 @@ function pageLoad(){
 			var fileName			= $("#fileName").val();
 			var comCode				= $("#comCode").val();
 			
+			
+			if (id.search(/\s/) != -1){ 
+				alert("아이디는 공백 없이 입력해 주세요.");
+				return false;
+			}
+			
 			var checkCount = 0;
 			
 			if(comCode == 0){
