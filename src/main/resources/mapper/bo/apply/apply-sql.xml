@@ -138,7 +138,7 @@
 				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
 			</if>
 			<if test="preLcNum != null and preLcNum != ''">
-				AND Z.PRE_LC_NUM = #{preLcNum}
+				AND Z.PRE_LC_NUM LIKE '%' || #{preLcNum} || '%'
 			</if>
 			<if test="srchDate1 != null and srchDate1 != ''">
 				AND Z.COM_REG_DATE 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
