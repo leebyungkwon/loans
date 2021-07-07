@@ -95,7 +95,7 @@ function goUserChangeApplyPage(){
 					<td colspan="3">${result.userRegInfo.addrNm }</td>
 				</tr>
 				<tr>
-					<th>상세주소(법인등기부본상)</th>
+					<th>상세주소(법인등기부등본상)</th>
 					<td colspan="3">${result.userRegInfo.addrDetail }</td>
 				</tr>
 				<tr>

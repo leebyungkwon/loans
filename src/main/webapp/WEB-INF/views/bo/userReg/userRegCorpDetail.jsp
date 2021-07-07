@@ -217,8 +217,8 @@ function goUserAcceptApply(){
 						</td>
 					</tr>
 					<tr>
-						<th>상세주소(법인등기부본상)</th>
-						<td colspan="3"><input type="text" name="addrDetail" class="w100" value="${result.userRegInfo.addrDetail }" maxlength="200" data-vd='{"type":"text","len":"1,200","req":true,"msg":"상세주소(법인등기부본상)를 입력해 주세요."}'></td>
+						<th>상세주소(법인등기부등본상)</th>
+						<td colspan="3"><input type="text" name="addrDetail" class="w100" value="${result.userRegInfo.addrDetail }" maxlength="200" data-vd='{"type":"text","len":"1,200","req":true,"msg":"상세주소(법인등기부등본상)를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
 						<th>자본금(백만원)</th>
