@@ -70,6 +70,10 @@ function goPayTest() {
 						<th>계약금융회사</th>
 						<td>${searchUserInfo.comCodeNm }</td>
 					</tr>
+					<tr>
+						<th>취급상품</th>
+						<td>${searchUserInfo.plProductNm }</td>
+					</tr>
 					<c:choose>
 						<c:when test="${searchUserInfo.plClass eq '1' }">
 							<tr>
