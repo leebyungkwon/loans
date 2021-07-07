@@ -14,18 +14,26 @@
 		<div class="inner">
 			<h1>
 				<c:choose>
-					<c:when test="${sessionScope.member.creYn eq 'Y' }">
-						<a href="/main">
-							<img src="/static/images/common/top_logo_ov.png" alt="" />
-						</a>
+					<c:when test="${sessionScope.member ne null }">
+						<c:choose>
+							<c:when test="${sessionScope.member.creYn eq 'Y' }">
+								<a href="/main">
+									<img src="/static/images/common/top_logo_ov.png" alt="" />
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href="/member/user/userRegPage">
+									<img src="/static/images/common/top_logo_ov.png" alt="" />
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:otherwise>
-						<a href="/member/user/userRegPage">
+						<a href="/login">
 							<img src="/static/images/common/top_logo_ov.png" alt="" />
 						</a>
 					</c:otherwise>
 				</c:choose>
-
 			</h1>
 			<c:if test="${sessionScope.member ne null }">
 				<div class="log_menu">
