@@ -118,6 +118,10 @@ function goUserChangeApply(){
 						<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }<c:if test="${result.userRegInfo.mobileNo ne null && result.userRegInfo.mobileNo ne '' }">, ${result.userRegInfo.mobileNo }</c:if>)</td>
 					</tr>
 					<tr>
+						<th>등록번호</th>
+						<td colspan="3">${result.userRegInfo.plRegistNo }</td>
+					</tr>
+					<tr>
 						<th>모집인 상태</th>
 						<td>${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.userRegInfo.masterSeq }');">이력보기</a></td>
 						<th>결제여부</th>
