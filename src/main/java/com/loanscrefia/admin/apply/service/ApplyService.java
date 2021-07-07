@@ -836,6 +836,10 @@ public class ApplyService {
 			
 			// 금융상품 3, 6번 제외
 			String prdCheck = statCheck.getPlProduct();
+			String lcNum = "";
+			String conNum = "";
+			// 가등록에서 본등록시 등록번호 발급
+			UserDomain userDomain = new UserDomain();
 			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
 				
 				// 2021-06-25 은행연합회 API 통신 - 등록
@@ -852,9 +856,6 @@ public class ApplyService {
 				
 				if("success".equals(responseMsg.getCode())) {
 					JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-					// 가등록에서 본등록시 등록번호 발급
-					String lcNum = "";
-					UserDomain userDomain = new UserDomain();
 					if("1".equals(statCheck.getPlClass())) {
 						lcNum = responseJson.getString("lc_num");
 					}else {
@@ -871,7 +872,7 @@ public class ApplyService {
 					// 계약금융기관코드로 판별????
 					// 가등록시 계약금융기관코드가 필수임 확인해야함 - 중요
 					
-					String conNum = "";
+					
 					JSONObject jsonObj = new JSONObject();
 					JSONArray conArr = responseJson.getJSONArray("con_arr");
 					// 계약금융기관코드(저장되어있는 데이터 비교)
@@ -900,8 +901,10 @@ public class ApplyService {
 						return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
 					}
 				}else {
-					return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
+					return responseMsg;
 				}
+			}else {
+				apiCheck = true;
 			}
 			
 		}else if("10".equals(applyDomain.getPlStat())) {
@@ -927,8 +930,10 @@ public class ApplyService {
 				if("success".equals(responseMsg.getCode())) {
 					apiCheck = true;
 				}else {
-					return new ResponseMsg(HttpStatus.OK, "fail", responseMsg.getMessage());
+					return responseMsg;
 				}
+			}else {
+				apiCheck = true;
 			}
 			
 		}else{

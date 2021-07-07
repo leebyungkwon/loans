@@ -83,9 +83,9 @@ public class ApiController {
 		String tempToken 		= kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 		JSONObject reqParam 	= new JSONObject();
 		
-		reqParam.put("name", "테스트");
-		reqParam.put("ssn", "8801021155715");
-		reqParam.put("ci", "0000000000000000000000000000000==");
+		reqParam.put("name", "연수원2307");
+		reqParam.put("ssn", "9912301111111");
+		reqParam.put("ci", "401==");
 		reqParam.put("loan_type", "05");
 		
 		responseMsg.setData(kfbApiService.checkLoan(tempToken,reqParam));

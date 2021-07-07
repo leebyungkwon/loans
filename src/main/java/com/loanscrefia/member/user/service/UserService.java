@@ -302,7 +302,7 @@ public class UserService {
 								UserDomain insertDomain 				= new UserDomain();
 								List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
 								
-								insertParam.set(0, excelResult.get(j));
+								insertParam.add(0, excelResult.get(j));
 								
 								insertDomain.setExcelParam(insertParam);
 								insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
@@ -315,7 +315,7 @@ public class UserService {
 							UserDomain insertDomain 				= new UserDomain();
 							List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
 							
-							insertParam.set(0, excelResult.get(j));
+							insertParam.add(0, excelResult.get(j));
 							
 							insertDomain.setExcelParam(insertParam);
 							insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
@@ -458,7 +458,7 @@ public class UserService {
 								UserDomain insertDomain 				= new UserDomain();
 								List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
 								
-								insertParam.set(0, excelResult.get(j));
+								insertParam.add(0, excelResult.get(j));
 								
 								insertDomain.setExcelParam(insertParam);
 								insertResult += userRepo.insertUserRegCorpInfoByExcel(insertDomain);
@@ -476,7 +476,7 @@ public class UserService {
 							UserDomain insertDomain 				= new UserDomain();
 							List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
 							
-							insertParam.set(0, excelResult.get(j));
+							insertParam.add(0, excelResult.get(j));
 							
 							insertDomain.setExcelParam(insertParam);
 							insertResult += userRepo.insertUserRegCorpInfoByExcel(insertDomain);

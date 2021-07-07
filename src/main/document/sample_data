@@ -33,6 +33,8 @@ ALTER TABLE tb_lc_mas01_hist ALTER COLUMN capital type varchar(20);
 ALTER TABLE tb_lc_mas01_hist ALTER COLUMN voting_stock_cnt type varchar(20);
 
 
+ALTER TABLE tb_lc_violation ADD COLUMN vio_num varchar(10);
+
 
 
 

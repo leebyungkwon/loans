@@ -16,15 +16,11 @@ function goRecruitApply(num){
 	var plStat = "";
 	var plRegStat = "";
 	var preRegYn = $("#preRegYn").val();
-	
-	/*
 	var preLcNum = $("#preLcNum").val();
 	if(WebUtil.isNull(preLcNum)){
 		alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
 		return false;
 	}
-	
-	*/
 	
 	if(num == "2"){
 		plStat = "9";
@@ -54,7 +50,7 @@ function goRecruitApply(num){
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
-				/* ,preLcNum		: preLcNum */
+				,preLcNum		: preLcNum 
 			}
 			, success 	: function (opt,result) {
 				
@@ -102,7 +98,7 @@ function goRecruitImprove(rePlStat){
 	var plStat = rePlStat;
 	
 	// 2021-07-04 은행연합회 API 추가
-	//var preLcNum = $("#preLcNum").val();
+	var preLcNum = $("#preLcNum").val();
 	
 	if(confirm(confirmMessage)){
 		var p = {
@@ -112,7 +108,7 @@ function goRecruitImprove(rePlStat){
 				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
-				/* ,preLcNum	: preLcNum */
+				,preLcNum	: preLcNum 
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){

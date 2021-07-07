@@ -67,14 +67,11 @@ function goRecruitApply(num){
 	var plRegStat = "";
 	var preRegYn = $("#preRegYn").val();
 	
-	/*
 	var preLcNum = $("#preLcNum").val();
 	if(WebUtil.isNull(preLcNum)){
 		alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
 		return false;
 	}
-	
-	*/
 	
 	if(num == "2"){
 		plStat = "9";
@@ -104,7 +101,7 @@ function goRecruitApply(num){
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
-				/* ,preLcNum		: preLcNum */
+				,preLcNum		: preLcNum
 			}
 			, success 	: function (opt,result) {
 				
@@ -129,22 +126,12 @@ function goApplyImprove(num){
 	var plStat = '5';
 	var messageCheck = "";
 	
-	/*
 	var preLcNum = $("#preLcNum").val();
 	if(num == "1"){
 		if(WebUtil.isNull(preLcNum)){
 			alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
 			return false;
 		}
-		plStat = '10';
-		messageCheck = "부적격 사유를 입력해 주세요.";
-	}else{
-		messageCheck = "보완요청사유를 입력해 주세요.";
-	}
-	
-	*/
-	
-	if(num == "1"){
 		plStat = '10';
 		messageCheck = "부적격 사유를 입력해 주세요.";
 	}else{
@@ -176,7 +163,7 @@ function goApplyImprove(num){
 				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
-				/* ,preLcNum	: preLcNum */
+				,preLcNum	: preLcNum 
 			}
 			, success 	: function (opt,result) {
 				

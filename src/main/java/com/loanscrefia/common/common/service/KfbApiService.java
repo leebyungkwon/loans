@@ -1007,7 +1007,7 @@ public class KfbApiService {
 			//파라미터 설정
 			if(methodType.equals("GET") || methodType.equals("DELETE")) {
 				if("1".equals(plClass)) {
-					param = "?pre_lc_num="+reqParam.getString("prd_lc_num");
+					param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
 				}else {
 					param = "?pre_corp_lc_num="+reqParam.getString("pre_corp_lc_num");
 				}

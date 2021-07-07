@@ -756,136 +756,93 @@ public class RecruitService {
 		boolean apiCheck = false;
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		
-		// 금융상품 3, 6번 제외
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 승인
 			emailDomain.setInstId("145");
 			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
 			emailDomain.setSubsValue(statCheck.getMasterToId());
-			
 			String prdCheck = statCheck.getPlProduct();
+			// 금융상품 TM대출(3), TM리스(6) 제외
 			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
-				// 2021-07-04 은행연합회 API 통신 - 수정
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 				JSONObject jsonParam = new JSONObject();
 				JSONObject jsonArrayParam = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
-				// 중요!! 
-				// 정보수정시 등록번호 + 계약번호 = 단독수정
-				// 등록번호만 던질시 전체수정임
-				
+
+				// 2021-07-04 은행연합회 API 통신 - 수정
+				// 정보수정시 등록번호 + 계약번호 = 단독수정, 등록번호만 던질시 전체수정임
 				// 주민번호 변경은 정보변경과 다른 API 분기
 				// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
 				String plClass = statCheck.getPlClass();
 				if("1".equals(plClass)) {
 					jsonParam.put("lc_num", statCheck.getPlRegistNo());
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "GET", plClass);
+					jsonParam.put("name", statCheck.getPlMName());
+					
+					jsonArrayParam.put("con_num", statCheck.getConNum());
+					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", "");
+					//jsonArrayParam.put("cancel_date", "");
+					//jsonArrayParam.put("cancel_code", "");
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					log.info("########################");
+					log.info("JSONObject In JSONArray :: " + jsonParam);
+					log.info(":::::::::::::API통신 시작 :::::::::");
+					log.info("########################");
+					
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
+					
+					// 주민번호 변경 API 호출 - 은행연합회 확인
+					boolean zIdCheck = false;
+					if(zIdCheck) {
+						jsonParam.put("bef_ssn", "");											// 변경 전 주민번호 - API 조회된 결과값
+						jsonParam.put("aft_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 변경 후 주민번호 - DB데이터
+						
+						log.info("########################");
+						log.info("jsonParam :: " + jsonParam);
+						log.info("########################");
+						
+						//responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass);
+					}
 				}else {
-					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "GET", plClass);
+					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
+					jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
+					jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
+					jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
+					//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
+					
+					jsonArrayParam.put("con_num", statCheck.getConNum());
+					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", "");
+					//jsonArrayParam.put("cancel_date", "");
+					//jsonArrayParam.put("cancel_code", "");
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					log.info("########################");
+					log.info("JSONObject In JSONArray :: " + jsonParam);
+					log.info(":::::::::::::API통신 시작 :::::::::");
+					log.info("########################");
+					
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);	
 				}
 				
-				// 정보조회 성공시
 				if("success".equals(responseMsg.getCode())) {
-					JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-					if("1".equals(plClass)) {
-						// 성명				- name
-						// 주민번호			- ssn
-						// 휴대폰번호			- mobile
-						// 나머지 배열 [계약번호, 업권코드 등등] - con_num, biz_code....
-						// 법인사용인 경우 법인등록번호 - corp_num
-						// 계약금융기관 		- fin_code
-						
-						String name = responseJson.getString("name");			// API 결과값 - 이름
-						String mobile = responseJson.getString("mobile");		// API 결과값 - 휴대폰번호
-						String ssn = responseJson.getString("ssn");				// API 결과값 - 주민번호
-						
-						// -------------------------------------------------------------------------------- //
-						
-						String dbName = recruitDomain.getPlMName();							// DB결과값 - 이름
-						String dbMobile = recruitDomain.getPlCellphone();					// DB결과값 - 휴대폰번호
-						String dbZId = CryptoUtil.decrypt(recruitDomain.getPlMZId());		// DB결과값 - 주민번호
-						
-						// 정보변경 API호출
-						if(!dbName.equals(name) || !dbMobile.equals(mobile)) {
-							jsonParam.put("lc_num", recruitDomain.getPlRegistNo());
-							jsonParam.put("name", recruitDomain.getPlMName());
-							jsonParam.put("mobile", recruitDomain.getPlCellphone());
-							
-							// 계약번호 및 기타는 배열
-							jsonArrayParam.put("con_num", recruitDomain.getConNum());
-							jsonArray.put(jsonArrayParam);
-							jsonParam.put("con_arr", jsonArray);
-							
-							log.info("########################");
-							log.info("########################");
-							log.info("JSONObject In JSONArray :: " + jsonParam);
-							log.info("########################");
-							log.info("########################");
-							
-							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
-							
-						}
-						
-						// 주민번호 변경 API 호출
-						if(!dbZId.equals(ssn)) {
-							jsonParam.put("bef_ssn", ssn);												// 변경 전 주민번호 - API 조회된 결과값
-							jsonParam.put("aft_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 변경 후 주민번호 - DB데이터
-							
-							log.info("########################");
-							log.info("########################");
-							log.info("jsonParam :: " + jsonParam);
-							log.info("########################");
-							log.info("########################");
-							
-							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass);
-						}
-						
-					}else {
-						// 법인등록번호			- corp_num
-						// 법인명				- corp_name
-						// 법인대표성명			- corp_rep_name
-						// 법인대표주민번호		- corp_rep_ssn
-						// 경력여부			- career_yn
-						// 나머지 배열 [계약번호, 업권 등등] - con_num, biz_code.....
-						
-						String corpNum = responseJson.getString("corp_num");					// API 결과값 - 법인등록번호
-						String corpName = responseJson.getString("corp_name");					// API 결과값 - 법인명
-						String corpRepName = responseJson.getString("corp_rep_name");			// API 결과값 - 법인대표성명
-						String corpRepSsn = responseJson.getString("corp_rep_ssn");				// API 결과값 - 법인대표주민번호
-						
-						// ------------------------ 법인쪽 수정가능 데이터 확인 후 추가예정 -------------------------------------------- //
-						
-						String dbCorpName = responseJson.getString("corp_name");					// DB 결과값 - 법인명
-						if(!dbCorpName.equals(corpName)) {
-							jsonParam.put("corp_lc_num", recruitDomain.getPlRegistNo());					// 등록번호
-							
-							// 아래 필수 아님 - 수정되는 데이터 확인 필요함
-							//jsonParam.addProperty("corp_name", recruitDomain.getPlMerchantName());				// 법인명
-							//jsonParam.addProperty("corp_rep_name", recruitDomain.getPlCeoName());					// 법인대표성명
-							//jsonParam.addProperty("corp_rep_ssn", CryptoUtil.decrypt(recruitDomain.getPlMZId()));	// 법인대표주민번호
-							//jsonParam.addProperty("corp_rep_ci", recruitDomain.getCi());							// 법인대표CI
-							
-							
-							// 계약번호 및 기타는 배열
-							jsonArrayParam.put("con_num", recruitDomain.getConNum());
-							jsonArray.put(jsonArrayParam);
-							jsonParam.put("con_arr", jsonArray);
-							
-							log.info("########################");
-							log.info("JSONObject In JSONArray :: " + jsonParam);
-							log.info("########################");
-							
-							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);						
-						}
-					}
-					
 					apiCheck = true;
-					
 				}else {
-					return new ResponseMsg(HttpStatus.OK, "fail", "정보조회에 실패하였습니다 == " + responseMsg.getMessage());
+					return responseMsg;
 				}
-			} // ---------------- 조회 후 분기 처리 -------------------------------------- //
+				
+			}else {
+				apiCheck = true;
+			}
+			
 			
 		}else if("6".equals(recruitDomain.getPlStat())) {
 			// 변경요청에 대한 보완요청
@@ -906,38 +863,64 @@ public class RecruitService {
 			JSONArray jsonArray = new JSONArray();
 			
 			String plClass = statCheck.getPlClass();
-			if("1".equals(plClass)) {
-				// 개인 해지 - 개인수정에 해지일, 해지사유코드
-				// 한번에 해지하려면 대출모집인 등록번호만 넣고 해지일 해지사유코드
-				// 계약금융기관별로 해지하려면 등록번호, [계약번호, 해지일, 해지사유코드]
-				jsonParam.put("lc_num", recruitDomain.getPlRegistNo());
+			String prdCheck = statCheck.getPlProduct();
+			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+				if("1".equals(plClass)) {
+					jsonParam.put("lc_num", statCheck.getPlRegistNo());
+					jsonParam.put("name", statCheck.getPlMName());
+					
+					jsonArrayParam.put("con_num", statCheck.getConNum());
+					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", "");
+					//jsonArrayParam.put("cancel_date", "");
+					//jsonArrayParam.put("cancel_code", "");
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					log.info("########################");
+					log.info("JSONObject In JSONArray :: " + jsonParam);
+					log.info(":::::::::::::API통신 시작 :::::::::");
+					log.info("########################");
+					
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
+					
+				}else {
+					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
+					jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
+					jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
+					jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
+					//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
+					
+					jsonArrayParam.put("con_num", statCheck.getConNum());
+					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", "");
+					//jsonArrayParam.put("cancel_date", "");
+					//jsonArrayParam.put("cancel_code", "");
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					log.info("########################");
+					log.info("JSONObject In JSONArray :: " + jsonParam);
+					log.info(":::::::::::::API통신 시작 :::::::::");
+					log.info("########################");
+					
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);
+				}
 				
-				// 계약번호 및 기타는 배열
-				jsonArrayParam.put("con_num", recruitDomain.getConNum());
-				jsonArrayParam.put("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
-				jsonArrayParam.put("cancel_code", recruitDomain.getPlHistCd());
-				jsonArray.put(jsonArrayParam);
-				jsonParam.put("con_arr", jsonArray);
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
-				
+				if("success".equals(responseMsg.getCode())) {
+					apiCheck = true;
+				}else {
+					return responseMsg;
+				}
 			}else {
-				// 법인 해지 - 법인해지에 해지일, 해지사유코드
-				// 한번에 해지하려면 대출모집인 등록번호만 넣고 해지일 해지사유코드
-				// 계약금융기관별로 해지하려면 등록번호, [계약번호, 해지일, 해지사유코드]
-				
-				jsonParam.put("corp_lc_num", recruitDomain.getPlRegistNo());
-				// 계약번호 및 기타는 배열
-				jsonArrayParam.put("con_num", recruitDomain.getConNum());
-				jsonArrayParam.put("cancel_date", recruitDomain.getComHaejiDate().replaceAll("-", ""));
-				jsonArrayParam.put("cancel_code", recruitDomain.getPlHistCd());
-				jsonArray.put(jsonArrayParam);
-				jsonParam.put("con_arr", jsonArray);
-				
-				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);
+				// TM대출, TM리스 제외
+				apiCheck = true;				
 			}
-			
-			apiCheck = true;
-			
 		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 승인요청에 대한 승인 - 제외됐음
 			emailDomain.setInstId("142");
@@ -951,8 +934,6 @@ public class RecruitService {
 		if(apiCheck) {
 			int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 			emailResult = emailRepository.sendEmail(emailDomain);
-			// 임시 성공
-			//emailResult = 1;
 			if(emailResult > 0 && result > 0) {
 				// 모집인단계이력
 				recruitRepository.insertMasterStep(recruitDomain);

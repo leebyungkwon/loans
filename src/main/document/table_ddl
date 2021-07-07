@@ -861,6 +861,7 @@ commit;
 -- 위반이력정보
 create table tb_lc_violation(
 	violation_seq integer not null default nextval('tb_lc_violation_seq')
+	, vio_num varchar(10)
 	, master_seq integer not null
 	, violation_cd varchar(10) not null
 	, reg_timestamp timestamp not null
@@ -870,6 +871,7 @@ create table tb_lc_violation(
 
 COMMENT ON TABLE tb_lc_violation IS '위반이력정보';
 COMMENT ON COLUMN tb_lc_violation.violation_seq IS '위반이력정보시퀀스';
+COMMENT ON COLUMN tb_lc_violation.vio_num IS '위반이력번호';
 COMMENT ON COLUMN tb_lc_violation.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_violation.violation_cd IS '위반이력코드';
 COMMENT ON COLUMN tb_lc_violation.reg_timestamp IS '등록일시';
