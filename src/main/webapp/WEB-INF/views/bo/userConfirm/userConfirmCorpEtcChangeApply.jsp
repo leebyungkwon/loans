@@ -123,6 +123,7 @@ function goUserRegInfoUpdt() {
 							<col width="62%">
 						</colgroup>
 						<tbody>
+							<%-- 
 							<tr>
 								<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</th>
 								<td>
@@ -140,6 +141,7 @@ function goUserRegInfoUpdt() {
 									</c:choose>
 								</td>
 							</tr>
+							 --%>
 							<tr>
 								<th class="acenter">기업 신용정보조회서 *</th>
 								<td>

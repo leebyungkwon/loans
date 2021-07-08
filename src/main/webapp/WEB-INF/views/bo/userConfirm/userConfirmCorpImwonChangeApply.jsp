@@ -258,6 +258,7 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										<%-- 
 										<tr>
 											<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
 											<td>
@@ -275,6 +276,7 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										 --%>
 										<tr>
 											<th class="acenter">인감증명서 *</th>
 											<td>
@@ -292,6 +294,7 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										<%-- 
 										<tr>
 											<th class="acenter">후견부존재증명서 *</th>
 											<td>
@@ -309,6 +312,7 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										 --%>
 									</tbody>
 								</table>
 							</div>

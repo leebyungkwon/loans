@@ -242,6 +242,7 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				<%-- 
 				<tr>
 					<th class="acenter">결격사유없음 확인서(파산, 피한정후견인등) *</th>
 					<td>
@@ -253,6 +254,7 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				 --%>
 				<tr>
 					<th class="acenter">대리인 신청 위임장(위임인 인간날인) *</th>
 					<td>
@@ -275,6 +277,7 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				<%-- 
 				<tr>
 					<th class="acenter">후견부존재증명서 *</th>
 					<td>
@@ -286,6 +289,7 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				 --%>
 				<tr>
 					<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 					<td>
