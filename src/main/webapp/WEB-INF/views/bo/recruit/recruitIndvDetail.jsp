@@ -483,40 +483,38 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
-				<c:if test="${result.recruitInfo.plStat eq '3' or result.recruitInfo.plStat eq '6' or result.rerecruitInfo.plStat eq '9' }">
-					<tr>
-						<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.recruitInfo.fileType10 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType10.fileSeq }">${result.recruitInfo.fileType10.fileFullNm }</a>
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-							<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
-								<c:if test="${!empty result.recruitInfo.histFileType10}">
-									<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType10.fileGrpSeq }', '10');">변경사항</a>
-								</c:if>
+				<tr>
+					<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType10 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType10.fileSeq }">${result.recruitInfo.fileType10.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType10}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType10.fileGrpSeq }', '10');">변경사항</a>
 							</c:if>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
-						<td>
-							<c:choose>
-								<c:when test="${result.recruitInfo.fileType11 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType11.fileSeq }">${result.recruitInfo.fileType11.fileFullNm }</a>
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-							<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
-								<c:if test="${!empty result.recruitInfo.histFileType11}">
-									<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType11.fileGrpSeq }', '11');">변경사항</a>
-								</c:if>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType11 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType11.fileSeq }">${result.recruitInfo.fileType11.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType11}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType11.fileGrpSeq }', '11');">변경사항</a>
 							</c:if>
-						</td>
-					</tr>
-				</c:if>
+						</c:if>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="btn_wrap">

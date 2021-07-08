@@ -584,50 +584,46 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
-				
-				<c:if test="${result.applyInfo.plStat eq '3' }">
-					<tr>
-						<td class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</td>
-						<td>
-							<c:choose>
-								<c:when test="${result.applyInfo.fileType10 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType10.fileSeq }">${result.applyInfo.fileType10.fileFullNm }</a>
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-						</td>
-						<td>
-							<div class="input_check_wrap mgr10">
-								<input type="checkbox" id="check_cd15" class="check check_cd" 
-								<c:if test="${empty result.applyInfo.fileType10.fileSeq}">disabled</c:if>
-								<c:if test="${!empty result.applyInfo.checkCd15}">checked</c:if>
-								 data-fileSeq="${result.applyInfo.fileType10.fileSeq }" >
-								<label for="check_cd15">체크사항1</label>
-							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</td>
-						<td>
-							<c:choose>
-								<c:when test="${result.applyInfo.fileType11 ne null }">
-									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType11.fileSeq }">${result.applyInfo.fileType11.fileFullNm }</a>
-								</c:when>
-								<c:otherwise>-</c:otherwise>
-							</c:choose>
-						</td>
-						<td>
-							<div class="input_check_wrap mgr10">
-								<input type="checkbox" id="check_cd16" class="check check_cd" 
-								<c:if test="${empty result.applyInfo.fileType11.fileSeq}">disabled</c:if>
-								<c:if test="${!empty result.applyInfo.checkCd16}">checked</c:if>
-								 data-fileSeq="${result.applyInfo.fileType11.fileSeq }" >
-								<label for="check_cd16">체크사항1</label>
-							</div>
-						</td>
-					</tr>
-				</c:if>
+				<tr>
+					<td class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType10 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType10.fileSeq }">${result.applyInfo.fileType10.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd15" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType10.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd15}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType10.fileSeq }" >
+							<label for="check_cd15">체크사항1</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType11 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType11.fileSeq }">${result.applyInfo.fileType11.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd16" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType11.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd16}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType11.fileSeq }" >
+							<label for="check_cd16">체크사항1</label>
+						</div>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="btn_wrap">
