@@ -197,7 +197,7 @@ function pageLoad(){
 									</td>
 								</tr> --%>
 								<tr>
-									<td class="acenter">인감증명서 *</td>
+									<td class="acenter">인감증명서</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpImwonList.fileType10 ne null }">

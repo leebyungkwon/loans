@@ -547,7 +547,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">위임인 인감증명서 *</td>
+					<td class="acenter">위임인 인감증명서</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType9 ne null }">

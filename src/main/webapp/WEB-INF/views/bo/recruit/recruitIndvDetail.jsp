@@ -451,7 +451,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">위임인 인감증명서 *</th>
+					<th class="acenter">위임인 인감증명서</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType9 ne null }">
