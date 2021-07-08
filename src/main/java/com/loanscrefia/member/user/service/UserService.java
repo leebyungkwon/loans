@@ -271,7 +271,6 @@ public class UserService {
 							preLoanApiReqParam.put("name", excelResult.get(j).get("B").toString());
 							preLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
 							preLoanApiReqParam.put("ci", excelResult.get(j).get("O").toString());
-							preLoanApiReqParam.put("mobile", excelResult.get(j).get("D").toString()); //임시
 							
 							if(excelResult.get(j).get("I") == null || excelResult.get(j).get("I").equals("")) {
 								conArrParam.put("corp_num", "");
@@ -279,7 +278,7 @@ public class UserService {
 								conArrParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("I").toString()));
 							}
 							
-							//conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
+							conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
 							conArrParam.put("con_date", excelResult.get(j).get("M").toString().replace("-", ""));
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
