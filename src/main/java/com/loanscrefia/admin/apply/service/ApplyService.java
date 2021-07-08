@@ -859,7 +859,7 @@ public class ApplyService {
 					if("1".equals(statCheck.getPlClass())) {
 						lcNum = responseJson.getString("lc_num");
 					}else {
-						lcNum = responseJson.getString("lc_corp_num");
+						lcNum = responseJson.getString("corp_lc_num");
 					}
 					
 					if(StringUtils.isEmpty(lcNum)) {

@@ -147,6 +147,10 @@
 				AND Z.COM_REG_DATE 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 			</if>
 			
+			<if test="sortName == 'com_reg_date' ">
+				AND Z.PL_STAT != '5'
+			</if>
+			
 	    </where>
 	    <include refid="common.pageBottom"/>
    	</select>
