@@ -1,10 +1,13 @@
 package com.loanscrefia.front.pay.service;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.JsonObject;
+import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.pay.domain.PayDomain;
@@ -43,26 +46,37 @@ public class PayService {
 			
 			/*
 			//(2)은행연합회 통신(본동록) : 성공 시 모집인 상태(pl_reg_stat) = 자격취득 / 실패 시 결제완료(이후 프로세스는 협회쪽에서 수동으로 진행)
-			String apiToken 			= kfbApiService.selectKfbApiKey();
+			KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
+			String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
+			
 			SearchDomain searchDoamin 	= new SearchDomain();
 			searchDoamin.setMasterSeq(payDomain.getMasterSeq());
 			searchDoamin.setPlRegStat("2");
 			SearchDomain userInfo 		= searchService.selectSearchUserInfo(searchDoamin);
 			
-			JsonObject loanIndvApiReqParam 	= new JsonObject();
-			loanIndvApiReqParam.addProperty("pre_lc_num", userInfo.getPreLcNum());
-			ResponseMsg loanIndvApiResult = kfbApiService.loanIndv(apiToken, loanIndvApiReqParam, "POST");
+			JSONObject loanApiReqParam 	= new JSONObject();
+			ResponseMsg loanApiResult 	= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
 			
-			if(loanIndvApiResult.getCode().equals("success")) {
-				JsonObject loanIndvApiResponse = (JsonObject)loanIndvApiResult.getData();
+			if(userInfo.getPlClass().equals("1")) {
+				//개인
+				loanApiReqParam.put("pre_lc_num", userInfo.getPreLcNum());
+				loanApiResult = kfbApiService.commonKfbApi(apiToken, loanApiReqParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", userInfo.getPlClass());
+			}else {
+				//법인
+				loanApiReqParam.put("pre_corp_lc_num", userInfo.getPreLcNum());
+				loanApiResult = kfbApiService.commonKfbApi(apiToken, loanApiReqParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", userInfo.getPlClass());
+			}
+			
+			if(loanApiResult.getCode().equals("success")) {
+				JsonObject loanApiResponse = (JsonObject)loanApiResult.getData();
 				System.out.println("#########################################");
-				System.out.println("insertPayResult() >> loanIndvApiResponse >> "+loanIndvApiResponse);
+				System.out.println("insertPayResult() >> loanApiResponse >> "+loanApiResponse);
 				System.out.println("#########################################");
 				
 				//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정 + 계약번호 저장
 				param.setMasterSeq(payDomain.getMasterSeq());
 				param.setPlRegStat("3");
-				param.setConNum(loanIndvApiResponse.get("con_num").toString());
+				param.setConNum(loanApiResponse.get("con_num").toString());
 				int updateResult = searchService.updatePlRegStat(param);
 				
 				if(updateResult == 0) {

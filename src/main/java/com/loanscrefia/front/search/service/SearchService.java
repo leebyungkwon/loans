@@ -59,6 +59,7 @@ public class SearchService {
 	//모집인 조회 : 법인(결제)
 	@Transactional(readOnly = true)
 	public ResponseMsg selectPayCorpUserInfo(SearchDomain searchDomain) {
+		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(searchDomain.getPlMerchantNo())) {
 			searchDomain.setPlMerchantNo(CryptoUtil.encrypt(searchDomain.getPlMerchantNo()));
