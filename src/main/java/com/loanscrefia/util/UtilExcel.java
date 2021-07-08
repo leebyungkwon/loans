@@ -3,6 +3,7 @@ package com.loanscrefia.util;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -255,7 +256,7 @@ public class UtilExcel<T> {
 		                			}
 	                			}else if(chkFormat.get(j).equals("cal")) {
 	                				//날짜 형식 체크
-	                				if(!dateFormatChk(cellVal,"yyyy-MM-dd")) {
+	                				if(StringUtils.isNotEmpty(cellVal) && !dateFormatChk(cellVal,"yyyy-MM-dd")) {
 		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
 		                			}
 	                			}else if(chkFormat.get(j).equals("ci")) {
@@ -402,12 +403,12 @@ public class UtilExcel<T> {
 	
 	//날짜 형식 및 값 체크
 	private boolean dateFormatChk(String date, String format) {
-		SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
-		dateFormatParser.setLenient(false);
 		try {
+			SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
+			dateFormatParser.setLenient(false);
 			dateFormatParser.parse(date);
 			return true;
-		}catch(Exception exception) {
+		}catch(ParseException e) {
 			return false;
 		}
 	}
