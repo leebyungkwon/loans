@@ -59,10 +59,11 @@ function goUserRegInfoCancel() {
 //승인요청
 function goUserAcceptApply(){
 	//validation
-	if(!goFileEssentialChk() || "${result.userRegInfo.fileCompYn}" == "N"){
+	if(!goFileEssentialChk()){
 		alert(messages.COM0007);
 		return;
 	}
+	//요청
 	if(confirm("승인요청하시겠습니까?")){
 		$("#userRegInfoUpdFrm").attr("action","/member/user/userAcceptApply2");
 		
