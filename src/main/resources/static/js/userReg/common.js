@@ -7,44 +7,14 @@ $(document).on("change",".careerTyp",function(){
 	
 	var parentTag = $(this).closest("div").parent();
 	
-	//$(parentTag).find(".eduFileTable").find(".esstIcon").remove();
-	
 	if($(this).val() == "1"){
 		//신규
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").show();
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").hide();
-		
-		/*
-		if(WebUtil.isNotNull($(this).attr("data-fileSeq"))){
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileDel").attr("data-essential","Y");
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileDel").attr("data-essential","N");
-		}else{
-			var fileType = $(parentTag).find(".eduFileTable").find(".careerTypTwoTr").attr("data-fileType");
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("th").append('<span class="esstIcon"> *</span>');
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".inputFile").attr("data-essential","Y");
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileReset").remove();
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".inputFile").attr("data-essential","N");
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").append('<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="N">초기화</a>');
-		}
-		*/
 	}else if($(this).val() == "2"){
 		//경력
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").show();
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").hide();
-		
-		/*
-		if(WebUtil.isNotNull($(this).attr("data-fileSeq"))){
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileDel").attr("data-essential","Y");
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".goFileDel").attr("data-essential","N");	
-		}else{
-			var fileType = $(parentTag).find(".eduFileTable").find(".careerTypOneTr").attr("data-fileType");
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("th").append('<span class="esstIcon"> *</span>');
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".inputFile").attr("data-essential","Y");
-			$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find(".goFileReset").remove();
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find(".inputFile").attr("data-essential","N");
-			$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").append('<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="N">초기화</a>');
-		}
-		*/
 	}
 });
 
@@ -242,12 +212,10 @@ function goHtmlAdd(callUrl,formUrl,dataWrapLen){
 			
 			//추가
 			$(".data_wrap:first").closest("form").before(data);
-			//$("#target").before(data);
 			
 			//form 태그 감싸기
 			var formNm = "userRegInfoInsertFrm"+formNo;
 			$(".data_wrap:first").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
-			//$(".data_wrap:last").wrap('<form name="'+formNm+'" id="'+formNm+'" action="'+formUrl+'" method="post" enctype="multipart/form-data"></form>');
 			
 			//datepicker
 			goDatepickerDraw();
