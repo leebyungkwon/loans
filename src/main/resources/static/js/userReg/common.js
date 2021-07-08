@@ -37,6 +37,8 @@ $(document).on("change",".inputFile",function(){
 			$(this).val("");
 			$(this).prev().val("");
 		}
+	}else{
+		$(this).prev().val("");
 	}
 });
 

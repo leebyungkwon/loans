@@ -22,12 +22,15 @@
 		$('.btn_sort').click(function(){
 			$('.btn_sort').toggleClass('on');
 		});
-		
-		//엔터키 연타 방지(2021-06-21)
-		$('a').keypress(function(e){
-			if(e.which == 13){
-				e.preventDefault();
-			}
-		});
 	});
+	
+	//엔터키 연타 방지(2021-07-08)
+	$(document).on("keydown","a",function(e){
+		//alert("e.which :: "+e.which);
+		if(e.which == 13){
+			e.preventDefault();
+		}
+	});
+
 })(jQuery);
+
