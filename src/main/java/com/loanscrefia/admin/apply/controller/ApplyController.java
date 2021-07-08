@@ -200,8 +200,7 @@ public class ApplyController {
         try {
         	if(files.size() > 0) {
         		for(FileDomain file : files) {
-        			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())
-        					|| "7".equals(file.getFileType()) || "13".equals(file.getFileType()) || "14".equals(file.getFileType())) {
+        			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
         				
@@ -327,33 +326,6 @@ public class ApplyController {
             					}else {
             						msgMap.put("fileType"+file.getFileType(), "불일치");
             					}
-            				}else if("7".equals(file.getFileType())){ 
-            					// 결격사유
-            				    int lineCnt = 0;
-            				    int fromIndex = -1;
-            				    int fromTwoIndex = -1;
-            				    while ((fromIndex = replaceText.indexOf("불충족", fromIndex + 1)) >= 0) {
-            				      lineCnt++;
-            				    }
-            				    while ((fromTwoIndex = replaceText.indexOf("불중족", fromTwoIndex + 1)) >= 0) {
-              				      lineCnt++;
-              				    }
-
-            					if(lineCnt == 1) {
-            						msgMap.put("fileType"+file.getFileType(), "충족");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불충족");
-            					}
-            					
-            				}else if("13".equals(file.getFileType())){
-            					// 후견부존재증명서
-            					int checkIndex = replaceText.indexOf("성년후견,한정후견에관한후견등기사항");
-            					if(checkIndex > 0) {
-            						msgMap.put("fileType"+file.getFileType(), "충족");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불충족");
-            					}
-            					
             				}else {
             					// fileType에 포함X
             					msgMap.put("fileType"+file.getFileType(), "fileType오류");
@@ -520,9 +492,8 @@ public class ApplyController {
         try {
         	if(files.size() > 0) {
         		for(FileDomain file : files) {
-        			if("27".equals(file.getFileType()) || "12".equals(file.getFileType()) || "30".equals(file.getFileType()) || "13".equals(file.getFileType())) {
+        			if("12".equals(file.getFileType()) || "13".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
-        				
         				
         				// 암호화 해제
         				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
@@ -571,15 +542,8 @@ public class ApplyController {
             				}
             				
             				// 파일 타입별로 추출영역 생성
-            				if("27".equals(file.getFileType())) {
-            					// 후견부존재증명서
-            					int checkIndex = replaceText.indexOf("성년후견,한정후견에관한후견등기사항");
-            					if(checkIndex > 0) {
-            						msgMap.put("fileType"+file.getFileType(), "충족");
-            					}else {
-            						msgMap.put("fileType"+file.getFileType(), "불충족");
-            					}
-            				}else if("12".equals(file.getFileType())){ 
+
+            				if("12".equals(file.getFileType())){ 
             					// 경력
             					String eduNo = applyInfo.getPlEduNo();
     	            			String resultEduNo = "";

@@ -12,7 +12,7 @@ function pageLoad(){
 		var fileSeq = $(this).attr("data-imwon-file-seq");
 		var excSeq = $(this).attr("data-imwon-seq");
 		var dataIndex = $(this).attr("data-index");
-		if(confirm("[준비중]OCR 검증을 시작 하시겠습니까?")){
+		if(confirm("OCR 검증을 시작 하시겠습니까?")){
 			var p = {
 				  url		: "/admin/apply/corpImwonOcr"
 				, async		: false
@@ -27,10 +27,12 @@ function pageLoad(){
 					// fileType12 - 경력
 					// fileType13 - 신규일경우 인증서 추출
 					
-					if(result.data.fileType27 == "충족"){
+/* 					if(result.data.fileType27 == "충족"){
 						ocrImwonSuccess("check_cd113", dataIndex);
 						
-					}if(result.data.fileType12 == "일치"){
+					} */
+					
+					if(result.data.fileType12 == "일치"){
 						ocrImwonSuccess("check_cd106", dataIndex);
 						
 					}if(result.data.fileType13 == "일치"){
@@ -167,6 +169,8 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
+								
+								<%-- 
 								<tr>
 									<td class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</td>
 									<td>
@@ -191,7 +195,7 @@ function pageLoad(){
 											<label for="check_cd103">서명 누락 여부</label>
 										</div>
 									</td>
-								</tr>
+								</tr> --%>
 								<tr>
 									<td class="acenter">인감증명서 *</td>
 									<td>
@@ -211,7 +215,7 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								
+								<%-- 
 								<tr>
 									<td class="acenter">후견부존재증명서 *</td>
 									<td>
@@ -230,7 +234,7 @@ function pageLoad(){
 											<label for="check_cd113">체크사항1</label>
 										</div>
 									</td>
-								</tr>
+								</tr> --%>
 								
 							</table>
 						</div>

@@ -125,6 +125,8 @@ function pageLoad(){
 						<th>첨부이미지</th>
 						<th>체크사항</th>
 					</tr>
+					<%-- 
+					
 					<tr>
 						<td class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</td>
 						<td>
@@ -150,6 +152,9 @@ function pageLoad(){
 							</div>
 						</td>
 					</tr>
+					 --%>
+					
+					
 					<tr>
 						<td class="acenter">기업 신용정보조회서 *</td>
 						<td>

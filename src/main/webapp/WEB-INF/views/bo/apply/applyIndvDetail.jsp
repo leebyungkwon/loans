@@ -22,8 +22,8 @@ function pageLoad(){
 					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
 					// 경력인경우 - fileType3
 					// 신규인경우 인증서 추출 - fileType4
-					// 결격사유 - fileType7
-					// 후견부존재증명서 - fileType13
+					// 결격사유 - fileType7 - 제외
+					// 후견부존재증명서 - fileType13 - 제외
 					
 					if(result.data.fileType2 == "일치"){
 						ocrSuccess("check_cd2");
@@ -31,11 +31,12 @@ function pageLoad(){
 						ocrSuccess("check_cd3");
 					}if(result.data.fileType4 == "일치"){
 						ocrSuccess("check_cd4");
-					}if(result.data.fileType7 == "충족"){
+					}
+	/* 				if(result.data.fileType7 == "충족"){
 						ocrSuccess("check_cd7");
 					}if(result.data.fileType13 == "충족"){
 						ocrSuccess("check_cd13");
-					}
+					} */
 			    }
 			}
 			AjaxUtil.post(p);
@@ -496,6 +497,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				
+				<%-- 
 				<tr>
 					<td class="acenter">결격사유없음 확인서(파산, 피한정후견인등) *</td>
 					<td>
@@ -522,7 +524,8 @@ function goApplyImprove(num){
 							<label for="check_cd8">서명 누락</label>
 						</div>
 					</td>
-				</tr>
+				</tr> --%>
+				
 				<tr>
 					<td class="acenter">대리인 신청 위임장(위임인 인간날인) *</td>
 					<td>
@@ -563,7 +566,7 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
-				
+				<%-- 
 				<tr>
 					<td class="acenter">후견부존재증명서 *</td>
 					<td>
@@ -583,7 +586,8 @@ function goApplyImprove(num){
 							<label for="check_cd13">체크사항1</label>
 						</div>
 					</td>
-				</tr>
+				</tr> --%>
+				
 				<tr>
 					<td class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</td>
 					<td>
