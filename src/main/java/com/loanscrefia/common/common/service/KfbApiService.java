@@ -511,7 +511,7 @@ public class KfbApiService {
 		        log.info("#########################################");
 		        
 		        //message
-		        message = "preLoanIndv() 메소드 확인 필요";
+		        message = "HTTP Method [" + method + "] :: preLoanIndv() 메소드 확인 필요";
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -620,7 +620,7 @@ public class KfbApiService {
 		        log.info("#########################################");
 		        
 		        //message
-		        message = "loanIndv() 메소드 확인 필요";
+		        message = "HTTP Method [" + method + "] :: loanIndv() 메소드 확인 필요";
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -842,7 +842,7 @@ public class KfbApiService {
 		        log.info("#########################################");
 		        
 		        //message
-		        message = "preLoanCorp() 메소드 확인 필요";
+		        message = "HTTP Method [" + method + "] :: preLoanCorp() 메소드 확인 필요";
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -957,7 +957,7 @@ public class KfbApiService {
 		        log.info("#########################################");
 		        
 		        //message
-		        message = "loanCorp() 메소드 확인 필요";
+		        message = "HTTP Method [" + method + "] :: loanCorp() 메소드 확인 필요";
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -1078,7 +1078,7 @@ public class KfbApiService {
 		        log.info("#########################################");
 		        
 		        //message
-		        message = "violoation() 메소드 확인 필요";
+		        message = "HTTP Method [" + method + "] :: violoation() 메소드 확인 필요";
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -1198,7 +1198,7 @@ public class KfbApiService {
 	        }else {
 	        	// 통신오류 - 응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
-	            logParam.setResMsg("API통신오류발생");
+	            logParam.setResMsg("HTTP Method [" + methodType + "] :: commonKfbApi() 메소드 확인 필요");
 	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
 	        	
