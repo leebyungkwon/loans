@@ -118,7 +118,14 @@ public class LoginController {
 	
 	// 회원가입
 	@PostMapping(value="/signup")
-	public ResponseEntity<ResponseMsg> signup(@RequestParam("files") MultipartFile[] files, @Valid SignupDomain signupDomain){
+	public ResponseEntity<ResponseMsg> signup(@RequestParam("files") MultipartFile[] files, @Valid SignupDomain signupDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null, 0, "");		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
 		Map<String, Object> ret = utilFile.setPath("signup") 
 				.setFiles(files)
 				.setExt("all") 
@@ -129,7 +136,7 @@ public class LoginController {
 				signupDomain.setFileSeq(file.get(0).getFileSeq());
 			}
 		}
-		ResponseMsg responseMsg = loginService.insertSignup(signupDomain);
+		responseMsg = loginService.insertSignup(signupDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

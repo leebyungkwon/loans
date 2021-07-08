@@ -53,11 +53,11 @@ public class LoginService implements UserDetailsService {
     	int count = this.idCheck(signupDomain);
     	
     	if(count > 0) {
-    		return new ResponseMsg(HttpStatus.OK, "fail", 0, "이미 사용중인 아이디 입니다. \n중복체크를 다시 확인해 주세요.");
+    		return new ResponseMsg(HttpStatus.OK, null, 1, "success");
     	}
     	
     	memberRepository.insertSignup(signupDomain);
-		return new ResponseMsg(HttpStatus.OK, "success", 1, "회원가입 신청이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
+		return new ResponseMsg(HttpStatus.OK, null, 0, "success");
 	}
 
 }

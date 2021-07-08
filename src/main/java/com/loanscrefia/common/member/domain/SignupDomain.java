@@ -16,15 +16,15 @@ public class SignupDomain extends BaseDomain{
 	
 	private Long memberNo;				// (?)
 	private Long memberSeq;				// 담당자 시퀀스
-	
+	 
 	@NotBlank(message = "ID를 입력하세요.")
-	@Pattern(regexp = "^[a-z][a-z0-9]{4,10}$", message = "ID는 공백없이 영문(소문자),숫자 5~11 자리로 입력해 주세요.")
+	@Pattern(regexp = "^\\S[a-z][a-z0-9]{4,10}$", message = "ID는 공백없이 영문(소문자), 숫자 5~11 자리로 입력해 주세요.")
 	private String 	memberId;				// 담당자ID
 	
 	private String password;				// 비밀번호 
 	private int comCode;					// 회원사코드
 	
-	@Pattern(regexp = "^[a-zA-Z가-힣\s]*${1,20}", message = "담당자이름을 1~20자리로 입력해 주세요.")
+	@Pattern(regexp = "^\\S[a-zA-Z가-힣]*${1,20}", message = "담당자이름을 공백없이 1~20자리로 입력해 주세요.")
 	private String 	memberName;		// 담당자이름
 	
 	@Email
@@ -36,10 +36,10 @@ public class SignupDomain extends BaseDomain{
 	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}${1,20}", message = "회사전화번호를 다시 입력해 주세요.")
 	private String 	extensionNo;			// 회사 전화번호
 	
-	@Pattern(regexp = "^[a-zA-Z0-9가-힣\s]*${1,30}", message = "부서명을 공백없이 1~30자리로 입력해 주세요.")
+	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,30}", message = "부서명을 공백없이 1~30자리로 입력해 주세요.")
 	private String 	deptNm;				// 부서명
 	
-	@Pattern(regexp = "^[a-zA-Z가-힣\s]*${1,20}", message = "직위명을 공백없이 1~20자리로 입력해 주세요.")
+	@Pattern(regexp = "^\\S[a-zA-Z가-힣]*${1,20}", message = "직위명을 공백없이 1~20자리로 입력해 주세요.")
 	private String 	positionNm;			// 직위명
 	
 	private String 	roleName;				// 권한명
