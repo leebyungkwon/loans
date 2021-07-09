@@ -411,7 +411,7 @@ function goUserAcceptApply(){
 			</div>
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
-					<c:if test="${result.userRegInfo.plStat ne '10' }">
+					<c:if test="${result.userRegInfo.plRegStat eq '1' && result.userRegInfo.plStat ne '10' && result.userRegInfo.plStat ne '11' && result.userRegInfo.plStat ne '12' }">
 						<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
 					</c:if>
 				</c:if>
