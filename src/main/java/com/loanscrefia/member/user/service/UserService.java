@@ -235,7 +235,7 @@ public class UserService {
 							checkLoanApiReqParam.put("name", excelResult.get(i).get("B").toString());
 							checkLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
 							checkLoanApiReqParam.put("ci", excelResult.get(i).get("O").toString());
-							checkLoanApiReqParam.put("loan_type", excelResult.get(i).get("G").toString());
+							checkLoanApiReqParam.put("loan_type", "0"+excelResult.get(i).get("G").toString());
 							
 							ResponseMsg checkLoanApiResult = kfbApiService.checkLoan(apiToken, checkLoanApiReqParam);
 							
@@ -282,7 +282,7 @@ public class UserService {
 							conArrParam.put("con_date", excelResult.get(j).get("M").toString().replace("-", ""));
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
-							conArrParam.put("loan_type", excelResult.get(j).get("G").toString());
+							conArrParam.put("loan_type", "0"+excelResult.get(j).get("G").toString());
 							conArr.put(conArrParam);
 							
 							preLoanApiReqParam.put("con_arr", conArr);
@@ -396,7 +396,7 @@ public class UserService {
 							checkLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(i).get("E").toString()));
 							checkLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
 							checkLoanApiReqParam.put("corp_rep_ci", excelResult.get(i).get("N").toString());
-							checkLoanApiReqParam.put("loan_type", excelResult.get(i).get("K").toString());
+							checkLoanApiReqParam.put("loan_type", "0"+excelResult.get(i).get("K").toString());
 							
 							ResponseMsg checkLoanApiResult = kfbApiService.checkLoanCorp(apiToken, checkLoanApiReqParam);
 							
@@ -438,7 +438,7 @@ public class UserService {
 							conArrParam.put("con_date", excelResult.get(j).get("L").toString().replace("-", ""));
 							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
 							conArrParam.put("fin_phone", "");
-							conArrParam.put("loan_type", excelResult.get(j).get("K").toString());
+							conArrParam.put("loan_type", "0"+excelResult.get(j).get("K").toString());
 							conArr.put(conArrParam);
 							
 							preLoanApiReqParam.put("con_arr", conArr);
