@@ -938,8 +938,8 @@ public class RecruitService {
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
+					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate());
+					jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
@@ -962,8 +962,8 @@ public class RecruitService {
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
+					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate());
+					jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
