@@ -187,8 +187,15 @@
 					var p = {
 							name       : "saveAdminUpdateFrm"
 							, success    : function (opt,result) {
-								alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
-								location.href="/logout";
+								if(result.data > 0){
+									alert("재승인 요청이 완료되었습니다. \n승인 후에 로그인 가능합니다.")
+									location.href="/logout";
+								}else{
+									alert("잘못된 확장자의 첨부파일을 등록 하였습니다.[0003]");
+									return false;
+								}
+								
+								
 							}
 						}
 						AjaxUtil.files(p);

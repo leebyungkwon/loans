@@ -81,6 +81,9 @@ function goUserAcceptApply(){
 				}else if(result.data == -1){
 					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
 					return;
+				}else if(result.data == -3){
+					alert("잘못된 확장자의 첨부파일을 등록 하였습니다.[0003]");
+					return;
 				}
 	 	    }
 		}

@@ -1,5 +1,7 @@
 package com.loanscrefia.common.login.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -12,17 +14,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.login.domain.SecurityMember;
 import com.loanscrefia.common.member.domain.SignupDomain;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.repository.MemberRepository;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.util.UtilFile;
 
 @Service
 public class LoginService implements UserDetailsService {
     
 	@Autowired private MemberRepository memberRepository;
+	@Autowired private UtilFile utilFile;
 
     // security 로그인
     public UserDetails loadUserByUsername(@Valid String memberId) throws UsernameNotFoundException {
@@ -46,15 +52,29 @@ public class LoginService implements UserDetailsService {
 	}
 	
 	@Transactional
-	public ResponseMsg insertSignup(SignupDomain signupDomain) {
+	public ResponseMsg insertSignup(MultipartFile[] files, SignupDomain signupDomain) {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     	signupDomain.setPassword(passwordEncoder.encode(signupDomain.getPassword()));
-    	
+    
     	int count = this.idCheck(signupDomain);
     	
     	if(count > 0) {
     		return new ResponseMsg(HttpStatus.OK, null, 1, "success");
     	}
+    	
+    	Map<String, Object> ret = utilFile.setPath("signup") 
+				.setFiles(files)
+				.setExt("all") 
+				.upload();
+    	
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				signupDomain.setFileSeq(file.get(0).getFileSeq());
+			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, null, ret.get("message"), "success");
+		}
 
     	// 이메일 전체 소문자 변경
     	signupDomain.setEmail(signupDomain.getEmail().toLowerCase());

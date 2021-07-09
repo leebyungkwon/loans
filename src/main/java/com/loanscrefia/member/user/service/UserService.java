@@ -571,6 +571,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -578,7 +579,10 @@ public class UserService {
 			}else {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//교육이수번호 체크
 		if(StringUtils.isNotEmpty(userImwonDomain.getPlEduNo())) {
 			EduDomain eduChkParam 	= new EduDomain();
@@ -682,6 +686,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -689,7 +694,10 @@ public class UserService {
 			}else {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//교육이수번호 체크
 		EduDomain eduChkParam 	= new EduDomain();
 		String[] plMZId 		= userExpertDomain.getPlMZId().split("-");
@@ -786,6 +794,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -793,7 +802,10 @@ public class UserService {
 			}else {
 				userItDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//등록
 		if(StringUtils.isNotEmpty(userItDomain.getPlMZId())) {
 			userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
@@ -875,6 +887,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -882,7 +895,10 @@ public class UserService {
 			}else {
 				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return -3;
 		}
+		
 		//수정
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
@@ -1357,6 +1373,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -1364,7 +1381,10 @@ public class UserService {
 			}else {
 				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//수정
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
@@ -1393,6 +1413,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -1400,7 +1421,10 @@ public class UserService {
 			}else {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//수정
 		if(StringUtils.isNotEmpty(userImwonDomain.getPlMZId())) {
 			userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));			
@@ -1426,6 +1450,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -1433,7 +1458,10 @@ public class UserService {
 			}else {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//수정
 		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
 			userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
@@ -1459,6 +1487,7 @@ public class UserService {
 				.setExt("all")
 				.setEntity(fileDomain)
 				.multiUpload();
+		
 		if((boolean) ret.get("success")) {
 			List<FileDomain> file = (List<FileDomain>) ret.get("data");
 			if(file.size() > 0) {
@@ -1466,7 +1495,10 @@ public class UserService {
 			}else {
 				userItDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		//수정
 		//userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpItInfo(userItDomain);
@@ -1699,7 +1731,10 @@ public class UserService {
 			}else {
 				userDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
+		
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
 		}

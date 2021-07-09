@@ -31,7 +31,6 @@ public class AdminController {
 	
 	@Autowired private AdminService adminService;
 	@Autowired private CommonService commonService;
-	@Autowired UtilFile utilFile;
 	
 	// 관리자 조회 및 변경 페이지
 	@GetMapping(value="/adminPage")
@@ -93,18 +92,7 @@ public class AdminController {
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
 		
-		Map<String, Object> ret = utilFile.setPath("signup") 
-				.setFiles(files)
-				.setExt("all") 
-				.upload();
-		if((boolean) ret.get("success")) {
-			
-			List<FileDomain> file = (List<FileDomain>) ret.get("data");
-			if(file.size() > 0) {
-				adminDomain.setFileSeq(file.get(0).getFileSeq());
-			}
-		}
-		ResponseMsg resultResponseMsg = adminService.saveAdminUpdate(adminDomain);
+		ResponseMsg resultResponseMsg = adminService.saveAdminUpdate(files, adminDomain);
 		return new ResponseEntity<ResponseMsg>(resultResponseMsg ,HttpStatus.OK);
 	}
 	
@@ -116,24 +104,11 @@ public class AdminController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
 	// 재승인 요청
 	@PostMapping(value="/reAppr")
 	public ResponseEntity<ResponseMsg> reAppr(@RequestParam("files") MultipartFile[] files, AdminDomain adminDomain){
-		
-		Map<String, Object> ret = utilFile.setPath("signup") 
-				.setFiles(files)
-				.setExt("all") 
-				.upload();
-		if((boolean) ret.get("success")) {
-			
-			List<FileDomain> file = (List<FileDomain>) ret.get("data");
-			if(file.size() > 0) {
-				adminDomain.setFileSeq(file.get(0).getFileSeq());
-			}
-		}
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(adminService.reAppr(adminDomain));
+    	responseMsg.setData(adminService.reAppr(files, adminDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 }

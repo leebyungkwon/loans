@@ -85,8 +85,11 @@ function pageLoad(){
 							if(result.data == 0){
 								alert("회원가입 신청이 완료되었습니다. \n승인 후에 로그인 가능합니다.");
 								location.href="/login";
-							}else{
+							}else if(result.data == 1){
 								alert("이미 사용중인 아이디 입니다. \n중복체크를 다시 확인해 주세요.");
+								return false;
+							}else{
+								alert(result.data);
 								return false;
 							}
 						}else{
