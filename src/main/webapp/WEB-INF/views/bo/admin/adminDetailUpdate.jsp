@@ -106,6 +106,7 @@
 					, success : function(opt, result){
 						alert("첨부파일이 삭제되었습니다.");
 						$("#fileName").val("");
+						$("#fileDelete").remove();
 					}
 				}
 				AjaxUtil.post(p);
@@ -291,12 +292,17 @@
 							<input type="text" id="extensionNo" name="extensionNo" maxlength="13" placeholder="회사전화번호를 입력해 주세요. ( -포함)" value="${adminInfo.extensionNo}" class="w40" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
 						</td>
 					</tr>
-					<tr>
-						<th>휴대폰번호</th>
-						<td>
-							<input type="text" id="mobileNo" name="mobileNo" maxlength="13" placeholder="휴대폰번호를 입력해 주세요. ( -포함)" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}'/>
-						</td>
-					</tr>
+					
+					
+					<c:if test="${adminInfo.optionTermsYn eq 'Y'}">
+						<tr>
+							<th>휴대폰번호</th>
+							<td>
+								<input type="text" id="mobileNo" name="mobileNo" maxlength="13" placeholder="휴대폰번호를 입력해 주세요. ( -포함)" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}'/>
+							</td>
+						</tr>
+					</c:if>
+					
 					<tr>
 						<th>첨부파일</th>
 						<td id="fileTag">

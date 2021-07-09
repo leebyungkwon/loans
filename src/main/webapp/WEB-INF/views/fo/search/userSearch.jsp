@@ -31,6 +31,11 @@ function goUserSearch() {
 	AjaxUtil.post(p);
 }
 
+//은행연합회 이동
+function goKfbSearch(){
+	alert("준비중");
+}
+
 //조회 결과 있을 때
 function goUserSearchResultPage(formNm,masterSeq) {
 	$("#"+formNm).append('<input type="hidden" name="masterSeq" value="'+masterSeq+'">');
@@ -62,7 +67,7 @@ function goUserSearchResultPage(formNm,masterSeq) {
 					</div>
 				</div>
 				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
-				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">등록증발급</a>
+				<a href="javascript:void(0);" class="btn_login" onclick="goKfbSearch();">등록증발급</a>
 			</div>
 		</form>
 		<div class="bottom_box">
