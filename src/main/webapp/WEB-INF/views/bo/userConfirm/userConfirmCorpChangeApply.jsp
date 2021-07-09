@@ -260,9 +260,14 @@ function goUserChangeApply(){
 										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
 											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
 										</c:if>
-										<c:if test="${violationInfoList.applyYn ne 'Y' }">
-											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
-										</c:if>
+										<c:choose>
+											<c:when test="${violationInfoList.vioNum ne null && violationInfoList.vioNum ne '' }">
+												<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDelApply('${violationInfoList.violationSeq }',this);">-</a>
+											</c:when>
+											<c:otherwise>
+												<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 							</c:forEach>

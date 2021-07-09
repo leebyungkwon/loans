@@ -373,7 +373,7 @@ function goViolationDel(obj){
 }
 
 //위반이력사항 데이터 삭제요청
-function goViolationDataDel(violationSeq,obj){
+function goViolationDataDelApply(violationSeq,obj){
 	if(confirm("위반이력 삭제를 요청하시겠습니까?")){
 		var p = {
 			  url		: "/member/confirm/applyDeleteViolationInfo"	
@@ -384,6 +384,29 @@ function goViolationDataDel(violationSeq,obj){
 				if(result.code == "success"){
 					$(obj).closest("tr").find("td").addClass("red");
 					$(obj).closest("tr").find("td").find("a:last").remove();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+//위반이력사항 데이터 삭제
+function goViolationDataDel(violationSeq,obj){
+	if(confirm("위반이력을 삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/confirm/deleteViolationInfo"	
+			, param		: {
+				  violationSeq 	: violationSeq
+			}
+			, success 	: function (opt,result) {
+				$(obj).closest("tr").remove();
+				
+				var violationAreaLen = $(".violationArea").length;
+				if(violationAreaLen == 0){
+					goViolationAdd(obj);
+				}else{
+					$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
 				}
 		    }
 		}
