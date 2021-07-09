@@ -121,6 +121,7 @@ public class UserDomain extends BaseDomain {
 	private int imwonCnt;
 	private int expertCnt;
 	private int itCnt;
+	private int imwonEduCnt;
 	
 	//결제
 	private String payType;

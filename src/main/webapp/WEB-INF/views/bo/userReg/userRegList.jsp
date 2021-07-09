@@ -32,6 +32,7 @@ function pageLoad(){
 				,{type:"string"	, name:'fileCompTxt'	, index:'fileCompTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'imwonEduCnt'	, index:'imwonEduCnt'		, width:"0%"		, align:"center" , hidden:true}
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
@@ -214,28 +215,32 @@ function goApplyAccept() {
 	var masterSeqArr	= [];
 	var fileChk			= 0;
 	var pvtChk			= 0;
+	var imwonEduChk		= 0;
 	
 	for(var i = 0;i < chkedLen;i++){
-		if(chkData[i].plStat != "2" && chkData[i].plStat != "10"){
+		if(chkData[i].plStat != "2" && chkData[i].plStat != "10" && chkData[i].plStat != "11" && chkData[i].plStat != "12"){
 			masterSeqArr.push(chkData[i].masterSeq);
 		}
-		if(chkData[i].plStat == "10"){
+		if(chkData[i].plStat == "10" || chkData[i].plStat == "11" || chkData[i].plStat == "12"){
 			pvtChk++;
 		}
 		if(chkData[i].fileCompYn == "N"){
 			fileChk++;
 		}
+		if(chkData[i].plClass == "2" && chkData[i].imwonEduCnt == "0"){
+			imwonEduChk++;
+		}
 	}
 	
-	if(pvtChk > 0){
-		alert("등록요건 불충족인 건이 존재합니다.");
+	if(imwonEduChk > 0){
+		alert("유효한 교육이수번호가 등록된 대표자 및 임원이 존재하지 않습니다.");
 		return;
 	}
 	if(fileChk > 0){
 		alert("필수첨부서류 업로드가 미완료된 건이 존재합니다.");
 		return;
 	}
-	if(masterSeqArr.length == 0){
+	if(masterSeqArr.length == 0 || pvtChk > 0){
 		alert("선택하신 모집인은 승인요청이 불가능한 상태입니다.");
 		return;
 	}
@@ -255,7 +260,7 @@ function goApplyAccept() {
 					alert("이미 승인완료된 모집인입니다.");
 					userRegGrid.refresh();
 				}else if(result.data == -1){
-					alert("법인이 승인되지 않은 법인사용자가 존재합니다.");
+					alert("법인이 승인되지 않은 법인사용인이 존재합니다.");
 					userRegGrid.refresh();
 				}
 		    }

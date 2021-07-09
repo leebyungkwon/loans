@@ -526,7 +526,9 @@ public class UserService {
 				String filePath		= file.get(0).getFilePath();
 				String fileSaveNm	= file.get(0).getFileSaveNm();
 				String fileExt		= file.get(0).getFileExt();
-				excelResult			= utilExcel.setParam1(userImwonDomain.getPlProduct()).upload(uPath, filePath, fileSaveNm, fileExt, UserImwonDomain.class);
+				excelResult			= utilExcel.setParam1(userImwonDomain.getPlProduct())
+											   .setParam3("imwon")
+											   .upload(uPath, filePath, fileSaveNm, fileExt, UserImwonDomain.class);
 				
 				//엑셀 업로드 후 에러메세지
 				String errorMsg = (String)excelResult.get(0).get("errorMsg");
@@ -578,29 +580,31 @@ public class UserService {
 			}
 		}
 		//교육이수번호 체크
-		EduDomain eduChkParam 	= new EduDomain();
-		String[] plMZId 		= userImwonDomain.getPlMZId().split("-");
-		String birth 			= plMZId[0];
-		String gender 			= plMZId[1].substring(0, 1);
-		String prdCd			= "";
-		
-		if(userRegInfo.getPlProduct().equals("01") || userRegInfo.getPlProduct().equals("03")) {
-			prdCd = "LP0" + userImwonDomain.getCareerTyp();
-		}else if(userRegInfo.getPlProduct().equals("05") || userRegInfo.getPlProduct().equals("06")) {
-			prdCd = "LS0" + userImwonDomain.getCareerTyp();
-		}
-		
-		eduChkParam.setCareerTyp(userImwonDomain.getCareerTyp());
-		eduChkParam.setUserName(userImwonDomain.getExcName());
-		eduChkParam.setUserBirth(birth);
-		eduChkParam.setUserSex(gender);
-		eduChkParam.setProcessCd(prdCd);
-		eduChkParam.setSrchInput(userImwonDomain.getPlEduNo());
-		
-		int chkResult = eduService.plEduNoChk(eduChkParam);
-		
-		if(chkResult == 0) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
+		if(StringUtils.isNotEmpty(userImwonDomain.getPlEduNo())) {
+			EduDomain eduChkParam 	= new EduDomain();
+			String[] plMZId 		= userImwonDomain.getPlMZId().split("-");
+			String birth 			= plMZId[0];
+			String gender 			= plMZId[1].substring(0, 1);
+			String prdCd			= "";
+			
+			if(userRegInfo.getPlProduct().equals("01") || userRegInfo.getPlProduct().equals("03")) {
+				prdCd = "LP0" + userImwonDomain.getCareerTyp();
+			}else if(userRegInfo.getPlProduct().equals("05") || userRegInfo.getPlProduct().equals("06")) {
+				prdCd = "LS0" + userImwonDomain.getCareerTyp();
+			}
+			
+			eduChkParam.setCareerTyp(userImwonDomain.getCareerTyp());
+			eduChkParam.setUserName(userImwonDomain.getExcName());
+			eduChkParam.setUserBirth(birth);
+			eduChkParam.setUserSex(gender);
+			eduChkParam.setProcessCd(prdCd);
+			eduChkParam.setSrchInput(userImwonDomain.getPlEduNo());
+			
+			int chkResult = eduService.plEduNoChk(eduChkParam);
+			
+			if(chkResult == 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
+			}
 		}
 		//등록
 		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));

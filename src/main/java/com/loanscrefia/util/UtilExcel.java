@@ -52,7 +52,7 @@ public class UtilExcel<T> {
 	
 	private String param1; //금융상품유형
 	private String param2; //분류(개인,법인)
-	private String param3;
+	private String param3; //임원탭 값
 	private String param4;
 	private String param5;
 	
@@ -240,11 +240,21 @@ public class UtilExcel<T> {
 		                				}
 	                					eduChkParam.setProcessCd(prdCd);
 	                				}
-	                				eduChkParam.setSrchInput(cellVal);
-	                				int chkResult = eduService.plEduNoChk(eduChkParam);
-		                			
-	                				if(chkResult == 0) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
+	                				boolean goContinue = true;
+	                				if(StringUtils.isNotEmpty(this.param3)) {
+	                					//법인의 임원 엑셀은 교육이수번호 셀에 값이 있을 때만 유효성 체크
+	                					if(StringUtils.isEmpty(cellVal)) {
+	                						goContinue = false;
+	                					}
+	                					
+	                				}
+	                				if(goContinue) {
+	                					eduChkParam.setSrchInput(cellVal);
+		                				int chkResult = eduService.plEduNoChk(eduChkParam);
+			                			
+		                				if(chkResult == 0) {
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
+		                				}
 	                				}
 	                			}
 	                		}

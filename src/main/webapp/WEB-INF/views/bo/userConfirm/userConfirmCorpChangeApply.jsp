@@ -57,6 +57,15 @@ function goUserChangeApply(){
 		}else{
 			return;
 		}
+	}else{
+		if("${result.userRegInfo.imwonEduCnt}" == 0){
+			if(confirm("최소 1명 이상의 유효한 교육이수번호가 등록된 대표자 및 임원을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
+				goTab("2");
+				return;
+			}else{
+				return;
+			}
+		}
 	}
 	if("${result.userRegInfo.expertCnt}" == 0){
 		if(confirm("최소 1명 이상의 전문인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){

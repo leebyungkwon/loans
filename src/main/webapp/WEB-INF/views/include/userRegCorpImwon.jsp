@@ -39,7 +39,7 @@
 				</tr>
 				<tr>
 					<th>교육이수번호</th>
-					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="30" data-vd='{"type":"text","len":"10,30","req":true,"msg":"교육이수번호를 입력해 주세요."}'></td>
+					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="30"></td>
 				</tr>
 				<tr>
 					<th>경력시작일</th>
@@ -131,17 +131,16 @@
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
-				<!-- 
 				<tr>
-					<th class="acenter">후견부존재증명서 *</th>
+					<th class="acenter">결격요건 확인서 등 관련서류</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="27"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="27" data-essential="N">초기화</a>
 					</td>
 				</tr>
-				 -->
 			</tbody>
 		</table>
 	</div>
