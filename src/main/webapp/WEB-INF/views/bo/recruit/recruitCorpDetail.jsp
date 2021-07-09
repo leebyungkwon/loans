@@ -16,10 +16,13 @@ function goRecruitApply(num){
 	var plStat = "";
 	var plRegStat = "";
 	var preRegYn = $("#preRegYn").val();
-	var preLcNum = $("#preLcNum").val();
-	if(WebUtil.isNull(preLcNum)){
-		alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
-		return false;
+	var plRegistNo = $("#plRegistNo").val();
+	var plProduct = $("#plProduct").val();
+	if(plProduct == "01" || plProduct == "05"){
+		if(WebUtil.isNull(plRegistNo)){
+			alert("은행연합회 등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
+			return false;
+		}
 	}
 	
 	if(num == "2"){
@@ -50,7 +53,7 @@ function goRecruitApply(num){
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
-				,preLcNum		: preLcNum 
+				,plRegistNo		: plRegistNo 
 			}
 			, success 	: function (opt,result) {
 				
@@ -98,7 +101,7 @@ function goRecruitImprove(rePlStat){
 	var plStat = rePlStat;
 	
 	// 2021-07-04 은행연합회 API 추가
-	var preLcNum = $("#preLcNum").val();
+	var plRegistNo = $("#plRegistNo").val();
 	
 	if(confirm(confirmMessage)){
 		var p = {
@@ -108,7 +111,7 @@ function goRecruitImprove(rePlStat){
 				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
-				,preLcNum	: preLcNum 
+				,plRegistNo	: plRegistNo 
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -131,7 +134,8 @@ function goRecruitImprove(rePlStat){
 	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.recruitInfo.plStat }"/>
 	<input type="hidden" name="masterToId" id="masterToId" value="${result.recruitInfo.masterToId }"/>
 	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.recruitInfo.preRegYn }"/>
-	<input type="hidden" name="preLcNum" id="preLcNum" value="${result.recruitInfo.preLcNum }"/>
+	<input type="hidden" name="plRegistNo" id="plRegistNo" value="${result.recruitInfo.plRegistNo }"/>
+	<input type="hidden" name="plProduct" id="plProduct" value="${result.recruitInfo.plProduct }"/>
 </form>
 
 <div class="cont_area">

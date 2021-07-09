@@ -139,9 +139,9 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
-									<%-- 
+									
 									<tr>
-										<th class="acenter">후견부존재증명서 *</th>
+										<th class="acenter">결격요건 확인서 등 관련서류</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType27 ne null }">
@@ -150,7 +150,7 @@ function pageLoad(){
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
 										</td>
-									</tr> --%>
+									</tr>
 								</tbody>
 							</table>
 						</div>

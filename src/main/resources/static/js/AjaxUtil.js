@@ -108,7 +108,9 @@ var AjaxUtil = {
     excel: function(opt) {
         var param = null;
         var reqType = WebUtil.nvl(opt.reqType, "text/html");
-		var loadYn = WebUtil.nvl(opt.loadYn, true);
+        var contType = WebUtil.nvl(opt.reqType, "application/x-www-form-urlencoded; charset=UTF-8");
+        var loadYn = WebUtil.nvl(opt.loadYn, true);
+		
         // 로딩바 열기
         this.openLoadBar(loadYn);
         
@@ -118,21 +120,25 @@ var AjaxUtil = {
 			excelFileNm = "엑셀다운로드";
 		}
 
-        param = JSON.stringify(opt.param);
-        
-        console.log("ajax.excel == " , param);
-        console.log("opt.url == " , opt.url);
-        
+        // 파라미터 json 설정
+        if (reqType == "json") {
+            param = JSON.stringify(opt.param);
+            contType = "application/json; charset=UTF-8";
+        } else if (WebUtil.isObject(opt.param)){
+            param = WebUtil.getParamUrl(opt.param);
+        } else {
+        	param = opt.param;
+        }
+
         // ajax 호출
         axios({
             method: "post",
             url: opt.url,
             data: param,
             responseType: 'blob',
-    		headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": contType }
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
-			
 			
 			// 2021-06-29 IE 엑셀다운로드 수정
 		    if(window.navigator.msSaveOrOpenBlob){

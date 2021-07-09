@@ -17,9 +17,12 @@ function goRecruitApply(num){
 	var plRegStat = "";
 	var preRegYn = $("#preRegYn").val();
 	var plRegistNo = $("#plRegistNo").val();
-	if(WebUtil.isNull(plRegistNo)){
-		alert("은행연합회 등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
-		return false;
+	var plProduct = $("#plProduct").val();
+	if(plProduct == "01" || plProduct == "05"){
+		if(WebUtil.isNull(plRegistNo)){
+			alert("은행연합회 등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
+			return false;
+		}
 	}
 	
 	var plMZIdEnc = $("#encId").val();
@@ -143,6 +146,7 @@ function goRecruitImprove(rePlStat){
 	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.recruitInfo.preRegYn }"/>
 	<input type="hidden" name="plRegistNo" id="plRegistNo" value="${result.recruitInfo.plRegistNo }"/>
 	<input type="hidden" name="encId" id="encId" value="${result.recruitInfo.plMZIdEnc }"/>
+	<input type="hidden" name="plProduct" id="plProduct" value="${result.recruitInfo.plProduct }"/>
 </form>
 
 <div class="cont_area">

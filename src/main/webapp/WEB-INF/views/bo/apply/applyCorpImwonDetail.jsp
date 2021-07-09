@@ -215,9 +215,9 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								<%-- 
+								
 								<tr>
-									<td class="acenter">후견부존재증명서 *</td>
+									<td class="acenter">결격요건 확인서 등 관련서류</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpImwonList.fileType27 ne null }">
@@ -234,7 +234,7 @@ function pageLoad(){
 											<label for="check_cd113">체크사항1</label>
 										</div>
 									</td>
-								</tr> --%>
+								</tr>
 								
 							</table>
 						</div>
