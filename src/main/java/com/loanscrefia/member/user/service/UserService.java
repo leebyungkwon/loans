@@ -1254,10 +1254,11 @@ public class UserService {
 		//첨부파일
 		if(itList.size() > 0) {
 			for(int i = 0;i < itList.size();i++) {
-				String itPlMZId 	= CryptoUtil.decrypt(itList.get(i).getPlMZId());
-				itPlMZId 			= itPlMZId.substring(0, 6) + "-" + itPlMZId.substring(6);
-				itList.get(i).setPlMZId(itPlMZId);
-				
+				if(StringUtils.isNotEmpty(itList.get(i).getPlMZId())) {
+					String itPlMZId 	= CryptoUtil.decrypt(itList.get(i).getPlMZId());
+					itPlMZId 			= itPlMZId.substring(0, 6) + "-" + itPlMZId.substring(6);
+					itList.get(i).setPlMZId(itPlMZId);
+				}
 				if(itList.get(i).getFileSeq() != null) {
 					FileDomain fileParam 		= new FileDomain();
 					fileParam.setFileGrpSeq(itList.get(i).getFileSeq());
