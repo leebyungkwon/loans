@@ -778,7 +778,7 @@ public class RecruitService {
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			String prdCheck = statCheck.getPlProduct();
 			// 금융상품 TM대출(3), TM리스(6) 제외
-			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+			if("01".equals(prdCheck) || "05".equals(prdCheck)) {
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 				JSONObject jsonParam = new JSONObject();
 				JSONObject jsonArrayParam = new JSONObject();
@@ -928,7 +928,7 @@ public class RecruitService {
 			
 			String plClass = statCheck.getPlClass();
 			String prdCheck = statCheck.getPlProduct();
-			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+			if("01".equals(prdCheck) || "05".equals(prdCheck)) {
 				if("1".equals(plClass)) {
 					jsonParam.put("lc_num", statCheck.getPlRegistNo());
 					jsonParam.put("name", statCheck.getPlMName());
@@ -938,7 +938,7 @@ public class RecruitService {
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate());
+					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
 					jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
 					
 					jsonArray.put(jsonArrayParam);
@@ -962,7 +962,7 @@ public class RecruitService {
 					jsonArrayParam.put("con_date", "");
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate());
+					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
 					jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
 					
 					jsonArray.put(jsonArrayParam);

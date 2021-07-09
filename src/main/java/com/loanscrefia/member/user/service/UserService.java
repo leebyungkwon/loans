@@ -607,7 +607,9 @@ public class UserService {
 			}
 		}
 		//등록
-		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
+		if(StringUtils.isNotEmpty(userImwonDomain.getPlMZId())) {
+			userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
+		}
 		int result = userRepo.insertUserRegCorpImwonInfo(userImwonDomain);
 		
 		if(result > 0) {
@@ -713,8 +715,11 @@ public class UserService {
 		if(chkResult == 0) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
 		}
-		//등록
-		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+		
+		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
+			//등록
+			userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+		}
 		int result = userRepo.insertUserRegCorpExpertInfo(userExpertDomain);
 		
 		if(result > 0) {
@@ -790,8 +795,10 @@ public class UserService {
 				userItDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		//등록
-		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+		if(StringUtils.isNotEmpty(userItDomain.getPlMZId())) {
+			//등록
+			userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+		}
 		int result = userRepo.insertUserRegCorpItInfo(userItDomain);
 		
 		if(result > 0) {
@@ -1395,8 +1402,11 @@ public class UserService {
 				userImwonDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		//수정
-		userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
+		
+		if(StringUtils.isNotEmpty(userImwonDomain.getPlMZId())) {
+			//수정
+			userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));			
+		}
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
 		
 		if(result > 0) {
@@ -1426,8 +1436,11 @@ public class UserService {
 				userExpertDomain.setFileSeq(fileDomain.getFileGrpSeq());
 			}
 		}
-		//수정
-		userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+		
+		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
+			//수정
+			userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+		}
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);
 		
 		if(result > 0) {
@@ -1458,7 +1471,7 @@ public class UserService {
 			}
 		}
 		//수정
-		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+		//userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
 		int result = userRepo.updateUserRegCorpItInfo(userItDomain);
 		
 		if(result > 0) {

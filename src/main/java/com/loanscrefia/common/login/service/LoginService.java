@@ -55,7 +55,9 @@ public class LoginService implements UserDetailsService {
     	if(count > 0) {
     		return new ResponseMsg(HttpStatus.OK, null, 1, "success");
     	}
-    	
+
+    	// 이메일 전체 소문자 변경
+    	signupDomain.setEmail(signupDomain.getEmail().toLowerCase());
     	memberRepository.insertSignup(signupDomain);
 		return new ResponseMsg(HttpStatus.OK, null, 0, "success");
 	}

@@ -400,7 +400,9 @@ public class UtilExcel<T> {
 	//법인 정보 유효 체크(법인사용인)
 	@Transactional(readOnly=true)
 	private int selectCorpInfoChk(CorpDomain corpDomain) {
-		corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+		if(StringUtils.isNotEmpty(corpDomain.getPlMerchantNo())) {
+			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+		}
 		int result = corpRepo.selectCorpInfoCnt(corpDomain);
 		return result;
 	}

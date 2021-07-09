@@ -68,8 +68,12 @@ public class ApplyService {
 		applyDomain.setCreGrp(result.getCreGrp());
 		
 		// 주민번호 및 법인번호 암호화 후 비교
-		applyDomain.setPlMerchantNo(CryptoUtil.encrypt(applyDomain.getPlMerchantNo()));
-		applyDomain.setPlMZId(CryptoUtil.encrypt(applyDomain.getPlMZId()));
+		if(StringUtils.isNotEmpty(applyDomain.getPlMerchantNo())) {
+			applyDomain.setPlMerchantNo(CryptoUtil.encrypt(applyDomain.getPlMerchantNo()));
+		}
+		if(StringUtils.isNotEmpty(applyDomain.getPlMZId())) {
+			applyDomain.setPlMZId(CryptoUtil.encrypt(applyDomain.getPlMZId()));
+		}
 		
 		List<ApplyDomain> applyResultList = applyRepository.selectApplyList(applyDomain);
 		for(ApplyDomain list : applyResultList) {
@@ -837,7 +841,7 @@ public class ApplyService {
 			String conNum = "";
 			// 가등록에서 본등록시 등록번호 발급
 			UserDomain userDomain = new UserDomain();
-			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+			if("01".equals(prdCheck) || "05".equals(prdCheck)) {
 				
 				// 2021-06-25 은행연합회 API 통신 - 등록
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
@@ -911,7 +915,7 @@ public class ApplyService {
 
 			// 금융상품 3, 6번 제외
 			String prdCheck = statCheck.getPlProduct();
-			if(!"03".equals(prdCheck) || !"06".equals(prdCheck)) {
+			if("01".equals(prdCheck) || "05".equals(prdCheck)) {
 				// 2021-06-25 은행연합회 API 통신 - 가등록 취소
 				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
 				JSONObject jsonParam = new JSONObject();

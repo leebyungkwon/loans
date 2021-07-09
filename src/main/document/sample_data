@@ -1,44 +1,3 @@
-------------------------------- 사용금지-----------------------------
-
-select 'LC' || to_char(current_date,'yymmdd') || lpad(cast(nextval('tb_lc_mas01_seq') as varchar(8)) , 8, '0');
-
-ALTER TABLE tb_lc_mas01 ADD COLUMN master_to_id varchar(20);
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN master_to_id varchar(20);
-
-ALTER TABLE tb_lc_mas01 ADD COLUMN pre_reg_yn char(1) not null default 'N';
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN pre_reg_yn char(1) not null default 'N';
-
-ALTER TABLE tb_lc_mas01 ALTER COLUMN pl_m_z_id_edu type varchar(30);
-ALTER TABLE tb_lc_mas01 ALTER COLUMN pl_edu_no type varchar(30);
-ALTER TABLE tb_lc_mas01_imwon ALTER COLUMN pl_edu_no type varchar(30);
-ALTER TABLE tb_lc_mas01_expert ALTER COLUMN pl_edu_no type varchar(30);
-ALTER TABLE tb_lc_edu01 ALTER COLUMN pl_edu_no type varchar(30);
-ALTER TABLE tb_lc_edu01_temp ALTER COLUMN pl_edu_no type varchar(30);
-ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_m_z_id_edu type varchar(30);
-ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_edu_no type varchar(30);
-
-
-ALTER TABLE tb_lc_mas01 ALTER COLUMN pre_lc_num type varchar(14);
-ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pre_lc_num type varchar(14);
-
-ALTER TABLE tb_lc_mas01 ADD COLUMN voting_stock_cnt bigint;
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN voting_stock_cnt bigint;
-
-ALTER TABLE tb_lc_mas01 ADD COLUMN sub_yn char(1) not null default 'N';
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN sub_yn char(1) not null default 'N';
-
-ALTER TABLE tb_lc_mas01 ALTER COLUMN capital type varchar(20);
-ALTER TABLE tb_lc_mas01 ALTER COLUMN voting_stock_cnt type varchar(20);
-ALTER TABLE tb_lc_mas01_hist ALTER COLUMN capital type varchar(20);
-ALTER TABLE tb_lc_mas01_hist ALTER COLUMN voting_stock_cnt type varchar(20);
-
-
-ALTER TABLE tb_lc_violation ADD COLUMN vio_num varchar(10);
-ALTER TABLE tb_lc_violation ADD COLUMN apply_yn varchar(10);
-ALTER TABLE tb_lc_violation ADD COLUMN upd_timestamp timestamp;
-ALTER TABLE tb_lc_violation ADD COLUMN upd_seq INTEGER;
-
-
 
 INSERT INTO tb_lc_company VALUES('3000011','볼보파이낸셜',NOW(),1,NOW(),1		);
 INSERT INTO tb_lc_company VALUES('3000012','IBK캐피탈',NOW(),1,NOW(),1		);
@@ -93,28 +52,6 @@ INSERT INTO tb_lc_company VALUES('3000059','비씨카드',NOW(),1,NOW(),1		);
 
 
 
-
-
-
--- 현업 교육이수 데이터 추가 --
-
-INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,company_gubun,deploma_no,pass_date,exam_cert_no,exam_date,create_date) VALUES
-	 ('판문호','851231','1','LP01','1','1','1000000001','20210101',NULL,NULL,'2021-07-05 21:52:18.916463'),
-	 ('김민지','950101','2','LS01','1','1','1000000003','20210103',NULL,NULL,'2021-07-05 21:54:03.294719'),
-	 ('박준석','810601','1','LP01','1','1','1000000005','20210105',NULL,NULL,'2021-07-05 21:54:03.294719'),
-	 ('한예슬','910612','2','LP01','1','1','1000000007','20210107',NULL,NULL,'2021-07-05 21:54:03.294719'),
-	 ('신은선','760305','1','LS01','1','1','1000000009','20210109',NULL,NULL,'2021-07-05 21:54:03.294719'),
-	 ('박초롱','911005','2','LP02','2','1','1000000002','20210102','1000000002','20210102','2021-07-05 21:53:05.594319'),
-	 ('김동우','750512','1','LP02','2','1','1000000004','20210104','1000000004','20210104','2021-07-05 21:54:03.294719'),
-	 ('김진영','920116','1','LP02','2','1','1000000006','20210106','1000000006','20210106','2021-07-05 21:54:03.294719'),
-	 ('이창욱','730216','1','LS02','2','1','1000000008','20210108','1000000008','20210108','2021-07-05 21:54:03.294719'),
-	 ('백지현','900812','2','LP02','2','1','1000000010','20210110','1000000010','20210110','2021-07-05 21:54:03.294719');
-
-
--- 현업 교육이수 데이터 추가 --
-
-
-	 
 INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('CAR001','구분','구분',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:02.734948',NULL,NULL),
 	 ('CLS001','분류','분류',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 12:34:51.014401',NULL,NULL),
@@ -227,6 +164,75 @@ INSERT INTO tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_des
 	 ('MAS001','10','등록요건 불충족','등록요건 불충족','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','11','보완 미이행','보완 미이행',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','12','등록수수료 미결제','등록수수료 미결제',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL);
+	 
+	 
+	 
+INSERT INTO tb_lc_members (member_id,"password",com_code,member_name,email,extension_no,mobile_no,dept_nm,position_nm,join_dt,role_name,terms_yn,terms_date,option_terms_yn,option_terms_date,appr_stat,msg,file_seq,fail_cnt,cre_yn,cre_grp,drop_yn,upd_seq,upd_timestamp) VALUES
+	 ('system','$2a$10$a/uaNSQEVWc.g.QqjfRNEOo6YsAJc3z9mJBTlqWK5RNFYAtylOYGq',3000001,'시스템','sabio@kakao.com','0231672126','01031672126','시스템','시스템','20210526','SYSTEM','Y','20210526','Y','20210526','3',NULL,2,NULL,'Y','2','N',1,'2021-05-26 12:03:52.763552'),
+	 ('admin','$2a$10$JmtdWWv0tLJeZ9S0gnMcX.1tGEL52kSqtVnVLzcjyOBTwMgMJKtFy',3000001,'관리자','sabio@kakao.com','0231672126','01031672126','IT','관리자','20210526','ADMIN','Y','20210526','Y','20210526','3',NULL,1,NULL,'Y','2','N',1,'2021-05-26 12:03:11.332681');
+
+
+------------------------------- 사용금지-----------------------------
+
+select 'LC' || to_char(current_date,'yymmdd') || lpad(cast(nextval('tb_lc_mas01_seq') as varchar(8)) , 8, '0');
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN master_to_id varchar(20);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN master_to_id varchar(20);
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN pre_reg_yn char(1) not null default 'N';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN pre_reg_yn char(1) not null default 'N';
+
+ALTER TABLE tb_lc_mas01 ALTER COLUMN pl_m_z_id_edu type varchar(30);
+ALTER TABLE tb_lc_mas01 ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_mas01_imwon ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_mas01_expert ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_edu01 ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_edu01_temp ALTER COLUMN pl_edu_no type varchar(30);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_m_z_id_edu type varchar(30);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pl_edu_no type varchar(30);
+
+
+ALTER TABLE tb_lc_mas01 ALTER COLUMN pre_lc_num type varchar(14);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN pre_lc_num type varchar(14);
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN voting_stock_cnt bigint;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN voting_stock_cnt bigint;
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN sub_yn char(1) not null default 'N';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN sub_yn char(1) not null default 'N';
+
+ALTER TABLE tb_lc_mas01 ALTER COLUMN capital type varchar(20);
+ALTER TABLE tb_lc_mas01 ALTER COLUMN voting_stock_cnt type varchar(20);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN capital type varchar(20);
+ALTER TABLE tb_lc_mas01_hist ALTER COLUMN voting_stock_cnt type varchar(20);
+
+
+ALTER TABLE tb_lc_violation ADD COLUMN vio_num varchar(10);
+ALTER TABLE tb_lc_violation ADD COLUMN apply_yn varchar(10);
+ALTER TABLE tb_lc_violation ADD COLUMN upd_timestamp timestamp;
+ALTER TABLE tb_lc_violation ADD COLUMN upd_seq INTEGER;
+
+
+
+
+-- 현업 교육이수 데이터 추가 --
+
+INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,company_gubun,deploma_no,pass_date,exam_cert_no,exam_date,create_date) VALUES
+	 ('판문호','851231','1','LP01','1','1','1000000001','20210101',NULL,NULL,'2021-07-05 21:52:18.916463'),
+	 ('김민지','950101','2','LS01','1','1','1000000003','20210103',NULL,NULL,'2021-07-05 21:54:03.294719'),
+	 ('박준석','810601','1','LP01','1','1','1000000005','20210105',NULL,NULL,'2021-07-05 21:54:03.294719'),
+	 ('한예슬','910612','2','LP01','1','1','1000000007','20210107',NULL,NULL,'2021-07-05 21:54:03.294719'),
+	 ('신은선','760305','1','LS01','1','1','1000000009','20210109',NULL,NULL,'2021-07-05 21:54:03.294719'),
+	 ('박초롱','911005','2','LP02','2','1','1000000002','20210102','1000000002','20210102','2021-07-05 21:53:05.594319'),
+	 ('김동우','750512','1','LP02','2','1','1000000004','20210104','1000000004','20210104','2021-07-05 21:54:03.294719'),
+	 ('김진영','920116','1','LP02','2','1','1000000006','20210106','1000000006','20210106','2021-07-05 21:54:03.294719'),
+	 ('이창욱','730216','1','LS02','2','1','1000000008','20210108','1000000008','20210108','2021-07-05 21:54:03.294719'),
+	 ('백지현','900812','2','LP02','2','1','1000000010','20210110','1000000010','20210110','2021-07-05 21:54:03.294719');
+
+
+-- 현업 교육이수 데이터 추가 --
+
+
 	 
 	 
 	 
