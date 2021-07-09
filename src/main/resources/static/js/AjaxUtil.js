@@ -119,6 +119,10 @@ var AjaxUtil = {
 		}
 
         param = JSON.stringify(opt.param);
+        
+        console.log("ajax.excel == " , param);
+        console.log("opt.url == " , opt.url);
+        
         // ajax 호출
         axios({
             method: "post",
@@ -128,6 +132,7 @@ var AjaxUtil = {
     		headers: {"Content-Type": "application/json"},
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
+			
 			
 			// 2021-06-29 IE 엑셀다운로드 수정
 		    if(window.navigator.msSaveOrOpenBlob){
