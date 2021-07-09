@@ -41,10 +41,8 @@ function pageLoad(){
 						<div id="table">
 							<table class="view_table">
 								<colgroup>
-									<col width="15%">
-									<col width="35%">
-									<col width="15%">
-									<col width="35%">
+									<col width="50%"/>
+									<col width="50%"/>
 								</colgroup>
 								<tbody>
 									<tr>

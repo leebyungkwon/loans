@@ -584,9 +584,9 @@ public class UserService {
 		String gender 			= plMZId[1].substring(0, 1);
 		String prdCd			= "";
 		
-		if(userRegInfo.getPlProduct().equals("1") || userRegInfo.getPlProduct().equals("3")) {
+		if(userRegInfo.getPlProduct().equals("01") || userRegInfo.getPlProduct().equals("03")) {
 			prdCd = "LP0" + userImwonDomain.getCareerTyp();
-		}else if(userRegInfo.getPlProduct().equals("2") || userRegInfo.getPlProduct().equals("4")) {
+		}else if(userRegInfo.getPlProduct().equals("05") || userRegInfo.getPlProduct().equals("06")) {
 			prdCd = "LS0" + userImwonDomain.getCareerTyp();
 		}
 		
@@ -691,9 +691,9 @@ public class UserService {
 		String gender 			= plMZId[1].substring(0, 1);
 		String prdCd			= "";
 		
-		if(userRegInfo.getPlProduct().equals("1") || userRegInfo.getPlProduct().equals("3")) {
+		if(userRegInfo.getPlProduct().equals("01") || userRegInfo.getPlProduct().equals("03")) {
 			prdCd = "LP0" + userExpertDomain.getCareerTyp();
-		}else if(userRegInfo.getPlProduct().equals("2") || userRegInfo.getPlProduct().equals("4")) {
+		}else if(userRegInfo.getPlProduct().equals("05") || userRegInfo.getPlProduct().equals("06")) {
 			prdCd = "LS0" + userExpertDomain.getCareerTyp();
 		}
 		
@@ -905,6 +905,11 @@ public class UserService {
 		codeDtlParam.setCodeMstCd("ADD001");
 		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
 		
+		//위반이력 코드 리스트
+		codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("VIT001");
+		List<CodeDtlDomain> violationCodeList = codeService.selectCodeDtlList(codeDtlParam);
+		
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
@@ -972,6 +977,7 @@ public class UserService {
     	
     	//전달
     	result.put("addrCodeList", addrCodeList);
+    	result.put("violationCodeList", violationCodeList);
     	result.put("userRegInfo", userRegInfo);
     	result.put("violationInfoList", violationInfoList);
     	result.put("payResult", payResult);
@@ -989,6 +995,11 @@ public class UserService {
 		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
 		codeDtlParam.setCodeMstCd("ADD001");
 		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
+		
+		//위반이력 코드 리스트
+		codeDtlParam = new CodeDtlDomain();
+		codeDtlParam.setCodeMstCd("VIT001");
+		List<CodeDtlDomain> violationCodeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
@@ -1025,6 +1036,8 @@ public class UserService {
         				userRegInfo.setFileType5(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("6")) {
         				userRegInfo.setFileType6(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("15")) {
+        				userRegInfo.setFileType15(fileList.get(i));
         			}
         		}
         	}
@@ -1040,6 +1053,7 @@ public class UserService {
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
+		result.put("violationCodeList", violationCodeList);
 		result.put("userRegInfo", userRegInfo);
 		result.put("violationInfoList", violationInfoList);
 		result.put("payResult", payResult);

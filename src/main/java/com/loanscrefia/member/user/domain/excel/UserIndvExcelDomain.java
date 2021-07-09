@@ -34,7 +34,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="상세주소", vCell="F", vLenMin=1, vLenMax=200)
 	private String addrDetail;		//상세주소
 	
-	@ExcelColumn(headerName="금융상품유형", vCell="G", vLenMin=2, vLenMax=2, vEnum="01,05", chkDb="edu4", chkPrd="prd1")
+	@ExcelColumn(headerName="금융상품유형", vCell="G", vLenMin=1, vLenMax=1, vEnum="1,5", chkDb="edu4", chkPrd="prd1")
 	private String plProduct;		//금융상품유형(취급상품)
 	
 	@ExcelColumn(headerName="법인명", vCell="H", vLenMin=0, vLenMax=30)

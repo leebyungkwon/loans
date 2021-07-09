@@ -63,17 +63,13 @@ function goCorpItInfoDel(operSeq) {
 						<div id="table">
 							<table class="view_table">
 								<colgroup>
-									<col width="15%">
-									<col width="35%">
-									<col width="15%">
-									<col width="35%">
+									<col width="38%"/>
+									<col width="62%"/>
 								</colgroup>
 								<tbody>
 									<tr>
 										<th>이름</th>
 										<td>${corpItList.operName }</td>
-										<th>주민번호</th>
-										<td>${corpItList.plMZId }</td>
 									</tr>
 								</tbody>
 							</table>

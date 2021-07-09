@@ -101,6 +101,7 @@
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
+				<!-- 
 				<tr>
 					<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
 					<td>
@@ -110,15 +111,27 @@
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
+				 -->
 				<tr>
-					<th class="acenter">인감증명서 *</th>
+					<th class="acenter">인감증명서</th>
+					<td>
+						<input type="text" class="w50 file_input" readonly disabled>
+						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+						<input type="hidden" name="fileTypeList" value="10"/>
+						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">주민등록사본 *</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-						<input type="hidden" name="fileTypeList" value="10"/>
+						<input type="hidden" name="fileTypeList" value="30"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
+				<!-- 
 				<tr>
 					<th class="acenter">후견부존재증명서 *</th>
 					<td>
@@ -128,6 +141,7 @@
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
+				 -->
 			</tbody>
 		</table>
 	</div>
@@ -201,28 +215,6 @@
 			</tbody>
 		</table>
 	</div>
-	
-	<h3>4. 업무수행기준요건관련 서류</h3>
-	<div id="table09">
-		<table class="view_table">
-			<colgroup>
-				<col width="38%">
-				<col width="62%">
-			</colgroup>
-			<tbody>
-				<tr>
-					<th class="acenter">업무수행기준요건관련 서류 *</th>
-					<td>
-						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-						<input type="hidden" name="fileTypeList" value="15"/>
-						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
 	<div class="btn_wrap02">
 		<div class="right">
 			<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpInfoReg(this);">저장</a>

@@ -295,6 +295,23 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										<tr>
+											<th class="acenter">주민등록사본 *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType30 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType30.fileSeq }" data-fileType="30" data-essential="Y">삭제</a>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="30"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+													</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
 										<%-- 
 										<tr>
 											<th class="acenter">후견부존재증명서 *</th>
@@ -431,36 +448,6 @@ function goDataAreaAdd() {
 									</tbody>
 								</table>
 							</div>
-							
-							<h3>4. 업무수행기준요건관련 서류</h3>
-							<div id="table09">
-								<table class="view_table">
-									<colgroup>
-										<col width="38%">
-										<col width="62%">
-									</colgroup>
-									<tbody>
-										<tr>
-											<th class="acenter">업무수행기준요건관련 서류 *</th>
-											<td>
-												<c:choose>
-													<c:when test="${corpImwonList.fileType15 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType15.fileSeq }">${corpImwonList.fileType15.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType15.fileSeq }" data-fileType="15" data-essential="Y">삭제</a>
-													</c:when>
-													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="15"/>
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-													</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-				
 							<div class="btn_wrap02">
 								<div class="right">
 									<a href="javascript:void(0);" class="btn_blue btn_middle mgr5" onclick="goCorpImwonInfoUpdt('${corpImwonList.excSeq }');">저장</a>

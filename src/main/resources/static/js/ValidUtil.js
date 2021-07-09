@@ -142,8 +142,8 @@ var Valid = {
 				return false;
 			}
 		}else{
-			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "zip"]) == -1) {
-				alert("첨부파일 확장자를 확인해 주세요.");
+			if($.inArray(ext, ["hwp", "jpg", "jpeg", "png", "gif", "bmp", "pdf", "zip"]) == -1) {
+				alert("hwp, jpg, jpeg, png, gif, bmp, pdf, zip 파일만 첨부가능합니다.");
 				return false;
 			}
 		}
