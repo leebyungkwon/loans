@@ -284,8 +284,14 @@ function checkCapsLock(event){
 					<input type="text" id="fileName" name="fileName" readonly="readonly" placeholder="파일을 첨부해 주세요."/>
 					<a href="javascript:void(0);" class="btn_Lgray btn_small" id="fileDelete">삭제</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" id="fileSearch">파일찾기</a>
-					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/담당자신청서_샘플.png','담당자신청서_샘플')">샘플다운로드</a>
 					<input type="file" id="u_file" class="" name="files" style="display:none;">
+				</td>
+			</tr>
+			<tr>
+				<th>첨부파일 (양식)</th>
+				<td id="fileTag">
+					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/대출성상품모집인등록업무담당자신청서.hwp','담당자신청서_샘플')">양식1(한글파일)</a>
+					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/대출성상품모집인등록업무담당자신청서.docx','담당자신청서_샘플')">양식2(워드파일)</a>
 				</td>
 			</tr>
 		</table>

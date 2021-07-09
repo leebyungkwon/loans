@@ -364,14 +364,16 @@
   font:400 15px 'Montserrat','Noto Sans KR';
 }
 
+
+
 .tap_cont .input_wrap .btn_login{
   display: inline-block;
   vertical-align: top;
   text-align: center;
   background-color: #222;
-  font:500 16px/110px 'Noto Sans KR';
+  font:250 16px/50px 'Noto Sans KR';
   width: 110px;
-  height: 110px;
+  height: 50px;
   color:#fff;
   margin-left: 10px;
 }

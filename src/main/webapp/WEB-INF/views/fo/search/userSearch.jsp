@@ -60,13 +60,9 @@ function goUserSearchResultPage(formNm,masterSeq) {
 							<input type="text" name="masterToId" placeholder="등록번호" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
 						</div>
 					</div>
-					<div class="input_box">
-						<div class="value">
-							<input type="text" name="plCellphone" placeholder="예) 010-1234-5678" maxlength="13" data-vd='{"type":"mobileNo","len":"1,13","req":true,"msg":"휴대폰번호를 입력해 주세요."}'>
-						</div>
-					</div>
 				</div>
 				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
+				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">등록증발급</a>
 			</div>
 		</form>
 		<div class="bottom_box">
