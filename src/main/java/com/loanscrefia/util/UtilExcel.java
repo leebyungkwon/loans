@@ -222,9 +222,9 @@ public class UtilExcel<T> {
 	                			}else if(chkDb.get(j).equals("edu4")) {
 	                				//교육이수번호,인증서번호 유효 체크
 	                				String prdCd = "";
-	                				if(cellVal.equals("01") || cellVal.equals("03")) {
+	                				if(cellVal.equals("1") || cellVal.equals("3")) {
 	                					prdCd = "LP0" + eduChkParam.getCareerTyp();
-	                				}else if(cellVal.equals("05") || cellVal.equals("06")) {
+	                				}else if(cellVal.equals("5") || cellVal.equals("6")) {
 	                					prdCd = "LS0" + eduChkParam.getCareerTyp();
 	                				}
 	                				eduChkParam.setProcessCd(prdCd);
@@ -233,9 +233,9 @@ public class UtilExcel<T> {
 	                				if(eduChkParam.getProcessCd() == null || eduChkParam.getProcessCd().equals("")) {
 	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
 	                					String prdCd = "";
-	                					if(this.param1.equals("01") || this.param1.equals("03")) {
+	                					if(this.param1.equals("1") || this.param1.equals("3")) {
 	                						prdCd = "LP0" + eduChkParam.getCareerTyp();
-		                				}else if(this.param1.equals("05") || this.param1.equals("06")) {
+		                				}else if(this.param1.equals("5") || this.param1.equals("6")) {
 		                					prdCd = "LS0" + eduChkParam.getCareerTyp();
 		                				}
 	                					eduChkParam.setProcessCd(prdCd);
