@@ -406,7 +406,9 @@ function goViolationDataDel(violationSeq,obj){
 				if(violationAreaLen == 0){
 					goViolationAdd(obj);
 				}else{
-					$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
+					if($(obj).index() == (violationAreaLen - 1)){
+						$(".violationArea").last().find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
+					}
 				}
 		    }
 		}
