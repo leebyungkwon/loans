@@ -235,29 +235,19 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
-								</tbody>
-							</table>
-						</div>
-						
-						<h3>4. 업무수행기준요건관련 서류</h3>
-						<div id="table09">
-							<table class="view_table">
-								<colgroup>
-									<col width="38%">
-									<col width="62%">
-								</colgroup>
-								<tbody>
+									
 									<tr>
-										<th class="acenter">업무수행기준요건관련 서류 *</th>
+										<th class="acenter">주민등록사본 *</th>
 										<td>
 											<c:choose>
-												<c:when test="${corpImwonList.fileType15 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType15.fileSeq }">${corpImwonList.fileType15.fileFullNm }</a>
+												<c:when test="${corpImwonList.fileType30 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
 										</td>
 									</tr>
+									
 								</tbody>
 							</table>
 						</div>

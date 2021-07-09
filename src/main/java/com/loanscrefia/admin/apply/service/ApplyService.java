@@ -297,7 +297,9 @@ public class ApplyService {
         				applyInfo.setFileType5(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("6")) {
         				applyInfo.setFileType6(fileList.get(i));
-        			}
+        			}else if(fileList.get(i).getFileType().equals("15")) {
+        				applyInfo.setFileType15(fileList.get(i));
+					}
         			
         			
         			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
@@ -330,6 +332,10 @@ public class ApplyService {
         					applyInfo.setCheckCd12(tmp.getCheckCd());
         				}else if("13".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd13(tmp.getCheckCd());
+        				}else if("112".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd112(tmp.getCheckCd());
+        				}else if("116".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd116(tmp.getCheckCd());
         				}
         			}
         			
@@ -437,8 +443,6 @@ public class ApplyService {
 							imwonList.get(i).setFileType13(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("14")) {
 							imwonList.get(i).setFileType14(fileList.get(j));
-						}else if(fileList.get(j).getFileType().equals("15")) {
-							imwonList.get(i).setFileType15(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("27")) {
 							imwonList.get(i).setFileType27(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("28")) {
@@ -476,16 +480,12 @@ public class ApplyService {
 	        					imwonList.get(i).setCheckCd110(tmp.getCheckCd());
 	        				}else if("111".equals(tmp.getCheckCd())) {
 	        					imwonList.get(i).setCheckCd111(tmp.getCheckCd());
-	        				}else if("112".equals(tmp.getCheckCd())) {
-	        					imwonList.get(i).setCheckCd112(tmp.getCheckCd());
 	        				}else if("113".equals(tmp.getCheckCd())) {
 	        					imwonList.get(i).setCheckCd113(tmp.getCheckCd());
 	        				}else if("114".equals(tmp.getCheckCd())) {
 	        					imwonList.get(i).setCheckCd114(tmp.getCheckCd());
 	        				}else if("115".equals(tmp.getCheckCd())) {
 	        					imwonList.get(i).setCheckCd115(tmp.getCheckCd());
-	        				}else if("116".equals(tmp.getCheckCd())) {
-	        					imwonList.get(i).setCheckCd116(tmp.getCheckCd());
 	        				}
 	        			}
 						

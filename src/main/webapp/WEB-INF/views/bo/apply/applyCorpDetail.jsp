@@ -470,7 +470,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">영위하는 다른 업종에 대한 증빙서류 *</td>
+					<td class="acenter">영위하는 다른 업종에 대한 증빙서류</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType6 ne null }">
@@ -494,6 +494,33 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
+				
+				<tr>
+					<td class="acenter">업무수행기준요건관련 *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType15 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType15.fileSeq }">${result.applyInfo.fileType15.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd116" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd116}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
+							<label for="check_cd116">체크사항1</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd112" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd112}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
+							<label for="check_cd112">체크사항2</label>
+						</div>
+					</td>
+				</tr>
+				
 			</table>
 		</div>
 		<div class="btn_wrap">

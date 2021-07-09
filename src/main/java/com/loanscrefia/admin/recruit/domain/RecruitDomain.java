@@ -157,6 +157,7 @@ public class RecruitDomain extends BaseDomain {
 	private FileDomain fileType12;
 	private FileDomain fileType13;
 	private FileDomain fileType14;
+	private FileDomain fileType15;
 	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;
@@ -193,6 +194,7 @@ public class RecruitDomain extends BaseDomain {
 	private FileDomain histFileType12;
 	private FileDomain histFileType13;
 	private FileDomain histFileType14;
+	private FileDomain histFileType15;
 	
 	private FileDomain histFileType21;
 	private FileDomain histFileType22;

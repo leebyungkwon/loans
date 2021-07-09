@@ -50,8 +50,6 @@ function pageLoad(){
 									<tr>
 										<th>이름</th>
 										<td>${corpItList.operName }</td>
-										<th>주민번호</th>
-										<td>${corpItList.plMZId }</td>
 									</tr>
 								</tbody>
 							</table>

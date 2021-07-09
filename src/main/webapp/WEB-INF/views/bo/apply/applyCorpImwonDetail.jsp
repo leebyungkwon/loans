@@ -292,6 +292,26 @@ function pageLoad(){
 									</td>
 								</tr>
 								
+								<tr>
+									<td class="acenter">주민등록사본 *</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpImwonList.fileType30 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd115" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd115}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType30.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType30.fileSeq }" >
+											<label for="check_cd115">기재사항 일치여부</label>
+										</div>
+									</td>
+								</tr>
+								
 							</table>
 						</div>
 						
@@ -391,40 +411,7 @@ function pageLoad(){
 							</table>
 						</div>
 						
-						<h3>4. 업무수행기준요건관련 서류</h3>
-						<div id="table09">
-							<table class="view_table border_table">
-								<colgroup>
-									<col width="50%"/>
-									<col width="20%"/>
-									<col width="30%"/>
-								</colgroup>
-								<tr>
-									<th>구분</th>
-									<th>첨부이미지</th>
-									<th>체크사항</th>
-								</tr>
-								<tr>
-									<td class="acenter">업무수행기준요건관련 서류 *</td>
-									<td>
-										<c:choose>
-											<c:when test="${corpImwonList.fileType15 ne null }">
-												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType15.fileSeq }">${corpImwonList.fileType15.fileFullNm }</a>
-											</c:when>
-											<c:otherwise>-</c:otherwise>
-										</c:choose>
-									</td>
-									<td>
-										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd112" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd112}">checked</c:if>
-											<c:if test="${empty corpImwonList.fileType15.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpImwonList.fileType15.fileSeq }" >
-											<label for="check_cd112">금소법상 필요사항 포함여부</label>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</div>
+						
 						<div class="btn_wrap02">
 							<div class="right">
 								<a href="javascript:void(0);" class="btn_blue btn_middle mgr5 ocr_imwon_click" 
