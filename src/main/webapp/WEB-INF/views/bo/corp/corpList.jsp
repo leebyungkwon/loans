@@ -150,7 +150,7 @@ function goCorpInfoSave() {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpInfoSavePopup();">등록</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="deleteCorp">삭제</a>
+				<!-- <a href="javascript:void(0);" class="btn_black btn_small mgr5" id="deleteCorp">삭제</a> -->
 			</div>
 		</div>
 		<div id="corpGrid" class="long_table"></div>

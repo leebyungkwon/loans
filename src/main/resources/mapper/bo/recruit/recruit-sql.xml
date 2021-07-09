@@ -89,7 +89,7 @@
 						AND TLM.master_seq in (
 							select distinct master_seq from TB_LC_MAS01 a, tb_lc_file01 b
 							where a.file_seq = b.file_grp_seq
-							and use_yn = 'N'
+							and (b.file_type = '10' or b.file_type = '11')
 						)
 					</if>
 				</if>

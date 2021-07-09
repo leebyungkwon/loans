@@ -137,7 +137,7 @@ function deleteCompany() {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
-				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="deleteCompany();">삭제</a>
+				<!-- <a href="javascript:void(0);" class="btn_gray btn_small" onclick="deleteCompany();">삭제</a> -->
 			</div>
 		</div>
 		<div id="companyGrid" class="long_table"></div>
