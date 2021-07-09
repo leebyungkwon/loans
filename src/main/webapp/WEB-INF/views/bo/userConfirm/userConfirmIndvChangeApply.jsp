@@ -15,7 +15,7 @@ var chgPlMZId			= "";
 
 function pageLoad(){
 	//위반이력코드 호출
-	goCallViolationCd();
+	//goCallViolationCd();
 	
 	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
 	$("#plMName").on("propertychange change keyup paste input",function(){
@@ -63,6 +63,37 @@ function pageLoad(){
 			$("#chgVeriDoc2 > .goFileDel").attr("data-essential","N");
 		}
 	});
+}
+
+//위반이력 영역 추가
+function goViolationAdd(obj){
+	
+	var html 		= '';
+	
+	html += '<tr class="violationArea">';
+	html += '<th>위반이력사항</th>';
+	html += '<td colspan="3">';
+	html += '<select name="violationCdArr">';
+	html += '<option value="">선택해 주세요.</option>';
+	
+	<c:forEach var="list" items="${result.violationCodeList}">
+		html += '<option value="${list.codeDtlCd}">'+"${list.codeDtlNm}"+'</option>';
+	</c:forEach>
+	
+	/*
+	for(var i = 0;i < codeListLen;i++){
+		console.log(codeList[i].codeDtlCd);
+		html += '<option value="'+codeList[i].codeDtlCd+'">'+codeList[i].codeDtlNm+'</option>';
+	}
+	*/
+	
+	html += '</select> '; //공백 제거 금지
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '; //공백 제거 금지
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
+	html += '</td>';
+	html += '</tr>';
+	
+	$("#table > table").append(html);
 }
 
 //변경요청
@@ -212,7 +243,7 @@ function goUserChangeApply(){
 						<c:when test="${fn:length(result.violationInfoList) > 0 }">
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 								<tr class="violationArea">
-									<th>위반이력${status.count }</th>
+									<th>위반이력사항</th>
 									<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>
 										${violationInfoList.violationCdNm }
 										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
@@ -229,7 +260,12 @@ function goUserChangeApply(){
 							<tr class="violationArea">
 								<th>위반이력사항</th>
 								<td colspan="3">
-									<select name="violationCdArr" class="violationCd"></select>
+									<select name="violationCdArr">
+										<option value="">선택해 주세요.</option>
+										<c:forEach var="violationCodeList" items="${result.violationCodeList }">
+											<option value="${violationCodeList.codeDtlCd }">${violationCodeList.codeDtlNm }</option>
+										</c:forEach>
+									</select>
 									<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
 									<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>
 								</td>

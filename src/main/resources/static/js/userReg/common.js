@@ -342,6 +342,7 @@ function goUserDropApply(){
 	}
 }
 
+/*
 //위반이력사항 코드 호출
 function goCallViolationCd(){
 	var violationCode = {
@@ -359,6 +360,7 @@ function goViolationAdd(obj){
 	$("#table > table").append(html);
 	$(".violationArea").last().find("td").find("select").find("option").eq(0).attr("selected","selected");
 }
+*/
 
 //위반이력사항 영역 삭제
 function goViolationDel(obj){
@@ -380,8 +382,8 @@ function goViolationDataDel(violationSeq,obj){
 			}
 			, success 	: function (opt,result) {
 				if(result.code == "success"){
-					$(obj).closest("tr").find("td").find("a:last").remove();
 					$(obj).closest("tr").find("td").addClass("red");
+					$(obj).closest("tr").find("td").find("a:last").remove();
 				}
 		    }
 		}

@@ -287,7 +287,7 @@ public class UtilExcel<T> {
 	                			Map<String, Object> prdMap = new HashMap<String, Object>();
 	                			
 	                			if(chkPrd.get(j).equals("prd1")) {
-	                				userChkParam.setPlProduct(cellVal);
+	                				userChkParam.setPlProduct("0"+cellVal);
 	                			}else if(chkPrd.get(j).equals("prd2")) {
 	                				//S : 엑셀 파일 내 중복 확인용
                 					prdMap.put("plProduct", userChkParam.getPlProduct());

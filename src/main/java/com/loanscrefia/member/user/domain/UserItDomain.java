@@ -23,10 +23,7 @@ public class UserItDomain extends BaseDomain {
 	
 	@ExcelColumn(headerName="성명", vCell="A", vLenMin=2, vLenMax=20)
 	private String operName;		//이름
-	
-	@ExcelColumn(headerName="주민등록번호", vCell="B", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="pId")
 	private String plMZId;			//주민등록번호
-	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
 	
 	//엑셀 업로드

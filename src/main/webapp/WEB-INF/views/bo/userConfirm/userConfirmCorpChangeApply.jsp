@@ -8,10 +8,34 @@
 <script type="text/javascript">
 function pageLoad(){
 	//위반이력 코드
-	goCallViolationCd();
+	//goCallViolationCd();
 	
 	//datepicker
 	goDatepickerDraw();
+}
+
+//위반이력 영역 추가
+function goViolationAdd(obj){
+	
+	var html 		= '';
+	
+	html += '<tr class="violationArea">';
+	html += '<th>위반이력사항</th>';
+	html += '<td colspan="3">';
+	html += '<select name="violationCdArr" class="violationCd">';
+	html += '<option value="">선택해 주세요.</option>';
+	
+	<c:forEach var="list" items="${result.violationCodeList}">
+		html += '<option value="${list.codeDtlCd}">'+"${list.codeDtlNm}"+'</option>';
+	</c:forEach>
+	
+	html += '</select> '; //공백 제거 금지
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '; //공백 제거 금지
+	html += '<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>';
+	html += '</td>';
+	html += '</tr>';
+	
+	$("#table > table").append(html);
 }
 
 //변경요청
@@ -221,7 +245,7 @@ function goUserChangeApply(){
 						<c:when test="${fn:length(result.violationInfoList) > 0 }">
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 								<tr class="violationArea">
-									<th>위반이력${status.count }</th>
+									<th>위반이력사항</th>
 									<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>
 										${violationInfoList.violationCdNm }
 										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
@@ -238,7 +262,12 @@ function goUserChangeApply(){
 							<tr class="violationArea">
 								<th>위반이력사항</th>
 								<td colspan="3">
-									<select name="violationCdArr" class="violationCd"></select>
+									<select name="violationCdArr">
+										<option value="">선택해 주세요.</option>
+										<c:forEach var="violationCodeList" items="${result.violationCodeList }">
+											<option value="${violationCodeList.codeDtlCd }">${violationCodeList.codeDtlNm }</option>
+										</c:forEach>
+									</select>
 									<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
 									<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDel(this);">-</a>
 								</td>
@@ -342,17 +371,35 @@ function goUserChangeApply(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">영위하는 다른 업종에 대한 증빙서류 *</th>
+						<th class="acenter">영위하는 다른 업종에 대한 증빙서류</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType6 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">${result.userRegInfo.fileType6.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }" data-fileType="6" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }" data-fileType="6" data-essential="N">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="6"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="6" data-essential="N">초기화</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th class="acenter">업무수행기준요건관련 서류 *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType15 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType15.fileSeq }">${result.userRegInfo.fileType15.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType15.fileSeq }" data-fileType="15" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-									<input type="hidden" name="fileTypeList" value="6"/>
+									<input type="hidden" name="fileTypeList" value="15"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 								</c:otherwise>
 							</c:choose>

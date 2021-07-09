@@ -67,10 +67,6 @@ public class ApplyService {
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		applyDomain.setCreGrp(result.getCreGrp());
 		
-		
-		List<ApplyDomain> applyResultList = applyRepository.selectApplyList(applyDomain);
-		
-		/*
 		// 주민번호 및 법인번호 암호화 후 비교
 		applyDomain.setPlMerchantNo(CryptoUtil.encrypt(applyDomain.getPlMerchantNo()));
 		applyDomain.setPlMZId(CryptoUtil.encrypt(applyDomain.getPlMZId()));
@@ -91,10 +87,6 @@ public class ApplyService {
 				list.setPlMerchantNo(merchantNo.toString());
 			}
 		}
-		*/
-		
-		
-		
 		return applyResultList;
 	}
 	
