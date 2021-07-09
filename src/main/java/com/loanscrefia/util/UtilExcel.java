@@ -190,6 +190,15 @@ public class UtilExcel<T> {
 	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
 	        	                }
 	                		}
+	                	}
+	                }
+	                
+	                if(StringUtils.isNotEmpty(errorMsg)) {
+	                	break;
+	                }
+	                
+	                for(int j = 0;j < vCell.size();j++) {
+	                	if(cellName.equals(vCell.get(j))) {
 	                		if(!chkDb.get(j).isEmpty()){
 	                			if(chkDb.get(j).equals("corp")) {
 	                				//법인 정보 유효 체크(법인사용인)
