@@ -849,10 +849,10 @@ public class ApplyService {
 				String plClass = statCheck.getPlClass();
 				if("1".equals(plClass)) {
 					jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass);				
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");				
 				}else {
 					jsonParam.put("pre_corp_lc_num", statCheck.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
 				}
 				
 				if("success".equals(responseMsg.getCode())) {
@@ -922,10 +922,10 @@ public class ApplyService {
 				String plClass = statCheck.getPlClass();
 				if("1".equals(plClass)) {
 					jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", plClass, "Y");
 				}else {
 					jsonParam.put("pre_corp_lc_num", statCheck.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", plClass, "Y");
 				}
 				
 				if("success".equals(responseMsg.getCode())) {

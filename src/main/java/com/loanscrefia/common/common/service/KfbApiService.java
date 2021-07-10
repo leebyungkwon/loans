@@ -1107,7 +1107,7 @@ public class KfbApiService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	public ResponseMsg commonKfbApi(String authToken, JSONObject reqParam, String apiNm, String methodType, String plClass) {
+	public ResponseMsg commonKfbApi(String authToken, JSONObject reqParam, String apiNm, String methodType, String plClass, String preYn) {
 		
         String successCheck 	= "fail";
         String message 			= "";
@@ -1128,9 +1128,17 @@ public class KfbApiService {
 			//파라미터 설정
 			if(methodType.equals("GET") || methodType.equals("DELETE")) {
 				if("1".equals(plClass)) {
-					param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
+					if("Y".equals(preYn)) {
+						param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
+					}else {
+						param = "?lc_num="+reqParam.getString("lc_num");
+					}
 				}else {
-					param = "?pre_corp_lc_num="+reqParam.getString("pre_corp_lc_num");
+					if("Y".equals(preYn)) {
+						param = "?pre_corp_lc_num="+reqParam.getString("pre_corp_lc_num");
+					}else {
+						param = "?corp_lc_num="+reqParam.getString("corp_lc_num");
+					}
 				}
 				connUrl = connUrl + param;
 			}

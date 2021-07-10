@@ -109,6 +109,9 @@ public class SearchDomain extends BaseDomain {
 	//결제정보
 	private String payName;			//카드,은행명
 	
+	private String plRegistSearchNo;	// API조회용 등록번호
+	private String classCheck;			// API조회용 개인/법인 구분필드
+	
 	
 	
 	

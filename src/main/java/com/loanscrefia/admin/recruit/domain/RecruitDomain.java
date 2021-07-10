@@ -7,6 +7,7 @@ import org.apache.ibatis.type.Alias;
 
 import com.loanscrefia.common.common.domain.BaseDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.front.search.domain.SearchResultDomain;
 import com.loanscrefia.util.excel.ExcelColumn;
 
 import lombok.Data;
@@ -137,6 +138,9 @@ public class RecruitDomain extends BaseDomain {
 	private int histNameSeq;
 	private int histZidSeq;
 	private int histPhoneSeq;
+	
+	
+	private List<SearchResultDomain> SearchResultList;	// FO - 은행연합회 API검색결과 필드
 	
 	
 	//엑셀 업로드

@@ -809,7 +809,7 @@ public class RecruitService {
 					log.info(":::::::::::::API통신 시작 :::::::::");
 					log.info("########################");
 					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
 					if("success".equals(responseMsg.getCode())) {
 						// 주민번호 변경 API 호출 - 은행연합회 확인
 						boolean zIdCheck = false;
@@ -820,7 +820,7 @@ public class RecruitService {
 							log.info("########################");
 							log.info("jsonParam :: " + zIdParam);
 							log.info("########################");
-							responseMsg = kfbApiService.commonKfbApi(apiKey, zIdParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass);
+							responseMsg = kfbApiService.commonKfbApi(apiKey, zIdParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass, "N");
 							if(!"success".equals(responseMsg.getCode())) {
 								return responseMsg;
 							}
@@ -854,7 +854,7 @@ public class RecruitService {
 					log.info(":::::::::::::API통신 시작 :::::::::");
 					log.info("########################");
 					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
 					if(!"success".equals(responseMsg.getCode())) {
 						return responseMsg;
 					}
@@ -949,7 +949,7 @@ public class RecruitService {
 					log.info(":::::::::::::API통신 시작 :::::::::");
 					log.info("########################");
 					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
 					
 				}else {
 					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
@@ -973,7 +973,7 @@ public class RecruitService {
 					log.info(":::::::::::::API통신 시작 :::::::::");
 					log.info("########################");
 					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass);
+					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
 				}
 				
 				if("success".equals(responseMsg.getCode())) {

@@ -1536,10 +1536,10 @@ public class UserService {
 				
 				if("1".equals(userRegInfo.getPlClass())) {
 					preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass());
+					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
 				}else {
 					preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass());
+					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
 				}
 				
 				if("success".equals(responseMsg.getCode())) {
@@ -1678,10 +1678,10 @@ public class UserService {
 			
 			if("1".equals(userRegInfo.getPlClass())) {
 				preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass());
+				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
 			}else {
 				preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass());
+				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
 			}
 			
 			if("success".equals(responseMsg.getCode())) {

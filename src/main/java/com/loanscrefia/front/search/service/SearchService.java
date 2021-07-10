@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loanscrefia.common.common.domain.KfbApiDomain;
+import com.loanscrefia.common.common.repository.KfbApiRepository;
+import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.front.search.repository.SearchRepository;
@@ -21,6 +25,12 @@ import sinsiway.CryptoUtil;
 public class SearchService {
 
 	@Autowired private SearchRepository searchRepo;
+	
+	@Autowired 
+	private KfbApiService kfbApiService;
+	
+	@Autowired
+	private KfbApiRepository kfbApiRepository;
 	
 	//모집인 조회 : 개인(결제)
 	@Transactional(readOnly = true)
@@ -77,14 +87,34 @@ public class SearchService {
 	//모집인 조회 : 개인
 	@Transactional(readOnly = true)
 	public ResponseMsg selectIndvUserInfo(SearchDomain searchDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		// 2021-07-10 은행연합회 API 통신 - 개인조회
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject indvParam = new JSONObject();
+		indvParam.put("lc_num", searchDomain.getPlRegistNo());
+		// 은행연합회 API 개인조회 시작
 		
-		//조회 결과
-		SearchDomain result = searchRepo.selectIndvUserInfo(searchDomain);
-		
-		if(result == null) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "GET", "1", "N");
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			String lcNum = responseJson.getString("lc_num");
+			kfbApiDomain.setResData(lcNum);
+			return new ResponseMsg(HttpStatus.OK, null, kfbApiDomain, "success");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, null, responseMsg, "fail");
 		}
-		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
 	}
 	
 	//모집인 조회 : 법인
