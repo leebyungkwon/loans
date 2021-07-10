@@ -94,7 +94,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo) {
 				</li>
 				<li>
 					<span class="dot"></span>
-					<p>조회가능정보: 대충상담사의 등록번호, 성명, 생년월알, 취급상품, 등록일자, 계약금융회사 등</p>
+					<p>조회가능정보: 대충상담사의 등록번호, 성명, 생년월일, 취급상품, 등록일자, 계약금융회사 등</p>
 				</li>
 				
 <!-- 				<li>
