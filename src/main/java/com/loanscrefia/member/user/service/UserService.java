@@ -509,6 +509,9 @@ public class UserService {
 	//모집인 등록(엑셀) > 법인 : 대표자 및 임원 정보 등록
 	@Transactional
 	public ResponseMsg insertUserRegCorpImwonInfoByExcel(MultipartFile[] files, UserImwonDomain userImwonDomain){
+		//상태값 체크*****
+		this.userValidation(userImwonDomain.getMasterSeq());
+				
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -626,6 +629,9 @@ public class UserService {
 	//모집인 등록(엑셀) > 법인 : 전문인력 정보 등록
 	@Transactional
 	public ResponseMsg insertUserRegCorpExpertInfoByExcel(MultipartFile[] files, UserExpertDomain userExpertDomain){
+		//상태값 체크*****
+		this.userValidation(userExpertDomain.getMasterSeq());
+		
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -739,6 +745,9 @@ public class UserService {
 	//모집인 등록(엑셀) > 법인 : 전산인력 정보 등록
 	@Transactional
 	public ResponseMsg insertUserRegCorpItInfoByExcel(MultipartFile[] files, UserItDomain userItDomain){
+		//상태값 체크*****
+		this.userValidation(userItDomain.getMasterSeq());
+		
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -1863,22 +1872,65 @@ public class UserService {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
-	public ResponseMsg userValidation(int masterSeq) {
+	public String userRegValidation(int masterSeq) {
 		
-		UserDomain param = new UserDomain();
+		String msg 	= "";
 		
 		//모집인 상세
+		UserDomain param 		= new UserDomain();
 		param.setMasterSeq(masterSeq);
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		
 		String plRegStat 		= userRegInfo.getPlRegStat(); 	//모집인 상태 	-> [REG001]승인전,승인완료,자격취득,해지완료
 		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
+		
+		if(plRegStat.equals("1") && plStat.equals("2")) {
+			msg = "승인요청중인 모집인입니다.\n새로고침 후 모집인 상태와 처리상태를 확인해 주세요.";
+		}else if(plRegStat.equals("2") && plStat.equals("9")) {
+			msg = "승인완료된 모집인입니다.\n새로고침 후 모집인 상태와 처리상태를 확인해 주세요.";
+		}
+		
+		return msg;
+	}
+	
+	public String userConfirmValidation(int masterSeq) {
+		
+		String msg = "";
+		
+		//모집인 상세
+		UserDomain param 		= new UserDomain();
+		param.setMasterSeq(masterSeq);
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		
+		String plRegStat 		= userRegInfo.getPlRegStat(); 	//모집인 상태 	-> [REG001]승인전,승인완료,자격취득,해지완료
+		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
+		
+		if(plRegStat.equals("4")) {
+			msg = "해지완료된 모집인입니다.\n새로고침 후 모집인 상태와 처리상태를 확인해 주세요.";
+		}else if(plStat.equals("3")) {
+			msg = "변경요청중인 모집인입니다.\n새로고침 후 모집인 상태와 처리상태를 확인해 주세요.";
+		}else if(plStat.equals("4")) {
+			msg = "해지요청중인 모집인입니다.\n새로고침 후 모집인 상태와 처리상태를 확인해 주세요.";
+		}
+		
+		return msg;
+	}
+	
+	public ResponseMsg userValidation(int masterSeq) {
 		
 		String code = "";
 		String msg 	= "";
 		
-		if(plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("9")) {
+		//모집인 상세
+		UserDomain param 		= new UserDomain();
+		param.setMasterSeq(masterSeq);
+		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		
+		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
+		
+		if(plStat.equals("2") || plStat.equals("3") || plStat.equals("4") || plStat.equals("10") || plStat.equals("11") || plStat.equals("12")) {
 			code 	= "E1";
-			msg 	= "등록,수정,삭제가 불가능한 상태입니다.";
+			msg 	= "등록,수정,삭제가 불가능한 상태입니다.\n새로고침 후 처리상태를 확인해 주세요.";
 		}
 		
 		return new ResponseMsg(HttpStatus.OK, code, msg);
