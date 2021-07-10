@@ -24,12 +24,8 @@ function goUserSearch() {
 		url		: url
 		,param 		: params
 		,success	: function(opt,result){
-			
 			console.log("결과 :: " , result);
 			
-			goUserSearchResultPage("sdfsdf","sdfsdf", "123123");
-			
-			/*
 			if(result.data.resData == null || result.data.resData == ""){
 				alert("조회된 결과가 없습니다.");
 				return false;
@@ -39,7 +35,6 @@ function goUserSearch() {
 			}else{
 				goUserSearchResultPage(formNm,result.data.resData, classCheck);
 			}
-			*/
 		}
 	}
 	AjaxUtil.post(p);

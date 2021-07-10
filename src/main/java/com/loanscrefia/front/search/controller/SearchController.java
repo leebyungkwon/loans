@@ -24,7 +24,6 @@ import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.front.search.domain.SearchResultDomain;
 import com.loanscrefia.front.search.service.SearchService;
 
-import sinsiway.CryptoUtil;
 
 @Controller
 @RequestMapping(value="/front/search")
@@ -64,58 +63,6 @@ public class SearchController {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		ModelAndView mv = new ModelAndView(CosntPage.FoSearchPage+"/userSearchResult");
 		
-		
-		
-		
-		
-		RecruitDomain recruitDomain = new RecruitDomain();
-		recruitDomain.setPlRegistNo("LCNUM = 011");
-		recruitDomain.setPlMName("신동환");
-		String plMZId = "880131-1111111";
-		if(plMZId != null) {
-			plMZId = plMZId.substring(0, 6);
-		}
-		recruitDomain.setPlMZId(plMZId);
-		
-		
-		recruitDomain.setPlMName("오딘 발할뢀");			// 법인명
-		
-		recruitDomain.setPlCeoName("신대표");	// 법인대표성명
-
-		recruitDomain.setPlClass("2");
-		
-		
-		List<SearchResultDomain> searchResult = new ArrayList<SearchResultDomain>();
-		SearchResultDomain searchResultDomain = new SearchResultDomain();
-		searchResultDomain.setConNum("123123");
-		searchResultDomain.setBizCode("biz_code 11");
-		searchResultDomain.setCorpNum("계약번호:11123");
-		searchResultDomain.setFinCode("핀코드");
-		searchResultDomain.setFinName("핀명");
-		searchResultDomain.setFinPhone("01031672126");
-		searchResultDomain.setConDate("20210710");
-		searchResultDomain.setLoanType("01");
-		searchResult.add(searchResultDomain);
-		
-		SearchResultDomain searchResultDomain1 = new SearchResultDomain();
-		searchResultDomain1.setConNum("55555555");
-		searchResultDomain1.setBizCode("biz_code 55");
-		searchResultDomain1.setCorpNum("계약번호:777");
-		searchResultDomain1.setFinCode("핀코드22");
-		searchResultDomain1.setFinName("핀명11");
-		searchResultDomain1.setFinPhone("01031313131");
-		searchResultDomain1.setConDate("20210709");
-		searchResultDomain1.setLoanType("05");
-		searchResult.add(searchResultDomain1);
-		
-		recruitDomain.setSearchResultList(searchResult);
-		
-		mv.addObject("result", recruitDomain);
-		
-		return mv;
-		
-		/*
-		
 		// 계약번호 : con_num
 		// 업권코드 : biz_code(은행/저축은행/보험사 등 업권코드)
 		// 법인등록번호 : corp_num(법인사용인)
@@ -150,8 +97,6 @@ public class SearchController {
 					ssn = ssn.substring(0, 6);
 				}
 				recruitDomain.setPlMZId(ssn);
-				
-				
 				
 				// 2021-07-10 아래 데이터 사용안함
 				//recruitDomain.setPlMName(responseJson.getString("mobile"));
@@ -240,7 +185,5 @@ public class SearchController {
 			}
 		}
         return mv;
-        
-        */
 	}
 }
