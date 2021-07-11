@@ -8,13 +8,14 @@ var apiGrid = Object.create(GRID);
 function pageLoad(){
 	apiGrid.set({
 		  id			: "apiGrid"
-  		, url			: "/system/code/codeMstList"
+  		, url			: "/system/api/selectApiList"
 	    , width			: "100%"
-  		, headCol		: ["등록일", "토큰"]
+  		, headCol		: ["등록일", "토큰", "시스템등록일시"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'masterSeq'	, index:'masterSeq'		, width:"20%"		, align:"center"}
-				,{type:"string"	, name:'key'		, index:'key'			, width:"20%"		, align:"center"}
+				 {type:"string"	, name:'insDt'			, index:'insDt'			, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'token'			, index:'token'			, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, width:"20%"		, align:"center"}
 			]
 		, sortNm 		: "ins_dt"
 		, sort 			: "DESC"
@@ -108,6 +109,41 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
+	
+	
+	
+	
+	
+	
+	// 2021-07-11 가등록조회
+	$("#apiPopup").on("click", function(){
+		
+		var preLcNum = $("#preLcNum").val();
+		var lcNum = $("#lcNum").val();
+		
+		
+		
+		let p = {
+			id : "apiPopup"
+			, params : {
+				searchPreLcNum	:	preLcNum
+				searchLcNum		:	lcNum
+			}
+			, url : "/admin/api/apiPopup"
+			, success : function (opt,result) {
+				
+				
+				console.log("팝업실행");
+				$(".popup_inner").css("width","55%");
+				
+		    }
+		}
+		PopUtil.openPopup(p);
+	});
+	
+	
+	
+	
 }
 
 //날짜 가져오기
@@ -162,6 +198,16 @@ function goGetDate(opt) {
 		</div>
 	</div>
 	
+	
+	<div>
+		<span>
+			가등록번호 : <input type="text" id="preLcNum" value="" />
+		</span>
+		<span>
+			등록번호 : <input type="text" id="lcNum" value="" />
+		</span>
+	</div>
+	
 	<div class="contents">
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
@@ -171,6 +217,10 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanCheckTest">개인등록여부조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanRegTest">가등록테스트</a>
+				
+				
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiPopup">팝업테스트</a>
+				
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>

@@ -29,4 +29,10 @@ public class KfbApiDomain extends BaseDomain {
 	private String resData;				//응답데이터
 	private String resTimestamp;		//응답일시
 	
+	private String insDt;				//배치등록일
+	private String searchPreLcNum;		//조회용가등록번호
+	private String searchLcNum;			//조회용등록번호
+	private String searchLoanType;		//조회용취급상품
+	private String searchConNum;		//조회용계약번호
+	private String searchFinCode;		//조회용금융기관
 }

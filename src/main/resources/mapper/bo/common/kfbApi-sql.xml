@@ -92,15 +92,19 @@
    		FROM
    		(
 			SELECT
-				*
+				INS_DT
+				, KEY AS token
+				, REG_TIMESTAMP
 			FROM KFB_API_KEY
-			<where>
-				<if test='creGrp != "2" '>
-				
-				</if>
-			</where>
    		)Z
-   		
+		<where>
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.INS_DT 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.INS_DT 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+			</if>
+		</where>
    		<include refid="common.pageBottom"/>
 	</select>
 	
