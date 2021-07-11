@@ -85,7 +85,7 @@
 	
 	
 	<!-- 은행연합회 토큰 조회 -->
-	<select id="selectApiList" parameterType="kfbApi">
+	<select id="selectApiList" parameterType="kfbApi" resultType="kfbApi">
    		SELECT 
    			<include refid="common.totalPages"/>
    			Z.*

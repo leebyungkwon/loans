@@ -119,11 +119,13 @@ public class KfbApiService {
 				}
 				
 				JSONObject responseJson = new JSONObject(sb.toString());
-
+				conn.disconnect();
 				return new ResponseMsg(HttpStatus.OK, result, responseJson, "성공");
+			}else {
+				conn.disconnect();
+				return new ResponseMsg(HttpStatus.OK, result, null, "실패");
 			}
 			
-			conn.disconnect();
 			
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -35,4 +35,7 @@ public class KfbApiDomain extends BaseDomain {
 	private String searchLoanType;		//조회용취급상품
 	private String searchConNum;		//조회용계약번호
 	private String searchFinCode;		//조회용금융기관
+	
+	private String srchDate1;
+	private String srchDate2;
 }

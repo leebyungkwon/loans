@@ -40,6 +40,19 @@ function pageLoad(){
 		}
 	});
 	
+	// 서버상태 확인
+	$("#apiHealthCheck").on("click", function(){
+		var p = {
+			  url		: "/system/api/getHealthCheck"	
+			, param		: {}
+			, success 	: function (opt,result) {
+				console.log("결과값 ===" + JSON.stringify(result));
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	// 코드조회
 	$("#apiCode").on("click", function(){
 		var p = {
 			  url		: "/system/api/getApiCode"	
@@ -47,7 +60,6 @@ function pageLoad(){
 				code	: ""
 			}
 			, success 	: function (opt,result) {
-				console.log("##########", result);
 				console.log("결과값 ===" + JSON.stringify(result));
 				alert("권한코드 :: " + result.data.authorize_code);
 		    }
@@ -55,6 +67,8 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
+
+	// 토큰조회
 	$("#apiToken").on("click", function(){
 		var p = {
 			  url		: "/system/api/getAuthToken"	
@@ -62,52 +76,80 @@ function pageLoad(){
 				
 			}
 			, success 	: function (opt,result) {
-				console.log("##########", result);
-				console.log("결과값 ===" + JSON.stringify(result));
-				alert("토큰결과값 :: " + JSON.stringify(result));
+				if(result.code == "success"){
+					console.log("결과값 ===" + JSON.stringify(result));
+					alert("토큰결과값 :: " + JSON.stringify(result));
+				}else{
+					if(result.data == null){
+						console.log("결과값 ===" + JSON.stringify(result));
+						alert("심각한 오류가 발생하였습니다");
+					}else{
+						console.log("결과값 ===" + JSON.stringify(result));
+						alert(result.data.resMsg);	
+					}
+				}
 		    }
 		}
 		AjaxUtil.post(p);
 	});
 	
-	$("#apiHealthCheck").on("click", function(){
-		var p = {
-			  url		: "/system/api/getHealthCheck"	
-			, param		: {}
-			, success 	: function (opt,result) {
+	
+	
+	// 가등록번호 조회 결과 팝업
+	$("#apiPreSearch").on("click", function(){
+		var plClass		=	$("#prePlClass").val();
+		var preLcNum	=	$("#preLcNum").val();
+		var conNum		=	$("#conNum").val();
+		
+		if(WebUtil.isNull(preLcNum)){
+			alert("가등록번호를 입력해 주세요.");
+			return false;
+		}
+		
+		let p = {
+			id : "crefiaRegPop"
+			, params : {
+				preLcNum	: preLcNum
+				, conNum	: conNum
+				, plClass	:	plClass
+			}
+			, url : "/system/api/apiPreSearchPopup"
+			, success : function (opt,result) {
+				console.log("###팝업 오픈 ###");
 				console.log("결과값 ===" + JSON.stringify(result));
-				console.log("???? == ", result);
+				$(".popup_inner").css("width","55%");
 		    }
 		}
-		AjaxUtil.post(p);
+		PopUtil.openPopup(p);
 	});
 	
-	//개인 등록가능 여부 조회 테스트
-	$("#loanCheckTest").on("click", function(){
-		var p = {
-			  url		: "/system/api/loanCheckTest"	
-			, param		: {}
-			, success 	: function (opt,result) {
-				console.log("결과값 ===" + JSON.stringify(result));
-				console.log("loanCheckTest :: "+result);
-				alert(result.data);
-		    }
-		}
-		AjaxUtil.post(p);
-	});
 	
-	//개인 등록가능 여부 조회 테스트
-	$("#loanRegTest").on("click", function(){
-		var p = {
-			  url		: "/system/api/loanRegTest"	
-			, param		: {}
-			, success 	: function (opt,result) {
+	// 등록번호 조회 결과 팝업
+	$("#apiSearch").on("click", function(){
+		var plClass		=	$("#plClass").val();
+		var lcNum		=	$("#lcNum").val();
+		var conNum		=	$("#conNum").val();
+		
+		if(WebUtil.isNull(lcNum)){
+			alert("등록번호를 입력해 주세요.");
+			return false;
+		}
+		
+		let p = {
+			id : "crefiaRegPop"
+			, params : {
+				plRegistNo	: lcNum
+				, conNum	: conNum
+				, plClass	:	plClass
+			}
+			, url : "/system/api/apiSearchPopup"
+			, success : function (opt,result) {
+				console.log("###팝업 오픈 ###");
 				console.log("결과값 ===" + JSON.stringify(result));
-				console.log("loanRegTest :: "+result);
-				alert(result.data);
+				$(".popup_inner").css("width","55%");
 		    }
 		}
-		AjaxUtil.post(p);
+		PopUtil.openPopup(p);
 	});
 }
 
@@ -161,17 +203,82 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>가등록번호</th>
+					<td class="">
+						<input type="text" id="preLcNum" >
+					</td>
+					<th>계약번호</th>
+					<td class="">
+						<input type="text" id="preConNum" >
+					</td>
+					<th>모집인 분류</th>
+					<td class="half_input">
+						<select id="prePlClass">
+							<option value="1">개인</option>
+							<option value="2">법인</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreSearch">가등록조회</a>
+		</div>
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>등록번호</th>
+					<td class="">
+						<input type="text" id="lcNum" >
+					</td>
+					
+					<th>계약번호</th>
+					<td class="">
+						<input type="text" id="conNum" >
+					</td>
+					<th>모집인 분류</th>
+					<td class="half_input">
+						<select id="plClass">
+							<option value="1">개인</option>
+							<option value="2">법인</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiSearch">등록조회</a>
+		</div>
+		
+		
+		
 	</div>
 	
 	<div class="contents">
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
 			<div class="action">
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanCheckTest">개인등록여부조회</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="loanRegTest">가등록테스트</a>
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>
