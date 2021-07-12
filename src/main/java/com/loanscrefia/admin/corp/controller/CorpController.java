@@ -50,7 +50,7 @@ public class CorpController {
 		ModelAndView mv 	= new ModelAndView(CosntPage.Popup+"/corpSavePopup");
 		
 		CorpDomain corpInfo = new CorpDomain();
-		if(corpDomain.getCorpSeq() != null) {
+		if(corpDomain.getCorpSeq() != null && corpDomain.getCorpSeq() > 0) {
 			corpInfo = corpService.getCorpInfo(corpDomain);
 		}
 		

@@ -29,7 +29,7 @@
 				</td>
 			</tr>
 			<c:choose>
-				<c:when test="${corpInfo ne null }">
+				<c:when test="${corpInfo.corpSeq ne null }">
 					<c:if test="${corpInfo.pathTyp eq '2' }">
 						<tr>
 							<th>금융감독원 승인여부</th>
