@@ -108,257 +108,265 @@ public class UtilExcel<T> {
 			}
 		}
 		
-		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>(); 
-		Workbook wb 						= ExcelFileType.getWorkbook(uPath, filePath, fileSaveNm, fileExt);
-		Sheet sheet 						= wb.getSheetAt(0);
-		int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
-		int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();
-		
+		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>();
 		Map<String, Object> errorMsgMap		= new HashMap<String, Object>();
 		String errorMsg						= "";
 		
-		if(physicalNumberOfRows == 1) {
-			errorMsg = "엑셀 양식에 입력된 데이터가 없습니다.";
-			errorMsgMap.put("errorMsg", errorMsg);
-        	result.clear();
-        	result.add(errorMsgMap);
-        	return result;
-		}else if(physicalNumberOfRows > 31) {
-			errorMsg = "최대 30명까지 등록할 수 있습니다.";
-			errorMsgMap.put("errorMsg", errorMsg);
-        	result.clear();
-        	result.add(errorMsgMap);
-        	return result;
-		}
-		
-		//최초 등록 시 대출 상품 중복 체크용 리스트
-		List<Map<String, Object>> plProductArr = new ArrayList<Map<String, Object>>(); //String plProductArr[] 	= new String[physicalNumberOfRows-1];
-		int arrPosition 		= 0;
-		
-		for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
-		    Row row 				= null;
-		    Cell cell 				= null;
-		    String cellName 		= "";
-		    String cellVal			= "";
-		    Map<String, Object> map = null;
-		    
-		    CorpDomain corpChkParam = new CorpDomain();
-		    EduDomain eduChkParam 	= new EduDomain();
-		    UserDomain userChkParam = new UserDomain();
-		    
-		    //row check
-			int cellChkCnt 			= 0;
-		    
-	        row = sheet.getRow(i);
-	        
-	        if(row != null) {
-	        	for(int t = 0;t < vCell.size();t++) {
-            		if(StringUtils.isEmpty(ExcelCellRef.getValue(row.getCell(t)).trim())) {
-            			cellChkCnt++;
-            		}
-            	}
-	        	if(vCell.size() == cellChkCnt) {
-	        		errorMsg = row.getRowNum() + 1 + "번째 줄의 데이터가 잘못되었습니다. 해당 row 우클릭 삭제 후 업로드해 주세요.<br>";
-	        		break;
-	        	}
-	        	
-	            map = new HashMap<String, Object>();
-	            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
-	                cell 		= row.getCell(cellIndex);
-	                cellName 	= ExcelCellRef.getName(cell, cellIndex);
-	                cellVal 	= ExcelCellRef.getValue(cell);
-	                
-	                //log.info(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
-	                
-	                boolean valChkResult = false;
-	                
-	                for(int j = 0;j < vCell.size();j++) {
-	                	if(cellName.equals(vCell.get(j))) {
-	                		if(cellVal.length() < vLenMin.get(j)){
-	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.<br>";
-	                		}
-	                		if(cellVal.length() > vLenMax.get(j)){
-	                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.<br>";
-	                		}
-	                		if(!vEnum.get(j).isEmpty()){
-	                			String val[] = vEnum.get(j).split(",");
-	        	                for(int k = 0;k < val.length;k++) {
-	        	                	//log.info(val[k]+ " , " + cellVal + " = " + val[k].equals(cellVal));
-	        	                	if(val[k].equals(cellVal)) valChkResult = true;
-	        	                }
-	        	                if(!valChkResult) {
-	        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
-	        	                }
-	                		}
-	                	}
-	                }
-	                
-	                if(StringUtils.isNotEmpty(errorMsg)) {
-	                	break;
-	                }
-	                
-	                for(int j = 0;j < vCell.size();j++) {
-	                	if(cellName.equals(vCell.get(j))) {
-	                		if(!chkDb.get(j).isEmpty()){
-	                			if(chkDb.get(j).equals("corp")) {
-	                				//법인 정보 유효 체크(법인사용인)
-	                				if(StringUtils.isNotEmpty(cellVal)) { // && !cellVal.equals("도이치 법인번호") 추가해야해************************
-	                					corpChkParam.setPlMerchantNo(cellVal);
-	                					if(selectCorpInfoChk(corpChkParam) == 0) {
-	                						errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
-	                					}
-	                				}
-	                			}else if(chkDb.get(j).equals("edu1")) {
-	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setCareerTyp(cellVal);
-	                			}else if(chkDb.get(j).equals("edu2")) {
-	                				//교육이수번호,인증서번호 유효 체크
-	                				eduChkParam.setUserName(cellVal);
-	                			}else if(chkDb.get(j).equals("edu3")) {
-	                				//교육이수번호,인증서번호 유효 체크
-	                				String[] plMZId = cellVal.split("-");
-	                				String birth 	= "";
-	                				String gender 	= "";
-	                				
-	                				if(plMZId == null) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 주민번호가 유효하지 않습니다.<br>";
-	                				}else {
-	                					birth 	= plMZId[0];
-			                			gender 	= plMZId[1].substring(0, 1);
-	                				}
-	                				eduChkParam.setUserBirth(birth);
-	                				eduChkParam.setUserSex(gender);
-	                			}else if(chkDb.get(j).equals("edu4")) {
-	                				//교육이수번호,인증서번호 유효 체크
-	                				String prdCd = "";
-	                				if(cellVal.equals("1") || cellVal.equals("3")) {
-	                					prdCd = "LP0" + eduChkParam.getCareerTyp();
-	                				}else if(cellVal.equals("5") || cellVal.equals("6")) {
-	                					prdCd = "LS0" + eduChkParam.getCareerTyp();
-	                				}
-	                				eduChkParam.setProcessCd(prdCd);
-	                			}else if(chkDb.get(j).equals("edu5")) {
-	                				//교육이수번호,인증서번호 유효 체크
-	                				if(eduChkParam.getProcessCd() == null || eduChkParam.getProcessCd().equals("")) {
-	                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
-	                					String prdCd = "";
-	                					if(this.param1.equals("01") || this.param1.equals("03")) {
-	                						prdCd = "LP0" + eduChkParam.getCareerTyp();
-		                				}else if(this.param1.equals("05") || this.param1.equals("06")) {
+		try {
+			Workbook wb 						= ExcelFileType.getWorkbook(uPath, filePath, fileSaveNm, fileExt);
+			Sheet sheet 						= wb.getSheetAt(0);
+			int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
+			int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();
+			
+			if(physicalNumberOfRows == 1) {
+				errorMsg = "엑셀 양식에 입력된 데이터가 없습니다.";
+				errorMsgMap.put("errorMsg", errorMsg);
+	        	result.clear();
+	        	result.add(errorMsgMap);
+	        	return result;
+			}else if(physicalNumberOfRows > 31) {
+				errorMsg = "최대 30명까지 등록할 수 있습니다.";
+				errorMsgMap.put("errorMsg", errorMsg);
+	        	result.clear();
+	        	result.add(errorMsgMap);
+	        	return result;
+			}
+			
+			//최초 등록 시 대출 상품 중복 체크용 리스트
+			List<Map<String, Object>> plProductArr = new ArrayList<Map<String, Object>>(); //String plProductArr[] 	= new String[physicalNumberOfRows-1];
+			int arrPosition 		= 0;
+			
+			for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
+			    Row row 				= null;
+			    Cell cell 				= null;
+			    String cellName 		= "";
+			    String cellVal			= "";
+			    Map<String, Object> map = null;
+			    
+			    CorpDomain corpChkParam = new CorpDomain();
+			    EduDomain eduChkParam 	= new EduDomain();
+			    UserDomain userChkParam = new UserDomain();
+			    
+			    //row check
+				int cellChkCnt 			= 0;
+			    
+		        row = sheet.getRow(i);
+		        
+		        if(row != null) {
+		        	for(int t = 0;t < vCell.size();t++) {
+	            		if(StringUtils.isEmpty(ExcelCellRef.getValue(row.getCell(t)).trim())) {
+	            			cellChkCnt++;
+	            		}
+	            	}
+		        	if(vCell.size() == cellChkCnt) {
+		        		errorMsg = row.getRowNum() + 1 + "번째 줄의 데이터가 잘못되었습니다. 해당 row 우클릭 삭제 후 업로드해 주세요.<br>";
+		        		break;
+		        	}
+		        	
+		            map = new HashMap<String, Object>();
+		            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
+		                cell 		= row.getCell(cellIndex);
+		                cellName 	= ExcelCellRef.getName(cell, cellIndex);
+		                cellVal 	= ExcelCellRef.getValue(cell);
+		                
+		                //log.info(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
+		                
+		                boolean valChkResult = false;
+		                
+		                for(int j = 0;j < vCell.size();j++) {
+		                	if(cellName.equals(vCell.get(j))) {
+		                		if(cellVal.length() < vLenMin.get(j)){
+		                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.<br>";
+		                		}
+		                		if(cellVal.length() > vLenMax.get(j)){
+		                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.<br>";
+		                		}
+		                		if(!vEnum.get(j).isEmpty()){
+		                			String val[] = vEnum.get(j).split(",");
+		        	                for(int k = 0;k < val.length;k++) {
+		        	                	//log.info(val[k]+ " , " + cellVal + " = " + val[k].equals(cellVal));
+		        	                	if(val[k].equals(cellVal)) valChkResult = true;
+		        	                }
+		        	                if(!valChkResult) {
+		        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
+		        	                }
+		                		}
+		                	}
+		                }
+		                
+		                if(StringUtils.isNotEmpty(errorMsg)) {
+		                	break;
+		                }
+		                
+		                for(int j = 0;j < vCell.size();j++) {
+		                	if(cellName.equals(vCell.get(j))) {
+		                		if(!chkDb.get(j).isEmpty()){
+		                			if(chkDb.get(j).equals("corp")) {
+		                				//법인 정보 유효 체크(법인사용인)
+		                				if(StringUtils.isNotEmpty(cellVal)) { // && !cellVal.equals("도이치 법인번호") 추가해야해************************
+		                					corpChkParam.setPlMerchantNo(cellVal);
+		                					if(selectCorpInfoChk(corpChkParam) == 0) {
+		                						errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";
+		                					}
+		                				}
+		                			}else if(chkDb.get(j).equals("edu1")) {
+		                				//교육이수번호,인증서번호 유효 체크
+		                				eduChkParam.setCareerTyp(cellVal);
+		                			}else if(chkDb.get(j).equals("edu2")) {
+		                				//교육이수번호,인증서번호 유효 체크
+		                				eduChkParam.setUserName(cellVal);
+		                			}else if(chkDb.get(j).equals("edu3")) {
+		                				//교육이수번호,인증서번호 유효 체크
+		                				String[] plMZId = cellVal.split("-");
+		                				String birth 	= "";
+		                				String gender 	= "";
+		                				
+		                				if(plMZId == null) {
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 주민번호가 유효하지 않습니다.<br>";
+		                				}else {
+		                					birth 	= plMZId[0];
+				                			gender 	= plMZId[1].substring(0, 1);
+		                				}
+		                				eduChkParam.setUserBirth(birth);
+		                				eduChkParam.setUserSex(gender);
+		                			}else if(chkDb.get(j).equals("edu4")) {
+		                				//교육이수번호,인증서번호 유효 체크
+		                				String prdCd = "";
+		                				if(cellVal.equals("1") || cellVal.equals("3")) {
+		                					prdCd = "LP0" + eduChkParam.getCareerTyp();
+		                				}else if(cellVal.equals("5") || cellVal.equals("6")) {
 		                					prdCd = "LS0" + eduChkParam.getCareerTyp();
 		                				}
-	                					eduChkParam.setProcessCd(prdCd);
-	                				}
-	                				boolean goContinue = true;
-	                				if(StringUtils.isNotEmpty(this.param3)) {
-	                					//법인의 임원 엑셀은 교육이수번호 셀에 값이 있을 때만 유효성 체크
-	                					if(StringUtils.isEmpty(cellVal)) {
-	                						goContinue = false;
-	                					}
-	                					
-	                				}
-	                				if(goContinue) {
-	                					eduChkParam.setSrchInput(cellVal);
-		                				int chkResult = eduService.plEduNoChk(eduChkParam);
-			                			
-		                				if(chkResult == 0) {
-		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
+		                				eduChkParam.setProcessCd(prdCd);
+		                			}else if(chkDb.get(j).equals("edu5")) {
+		                				//교육이수번호,인증서번호 유효 체크
+		                				if(eduChkParam.getProcessCd() == null || eduChkParam.getProcessCd().equals("")) {
+		                					//법인의 임원 또는 전문인력 등록하는 엑셀에는 금융상품유형 없으므로 화면에서 값 가져옴
+		                					String prdCd = "";
+		                					if(this.param1.equals("01") || this.param1.equals("03")) {
+		                						prdCd = "LP0" + eduChkParam.getCareerTyp();
+			                				}else if(this.param1.equals("05") || this.param1.equals("06")) {
+			                					prdCd = "LS0" + eduChkParam.getCareerTyp();
+			                				}
+		                					eduChkParam.setProcessCd(prdCd);
 		                				}
-	                				}
-	                			}
-	                		}
-	                		if(!chkFormat.get(j).isEmpty()){
-	                			if(chkFormat.get(j).equals("pId")) {
-	                				//주민등록번호 형식 체크
-	                				if(!plMZIdFormatChk(cellVal)) {
-		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
+		                				boolean goContinue = true;
+		                				if(StringUtils.isNotEmpty(this.param3)) {
+		                					//법인의 임원 엑셀은 교육이수번호 셀에 값이 있을 때만 유효성 체크
+		                					if(StringUtils.isEmpty(cellVal)) {
+		                						goContinue = false;
+		                					}
+		                					
+		                				}
+		                				if(goContinue) {
+		                					eduChkParam.setSrchInput(cellVal);
+			                				int chkResult = eduService.plEduNoChk(eduChkParam);
+				                			
+			                				if(chkResult == 0) {
+			                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
+			                				}
+		                				}
 		                			}
-	                			}else if(chkFormat.get(j).equals("cal")) {
-	                				//날짜 형식 체크
-	                				if(StringUtils.isNotEmpty(cellVal) && !dateFormatChk(cellVal,"yyyy-MM-dd")) {
-		                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
-		                			}
-	                			}else if(chkFormat.get(j).equals("ci")) {
-	                				//CI 형식 체크
-	                				if(!cellVal.endsWith("==")) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
-	                				}
-	                			}else if(chkFormat.get(j).equals("mNo")) {
-	                				//법인번호 형식 체크
-	                				if(StringUtils.isNotEmpty(cellVal)) {
-	                					if(!plMerchantNoFormatChk(cellVal)) {
+		                		}
+		                		if(!chkFormat.get(j).isEmpty()){
+		                			if(chkFormat.get(j).equals("pId")) {
+		                				//주민등록번호 형식 체크
+		                				if(!plMZIdFormatChk(cellVal)) {
 			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
 			                			}
-	                				}
-	                			}
-	                		}
-	                		if(!vEncrypt.get(j).isEmpty()){
-	                			//암호화(주민번호,법인번호)
-	                			if(vEncrypt.get(j).equals("Y")) {
-	                				if(StringUtils.isNotEmpty(cellVal)) {
-	                					//cellVal = cellVal.replaceAll("-", ""); //로컬 테스트용
-	                					cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
-	                				}
-	                			}
-	                		}
-	                		if(!chkPrd.get(j).isEmpty()) {
-	                			//상품별 등록여부 체크 : 대출 상품일 경우 회원사 통틀어서 하나 / 나머지는 중복 가능
-	                			Map<String, Object> prdMap = new HashMap<String, Object>();
-	                			
-	                			if(chkPrd.get(j).equals("prd1")) {
-	                				userChkParam.setPlProduct("0"+cellVal);
-	                			}else if(chkPrd.get(j).equals("prd2")) {
-	                				//S : 엑셀 파일 내 중복 확인용
-                					prdMap.put("plProduct", userChkParam.getPlProduct());
-	                				prdMap.put("ci", cellVal);
-	                				plProductArr.add(arrPosition, prdMap);
-	                				//E : 엑셀 파일 내 중복 확인용
-	                				
-	                				//모집인 테이블(mas01) 중복 체크
-	                				userChkParam.setCi(cellVal);
-	                				userChkParam.setPlClass(this.param2);
-	                				int dupChkResult = userRegDupChk(userChkParam);
+		                			}else if(chkFormat.get(j).equals("cal")) {
+		                				//날짜 형식 체크
+		                				if(StringUtils.isNotEmpty(cellVal) && !dateFormatChk(cellVal,"yyyy-MM-dd")) {
+			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
+			                			}
+		                			}else if(chkFormat.get(j).equals("ci")) {
+		                				//CI 형식 체크
+		                				if(!cellVal.endsWith("==")) {
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
+		                				}
+		                			}else if(chkFormat.get(j).equals("mNo")) {
+		                				//법인번호 형식 체크
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					if(!plMerchantNoFormatChk(cellVal)) {
+				                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
+				                			}
+		                				}
+		                			}
+		                		}
+		                		if(!vEncrypt.get(j).isEmpty()){
+		                			//암호화(주민번호,법인번호)
+		                			if(vEncrypt.get(j).equals("Y")) {
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					//cellVal = cellVal.replaceAll("-", ""); //로컬 테스트용
+		                					cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
+		                				}
+		                			}
+		                		}
+		                		if(!chkPrd.get(j).isEmpty()) {
+		                			//상품별 등록여부 체크 : 대출 상품일 경우 회원사 통틀어서 하나 / 나머지는 중복 가능
+		                			Map<String, Object> prdMap = new HashMap<String, Object>();
 		                			
-	                				if(dupChkResult > 0) {
-	                					errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
-                					}
-	                			}
-	                		}
-	                	}
-	                }
-	                map.put(cellName, cellVal);
-	            }
-	            arrPosition++;
-	            result.add(map);
-		    }
-		}
-		//log.info("errorMsg :: " + errorMsg);
-		
-		log.info("#########################################");
-		log.info("UtilExcel > plProductArr :: "+ plProductArr);
-		log.info("#########################################");
-		
-		//최초 등록 시 대출 상품 중복 체크
-    	if(plProductArr.size() > 0) {
-    		//중복제거
-    		Set<Map<String, Object>> set = new HashSet<Map<String, Object>>(plProductArr);
-    		
-    		log.info("#########################################");
-    		log.info("UtilExcel > set :: "+ set);
-    		log.info("#########################################");
-    		
-    		if(plProductArr.size() != set.size()) {
-    			errorMsg = "엑셀 데이터에서 동일한 금융상품유형에 중복된 CI가 존재합니다.";
-    		}
-    	}
-		
-    	//에러메세지 있을 때 
-        if(StringUtils.isNotEmpty(errorMsg)) {
-        	errorMsgMap.put("errorMsg", errorMsg);
+		                			if(chkPrd.get(j).equals("prd1")) {
+		                				userChkParam.setPlProduct("0"+cellVal);
+		                			}else if(chkPrd.get(j).equals("prd2")) {
+		                				//S : 엑셀 파일 내 중복 확인용
+	                					prdMap.put("plProduct", userChkParam.getPlProduct());
+		                				prdMap.put("ci", cellVal);
+		                				plProductArr.add(arrPosition, prdMap);
+		                				//E : 엑셀 파일 내 중복 확인용
+		                				
+		                				//모집인 테이블(mas01) 중복 체크
+		                				userChkParam.setCi(cellVal);
+		                				userChkParam.setPlClass(this.param2);
+		                				int dupChkResult = userRegDupChk(userChkParam);
+			                			
+		                				if(dupChkResult > 0) {
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
+	                					}
+		                			}
+		                		}
+		                	}
+		                }
+		                map.put(cellName, cellVal);
+		            }
+		            arrPosition++;
+		            result.add(map);
+			    }
+			}
+			//log.info("errorMsg :: " + errorMsg);
+			
+			log.info("#########################################");
+			log.info("UtilExcel > plProductArr :: "+ plProductArr);
+			log.info("#########################################");
+			
+			//최초 등록 시 대출 상품 중복 체크
+	    	if(plProductArr.size() > 0) {
+	    		//중복제거
+	    		Set<Map<String, Object>> set = new HashSet<Map<String, Object>>(plProductArr);
+	    		
+	    		log.info("#########################################");
+	    		log.info("UtilExcel > set :: "+ set);
+	    		log.info("#########################################");
+	    		
+	    		if(plProductArr.size() != set.size()) {
+	    			errorMsg = "엑셀 데이터에서 동일한 금융상품유형에 중복된 CI가 존재합니다.";
+	    		}
+	    	}
+			
+	    	//에러메세지 있을 때 
+	        if(StringUtils.isNotEmpty(errorMsg)) {
+	        	errorMsgMap.put("errorMsg", errorMsg);
+	        	result.clear();
+	        	result.add(errorMsgMap);
+	        }
+	        
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			errorMsgMap.put("errorMsg", "오류가 발생했습니다.<br>관리자에게 문의해 주세요.");
         	result.clear();
         	result.add(errorMsgMap);
-        }
-        
+		}
 		return result;
 	}
 	
