@@ -33,4 +33,20 @@ public class IndexController {
 	public String faq() {
 		return CosntPage.FoInfoPage+"/faq";
 	}
+	
+	
+	//이용약관
+	@GetMapping(value="/terms")
+	public String terms() {
+		return CosntPage.FoInfoPage+"/terms";
+	}
+	
+	
+	//개인정보처리방침
+	@GetMapping(value="/privacy")
+	public String privacy() {
+		return CosntPage.FoInfoPage+"/privacy";
+	}
+	
+	
 }

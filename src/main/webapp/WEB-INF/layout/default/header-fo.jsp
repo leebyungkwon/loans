@@ -28,7 +28,7 @@ function menuActiveFunction(){
 			<ul>
 				<li><a href="/front/rules">관련규정</a></li>
 				<li><a href="/front/faq">FAQ</a></li>
-				<li><a href="#">개인정보처리방침</a></li>
+				<li><a href="/front/privacy">개인정보처리방침</a></li>
 			</ul>
 		</div>
 		<div class="header_bottom">

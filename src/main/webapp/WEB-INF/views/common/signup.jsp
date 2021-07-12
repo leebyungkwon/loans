@@ -290,8 +290,12 @@ function checkCapsLock(event){
 			<tr>
 				<th>첨부파일 (양식)</th>
 				<td id="fileTag">
-					<!-- <a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/대출성상품모집인등록업무담당자신청서.hwp','담당자신청서_샘플')">양식1(한글파일)</a> -->
+					<!-- 
+					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/대출성상품모집인등록업무담당자신청서.hwp','담당자신청서_샘플')">양식1(한글파일)</a>
 					<a href="javascript:void(0);" class="btn_gray btn_small" onclick="saveToDisk('/static/sample/대출성상품모집인등록업무담당자신청서.docx','담당자신청서_샘플')">양식2(워드파일)</a>
+					 -->
+					<a href="/static/sample/대출성상품모집인등록업무담당자신청서.hwp" class="btn_gray btn_small">양식1(한글파일)</a>
+					<a href="/static/sample/대출성상품모집인등록업무담당자신청서.docx" class="btn_gray btn_small">양식2(워드파일)</a>
 				</td>
 			</tr>
 		</table>

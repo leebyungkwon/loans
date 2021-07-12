@@ -190,7 +190,7 @@ public class ApiController {
     	}else { // 법인
     		
     		indvParam.put("pre_corp_lc_num", recruitSearchDomain.getPreLcNum());
-    		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "GET", recruitSearchDomain.getPlClass(), "Y");
+    		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "GET", recruitSearchDomain.getPlClass(), "Y");
 			if("success".equals(responseMsg.getCode())) {
 				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
 				RecruitDomain recruitDomain = new RecruitDomain();
