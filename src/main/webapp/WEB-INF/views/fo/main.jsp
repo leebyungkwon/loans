@@ -139,6 +139,9 @@ function goUserSearchResultPage(formNm,plRegistSearchNo) {
 					</p>
 				</li>
 				
+				
+				
+				
 <!-- 				<li>
 					<span class="red bold">*</span><span class="medium"> 위반확정일이란</span><br />
 					<p class="mgl11">금융회사가 사실관계를 확인한 후 대출상담사의 모범규준 위반사실을 확정한 날, 2018.6.1.이후 등록된 위반행위부터 위반확정일이 조회됨</p>
