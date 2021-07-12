@@ -191,15 +191,6 @@ public class UtilExcel<T> {
 		        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
 		        	                }
 		                		}
-		                	}
-		                }
-		                
-		                if(StringUtils.isNotEmpty(errorMsg)) {
-		                	break;
-		                }
-		                
-		                for(int j = 0;j < vCell.size();j++) {
-		                	if(cellName.equals(vCell.get(j))) {
 		                		if(!chkDb.get(j).isEmpty()){
 		                			if(chkDb.get(j).equals("corp")) {
 		                				//법인 정보 유효 체크(법인사용인)
@@ -217,25 +208,24 @@ public class UtilExcel<T> {
 		                				eduChkParam.setUserName(cellVal);
 		                			}else if(chkDb.get(j).equals("edu3")) {
 		                				//교육이수번호,인증서번호 유효 체크
-		                				String[] plMZId = cellVal.split("-");
 		                				String birth 	= "";
 		                				String gender 	= "";
-		                				
-		                				if(plMZId == null) {
-		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 주민번호가 유효하지 않습니다.<br>";
-		                				}else {
-		                					birth 	= plMZId[0];
-				                			gender 	= plMZId[1].substring(0, 1);
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					String[] plMZId = cellVal.split("-");
+		                					birth 			= plMZId[0];
+				                			gender 			= plMZId[1].substring(0, 1);
 		                				}
 		                				eduChkParam.setUserBirth(birth);
 		                				eduChkParam.setUserSex(gender);
 		                			}else if(chkDb.get(j).equals("edu4")) {
 		                				//교육이수번호,인증서번호 유효 체크
 		                				String prdCd = "";
-		                				if(cellVal.equals("1") || cellVal.equals("3")) {
-		                					prdCd = "LP0" + eduChkParam.getCareerTyp();
-		                				}else if(cellVal.equals("5") || cellVal.equals("6")) {
-		                					prdCd = "LS0" + eduChkParam.getCareerTyp();
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+			                				if(cellVal.equals("1") || cellVal.equals("3")) {
+			                					prdCd = "LP0" + eduChkParam.getCareerTyp();
+			                				}else if(cellVal.equals("5") || cellVal.equals("6")) {
+			                					prdCd = "LS0" + eduChkParam.getCareerTyp();
+			                				}
 		                				}
 		                				eduChkParam.setProcessCd(prdCd);
 		                			}else if(chkDb.get(j).equals("edu5")) {
@@ -256,7 +246,6 @@ public class UtilExcel<T> {
 		                					if(StringUtils.isEmpty(cellVal)) {
 		                						goContinue = false;
 		                					}
-		                					
 		                				}
 		                				if(goContinue) {
 		                					eduChkParam.setSrchInput(cellVal);
@@ -271,7 +260,7 @@ public class UtilExcel<T> {
 		                		if(!chkFormat.get(j).isEmpty()){
 		                			if(chkFormat.get(j).equals("pId")) {
 		                				//주민등록번호 형식 체크
-		                				if(!plMZIdFormatChk(cellVal)) {
+		                				if(StringUtils.isNotEmpty(cellVal) && !plMZIdFormatChk(cellVal)) {
 			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
 			                			}
 		                			}else if(chkFormat.get(j).equals("cal")) {
@@ -281,16 +270,14 @@ public class UtilExcel<T> {
 			                			}
 		                			}else if(chkFormat.get(j).equals("ci")) {
 		                				//CI 형식 체크
-		                				if(!cellVal.endsWith("==")) {
+		                				if(StringUtils.isNotEmpty(cellVal) && !cellVal.endsWith("==")) {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 CI 형식이 유효하지 않습니다.<br>";
 		                				}
 		                			}else if(chkFormat.get(j).equals("mNo")) {
 		                				//법인번호 형식 체크
-		                				if(StringUtils.isNotEmpty(cellVal)) {
-		                					if(!plMerchantNoFormatChk(cellVal)) {
-				                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
-				                			}
-		                				}
+	                					if(StringUtils.isNotEmpty(cellVal) && !plMerchantNoFormatChk(cellVal)) {
+			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " 형식을 확인해 주세요.<br>";
+			                			}
 		                			}
 		                		}
 		                		if(!vEncrypt.get(j).isEmpty()){
