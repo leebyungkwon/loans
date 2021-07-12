@@ -6,17 +6,17 @@
 	<select id="selectCrefiaList" parameterType="crefia" resultType="crefia">
 		SELECT 
 		<include refid="common.totalPages"/>
-			MEM.MEMBER_SEQ																			/*담당자시퀀스*/
-			, MEM.MEMBER_ID																			/*담당자ID*/
-			, MEM.PASSWORD																			/*비밀번호*/
-			, MEM.MEMBER_NAME																		/*담당자이름*/
-			, MEM.EMAIL																					/*이메일*/
-			, fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO						/*회사전화번호*/
-			, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO									/*휴대폰번호*/
-			, TO_DATE(MEM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT							/*가입일*/
-			, MEM.CRE_YN																				/*협회여부*/
-			, MEM.CRE_GRP																				/*협회그룹*/
-			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
+			MEM.MEMBER_SEQ													/*담당자시퀀스*/
+			, MEM.MEMBER_ID													/*담당자ID*/
+			, MEM.PASSWORD													/*비밀번호*/
+			, MEM.MEMBER_NAME												/*담당자이름*/
+			, MEM.EMAIL														/*이메일*/
+			, fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO				/*회사전화번호*/
+			, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO						/*휴대폰번호*/
+			, TO_DATE(MEM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT					/*가입일*/
+			, MEM.CRE_YN													/*협회여부*/
+			, MEM.CRE_GRP													/*협회그룹*/
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM				/*협회그룹명*/
 		FROM TB_LC_MEMBERS MEM
 			WHERE MEM.COM_CODE = 3000001
 				AND MEM.DROP_YN = 'N'
@@ -35,17 +35,17 @@
 	<!-- 협회 관리자 상세  -->
 	<select id="crefiaDetail" parameterType="crefia" resultType="crefia">
 		SELECT 
-			MEM.MEMBER_SEQ																			/*담당자시퀀스*/
-			, MEM.MEMBER_ID																			/*담당자ID*/
-			, MEM.PASSWORD																			/*비밀번호*/
-			, MEM.MEMBER_NAME																		/*담당자이름*/
-			, MEM.EMAIL																					/*이메일*/
-			, fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO						/*회사전화번호*/
-			, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO									/*휴대폰번호*/
-			, TO_DATE(MEM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT							/*가입일*/
-			, MEM.CRE_YN																				/*협회여부*/
-			, MEM.CRE_GRP																				/*협회그룹*/
-			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
+			MEM.MEMBER_SEQ													/*담당자시퀀스*/
+			, MEM.MEMBER_ID													/*담당자ID*/
+			, MEM.PASSWORD													/*비밀번호*/
+			, MEM.MEMBER_NAME												/*담당자이름*/
+			, MEM.EMAIL														/*이메일*/
+			, fn_cellphone(MEM.EXTENSION_NO) AS EXTENSION_NO				/*회사전화번호*/
+			, fn_cellphone(MEM.MOBILE_NO) AS MOBILE_NO						/*휴대폰번호*/
+			, TO_DATE(MEM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT					/*가입일*/
+			, MEM.CRE_YN													/*협회여부*/
+			, MEM.CRE_GRP													/*협회그룹*/
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM				/*협회그룹명*/
 		FROM TB_LC_MEMBERS MEM
 			WHERE MEM.COM_CODE = 3000001
 			<if test="memberSeq != null and memberSeq != ''">
@@ -57,41 +57,41 @@
 	<insert id="insertCrefia" parameterType="crefia" >
 		INSERT INTO TB_LC_MEMBERS
 		(
-			MEMBER_ID																					/*담당자ID*/
-			, PASSWORD																					/*비밀번호*/
-			, COM_CODE																					/*회원사코드*/
-			, MEMBER_NAME																				/*담당자이름*/
-			, TERMS_YN																					/*약관동의*/
-			, TERMS_DATE																					/*약관동의일*/
-			, OPTION_TERMS_YN																		/*선택적약관동의*/
-			, OPTION_TERMS_DATE																	/*선택적약관동의일*/
-			, JOIN_DT																						/*가입일*/
-			, ROLE_NAME																					/*권한명*/
-			, APPR_STAT																					/*승인상태*/
-			, CRE_YN																						/*협회여부*/
-			, CRE_GRP																						/*협회그룹*/
-			, DROP_YN																						/*탈퇴여부*/
-			, UPD_SEQ																						/*수정자 시퀀스*/
-			, UPD_TIMESTAMP																			/*수정일시*/
+			MEMBER_ID														/*담당자ID*/
+			, PASSWORD														/*비밀번호*/
+			, COM_CODE														/*회원사코드*/
+			, MEMBER_NAME													/*담당자이름*/
+			, TERMS_YN														/*약관동의*/
+			, TERMS_DATE													/*약관동의일*/
+			, OPTION_TERMS_YN												/*선택적약관동의*/
+			, OPTION_TERMS_DATE												/*선택적약관동의일*/
+			, JOIN_DT														/*가입일*/
+			, ROLE_NAME														/*권한명*/
+			, APPR_STAT														/*승인상태*/
+			, CRE_YN														/*협회여부*/
+			, CRE_GRP														/*협회그룹*/
+			, DROP_YN														/*탈퇴여부*/
+			, UPD_SEQ														/*수정자 시퀀스*/
+			, UPD_TIMESTAMP													/*수정일시*/
 		)
 		VALUES
 		(
-			#{memberId}																					/*담당자ID*/          
-			, #{password}																					/*비밀번호*/           
-			, 3000001																								/*회원사코드*/          
-			, #{memberName}																			/*담당자이름*/          
-			, 'Y'																								/*약관동의*/           
-			, TO_CHAR(NOW(), 'YYYYMMDD')														/*약관동의일*/      
-			, 'Y'																								/*선택적약관동의*/            
-			, TO_CHAR(NOW(), 'YYYYMMDD')														/*선택적약관동의일*/               
-			, TO_CHAR(NOW(), 'YYYYMMDD')														/*가입일*/        
-			, 'ADMIN'																						/*권한명*/            
-			, '3'																								/*승인상태*/           
-			, 'Y'																								/*협회여부*/       
-			, #{creGrp}																						/*협회그룹*/       
-			, 'N'																								/*탈퇴여부*/       
-			, #{updSeq}																						/*수정자 시퀀스*/    
-			, NOW()																							/*수정일시*/               
+			#{memberId}														/*담당자ID*/          
+			, #{password}													/*비밀번호*/           
+			, 3000001														/*회원사코드*/          
+			, #{memberName}													/*담당자이름*/          
+			, 'Y'															/*약관동의*/           
+			, TO_CHAR(NOW(), 'YYYYMMDD')									/*약관동의일*/      
+			, 'Y'															/*선택적약관동의*/            
+			, TO_CHAR(NOW(), 'YYYYMMDD')									/*선택적약관동의일*/               
+			, TO_CHAR(NOW(), 'YYYYMMDD')									/*가입일*/        
+			, 'ADMIN'														/*권한명*/            
+			, '3'															/*승인상태*/           
+			, 'Y'															/*협회여부*/       
+			, #{creGrp}														/*협회그룹*/       
+			, 'N'															/*탈퇴여부*/       
+			, #{updSeq}														/*수정자 시퀀스*/    
+			, NOW()															/*수정일시*/               
 		)
 	</insert>
 
@@ -99,13 +99,13 @@
 	<update id="updateCrefia" parameterType="crefia" >
 		UPDATE TB_LC_MEMBERS
 		SET
-			CRE_GRP				= #{creGrp}															/*협회그룹*/ 
-			, MEMBER_NAME		= #{memberName}												/*담당자이름*/ 
-			, MEMBER_ID			= #{memberId}													/*담당자ID*/ 
-			, UPD_SEQ				= #{updSeq}														/*수정자 시퀀스*/ 
-			, UPD_TIMESTAMP	= NOW()															/*수정일시*/ 
+			CRE_GRP				= #{creGrp}									/*협회그룹*/ 
+			, MEMBER_NAME		= #{memberName}								/*담당자이름*/ 
+			, MEMBER_ID			= #{memberId}								/*담당자ID*/ 
+			, UPD_SEQ				= #{updSeq}								/*수정자 시퀀스*/ 
+			, UPD_TIMESTAMP	= NOW()											/*수정일시*/ 
 		<if test="password != null and password != ''">
-			, PASSWORD			= #{password}														/*비밀번호*/ 
+			, PASSWORD			= #{password}								/*비밀번호*/ 
 		</if>
 		WHERE MEMBER_SEQ	= #{memberSeq}
 	</update>
@@ -125,9 +125,9 @@
 	<update id="deleteCrefia" parameterType="crefia" >
 		UPDATE TB_LC_MEMBERS
 		SET
-			DROP_YN 				= 'Y'																	/*탈퇴여부*/ 
-			, UPD_SEQ 				= #{updSeq}														/*수정자 시퀀스*/
-			, UPD_TIMESTAMP 	= NOW()															/*수정일시*/
+			DROP_YN 				= 'Y'									/*탈퇴여부*/ 
+			, UPD_SEQ 				= #{updSeq}								/*수정자 시퀀스*/
+			, UPD_TIMESTAMP 	= NOW()										/*수정일시*/
 		WHERE
 			MEMBER_SEQ IN
 		<foreach collection="memberSeqArr" item="seq" open="(" close=")" separator=",">
@@ -140,13 +140,13 @@
 	<!-- 협회 관리자 업무분장 - 조회  -->
 	<select id="selectCrefiaWorkMemberList" parameterType="crefia" resultType="crefia">
 		SELECT 
-			MEM.MEMBER_SEQ																			/*담당자시퀀스*/
-			, MEM.MEMBER_ID																			/*담당자ID*/
-			, MEM.MEMBER_NAME																		/*담당자이름*/
-			, MEM.CRE_YN																				/*협회여부*/
-			, MEM.CRE_GRP																				/*협회그룹*/
-			, MEM.DROP_YN																				/*담당자회원삭제여부*/
-			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM						/*협회그룹명*/
+			MEM.MEMBER_SEQ													/*담당자시퀀스*/
+			, MEM.MEMBER_ID													/*담당자ID*/
+			, MEM.MEMBER_NAME												/*담당자이름*/
+			, MEM.CRE_YN													/*협회여부*/
+			, MEM.CRE_GRP													/*협회그룹*/
+			, MEM.DROP_YN													/*담당자회원삭제여부*/
+			, FN_CD_DTL('CRE001', MEM.CRE_GRP) AS CRE_GRP_NM				/*협회그룹명*/
 		FROM TB_LC_MEMBERS MEM
 			WHERE MEM.COM_CODE 	= 3000001
 				AND MEM.DROP_YN 	= 'N'
@@ -158,13 +158,15 @@
 	<!-- 협회 관리자 업무분장 - 조회  -->
 	<select id="selectCrefiaWorkCompanyList" parameterType="crefia" resultType="crefia">
 		SELECT 
-			 TLC.COM_CODE																			/*회원사코드*/
-			, TLC.COM_NAME																			/*회원사명*/
-			, TLW.MEMBER_SEQ AS CHKED_MEMBER_SEQ
+			 TLC.COM_CODE													/*회원사코드*/
+			, TLC.COM_NAME													/*회원사명*/
+			, STRING_AGG(TLW.MEMBER_SEQ::VARCHAR,',') AS CHKED_MEMBER_SEQ
 		FROM TB_LC_COMPANY TLC
 		LEFT OUTER JOIN TB_LC_WORK TLW
 		ON TLC.COM_CODE = TLW.COM_CODE
 		WHERE TLC.COM_CODE <![CDATA[!=]]> 3000001
+		GROUP BY TLC.COM_CODE, TLC.COM_NAME
+		ORDER BY TLC.COM_CODE ASC
 	</select>
 	
 	<!-- 협회 관리자 업무분장 - 등록  -->

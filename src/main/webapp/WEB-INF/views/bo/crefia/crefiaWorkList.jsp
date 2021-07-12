@@ -6,6 +6,7 @@
 
 <script type="text/javascript">
  function pageLoad(){
+	/*
 	//중복 클릭 방지
 	$(".crefia").click(function(){
 		if($('input[type="checkbox"][data-comCode="'+$(this).attr("data-comCode")+'"]:checked').length > 1){
@@ -13,6 +14,7 @@
 			$(this).prop("checked",true);
 		}
 	}); 
+	*/
 	
 	//저장 버튼 클릭 이벤트
 	$("#saveCrefiaWorkBtn").click(function(){
@@ -71,7 +73,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th>회원사명</th>
+						<th></th>
  						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> 
 							<th><c:out value="${memberInfo.memberName}"/></th>
 						</c:forEach>
@@ -83,7 +85,7 @@
 							<td align="center"><c:out value="${companyInfo.comName}"/></td>
 							<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
 								<td>
-									<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" data-comName="${companyInfo.comName}" <c:if test="${companyInfo.chkedMemberSeq eq memberInfo.memberSeq }">checked="checked"</c:if> >
+									<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" data-comName="${companyInfo.comName}" <c:if test="${fn:contains(companyInfo.chkedMemberSeq, memberInfo.memberSeq) }">checked="checked"</c:if> >
 								</td>
 							</c:forEach>
 						</tr>   

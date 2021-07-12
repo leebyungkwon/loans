@@ -908,7 +908,6 @@ commit;
 create table tb_lc_work(
 	member_seq integer not null
 	, com_code integer not null
-	, primary key (member_seq, com_code)
 );
 
 COMMENT ON TABLE tb_lc_work IS '모집인업무분담정보';

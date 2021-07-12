@@ -14,7 +14,7 @@ import lombok.Data;
 @Alias("crefia")
 public class CrefiaDomain extends BaseDomain {
 
-	private int memberSeq;				// 담당자시퀀스
+	private int memberSeq;					// 담당자시퀀스
 	
 	@Pattern(regexp = "^[a-z][a-z0-9]{4,10}$", message = "ID는 영문(소문자),숫자 5~11 자리로 입력해 주세요.")
     private String memberId;				// 담당자ID(로그인ID)
@@ -22,29 +22,29 @@ public class CrefiaDomain extends BaseDomain {
 	private String password;				// 비밀번호
 	
 	@Pattern(regexp = "^[a-zA-Z가-힣]*${1,20}", message = "담당자이름을 1~20자리로 입력해 주세요.")
-	private String memberName;			// 담당자이름
+	private String memberName;				// 담당자이름
 	
 	@Email
-	private String email;						// 이메일
-	private String extensionNo;			// 내선번호
+	private String email;					// 이메일
+	private String extensionNo;				// 내선번호
 	private String mobileNo;				// 휴대폰번호
 	private String deptNm;					// 부서명
 	private String creYn;					// 협회여부
 	private String creGrp;					// 협회그룹
 	private String creGrpNm;				// 협회그룹명
 	private String joinDt;					// 가입일
-	private int[] memberSeqArr;			// 삭제 배열
-	private int[] comCodeArr;			// 회원사 코드 배열
+	private int[] memberSeqArr;				// 삭제 배열
+	private int[] comCodeArr;				// 회원사 코드 배열
 	
 	/* ========================================================= */
 	
 	private String dropYn;					// 담당자 탈퇴 여부
 	private int comCode;					// 회원사 코드
-	private String comName;				// 회원사 이름
+	private String comName;					// 회원사 이름
 	private String delYn;					// 회원사 탈퇴 여부
 	
 	//업무분장 관련
-	private int chkedMemberSeq;				//체크된 실무자
+	private String chkedMemberSeq;			//체크된 실무자
 	
 
 }
