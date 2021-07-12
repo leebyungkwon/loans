@@ -76,6 +76,9 @@ function pageLoad(){
 	//datepicker
 	$("#date_cal01").datepicker({
 		 dateFormat	: "yy-mm-dd"
+	 	,changeMonth: true
+		,changeYear	: true
+		,yearRange	: "c-10:c+10"
 		,onSelect	: function(dateText1,inst) {
 			$("#srchDate1").val(dateText1);
 			$(this).hide();
@@ -83,6 +86,9 @@ function pageLoad(){
 	});
 	$("#date_cal02").datepicker({
 		 dateFormat	: "yy-mm-dd"
+	 	,changeMonth: true
+		,changeYear	: true
+		,yearRange	: "c-10:c+10"
 		,onSelect	: function(dateText1,inst) {
 			$("#srchDate2").val(dateText1);
 			$(this).hide();
@@ -360,13 +366,13 @@ function goGetDate(opt) {
 					<th>등록기간 조회</th>
 					<td colspan="5" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" onclick="$('#date_cal01').show();">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly" onclick="$('#date_cal02').show();">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
 							<div id="date_cal02" class="calendar01"></div>
 						</div>

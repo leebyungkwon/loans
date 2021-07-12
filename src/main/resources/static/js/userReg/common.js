@@ -436,6 +436,9 @@ function goUserStepHistoryShow(masterSeq){
 function goDatepickerDraw(){
 	$(".calendar01").datepicker({
 		 dateFormat	: "yy-mm-dd"
+		,changeMonth: true
+		,changeYear	: true
+		,yearRange	: "c-10:c+10"
 		,onSelect	: function(dateText1,inst) {
 			$(this).prev().val(dateText1);
 			$(this).hide();
