@@ -85,7 +85,8 @@
 							<td align="center"><c:out value="${companyInfo.comName}"/></td>
 							<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status">
 								<td>
-									<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" data-comName="${companyInfo.comName}" <c:if test="${fn:contains(companyInfo.chkedMemberSeq, memberInfo.memberSeq) }">checked="checked"</c:if> >
+									<c:set var="memberSeq" value="|${memberInfo.memberSeq }|"></c:set>
+									<input type="checkbox" name="check" id="comCode" class="crefia" value="${memberInfo.memberSeq}" data-comCode="${companyInfo.comCode}" data-comName="${companyInfo.comName}" <c:if test="${fn:contains(companyInfo.chkedMemberSeq, memberSeq) }">checked="checked"</c:if> >
 								</td>
 							</c:forEach>
 						</tr>   
