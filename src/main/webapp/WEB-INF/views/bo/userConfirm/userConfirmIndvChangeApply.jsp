@@ -251,7 +251,9 @@ function goUserChangeApply(){
 										</c:if>
 										<c:choose>
 											<c:when test="${violationInfoList.vioNum ne null && violationInfoList.vioNum ne '' }">
-												<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDelApply('${violationInfoList.violationSeq }',this);">-</a>
+												<c:if test="${violationInfoList.applyYn eq 'N' }">
+													<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDelApply('${violationInfoList.violationSeq }',this);">-</a>
+												</c:if>
 											</c:when>
 											<c:otherwise>
 												<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationDataDel('${violationInfoList.violationSeq }',this);">-</a>
