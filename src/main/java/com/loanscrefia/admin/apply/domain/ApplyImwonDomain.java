@@ -84,14 +84,9 @@ public class ApplyImwonDomain extends BaseDomain {
 	private String checkCd109;
 	private String checkCd110;
 	private String checkCd111;
-	private String checkCd112;
 	private String checkCd113;
 	private String checkCd114;
 	private String checkCd115;
-	private String checkCd116;
-	private String checkCd117;
-	private String checkCd118;
-	private String checkCd119;
 
 	
 }

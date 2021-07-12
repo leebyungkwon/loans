@@ -13,9 +13,9 @@ function pageLoad(){
   		, headCol		: ["등록일", "토큰", "시스템등록일시"]
   		, bodyCol		: 
   			[
-				 {type:"string"	, name:'insDt'			, index:'insDt'			, width:"20%"		, align:"center"}
-				,{type:"string"	, name:'token'			, index:'token'			, width:"20%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, width:"20%"		, align:"center"}
+				 {type:"string"	, name:'insDt'			, index:'insDt'			, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'token'			, index:'token'			, width:"78%"		, align:"left"}
+				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, width:"12%"		, align:"center"}
 			]
 		, sortNm 		: "ins_dt"
 		, sort 			: "DESC"
@@ -61,7 +61,7 @@ function pageLoad(){
 			}
 			, success 	: function (opt,result) {
 				console.log("결과값 ===" + JSON.stringify(result));
-				alert("권한코드 :: " + result.data.authorize_code);
+				alert("권한코드 :: " + result.data.code);
 		    }
 		}
 		AjaxUtil.post(p);
@@ -77,14 +77,14 @@ function pageLoad(){
 			}
 			, success 	: function (opt,result) {
 				if(result.code == "success"){
-					console.log("결과값 ===" + JSON.stringify(result));
+					console.log("결과값1 ===" + JSON.stringify(result));
 					alert("토큰결과값 :: " + JSON.stringify(result));
 				}else{
 					if(result.data == null){
-						console.log("결과값 ===" + JSON.stringify(result));
+						console.log("결과값2 ===" + JSON.stringify(result));
 						alert("심각한 오류가 발생하였습니다");
 					}else{
-						console.log("결과값 ===" + JSON.stringify(result));
+						console.log("결과값3 ===" + JSON.stringify(result));
 						alert(result.data.resMsg);	
 					}
 				}

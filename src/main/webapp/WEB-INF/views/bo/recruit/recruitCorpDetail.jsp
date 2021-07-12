@@ -374,7 +374,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">업무수행기준요건관련 서류</th>
+					<th class="acenter">업무수행기준요건관련 서류 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType15 ne null }">

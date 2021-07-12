@@ -326,6 +326,10 @@ public class RecruitService {
         				recruitInfo.setFileType6(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("15")) {
         				recruitInfo.setFileType15(fileList.get(i));
+					}else if(fileList.get(i).getFileType().equals("31")) {
+        				recruitInfo.setFileType31(fileList.get(i));
+					}else if(fileList.get(i).getFileType().equals("32")) {
+        				recruitInfo.setFileType32(fileList.get(i));
 					}
         		}
         	}
@@ -351,6 +355,10 @@ public class RecruitService {
         				recruitInfo.setHistFileType6(fileHistList.get(p));
         			}else if(fileHistList.get(p).getFileType().equals("15")) {
         				recruitInfo.setHistFileType15(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("31")) {
+        				recruitInfo.setHistFileType31(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("32")) {
+        				recruitInfo.setHistFileType32(fileHistList.get(p));
         			}
         		}
         	}

@@ -276,8 +276,6 @@ public class ApplyService {
 			applyInfo.setPlMZId(zid.toString());
 		}
 		
-		
-		
 		//첨부파일
 		if(applyInfo.getFileSeq() != null) {
 			FileDomain fileParam 		= new FileDomain();
@@ -300,8 +298,11 @@ public class ApplyService {
         				applyInfo.setFileType6(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("15")) {
         				applyInfo.setFileType15(fileList.get(i));
+					}else if(fileList.get(i).getFileType().equals("31")) {
+        				applyInfo.setFileType31(fileList.get(i));
+					}else if(fileList.get(i).getFileType().equals("32")) {
+        				applyInfo.setFileType32(fileList.get(i));
 					}
-        			
         			
         			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
         			checkDomain.setFileSeq(fileList.get(i).getFileSeq());
@@ -337,9 +338,16 @@ public class ApplyService {
         					applyInfo.setCheckCd112(tmp.getCheckCd());
         				}else if("116".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd116(tmp.getCheckCd());
+        				}else if("117".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd117(tmp.getCheckCd());
+        				}else if("118".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd118(tmp.getCheckCd());
+        				}else if("119".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd119(tmp.getCheckCd());
+        				}else if("120".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd120(tmp.getCheckCd());
         				}
         			}
-        			
         		}
         	}
 		}

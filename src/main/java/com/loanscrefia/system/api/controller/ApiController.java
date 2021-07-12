@@ -98,7 +98,8 @@ public class ApiController {
 			if(!"fail".equals(responseMsg.getCode())) {
 				kfbApiResultDomain.setToken(responseJson.getString("authorization"));
 				kfbApiResultDomain.setResCode(responseJson.getString("res_code"));
-				kfbApiResultDomain.setResMsg(responseJson.getString("res_msg"));				
+				kfbApiResultDomain.setResMsg(responseJson.getString("res_msg"));
+				responseMsg.setCode(null);
 			}else {
 				responseMsg.setCode(null);
 				kfbApiResultDomain.setResCode("fail");
@@ -109,6 +110,7 @@ public class ApiController {
 			kfbApiResultDomain.setResCode("fail");
 			kfbApiResultDomain.setResMsg("연결실패");			
 		}
+		responseMsg.setCode(null);
 		responseMsg.setData(kfbApiResultDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}

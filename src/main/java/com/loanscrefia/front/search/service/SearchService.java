@@ -33,7 +33,6 @@ public class SearchService {
 	private KfbApiRepository kfbApiRepository;
 	
 	//모집인 조회 : 개인(결제)
-	@Transactional(readOnly = true)
 	public ResponseMsg selectPayIndvUserInfo(SearchDomain searchDomain) {
 		
 		//검색어
@@ -67,7 +66,6 @@ public class SearchService {
 	}
 	
 	//모집인 조회 : 법인(결제)
-	@Transactional(readOnly = true)
 	public ResponseMsg selectPayCorpUserInfo(SearchDomain searchDomain) {
 		
 		//검색어 암호화
@@ -85,7 +83,6 @@ public class SearchService {
 	}
 
 	//모집인 조회 : 개인
-	@Transactional(readOnly = true)
 	public ResponseMsg selectIndvUserInfo(SearchDomain searchDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		// 2021-07-10 은행연합회 API 통신 - 개인조회
@@ -131,7 +128,6 @@ public class SearchService {
 	}
 	
 	//모집인 조회 결과
-	@Transactional(readOnly=true)
 	public Map<String,Object> userSearchResult(SearchDomain searchDomain) {
 		
 		Map<String, Object> result 				= new HashMap<String, Object>();
@@ -155,7 +151,6 @@ public class SearchService {
 	}
 	
 	//모집인 상세
-	@Transactional(readOnly=true)
 	public SearchDomain selectSearchUserInfo(SearchDomain searchDomain) {
 		
 		SearchDomain result = searchRepo.selectSearchUserInfo(searchDomain);

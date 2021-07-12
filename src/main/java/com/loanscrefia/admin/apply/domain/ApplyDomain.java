@@ -136,6 +136,9 @@ public class ApplyDomain extends BaseDomain {
 	private FileDomain fileType14;
 	private FileDomain fileType15;
 	
+	private FileDomain fileType31;
+	private FileDomain fileType32;
+	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;
 	private FileDomain fileType22;
@@ -144,6 +147,7 @@ public class ApplyDomain extends BaseDomain {
 	private FileDomain fileType25;
 	private FileDomain fileType26;
 	private FileDomain fileType29;
+	
 	
 	//검색
 	private String srchInput1;
@@ -172,6 +176,10 @@ public class ApplyDomain extends BaseDomain {
 	private String checkCd16;
 	private String checkCd112;
 	private String checkCd116;
+	private String checkCd117;
+	private String checkCd118;
+	private String checkCd119;
+	private String checkCd120;
 	
 	private String checkCd400;
 	private String checkCd401;

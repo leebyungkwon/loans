@@ -527,6 +527,58 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				
+				<tr>
+					<td class="acenter">위탁계약서 *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType31 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType31.fileSeq }">${result.applyInfo.fileType31.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd117" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd117}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType31.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType31.fileSeq }" >
+							<label for="check_cd117">체크사항1</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd118" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd118}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType31.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType31.fileSeq }" >
+							<label for="check_cd118">체크사항2</label>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType32 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType32.fileSeq }">${result.applyInfo.fileType32.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd119" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd119}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType32.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType32.fileSeq }" >
+							<label for="check_cd119">체크사항1</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd120" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd120}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType32.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType32.fileSeq }" >
+							<label for="check_cd120">체크사항2</label>
+						</div>
+					</td>
+				</tr>
+				
 			</table>
 		</div>
 		<div class="btn_wrap">

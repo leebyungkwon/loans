@@ -1154,7 +1154,7 @@ public class KfbApiService {
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			conn.setRequestProperty("Authorization", "Bearer "+authToken);
 			
-	        if(!methodType.equals("GET") || !methodType.equals("DELETE")) {
+	        if(methodType.equals("POST") || methodType.equals("PUT")) {
 	        	conn.setDoOutput(true);
 		        if(reqParam != null) {
 			        //요청 데이터 전송
@@ -1169,7 +1169,7 @@ public class KfbApiService {
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
 	        logParam.setToken(authToken);
-	        logParam.setUrl(connUrl);
+	        logParam.setUrl("HTTP Method [" + methodType + "] ::" +connUrl);
 	        if(reqParam != null) {
 	        	logParam.setSendData(reqParam.toString());
 	        }

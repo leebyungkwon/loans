@@ -253,7 +253,7 @@ function pageLoad(){
 									<th>체크사항</th>
 								</tr>
 								<tr>
-									<td class="acenter">위탁계약서 *</td>
+									<td class="acenter">위탁계약서</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpImwonList.fileType11 ne null }">
