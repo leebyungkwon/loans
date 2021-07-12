@@ -83,7 +83,6 @@ function goUserSearchResultPage(formNm,plRegistSearchNo) {
 					</div>
 				</div>
 				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
-				<a href="javascript:void(0);" class="btn_login" onclick="goKfbSearch();">등록증발급</a>
 			</div>
 		</form>
 		<div class="bottom_box">
@@ -95,6 +94,12 @@ function goUserSearchResultPage(formNm,plRegistSearchNo) {
 				<li>
 					<span class="dot"></span>
 					<p>조회가능정보: 대충상담사의 등록번호, 성명, 생년월일, 취급상품, 등록일자, 계약금융회사 등</p>
+				</li>
+				<li>
+					<span class="dot"></span>
+					<p>
+						<a href="javascript:void(0);" class="btn_login red" onclick="goKfbSearch();">등록증발급</a>
+					</p>
 				</li>
 				
 <!-- 				<li>
@@ -110,24 +115,28 @@ function goUserSearchResultPage(formNm,plRegistSearchNo) {
 				<div class="left_box">
 					<div class="input_box mgt0">
 						<div class="value">
-							<input type="text" name="plRegistNo" style="width:50%;" placeholder="등록번호 예)10-000000" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
-							<input type="text" name="plMerchantName" style="width:50%;" placeholder="법인명" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
+							<input type="text" name="plRegistNo" placeholder="등록번호 예)10-000000" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
 						</div>
 					</div>
 				</div>
 				<a href="javascript:void(0);" class="btn_login" onclick="goUserSearch();">조회</a>
-				<a href="javascript:void(0);" class="btn_login" onclick="goKfbSearch();">등록증발급</a>
 			</div>
 		</form>
 		<div class="bottom_box">
 			<ul>
 				<li>
 					<span class="dot"></span>
-					<p>법인의 등록번호와 법인명 모두 입력해야 조회 가능합니다.</p>
+					<p>법인의 등록번호를 입력해야 조회 가능합니다.</p>
 				</li>
 				<li>
 					<span class="dot"></span>
 					<p>조회가능정보: 상호, 대표자성명, 등록번호, 취급상품, 등록일자, 계약 금융회사</p>
+				</li>
+				<li>
+					<span class="dot"></span>
+					<p>
+						<a href="javascript:void(0);" class="btn_login red" onclick="goKfbSearch();">등록증발급</a>
+					</p>
 				</li>
 				
 <!-- 				<li>

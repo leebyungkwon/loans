@@ -534,7 +534,7 @@ function goApplyImprove(num){
 				</tr> --%>
 				
 				<tr>
-					<td class="acenter">대리인 신청 위임장(위임인 인간날인) *</td>
+					<td class="acenter">대리인 신청 위임장 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType8 ne null }">

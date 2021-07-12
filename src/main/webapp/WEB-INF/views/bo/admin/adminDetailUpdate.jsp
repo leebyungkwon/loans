@@ -120,6 +120,13 @@
 
 		// 첨부파일 찾기시 file tag 실행
 		$("#u_file").on("change", function(){
+			var ext = $(this).val().split(".").pop().toLowerCase();
+			var excelYn = $(this).attr("data-excel");
+			var fileSize = $("#u_file")[0].files[0].size;
+			if(!Valid.fileCheck(fileSize, ext, excelYn)){
+				return false;
+			}
+			
 			var fileValue = $("#u_file").val().split("\\");
 			var fileName = fileValue[fileValue.length-1];
 			$("#fileName").val(fileName);

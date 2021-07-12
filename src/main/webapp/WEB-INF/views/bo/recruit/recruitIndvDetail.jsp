@@ -439,7 +439,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr> --%>
 				<tr>
-					<th class="acenter">대리인 신청 위임장(위임인 인간날인) *</th>
+					<th class="acenter">대리인 신청 위임장 *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType8 ne null }">

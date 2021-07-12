@@ -16,7 +16,11 @@
 			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO			/*휴대폰번호*/
 			,TLM.DEPT_NM										/*부서명*/
 			,TLM.POSITION_NM									/*직위명*/
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT		/*가입일*/
+			,case
+				when TLM.JOIN_DT = '' then null
+				when TLM.JOIN_DT is null then null
+				else TO_DATE(TLM.JOIN_DT,'YYYYMMDD')
+			end AS JOIN_DT
 			,TLM.APPR_STAT										/*승인상태*/
 			,TLM.FILE_SEQ										/*첨부파일ID*/
 			,TLM.FAIL_CNT										/*로그인 실패횟수*/
@@ -45,7 +49,11 @@
 			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO			/*휴대폰번호*/
 			,TLM.DEPT_NM										/*부서명*/
 			,TLM.POSITION_NM									/*직위명*/
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT		/*가입일*/
+			,case
+				when TLM.JOIN_DT = '' then null
+				when TLM.JOIN_DT is null then null
+				else TO_DATE(TLM.JOIN_DT,'YYYYMMDD')
+			end AS JOIN_DT
 			,TLM.FILE_SEQ										/*첨부파일ID*/
 			,TLM.MSG											/*가승인 사유*/
 		FROM TB_LC_MEMBERS TLM
@@ -65,7 +73,11 @@
 			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO			/*휴대폰번호*/
 			,TLM.DEPT_NM										/*부서명*/
 			,TLM.POSITION_NM									/*직위명*/
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT		/*가입일*/
+			,case
+				when TLM.JOIN_DT = '' then null
+				when TLM.JOIN_DT is null then null
+				else TO_DATE(TLM.JOIN_DT,'YYYYMMDD')
+			end AS JOIN_DT
 			,TLM.FILE_SEQ										/*첨부파일ID*/
 			,TLM.MSG											/*가승인 사유*/
 			,TLM.APPR_STAT										/*승인여부*/
@@ -91,13 +103,13 @@
 			,PASSWORD			= #{password}							/*패스워드*/
 			</if>
 			<if test="deptNm != null and deptNm != ''">
-			,DEPT_NM			= #{deptNm}								/*부서명*/
+			,DEPT_NM			= CONCAT(TRIM(#{deptNm}), '')			/*부서명*/
 			</if>
 			<if test="memberName != null and memberName != ''">
-			,MEMBER_NAME		= #{memberName}							/*담당자이름*/
+			,MEMBER_NAME		= CONCAT(TRIM(#{memberName}), '')		/*담당자이름*/
 			</if>
 			<if test="positionNm != null and positionNm != ''">
-			,POSITION_NM		= #{positionNm}							/*직위명*/			
+			,POSITION_NM		= CONCAT(TRIM(#{positionNm}), '')		/*직위명*/			
 			</if>
 			<if test="email != null and email != ''">
 			,EMAIL				= #{email}								/*이메일*/
@@ -131,13 +143,13 @@
 			,PASSWORD			= #{password}							/*패스워드*/
 			</if>
 			<if test="deptNm != null and deptNm != ''">
-			,DEPT_NM			= #{deptNm}								/*부서명*/
+			,DEPT_NM			= CONCAT(TRIM(#{deptNm}), '')			/*부서명*/
 			</if>
 			<if test="memberName != null and memberName != ''">
-			,MEMBER_NAME		= #{memberName}							/*담당자이름*/
+			,MEMBER_NAME		= CONCAT(TRIM(#{memberName}), '')		/*담당자이름*/
 			</if>
 			<if test="positionNm != null and positionNm != ''">
-			,POSITION_NM		= #{positionNm}							/*직위명*/			
+			,POSITION_NM		= CONCAT(TRIM(#{positionNm}), '')		/*직위명*/			
 			</if>
 			<if test="email != null and email != ''">
 			,EMAIL				= #{email}								/*이메일*/

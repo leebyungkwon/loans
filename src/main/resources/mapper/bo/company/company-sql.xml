@@ -17,7 +17,11 @@
 			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
+			,case
+				when TLM.JOIN_DT = '' then null
+				when TLM.JOIN_DT is null then null
+				else TO_DATE(TLM.JOIN_DT,'YYYYMMDD')
+			end AS JOIN_DT
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE
@@ -55,7 +59,11 @@
 			,FN_CELLPHONE(TLM.MOBILE_NO) AS MOBILE_NO
 			,TLM.DEPT_NM
 			,TLM.POSITION_NM
-			,TO_DATE(TLM.JOIN_DT, 'YYYYMMDD') AS JOIN_DT
+			,case
+				when TLM.JOIN_DT = '' then null
+				when TLM.JOIN_DT is null then null
+				else TO_DATE(TLM.JOIN_DT,'YYYYMMDD')
+			end AS JOIN_DT
 			,TLM.ROLE_NAME
 			,TLM.TERMS_YN
 			,TLM.TERMS_DATE

@@ -191,7 +191,7 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<td class="acenter">대리인 신청 위임장 (위임인 인감날인) *</td>
+						<td class="acenter">대리인 신청 위임장 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType25 ne null }">

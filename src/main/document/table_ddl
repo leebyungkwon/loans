@@ -825,6 +825,8 @@ create table tb_lc_corp(
 	, pl_merchant_name varchar(30) not null
 	, pl_merchant_no varchar(100) not null 
 	, path_typ char(1) not null default '1'
+	, path_typ char(1) not null default '1'
+	, pass_yn char(1) not null default 'N'
 	, use_yn char(1) not null default 'Y'
 	, reg_timestamp timestamp
 	, reg_seq integer
@@ -838,6 +840,7 @@ COMMENT ON COLUMN tb_lc_corp.corp_seq IS '법인시퀀스';
 COMMENT ON COLUMN tb_lc_corp.pl_merchant_name IS '법인명';
 COMMENT ON COLUMN tb_lc_corp.pl_merchant_no IS '법인등록번호';
 COMMENT ON COLUMN tb_lc_corp.path_typ IS '등록경로';
+COMMENT ON COLUMN tb_lc_corp.pass_yn IS '금융감독원등록여부';
 COMMENT ON COLUMN tb_lc_corp.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_corp.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_corp.reg_seq IS '등록자시퀀스';

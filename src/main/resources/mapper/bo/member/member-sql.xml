@@ -28,12 +28,12 @@
 		 	 #{memberId}                    		/*로그인ID*/ 
 			,#{password}                   		 	/*비밀번호*/  
 			,#{comCode}                   			/*회원사코드*/ 
-			,#{memberName}                  		/*담당자이름*/  
+			,CONCAT(TRIM(#{memberName}), '')   		/*담당자이름*/  
 			,#{email}                       		/*이메일*/   
 			,REPLACE(#{extensionNo}, '-', '')		/*회사전화번호*/  
 			,REPLACE(#{mobileNo}, '-', '')			/*휴대폰번호*/  
-			,#{deptNm}                      		/*부서명*/   
-			,#{positionNm}                  		/*직위명*/   
+			,CONCAT(TRIM(#{deptNm}), '')   			/*부서명*/   
+			,CONCAT(TRIM(#{positionNm}), '')   		/*직위명*/   
 			,TO_CHAR(NOW(), 'YYYYMMDD')				/*가입일*/
 			,'NO_MEMBER'							/*권한명*/   
 			,#{fileSeq}								/*첨부파일ID*/
