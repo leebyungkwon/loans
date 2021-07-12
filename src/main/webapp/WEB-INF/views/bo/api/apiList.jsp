@@ -116,7 +116,6 @@ function pageLoad(){
 			, url : "/system/api/apiPreSearchPopup"
 			, success : function (opt,result) {
 				console.log("###팝업 오픈 ###");
-				console.log("결과값 ===" + JSON.stringify(result));
 				$(".popup_inner").css("width","55%");
 		    }
 		}
@@ -145,7 +144,6 @@ function pageLoad(){
 			, url : "/system/api/apiSearchPopup"
 			, success : function (opt,result) {
 				console.log("###팝업 오픈 ###");
-				console.log("결과값 ===" + JSON.stringify(result));
 				$(".popup_inner").css("width","55%");
 		    }
 		}
