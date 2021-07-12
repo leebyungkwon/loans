@@ -323,15 +323,15 @@ commit;
 create table tb_lc_mas01_imwon(
 	exc_seq integer not null default nextval('tb_lc_mas01_imwon_seq')
 	, master_seq integer not null
-	, career_typ char(1) not null
-	, position_nm varchar(20) not null
-	, exc_name varchar(20) not null
-	, pl_m_z_id varchar(100) not null
+	, career_typ char(1)
+	, position_nm varchar(20)
+	, exc_name varchar(20)
+	, pl_m_z_id varchar(100)
 	, pl_edu_no varchar(30)
-	, career_start_date varchar(8) not null
-	, career_end_date varchar(8) not null
-	, full_tm_stat char(1) not null
-	, expert_stat char(1) not null
+	, career_start_date varchar(8)
+	, career_end_date varchar(8)
+	, full_tm_stat char(1)
+	, expert_stat char(1)
 	, file_seq integer
 	, primary key (exc_seq)
 );
@@ -824,7 +824,6 @@ create table tb_lc_corp(
 	corp_seq integer not null default nextval('tb_lc_corp_seq')
 	, pl_merchant_name varchar(30) not null
 	, pl_merchant_no varchar(100) not null 
-	, path_typ char(1) not null default '1'
 	, path_typ char(1) not null default '1'
 	, pass_yn char(1) not null default 'N'
 	, use_yn char(1) not null default 'Y'
