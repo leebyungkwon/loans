@@ -126,8 +126,6 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr> --%>
-									
-									
 									<tr>
 										<th class="acenter">인감증명서</th>
 										<td>
@@ -139,7 +137,17 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
-									
+									<tr>
+										<th class="acenter">주민등록사본 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType30 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
 									<tr>
 										<th class="acenter">결격요건 확인서 등 관련서류</th>
 										<td>
@@ -235,19 +243,6 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
-									
-									<tr>
-										<th class="acenter">주민등록사본 *</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType30 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									
 								</tbody>
 							</table>
 						</div>

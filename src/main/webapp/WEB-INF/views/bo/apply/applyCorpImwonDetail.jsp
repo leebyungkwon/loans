@@ -169,7 +169,6 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								
 								<%-- 
 								<tr>
 									<td class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</td>
@@ -215,7 +214,25 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								
+								<tr>
+									<td class="acenter">주민등록사본 *</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpImwonList.fileType30 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd115" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd115}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType30.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType30.fileSeq }" >
+											<label for="check_cd115">기재사항 일치여부</label>
+										</div>
+									</td>
+								</tr>
 								<tr>
 									<td class="acenter">결격요건 확인서 등 관련서류</td>
 									<td>
@@ -235,7 +252,6 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								
 							</table>
 						</div>
 						
@@ -271,7 +287,6 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								
 								<tr>
 									<td class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</td>
 									<td>
@@ -291,27 +306,6 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								
-								<tr>
-									<td class="acenter">주민등록사본 *</td>
-									<td>
-										<c:choose>
-											<c:when test="${corpImwonList.fileType30 ne null }">
-												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
-											</c:when>
-											<c:otherwise>-</c:otherwise>
-										</c:choose>
-									</td>
-									<td>
-										<div class="input_check_wrap mgr10">
-											<input type="checkbox" id="check_cd115" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd115}">checked</c:if>
-											<c:if test="${empty corpImwonList.fileType30.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpImwonList.fileType30.fileSeq }" >
-											<label for="check_cd115">기재사항 일치여부</label>
-										</div>
-									</td>
-								</tr>
-								
 							</table>
 						</div>
 						

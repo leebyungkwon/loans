@@ -389,6 +389,38 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				<tr>
+					<th class="acenter">위탁계약서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType31 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType31.fileSeq }">${result.recruitInfo.fileType31.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType31}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType31.fileGrpSeq }', '31');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType32 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType32.fileSeq }">${result.recruitInfo.fileType32.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType32}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType32.fileGrpSeq }', '32');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="btn_wrap">

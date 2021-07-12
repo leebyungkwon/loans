@@ -502,7 +502,7 @@ function goApplyImprove(num){
 				</tr>
 				
 				<tr>
-					<td class="acenter">업무수행기준요건관련 *</td>
+					<td class="acenter">업무수행기준요건관련 서류 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType15 ne null }">
