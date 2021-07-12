@@ -437,7 +437,7 @@ function goUserAcceptApply(){
 						<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goUserRegInfoUpdt();">저장</a>
 					</c:if>
 				</c:if>
-				<c:if test="${result.userRegInfo.plStat eq '10' }"> 
+				<c:if test="${result.userRegInfo.plStat ne '2' || result.userRegInfo.plStat eq '10' }"> 
 					<a href="javascript:void(0);" class="btn_Lgray btn_right" onclick="goUserRegInfoCancel();">삭제</a>
 				</c:if>
 			</div>
