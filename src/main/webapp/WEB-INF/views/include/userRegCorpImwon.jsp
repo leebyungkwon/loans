@@ -38,7 +38,7 @@
 					<td>${result.userRegInfo.plProductNm }</td>
 				</tr>
 				<tr>
-					<th>교육이수번호</th>
+					<th>교육이수번호/인증서번호</th>
 					<td colspan="3"><input type="text" name="plEduNo" class="w100" maxlength="30"></td>
 				</tr>
 				<tr>

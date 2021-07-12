@@ -178,7 +178,7 @@ function goUserAcceptApply(){
 						<td colspan="3"><input type="text" name="addrDetail" class="w100" value="${result.userRegInfo.addrDetail }" maxlength="200" data-vd='{"type":"text","len":"1,200","req":true,"msg":"상세주소를 입력해 주세요."}'></td>
 					</tr>
 					<tr>
-						<th>교육이수번호</th>
+						<th>교육이수번호/인증서번호</th>
 						<td colspan="3">${result.userRegInfo.plEduNo }</td>
 					</tr>
 					<tr>

@@ -286,7 +286,7 @@ function goApplyImprove(num){
 					<td colspan="3">${result.applyInfo.addrDetail }</td>
 				</tr>
 				<tr>
-					<th>교육이수번호 또는 인증번호</th>
+					<th>교육이수번호/인증서번호</th>
 					<td colspan="3">${result.applyInfo.plEduNo }</td>
 				</tr>
 				<tr>

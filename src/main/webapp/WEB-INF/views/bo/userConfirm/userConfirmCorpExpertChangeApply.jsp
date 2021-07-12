@@ -182,7 +182,7 @@ function goDataAreaAdd() {
 											<td colspan="3">${result.userRegInfo.plProductNm }</td>
 										</tr>
 										<tr>
-											<th>교육이수번호</th>
+											<th>교육이수번호/인증서번호</th>
 											<td colspan="3">${corpExpertList.plEduNo }</td>
 										</tr>
 										<tr>

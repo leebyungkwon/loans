@@ -233,7 +233,7 @@ function goApplyAccept() {
 	}
 	
 	if(imwonEduChk > 0){
-		alert("유효한 교육이수번호가 등록된 대표자 및 임원이 존재하지 않습니다.");
+		alert("유효한 교육이수번호/인증서번호가 등록된 대표자 및 임원이 존재하지 않습니다.");
 		return;
 	}
 	if(fileChk > 0){
