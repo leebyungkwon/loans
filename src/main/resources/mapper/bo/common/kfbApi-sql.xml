@@ -83,8 +83,7 @@
 		</where>
 	</update>
 	
-	
-	<!-- 은행연합회 토큰 조회 -->
+	<!-- API리스트 조회 -->
 	<select id="selectApiList" parameterType="kfbApi" resultType="kfbApi">
    		SELECT 
    			<include refid="common.totalPages"/>
@@ -92,17 +91,17 @@
    		FROM
    		(
 			SELECT
-				INS_DT
-				, KEY AS token
-				, REG_TIMESTAMP
+				 INS_DT
+				,KEY AS TOKEN
+				,REG_TIMESTAMP
 			FROM KFB_API_KEY
    		)Z
 		<where>
 			<if test="srchDate1 != null and srchDate1 != ''">
-				AND Z.INS_DT 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+				AND Z.INS_DT <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
 			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.INS_DT 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				AND Z.INS_DT <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 			</if>
 		</where>
    		<include refid="common.pageBottom"/>
