@@ -194,7 +194,7 @@ function goCorpImwonInfoDel(excSeq) {
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">위탁계약서 *</th>
+										<th class="acenter">위탁계약서</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType11 ne null }">

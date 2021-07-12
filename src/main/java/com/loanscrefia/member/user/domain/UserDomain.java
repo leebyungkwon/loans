@@ -148,6 +148,8 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType13;
 	private FileDomain fileType14;
 	private FileDomain fileType15;
+	private FileDomain fileType30;
+	private FileDomain fileType31;
 	
 	//법인 > 기타 첨부파일 가공
 	private FileDomain fileType21;

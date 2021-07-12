@@ -235,6 +235,28 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				<tr>
+					<th class="acenter">위탁계약서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType31 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }">${result.userRegInfo.fileType31.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType32 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }">${result.userRegInfo.fileType32.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
 			</table>
 		</div>
 		<div class="btn_wrap">

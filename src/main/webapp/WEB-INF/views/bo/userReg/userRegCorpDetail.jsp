@@ -387,6 +387,41 @@ function goUserAcceptApply(){
 							</c:choose>
 						</td>
 					</tr>
+					<tr>
+						<th class="acenter">위탁계약서 *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType31 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }">${result.userRegInfo.fileType31.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="Y" data-realDel="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="31"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType32 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }">${result.userRegInfo.fileType32.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }" data-fileType="32" data-essential="N" data-realDel="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="32"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="32" data-essential="N">초기화</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
 				</table>
 			</div>
 	

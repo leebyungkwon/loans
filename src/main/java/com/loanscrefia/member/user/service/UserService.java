@@ -1073,6 +1073,10 @@ public class UserService {
         				userRegInfo.setFileType6(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("15")) {
         				userRegInfo.setFileType15(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("31")) {
+        				userRegInfo.setFileType15(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("32")) {
+        				userRegInfo.setFileType15(fileList.get(i));
         			}
         		}
         	}
