@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.loanscrefia.admin.corp.domain.CorpDomain;
 import com.loanscrefia.admin.corp.repository.CorpRepository;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.member.user.domain.UserDomain;
 
 import sinsiway.CryptoUtil;
 
@@ -65,6 +66,7 @@ public class CorpService {
 			//수정
 			result = corpRepo.updateCorpInfo(corpDomain);
 		}
+		
 		//결과
 		if(result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", 1, "저장되었습니다.");
@@ -91,6 +93,7 @@ public class CorpService {
 			if(chkResult == 0) {
 				chkParam.setPlMerchantName(itemA);
 				chkParam.setPathTyp("1");
+				chkParam.setPassYn("N");
 				corpRepo.insertCorpInfo(chkParam);
 		 	}
 		}
@@ -101,6 +104,7 @@ public class CorpService {
 	public CorpDomain getCorpInfo(CorpDomain corpDomain) {
 
 		CorpDomain result 	= corpRepo.getCorpInfo(corpDomain);
+		
 		String dnc 			= CryptoUtil.decrypt(result.getPlMerchantNo());
 		dnc 				= dnc.substring(0, 6) + "-" + dnc.substring(6);
 		result.setPlMerchantNo(dnc);
@@ -108,20 +112,20 @@ public class CorpService {
 		return result;
 	}
 
-	// 법인등록번호 중복체크
+	//법인등록번호 중복체크
 	@Transactional(readOnly = true)
 	public int plMerchantNoCheck(CorpDomain corpDomain) {
 		return corpRepo.plMerchantNoCheck(corpDomain);
 	}
 
-	// 법인등록번호 
+	//법인등록번호 사용여부 체크 
 	@Transactional(readOnly = true)
 	public int plMerchantNoSearchCheck(CorpDomain corpDomain) {
 		return corpRepo.plMerchantNoSearchCheck(corpDomain);
 	}
 	
-	
-	// 법인삭제
+	//법인삭제
+	@Transactional
 	public ResponseMsg deleteCorpInfo(CorpDomain corpDomain) {
 		int[] corpSeqArr = corpDomain.getCorpSeqArr();
 		if(corpSeqArr.length > 0) {
@@ -144,4 +148,16 @@ public class CorpService {
 			return new ResponseMsg(HttpStatus.OK, "fail", 0, "오류가 발생하였습니다.");
 		}
 	}
+	
+	//법인 금융감독원 승인여부 체크
+	@Transactional(readOnly = true)
+	public int corpPassCheck(UserDomain userDomain) {
+		return corpRepo.corpPassCheck(userDomain);
+	}
+	
+	
+	
+	
+	
+	
 }

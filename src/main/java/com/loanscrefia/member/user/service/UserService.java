@@ -845,11 +845,14 @@ public class UserService {
 				return -2;
 			}
 			
-			if(userRegInfo.getCorpUserYn().equals("Y")) {
-				//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음
-				int corpCheck = userRepo.corpStatCheck(userRegInfo);
+			if(userRegInfo.getPlClass().equals("1") && userRegInfo.getCorpUserYn().equals("Y")) {
+				//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
+				int corpCheck 		= userRepo.corpStatCheck(userRegInfo);
+				int corpPassCheck 	= corpService.corpPassCheck(userRegInfo);
 				
 				if(corpCheck == 0) {
+					return -1;
+				}else if(corpPassCheck == 0) {
 					return -1;
 				}
 			}
@@ -879,10 +882,13 @@ public class UserService {
 		}
 		
 		if(userRegInfo.getPlClass().equals("1") && userRegInfo.getCorpUserYn().equals("Y")) {
-			//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음
-			int corpCheck = userRepo.corpStatCheck(userRegInfo);
+			//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
+			int corpCheck 		= userRepo.corpStatCheck(userRegInfo);
+			int corpPassCheck 	= corpService.corpPassCheck(userRegInfo);
 			
 			if(corpCheck == 0) {
+				return -1;
+			}else if(corpPassCheck == 0) {
 				return -1;
 			}
 		}

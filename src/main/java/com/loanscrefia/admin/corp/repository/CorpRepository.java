@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.corp.domain.CorpDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
 
 @Mapper
 public interface CorpRepository {
@@ -32,4 +33,7 @@ public interface CorpRepository {
 	
 	//법인 삭제
 	int deleteCorpInfo(CorpDomain corpDomain);
+	
+	//법인 금융감독원 승인여부 체크
+	int corpPassCheck(UserDomain userDomain);
 }

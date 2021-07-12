@@ -12,22 +12,23 @@ function pageLoad(){
   		, url			: "/admin/corp/corpList"
 	    , width			: "100%"
 	    , check			: true
-  		, headCol		: ["번호", "법인명", "법인번호", "등록경로", "등록일"]
+  		, headCol		: ["번호", "법인명", "법인번호", "등록경로", "금융감독원 승인여부", "등록일"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'corpSeq'			, index:'corpSeq'			, width:"10%"		, id:true}
 				,{type:"string"	, name:'plMerchantName'		, index:'plMerchantName'	, width:"30%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'		, index:'plMerchantNo'		, width:"20%"		, align:"center"}
 				,{type:"string"	, name:'pathTypNm'			, index:'pathTypNm'			, width:"20%"		, align:"center"}
+				,{type:"string"	, name:'passYn'				, index:'passYn'			, width:"20%"		, align:"center"}
 				,{type:"string"	, name:'regTimestamp'		, index:'regTimestamp'		, width:"20%"		, align:"center"}
 			]
 		, sortNm 		: "corp_seq"
 		, sort 			: "DESC"
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
+		, rowClick		: {retFunc : goCorpInfoSavePopup}
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 	});
-	
 	
 	//삭제
 	$("#deleteCorp").on("click", function(){
@@ -55,14 +56,22 @@ function pageLoad(){
 			AjaxUtil.post(p);
 		}
 	});
-	
 }
 
-//법인 등록 팝업
-function goCorpInfoSavePopup() {
+//법인 등록,수정 팝업
+function goCorpInfoSavePopup(idx, data) {
+	var corpSeq = 0;
+	
+	if(idx >= 0){
+		corpSeq = corpGrid.gridData[idx].corpSeq;
+	}
+	
 	let p = {
 		  id 		: "corpInfoSavePop"
 		, url 		: "/admin/corp/corpSavePopup"
+		, params	: {
+			corpSeq : corpSeq
+		}
 		, success	: function(opt, result) { 
 			$("#plMerchantName","#corpInfoSaveFrm").focus();
         }
@@ -73,20 +82,10 @@ function goCorpInfoSavePopup() {
 //법인 저장
 function goCorpInfoSave() {
 	if(confirm("저장하시겠습니까?")){
-		
-		var plMerchantName = $("#plMerchantName").val();
-		
-		if(WebUtil.isNull(plMerchantName)){
-			alert("법인명을 입력해 주세요.");
-			return false;
-		}
-		
-		$("#corpInfoSaveFrm").attr("action","/admin/corp/saveCorpInfo");
-		
 		var saveCorpInfoParam = {
-			name : 'corpInfoSaveFrm'
-			,data : WebUtil.getTagInParam("#corpInfoSaveFrm")
-			,success: function(opt, result) {
+			 name 		: 'corpInfoSaveFrm'
+			,data 		: WebUtil.getTagInParam("#corpInfoSaveFrm")
+			,success	: function(opt, result) {
 				if(WebUtil.isNull(result.message)){
 					alert(result.data[0].defaultMessage);
 				}else{
@@ -130,16 +129,6 @@ function goCorpInfoSave() {
 						<input type="text" name="plMerchantNo">
 					</td>
 				</tr>
-				<!-- 
-				<tr>
-					<th>사용여부</th>
-					<td class="half_input">
-						<select name="plProduct" id="plProduct"></select>
-					</td>
-					<th></th>
-					<td></td>
-				</tr>
-				 -->
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -149,7 +138,7 @@ function goCorpInfoSave() {
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpInfoSavePopup();">등록</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpInfoSavePopup('-1','');">등록</a>
 				<!-- <a href="javascript:void(0);" class="btn_black btn_small mgr5" id="deleteCorp">삭제</a> -->
 			</div>
 		</div>

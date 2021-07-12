@@ -60,7 +60,7 @@ public class CorpController {
 	
 	//저장
 	@PostMapping(value="/saveCorpInfo")
-	public ResponseEntity<ResponseMsg> saveCorpInfo(@Valid CorpDomain corpDomain, BindingResult bindingResult){
+	public ResponseEntity<ResponseMsg> saveCorpInfo(CorpDomain corpDomain, BindingResult bindingResult){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);

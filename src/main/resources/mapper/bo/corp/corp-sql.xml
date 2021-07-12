@@ -11,6 +11,7 @@
 			,TLC.PL_MERCHANT_NO
 			,TLC.PATH_TYP
 			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
+			,TLC.PASS_YN
 			,TLC.REG_SEQ
 			,TO_CHAR(TLC.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLC.UPD_SEQ
@@ -35,6 +36,7 @@
 			 PL_MERCHANT_NAME
 			,PL_MERCHANT_NO
 			,PATH_TYP
+			,PASS_YN
 			,REG_SEQ
 			,REG_TIMESTAMP
 		)
@@ -43,6 +45,7 @@
 			 #{plMerchantName}
 			,#{plMerchantNo}
 			,#{pathTyp}
+			,#{passYn}
 			,#{regSeq}
 			,NOW()
 		)
@@ -56,6 +59,7 @@
 			,TLC.PL_MERCHANT_NO
 			,TLC.PATH_TYP
 			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
+			,TLC.PASS_YN
 			,TLC.REG_SEQ
 			,TO_CHAR(TLC.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLC.UPD_SEQ
@@ -77,7 +81,12 @@
 			<if test="plMerchantNo != null and plMerchantNo != ''">
 			,PL_MERCHANT_NO		= #{plMerchantNo}
 			</if>
+			<if test="passYn != null and passYn != ''">
+			,PASS_YN			= #{passYn}
+			</if>
+			<if test="useYn != null and useYn != ''">
    			,USE_YN				= #{useYn}
+   			</if>
    			,UPD_SEQ			= #{updSeq}
    			,UPD_TIMESTAMP		= NOW()
    		<where>
@@ -125,8 +134,16 @@
 		</foreach>
 	</delete>
 	
-	
-
+	<!-- 법인 금융감독원 승인여부 체크 -->
+	<select id="corpPassCheck" parameterType="user" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TB_LC_CORP
+		WHERE PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND PATH_TYP 			= '2'
+		AND PASS_YN 			= 'Y'
+		AND USE_YN 				= 'Y'
+	</select>
 	
 	
 	
