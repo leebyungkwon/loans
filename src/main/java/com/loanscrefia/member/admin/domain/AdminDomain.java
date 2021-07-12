@@ -22,15 +22,15 @@ public class AdminDomain extends BaseDomain{
 	private String 	password;					// 패스워드
 	
 	@NotBlank(message = "부서명을 입력해주세요.")
-	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,30}", message = "부서명을 2~30자리로 입력해 주세요.")
+//	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,30}", message = "부서명을 2~30자리로 입력해 주세요.")
 	private String 	deptNm;						// 부서명
 	
 	@NotBlank(message = "담당자이름 을 입력하세요.")
-	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,20}", message = "담당자이름을 1~20자리로 입력해 주세요.")
+//	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,20}", message = "담당자이름을 1~20자리로 입력해 주세요.")
 	private String 	memberName;					// 담당자이름
 	
 	@NotBlank(message = "직위명을 입력해주세요.")
-	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,20}", message = "직위명을 2~20자리로 입력해 주세요.")
+//	@Pattern(regexp = "^\\S[a-zA-Z0-9가-힣]*${1,20}", message = "직위명을 2~20자리로 입력해 주세요.")
 	private String 	positionNm;					// 직위명
 	
 	@NotBlank(message = "이메일 을 입력해주세요.")

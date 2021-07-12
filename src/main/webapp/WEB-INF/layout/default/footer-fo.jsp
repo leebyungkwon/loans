@@ -25,18 +25,22 @@ function relateSlide() {
 
 		<div class="relate_wrap">
 			<div id="relate_slide">
-				<a href="#" target="_blank" title="새창">
-					<img src="/static/images/main/bottom_banner01.jpg" alt="파인 금융소비자 정보포털 바로가기">
+				<a href="https://www.kfb.or.kr" target="_blank" title="새창">
+					<img src="/static/images/main/bottom_banner01.jpg" alt="은행연합회">
 				</a>
-				<a href="#" target="_blank" title="새창">
-					<img src="/static/images/main/bottom_banner02.jpg" alt="금융감독원 바로가기">
+				<a href="https://www.fsb.or.kr" target="_blank" title="새창">
+					<img src="/static/images/main/bottom_banner02.jpg" alt="저축은행중앙회">
 				</a>
-				<a href="#" target="_blank" title="새창">
-					<img src="/static/images/main/bottom_banner03.jpg" alt="금융위원회 바로가기">
+				<a href="https://www.klia.or.kr/" target="_blank" title="새창">
+					<img src="/static/images/main/bottom_banner03.jpg" alt="생명보험협회">
 				</a>
-				<a href="#" target="_blank" title="새창">
-					<img src="/static/images/main/bottom_banner04.jpg" alt="서민금융진흥원 바로가기">
+				<a href="https://www.knia.or.kr/" target="_blank" title="새창">
+					<img src="/static/images/main/bottom_banner04.jpg" alt="손해보험협회">
 				</a>
+				
+				
+				<!-- 
+				
 				<a href="#" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner05.jpg" alt="금융감독원 서민금융1332서비스 바로가기">
 				</a>
@@ -48,7 +52,7 @@ function relateSlide() {
 				</a>
 				<a href="#" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner02.jpg" alt="금융감독원 바로가기">
-				</a>
+				</a> -->
 			</div>
 		</div>
 	</div> <!-- //id="contents" -->
