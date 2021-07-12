@@ -152,16 +152,15 @@ function goDataAreaAdd() {
 		</form>
 	</div>
 
-	<div class="btn_wrap02" style="height:auto;">
-		<p style="font: 500 14px/20px '맑은 고딕','dotum'; color:#222222; letter-spacing: -0.8px; text-align: left; margin: 20px 0px 0px 40px;">
-			※ 모집인 등록 엑셀 서식 작성요령<br/>
+	<div class="btn_wrap02" style="height: auto;">
+		<p style="font: 500 14px/20px '맑은 고딕','dotum'; color: #222222; letter-spacing: -0.8px; text-align: left; margin: 20px 0px 0px 40px;">
+			※ 모집인 등록 엑셀 서식 작성요령<br />
 			- 구분 : 신규 = 1 / 경력 = 2<br />
-			- 금융상품유형별 코드 : <span class="red">대출 = 1 / TM대출 = 3 / 리스 = 5 / TM리스 = 6 (등록시스템 전체 적용)</span><br />
 			- 주민등록번호, 경력시작일, 경력종료일 입력 시 중간에 “-” 입력<br />
-			- 상근여부 : 상근 = 1 / 비상근 = 2 <br/>
-			- 전문인력여부 : 전문인력 = 1 / 비전문인력 = 2 <br/>
+			- 상근여부 : 상근 = 1 / 비상근 = 2 <br />
+			- 전문인력여부 : 전문인력 = 1 / 비전문인력 = 2
 		</p>
-		<div class="right" style="top:74px;">
+		<div class="right" style="top: 74px;">
 			<a href="javascript:void(0);" class="btn_gray btn_middle mgr5" onclick="goDataAreaAdd();">추가</a>
 		</div>
 	</div>

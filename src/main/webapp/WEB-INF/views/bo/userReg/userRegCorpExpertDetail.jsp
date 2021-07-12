@@ -152,8 +152,13 @@ function goDataAreaAdd() {
 		</form>
 	</div>
 
-	<div class="btn_wrap02">
-		<div class="right">
+	<div class="btn_wrap02" style="height: auto;">
+		<p style="font: 500 14px/20px '맑은 고딕','dotum'; color: #222222; letter-spacing: -0.8px; text-align: left; margin: 20px 0px 0px 40px;">
+			※ 모집인 등록 엑셀 서식 작성요령<br />
+			- 구분 : 신규 = 1 / 경력 = 2<br />
+			- 주민등록번호, 경력시작일, 경력종료일 입력 시 중간에 “-” 입력<br />
+		</p>
+		<div class="right" style="top: 74px;">
 			<a href="javascript:void(0);" class="btn_gray btn_middle" onclick="goDataAreaAdd();">추가</a>
 		</div>
 	</div>
