@@ -179,7 +179,7 @@ function goUserRegInfoUpdt() {
 						</colgroup>
 						<tbody>
 							<tr>
-								<th class="acenter">대리인 신청 위임장(위임인 인감날인) *</th>
+								<th class="acenter">대리인 신청 위임장 *</th>
 								<td>
 									<c:choose>
 										<c:when test="${result.userRegInfo.fileType25 ne null }">
