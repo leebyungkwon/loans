@@ -130,6 +130,7 @@ public class RecruitDomain extends BaseDomain {
 	private String preRegYn;		//기등록여부
 	private String subYn;			//약식등록여부
 	private String preLcNum;		//가등록번호
+	private String preRegState;		//가등록상태
 	
 	private String searchPlMName;
 	private String searchPlMZId;

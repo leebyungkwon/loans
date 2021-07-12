@@ -920,7 +920,7 @@ commit;
 -- 토큰, 요청url, 요청데이터, 요청자, 요청일시
 create table tb_lc_kfb_req(
 	token text not null
-	, url varchar(100) not null
+	, url text not null
 	, send_data text
 	, send_user int not null
 	, send_timestamp timestamp not null
@@ -936,7 +936,7 @@ COMMENT ON COLUMN tb_lc_kfb_req.send_timestamp IS '요청일시';
 -- 토큰, 요청url, 응답코드, 응답메세지, 응답일시
 create table tb_lc_kfb_res(
 	token text not null
-	, url varchar(100) not null
+	, url text not null
 	, res_code varchar(3) not null
 	, res_msg varchar(200) not null
 	, res_data TEXT

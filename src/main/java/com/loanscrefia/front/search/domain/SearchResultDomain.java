@@ -18,6 +18,7 @@ public class SearchResultDomain extends BaseDomain {
 	private String conNum;							// 계약번호
 	private String bizCode;							// 업권코드(은행/저축은행/보험사등)
 	private String corpNum;							// 법인등록번호(법인사용인)
+	private String conMobile;						// 대출모집인 휴대폰번호
 	private String finCode;							// 금융기관코드 
 	private String finName;							// 금융기관명	
 	private String finPhone;						// 금융기관연락처

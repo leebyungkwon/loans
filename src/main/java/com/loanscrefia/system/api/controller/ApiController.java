@@ -139,7 +139,7 @@ public class ApiController {
 			
 				// 화면 분기처리용
 				recruitDomain.setPlClass("1");
-				recruitDomain.setPlRegistNo(responseJson.getString("pre_lc_num"));
+				recruitDomain.setPlRegistNo(recruitSearchDomain.getPreLcNum());
 				recruitDomain.setPlMName(responseJson.getString("name"));
 				String ssn = responseJson.getString("ssn");
 				if(ssn != null) {
@@ -148,6 +148,8 @@ public class ApiController {
 				recruitDomain.setPlMZId(ssn);
 				//recruitDomain.setPlMName(responseJson.getString("mobile"));
 				//recruitDomain.setPlMName(responseJson.getString("career_yn"));
+				recruitDomain.setPreRegYn(responseJson.getString("fee_yn"));	// 수수료 기 납부 여부
+				recruitDomain.setPreRegState("state");							// P : 가등록완료, C : 가등록취소, S : 최종등록완료
 				
 				JSONArray conArr = responseJson.getJSONArray("con_arr");
 				JSONObject jsonObj = new JSONObject();
@@ -155,16 +157,25 @@ public class ApiController {
 				for(int i=0; i<conArr.length(); i++){
 					jsonObj = conArr.getJSONObject(i);
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
-					searchResultDomain.setConNum(jsonObj.getString("con_num"));
-					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
-					searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
-					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
-					searchResultDomain.setFinName(jsonObj.getString("fin_name"));
-					searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
+					
+					// 가등록시 등록번호 분기처리 확인
+					if(!jsonObj.isNull("corp_num")) {
+						searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
+					}
+					searchResultDomain.setCorpNum(jsonObj.getString("con_mobile"));
 					searchResultDomain.setConDate(jsonObj.getString("con_date"));
+					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					if(!jsonObj.isNull("fin_name")) {
+						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
+					}
+					
+					if(!jsonObj.isNull("fin_phone")) {
+						searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
+					}
+					
 					searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
-					searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
-					searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
+					//searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
+					//searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
 					searchResult.add(searchResultDomain);
 				}
 				
@@ -187,8 +198,8 @@ public class ApiController {
 				// 화면 분기처리용
 				recruitDomain.setPlClass("2");
 				
-				recruitDomain.setPlRegistNo(responseJson.getString("lc_num"));
-				recruitDomain.setPlMerchantNo(responseJson.getString("corp_num"));		// 법인등록번호
+				recruitDomain.setPlRegistNo(recruitSearchDomain.getPreLcNum());
+				//recruitDomain.setPlMerchantNo(responseJson.getString("corp_num"));		// 법인등록번호
 				recruitDomain.setPlMName(responseJson.getString("corp_name"));			// 법인명
 				recruitDomain.setPlCeoName(responseJson.getString("corp_rep_name"));	// 법인대표성명
 				String corpRepSsn = responseJson.getString("corp_rep_ssn");
@@ -197,6 +208,8 @@ public class ApiController {
 				}
 				recruitDomain.setPlMZId(corpRepSsn);		// 법인대표주민번호			
 				//recruitDomain.setCareerTyp(responseJson.getString("career_yn"));		// 경력여부
+				recruitDomain.setCareerTyp(responseJson.getString("state"));			// P : 가등록완료, C : 가등록취소, S : 최종등록완료
+				recruitDomain.setPreRegYn(responseJson.getString("fee_yn"));			// 수수료 기 납부 여부
 				
 				JSONArray conArr = responseJson.getJSONArray("con_arr");
 				JSONObject jsonObj = new JSONObject();
@@ -205,16 +218,17 @@ public class ApiController {
 					jsonObj = conArr.getJSONObject(i);
 					
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
-					searchResultDomain.setConNum(jsonObj.getString("con_num"));
 					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
-					searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
-					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
-					searchResultDomain.setFinName(jsonObj.getString("fin_name"));
-					searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
 					searchResultDomain.setConDate(jsonObj.getString("con_date"));
+					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					if(!jsonObj.isNull("fin_name")) {
+						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
+					}
+					if(!jsonObj.isNull("fin_phone")) {
+						searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
+					}
+					
 					searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
-					searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
-					searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
 					searchResult.add(searchResultDomain);
 				}
 				
@@ -251,14 +265,13 @@ public class ApiController {
 				// 화면 분기처리용
 				recruitDomain.setPlClass("1");
 				
-				recruitDomain.setPlRegistNo(responseJson.getString("lc_num"));
+				recruitDomain.setPlRegistNo(recruitSearchDomain.getPlRegistNo());
 				recruitDomain.setPlMName(responseJson.getString("name"));
 				String ssn = responseJson.getString("ssn");
 				if(ssn != null) {
 					ssn = ssn.substring(0, 6);
 				}
 				recruitDomain.setPlMZId(ssn);
-				//recruitDomain.setPlMName(responseJson.getString("mobile"));
 				//recruitDomain.setPlMName(responseJson.getString("career_yn"));
 				
 				JSONArray conArr = responseJson.getJSONArray("con_arr");
@@ -270,14 +283,28 @@ public class ApiController {
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
 					searchResultDomain.setConNum(jsonObj.getString("con_num"));
 					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
-					searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
+					if(!jsonObj.isNull("corp_num")) {
+						searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
+					}
+					searchResultDomain.setConMobile(jsonObj.getString("con_mobile"));
 					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
-					searchResultDomain.setFinName(jsonObj.getString("fin_name"));
-					searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
+					if(!jsonObj.isNull("fin_name")) {
+						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
+					}
+					
+					if(!jsonObj.isNull("fin_phone")) {
+						searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
+					}			
 					searchResultDomain.setConDate(jsonObj.getString("con_date"));
 					searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
-					searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
-					searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
+					
+					// 등록시 해지정보 분기처리 확인
+					if(!jsonObj.isNull("cancel_date")) {
+						searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
+					}
+					if(!jsonObj.isNull("cancel_code")) {
+						searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
+					}
 					searchResult.add(searchResultDomain);
 				}
 				
@@ -301,7 +328,7 @@ public class ApiController {
 				// 화면 분기처리용
 				recruitDomain.setPlClass("2");
 				
-				recruitDomain.setPlRegistNo(responseJson.getString("lc_num"));
+				recruitDomain.setPlRegistNo(recruitSearchDomain.getPlRegistNo());
 				recruitDomain.setPlMerchantNo(responseJson.getString("corp_num"));		// 법인등록번호
 				recruitDomain.setPlMName(responseJson.getString("corp_name"));			// 법인명
 				recruitDomain.setPlCeoName(responseJson.getString("corp_rep_name"));	// 법인대표성명
@@ -321,14 +348,22 @@ public class ApiController {
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
 					searchResultDomain.setConNum(jsonObj.getString("con_num"));
 					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
-					searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
-					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
-					searchResultDomain.setFinName(jsonObj.getString("fin_name"));
-					searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
 					searchResultDomain.setConDate(jsonObj.getString("con_date"));
+					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					if(!jsonObj.isNull("fin_name")) {
+						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
+					}
+					if(!jsonObj.isNull("fin_phone")) {
+						searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
+					}
 					searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
-					searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
-					searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
+
+					if(!jsonObj.isNull("cancel_date")) {
+						searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
+					}
+					if(!jsonObj.isNull("cancel_code")) {
+						searchResultDomain.setCancelCode(jsonObj.getString("cancel_code"));
+					}
 					searchResult.add(searchResultDomain);
 				}
 				
