@@ -236,8 +236,8 @@ function goRecruitImprove(rePlStat){
 					<c:when test="${fn:length(result.violationInfoList) > 0 }">
 						<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 							<tr>
-								<th>위반이력${status.count }</th>
-								<td colspan="3">${violationInfoList.violationCdNm }</td>
+								<th>위반이력사항</th>
+								<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>${violationInfoList.violationCdNm }</td>
 							</tr>
 						</c:forEach>
 					</c:when>
