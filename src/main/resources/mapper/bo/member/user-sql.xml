@@ -1216,6 +1216,8 @@
 		AND PL_MERCHANT_NO 	= #{plMerchantNo}
 		AND PL_REG_STAT 	= '3'				-- 모집인상태 : 자격취득
 		AND PL_STAT			= '9'				-- 처리상태 : 완료
+		AND PL_PRODUCT		= #{plProdcut}
+		AND COM_CODE		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
 	</select>
 	
 	<!-- ====================================================================================================== -->
