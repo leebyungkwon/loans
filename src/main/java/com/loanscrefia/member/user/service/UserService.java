@@ -850,9 +850,7 @@ public class UserService {
 				int corpCheck 		= userRepo.corpStatCheck(userRegInfo);
 				int corpPassCheck 	= corpService.corpPassCheck(userRegInfo);
 				
-				if(corpCheck == 0) {
-					return -1;
-				}else if(corpPassCheck == 0) {
+				if(corpCheck == 0 && corpPassCheck == 0) {
 					return -1;
 				}
 			}
@@ -886,9 +884,7 @@ public class UserService {
 			int corpCheck 		= userRepo.corpStatCheck(userRegInfo);
 			int corpPassCheck 	= corpService.corpPassCheck(userRegInfo);
 			
-			if(corpCheck == 0) {
-				return -1;
-			}else if(corpPassCheck == 0) {
+			if(corpCheck == 0 && corpPassCheck == 0) {
 				return -1;
 			}
 		}
