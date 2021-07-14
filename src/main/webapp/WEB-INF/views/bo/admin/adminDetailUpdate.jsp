@@ -81,6 +81,24 @@
 			}
 		});
 		
+		
+		/* ================================= Test =========================== */
+		
+		$('input:radio[name="optionTermsYn"]').on("click", function(){
+			if($('input:radio[name="optionTermsYn"]:checked').val() == "Y"){
+				$("#mobileNo").attr("disabled", false); 
+				$("#mobileNo").attr("placeholder", "휴대폰번호를 입력해 주세요. (- 포함)"); 
+				alert("선택적 약관동의를 동의 하셨습니다.")
+			}else{
+				$("#mobileNo").attr("disabled", true); 
+				$("#mobileNo").attr("placeholder", "선택적약관 미동의"); 
+				alert("선택적 약관동의가 해제 되셨습니다.")
+			}
+		});
+		
+		
+		/* ================================= Test =========================== */
+		
 		// 취소 버튼
 		$("#adminCancelBtn").on("click", function(){
 			$("#adminDetailFrm").submit();
@@ -225,7 +243,7 @@
 			$("#message").text("");
 		}
 	}
-
+	
 </script>
 
 <form id="adminDetailFrm" method="post" action="/member/admin/adminDetailPage">
@@ -300,15 +318,26 @@
 						</td>
 					</tr>
 					
-					
-					<c:if test="${adminInfo.optionTermsYn eq 'Y'}">
-						<tr>
-							<th>휴대폰번호</th>
-							<td>
-								<input type="text" id="mobileNo" name="mobileNo" maxlength="13" placeholder="휴대폰번호를 입력해 주세요. ( -포함)" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}'/>
-							</td>
-						</tr>
-					</c:if>
+					<tr>
+						<th>휴대폰 번호</th>
+						<td>
+							<input type="text" id="mobileNo" name="mobileNo" placeholder="선택적약관 미동의" maxlength="13" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}' disabled/>
+						</td>
+					</tr>
+
+					<tr>
+						<th>선택적 약관동의</th>
+						<td>
+							<div class="input_radio_wrap">
+								<input type="radio" name="optionTermsYn" id="radio01" value="Y" <c:if test="${adminInfo.optionTermsYn eq 'Y' }">checked="checked"</c:if>>
+								<label for="radio01">Y</label>
+							</div>
+							<div class="input_radio_wrap mgl20">
+								<input type="radio" name="optionTermsYn" id="radio02" value="N" <c:if test="${adminInfo.optionTermsYn eq 'N' }">checked="checked"</c:if>>
+								<label for="radio02">N</label>
+							</div>
+						</td>
+					</tr>
 					
 					<tr>
 						<th>첨부파일</th>

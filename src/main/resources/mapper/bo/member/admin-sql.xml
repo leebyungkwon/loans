@@ -28,6 +28,7 @@
 			,TLM.DROP_YN										/*탈퇴여부*/
 			,TLM.UPD_SEQ										/*수정자 시퀀스*/
 			,TLM.UPD_TIMESTAMP									/*수정 일시*/
+			,TLM.OPTION_TERMS_YN								/*선택적약관동의*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND	TLM.COM_CODE = (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
@@ -56,6 +57,7 @@
 			end AS JOIN_DT
 			,TLM.FILE_SEQ										/*첨부파일ID*/
 			,TLM.MSG											/*가승인 사유*/
+			,TLM.OPTION_TERMS_YN								/*선택적약관동의*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND TLM.MEMBER_SEQ = #{memberSeq}
@@ -81,6 +83,7 @@
 			,TLM.FILE_SEQ										/*첨부파일ID*/
 			,TLM.MSG											/*가승인 사유*/
 			,TLM.APPR_STAT										/*승인여부*/
+			,TLM.OPTION_TERMS_YN								/*선택적약관동의*/
 		FROM TB_LC_MEMBERS TLM
 		<where>
 			AND TLM.MEMBER_SEQ = #{memberSeq}
@@ -91,35 +94,38 @@
 	<select id="saveAdminUpdate" parameterType="admin">
 		UPDATE TB_LC_MEMBERS
 		SET
-			 UPD_TIMESTAMP 		= NOW()									/*수정일시*/
+			UPD_TIMESTAMP 		= NOW()									/*수정일시*/
 			,UPD_SEQ			= #{updSeq}								/*수정자 시퀀스*/
-			<if test="fileSeq != null and fileSeq != ''">
+		<if test="fileSeq != null and fileSeq != ''">
 			,FILE_SEQ			= #{fileSeq}							/*첨부파일시퀀스*/
-			</if>
-			<if test="memberId != null and memberId != ''">
+		</if>
+		<if test="memberId != null and memberId != ''">
 			,MEMBER_ID			= #{memberId}							/*담당자ID*/
-			</if>
-			<if test="password != null and password != ''">
+		</if>
+		<if test="password != null and password != ''">
 			,PASSWORD			= #{password}							/*패스워드*/
-			</if>
-			<if test="deptNm != null and deptNm != ''">
+		</if>
+		<if test="deptNm != null and deptNm != ''">
 			,DEPT_NM			= CONCAT(TRIM(#{deptNm}), '')			/*부서명*/
-			</if>
-			<if test="memberName != null and memberName != ''">
+		</if>
+		<if test="memberName != null and memberName != ''">
 			,MEMBER_NAME		= CONCAT(TRIM(#{memberName}), '')		/*담당자이름*/
-			</if>
-			<if test="positionNm != null and positionNm != ''">
+		</if>
+		<if test="positionNm != null and positionNm != ''">
 			,POSITION_NM		= CONCAT(TRIM(#{positionNm}), '')		/*직위명*/			
-			</if>
-			<if test="email != null and email != ''">
+		</if>
+		<if test="email != null and email != ''">
 			,EMAIL				= #{email}								/*이메일*/
-			</if>
-			<if test="extensionNo != null and extensionNo != ''">
+		</if>
+		<if test="extensionNo != null and extensionNo != ''">
 			,EXTENSION_NO		= REPLACE(#{extensionNo}, '-', '')		/*회사전화번호*/
-			</if>
-			<if test="mobileNo != null and mobileNo != ''">
+		</if>
+		<if test="mobileNo != null and mobileNo != ''">
 			,MOBILE_NO			= REPLACE(#{mobileNo}, '-', '')			/*휴대폰번호*/
-			</if>
+		</if>
+		<if test="optionTermsYn != null and optionTermsYn != ''">
+			,OPTION_TERMS_YN	= #{optionTermsYn}						/*선택적 약관동의*/
+		</if>
 		<where>
 			AND MEMBER_SEQ		= #{memberSeq}
 		</where>
@@ -133,33 +139,36 @@
 			,APPR_STAT 			= '1'									/*승인여부*/
 			,UPD_SEQ			= #{updSeq}								/*수정자 시퀀스*/
 			,UPD_TIMESTAMP		= NOW()									/*수정 일시*/
-			<if test="fileSeq != null and fileSeq != ''">
+		<if test="fileSeq != null and fileSeq != ''">
 			,FILE_SEQ			= #{fileSeq}							/*첨부파일ID*/
-			</if>
-			<if test="memberId != null and memberId != ''">
+		</if>
+		<if test="memberId != null and memberId != ''">
 			,MEMBER_ID			= #{memberId}							/*담당자ID*/
-			</if>
-			<if test="password != null and password != ''">
+		</if>
+		<if test="password != null and password != ''">
 			,PASSWORD			= #{password}							/*패스워드*/
-			</if>
-			<if test="deptNm != null and deptNm != ''">
+		</if>
+		<if test="deptNm != null and deptNm != ''">
 			,DEPT_NM			= CONCAT(TRIM(#{deptNm}), '')			/*부서명*/
-			</if>
-			<if test="memberName != null and memberName != ''">
+		</if>
+		<if test="memberName != null and memberName != ''">
 			,MEMBER_NAME		= CONCAT(TRIM(#{memberName}), '')		/*담당자이름*/
-			</if>
-			<if test="positionNm != null and positionNm != ''">
+		</if>
+		<if test="positionNm != null and positionNm != ''">
 			,POSITION_NM		= CONCAT(TRIM(#{positionNm}), '')		/*직위명*/			
-			</if>
-			<if test="email != null and email != ''">
+		</if>
+		<if test="email != null and email != ''">
 			,EMAIL				= #{email}								/*이메일*/
-			</if>
-			<if test="extensionNo != null and extensionNo != ''">
+		</if>
+		<if test="extensionNo != null and extensionNo != ''">
 			,EXTENSION_NO		= REPLACE(#{extensionNo}, '-', '')		/*회사전화번호*/
-			</if>
-			<if test="mobileNo != null and mobileNo != ''">
+		</if>
+		<if test="mobileNo != null and mobileNo != ''">
 			,MOBILE_NO			= REPLACE(#{mobileNo}, '-', '')			/*휴대폰번호*/
-			</if>
+		</if>
+		<if test="optionTermsYn != null and optionTermsYn != ''">
+			,OPTION_TERMS_YN	= #{optionTermsYn}						/*선택적 약관동의*/
+		</if>		
 		WHERE
 			MEMBER_SEQ = #{memberSeq}
 	</update>
