@@ -15,6 +15,7 @@ public @interface ExcelColumn {
 	String vEncrypt() default "";
 	String chkPrd() default "";
 	String chkFormat() default "";
+	String chkDate() default "";
 	int vLenMin() default 0;
 	int vLenMax() default 10000;
 	

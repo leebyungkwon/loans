@@ -52,7 +52,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="경력종료일", vCell="L", vLenMin=0, vLenMax=10, chkFormat="cal")
 	private String careerEndDate;	//경력종료일
 	
-	@ExcelColumn(headerName="계약일자", vCell="M", vLenMin=10, vLenMax=10, chkFormat="cal")
+	@ExcelColumn(headerName="계약일자", vCell="M", vLenMin=10, vLenMax=10, chkFormat="cal", chkDate="contDt")
 	private String comContDate;		//계약일자
 	
 	@ExcelColumn(headerName="위탁예정기간", vCell="N", vLenMin=10, vLenMax=10, chkFormat="cal")

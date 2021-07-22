@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -91,6 +92,7 @@ public class UtilExcel<T> {
 		List<String> vEncrypt 	= new ArrayList<String>();
 		List<String> chkPrd 	= new ArrayList<String>();
 		List<String> chkFormat 	= new ArrayList<String>();
+		List<String> chkDate 	= new ArrayList<String>();
 		
 		for(Field field : fields) {
 			if(field.isAnnotationPresent(ExcelColumn.class)) {
@@ -105,6 +107,7 @@ public class UtilExcel<T> {
 				vEncrypt.add(columnAnnotation.vEncrypt());
 				chkPrd.add(columnAnnotation.chkPrd());
 				chkFormat.add(columnAnnotation.chkFormat());
+				chkDate.add(columnAnnotation.chkDate());
 			}
 		}
 		
@@ -118,7 +121,7 @@ public class UtilExcel<T> {
 			int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
 			int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();
 			
-			if(physicalNumberOfRows == 1) {
+			if(physicalNumberOfRows <= 1) {
 				errorMsg = "엑셀 양식에 입력된 데이터가 없습니다.";
 				errorMsgMap.put("errorMsg", errorMsg);
 	        	result.clear();
@@ -146,6 +149,7 @@ public class UtilExcel<T> {
 			    CorpDomain corpChkParam = new CorpDomain();
 			    EduDomain eduChkParam 	= new EduDomain();
 			    UserDomain userChkParam = new UserDomain();
+			    String[] careerDtArr	= new String[2];
 			    
 			    //row check
 				int cellChkCnt 			= 0;
@@ -167,7 +171,7 @@ public class UtilExcel<T> {
 		            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
 		                cell 		= row.getCell(cellIndex);
 		                cellName 	= ExcelCellRef.getName(cell, cellIndex);
-		                cellVal 	= ExcelCellRef.getValue(cell);
+		                cellVal 	= ExcelCellRef.getValue(cell).trim();
 		                
 		                //log.info(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
 		                
@@ -312,6 +316,34 @@ public class UtilExcel<T> {
 	                					}
 		                			}
 		                		}
+		                		if(!chkDate.get(j).isEmpty()) {
+		                			if(chkDate.get(j).equals("contDt")) {
+		                				//계약일자 체크(엑셀 업로드 시점보다 이후면 X)
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					if(!comContDateChk(cellVal)) {
+				                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "가 업로드 일자보다 이후입니다.<br>";
+		                					}
+		                				}
+		                			}
+		                			/*
+		                			else if(chkDate.get(j).equals("careerStDt")) {
+		                				//경력시작일 > 경력종료일 체크
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					careerDtArr[0] = cellVal;
+			                			}
+		                			}else if(chkDate.get(j).equals("careerEdDt")) {
+		                				//경력시작일 > 경력종료일 체크
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					careerDtArr[1] = cellVal;
+			                			}
+		                				if(careerDtArr != null && (careerDtArr[0] != null && !careerDtArr[0].equals("")) && (careerDtArr[1] != null && !careerDtArr[1].equals(""))) {
+		                					if(!careerDateChk(careerDtArr[0],careerDtArr[1])) {
+		                						errorMsg += row.getRowNum() + 1 + "번째 줄의 경력시작일이 경력종료일보다 이후입니다.<br>";
+		                					}
+		                				}
+		                			}
+		                			*/
+		                		}
 		                	}
 		                }
 		                map.put(cellName, cellVal);
@@ -439,5 +471,40 @@ public class UtilExcel<T> {
 		return Pattern.matches("^[0-9]{6}-[0-9]{7}$", plMerchantNo);
 	}
 
+	//계약일자 체크(엑셀 업로드 시점보다 이후면 X)
+	private boolean comContDateChk(String comContDate) {
+		try {
+			SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+			
+			Date currentDt 	= dateFormatParser.parse(dateFormatParser.format(new Date()));
+			Date comContDt 	= dateFormatParser.parse(comContDate);
+			int compare 	= currentDt.compareTo(comContDt);
+
+			if(compare < 0) { //엑셀 업로드 시점 < 계약일자
+				return false;
+			}
+		}catch(ParseException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	//경력시작일 > 경력종료일 체크
+	private boolean careerDateChk(String careerStartDate, String careerEndDate) {
+		try {
+			SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+			
+			Date careerStDt = dateFormatParser.parse(careerStartDate);
+			Date careerEdDt = dateFormatParser.parse(careerEndDate);
+			int compare 	= careerStDt.compareTo(careerEdDt);
+
+			if(compare > 0) { //경력시작일 > 경력종료일
+				return false;
+			}
+		}catch(ParseException e) {
+			return false;
+		}
+		return true;
+	}
 
 }
