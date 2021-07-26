@@ -22,6 +22,7 @@ public class ApplyDomain extends BaseDomain {
 	private String comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String plClass;			//분류							-> [CLS001]개인,법인
+	private String plWork;			//업종
 	@ExcelColumn(headerName = "법인사용인여부", order = 5)
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력

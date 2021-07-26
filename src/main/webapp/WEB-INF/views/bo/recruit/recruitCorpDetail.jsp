@@ -192,6 +192,10 @@ function goRecruitImprove(rePlStat){
 					<td colspan="3">${result.recruitInfo.plProductNm }</td>
 				</tr>
 				<tr>
+					<th>업종</th>
+					<td colspan="3">${result.recruitInfo.plWork }</td>
+				</tr>
+				<tr>
 					<th>상호</th>
 					<td>${result.recruitInfo.plMerchantName }</td>
 					<th>대표이사</th>

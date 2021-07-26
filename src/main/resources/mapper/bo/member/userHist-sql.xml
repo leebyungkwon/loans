@@ -17,6 +17,7 @@
 			,SUB_YN
 			,PRE_REG_YN
 			,PL_CLASS
+			,PL_WORK
 			,CORP_USER_YN
 			,CAREER_TYP
 			,PL_PRODUCT
@@ -67,6 +68,7 @@
 			,SUB_YN
 			,PRE_REG_YN
 			,PL_CLASS
+			,PL_WORK
 			,CORP_USER_YN
 			,CAREER_TYP
 			,PL_PRODUCT

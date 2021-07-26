@@ -57,4 +57,7 @@ public class UserCorpExcelDomain extends BaseDomain {
 	
 	@ExcelColumn(headerName="CI", vCell="N", vLenMin=1, vLenMax=88, chkFormat="ci", chkPrd="prd2")
 	private String ci;				//CI
+	
+	@ExcelColumn(headerName="업종", vCell="O", vLenMin=0, vLenMax=20)
+	private String plWork;			//업종
 }

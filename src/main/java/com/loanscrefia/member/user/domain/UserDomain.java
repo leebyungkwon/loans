@@ -25,6 +25,7 @@ public class UserDomain extends BaseDomain {
 	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
 	private String preLcNum;		//가등록번호
 	private String plClass;			//분류							-> [CLS001]개인,법인
+	private String plWork;			//업종
 	@ExcelColumn(headerName = "법인사용인여부", order = 4)
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력

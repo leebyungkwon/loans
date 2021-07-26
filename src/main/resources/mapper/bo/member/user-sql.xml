@@ -197,6 +197,7 @@
 				,TLM.PRE_REG_YN
 				,TLM.PL_CLASS
 				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.PL_WORK
 				,TLM.CORP_USER_YN
 				,TLM.CAREER_TYP
 				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
@@ -534,6 +535,7 @@
 			,CI
 			,PRE_LC_NUM
 			,PRE_REG_YN
+			,PL_WORK
 			,REG_TIMESTAMP
    		)
    		VALUES
@@ -561,6 +563,7 @@
    			,#{item.N}						-- CI
    			,#{item.preLcNum}				-- 가등록 번호
    			,#{item.preRegYn}				-- 수수료 기 납부 여부
+   			,#{item.O}						-- 업종
    			,NOW()
    		)
    		</foreach>
@@ -688,12 +691,14 @@
    		(
    			 MASTER_SEQ
 			,OPER_NAME
+			,PL_M_Z_ID
    		)
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
    		(
    			 #{masterSeq}
    			,#{item.A}						-- 성명
+   			,#{item.B}						-- 주민등록번호
    		)
    		</foreach>
    	</insert>
@@ -704,12 +709,14 @@
    		(
    			 MASTER_SEQ
 			,OPER_NAME
+			,PL_M_Z_ID
 			,FILE_SEQ
    		)
    		VALUES
    		(
    			 #{masterSeq}
    			,#{operName}
+   			,#{plMZId}
    			,#{fileSeq}
    		)
    	</insert>
@@ -729,6 +736,7 @@
 			,TLM.PRE_REG_YN
 			,TLM.PL_CLASS
 			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.PL_WORK
 			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
@@ -1085,6 +1093,7 @@
    			<if test="votingStockCnt != null and votingStockCnt != ''">
    			,VOTING_STOCK_CNT	= #{votingStockCnt}
    			</if>
+   			,PL_WORK 			= #{plWork}
    			,UPD_SEQ 			= #{updSeq}
    			,UPD_TIMESTAMP 		= NOW()
    		<where>

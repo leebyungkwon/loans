@@ -251,6 +251,10 @@ function goApplyImprove(num){
 					<td colspan="3">${result.applyInfo.plProductNm }</td>
 				</tr>
 				<tr>
+					<th>업종</th>
+					<td colspan="3">${result.applyInfo.plWork }</td>
+				</tr>
+				<tr>
 					<th>상호</th>
 					<td>${result.applyInfo.plMerchantName }</td>
 					<th>대표이사</th>

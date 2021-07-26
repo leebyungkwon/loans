@@ -186,6 +186,10 @@ function goUserChangeApply(){
 						<td colspan="3">${result.userRegInfo.plProductNm }</td>
 					</tr>
 					<tr>
+						<th>업종</th>
+						<td colspan="3"><input type="text" name="plWork" class="w100" value="${result.userRegInfo.plWork }" maxlength="20"></td>
+					</tr>
+					<tr>
 						<th>상호</th>
 						<td><input type="text" name="plMerchantName" class="w100" value="${result.userRegInfo.plMerchantName }" maxlength="30" data-vd='{"type":"text","len":"1,30","req":true,"msg":"상호를 입력해 주세요."}'></td>
 						<th>대표이사</th>
