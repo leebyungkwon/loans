@@ -610,7 +610,7 @@ public class UserService {
 			int chkResult = eduService.plEduNoChk(eduChkParam);
 			
 			if(chkResult == 0) {
-				return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
+				return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호/인증서번호가 유효하지 않습니다.");
 			}
 		}
 		//등록
@@ -727,7 +727,7 @@ public class UserService {
 		int chkResult = eduService.plEduNoChk(eduChkParam);
 		
 		if(chkResult == 0) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호가 유효하지 않습니다.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "교육이수번호/인증서번호가 유효하지 않습니다.");
 		}
 		//등록
 		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
