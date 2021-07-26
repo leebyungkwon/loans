@@ -186,21 +186,15 @@
 
 	boolean result = payService.insertPayResult(payDomain);
 	
-	if(result){
-		//(2)결제 완료 화면 이동 : masterSeq 들고 이동해야함
-		out.println("<script>");
-		out.println("var newForm = $('<form></form>');");
-		out.println("newForm.attr('method','post');");
-		out.println("newForm.attr('action','/front/pay/payResult');");
-		out.println("newForm.append('<input type='hidden' name='masterSeq' value='"+masterSeq+"'>);");
-		out.println("newForm.appendTo('body');");
-		out.println("newForm.submit();");
-		out.println("</script>");
-	}else{
-		out.println("<script>");
-		out.println("alert('DB에 정보 저장 실패!');");
-		out.println("</script>");
-	}
+	//(2)결제 완료 화면 이동 : masterSeq 들고 이동해야함
+	out.println("<script>");
+	out.println("var newForm = $('<form></form>');");
+	out.println("newForm.attr('method','post');");
+	out.println("newForm.attr('action','/front/pay/payResult');");
+	out.println("newForm.append('<input type='hidden' name='masterSeq' value='"+masterSeq+"'>);");
+	out.println("newForm.appendTo('body');");
+	out.println("newForm.submit();");
+	out.println("</script>");
 	//----------------------[2021.05.21 추가 : E]----------------------
 	
   }else{

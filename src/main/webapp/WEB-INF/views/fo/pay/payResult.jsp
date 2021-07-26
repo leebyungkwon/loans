@@ -18,7 +18,7 @@ function goCertiCardDownload(){
 </script>
 
 <div class="inquiry_wrap type2">
-	<div class="title">결제내역 및 등록증 다운로드</div>
+	<div class="title">결제내역</div>
 	<div class="payment_wrap">
 		<div class="inner">
 			<table class="member_info">
@@ -56,7 +56,7 @@ function goCertiCardDownload(){
 							</tr>
 							<tr>
 								<th>결제</th>
-								<td><span class="bold red">20,000원 (${payResultInfo.payName })</span></td>
+								<td><span class="bold red">(금액수정예정 ex)1000)원 (${payResultInfo.payName })</span></td>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -70,7 +70,7 @@ function goCertiCardDownload(){
 							</tr>
 							<tr>
 								<th>결제</th>
-								<td><span class="bold red">200,000원 (${payResultInfo.payName })</span></td>
+								<td><span class="bold red">(금액수정예정 ex)1000)원 (${payResultInfo.payName })</span></td>
 							</tr>
 						</c:otherwise>
 					</c:choose>
@@ -78,9 +78,9 @@ function goCertiCardDownload(){
 			</table>
 		</div>
 	</div>
-	<div class="btn_wrap">
+<!-- 	<div class="btn_wrap">
 		<a href="javascript:void(0);" class="btn_black_long" onclick="goCertiCardDownload();">등록증 다운로드</a>
-	</div>
+	</div> -->
 </div>
       
       
