@@ -18,6 +18,7 @@ function pageLoad(){
 	//goCallViolationCd();
 	
 	//이름,주민번호,휴대폰번호 변경 시 증빙서류 필수
+	/*
 	$("#plMName").on("propertychange change keyup paste input",function(){
 		chgPlMName = $(this).val();
 		
@@ -48,6 +49,7 @@ function pageLoad(){
 			$("#chgVeriDoc1 > .goFileDel").attr("data-essential","N");
 		}
 	});
+	*/
 	$("#plCellphone").on("propertychange change keyup paste input",function(){
 		var inputVal = $(this).val();
 		
@@ -486,7 +488,6 @@ function goUserChangeApply(){
 							</c:choose>
 						</td>
 					</tr>
-					 --%>
 					<tr>
 						<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 						<td id="chgVeriDoc1">
@@ -505,6 +506,7 @@ function goUserChangeApply(){
 							</c:choose>
 						</td>
 					</tr>
+					 --%>
 					<tr>
 						<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
 						<td id="chgVeriDoc2">

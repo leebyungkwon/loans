@@ -289,7 +289,6 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
-				 --%>
 				<tr>
 					<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 					<td>
@@ -301,6 +300,7 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
+				 --%>
 				<tr>
 					<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
 					<td>
