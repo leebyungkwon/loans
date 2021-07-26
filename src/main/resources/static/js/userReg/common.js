@@ -403,14 +403,16 @@ function goViolationDataDel(violationSeq,obj){
 				  violationSeq 	: violationSeq
 			}
 			, success 	: function (opt,result) {
-				$(obj).closest("tr").remove();
+				var violationAreaLen 	= $(".violationArea").length;
+				var aLen 				= $(obj).closest("tr").find("td").find("a").length;
 				
-				var violationAreaLen = $(".violationArea").length;
-				if(violationAreaLen == 0){
+				if(aLen == 2){
+					$(".violationArea").eq(violationAreaLen - 2).find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
+				}else if(violationAreaLen == 1){
 					goViolationAdd(obj);
-				}else{
-					$(".violationArea").eq(violationAreaLen - 1).find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
 				}
+				
+				$(obj).closest("tr").remove();
 		    }
 		}
 		AjaxUtil.post(p);
