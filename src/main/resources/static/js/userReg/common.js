@@ -245,7 +245,9 @@ function goCorpInfoReg(obj){
 		var p = {
 			  name 		: formNm
 			, success 	: function (opt,result) {
-				location.reload();
+				if(result.code != "fail"){
+					location.reload();
+				}
 	 	    }
 		}
 		AjaxUtil.files(p);
