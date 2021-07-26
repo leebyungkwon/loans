@@ -63,6 +63,7 @@ public class RecruitDomain extends BaseDomain {
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부
+	private String adminChkYn;		//관리자확인여부
 	@ExcelColumn(headerName = "승인완료일", order = 13)
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "자격취득일", order = 15)

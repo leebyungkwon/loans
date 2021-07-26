@@ -25,14 +25,14 @@ function goUserSearch() {
 		,param 		: params
 		,success	: function(opt,result){
 			console.log("결과 :: " , result);
-			if(result.data.resData == null || result.data.resData == ""){
+			if(result.message = "fail"){
 				alert("조회된 결과가 없습니다.");
 				return false;
-			}else if(result.message = "fail"){
-				alert("조회된 결과가 없습니다.");
-				return false;
-			}else{
+			}else if(result.message = "success"){
 				goUserSearchResultPage(formNm,result.data.resData, classCheck);
+			}else{
+				alert("조회된 결과가 없습니다.");
+				return false;
 			}
 		}
 	}
@@ -41,11 +41,8 @@ function goUserSearch() {
 
 //은행연합회 이동
 function goKfbSearch(){
-	
-
-	location.href="/front/search/userSearchResult";
-	
-	//alert("은행연합회 통합조회사이트 준비중");
+	//location.href="/front/search/userSearchResult";
+	alert("은행연합회 통합조회사이트 준비중");
 }
 
 //조회 결과 있을 때

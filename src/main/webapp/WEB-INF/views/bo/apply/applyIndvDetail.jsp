@@ -212,8 +212,12 @@ function goApplyImprove(num){
 		<div class="box">
 			<h3>등록정보</h3>
 			<div class="input_check_wrap right mgb0">
-				<input type="checkbox" id="adminCheck" class="check" <c:if test="${result.applyInfo.chkYn eq 'Y'}">checked</c:if>>
-				<label for="adminCheck">실무자 확인</label>
+			
+				<input type="checkbox" id="adminCheck" class="check" style="margin-right:150px;" <c:if test="${result.applyInfo.adminChkYn eq 'Y'}">checked</c:if>>
+				<label for="adminCheck">관리자 확인</label>
+			
+				<input type="checkbox" id="masterCheck" class="check" <c:if test="${result.applyInfo.chkYn eq 'Y'}">checked</c:if>>
+				<label for="masterCheck">실무자 확인</label>
 			</div>
 		</div>
 		<div id="table">

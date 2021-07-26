@@ -3,6 +3,30 @@
  */
 
 //실무자 확인
+$(document).on("click","#masterCheck",function(){
+	
+	var chk = $(this).is(":checked");
+	
+	if(chk){
+		chk = "Y";
+	}else{
+		chk = "N";
+	}
+	
+	var p = {
+		  url		: "/admin/apply/applyAdminCheck"	
+		, param		: {
+			 chkYn		: chk
+			,masterSeq	: $("#masterSeq").val()
+		}
+		, success 	: function (opt,result) {
+
+	    }
+	}
+	AjaxUtil.post(p);
+});
+
+//관리자 확인
 $(document).on("click","#adminCheck",function(){
 	
 	var chk = $(this).is(":checked");
@@ -16,7 +40,7 @@ $(document).on("click","#adminCheck",function(){
 	var p = {
 		  url		: "/admin/apply/applyCheck"	
 		, param		: {
-			 chkYn 		: chk
+			 adminChkYn 		: chk
 			,masterSeq	: $("#masterSeq").val()
 		}
 		, success 	: function (opt,result) {

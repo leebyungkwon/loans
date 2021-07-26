@@ -106,22 +106,34 @@ public class SearchController {
 					jsonObj = conArr.getJSONObject(i);
 					
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
-					searchResultDomain.setConNum(jsonObj.getString("con_num"));
-					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
+					if(!jsonObj.isNull("con_num")) {
+						searchResultDomain.setConNum(jsonObj.getString("con_num"));
+					}
+					if(!jsonObj.isNull("biz_code")) {
+						searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
+					}
 					if(!jsonObj.isNull("corp_num")) {
 						searchResultDomain.setCorpNum(jsonObj.getString("corp_num"));
 					}
-					searchResultDomain.setConMobile(jsonObj.getString("con_mobile"));
-					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					if(!jsonObj.isNull("con_mobile")) {
+						searchResultDomain.setConMobile(jsonObj.getString("con_mobile"));						
+					}
+					if(!jsonObj.isNull("fin_code")) {
+						searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					}
 					if(!jsonObj.isNull("fin_name")) {
 						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
 					}
 					if(!jsonObj.isNull("fin_phone")) {
 						searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
 					}
-					searchResultDomain.setConDate(jsonObj.getString("con_date"));
-					searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
 					
+					if(!jsonObj.isNull("con_date")) {
+						searchResultDomain.setConDate(jsonObj.getString("con_date"));
+					}
+					if(!jsonObj.isNull("loan_type")) {
+						searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
+					}
 					// 등록시 해지정보 분기처리 확인
 					if(!jsonObj.isNull("cancel_date")) {
 						searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
@@ -170,18 +182,28 @@ public class SearchController {
 					jsonObj = conArr.getJSONObject(i);
 					
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
-					searchResultDomain.setConNum(jsonObj.getString("con_num"));
-					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
-					searchResultDomain.setConDate(jsonObj.getString("con_date"));
-					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					if(!jsonObj.isNull("con_num")) {
+						searchResultDomain.setConNum(jsonObj.getString("con_num"));
+					}
+					
+					if(!jsonObj.isNull("biz_code")) {
+						searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
+					}
+					if(!jsonObj.isNull("con_date")) {
+						searchResultDomain.setConDate(jsonObj.getString("con_date"));
+					}
+					if(!jsonObj.isNull("fin_code")) {
+						searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					}
 					if(!jsonObj.isNull("fin_name")) {
 						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
 					}
 					if(!jsonObj.isNull("fin_phone")) {
 						searchResultDomain.setFinPhone(jsonObj.getString("fin_phone"));
 					}
-					searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
-
+					if(!jsonObj.isNull("loan_type")) {
+						searchResultDomain.setLoanType(jsonObj.getString("loan_type"));
+					}
 					if(!jsonObj.isNull("cancel_date")) {
 						searchResultDomain.setCancelDate(jsonObj.getString("cancel_date"));
 					}

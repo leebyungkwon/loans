@@ -69,10 +69,15 @@
 					end
 				end CRE_APP_FI_DATE_NM
 				,COALESCE(TLM.CHK_YN,'N') AS CHK_YN
+				,COALESCE(TLM.ADMIN_CHK_YN,'N') AS ADMIN_CHK_YN
 				,CASE
 					WHEN TLM.CHK_YN = 'Y' THEN '확인'
 					ELSE '미확인'
 				 END CHK_YN_TXT
+				,CASE
+					WHEN TLM.ADMIN_CHK_YN = 'Y' THEN '확인'
+					ELSE '미확인'
+				 END ADMIN_CHK_YN_TXT
 				,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
 				,case
 					when TLM.CRE_APP_DATE = '' then null
@@ -129,6 +134,11 @@
    			<if test="chkYn != null and chkYn != ''">
 				AND Z.CHK_YN = #{chkYn}
 			</if>
+			
+   			<if test="adminChkYn != null and adminChkYn != ''">
+				AND Z.ADMIN_CHK_YN = #{adminChkYn}
+			</if>
+			
 			<if test="plClass != null and plClass != ''">
 				<if test='plClass.equals("1") || plClass.equals("2")'>
 					AND Z.PL_CLASS 		= #{plClass} 
@@ -257,6 +267,7 @@
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
 			,TLM.CHK_YN
+			,TLM.ADMIN_CHK_YN
 			,TLM.CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE
 			,TLM.PAY_DATE
@@ -438,6 +449,16 @@
    		UPDATE tb_lc_mas01
    		SET
    			chk_yn = #{chkYn}
+   			, upd_seq = #{updSeq}
+   			, upd_timestamp = NOW()
+   		WHERE master_seq = #{masterSeq}
+   	</update>
+   	
+   	<update id="applyAdmincheck" parameterType="apply" >
+   		UPDATE tb_lc_mas01
+   		SET
+   			admin_chk_yn = #{adminChkYn}
+   			, admin_chk_seq = #{updSeq}
    			, upd_seq = #{updSeq}
    			, upd_timestamp = NOW()
    		WHERE master_seq = #{masterSeq}

@@ -60,8 +60,10 @@ public class ApplyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "요청일", order = 11)
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부
+	private String adminChkYn;		//관리자확인여부
 	@ExcelColumn(headerName = "실무자확인", order = 13)
 	private String chkYnTxt;
+	private String adminChkYnTxt;
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "승인남은일수", order = 12)
 	private String creAppFiDate;	// 승인남은일텍스트

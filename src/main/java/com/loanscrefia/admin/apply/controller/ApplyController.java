@@ -176,6 +176,14 @@ public class ApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	// 관리자확인
+	@PostMapping(value="/apply/applyAdminCheck")
+	public ResponseEntity<ResponseMsg> applyAdminCheck(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(applyService.applyAdminCheck(applyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	
 	// 개인 OCR
 	@PostMapping("/apply/indvOcr")

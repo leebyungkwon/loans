@@ -95,21 +95,20 @@ public class SearchService {
 		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "GET", "1", "N");
 		if("success".equals(responseMsg.getCode())) {
 			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-			String lcNum = responseJson.getString("lc_num");
-			kfbApiDomain.setResData(lcNum);
-			return new ResponseMsg(HttpStatus.OK, null, kfbApiDomain, "success");
+			
+			System.out.println("####################################");
+			System.out.println("#############"+responseJson+"###############");
+			System.out.println("####################################");
+			
+			if(!responseJson.isNull("name")) {
+				kfbApiDomain.setResData(searchDomain.getPlRegistNo());
+				return new ResponseMsg(HttpStatus.OK, null, kfbApiDomain, "success");
+			}else {
+				return new ResponseMsg(HttpStatus.OK, null, responseMsg, "fail");
+			}
 		}else {
 			return new ResponseMsg(HttpStatus.OK, null, responseMsg, "fail");
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 
 	}
@@ -117,14 +116,26 @@ public class SearchService {
 	//모집인 조회 : 법인
 	@Transactional(readOnly = true)
 	public ResponseMsg selectCorpUserInfo(SearchDomain searchDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		// 2021-07-10 은행연합회 API 통신 - 법인조회
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject indvParam = new JSONObject();
+		indvParam.put("corp_lc_num", searchDomain.getPlRegistNo());
+		// 은행연합회 API 개인조회 시작
 		
-		//조회 결과
-		SearchDomain result = searchRepo.selectCorpUserInfo(searchDomain);
-		
-		if(result == null) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "GET", "1", "N");
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			if(!responseJson.isNull("corp_num")) {
+				kfbApiDomain.setResData(searchDomain.getPlRegistNo());
+				return new ResponseMsg(HttpStatus.OK, null, kfbApiDomain, "success");
+			}else {
+				return new ResponseMsg(HttpStatus.OK, null, responseMsg, "fail");
+			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, null, responseMsg, "fail");
 		}
-		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 	}
 	
 	//모집인 조회 결과
