@@ -19,7 +19,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="구분", vCell="A", vLenMin=1, vLenMax=1, vEnum="1,2", chkDb="edu1")
 	private String careerTyp;		//구분(신규/경력)
 	
-	@ExcelColumn(headerName="성명", vCell="B", vLenMin=2, vLenMax=20, chkDb="edu2")
+	@ExcelColumn(headerName="성명", vCell="B", vLenMin=2, vLenMax=50, chkDb="edu2")
 	private String plMName;			//모집인이름
 	
 	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkFormat="pId")

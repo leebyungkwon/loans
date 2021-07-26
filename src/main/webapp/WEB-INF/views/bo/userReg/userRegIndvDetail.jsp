@@ -31,9 +31,9 @@ function goUserRegInfoUpdt() {
 		var p = {
 			  name 		: "userRegInfoUpdFrm"
 			, success 	: function (opt,result) {
-				location.href = "/member/user/userRegPage";
-				//$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
-				//$("#pageFrm").submit();
+				//location.href = "/member/user/userRegPage";
+				$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
+				$("#pageFrm").submit();
 	 	    }
 		}
 		AjaxUtil.files(p);
@@ -407,6 +407,23 @@ function goUserAcceptApply(){
 						</td>
 					</tr>
 					 --%>
+					<tr>
+						<th class="acenter">행정정보공동이용사전동의서 *</th>
+						<td>
+							<c:choose>
+								<c:when test="${result.userRegInfo.fileType14 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y" data-realDel="Y">삭제</a>
+								</c:when>
+								<c:otherwise>
+									<input type="text" class="w50 file_input" readonly disabled>
+									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="hidden" name="fileTypeList" value="14"/>
+									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
 				</table>
 			</div>
 			<div class="btn_wrap">

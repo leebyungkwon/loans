@@ -289,13 +289,24 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
-				 --%>
 				<tr>
 					<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType10 ne null }">
 								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType10.fileSeq }">${result.userRegInfo.fileType10.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				 --%>
+				<tr>
+					<th class="acenter">행정정보공동이용사전동의서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType14 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>

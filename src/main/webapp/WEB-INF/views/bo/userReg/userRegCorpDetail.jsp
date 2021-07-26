@@ -30,8 +30,8 @@ function goUserRegInfoUpdt() {
 		var p = {
 			  name 		: "userRegInfoUpdFrm"
 			, success 	: function (opt,result) {
-				location.href = "/member/user/userRegPage";
-				//goTab("1");
+				//location.href = "/member/user/userRegPage";
+				goTab("1");
 	 	    }
 		}
 		AjaxUtil.files(p);
