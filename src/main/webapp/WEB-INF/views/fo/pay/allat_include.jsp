@@ -39,7 +39,7 @@ function result_submit(result_cd,result_msg,enc_data) {
 }
 </script>
 
-<form name="fm" id="payFrm" method="post" action="allat_approval.jsp"> <!--승인요청 및 결과수신페이지 지정 //-->
+<form name="fm" id="payFrm" method="post" action="/front/pay/allatApproval"> <!--승인요청 및 결과수신페이지 지정 //-->
 	<!-- 필수정보 -->
 	<input type="hidden" name="allat_encode_type" value="U"> <!-- 인코딩 -->
 	<input type="hidden" name="allat_shop_id" value="crefia" maxlength="20"> <!-- Allat에서 발급한 고유 상점 ID -->
@@ -68,7 +68,6 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_email_addr" value="" maxlength="50"> <!-- 결제 정보 수신 E-mail : 에스크로 서비스 사용시에 필수 필드.(결제창에서 E-Mail주소를 넣을 수도 있음) -->
 	<input type="hidden" name="allat_test_yn" value="N" maxlength="1"> <!-- 테스트 여부 : 테스트(Y),서비스(N) - Default : N(테스트 결제는 실결제가 나지 않으며 테스트 성공시 결과값은 "0001" 리턴) -->
 	<!-- 필요정보 -->
-	<input type="hidden" name="masterSeq" value="1"/>
-	<%-- <input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/> --%>
+	<input type="hidden" name="masterSeq" value="${searchUserInfo.masterSeq }"/>
 </form>
 

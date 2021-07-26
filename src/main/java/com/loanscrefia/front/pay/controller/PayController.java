@@ -72,7 +72,12 @@ public class PayController {
 		ModelAndView mv 			= new ModelAndView(CosntPage.FoPayPage+"/payResult");
 		searchDomain.setPlRegStat("3"); //모집인 상태가 자격취득인 것
 		SearchDomain payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);
-		mv.addObject("masterSeq",searchDomain.getMasterSeq()); //[추후 삭제]
+		
+		if(payResultInfo == null) {
+			searchDomain.setPlRegStat("5"); //모집인 상태가 결제완료인 것
+			payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);
+		}
+		
 		mv.addObject("payResultInfo",payResultInfo);
 		return mv;
 	}

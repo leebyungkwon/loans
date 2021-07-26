@@ -38,8 +38,8 @@
   
   AllatUtil util = new AllatUtil();
   HashMap hm     = null;
-  hm = util.approvalReq(strReq, "NOSSL");					//설정필요 : SSL(443 포트) 통신 불가 시 SSL을 NOSSL로 변경(NOSSL 로 변경 시 80 포트 이용)
-  //hm = util.approvalReq(strReq, "SSL");
+  //hm = util.approvalReq(strReq, "NOSSL");					//설정필요 : SSL(443 포트) 통신 불가 시 SSL을 NOSSL로 변경(NOSSL 로 변경 시 80 포트 이용)
+  hm = util.approvalReq(strReq, "SSL");
 
   // 결제 결과 값 확인
   //------------------
@@ -153,6 +153,16 @@
 	String id 						= "";
 	String name 					= "";
 	
+	if(sCardId != null && !sCardId.equals("")){
+		//카드
+		id 		= sCardId;
+		name 	= sCardNm;
+	}else if(sBankId != null && !sBankId.equals("")){
+		//계좌이체
+		id 		= sBankId;
+		name 	= sBankNm;
+	}
+	/*
 	if(sPayType.equals("")){
 		//카드
 		id 		= sCardId;
@@ -162,6 +172,7 @@
 		id 		= sBankId;
 		name 	= sBankNm;
 	}
+	*/
 	
 	payDomain.setOrderNo(sOrderNo);				//주문번호
 	payDomain.setMasterSeq(masterSeq);			//접수번호 시퀀스

@@ -135,8 +135,11 @@
 		UPDATE TB_LC_MAS01
 		SET
 			 PL_REG_STAT 	= #{plRegStat}
+			<if test="plRegistNo != null and plRegistNo != ''">
+			,PL_REGIST_NO	= #{plRegistNo}		-- 은행연합회 등록번호
+			</if> 
 			<if test="conNum != null and conNum != ''">
-			,CON_NUM 		= #{conNum}		-- 은행연합회 계약번호
+			,CON_NUM 		= #{conNum}			-- 은행연합회 계약번호
 			</if> 
 			,UPD_SEQ 		= #{updSeq}
 			,UPD_TIMESTAMP 	= NOW()
