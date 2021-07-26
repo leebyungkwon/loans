@@ -198,6 +198,9 @@ create table tb_lc_mas01(
 	, pl_regist_no varchar(20)
 	, con_num varchar(10)
 	, pl_class varchar(2)
+	
+	, pl_work varchar(20)
+	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	, pl_product varchar(30)
@@ -259,6 +262,10 @@ COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01.con_num IS '계약번호';
 
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
+COMMENT ON COLUMN tb_lc_mas01.pl_work IS '업종';
+
+
+
 COMMENT ON COLUMN tb_lc_mas01.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
@@ -488,6 +495,9 @@ create table tb_lc_mas01_hist(
 	, pl_regist_no varchar(20)
 	, con_num varchar(10)
 	, pl_class varchar(2)
+	
+	, pl_work varchar(20)
+	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	, pl_product varchar(30)
@@ -547,6 +557,9 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pre_lc_num IS '가등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.con_num IS '계약번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
+
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_work IS '업종';
+
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
