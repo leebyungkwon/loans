@@ -302,6 +302,17 @@ function goUserChangeApplyPage(){
 				</tr>
 				 --%>
 				<tr>
+					<th class="acenter">행정정보공동이용사전동의서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType14 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
 					<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
 					<td>
 						<c:choose>

@@ -93,12 +93,13 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">대표자 경력증명서 *</th>
+					<th class="acenter">대표자 경력증명서</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="8"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="N">초기화</a>
 					</td>
 				</tr>
 				<!-- 
@@ -139,6 +140,15 @@
 						<input type="hidden" name="fileTypeList" value="27"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="27" data-essential="N">초기화</a>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">행정정보공동이용사전동의서 *</th>
+					<td>
+						<input type="text" class="w50 file_input" readonly disabled>
+						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+						<input type="hidden" name="fileTypeList" value="33"/>
+						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
 			</tbody>
@@ -203,6 +213,7 @@
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
+				<!-- 
 				<tr>
 					<th class="acenter">대표 경력증명서 *</th>
 					<td>
@@ -212,6 +223,7 @@
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 					</td>
 				</tr>
+				 -->
 			</tbody>
 		</table>
 	</div>

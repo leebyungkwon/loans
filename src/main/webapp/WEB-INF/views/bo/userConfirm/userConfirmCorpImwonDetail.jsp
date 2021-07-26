@@ -125,7 +125,7 @@ function goCorpImwonInfoDel(excSeq) {
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">대표자 경력증명서 *</th>
+										<th class="acenter">대표자 경력증명서</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType8 ne null }">
@@ -176,6 +176,17 @@ function goCorpImwonInfoDel(excSeq) {
 											<c:choose>
 												<c:when test="${corpImwonList.fileType27 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType27.fileSeq }">${corpImwonList.fileType27.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th class="acenter">행정정보공동이용사전동의서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType33 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">${corpImwonList.fileType33.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
@@ -253,6 +264,7 @@ function goCorpImwonInfoDel(excSeq) {
 											</td>
 										</tr>
 									</c:if>
+									<%-- 
 									<tr>
 										<th class="acenter">대표 경력증명서 *</th>
 										<td>
@@ -264,6 +276,7 @@ function goCorpImwonInfoDel(excSeq) {
 											</c:choose>
 										</td>
 									</tr>
+									 --%>
 								</tbody>
 							</table>
 						</div>
