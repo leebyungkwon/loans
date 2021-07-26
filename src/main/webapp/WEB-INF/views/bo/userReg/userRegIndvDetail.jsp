@@ -31,9 +31,9 @@ function goUserRegInfoUpdt() {
 		var p = {
 			  name 		: "userRegInfoUpdFrm"
 			, success 	: function (opt,result) {
-				location.href = "/member/user/userRegPage";
-				//$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
-				//$("#pageFrm").submit();
+				//location.href = "/member/user/userRegPage";
+				$("#pageFrm").attr("action","/member/user/userRegIndvDetail");
+				$("#pageFrm").submit();
 	 	    }
 		}
 		AjaxUtil.files(p);
