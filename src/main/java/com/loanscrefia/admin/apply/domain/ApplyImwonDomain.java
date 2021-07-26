@@ -69,7 +69,7 @@ public class ApplyImwonDomain extends BaseDomain {
 	private FileDomain fileType27;
 	private FileDomain fileType28;
 	private FileDomain fileType30;
-	private FileDomain fileType34;
+	private FileDomain fileType33;
 	
 	
 	// 임원 첨부파일 체크

@@ -229,6 +229,11 @@ create table tb_lc_mas01(
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
+	
+	
+	, admin_chk_yn char(1)
+	, admin_chk_seq integer
+	
 	, com_upd_date varchar(8)
 	, cre_app_fi_date varchar(8)
 	, cre_app_date varchar(8)
@@ -293,6 +298,10 @@ COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
+
+COMMENT ON COLUMN tb_lc_mas01.admin_chk_yn IS '관리자확인여부';
+COMMENT ON COLUMN tb_lc_mas01.admin_chk_seq IS '관리자확인회원번호';
+
 COMMENT ON COLUMN tb_lc_mas01.com_upd_date IS '보완요청일';
 COMMENT ON COLUMN tb_lc_mas01.cre_app_fi_date IS '승인남은일';
 COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일(심사완료일)';
@@ -526,6 +535,12 @@ create table tb_lc_mas01_hist(
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, chk_yn char(1)
+	
+	
+	, admin_chk_yn char(1)
+	, admin_chk_seq integer
+	
+	
 	, com_upd_date varchar(8)
 	, cre_app_fi_date varchar(8)
 	, cre_app_date varchar(8)
@@ -587,6 +602,8 @@ COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행�
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
+COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_yn IS '관리자확인여부';
+COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_seq IS '관리자확인회원번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_upd_date IS '보완요청일';
 COMMENT ON COLUMN tb_lc_mas01_hist.cre_app_fi_date IS '승인남은일';
 COMMENT ON COLUMN tb_lc_mas01_hist.cre_app_date IS '승인일(심사완료일)';

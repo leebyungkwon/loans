@@ -257,8 +257,8 @@ function pageLoad(){
 									<td class="acenter">행정정보 공동이용 사전동의서 *</td>
 									<td>
 										<c:choose>
-											<c:when test="${corpImwonList.fileType34 ne null }">
-												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
+											<c:when test="${corpImwonList.fileType33 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">${corpImwonList.fileType33.fileFullNm }</a>
 											</c:when>
 											<c:otherwise>-</c:otherwise>
 										</c:choose>
@@ -266,8 +266,8 @@ function pageLoad(){
 									<td>
 										<div class="input_check_wrap mgr10">
 											<input type="checkbox" id="check_cd116" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd116}">checked</c:if>
-											<c:if test="${empty corpImwonList.fileType34.fileSeq}">disabled</c:if>
-											 data-fileSeq="${corpImwonList.fileType34.fileSeq }" >
+											<c:if test="${empty corpImwonList.fileType33.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType33.fileSeq }" >
 											<label for="check_cd116">체크사항1</label>
 										</div>
 									</td>

@@ -164,8 +164,8 @@ function pageLoad(){
 										<th class="acenter">행정정보 공동이용 사전동의서 *</th>
 										<td>
 											<c:choose>
-												<c:when test="${corpImwonList.fileType34 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
+												<c:when test="${corpImwonList.fileType33 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">${corpImwonList.fileType33.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>

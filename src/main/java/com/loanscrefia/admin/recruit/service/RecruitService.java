@@ -477,8 +477,8 @@ public class RecruitService {
 							imwonList.get(i).setFileType28(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("30")) {
 							imwonList.get(i).setFileType30(fileList.get(j));
-						}else if(fileList.get(j).getFileType().equals("34")) {
-							imwonList.get(i).setFileType34(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("33")) {
+							imwonList.get(i).setFileType33(fileList.get(j));
 						}
 					}
 				}
