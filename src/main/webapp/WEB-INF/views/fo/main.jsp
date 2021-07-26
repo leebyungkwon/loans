@@ -25,11 +25,7 @@ function goUserSearch() {
 		,param 		: params
 		,success	: function(opt,result){
 			console.log("결과 :: " , result);
-			
 			if(result.data.resData == null || result.data.resData == ""){
-				alert("조회된 결과가 없습니다.");
-				return false;
-			}else if(result.message = "fail"){
 				alert("조회된 결과가 없습니다.");
 				return false;
 			}else{
@@ -46,7 +42,7 @@ function goKfbSearch(){
 }
 
 //조회 결과 있을 때
-function goUserSearchResultPage(formNm,plRegistSearchNo) {
+function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 	$("#"+formNm).append('<input type="hidden" name="plRegistSearchNo" value="'+plRegistSearchNo+'">');
 	$("#"+formNm).append('<input type="hidden" name="classCheck" value="'+classCheck+'">');
 	$("#"+formNm).attr("action","/front/search/userSearchResult");

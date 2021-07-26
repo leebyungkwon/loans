@@ -58,7 +58,7 @@ public class SearchController {
 	}
 	
 	//대출모집인 조회 결과 페이지
-	@GetMapping(value="/userSearchResult")
+	@PostMapping(value="/userSearchResult")
 	public ModelAndView userSearchResult(SearchDomain searchDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		ModelAndView mv = new ModelAndView(CosntPage.FoSearchPage+"/userSearchResult");

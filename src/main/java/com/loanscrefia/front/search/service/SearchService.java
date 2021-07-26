@@ -95,11 +95,6 @@ public class SearchService {
 		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "GET", "1", "N");
 		if("success".equals(responseMsg.getCode())) {
 			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-			
-			System.out.println("####################################");
-			System.out.println("#############"+responseJson+"###############");
-			System.out.println("####################################");
-			
 			if(!responseJson.isNull("name")) {
 				kfbApiDomain.setResData(searchDomain.getPlRegistNo());
 				return new ResponseMsg(HttpStatus.OK, null, kfbApiDomain, "success");
@@ -114,7 +109,6 @@ public class SearchService {
 	}
 	
 	//모집인 조회 : 법인
-	@Transactional(readOnly = true)
 	public ResponseMsg selectCorpUserInfo(SearchDomain searchDomain) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		// 2021-07-10 은행연합회 API 통신 - 법인조회
@@ -124,7 +118,7 @@ public class SearchService {
 		indvParam.put("corp_lc_num", searchDomain.getPlRegistNo());
 		// 은행연합회 API 개인조회 시작
 		
-		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "GET", "1", "N");
+		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "GET", "2", "N");
 		if("success".equals(responseMsg.getCode())) {
 			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
 			if(!responseJson.isNull("corp_num")) {

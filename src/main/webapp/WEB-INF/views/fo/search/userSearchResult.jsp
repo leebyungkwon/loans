@@ -60,7 +60,7 @@ function pageLoad() {
 			<c:when test="${fn:length(result.searchResultList) > 0 }">
 				<c:forEach var="searchResultList" items="${result.searchResultList }" varStatus="status">
 					<div class="table_wrap mgt60">
-						<div class="table_title">상세정보(계약 금융기관 - ${searchResultList.finCode })</div>
+						<div class="table_title">상세정보(계약 금융기관 - ${searchResultList.finName })</div>
 						<table class="member_info">
 							<colgroup>
 								<col width="210"/>
