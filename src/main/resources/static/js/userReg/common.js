@@ -9,11 +9,15 @@ $(document).on("change",".careerTyp",function(){
 	
 	if($(this).val() == "1"){
 		//신규
+		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".goFileReset").attr("data-essential","Y");
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").show();
+		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".goFileReset").attr("data-essential","N");
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").hide();
 	}else if($(this).val() == "2"){
 		//경력
+		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".goFileReset").attr("data-essential","Y");
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").show();
+		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".goFileReset").attr("data-essential","N");
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").hide();
 	}
 });
@@ -90,10 +94,7 @@ $(document).on("click",".goFileDel",function(){
 					html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
 					html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
 					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
-					
-					if(essential != "Y"){
-						html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
-					}
+					html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
 					
 					targetArea.html(html);
 				}

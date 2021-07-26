@@ -222,6 +222,7 @@ function goUserAcceptApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="1"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="1" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -239,6 +240,7 @@ function goUserAcceptApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="2"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="2" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -257,6 +259,7 @@ function goUserAcceptApply(){
 										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 										<input type="hidden" name="fileTypeList" value="4"/>
 										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="4" data-essential="Y">초기화</a>
 									</c:otherwise>
 								</c:choose>
 							</td>
@@ -276,6 +279,7 @@ function goUserAcceptApply(){
 										<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 										<input type="hidden" name="fileTypeList" value="3"/>
 										<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+										<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="3" data-essential="Y">초기화</a>
 									</c:otherwise>
 								</c:choose>
 							</td>
@@ -312,6 +316,7 @@ function goUserAcceptApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="6"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="6" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -366,6 +371,7 @@ function goUserAcceptApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="8"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -420,6 +426,7 @@ function goUserAcceptApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="14"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="14" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>

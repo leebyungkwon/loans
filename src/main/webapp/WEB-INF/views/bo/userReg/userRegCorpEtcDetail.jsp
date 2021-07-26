@@ -80,6 +80,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="21"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="21" data-essential="Y">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -97,6 +98,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="22"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="22" data-essential="Y">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>
@@ -114,6 +116,7 @@ function goUserRegInfoUpdt() {
 											<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 											<input type="hidden" name="fileTypeList" value="23"/>
 											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+											<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="23" data-essential="Y">초기화</a>
 										</c:otherwise>
 									</c:choose>
 								</td>

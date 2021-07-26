@@ -431,7 +431,7 @@ function goUserChangeApply(){
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType31 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }">${result.userRegInfo.fileType31.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="Y" data-realDel="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
@@ -448,7 +448,7 @@ function goUserChangeApply(){
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType32 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }">${result.userRegInfo.fileType32.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }" data-fileType="32" data-essential="N" data-realDel="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }" data-fileType="32" data-essential="N">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>

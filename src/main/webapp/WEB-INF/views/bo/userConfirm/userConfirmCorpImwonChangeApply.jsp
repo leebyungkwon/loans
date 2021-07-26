@@ -244,6 +244,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="7"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="7" data-essential="Y">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -316,6 +317,7 @@ function goDataAreaAdd() {
 														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="30"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="30" data-essential="Y">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -344,13 +346,14 @@ function goDataAreaAdd() {
 												<c:choose>
 													<c:when test="${corpImwonList.fileType33 ne null }">
 														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">${corpImwonList.fileType33.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType33.fileSeq }" data-fileType="33" data-essential="Y" data-realDel="Y">삭제</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType33.fileSeq }" data-fileType="33" data-essential="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
 														<input type="text" class="w50 file_input" readonly disabled>
 														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 														<input type="hidden" name="fileTypeList" value="33"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="33" data-essential="Y">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>
@@ -429,6 +432,7 @@ function goDataAreaAdd() {
 															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 															<input type="hidden" name="fileTypeList" value="13"/>
 															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+															<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="13" data-essential="Y">초기화</a>
 														</c:otherwise>
 													</c:choose>
 												</td>
@@ -448,6 +452,7 @@ function goDataAreaAdd() {
 															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 															<input type="hidden" name="fileTypeList" value="12"/>
 															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+															<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="12" data-essential="Y">초기화</a>
 														</c:otherwise>
 													</c:choose>
 												</td>

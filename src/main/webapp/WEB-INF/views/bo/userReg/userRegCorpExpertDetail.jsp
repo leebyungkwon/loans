@@ -239,6 +239,7 @@ function goDataAreaAdd() {
 															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 															<input type="hidden" name="fileTypeList" value="17"/>
 															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+															<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="17" data-essential="Y">초기화</a>
 														</c:otherwise>
 													</c:choose>
 												</td>
@@ -258,6 +259,7 @@ function goDataAreaAdd() {
 															<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 															<input type="hidden" name="fileTypeList" value="16"/>
 															<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+															<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="16" data-essential="Y">초기화</a>
 														</c:otherwise>
 													</c:choose>
 												</td>
