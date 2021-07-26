@@ -159,6 +159,19 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
+									
+									<tr>
+										<th class="acenter">행정정보 공동이용 사전동의서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType34 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
 								</tbody>
 							</table>
 						</div>
@@ -172,7 +185,7 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">위탁계약서 *</th>
+										<th class="acenter">위탁계약서</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType11 ne null }">

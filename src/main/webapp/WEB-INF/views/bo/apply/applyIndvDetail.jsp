@@ -573,6 +573,29 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
+				
+				
+				<tr>
+					<td class="acenter">행정정보 공동이용 사전동의서 *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType14 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType14.fileSeq }">${result.applyInfo.fileType14.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd17" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType14.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd17}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType14.fileSeq }" >
+							<label for="check_cd17">체크사항1</label>
+						</div>
+					</td>
+				</tr>
+				
 				<%-- 
 				<tr>
 					<td class="acenter">후견부존재증명서 *</td>
@@ -593,7 +616,8 @@ function goApplyImprove(num){
 							<label for="check_cd13">체크사항1</label>
 						</div>
 					</td>
-				</tr> 
+				</tr> --%>
+				
 				<tr>
 					<td class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</td>
 					<td>
@@ -614,7 +638,6 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
-				--%>
 				<tr>
 					<td class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</td>
 					<td>

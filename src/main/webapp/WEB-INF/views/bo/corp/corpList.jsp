@@ -82,10 +82,22 @@ function goCorpInfoSavePopup(idx, data) {
 //법인 저장
 function goCorpInfoSave() {
 	if(confirm("저장하시겠습니까?")){
-		var saveCorpInfoParam = {
-			 name 		: 'corpInfoSaveFrm'
-			,data 		: WebUtil.getTagInParam("#corpInfoSaveFrm")
-			,success	: function(opt, result) {
+		var params = $('#corpInfoSaveFrm').serialize();
+		var url = $('#corpInfoSaveFrm').attr("action");
+		var mName = $("#plMerchantName").val(); 
+		var mNo = $("#plMerchantNo").val();
+		if(WebUtil.isNull(mName)){
+			alert("법인명을 입력해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(mNo)){
+			alert("법인번호를 입력해 주세요.");
+			return false;
+		}
+		var p = {
+			url		: url
+			,param 		: params
+			,success	: function(opt,result){
 				if(WebUtil.isNull(result.message)){
 					alert(result.data[0].defaultMessage);
 				}else{
@@ -96,8 +108,8 @@ function goCorpInfoSave() {
 					}
 				}
 			}
-		}      
-		AjaxUtil.files(saveCorpInfoParam);
+		}
+		AjaxUtil.post(p);
 	}
 }
 </script>

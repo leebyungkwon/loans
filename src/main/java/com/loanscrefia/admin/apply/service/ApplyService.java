@@ -211,6 +211,8 @@ public class ApplyService {
         					applyInfo.setCheckCd15(tmp.getCheckCd());
         				}else if("16".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd16(tmp.getCheckCd());
+        				}else if("17".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd17(tmp.getCheckCd());
         				}
         			}
         		}
@@ -458,6 +460,8 @@ public class ApplyService {
 							imwonList.get(i).setFileType28(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("30")) {
 							imwonList.get(i).setFileType30(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("34")) {
+							imwonList.get(i).setFileType34(fileList.get(j));
 						}
 						
 						
@@ -495,6 +499,8 @@ public class ApplyService {
 	        					imwonList.get(i).setCheckCd114(tmp.getCheckCd());
 	        				}else if("115".equals(tmp.getCheckCd())) {
 	        					imwonList.get(i).setCheckCd115(tmp.getCheckCd());
+	        				}else if("116".equals(tmp.getCheckCd())) {
+	        					imwonList.get(i).setCheckCd116(tmp.getCheckCd());
 	        				}
 	        			}
 						
