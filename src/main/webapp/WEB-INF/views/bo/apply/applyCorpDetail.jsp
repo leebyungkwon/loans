@@ -136,14 +136,14 @@ function goApplyImprove(num){
 	}
 	
 	var oldHistTxt = "${result.applyInfo.plHistTxt}";
-	if(WebUtil.isNull($("#plHistTxt").val())){
+	if(WebUtil.isNull($("#plHistTxt").text())){
 		alert(messageCheck);
 		$("#plHistTxt").focus();
 		return false;
 	}
 	
 	var confirmMessage = "";
-	if(oldHistTxt == $("#plHistTxt").val()){
+	if(oldHistTxt == $("#plHistTxt").text()){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
@@ -158,7 +158,7 @@ function goApplyImprove(num){
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: plStat
-				,plHistTxt	: $("#plHistTxt").val()
+				,plHistTxt	: $("#plHistTxt").text()
 				,oldPlStat	: $("#oldPlStat").val()
 				,preLcNum	: preLcNum 
 			}
@@ -305,7 +305,8 @@ function goApplyImprove(num){
 						<tr>
 							<th>사유</th>
 							<td colspan="3">
-								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }">
+								<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100">${result.applyInfo.plHistTxt }</textarea>
+								<%-- <input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }"> --%>
 							</td>
 						</tr>
 					</c:when>

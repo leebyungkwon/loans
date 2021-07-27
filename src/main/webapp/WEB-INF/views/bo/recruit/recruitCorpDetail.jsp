@@ -77,22 +77,21 @@ function goRecruitApply(num){
 function goRecruitImprove(rePlStat){
 	
 	var oldHistTxt = "${result.recruitInfo.plHistTxt}";
-	
 	if($(document).find("#plHistArea").length == 0){
 		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
-		tag += '<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value=""></td></tr>';
+		tag += '<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100"></textarea></tr>';
 		$("#infoTable").append(tag);
 		return false;
 	}
 	
-	if(WebUtil.isNull($("#plHistTxt").val())){
+	if(WebUtil.isNull($("#plHistTxt").text())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
 		return false;
 	}
 	
 	var confirmMessage = "";
-	if(oldHistTxt == $("#plHistTxt").val()){
+	if(oldHistTxt == $("#plHistTxt").text()){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
@@ -266,7 +265,8 @@ function goRecruitImprove(rePlStat){
 						<tr id="plHistArea">
 							<th>사유</th>
 							<td colspan="3">
-								<input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }">
+								<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100">${result.recruitInfo.plHistTxt }</textarea>
+								<%-- <input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }"> --%>
 							</td>
 						</tr>
 					</c:if>

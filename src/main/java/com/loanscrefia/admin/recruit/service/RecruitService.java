@@ -804,7 +804,7 @@ public class RecruitService {
 					jsonParam.put("name", statCheck.getPlMName());
 					
 					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
@@ -850,7 +850,7 @@ public class RecruitService {
 					//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
 					
 					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 					jsonArrayParam.put("cancel_date", "");
@@ -944,7 +944,7 @@ public class RecruitService {
 					jsonParam.put("name", statCheck.getPlMName());
 					
 					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
 					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
@@ -969,7 +969,7 @@ public class RecruitService {
 					//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
 					
 					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", "");
+					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));

@@ -199,7 +199,7 @@ create table tb_lc_mas01(
 	, con_num varchar(10)
 	, pl_class varchar(2)
 	
-	, pl_work varchar(20)
+	, pl_work varchar(50)
 	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
@@ -241,7 +241,7 @@ create table tb_lc_mas01(
 	, pay_date varchar(8)
 	, send_msg varchar(200)
 	, pl_hist_cd varchar(10)
-	, pl_hist_txt varchar(200) 
+	, pl_hist_txt text 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
@@ -462,7 +462,7 @@ create table tb_lc_mas01_step(
 	, master_seq integer not null
 	, pl_reg_stat varchar(2) null
 	, pl_stat varchar(2) null
-	, pl_hist_txt varchar(200) null
+	, pl_hist_txt text null
 	, reg_timestamp timestamp
 	, reg_seq integer
 	, primary key (master_step_seq)
@@ -505,7 +505,7 @@ create table tb_lc_mas01_hist(
 	, con_num varchar(10)
 	, pl_class varchar(2)
 	
-	, pl_work varchar(20)
+	, pl_work varchar(50)
 	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
@@ -548,7 +548,7 @@ create table tb_lc_mas01_hist(
 	, pay_date varchar(8)
 	, send_msg varchar(200)
 	, pl_hist_cd varchar(10)
-	, pl_hist_txt varchar(200) 
+	, pl_hist_txt text 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
