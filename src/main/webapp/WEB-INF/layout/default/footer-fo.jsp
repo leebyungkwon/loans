@@ -37,6 +37,9 @@ function relateSlide() {
 				<a href="https://www.knia.or.kr/" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner04.jpg" alt="손해보험협회">
 				</a>
+				<a href="http://www.cu.co.kr" target="_blank" title="새창">
+					<img src="/static/images/main/bottom_banner09.jpg" alt="신협">
+				</a>
 				
 				
 				<!-- 

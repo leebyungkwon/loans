@@ -40,24 +40,30 @@ function pageLoad() {
 	<div class="inner">
 		<div class="title">참여 금융업협회</div>
 		<ul>
-			<li>
+			<li style="text-align:center; height:80px;">
 				<a href="https://www.kfb.or.kr" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner01.jpg" alt="은행연합회">
 				</a>
 			</li>
-			<li>
+			<li style="text-align:center; height:80px;">
 				<a href="https://www.fsb.or.kr" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner02.jpg" alt="저축은행중앙회">
 				</a>
 			</li>
-			<li>
+			<li style="text-align:center; height:80px;">
 				<a href="https://www.klia.or.kr/" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner03.jpg" alt="생명보험협회">
 				</a>
 			</li>
-			<li>
+			<li style="text-align:center; height:80px;">
 				<a href="https://www.knia.or.kr/" target="_blank" title="새창">
 					<img src="/static/images/main/bottom_banner04.jpg" alt="손해보험협회">
+				</a>
+			</li>
+			
+			<li style="text-align:center; height:80px;">
+				<a href="http://www.cu.co.kr" target="_blank" title="새창">
+					<img src="/static/images/main/bottom_banner09.jpg" alt="신협">
 				</a>
 			</li>
 			
