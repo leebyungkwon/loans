@@ -25,19 +25,19 @@ function relateSlide() {
 
 		<div class="relate_wrap">
 			<div id="relate_slide">
-				<a href="https://www.kfb.or.kr" target="_blank" title="새창">
+				<a href="https://www.kfb.or.kr" target="_blank" title="은행연합회">
 					<img src="/static/images/main/bottom_banner01.jpg" alt="은행연합회">
 				</a>
-				<a href="https://www.fsb.or.kr" target="_blank" title="새창">
+				<a href="https://www.fsb.or.kr" target="_blank" title="저축은행중앙회">
 					<img src="/static/images/main/bottom_banner02.jpg" alt="저축은행중앙회">
 				</a>
-				<a href="https://www.klia.or.kr/" target="_blank" title="새창">
+				<a href="https://www.klia.or.kr/" target="_blank" title="생명보험협회">
 					<img src="/static/images/main/bottom_banner03.jpg" alt="생명보험협회">
 				</a>
-				<a href="https://www.knia.or.kr/" target="_blank" title="새창">
+				<a href="https://www.knia.or.kr/" target="_blank" title="손해보험협회">
 					<img src="/static/images/main/bottom_banner04.jpg" alt="손해보험협회">
 				</a>
-				<a href="http://www.cu.co.kr" target="_blank" title="새창">
+				<a href="http://www.cu.co.kr" target="_blank" title="신협">
 					<img src="/static/images/main/bottom_banner09.jpg" alt="신협">
 				</a>
 				
