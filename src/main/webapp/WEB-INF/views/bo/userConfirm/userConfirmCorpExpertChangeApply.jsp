@@ -189,12 +189,12 @@ function goDataAreaAdd() {
 											<th>경력시작일</th>
 											<td>
 												<input type="text" name="careerStartDate" onclick="goDatepickerShow(this);" readonly="readonly" value="${corpExpertList.careerStartDate }" class="w100" maxlength="10" placeholder="- 포함">
-												<div id="date_cal01" class="calendar01"></div>
+												<div class="calendar01"></div>
 											</td>
 											<th>경력종료일</th>
 											<td>
 												<input type="text" name="careerEndDate" onclick="goDatepickerShow(this);" readonly="readonly" value="${corpExpertList.careerEndDate }" class="w100" maxlength="10" placeholder="- 포함">
-												<div id="date_cal02" class="calendar01"></div>
+												<div class="calendar01"></div>
 											</td>
 										</tr>
 									</tbody>

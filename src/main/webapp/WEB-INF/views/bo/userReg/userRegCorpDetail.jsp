@@ -223,7 +223,7 @@ function goUserAcceptApply(){
 						<th>설립년월일</th>
 						<td>
 							<input type="text" name="corpFoundDate" id="corpFoundDate" onclick="goDatepickerShow(this);" class="w100" value="${result.userRegInfo.corpFoundDate }" maxlength="10" placeholder="- 포함" data-vd='{"type":"text","len":"10,10","req":true,"msg":"설립년월일(- 포함)을 입력해 주세요."}' readonly="readonly">
-						 	<div id="date_cal01" class="calendar01"></div>
+						 	<div class="calendar01"></div>
 						</td>
 					</tr>
 					<tr>
