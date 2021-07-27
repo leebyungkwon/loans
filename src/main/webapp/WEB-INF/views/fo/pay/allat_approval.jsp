@@ -159,10 +159,28 @@
 	}
 	
 	//(2)결제 완료 화면 이동 : masterSeq 들고 이동해야함
+	pageContext.setAttribute("sOrderNo", sOrderNo);
+	pageContext.setAttribute("masterSeq", masterSeq);
+	pageContext.setAttribute("sPayType", sPayType);
+	pageContext.setAttribute("sSeqNo", sSeqNo);
+	pageContext.setAttribute("sApprovalNo", sApprovalNo);
+	pageContext.setAttribute("id", id);
+	pageContext.setAttribute("name", name);
+	pageContext.setAttribute("sSellMm", sSellMm);
+	pageContext.setAttribute("sAmt", sAmt);
+	
 	out.println("<script>");
-	out.println("var newForm = $('<form></form>');");
-	out.println("newForm.attr('method','post');");
-	out.println("newForm.attr('action','/front/pay/payResult');");
+	out.println("$('#goPayResultPage').submit();");
+	//out.println("var newForm = document.getElementById('goPayResultPage');");
+	//out.println("newForm.appendTo('body');");
+	//out.println("newForm.submit();");
+	out.println("</script>");
+	
+	/*
+	out.println("<script>");
+	out.println("var newForm = document.createElement('form');");
+	out.println("newForm.setAttribute('method','post');");
+	out.println("newForm.setAttribute('action','/front/pay/payResult');");
 	out.println("newForm.append('<input type='hidden' name='orderNo' value='"+sOrderNo+"'>');");
 	out.println("newForm.append('<input type='hidden' name='masterSeq' value='"+masterSeq+"'>');");
 	out.println("newForm.append('<input type='hidden' name='payType' value='"+sPayType+"'>');");
@@ -175,6 +193,7 @@
 	out.println("newForm.appendTo('body');");
 	out.println("newForm.submit();");
 	out.println("</script>");
+	*/
 	//----------------------[2021.05.21 추가 : E]----------------------
 	
   }else{
@@ -201,11 +220,17 @@
     있습니다. 홈페이지 개편에 관한 공지가 있을 경우, 전표출력 URL을 확인하시기 바랍니다.
 --%>
 
-
-
-
-
-
+<form id="goPayResultPage" action="/front/pay/payResult" method="post">
+	<input type="hidden" name="orderNo" value="${pageScope.sOrderNo }"/>
+	<input type="hidden" name="masterSeq" value="${pageScope.masterSeq }"/>
+	<input type="hidden" name="payType" value="${pageScope.sPayType }"/>
+	<input type="hidden" name="seqNo" value="${pageScope.sSeqNo }"/>
+	<input type="hidden" name="approvalNo" value="${pageScope.sApprovalNo }"/>
+	<input type="hidden" name="id" value="${pageScope.id }"/>
+	<input type="hidden" name="name" value="${pageScope.name }"/>
+	<input type="hidden" name="sellMm" value="${pageScope.sSellMm }"/>
+	<input type="hidden" name="amt" value="${pageScope.sAmt }"/>
+</form>
 
 
 
