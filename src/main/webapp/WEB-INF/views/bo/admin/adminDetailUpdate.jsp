@@ -317,14 +317,12 @@
 							<input type="text" id="extensionNo" name="extensionNo" maxlength="13" placeholder="회사전화번호를 입력해 주세요. ( -포함)" value="${adminInfo.extensionNo}" class="w40" data-vd='{"type":"extensionNo","len":"1,20","req":true,"msg":"회사전화번호 입력해 주세요"}'/>
 						</td>
 					</tr>
-					
 					<tr>
 						<th>휴대폰 번호</th>
 						<td>
-							<input type="text" id="mobileNo" name="mobileNo" placeholder="선택적약관 미동의" maxlength="13" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}' disabled/>
+							<input type="text" id="mobileNo" name="mobileNo" <c:if test="${adminInfo.optionTermsYn eq 'N' }">disabled</c:if> placeholder="선택적약관 미동의" maxlength="13" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}'/>
 						</td>
 					</tr>
-
 					<tr>
 						<th>선택적 약관동의</th>
 						<td>

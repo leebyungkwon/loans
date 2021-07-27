@@ -85,62 +85,6 @@
     String sTicketPayType  = (String)hm.get("ticket_pay_type");
     String sTicketNm       = (String)hm.get("ticket_nm");
     String sPointAmt       = (String)hm.get("point_amt");
-
-    out.println("결과코드               : " + sReplyCd          + "<br>");
-    out.println("결과메세지             : " + sReplyMsg         + "<br>");
-    out.println("주문번호               : " + sOrderNo          + "<br>");
-    out.println("승인금액               : " + sAmt              + "<br>");
-    out.println("지불수단               : " + sPayType          + "<br>");
-    out.println("승인일시               : " + sApprovalYmdHms   + "<br>");
-    out.println("거래일련번호           : " + sSeqNo            + "<br>");
-    out.println("에스크로 적용 여부     : " + sEscrowYn         + "<br>");
-	out.println("==================== 신용 카드 ===================<br>");
-    out.println("승인번호               : " + sApprovalNo       + "<br>");
-    out.println("카드ID                 : " + sCardId           + "<br>");
-    out.println("카드명                 : " + sCardNm           + "<br>");
-    out.println("할부개월               : " + sSellMm           + "<br>");
-    out.println("무이자여부             : " + sZerofeeYn        + "<br>");   //무이자(Y),일시불(N)
-    out.println("인증여부               : " + sCertYn           + "<br>");   //인증(Y),미인증(N)
-    out.println("직가맹여부             : " + sContractYn       + "<br>");   //3자가맹점(Y),대표가맹점(N)
-    out.println("세이브 결제 금액       : " + sSaveAmt          + "<br>");
-    out.println("포인트 결제 금액       : " + sPointAmt         + "<br>");
-	out.println("=============== 계좌 이체 / 가상계좌 =============<br>");
-    out.println("은행ID                 : " + sBankId           + "<br>");
-    out.println("은행명                 : " + sBankNm           + "<br>");
-    out.println("현금영수증 일련 번호   : " + sCashBillNo       + "<br>");
-    out.println("현금영수증 승인 번호   : " + sCashApprovalNo   + "<br>");
-    out.println("===================== 가상계좌 ===================<br>");
-    out.println("계좌번호               : " + sAccountNo        + "<br>");
-    out.println("입금 계좌명            : " + sIncomeAccNm      + "<br>");
-    out.println("입금자명               : " + sAccountNm        + "<br>");
-    out.println("입금기한일             : " + sIncomeLimitYmd   + "<br>");
-    out.println("입금예정일             : " + sIncomeExpectYmd  + "<br>");
-    out.println("현금영수증신청 여부    : " + sCashYn           + "<br>");
-    out.println("===================== 휴대폰 결제 ================<br>");
-    out.println("이동통신사구분         : " + sHpId             + "<br>");
-    out.println("===================== 상품권 결제 ================<br>");
-    out.println("상품권ID               :" + sTicketId          + "<br>");
-    out.println("상품권 이름            :" + sTicketPayType     + "<br>");
-    out.println("결제구분               :" + sTicketNm          + "<br>");
-
-	// 배포본에서는 제외 시킬것 //////////////////////////////////////////
-	/* 
-	String sPartcancelYn  = (String)hm.get("partcancel_yn");
-	String sBCCertNo      = (String)hm.get("bc_cert_no");
-	String sCardNo        = (String)hm.get("card_no");
-	String sIspFullCardCd = (String)hm.get("isp_full_card_cd");
-	String sCardType      = (String)hm.get("card_type");
-	String sBankAccountNm = (String)hm.get("bank_account_nm");
-    out.println("===================== 배포본제외 ================<br>");
-	out.println("신용카드 부분취소가능여부 : " + sPartcancelYn  + "<br>"); 
-	out.println("BC인증번호                : " + sBCCertNo      + "<br>");
-	out.println("카드번호 Return           : " + sCardNo        + "<br>");
-	out.println("ISP 전체 카드코드         : " + sIspFullCardCd + "<br>");
-	out.println("카드구분                  : " + sCardType      + "<br>");
-	out.println("계좌이체 예금주명         : " + sBankAccountNm + "<br>"); 
-	*/
-	//////////////////////////////////////////////////////////////////////
-	
 	
 	//----------------------[2021.05.21 추가 : S]----------------------
 	//(1)결제정보 저장
@@ -170,32 +114,8 @@
 	pageContext.setAttribute("sAmt", sAmt);
 	
 	out.println("<script>");
-	out.println("$('#goPayResultPage').submit();");
-	//out.println("var newForm = document.getElementById('goPayResultPage');");
-	//out.println("newForm.appendTo('body');");
-	//out.println("newForm.submit();");
+	out.println("function pageLoad() {$('#goPayResultPage').submit();}");
 	out.println("</script>");
-	
-	/*
-	out.println("<script>");
-	out.println("var newForm = document.createElement('form');");
-	out.println("newForm.setAttribute('method','post');");
-	out.println("newForm.setAttribute('action','/front/pay/payResult');");
-	out.println("newForm.append('<input type='hidden' name='orderNo' value='"+sOrderNo+"'>');");
-	out.println("newForm.append('<input type='hidden' name='masterSeq' value='"+masterSeq+"'>');");
-	out.println("newForm.append('<input type='hidden' name='payType' value='"+sPayType+"'>');");
-	out.println("newForm.append('<input type='hidden' name='seqNo' value='"+sSeqNo+"'>');");
-	out.println("newForm.append('<input type='hidden' name='approvalNo' value='"+sApprovalNo+"'>');");
-	out.println("newForm.append('<input type='hidden' name='id' value='"+id+"'>');");
-	out.println("newForm.append('<input type='hidden' name='name' value='"+name+"'>');");
-	out.println("newForm.append('<input type='hidden' name='sellMm' value='"+sSellMm+"'>');");
-	out.println("newForm.append('<input type='hidden' name='amt' value='"+sAmt+"'>');");
-	out.println("newForm.appendTo('body');");
-	out.println("newForm.submit();");
-	out.println("</script>");
-	*/
-	//----------------------[2021.05.21 추가 : E]----------------------
-	
   }else{
     // reply_cd 가 "0000" 아닐때는 에러 (자세한 내용은 매뉴얼참조)
     // reply_msg 가 실패에 대한 메세지

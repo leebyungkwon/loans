@@ -10,9 +10,11 @@ function pageLoad() {
 	if("${searchUserInfo.plClass }" == "1"){
 		$("#allat_amt").val("20000");
 		$("#testAmt").val("20000"); //결제 테스트
+		$("#allat_buyer_nm").val("${searchUserInfo.plMName}");
 	}else{
 		$("#allat_amt").val("200000");
 		$("#testAmt").val("200000"); //결제 테스트
+		$("#allat_buyer_nm").val("${searchUserInfo.plMerchantName}");
 	}
 }
 
