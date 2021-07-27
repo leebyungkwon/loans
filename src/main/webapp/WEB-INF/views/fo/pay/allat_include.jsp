@@ -25,9 +25,6 @@ function result_submit(result_cd,result_msg,enc_data) {
 	//결제창 자동종료 체크 종료
 	AllatPay_Closechk_End();
 	
-	alert("result_cd >> "+result_cd);
-	alert("result_msg >> "+result_msg);
-	
 	if(result_cd != '0000'){
 		window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
 	}else{

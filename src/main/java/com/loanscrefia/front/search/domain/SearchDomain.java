@@ -112,7 +112,7 @@ public class SearchDomain extends BaseDomain {
 	private String plRegistSearchNo;	// API조회용 등록번호
 	private String classCheck;			// API조회용 개인/법인 구분필드
 	
-	
+	private int amt;
 	
 	
 }
