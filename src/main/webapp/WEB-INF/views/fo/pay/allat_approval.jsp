@@ -143,15 +143,10 @@
 	
 	
 	//----------------------[2021.05.21 추가 : S]----------------------
-	int masterSeq = Integer.parseInt(request.getParameter("masterSeq"));
-	
 	//(1)결제정보 저장
-	ServletContext servletContext 	= getServletContext();
-	WebApplicationContext waContext = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-	PayService payService 			= (PayService)waContext.getBean("PayService");
-	PayDomain payDomain				= new PayDomain();
-	String id 						= "";
-	String name 					= "";
+	int masterSeq 	= Integer.parseInt(request.getParameter("masterSeq"));
+	String id 		= "";
+	String name 	= "";
 	
 	if(sCardId != null && !sCardId.equals("")){
 		//카드
@@ -162,36 +157,21 @@
 		id 		= sBankId;
 		name 	= sBankNm;
 	}
-	/*
-	if(sPayType.equals("")){
-		//카드
-		id 		= sCardId;
-		name 	= sCardNm;
-	}else if(sPayType.equals("")){
-		//계좌이체
-		id 		= sBankId;
-		name 	= sBankNm;
-	}
-	*/
-	
-	payDomain.setOrderNo(sOrderNo);				//주문번호
-	payDomain.setMasterSeq(masterSeq);			//접수번호 시퀀스
-	payDomain.setPayType(sPayType);				//지불수단
-	payDomain.setSeqNo(sSeqNo);					//거래일련번호
-	payDomain.setApprovalNo(sApprovalNo);		//승인번호
-	payDomain.setId(id);						//카드,은행ID
-	payDomain.setName(name);					//카드,은행명
-	payDomain.setSellMm(sSellMm);				//할부개월
-	payDomain.setAmt(Integer.parseInt(sAmt));	//금액
-
-	boolean result = payService.insertPayResult(payDomain);
 	
 	//(2)결제 완료 화면 이동 : masterSeq 들고 이동해야함
 	out.println("<script>");
 	out.println("var newForm = $('<form></form>');");
 	out.println("newForm.attr('method','post');");
 	out.println("newForm.attr('action','/front/pay/payResult');");
+	out.println("newForm.append('<input type='hidden' name='orderNo' value='"+sOrderNo+"'>);");
 	out.println("newForm.append('<input type='hidden' name='masterSeq' value='"+masterSeq+"'>);");
+	out.println("newForm.append('<input type='hidden' name='payType' value='"+sPayType+"'>);");
+	out.println("newForm.append('<input type='hidden' name='seqNo' value='"+sSeqNo+"'>);");
+	out.println("newForm.append('<input type='hidden' name='approvalNo' value='"+sApprovalNo+"'>);");
+	out.println("newForm.append('<input type='hidden' name='id' value='"+id+"'>);");
+	out.println("newForm.append('<input type='hidden' name='name' value='"+name+"'>);");
+	out.println("newForm.append('<input type='hidden' name='sellMm' value='"+sSellMm+"'>);");
+	out.println("newForm.append('<input type='hidden' name='amt' value='"+sAmt+"'>);");
 	out.println("newForm.appendTo('body');");
 	out.println("newForm.submit();");
 	out.println("</script>");
