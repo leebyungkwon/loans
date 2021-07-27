@@ -245,7 +245,9 @@ function pageLoad(){
 											</td>
 										</tr>
 									</c:if>
-									<tr>
+									
+									
+<%-- 									<tr>
 										<th class="acenter">대표 경력증명서 *</th>
 										<td>
 											<c:choose>
@@ -255,7 +257,9 @@ function pageLoad(){
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
 										</td>
-									</tr>
+									</tr> --%>
+									
+									
 								</tbody>
 							</table>
 						</div>

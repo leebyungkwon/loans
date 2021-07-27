@@ -31,7 +31,7 @@
 			</c:when>
 			<c:otherwise>
 				<tr>
-					<td colspan="4" class="acenter">데이터가 존재하지 않습니다.</td>
+					<td colspan="5" class="acenter">데이터가 존재하지 않습니다.</td>
 				</tr>
 			</c:otherwise>
 		</c:choose>

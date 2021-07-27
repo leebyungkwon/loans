@@ -398,6 +398,8 @@ function pageLoad(){
 										</td>
 									</tr>
 								</c:if>
+								
+<%-- 								
 								<tr>
 									<td class="acenter">대표 경력증명서 *</td>
 									<td>
@@ -423,6 +425,8 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
+								 --%>
+								
 							</table>
 						</div>
 						
