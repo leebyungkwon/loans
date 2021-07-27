@@ -65,8 +65,8 @@ public class ApplyDomain extends BaseDomain {
 	private String chkYnTxt;
 	private String adminChkYnTxt;
 	private String creAppDate;		//승인일
-	@ExcelColumn(headerName = "승인남은일수", order = 12)
 	private String creAppFiDate;	// 승인남은일텍스트
+	@ExcelColumn(headerName = "승인남은일수", order = 12)
 	private String creAppFiDateNm;	// 승인남은일
 	private String creLicenseDate;	//자격취득일
 	private String plPayStat;		//결제상태							-> []

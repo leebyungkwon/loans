@@ -67,6 +67,9 @@ public class ApplyService {
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		applyDomain.setCreGrp(result.getCreGrp());
 		
+		// 2021-07-27 페이징 false
+		applyDomain.setIsPaging("false");
+		
 		// 주민번호 및 법인번호 암호화 후 비교
 		if(StringUtils.isNotEmpty(applyDomain.getPlMerchantNo())) {
 			applyDomain.setPlMerchantNo(CryptoUtil.encrypt(applyDomain.getPlMerchantNo()));
