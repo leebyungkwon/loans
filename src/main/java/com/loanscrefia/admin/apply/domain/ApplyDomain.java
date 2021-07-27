@@ -178,6 +178,7 @@ public class ApplyDomain extends BaseDomain {
 	private String checkCd15;
 	private String checkCd16;
 	private String checkCd17;
+	private String checkCd18;
 	
 	private String checkCd112;
 	private String checkCd116;

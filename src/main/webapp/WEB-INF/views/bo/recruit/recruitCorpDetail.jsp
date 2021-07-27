@@ -76,7 +76,7 @@ function goRecruitApply(num){
 //보완
 function goRecruitImprove(rePlStat){
 	
-	var oldHistTxt = "${result.recruitInfo.plHistTxt}";
+	var oldHistTxt = $("#oldHistTxt").val();
 	if($(document).find("#plHistArea").length == 0){
 		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
 		tag += '<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100"></textarea></tr>';
@@ -84,14 +84,14 @@ function goRecruitImprove(rePlStat){
 		return false;
 	}
 	
-	if(WebUtil.isNull($("#plHistTxt").text())){
+	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("사유를 입력해 주세요");
 		$("#plHistTxt").focus();
 		return false;
 	}
 	
 	var confirmMessage = "";
-	if(oldHistTxt == $("#plHistTxt").text()){
+	if(oldHistTxt == $("#plHistTxt").val()){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
@@ -135,6 +135,7 @@ function goRecruitImprove(rePlStat){
 	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.recruitInfo.preRegYn }"/>
 	<input type="hidden" name="plRegistNo" id="plRegistNo" value="${result.recruitInfo.plRegistNo }"/>
 	<input type="hidden" name="plProduct" id="plProduct" value="${result.recruitInfo.plProduct }"/>
+	<input type="hidden" id="oldHistTxt" value="${result.recruitInfo.plHistTxt}"/>
 </form>
 
 <div class="cont_area">

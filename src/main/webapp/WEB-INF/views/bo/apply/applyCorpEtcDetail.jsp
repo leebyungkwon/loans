@@ -61,13 +61,13 @@ function pageLoad(){
 								<input type="checkbox" id="check_cd400" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd400}">checked</c:if>
 								<c:if test="${empty result.applyInfo.fileType21.fileSeq}">disabled</c:if>
 								 data-fileSeq="${result.applyInfo.fileType21.fileSeq }" >
-								<label for="check_cd400">체크사항1</label>
+								<label for="check_cd400">법인 인감 날인 여부</label>
 							</div>
 							<div class="input_check_wrap mgr10">
 								<input type="checkbox" id="check_cd401" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd401}">checked</c:if>
 								<c:if test="${empty result.applyInfo.fileType21.fileSeq}">disabled</c:if>
 								 data-fileSeq="${result.applyInfo.fileType21.fileSeq }" >
-								<label for="check_cd401">체크사항2</label>
+								<label for="check_cd401">물적요건 설비내역 및 증빙자료 제출 여부</label>
 							</div>
 						</td>
 					</tr>
@@ -86,7 +86,7 @@ function pageLoad(){
 								<input type="checkbox" id="check_cd402" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd402}">checked</c:if>
 								<c:if test="${empty result.applyInfo.fileType22.fileSeq}">disabled</c:if>
 								 data-fileSeq="${result.applyInfo.fileType22.fileSeq }" >
-								<label for="check_cd402">사무공간 자료 유무</label>
+								<label for="check_cd402">사무공간 배치현황 제출 여부</label>
 							</div>
 						</td>
 					</tr>
@@ -105,7 +105,7 @@ function pageLoad(){
 								<input type="checkbox" id="check_cd403" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd403}">checked</c:if>
 								<c:if test="${empty result.applyInfo.fileType23.fileSeq}">disabled</c:if>
 								 data-fileSeq="${result.applyInfo.fileType23.fileSeq }" >
-								<label for="check_cd403">기재 내용 일치 여부</label>
+								<label for="check_cd403">임차기간 6개월 이상 확보 여부</label>
 							</div>
 						</td>
 					</tr>
@@ -170,7 +170,7 @@ function pageLoad(){
 								<input type="checkbox" id="check_cd408" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd408}">checked</c:if>
 								<c:if test="${empty result.applyInfo.fileType29.fileSeq}">disabled</c:if>
 								 data-fileSeq="${result.applyInfo.fileType29.fileSeq }" >
-								<label for="check_cd408">체크사항1</label>
+								<label for="check_cd408">최근 3년간 채무불이행내역 유무</label>
 							</div>
 						</td>
 					</tr>

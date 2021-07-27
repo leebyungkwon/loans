@@ -145,15 +145,15 @@ function goApplyImprove(num){
 		messageCheck = "보완요청사유를 입력해 주세요.";
 	}
 	
-	var oldHistTxt = "${result.applyInfo.plHistTxt}";
-	if(WebUtil.isNull($("#plHistTxt").text())){
+	var oldHistTxt = $("#oldHistTxt").val();
+	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert(messageCheck);
 		$("#plHistTxt").focus();
 		return false;
 	}
 	
 	var confirmMessage = "";
-	if(oldHistTxt == $("#plHistTxt").text()){
+	if(oldHistTxt == $("#plHistTxt").val()){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
@@ -168,7 +168,7 @@ function goApplyImprove(num){
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: plStat
-				,plHistTxt	: $("#plHistTxt").text()
+				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
 				,preLcNum	: preLcNum 
 			}
@@ -199,6 +199,7 @@ function goApplyImprove(num){
 	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.applyInfo.preRegYn }"/>
 	<input type="hidden" name="preLcNum" id="preLcNum" value="${result.applyInfo.preLcNum }"/>
 	<input type="hidden" name="plProduct" id="plProduct" value="${result.applyInfo.plProduct }"/>
+	<input type="hidden" id="oldHistTxt" value="${result.applyInfo.plHistTxt}"/>
 </form>
 
 <div class="cont_area">
@@ -375,7 +376,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if> 
 							<c:if test="${!empty result.applyInfo.checkCd1}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType1.fileSeq }" >
-							<label for="check_cd1">기재내용 일치여부</label>
+							<label for="check_cd1">주민등록증 사진과 일치여부</label>
 						</div>
 					</td>
 				</tr>
@@ -395,7 +396,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if> 
 							<c:if test="${!empty result.applyInfo.checkCd2}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
-							<label for="check_cd2">기재내용 일치여부</label>
+							<label for="check_cd2">주민등록증 사진과 일치여부</label>
 						</div>
 					</td>
 				</tr>
@@ -461,7 +462,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType5.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd5}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType5.fileSeq }" >
-							<label for="check_cd5">경력 인정여부</label>
+							<label for="check_cd5">최근 5년이내 3년이상 금융회사 경력여부</label>
 						</div>
 					</td>
 				</tr>
@@ -482,7 +483,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd6}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
-							<label for="check_cd6">기재내용 일치 여부</label>
+							<label for="check_cd6">금융상품유형, 계약일자, 위탁예정기간 일치 여부</label>
 						</div>
 					</td>
 				</tr>
@@ -504,7 +505,14 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType12.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd12}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType12.fileSeq }" >
-							<label for="check_cd12">체크사항1</label>
+							<label for="check_cd12">법인 인감 날인 여부</label>
+						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd18" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType12.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd18}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType12.fileSeq }" >
+							<label for="check_cd18">금융상품유형, 계약일자, 위탁예정기간 일치 여부</label>
 						</div>
 					</td>
 				</tr>
@@ -554,7 +562,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType8.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd9}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType8.fileSeq }" >
-							<label for="check_cd9">인감 날인 여부</label>
+							<label for="check_cd9">기재내용 일치 및 서명/인감날인 여부</label>
 						</div>											
 					</td>
 				</tr>
@@ -574,7 +582,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType9.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd10}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType9.fileSeq }" >
-							<label for="check_cd10">유효 증명서여부</label>
+							<label for="check_cd10">대출성상품 모집인 등록 신청 용도 기재 여부</label>
 						</div>
 					</td>
 				</tr>
@@ -596,7 +604,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType14.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd17}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType14.fileSeq }" >
-							<label for="check_cd17">체크사항1</label>
+							<label for="check_cd17">성명과 주민등록번호 일치 여부</label>
 						</div>
 					</td>
 				</tr>
@@ -658,7 +666,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType11.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd16}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType11.fileSeq }" >
-							<label for="check_cd16">체크사항1</label>
+							<label for="check_cd16">변경된 휴대폰번호와 일치여부</label>
 						</div>
 					</td>
 				</tr>

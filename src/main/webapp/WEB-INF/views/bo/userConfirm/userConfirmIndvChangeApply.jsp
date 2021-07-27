@@ -101,7 +101,7 @@ function goViolationAdd(obj){
 //변경요청
 function goUserChangeApply(){
 	//validation
-	if(WebUtil.isNull($("#plHistTxt").text())){
+	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert("변경사유를 입력해 주세요.");
 		$("#plHistTxt").focus();
 		return;

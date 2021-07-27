@@ -85,14 +85,14 @@ function pageLoad(){
 											<input type="checkbox" id="check_cd300" class="check check_cd" <c:if test="${!empty corpItList.checkCd300}">checked</c:if>
 											<c:if test="${empty corpItList.fileType19.fileSeq}">disabled</c:if>
 											 data-fileSeq="${corpItList.fileType19.fileSeq }" >
-											<label for="check_cd300">최근5년간 업무 기재 여부</label>
+											<label for="check_cd300">전산 관련 경력 여부</label>
 										</div>
-										<div class="input_check_wrap mgr10">
+<%-- 										<div class="input_check_wrap mgr10">
 											<input type="checkbox" id="check_cd301" class="check check_cd" <c:if test="${!empty corpItList.checkCd301}">checked</c:if>
 											<c:if test="${empty corpItList.fileType19.fileSeq}">disabled</c:if>
 											 data-fileSeq="${corpItList.fileType19.fileSeq }" >
 											<label for="check_cd301">근로계약서, 4대보험 가입증명서류</label>
-										</div>
+										</div> --%>
 									</td>
 								</tr>
 								<tr>
@@ -110,14 +110,14 @@ function pageLoad(){
 											<input type="checkbox" id="check_cd302" class="check check_cd" <c:if test="${!empty corpItList.checkCd302}">checked</c:if>
 											<c:if test="${empty corpItList.fileType20.fileSeq}">disabled</c:if>
 											 data-fileSeq="${corpItList.fileType20.fileSeq }" >
-											<label for="check_cd302">체크사항1</label>
+											<label for="check_cd302">전산 관련 학위, 자격증 등 첨부 여부</label>
 										</div>
-										<div class="input_check_wrap mgr10">
+<%-- 										<div class="input_check_wrap mgr10">
 											<input type="checkbox" id="check_cd303" class="check check_cd" <c:if test="${!empty corpItList.checkCd303}">checked</c:if>
 											<c:if test="${empty corpItList.fileType20.fileSeq}">disabled</c:if>
 											 data-fileSeq="${corpItList.fileType20.fileSeq }" >
 											<label for="check_cd303">체크사항2</label>
-										</div>
+										</div> --%>
 									</td>
 								</tr>
 							</table>

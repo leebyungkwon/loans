@@ -135,15 +135,15 @@ function goApplyImprove(num){
 		messageCheck = "보완요청사유를 입력해 주세요.";
 	}
 	
-	var oldHistTxt = "${result.applyInfo.plHistTxt}";
-	if(WebUtil.isNull($("#plHistTxt").text())){
+	var oldHistTxt = $("#oldHistTxt").val();
+	if(WebUtil.isNull($("#plHistTxt").val())){
 		alert(messageCheck);
 		$("#plHistTxt").focus();
 		return false;
 	}
 	
 	var confirmMessage = "";
-	if(oldHistTxt == $("#plHistTxt").text()){
+	if(oldHistTxt == $("#plHistTxt").val()){
 		confirmMessage = "보완요청 사유가 기존 사유와 동일합니다.\n동일한 사유로 보완요청을 하시겠습니까?";
 	}else{
 		confirmMessage = "보완요청을 하시겠습니까?";
@@ -158,7 +158,7 @@ function goApplyImprove(num){
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: plStat
-				,plHistTxt	: $("#plHistTxt").text()
+				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
 				,preLcNum	: preLcNum 
 			}
@@ -189,6 +189,7 @@ function goApplyImprove(num){
 	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.applyInfo.preRegYn }"/>
 	<input type="hidden" name="preLcNum" id="preLcNum" value="${result.applyInfo.preLcNum }"/>
 	<input type="hidden" name="plProduct" id="plProduct" value="${result.applyInfo.plProduct }"/>
+	<input type="hidden" id="oldHistTxt" value="${result.applyInfo.plHistTxt}"/>
 </form>
 
 <div class="cont_area">
@@ -372,7 +373,7 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd2" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd2}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType1.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType1.fileSeq }" >
-							<label for="check_cd2">중개업무 포함여부</label>
+							<label for="check_cd2">금융상품판매대리중개업무 포함여부</label>
 						</div>
 					</td>
 				</tr>
@@ -430,13 +431,13 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd5" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd5}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
-							<label for="check_cd5">체크사항1</label>
+							<label for="check_cd5">등록의사 포함 여부</label>
 						</div>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd6" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd6}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType3.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType3.fileSeq }" >
-							<label for="check_cd6">체크사항2</label>
+							<label for="check_cd6">공증 유무</label>
 						</div>
 					</td>
 				</tr>
@@ -455,14 +456,14 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd7" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd7}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
-							<label for="check_cd7">체크사항1</label>
+							<label for="check_cd7">본점위치 확인 여부</label>
 						</div>
-						<div class="input_check_wrap mgr10">
+<%-- 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd8" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd8}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType4.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType4.fileSeq }" >
 							<label for="check_cd8">체크사항2</label>
-						</div>
+						</div> --%>
 					</td>
 				</tr>
 				<tr>
@@ -482,6 +483,12 @@ function goApplyImprove(num){
 							 data-fileSeq="${result.applyInfo.fileType5.fileSeq }" >
 							<label for="check_cd9">인감도장 날인 여부</label>
 						</div>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd8" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd8}">checked</c:if>
+							<c:if test="${empty result.applyInfo.fileType5.fileSeq}">disabled</c:if>
+							 data-fileSeq="${result.applyInfo.fileType5.fileSeq }" >
+							<label for="check_cd8">주민등록번호 마스킹 여부</label>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -499,14 +506,14 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd10" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd10}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
-							<label for="check_cd10">체크사항1</label>
+							<label for="check_cd10">정관상 영위하는 업무 관련 증명서 제출 여부</label>
 						</div>
-						<div class="input_check_wrap mgr10">
+<%-- 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd11" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd11}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType6.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType6.fileSeq }" >
 							<label for="check_cd11">체크사항2</label>
-						</div>
+						</div> --%>
 					</td>
 				</tr>
 				
@@ -525,14 +532,14 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd116" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd116}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
-							<label for="check_cd116">체크사항1</label>
+							<label for="check_cd116">업무수행기준 표준(안) 반영여부</label>
 						</div>
-						<div class="input_check_wrap mgr10">
+<%-- 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd112" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd112}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
 							<label for="check_cd112">체크사항2</label>
-						</div>
+						</div> --%>
 					</td>
 				</tr>
 				
@@ -551,14 +558,14 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd117" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd117}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType31.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType31.fileSeq }" >
-							<label for="check_cd117">체크사항1</label>
+							<label for="check_cd117">금융상품유형, 계약일자, 위탁예정기간 일치 여부</label>
 						</div>
-						<div class="input_check_wrap mgr10">
+<%-- 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd118" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd118}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType31.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType31.fileSeq }" >
 							<label for="check_cd118">체크사항2</label>
-						</div>
+						</div> --%>
 					</td>
 				</tr>
 				
@@ -577,13 +584,13 @@ function goApplyImprove(num){
 							<input type="checkbox" id="check_cd119" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd119}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType32.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType32.fileSeq }" >
-							<label for="check_cd119">체크사항1</label>
+							<label for="check_cd119">금융상품유형, 계약일자, 위탁예정기간 일치 여부</label>
 						</div>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd120" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd120}">checked</c:if>
 							<c:if test="${empty result.applyInfo.fileType32.fileSeq}">disabled</c:if>
 							 data-fileSeq="${result.applyInfo.fileType32.fileSeq }" >
-							<label for="check_cd120">체크사항2</label>
+							<label for="check_cd120">법인 인감 날인 여부</label>
 						</div>
 					</td>
 				</tr>

@@ -113,6 +113,9 @@
 			COUNT(*)
 		FROM TB_LC_CORP
 		<where>
+			<if test="corpSeq != null and corpSeq != ''">
+			AND PL_MERCHANT_NO 		!= (SELECT PL_MERCHANT_NO FROM TB_LC_CORP B WHERE B.CORP_SEQ = #{corpSeq} LIMIT 1)
+			</if>
 			AND PL_MERCHANT_NO 		= #{plMerchantNo}
 		</where>
 	</select>
