@@ -141,6 +141,8 @@ public class PayService {
 						
 						param.setMasterSeq(payDomain.getMasterSeq());
 						param.setPlRegStat("5");
+						param.setPlRegistNo(lcNum);
+						param.setConNum(conNum);
 						searchService.updatePlRegStat(param);
 						
 						return false;
