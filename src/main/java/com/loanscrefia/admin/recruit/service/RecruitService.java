@@ -59,8 +59,6 @@ public class RecruitService {
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		recruitDomain.setCreGrp(result.getCreGrp());
 		
-		// 2021-07-27 페이징 false
-		recruitDomain.setIsPaging("false");
 		// 주민번호 및 법인번호 암호화 후 비교
 		recruitDomain.setPlMerchantNo(CryptoUtil.encrypt(recruitDomain.getPlMerchantNo()));
 		recruitDomain.setPlMZId(CryptoUtil.encrypt(recruitDomain.getPlMZId()));

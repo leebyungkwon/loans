@@ -34,8 +34,6 @@ public class CompanyService {
 	//회원사 담당자 리스트 조회
 	@Transactional(readOnly = true)
 	public List<CompanyDomain> selectCompanyList(CompanyDomain companyDomain){
-		// 2021-07-27 페이징 false
-		companyDomain.setIsPaging("false");
 		return companyRepository.selectCompanyList(companyDomain);
 	}
 	

@@ -14,7 +14,7 @@ $(document).on("click","#masterCheck",function(){
 	}
 	
 	var p = {
-		  url		: "/admin/apply/applyAdminCheck"	
+		  url		: "/admin/apply/applyCheck"	
 		, param		: {
 			 chkYn		: chk
 			,masterSeq	: $("#masterSeq").val()
@@ -38,7 +38,7 @@ $(document).on("click","#adminCheck",function(){
 	}
 	
 	var p = {
-		  url		: "/admin/apply/applyCheck"	
+		  url		: "/admin/apply/applyAdminCheck"	
 		, param		: {
 			 adminChkYn 		: chk
 			,masterSeq	: $("#masterSeq").val()

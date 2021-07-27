@@ -57,6 +57,8 @@ public class RecruitController {
 	//엑셀 다운로드
 	@PostMapping("/recruit/recruitListExcelDown")
 	public void recruitListExcelDown(RecruitDomain recruitDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		// 2021-07-27 페이징 false
+		recruitDomain.setIsPaging("false");
  		List<RecruitDomain> excelDownList = recruitService.selectRecruitList(recruitDomain);
  		new UtilExcel().downLoad(excelDownList, RecruitDomain.class, response.getOutputStream());
 	}

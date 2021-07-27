@@ -56,6 +56,8 @@ public class UserController {
 	//엑셀 다운로드
 	@PostMapping("/confirm/userConfirmListExcelDown")
 	public void userConfirmListExcelDown(UserDomain userDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		// 2021-07-27 페이징 false
+		userDomain.setIsPaging("false");
  		List<UserDomain> excelDownList = userService.selectUserConfirmList(userDomain);
  		new UtilExcel().downLoad(excelDownList, UserDomain.class, response.getOutputStream());
 	}

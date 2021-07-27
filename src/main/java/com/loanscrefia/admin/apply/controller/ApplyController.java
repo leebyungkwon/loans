@@ -85,6 +85,8 @@ public class ApplyController {
 	//엑셀 다운로드
 	@PostMapping("/apply/applyListExcelDown")
 	public void applyListExcelDown(ApplyDomain applyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		// 2021-07-27 페이징 false
+		applyDomain.setIsPaging("false");
  		List<ApplyDomain> excelDownList = applyService.selectApplyList(applyDomain);
  		new UtilExcel().downLoad(excelDownList, ApplyDomain.class, response.getOutputStream());
 	}

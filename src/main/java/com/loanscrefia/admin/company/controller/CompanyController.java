@@ -95,6 +95,8 @@ public class CompanyController {
 	//엑셀 다운로드
 	@PostMapping("/mng/excelDown")
 	public void writeExcel(CompanyDomain companyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		// 2021-07-27 페이징 false
+		companyDomain.setIsPaging("false");
  		List<CompanyDomain> b = companyService.selectCompanyList(companyDomain);
  		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}

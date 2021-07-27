@@ -97,9 +97,6 @@ public class UserService {
 		MemberDomain loginInfo 		= commonService.getMemberDetail(memberDomain);
 		userDomain.setCreGrp(loginInfo.getCreGrp());
 		
-		// 2021-07-27 페이징 false
-		userDomain.setIsPaging("false");
-		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
 			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
