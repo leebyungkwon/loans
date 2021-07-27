@@ -54,7 +54,7 @@ public class PayController {
 	}
 	
 	//[allAt]결제 인증정보 수신 페이지
-	@PostMapping(value="/allatReceive")
+	@RequestMapping(value="/allatReceive")
 	public String allatReceive() {
 		return CosntPage.FoPayPage+"/allat_receive";
 	}
