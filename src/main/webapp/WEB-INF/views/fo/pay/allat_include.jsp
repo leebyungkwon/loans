@@ -6,7 +6,7 @@
 <script language=JavaScript charset="euc-kr" src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>
 
 <!-- 운영 -->
-<c:set var="prdReceiveUrl" value="http://loanagent.crefia.or.kr/front/pay/allatReceive"></c:set>
+<c:set var="prdReceiveUrl" value="https://loanagent.crefia.or.kr/front/pay/allatReceive"></c:set>
 <!-- 개발 -->
 <c:set var="devReceiveUrl" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive"></c:set>
 
@@ -24,6 +24,9 @@ function ftn_approval(dfm) {
 function result_submit(result_cd,result_msg,enc_data) {
 	//결제창 자동종료 체크 종료
 	AllatPay_Closechk_End();
+	
+	alert("result_cd >> "+result_cd);
+	alert("result_msg >> "+result_msg);
 	
 	if(result_cd != '0000'){
 		window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
@@ -51,7 +54,7 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_buyer_nm" value="테스트" maxlength="20"> <!-- 결제자성명 -->
 	<input type="hidden" name="allat_recp_nm" value="여신금융협회" maxlength="20"> <!-- 수취인성명 -->
 	<input type="hidden" name="allat_recp_addr" value="서울" maxlength="120"> <!-- 수취인주소 -->
-	<input type="hidden" name="shop_receive_url" value="${prdReceiveUrl }"> <!-- 인증정보수신URL : Full URL 입력 -->
+	<input type="hidden" name="shop_receive_url" value="https://loanagent.crefia.or.kr/front/pay/allatReceive"> <!-- 인증정보수신URL : Full URL 입력 -->
 	<input type="hidden" name="allat_enc_data" value=""> <!-- 주문정보암호화필드 : 값은 자동으로 설정됨 -->
 	<!-- 옵션정보 -->
 	<input type="hidden" name="allat_card_yn" value="Y" maxlength="1"> <!-- 신용카드 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->

@@ -8,6 +8,10 @@
 	String sResultMsg = request.getParameter("allat_result_msg");
 	String sEncData   = request.getParameter("allat_enc_data");
 	
+	System.out.println("::::: allat_receive.jsp >> sResultCd :::::"+sResultCd);
+	System.out.println("::::: allat_receive.jsp >> sResultMsg :::::"+sResultMsg);
+	System.out.println("::::: allat_receive.jsp >> sEncData :::::"+sEncData);
+	
 	// 결과값 Return
 	out.println("<script>");
 	out.println("alert('allat_receive.jsp 진입 확인용 alert');");
