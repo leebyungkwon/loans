@@ -103,7 +103,7 @@ function pageLoad(){
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">대표자 경력증명서 *</th>
+										<th class="acenter">대표자 경력증명서</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType8 ne null }">
