@@ -56,6 +56,7 @@ public class PayController {
 	//[allAt]결제 인증정보 수신 페이지
 	@RequestMapping(value="/allatReceive")
 	public String allatReceive() {
+		System.out.println(":::::::::::::::: payController >> allatReceive() ::::::::::::::::");
 		return CosntPage.FoPayPage+"/allat_receive";
 	}
 	
