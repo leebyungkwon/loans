@@ -84,7 +84,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">경력증명서(업무인력)</th>
+					<th class="acenter">경력증명서</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>

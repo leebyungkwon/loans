@@ -270,7 +270,7 @@ public class UtilExcel<T> {
 		                			}else if(chkFormat.get(j).equals("cal")) {
 		                				//날짜 형식 체크
 		                				if(StringUtils.isNotEmpty(cellVal) && !dateFormatChk(cellVal,"yyyy-MM-dd")) {
-			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜 형식을 확인해 주세요.<br>";
+			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜는 yyyy-mm-dd 형식으로 입력해주시기 바랍니다.<br>";
 			                			}
 		                			}else if(chkFormat.get(j).equals("ci")) {
 		                				//CI 형식 체크

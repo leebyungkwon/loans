@@ -56,7 +56,7 @@ function goCertiCardDownload(){
 							</tr>
 							<tr>
 								<th>결제</th>
-								<td><span class="bold red">(금액수정예정 ex)1000)원 (${payResultInfo.payName })</span></td>
+								<td><span class="bold red">${payResultInfo.amt }원</span></td>
 							</tr>
 						</c:when>
 						<c:otherwise>
@@ -70,7 +70,7 @@ function goCertiCardDownload(){
 							</tr>
 							<tr>
 								<th>결제</th>
-								<td><span class="bold red">(금액수정예정 ex)1000)원 (${payResultInfo.payName })</span></td>
+								<td><span class="bold red">${payResultInfo.amt }원</span></td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

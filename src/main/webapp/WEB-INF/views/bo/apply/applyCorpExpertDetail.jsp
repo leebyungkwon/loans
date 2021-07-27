@@ -145,7 +145,7 @@ function pageLoad(){
 									</tr>
 								</c:if>
 								<tr>
-									<td class="acenter">경력증명서(업무인력)</td>
+									<td class="acenter">경력증명서</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpExpertList.fileType18 ne null }">

@@ -72,7 +72,7 @@ function pageLoad(){
 						</td>
 					</tr>
 					<tr>
-						<td class="acenter">사무공간 / 전산설비 등의 임차계약서 사본 *</td>
+						<td class="acenter">사무공간 배치현황 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType22 ne null }">
@@ -91,7 +91,7 @@ function pageLoad(){
 						</td>
 					</tr>
 					<tr>
-						<td class="acenter">부동산 등기부등본 *</td>
+						<td class="acenter">고정사업장 증빙서류(임대차계약서 등) *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType23 ne null }">

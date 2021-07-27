@@ -141,6 +141,7 @@ function goDataAreaAdd() {
 			※ 모집인 등록 엑셀 서식 작성요령<br />
 			- 구분 : 신규 = 1 / 경력 = 2<br />
 			- 주민등록번호, 경력시작일, 경력종료일 입력 시 중간에 “-” 입력<br />
+			- 경력시작일과 경력종료일은 최근 5년 이내에 금융회사에서 3년이상 경력이 있는 경우에만 작성<br />
 		</p>
 		<div class="right" style="top: 74px;">
 			<a href="javascript:void(0);" class="btn_gray btn_middle" onclick="goDataAreaAdd();">추가</a>
@@ -250,7 +251,7 @@ function goDataAreaAdd() {
 											</tr>
 										</c:if>
 										<tr>
-											<th class="acenter">경력증명서(업무인력)</th>
+											<th class="acenter">경력증명서</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpExpertList.fileType18 ne null }">

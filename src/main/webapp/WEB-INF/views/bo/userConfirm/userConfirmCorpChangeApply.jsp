@@ -41,7 +41,7 @@ function goViolationAdd(obj){
 //변경요청
 function goUserChangeApply(){
 	//validation
-	if(WebUtil.isNull($("#plHistTxt").val())){
+	if(WebUtil.isNull($("#plHistTxt").text())){
 		alert("변경사유를 입력해 주세요.");
 		$("#plHistTxt").focus();
 		return;
@@ -244,7 +244,7 @@ function goUserChangeApply(){
 						 	<div class="calendar01"></div>
 						</td>
 					</tr>
-					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
+					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' || result.userRegInfo.plStat eq '10'}">
 						<tr>
 							<th>보완요청사유</th>
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
@@ -252,7 +252,10 @@ function goUserChangeApply(){
 					</c:if>
 					<tr>
 						<th>변경사유</th>
-						<td colspan="3"><input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/></td>
+						<td colspan="3">
+							<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100"></textarea>
+							<!-- <input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/> -->
+						</td>
 					</tr>
 					<c:choose>
 						<c:when test="${fn:length(result.violationInfoList) > 0 }">

@@ -473,7 +473,7 @@
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
    		(
-   			 (SELECT 'LC' || TO_CHAR(CURRENT_DATE,'YYMMDD') || LPAD(CAST(NEXTVAL('tb_lc_mas01_seq') as VARCHAR(8)) , 8, '0'))
+   			 (SELECT 'LC' || TO_CHAR(CURRENT_DATE,'YYMMDD') || LPAD(CAST(NEXTVAL('tb_lc_mas01_seq') as VARCHAR(5)) , 5, '0'))
    			,(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    			,#{regSeq}
    			,'1'							-- 승인전
@@ -541,7 +541,7 @@
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
    		(
-   			 (SELECT 'LC' || TO_CHAR(CURRENT_DATE,'YYMMDD') || LPAD(CAST(NEXTVAL('tb_lc_mas01_seq') as VARCHAR(8)) , 8, '0'))
+   			 (SELECT 'LC' || TO_CHAR(CURRENT_DATE,'YYMMDD') || LPAD(CAST(NEXTVAL('tb_lc_mas01_seq') as VARCHAR(5)) , 5, '0'))
    			,(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
    			,#{regSeq}
    			,'1'							-- 승인전

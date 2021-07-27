@@ -175,7 +175,7 @@ INSERT INTO tb_lc_members (member_id,"password",com_code,member_name,email,exten
 
 ------------------------------- 사용금지-----------------------------
 
-select 'LC' || to_char(current_date,'yymmdd') || lpad(cast(nextval('tb_lc_mas01_seq') as varchar(8)) , 8, '0');
+(SELECT 'LC' || TO_CHAR(CURRENT_DATE,'YYMMDD') || LPAD(CAST(NEXTVAL('tb_lc_mas01_seq') as VARCHAR(5)) , 5, '0'))
 
 ALTER TABLE tb_lc_mas01 ADD COLUMN master_to_id varchar(20);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN master_to_id varchar(20);

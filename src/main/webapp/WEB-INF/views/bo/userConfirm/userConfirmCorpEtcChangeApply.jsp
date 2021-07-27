@@ -79,7 +79,7 @@ function goUserRegInfoUpdt() {
 								</td>
 							</tr>
 							<tr>
-								<th class="acenter">사무공간 / 전산설비 등의 임차계약서 사본 *</th>
+								<th class="acenter">사무공간 배치현황 *</th>
 								<td>
 									<c:choose>
 										<c:when test="${result.userRegInfo.fileType22 ne null }">
@@ -97,7 +97,7 @@ function goUserRegInfoUpdt() {
 								</td>
 							</tr>
 							<tr>
-								<th class="acenter">부동산 등기부등본 *</th>
+								<th class="acenter">고정사업장 증빙서류(임대차계약서 등) *</th>
 								<td>
 									<c:choose>
 										<c:when test="${result.userRegInfo.fileType23 ne null }">

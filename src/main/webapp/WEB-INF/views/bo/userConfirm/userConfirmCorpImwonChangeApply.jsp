@@ -142,7 +142,9 @@ function goDataAreaAdd() {
 			- 구분 : 신규 = 1 / 경력 = 2<br />
 			- 주민등록번호, 경력시작일, 경력종료일 입력 시 중간에 “-” 입력<br />
 			- 상근여부 : 상근 = 1 / 비상근 = 2 <br />
-			- 전문인력여부 : 전문인력 = 1 / 비전문인력 = 2
+			- 전문인력여부 : 전문인력 = 1 / 비전문인력 = 2<br />
+			- 교육이수대상 임원이 아닌 경우 구분값은 신규로 입력<br />
+			- 경력시작일과 경력종료일은 최근 5년 이내에 금융회사에서 3년이상 경력이 있는 경우에만 작성<br />
 		</p>
 		<div class="right" style="top: 74px;">
 			<a href="javascript:void(0);" class="btn_gray btn_middle mgr5" onclick="goDataAreaAdd();">추가</a>

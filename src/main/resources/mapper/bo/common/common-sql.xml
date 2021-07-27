@@ -197,6 +197,8 @@
 		FROM
 			tb_lc_pay
 		WHERE MASTER_SEQ = #{masterSeq}
+		ORDER BY PAY_SEQ DESC
+		LIMIT 1
 	</select>
 	
 </mapper> 

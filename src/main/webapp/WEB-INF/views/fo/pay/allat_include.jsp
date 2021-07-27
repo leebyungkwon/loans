@@ -24,13 +24,11 @@ function ftn_approval(dfm) {
 function result_submit(result_cd,result_msg,enc_data) {
 	//결제창 자동종료 체크 종료
 	AllatPay_Closechk_End();
-	
 	if(result_cd != '0000'){
 		window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
 	}else{
 		//결제성공하면 인증결과값을 allat_enc_data 필드에 설정하고 After Page(allat_approval.jsp)로 submit
 		fm.allat_enc_data.value = enc_data;
-
 		fm.action = "/front/pay/allatApproval"; //"allat_approval.jsp";
 		fm.method = "post";
 		fm.target = "_self";
@@ -43,14 +41,14 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<!-- 필수정보 -->
 	<input type="hidden" name="allat_encode_type" value="U"> <!-- 인코딩 -->
 	<input type="hidden" name="allat_shop_id" value="crefia" maxlength="20"> <!-- Allat에서 발급한 고유 상점 ID -->
-	<input type="hidden" name="allat_order_no" value="${searchUserInfo.masterSeq }" maxlength="70"> <!-- 쇼핑몰에서 사용하는 고유 주문번호 : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
-	<input type="hidden" name="allat_amt" id="allat_amt" value="20000" maxlength="10"> <!-- 총 결제금액 : 숫자(0~9)만 사용가능 -->
-	<input type="hidden" name="allat_pmember_id" value="1" maxlength="20"> <!-- 쇼핑몰의 회원ID : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
-	<input type="hidden" name="allat_product_cd" value="결제상품코드" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
-	<input type="hidden" name="allat_product_nm" value="결제상품명" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) -->
-	<input type="hidden" name="allat_buyer_nm" value="테스트" maxlength="20"> <!-- 결제자성명 -->
+	<input type="hidden" name="allat_order_no" value="${searchUserInfo.masterSeq}" maxlength="70"> <!-- 쇼핑몰에서 사용하는 고유 주문번호 : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
+	<input type="hidden" name="allat_amt" id="allat_amt" value="" maxlength="10"> <!-- 총 결제금액 : 숫자(0~9)만 사용가능 -->
+	<input type="hidden" name="allat_pmember_id" value="${searchUserInfo.masterToId}" maxlength="20"> <!-- 쇼핑몰의 회원ID : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
+	<input type="hidden" name="allat_product_cd" value="${searchUserInfo.plProduct}" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) : 공백,작은따옴표('),큰따옴표(") 사용 불가 -->
+	<input type="hidden" name="allat_product_nm" value="${searchUserInfo.plProductNm}" maxlength="1000"> <!-- 여러 상품의 경우 구분자 이용, 구분자('||':파이프 2개) -->
+	<input type="hidden" name="allat_buyer_nm" id="allat_buyer_nm" value="" maxlength="20"> <!-- 결제자성명 -->
 	<input type="hidden" name="allat_recp_nm" value="여신금융협회" maxlength="20"> <!-- 수취인성명 -->
-	<input type="hidden" name="allat_recp_addr" value="서울" maxlength="120"> <!-- 수취인주소 -->
+	<input type="hidden" name="allat_recp_addr" value="서울특별시 중구 다동길 43 (다동70번지) 한외빌딩12~13층 여신금융협회 (04521)" maxlength="120"> <!-- 수취인주소 -->
 	<input type="hidden" name="shop_receive_url" value="https://loanagent.crefia.or.kr/front/pay/allatReceive"> <!-- 인증정보수신URL : Full URL 입력 -->
 	<input type="hidden" name="allat_enc_data" value=""> <!-- 주문정보암호화필드 : 값은 자동으로 설정됨 -->
 	<!-- 옵션정보 -->

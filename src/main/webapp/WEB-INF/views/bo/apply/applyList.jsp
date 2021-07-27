@@ -32,7 +32,7 @@ function pageLoad(){
 				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
-		, sortNm 		: "CRE_APP_FI_DATE"
+		, sortNm 		: "REG_TIMESTAMP"
 		, sort 			: "ASC"
 		, rowClick		: {retFunc : goApplyDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
@@ -111,7 +111,7 @@ function pageLoad(){
 	// 승인 남은일 순
 	$("#sortComRegDate").on("click", function(){
 		if($("#sortName").val() == "CRE_APP_FI_DATE"){
-			$("#sortName").val("com_reg_date");	
+			$("#sortName").val("REG_TIMESTAMP");	
 		}else{
 			$("#sortName").val("CRE_APP_FI_DATE");
 		}
