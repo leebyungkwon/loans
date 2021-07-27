@@ -13,9 +13,6 @@ function pageLoad() {
 <div class="inquiry_result_wrap">
 	<div class="title">대출모집인 조회결과</div>
 	<div class="inner">
-<!-- 		<div class="member_pic">
-			<img src="/static/images/sub/member_pic.jpg" alt="">
-		</div> -->
 		<div class="table_wrap">
 			<div class="table_title">정보</div>
 			<table class="member_info">
@@ -38,7 +35,6 @@ function pageLoad() {
 						<td>${result.plMZId }</td>
 					</tr>
 				</c:if>
-				
 				<c:if test="${result.plClass eq '2' }">
 					<tr>
 						<th>등록번호</th>
@@ -82,9 +78,8 @@ function pageLoad() {
 								<th>계약번호</th>
 								<td>${searchResultList.conNum }</td>
 							</tr>
-
 							<tr>
-								<th>등록일</th>
+								<th>계약일자</th>
 								<td>
 									${fn:substring(searchResultList.conDate,0,4)}-${fn:substring(searchResultList.conDate,4,6)}-${fn:substring(searchResultList.conDate,6,8)}
 								</td>

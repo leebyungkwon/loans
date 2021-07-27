@@ -261,9 +261,7 @@ function goUserChangeApply(){
 									<th>위반이력사항</th>
 									<td colspan="3" <c:if test="${violationInfoList.applyYn eq 'Y' }">class="red"</c:if>>
 										${violationInfoList.violationCdNm }
-										<c:if test="${status.count eq fn:length(result.violationInfoList) }">
-											<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
-										</c:if>
+										<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a>
 										<c:choose>
 											<c:when test="${violationInfoList.vioNum ne null && violationInfoList.vioNum ne '' }">
 												<c:if test="${violationInfoList.applyYn eq 'N' }">

@@ -403,6 +403,16 @@ function goViolationDataDel(violationSeq,obj){
 				  violationSeq 	: violationSeq
 			}
 			, success 	: function (opt,result) {
+				
+				$(obj).closest("tr").remove();
+				
+				var violationAreaLen 	= $(".violationArea").length;
+				
+				if(violationAreaLen == 0){
+					goViolationAdd(obj);
+				}
+				
+				/*
 				var violationAreaLen 	= $(".violationArea").length;
 				var aLen 				= $(obj).closest("tr").find("td").find("a").length;
 				
@@ -413,6 +423,7 @@ function goViolationDataDel(violationSeq,obj){
 				}
 				
 				$(obj).closest("tr").remove();
+				*/
 		    }
 		}
 		AjaxUtil.post(p);
