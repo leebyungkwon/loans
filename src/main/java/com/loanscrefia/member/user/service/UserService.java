@@ -75,8 +75,8 @@ public class UserService {
 		
 		boolean kfbApiContinue = true;
 		
-		//03 : TM대출, 06 : TM리스
-		if(plProduct.equals("03") || plProduct.equals("06")) {
+		//3 : TM대출, 6 : TM리스
+		if(plProduct.equals("3") || plProduct.equals("6")) {
 			kfbApiContinue = false;
 		}
 		
