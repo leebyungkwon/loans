@@ -10,6 +10,13 @@ function pageLoad() {
 		$(".inquiry_wrap .tap_wrap li").removeClass("on").eq(tap_index).addClass("on");
 		$(".tap_cont").removeClass("on").eq(tap_index).addClass("on");
 	});
+	
+	$('input[type="text"]').keydown(function() {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
+	});
+	
 }
 
 //모집인 조회

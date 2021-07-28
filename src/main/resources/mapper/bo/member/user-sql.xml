@@ -1093,7 +1093,9 @@
    			<if test="votingStockCnt != null and votingStockCnt != ''">
    			,VOTING_STOCK_CNT	= #{votingStockCnt}
    			</if>
+   			<if test="plWork != null and plWork != ''">
    			,PL_WORK 			= #{plWork}
+   			</if>
    			,UPD_SEQ 			= #{updSeq}
    			,UPD_TIMESTAMP 		= NOW()
    		<where>

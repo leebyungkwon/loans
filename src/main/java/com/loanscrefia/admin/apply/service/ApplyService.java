@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.gson.JsonObject;
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
@@ -97,6 +102,11 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 상세 : 개인
 	@Transactional(readOnly=true)
 	public Map<String,Object> getApplyIndvDetail(ApplyDomain applyDomain){
+		//세션 체크
+		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session 		= request.getSession();
+		MemberDomain loginInfo 		= (MemberDomain)session.getAttribute("member");
+		
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -231,11 +241,15 @@ public class ApplyService {
     	memberDomain.setMemberSeq(Long.valueOf(applyInfo.getMemberSeq()));
     	MemberDomain memberResult = commonService.getCompanyMemberDetail(memberDomain);
     	
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("applyInfo", applyInfo);
     	result.put("violationInfoList", violationInfoList);
     	result.put("memberResult", memberResult);
+    	if(loginInfo.getCreGrp() != null) {
+    		result.put("adminCreGrp", loginInfo.getCreGrp());
+    	}
 		
 		return result;
 	}
@@ -243,6 +257,11 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 상세 : 법인(등록정보 탭)
 	@Transactional(readOnly=true)
 	public Map<String,Object> getApplyCorpDetail(ApplyDomain applyDomain){
+		
+		//세션 체크
+		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session 		= request.getSession();
+		MemberDomain loginInfo 		= (MemberDomain)session.getAttribute("member");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -365,6 +384,9 @@ public class ApplyService {
 		result.put("addrCodeList", addrCodeList);
 		result.put("applyInfo", applyInfo);
 		result.put("violationInfoList", violationInfoList);
+    	if(loginInfo.getCreGrp() != null) {
+    		result.put("adminCreGrp", loginInfo.getCreGrp());
+    	}
 		
 		return result;
 	}

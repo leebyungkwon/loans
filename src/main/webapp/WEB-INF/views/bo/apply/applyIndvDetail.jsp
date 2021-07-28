@@ -680,7 +680,9 @@ function goApplyImprove(num){
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '2'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
+				<c:if test="${result.adminCreGrp eq '2'}">
+					<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
+				</c:if>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a>
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
