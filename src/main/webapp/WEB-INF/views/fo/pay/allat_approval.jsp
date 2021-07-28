@@ -19,7 +19,7 @@
   // Service Code
   String sCrossKey = "ec62e31d3dac1119c934391187e3160b";	//설정필요 [사이트 참조 - http://www.allatpay.com/servlet/AllatBiz/support/sp_install_guide_scriptapi.jsp#shop]
   String sShopId   = "crefia";								//설정필요
-  String sAmount   = "20000";								//결제 금액을 다시 계산해서 만들어야 함(해킹방지)  ( session, DB 사용 )
+  String sAmount   = request.getParameter("allat_amt");		//결제 금액을 다시 계산해서 만들어야 함(해킹방지)  ( session, DB 사용 )
 
   String sEncData  = request.getParameter("allat_enc_data");
   String strReq = "";
@@ -34,7 +34,8 @@
   // 올앳 결제 서버와 통신  : AllatUtil.approvalReq->통신함수, HashMap->결과값
   //-----------------------------------------------------------------------------
   
-  out.println("::::::::::::::::::::::::::::::::::: new 전 :::::::::::::::::::::::::::::::::::");
+  // 2021-07-28 로딩바 작업 진행 예정
+  out.println("결제 진행중입니다.");
   
   AllatUtil util = new AllatUtil();
   HashMap hm     = null;
@@ -46,7 +47,6 @@
   String sReplyCd     = (String)hm.get("reply_cd");
   String sReplyMsg    = (String)hm.get("reply_msg");
 
-  out.println("::::::::::::::::::::::::::::::::::: new 후 :::::::::::::::::::::::::::::::::::");
   
   /* 결과값 처리
   --------------------------------------------------------------------------

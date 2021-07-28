@@ -76,8 +76,6 @@ public class PayController {
 		ModelAndView mv 			= new ModelAndView(CosntPage.FoPayPage+"/payResult");
 		SearchDomain payResultInfo 	= new SearchDomain();
 		
-		payResultInfo.setAmt(payDomain.getAmt());
-		
 		if(result) {
 			searchDomain.setPlRegStat("3"); //모집인 상태가 자격취득인 것
 			payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);
@@ -85,6 +83,8 @@ public class PayController {
 			searchDomain.setPlRegStat("5"); //모집인 상태가 결제완료인 것
 			payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);
 		}
+		
+		payResultInfo.setAmt(payDomain.getAmt());
 		
 		mv.addObject("payResultInfo",payResultInfo);
 		return mv;

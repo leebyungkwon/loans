@@ -51,7 +51,7 @@ public class BoardService {
 		
 		Map<String, Object> ret = utilFile.setPath("notice") 
 				  .setFiles(files)
-				  .setExt("all") 
+				  .setExt("doc") 
 				  .upload();
 
 		if((boolean) ret.get("success")) {
@@ -72,7 +72,7 @@ public class BoardService {
 		
 		Map<String, Object> ret = utilFile.setPath("notice") 
 				  .setFiles(files)
-				  .setExt("all") 
+				  .setExt("doc") 
 				  .upload();
 
 		if((boolean) ret.get("success")) {

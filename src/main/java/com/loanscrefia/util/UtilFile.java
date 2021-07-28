@@ -473,7 +473,7 @@ public class UtilFile {
 	}
 
 	public enum Doc {
-		pdf, hwp, xls, xlsx, txt
+		gif, bmp, png, jpg, jpeg, pdf, txt, xls, xlsx, zip, ppt, pptx, hwp, hwpx, doc, docx
 	}
 
 	public enum Zip {
