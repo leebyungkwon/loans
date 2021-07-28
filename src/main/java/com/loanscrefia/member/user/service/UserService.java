@@ -83,6 +83,18 @@ public class UserService {
 		return kfbApiContinue;
 	}
 	
+	public boolean kfbApiContinue2(String plProduct) {
+		
+		boolean kfbApiContinue = true;
+		
+		//3 : TM대출, 6 : TM리스
+		if(plProduct.equals("03") || plProduct.equals("06")) {
+			kfbApiContinue = false;
+		}
+		
+		return kfbApiContinue;
+	}
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 조회 및 변경
 	 * -------------------------------------------------------------------------------------------------------
@@ -389,7 +401,7 @@ public class UserService {
 					int insertResult 			= 0;
 					
 					for(int i = 0;i < excelResult.size();i++) {
-						if(kfbApiContinue(excelResult.get(i).get("G").toString())) { //******
+						if(kfbApiContinue(excelResult.get(i).get("K").toString())) { //******
 							//(1)등록가능 여부 조회
 							JSONObject checkLoanApiReqParam = new JSONObject();
 						
@@ -424,7 +436,7 @@ public class UserService {
 					
 					//(3)가등록
 					for(int j = 0;j < excelResult.size();j++) {
-						if(kfbApiContinue(excelResult.get(j).get("G").toString())) { //******
+						if(kfbApiContinue(excelResult.get(j).get("K").toString())) { //******
 							JSONObject preLoanApiReqParam 	= new JSONObject();
 							JSONObject conArrParam 			= new JSONObject();
 							JSONArray conArr				= new JSONArray();
@@ -1557,7 +1569,7 @@ public class UserService {
 			deleteContinue = true;
 		}else {
 			//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
-			if(kfbApiContinue(userRegInfo.getPlProduct())) {
+			if(kfbApiContinue2(userRegInfo.getPlProduct())) {
 				KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
 				String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
 				JSONObject preLoanApiReqParam	= new JSONObject(); //여기
@@ -1699,7 +1711,7 @@ public class UserService {
 		int updateResult 		= 0;
 		
 		//가등록 취소 API(TM 제외) + 우리쪽 테이블 UPDATE
-		if(kfbApiContinue(userRegInfo.getPlProduct())) {
+		if(kfbApiContinue2(userRegInfo.getPlProduct())) {
 			KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
 			String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
 			JSONObject preLoanApiReqParam	= new JSONObject(); //여기
