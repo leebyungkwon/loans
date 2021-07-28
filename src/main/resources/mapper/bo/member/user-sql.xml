@@ -519,7 +519,14 @@
    			,REPLACE(#{item.N}, '-', '')	-- 위탁예정기간
    			,#{item.O}						-- CI
    			,#{item.preLcNum}				-- 가등록 번호
-   			,#{item.preRegYn}				-- 수수료 기 납부 여부
+   			<choose>
+   				<when test="(item.preRegYn != null and item.preRegYn != '')">
+					,#{item.preRegYn}				-- 수수료 기 납부 여부
+				</when>
+				<otherwise>
+					,'N'
+				</otherwise>
+			</choose>
    			,NOW()
    		)
    		</foreach>
@@ -578,7 +585,14 @@
    			,REPLACE(#{item.M}, '-', '')	-- 위탁예정기간
    			,#{item.N}						-- CI
    			,#{item.preLcNum}				-- 가등록 번호
-   			,#{item.preRegYn}				-- 수수료 기 납부 여부
+   			<choose>
+   				<when test="(item.preRegYn != null and item.preRegYn != '')">
+					,#{item.preRegYn}				-- 수수료 기 납부 여부
+				</when>
+				<otherwise>
+					,'N'
+				</otherwise>
+			</choose>
    			,#{item.O}						-- 업종
    			,NOW()
    		)
