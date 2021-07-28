@@ -220,7 +220,7 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
-								<tr>
+<%-- 								<tr>
 									<td class="acenter">주민등록사본 *</td>
 									<td>
 										<c:choose>
@@ -238,7 +238,7 @@ function pageLoad(){
 											<label for="check_cd115">주민등록번호 일치여부</label>
 										</div>
 									</td>
-								</tr>
+								</tr> --%>
 								<tr>
 									<td class="acenter">결격요건 확인서 등 관련서류</td>
 									<td>

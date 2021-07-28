@@ -137,7 +137,7 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
-									<tr>
+<%-- 									<tr>
 										<th class="acenter">주민등록사본 *</th>
 										<td>
 											<c:choose>
@@ -147,7 +147,7 @@ function pageLoad(){
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
 										</td>
-									</tr>
+									</tr> --%>
 									<tr>
 										<th class="acenter">결격요건 확인서 등 관련서류</th>
 										<td>
