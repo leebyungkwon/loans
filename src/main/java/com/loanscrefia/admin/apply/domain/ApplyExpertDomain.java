@@ -50,6 +50,8 @@ public class ApplyExpertDomain extends BaseDomain {
 	private FileDomain fileType17;
 	private FileDomain fileType18;
 	private FileDomain fileType31;
+	private FileDomain fileType35;
+	private FileDomain fileType36;
 	
 	//전문인력 첨부파일 체크
 	private String checkCd200;

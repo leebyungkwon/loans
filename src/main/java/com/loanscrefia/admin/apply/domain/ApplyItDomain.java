@@ -37,6 +37,8 @@ public class ApplyItDomain extends BaseDomain {
 	//전산인력 첨부파일 가공
 	private FileDomain fileType19;
 	private FileDomain fileType20;
+	private FileDomain fileType37;
+	private FileDomain fileType38;
 	
 	// 전산설비 첨부파일 체크
 	private String checkCd300;

@@ -70,5 +70,6 @@ public class RecruitImwonDomain extends BaseDomain {
 	private FileDomain fileType28;
 	private FileDomain fileType30;
 	private FileDomain fileType33;
+	private FileDomain fileType34;
 	
 }

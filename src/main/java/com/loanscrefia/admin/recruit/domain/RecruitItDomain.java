@@ -37,4 +37,6 @@ public class RecruitItDomain extends BaseDomain {
 	//전산인력 첨부파일 가공
 	private FileDomain fileType19;
 	private FileDomain fileType20;
+	private FileDomain fileType37;
+	private FileDomain fileType38;
 }

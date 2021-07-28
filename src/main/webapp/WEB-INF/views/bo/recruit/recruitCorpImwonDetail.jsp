@@ -26,7 +26,7 @@ function pageLoad(){
 		<ul>
 			<li><a href="javascript:void(0);" class="single" onclick="goTab2('1');">등록정보</a></li>
 			<li class="on"><a href="javascript:void(0);" onclick="goTab2('2');">대표자 및 임원관련<br />사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab2('3');">전문성 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab2('3');">업무수행인력<br />관련 사항</a></li>
 			<li><a href="javascript:void(0);" onclick="goTab2('4');">전산설비 관리 인력에<br />관한 사항</a></li>
 			<li><a href="javascript:void(0);" class="single" onclick="goTab2('5');">기타 첨부할 서류</a></li>
 		</ul>
@@ -166,6 +166,18 @@ function pageLoad(){
 											<c:choose>
 												<c:when test="${corpImwonList.fileType33 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">${corpImwonList.fileType33.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
+									<tr>
+										<th class="acenter">개인정보필수동의서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType34 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>

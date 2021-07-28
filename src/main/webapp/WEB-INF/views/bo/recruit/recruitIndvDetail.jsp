@@ -484,6 +484,24 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				
+				<tr>
+					<th class="acenter">개인정보필수동의서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType15 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType15.fileSeq }">${result.recruitInfo.fileType15.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType15}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType15.fileGrpSeq }', '15');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
 				<%-- 
 				<tr>
 					<th class="acenter">후견부존재증명서 *</th>

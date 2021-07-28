@@ -61,7 +61,7 @@ function pageLoad(){
 		<ul>
 			<li><a href="javascript:void(0);" class="single" onclick="goTab3('1');">등록정보</a></li>
 			<li class="on"><a href="javascript:void(0);" onclick="goTab3('2');">대표자 및 임원관련<br />사항</a></li>
-			<li><a href="javascript:void(0);" onclick="goTab3('3');">전문성 인력에<br />관한 사항</a></li>
+			<li><a href="javascript:void(0);" onclick="goTab3('3');">업무수행인력<br />관련 사항</a></li>
 			<li><a href="javascript:void(0);" onclick="goTab3('4');">전산설비 관리 인력에<br />관한 사항</a></li>
 			<li><a href="javascript:void(0);" class="single" onclick="goTab3('5');">기타 첨부할 서류</a></li>
 		</ul>
@@ -275,6 +275,26 @@ function pageLoad(){
 											<c:if test="${empty corpImwonList.fileType33.fileSeq}">disabled</c:if>
 											 data-fileSeq="${corpImwonList.fileType33.fileSeq }" >
 											<label for="check_cd116">성명과 주민등록번호 일치 여부</label>
+										</div>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="acenter">개인정보필수동의서 *</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpImwonList.fileType34 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd118" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd118}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType34.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType34.fileSeq }" >
+											<label for="check_cd118">대표자 및 임원용 동의서 작성 여부</label>
 										</div>
 									</td>
 								</tr>

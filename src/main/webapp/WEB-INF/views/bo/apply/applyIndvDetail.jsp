@@ -361,7 +361,7 @@ function goApplyImprove(num){
 					<th>체크사항</th>
 				</tr>
 				<tr>
-					<td class="acenter">사진 (등록증 게시용) *</td>
+					<td class="acenter">사진 (등록증 게시용)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType1 ne null }">
@@ -608,6 +608,28 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
+				
+				<tr>
+					<td class="acenter">개인정보필수동의서 *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType16 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType16.fileSeq }">${result.applyInfo.fileType16.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd19" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType16.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd19}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType16.fileSeq }" >
+							<label for="check_cd19">개인용 동의서 작성 여부</label>
+						</div>
+					</td>
+				</tr>
+				
 				<%-- 
 				<tr>
 					<td class="acenter">후견부존재증명서 *</td>

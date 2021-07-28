@@ -203,6 +203,8 @@ public class RecruitService {
         				recruitInfo.setFileType13(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("14")) {
         				recruitInfo.setFileType14(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("15")) {
+        				recruitInfo.setFileType15(fileList.get(i));
         			}
         		}
         	}
@@ -242,6 +244,8 @@ public class RecruitService {
         				recruitInfo.setHistFileType13(fileHistList.get(p));
         			}else if(fileHistList.get(p).getFileType().equals("14")) {
         				recruitInfo.setHistFileType14(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("15")) {
+        				recruitInfo.setHistFileType15(fileHistList.get(p));
         			}
         		}
         	}
@@ -479,6 +483,8 @@ public class RecruitService {
 							imwonList.get(i).setFileType30(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("33")) {
 							imwonList.get(i).setFileType33(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("34")) {
+							imwonList.get(i).setFileType34(fileList.get(j));
 						}
 					}
 				}
@@ -564,6 +570,10 @@ public class RecruitService {
 							expertList.get(i).setFileType18(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("31")) {
 							expertList.get(i).setFileType31(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("35")) {
+							expertList.get(i).setFileType35(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("36")) {
+							expertList.get(i).setFileType36(fileList.get(j));
 						}
 					}
 				}
@@ -638,6 +648,10 @@ public class RecruitService {
 							itList.get(i).setFileType19(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("20")) {
 							itList.get(i).setFileType20(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("37")) {
+							itList.get(i).setFileType37(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("38")) {
+							itList.get(i).setFileType38(fileList.get(j));
 						}
 					}
 				}

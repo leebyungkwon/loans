@@ -138,6 +138,7 @@ public class ApplyDomain extends BaseDomain {
 	private FileDomain fileType13;
 	private FileDomain fileType14;
 	private FileDomain fileType15;
+	private FileDomain fileType16;
 	
 	private FileDomain fileType31;
 	private FileDomain fileType32;
@@ -179,6 +180,9 @@ public class ApplyDomain extends BaseDomain {
 	private String checkCd16;
 	private String checkCd17;
 	private String checkCd18;
+	private String checkCd19;
+	
+	
 	
 	private String checkCd112;
 	private String checkCd116;
