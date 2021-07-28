@@ -99,6 +99,14 @@ function goUserChangeApply(){
 			return;
 		}
 	}
+	if("${result.userRegInfo.itFileCompYn}" == "N"){
+		if(confirm("전산인력의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab3("4");
+			return;
+		}else{
+			return;
+		}
+	}
 	if("${result.userRegInfo.etcFileCompYn}" == "N"){
 		if(confirm("기타 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab3("5");
@@ -318,6 +326,7 @@ function goUserChangeApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="1"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="1" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -335,6 +344,7 @@ function goUserChangeApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="2"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="2" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -352,6 +362,7 @@ function goUserChangeApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="3"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="3" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -387,6 +398,7 @@ function goUserChangeApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="5"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="5" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -422,23 +434,25 @@ function goUserChangeApply(){
 									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="15"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="15" data-essential="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">위탁계약서 *</th>
+						<th class="acenter">위탁계약서</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType31 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }">${result.userRegInfo.fileType31.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="N">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="31"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="31" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>

@@ -97,7 +97,7 @@ function goCorpExpertInfoDel(expSeq) {
 							</table>
 						</div>
 				
-						<h3>전문인력관련 서류</h3>
+						<h3>업무수행인력 관련 서류</h3>
 						<div id="table10">
 							<table class="view_table">
 								<colgroup>
@@ -137,6 +137,28 @@ function goCorpExpertInfoDel(expSeq) {
 											<c:choose>
 												<c:when test="${corpExpertList.fileType18 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType18.fileSeq }">${corpExpertList.fileType18.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th class="acenter">상근임을 증빙할 수 있는 서류</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpExpertList.fileType35 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType35.fileSeq }">${corpExpertList.fileType35.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th class="acenter">개인정보필수동의서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpExpertList.fileType36 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpExpertList.fileType36.fileSeq }">${corpExpertList.fileType36.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>

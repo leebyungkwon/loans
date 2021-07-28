@@ -159,6 +159,7 @@ function goCorpImwonInfoDel(excSeq) {
 											</c:choose>
 										</td>
 									</tr>
+									<%-- 
 									<tr>
 										<th class="acenter">주민등록사본 *</th>
 										<td>
@@ -170,6 +171,7 @@ function goCorpImwonInfoDel(excSeq) {
 											</c:choose>
 										</td>
 									</tr>
+									 --%>
 									<tr>
 										<th class="acenter">결격요건 확인서 등 관련서류</th>
 										<td>
@@ -187,6 +189,17 @@ function goCorpImwonInfoDel(excSeq) {
 											<c:choose>
 												<c:when test="${corpImwonList.fileType33 ne null }">
 													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">${corpImwonList.fileType33.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th class="acenter">개인정보필수동의서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType34 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
 												</c:when>
 												<c:otherwise>-</c:otherwise>
 											</c:choose>

@@ -162,7 +162,7 @@ function goUserChangeApplyPage(){
 					<col width="50%"/>
 				</colgroup>
 				<tr>
-					<th class="acenter">사진(등록증 게시용) *</th>
+					<th class="acenter">사진(등록증 게시용)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType1 ne null }">
@@ -221,7 +221,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">위탁계약서 *</th>
+					<th class="acenter">위탁계약서</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType6 ne null }">
@@ -307,6 +307,17 @@ function goUserChangeApplyPage(){
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType14 ne null }">
 								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">${result.userRegInfo.fileType14.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
+				<tr>
+					<th class="acenter">개인정보필수동의서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.userRegInfo.fileType15 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType15.fileSeq }">${result.userRegInfo.fileType15.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>

@@ -240,7 +240,7 @@ function goUserChangeApplyPage(){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">위탁계약서 *</th>
+					<th class="acenter">위탁계약서</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.userRegInfo.fileType31 ne null }">

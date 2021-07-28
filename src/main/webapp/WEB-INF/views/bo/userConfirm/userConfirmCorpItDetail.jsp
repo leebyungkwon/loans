@@ -109,6 +109,28 @@ function goCorpItInfoDel(operSeq) {
 											</c:choose>
 										</td>
 									</tr>
+									<tr>
+										<th class="acenter">아웃소싱 업체 상주직원 관련 증빙서류</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpItList.fileType37 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType37.fileSeq }">${corpItList.fileType37.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									<tr>
+										<th class="acenter">개인정보필수동의서 *</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpItList.fileType38 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType38.fileSeq }">${corpItList.fileType38.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>

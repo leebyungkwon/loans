@@ -108,6 +108,7 @@ public class UserDomain extends BaseDomain {
 	private String fileCompTxt;		//첨부상태							-> 완료,미완료
 	private String imwonFileCompYn;
 	private String expertFileCompYn;
+	private String itFileCompYn;
 	private String etcFileCompYn;
 	private String plHistCdNm;		//해지사유코드명
 	private String violationCdNm;	//위반코드명

@@ -306,6 +306,7 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										<%-- 
 										<tr>
 											<th class="acenter">주민등록사본 *</th>
 											<td>
@@ -324,6 +325,7 @@ function goDataAreaAdd() {
 												</c:choose>
 											</td>
 										</tr>
+										 --%>
 										<tr>
 											<th class="acenter">결격요건 확인서 등 관련서류</th>
 											<td>
@@ -356,6 +358,24 @@ function goDataAreaAdd() {
 														<input type="hidden" name="fileTypeList" value="33"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="33" data-essential="Y">초기화</a>
+													</c:otherwise>
+												</c:choose>
+											</td>
+										</tr>
+										<tr>
+											<th class="acenter">개인정보필수동의서 *</th>
+											<td>
+												<c:choose>
+													<c:when test="${corpImwonList.fileType34 ne null }">
+														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType34.fileSeq }">${corpImwonList.fileType34.fileFullNm }</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpImwonList.fileType34.fileSeq }" data-fileType="34" data-essential="Y">삭제</a>
+													</c:when>
+													<c:otherwise>
+														<input type="text" class="w50 file_input" readonly disabled>
+														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+														<input type="hidden" name="fileTypeList" value="34"/>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="34" data-essential="Y">초기화</a>
 													</c:otherwise>
 												</c:choose>
 											</td>

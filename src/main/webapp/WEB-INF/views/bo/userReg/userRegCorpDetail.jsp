@@ -110,6 +110,14 @@ function goUserAcceptApply(){
 			return;
 		}
 	}
+	if("${result.userRegInfo.itFileCompYn}" == "N"){
+		if(confirm("전산인력의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
+			goTab("4");
+			return;
+		}else{
+			return;
+		}
+	}
 	if("${result.userRegInfo.etcFileCompYn}" == "N"){
 		if(confirm("기타 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab("5");
@@ -203,7 +211,7 @@ function goUserAcceptApply(){
 					</tr>
 					<tr>
 						<th>업종</th>
-						<td colspan="3"><input type="text" name="plWork" class="w100" value="${result.userRegInfo.plWork }" maxlength="20"></td>
+						<td colspan="3"><input type="text" name="plWork" class="w100" value="${result.userRegInfo.plWork }" maxlength="50"></td>
 					</tr>
 					<tr>
 						<th>상호</th>
@@ -397,19 +405,19 @@ function goUserAcceptApply(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">위탁계약서 *</th>
+						<th class="acenter">위탁계약서</th>
 						<td>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType31 ne null }">
 									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }">${result.userRegInfo.fileType31.fileFullNm }</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="Y" data-realDel="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" data-fileType="31" data-essential="N" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<input type="text" class="w50 file_input" readonly disabled>
-									<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+									<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
 									<input type="hidden" name="fileTypeList" value="31"/>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="31" data-essential="Y">초기화</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="31" data-essential="N">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>
