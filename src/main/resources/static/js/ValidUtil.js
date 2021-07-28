@@ -148,5 +148,25 @@ var Valid = {
 			}
 		}
 		return true;
+	},
+
+ 	boardFileCheck: function(fileSize, ext, excelYn){
+		var maxSize = 20 * 1024 * 1024; //20MB
+		if(fileSize > maxSize){
+			alert("20MB 이하의 파일만 업로드 가능합니다.");
+			return false;	
+		}
+		if(excelYn == "Y"){
+			if($.inArray(ext, ["xls", "xlsx"]) == -1) {
+				alert("엑셀파일만 첨부해 주세요.");
+				return false;
+			}
+		}else{
+			if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf", "zip", "txt", "xls", "xlsx", "ppt", "pptx", "hwp", "hwpx", "doc", "docx"]) == -1) {
+				alert("jpg, jpeg, png, gif, bmp, pdf, zip, txt, xls, xlsx, ppt, pptx, hwp, hwpx, doc, docx 파일만 첨부가능합니다.");
+				return false;
+			}
+		}
+		return true;
 	}
 };

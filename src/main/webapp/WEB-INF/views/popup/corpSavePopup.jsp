@@ -7,6 +7,7 @@
 </div>
 
 <form name="corpInfoSaveFrm" id="corpInfoSaveFrm" method="post" action="/admin/corp/saveCorpInfo" enctype="multipart/form-data">
+	<input type="hidden" name="corpSeq" value="${corpInfo.corpSeq }" />
 	<input type="hidden" name="pathTyp" value="2"/>
 	<table class="popup_table">
 		<colgroup>
