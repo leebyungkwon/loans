@@ -66,7 +66,7 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th class="acenter">경력증명서(전산인력)</th>
+										<th class="acenter">자격확인 서류 또는 경력증명서</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpItList.fileType19 ne null }">
@@ -77,7 +77,7 @@ function pageLoad(){
 										</td>
 									</tr>
 									<tr>
-										<th class="acenter">자격확인 서류(전산인력)</th>
+										<th class="acenter">상근임을 증빙할 수 있는 서류</th>
 										<td>
 											<c:choose>
 												<c:when test="${corpItList.fileType20 ne null }">
