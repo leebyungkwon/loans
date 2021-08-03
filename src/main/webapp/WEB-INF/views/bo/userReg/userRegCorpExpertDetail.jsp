@@ -144,7 +144,7 @@ function goDataAreaAdd() {
 							<input type="text" class="top_file_input file_input" readonly disabled>
 							<input type="file" name="files" id="userRegExpertFile" style="display: none;"/>
 							<a href="javascript:void(0);" class="btn_black btn_small mgl5" onclick="$('#userRegExpertFile').click();">파일찾기</a>
-							<a href="/static/sample/모집인등록_전문성인력_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
+							<a href="/static/sample/모집인등록_업무수행인력_샘플.xlsx" download class="btn_Lgray btn_small mgl5" id="">샘플 다운로드</a>
 						</td>
 					</tr>
 				</tbody>
