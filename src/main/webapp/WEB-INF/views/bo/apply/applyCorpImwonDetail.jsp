@@ -371,7 +371,7 @@ function pageLoad(){
 								</tr>
 								<c:if test="${corpImwonList.careerTyp eq '2' }">
 									<tr>
-										<td class="acenter">대표 경력교육과정 수료증 *</td>
+										<td class="acenter">대표 경력교육과정 수료증</td>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType12 ne null }">
@@ -399,7 +399,7 @@ function pageLoad(){
 								
 								<c:if test="${corpImwonList.careerTyp eq '1' }">
 									<tr>
-										<td class="acenter">대표 인증서(신규) *</td>
+										<td class="acenter">대표 인증서(신규)</td>
 										<td>
 											<c:choose>
 												<c:when test="${corpImwonList.fileType13 ne null }">

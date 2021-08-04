@@ -253,7 +253,7 @@ function goCorpImwonInfoDel(excSeq) {
 								<tbody>
 									<c:if test="${corpImwonList.careerTyp eq '1' }">
 										<tr>
-											<th class="acenter">대표 인증서(신규) *</th>
+											<th class="acenter">대표 인증서(신규)</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpImwonList.fileType13 ne null }">
@@ -266,7 +266,7 @@ function goCorpImwonInfoDel(excSeq) {
 									</c:if>
 									<c:if test="${corpImwonList.careerTyp eq '2' }">
 										<tr>
-											<th class="acenter">대표 경력교육과정 수료증 *</th>
+											<th class="acenter">대표 경력교육과정 수료증</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpImwonList.fileType12 ne null }">

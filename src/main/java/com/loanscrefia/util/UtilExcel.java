@@ -317,6 +317,9 @@ public class UtilExcel<T> {
 		                			}
 		                		}
 		                		if(!chkDate.get(j).isEmpty()) {
+		                			
+		                			// 2021-08-03 계약일자는 예정일자가 들어갈 수 있으므로 업로드일자보다 미래의 날자 기재 가능
+		                			/*
 		                			if(chkDate.get(j).equals("contDt")) {
 		                				//계약일자 체크(엑셀 업로드 시점보다 이후면 X)
 		                				if(StringUtils.isNotEmpty(cellVal)) {
@@ -325,6 +328,7 @@ public class UtilExcel<T> {
 		                					}
 		                				}
 		                			}
+		                			*/
 		                			/*
 		                			else if(chkDate.get(j).equals("careerStDt")) {
 		                				//경력시작일 > 경력종료일 체크

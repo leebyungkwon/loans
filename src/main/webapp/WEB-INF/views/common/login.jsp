@@ -59,7 +59,7 @@ function pageLoad(){
 	<div class="page_title">
 		<h2>로그인</h2>
 		<p class="sub">
-			리스할부모집인 등록관리 시스템입니다.
+			대출성상품 모집인 등록관리 시스템입니다.
 		</p>
 	</div>
 	<div class="login_wrap">

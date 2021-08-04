@@ -189,9 +189,15 @@ function goUserAcceptApply(){
 					</tr>
 					<tr>
 						<th>계약일자</th>
-						<td>${result.userRegInfo.comContDate }</td>
+						<td>
+							<input type="text" name="comContDate" onclick="goDatepickerShow(this);" readonly="readonly" value="${result.userRegInfo.comContDate }" class="w100" maxlength="10" placeholder="- 포함">
+							<div class="calendar01"></div>
+						</td>
 						<th>위탁예정기간</th>
-						<td>${result.userRegInfo.entrustDate }</td>
+						<td>
+							<input type="text" name="entrustDate" onclick="goDatepickerShow(this);" readonly="readonly" value="${result.userRegInfo.entrustDate }" class="w100" maxlength="10" placeholder="- 포함">
+							<div class="calendar01"></div>
+						</td>
 					</tr>
 					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
 						<tr>
