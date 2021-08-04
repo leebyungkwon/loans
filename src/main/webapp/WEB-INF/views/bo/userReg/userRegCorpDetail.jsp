@@ -259,7 +259,7 @@ function goUserAcceptApply(){
 					<tr>
 						<th>계약일자</th>
 						<td>
-							<input type="text" name="entrustDate" onclick="goDatepickerShow(this);" readonly="readonly" value="${result.userRegInfo.comContDate }" class="w100" maxlength="10" placeholder="- 포함">
+							<input type="text" name="comContDate" onclick="goDatepickerShow(this);" readonly="readonly" value="${result.userRegInfo.comContDate }" class="w100" maxlength="10" placeholder="- 포함">
 							<div class="calendar01"></div>
 						</td>
 						<th>위탁예정기간</th>
