@@ -613,8 +613,8 @@ function goApplyImprove(num){
 					<td class="acenter">개인정보필수동의서 *</td>
 					<td>
 						<c:choose>
-							<c:when test="${result.applyInfo.fileType16 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType16.fileSeq }">${result.applyInfo.fileType16.fileFullNm }</a>
+							<c:when test="${result.applyInfo.fileType15 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType15.fileSeq }">${result.applyInfo.fileType15.fileFullNm }</a>
 							</c:when>
 							<c:otherwise>-</c:otherwise>
 						</c:choose>
@@ -622,9 +622,9 @@ function goApplyImprove(num){
 					<td>
 						<div class="input_check_wrap mgr10">
 							<input type="checkbox" id="check_cd19" class="check check_cd" 
-							<c:if test="${empty result.applyInfo.fileType16.fileSeq}">disabled</c:if>
+							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd19}">checked</c:if>
-							 data-fileSeq="${result.applyInfo.fileType16.fileSeq }" >
+							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
 							<label for="check_cd19">개인용 동의서 작성 여부</label>
 						</div>
 					</td>
