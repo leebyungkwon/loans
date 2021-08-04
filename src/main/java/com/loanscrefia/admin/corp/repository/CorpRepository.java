@@ -36,4 +36,11 @@ public interface CorpRepository {
 	
 	//법인 금융감독원 승인여부 체크
 	int corpPassCheck(UserDomain userDomain);
+	
+	
+	
+	
+	//법인등록 임시 리스트
+	List<CorpDomain> selectCheckCorpList(CorpDomain corpDomain);
+	
 }

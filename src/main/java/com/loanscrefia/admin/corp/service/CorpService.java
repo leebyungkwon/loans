@@ -156,8 +156,26 @@ public class CorpService {
 	}
 	
 	
-	
-	
-	
-	
+	@Transactional
+	public ResponseMsg insertCheckCorp(CorpDomain corpDomain) {
+		
+		//리스트
+		List<CorpDomain> corp = corpRepo.selectCheckCorpList(corpDomain);
+		
+		for(CorpDomain tmp : corp) {
+			CorpDomain resultDomain = new CorpDomain();
+			resultDomain.setPlMerchantName(tmp.getPlMerchantName());
+			resultDomain.setPlMerchantNo(CryptoUtil.encrypt(tmp.getPlMerchantNo().replaceAll("-", "")));
+			//resultDomain.setPlMerchantNo(tmp.getPlMerchantNo().replaceAll("-", ""));
+			resultDomain.setPathTyp("2");
+			resultDomain.setPassYn("Y");
+			resultDomain.setRegSeq(1);
+			resultDomain.setUpdSeq(1);
+			corpRepo.insertCorpInfo(resultDomain);
+		}
+
+		
+		
+		return new ResponseMsg(HttpStatus.OK, "success", 1, "저장되었습니다.");
+	}
 }

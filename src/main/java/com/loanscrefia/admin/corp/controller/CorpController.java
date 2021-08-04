@@ -80,4 +80,22 @@ public class CorpController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	
+	
+	
+	
+	//저장
+	@PostMapping(value="/insertCheckCorp")
+	public ResponseEntity<ResponseMsg> insertCheckCorp(CorpDomain corpDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
+		responseMsg = corpService.insertCheckCorp(corpDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 }

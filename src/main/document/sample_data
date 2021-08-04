@@ -1,4 +1,48 @@
 
+------------------------------ 법인등록 샘플 ---------------------------------------------------
+
+-- 법인테이블 데이터 삭제 필요시 실행
+-- delete from tb_lc_corp;
+
+-- 법인정보
+create table tb_lc_corp_temp(
+	corp_seq integer not null default nextval('tb_lc_corp_seq')
+	, pl_merchant_name varchar(30) not null
+	, pl_merchant_no varchar(100) not null 
+	, path_typ char(1) not null default '1'
+	, pass_yn char(1) not null default 'N'
+	, use_yn char(1) not null default 'Y'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
+	, primary key (corp_seq)
+);
+
+
+
+INSERT INTO tb_lc_corp_temp
+(pl_merchant_name, pl_merchant_no, path_typ, pass_yn, use_yn, reg_timestamp, reg_seq, upd_timestamp, upd_seq)
+VALUES('다온 주식회사', '144711-0027731', '2'::bpchar, 'Y'::bpchar, 'Y'::bpchar, NOW(), 1, NOW(), 1);
+INSERT INTO tb_lc_corp
+(pl_merchant_name, pl_merchant_no, path_typ, pass_yn, use_yn, reg_timestamp, reg_seq, upd_timestamp, upd_seq)
+VALUES('주식회사 바른', '110111-7182770', '2'::bpchar, 'Y'::bpchar, 'Y'::bpchar, NOW(), 1, NOW(), 1);
+INSERT INTO tb_lc_corp_temp
+(pl_merchant_name, pl_merchant_no, path_typ, pass_yn, use_yn, reg_timestamp, reg_seq, upd_timestamp, upd_seq)
+VALUES('㈜효림', '141111-0049037', '2'::bpchar, 'Y'::bpchar, 'Y'::bpchar, NOW(), 1, NOW(), 1);
+INSERT INTO tb_lc_corp_temp
+(pl_merchant_name, pl_merchant_no, path_typ, pass_yn, use_yn, reg_timestamp, reg_seq, upd_timestamp, upd_seq)
+VALUES('베스트바이카', '110111-6348323', '2'::bpchar, 'Y'::bpchar, 'Y'::bpchar, NOW(), 1, NOW(), 1);
+INSERT INTO tb_lc_corp_temp
+(pl_merchant_name, pl_merchant_no, path_typ, pass_yn, use_yn, reg_timestamp, reg_seq, upd_timestamp, upd_seq)
+VALUES('로지모빌리티 주식회사', '285011-0466628', '2'::bpchar, 'Y'::bpchar, 'Y'::bpchar, NOW(), 1, NOW(), 1);
+
+
+------------------------------------ 법인등록 샘플 끝 --------------------------------------------------------
+
+
+
+
 INSERT INTO tb_lc_company VALUES('3000011','볼보파이낸셜',NOW(),1,NOW(),1		);
 INSERT INTO tb_lc_company VALUES('3000012','IBK캐피탈',NOW(),1,NOW(),1		);
 INSERT INTO tb_lc_company VALUES('3000013','하나캐피탈',NOW(),1,NOW(),1		);

@@ -148,5 +148,22 @@
 	
 	
 	
+	<!-- 법인 리스트 -->
+	<select id="selectCheckCorpList" parameterType="corp" resultType="corp">
+		SELECT
+			 TLC.CORP_SEQ
+			,TLC.PL_MERCHANT_NAME
+			,TLC.PL_MERCHANT_NO
+			,TLC.PATH_TYP
+			,FN_CD_DTL('CPT001',TLC.PATH_TYP) AS PATH_TYP_NM
+			,TLC.PASS_YN
+			,TLC.REG_SEQ
+			,TO_CHAR(TLC.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+			,TLC.UPD_SEQ
+			,TO_CHAR(TLC.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+		FROM tb_lc_corp_temp TLC
+	</select>
+	
+	
 
 </mapper> 
