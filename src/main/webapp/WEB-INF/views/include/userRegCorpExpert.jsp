@@ -84,7 +84,7 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">경력증명서</th>
+					<th class="acenter">경력관련 증빙서류(금융상품직접판매업자 확인서, 위탁계약서, 경력증명서 등)</th>
 					<td>
 						<input type="text" class="w50 file_input" readonly disabled>
 						<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
