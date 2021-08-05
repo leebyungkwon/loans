@@ -32,7 +32,7 @@ function pageLoad(){
 				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
-		, sortNm 		: "REG_TIMESTAMP"
+		, sortNm 		: "master_seq"
 		, sort 			: "ASC"
 		, rowClick		: {retFunc : goApplyDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
@@ -110,10 +110,10 @@ function pageLoad(){
 	
 	// 승인 남은일 순
 	$("#sortComRegDate").on("click", function(){
-		if($("#sortName").val() == "CRE_APP_FI_DATE"){
-			$("#sortName").val("REG_TIMESTAMP");	
+		if($("#sortName").val() == "master_seq"){
+			$("#sortName").val("CRE_APP_FI_DATE");	
 		}else{
-			$("#sortName").val("CRE_APP_FI_DATE");
+			$("#sortName").val("master_seq");
 		}
 		applyGrid.refresh();	
 	});
@@ -254,7 +254,7 @@ function goGetDate(opt) {
 						</div>
 					</td>
 				</tr>
-				<input type="hidden" id="sortName" name="sortName" value="CRE_APP_FI_DATE">
+				<input type="hidden" id="sortName" name="sortName" value="master_seq">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -265,7 +265,7 @@ function goGetDate(opt) {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
-				<a href="javascript:void(0);" class="btn_sort on" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
+				<a href="javascript:void(0);" class="btn_sort" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
 			</div>
 		</div>
 		<div id="applyGrid" class="long_table"></div>
