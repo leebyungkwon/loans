@@ -110,7 +110,7 @@ public class CompanyService {
 		
 		int result = companyRepository.cleanPassword(companyDomain);
 		if(result > 0) {
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.초기화된 비밀번호는 qwer1234! 입니다.");
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
