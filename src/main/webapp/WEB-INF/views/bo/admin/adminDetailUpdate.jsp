@@ -88,10 +88,13 @@
 			if($('input:radio[name="optionTermsYn"]:checked').val() == "Y"){
 				$("#mobileNo").attr("disabled", false); 
 				$("#mobileNo").attr("placeholder", "휴대폰번호를 입력해 주세요. (- 포함)"); 
+				var aa = '{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}';
+				$("#mobileNo").attr("data-vd", aa);
 				alert("선택적 약관동의를 동의 하셨습니다.")
 			}else{
 				$("#mobileNo").attr("disabled", true); 
 				$("#mobileNo").attr("placeholder", "선택적약관 미동의"); 
+				$("#mobileNo").removeAttr("data-vd");
 				alert("선택적 약관동의가 해제 되셨습니다.")
 			}
 		});

@@ -46,9 +46,6 @@ function pageLoad(){
 		}
 	});
 	
-	
-	insertCorp
-	
 	// 법인저장
 	$("#insertCorp").on("click", function(){
 		var p = {
@@ -295,7 +292,7 @@ function goGetDate(opt) {
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="insertCorp">법인등록번호저장</a>
+				<!-- <a href="javascript:void(0);" class="btn_black btn_small mgr5" id="insertCorp">법인등록번호저장</a> -->
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>

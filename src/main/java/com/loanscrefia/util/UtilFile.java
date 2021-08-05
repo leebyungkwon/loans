@@ -119,7 +119,7 @@ public class UtilFile {
 		/*
 		
 		// 2021-08-05 첨부파일명 lengthCheck
-		if(this.files[0].getOriginalFilename().length() >= 100) {
+		if(this.files[0].getOriginalFilename().length() >= 70) {
 			success = true;
 			msg = "첨부파일명이이 너무 깁니다 100자 미만으로 작성해 주세요.[0001]";
 			result.put("message", msg);
@@ -278,6 +278,20 @@ public class UtilFile {
 				return result;
 			}
 		}
+		
+		/*
+		
+		// 2021-08-05 첨부파일명 lengthCheck
+		if(this.files[0].getOriginalFilename().length() >= 70) {
+			success = true;
+			msg = "첨부파일명이이 너무 깁니다 100자 미만으로 작성해 주세요.[0001]";
+			result.put("message", msg);
+			result.put("success", success);
+			result.put("data", Collections.emptyList());
+			return result;			
+		}
+		
+		*/
 		
 		//this.uploadPath = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\" + this.filePath,this.path/* , this.today */).toString();
 		this.uploadPath = this.filePath.toString() + "/" + this.path.toString();
