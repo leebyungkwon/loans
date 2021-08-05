@@ -251,7 +251,7 @@ function goDataAreaAdd() {
 											</tr>
 										</c:if>
 										<tr>
-											<th class="acenter">경력증명서</th>
+											<th class="acenter">경력관련 증빙서류(금융상품직접판매업자 확인서, 위탁계약서, 경력증명서 등)</th>
 											<td>
 												<c:choose>
 													<c:when test="${corpExpertList.fileType18 ne null }">

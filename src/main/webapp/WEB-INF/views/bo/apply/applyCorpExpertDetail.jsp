@@ -145,7 +145,7 @@ function pageLoad(){
 									</tr>
 								</c:if>
 								<tr>
-									<td class="acenter">경력증명서</td>
+									<td class="acenter">경력관련 증빙서류(금융상품직접판매업자 확인서, 위탁계약서, 경력증명서 등)</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpExpertList.fileType18 ne null }">

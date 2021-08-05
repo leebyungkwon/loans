@@ -701,7 +701,7 @@ CREATE TABLE tb_lc_file01 (
 	, file_grp_seq integer not null default 0
 	, file_type varchar(10)	null
 	, file_ext varchar(10) not null
-	, file_org_nm varchar(50) not null
+	, file_org_nm varchar(100) not null
 	, file_path varchar(100) not null
 	, file_save_nm varchar(50) not null
 	, use_yn char(1) not null
