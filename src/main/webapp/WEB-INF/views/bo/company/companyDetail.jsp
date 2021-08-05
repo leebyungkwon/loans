@@ -65,6 +65,27 @@ function companyList(){
 	location.href="/admin/mng/companyPage"
 }
 
+
+// 비밀번호 초기화
+function cleanPassword(){
+	if(confirm("비밀번호를 초기화 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/mng/cleanPassword"	
+			, param		: {
+				 memberSeq : $("#memberSeq").val()
+			}
+			, success 	: function (opt,result) {
+				if(WebUtil.isNull(result.message)){
+					alert(result.data[0].defaultMessage);
+				}else{
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
 </script>
 
 <div class="cont_area">
@@ -152,6 +173,9 @@ function companyList(){
      			  <c:if test="${companyDetail.apprStat eq 3}">
       		 		  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
      			 </c:if>
+     			 
+     			 
+     			 <a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="cleanPassword();">비밀번호초기화</a>
 			</div>
 		</div>
 	</form>

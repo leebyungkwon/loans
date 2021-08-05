@@ -101,6 +101,25 @@ public class CompanyController {
  		new UtilExcel().downLoad(b, CompanyDomain.class, response.getOutputStream());
 	}
 	
+	
+	
+	// 비밀번호 초기화
+	@PostMapping(value="/mng/cleanPassword")
+	public ResponseEntity<ResponseMsg> cleanPassword(@Valid CompanyDomain companyDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		responseMsg = companyService.cleanPassword(companyDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 회원사 관리
 	 * -------------------------------------------------------------------------------------------------------

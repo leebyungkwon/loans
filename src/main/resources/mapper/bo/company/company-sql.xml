@@ -104,6 +104,19 @@
    		</where>
    	</delete>
    	
+   	
+	<!-- 비밀번호 초기화 -->
+    <update id="cleanPassword" parameterType="company">
+   		UPDATE TB_LC_MEMBERS
+   		SET	
+   			UPD_SEQ   		= #{updSeq}
+			,PASSWORD		= #{password}						
+   			,UPD_TIMESTAMP	= NOW()
+   		<where>
+   			AND MEMBER_SEQ 	= #{memberSeq}
+   		</where>
+   	</update>
+   	
    	<!-- ===================== 회원사 관리 ===================== -->
    	
 	<!-- 회원사 관리 > 리스트 -->

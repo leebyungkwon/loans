@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,15 +47,6 @@ public class CompanyService {
 	//회원사 담당자 승인 요청 
 	@Transactional
 	public ResponseMsg updateCompanyStat(CompanyDomain companyDomain){
-		
-		/*
-		int result = companyRepository.updateCompanyStat(companyDomain);
-		if(result > 0) {
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
-		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
-		}
-		*/
 
 		//가승인 및 승인처리시 이메일 발송
 		if(StringUtils.isEmpty(companyDomain.getEmail())) {
@@ -87,9 +79,6 @@ public class CompanyService {
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		
-		
-		
 	}
 	
 	//회원사 담당자 삭제 
@@ -106,6 +95,27 @@ public class CompanyService {
 		
 		return result;
 	}
+	
+	
+	
+	
+
+	// 비밀번호 초기화 
+	@Transactional
+	public ResponseMsg cleanPassword(CompanyDomain companyDomain){
+		
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	String passWord = "qwer1234!";
+    	companyDomain.setPassword(passwordEncoder.encode(passWord));
+		
+		int result = companyRepository.cleanPassword(companyDomain);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 회원사 관리

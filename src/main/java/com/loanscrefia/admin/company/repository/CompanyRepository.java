@@ -22,6 +22,10 @@ public interface CompanyRepository {
 	int deleteCompany(CompanyDomain companyDomain);
 
 	
+	// 비밀번호 초기화
+	int cleanPassword(CompanyDomain companyDomain);
+	
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 회원사 관리
 	 * -------------------------------------------------------------------------------------------------------
