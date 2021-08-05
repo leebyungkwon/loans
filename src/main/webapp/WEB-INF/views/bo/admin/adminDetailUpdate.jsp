@@ -320,7 +320,7 @@
 					<tr>
 						<th>휴대폰 번호</th>
 						<td>
-							<input type="text" id="mobileNo" name="mobileNo" <c:if test="${adminInfo.optionTermsYn eq 'N' }">disabled</c:if> placeholder="선택적약관 미동의" maxlength="13" value="${adminInfo.mobileNo}" class="w40" data-vd='{"type":"mobileNo","len":"1,20","req":true,"msg":"휴대폰번호를 입력해 주세요"}'/>
+							<input type="text" id="mobileNo" name="mobileNo" <c:if test="${adminInfo.optionTermsYn eq 'N' }">disabled</c:if> placeholder="선택적약관 미동의" maxlength="13" value="${adminInfo.mobileNo}" class="w40" />
 						</td>
 					</tr>
 					<tr>
