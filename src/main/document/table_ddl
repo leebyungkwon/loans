@@ -228,12 +228,12 @@ create table tb_lc_mas01(
 	, voting_stock_cnt varchar(20)
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
+	
+	, first_app_date varchar(8)
+
 	, chk_yn char(1)
-	
-	
 	, admin_chk_yn char(1)
 	, admin_chk_seq integer
-	
 	, com_upd_date varchar(8)
 	, cre_app_fi_date varchar(8)
 	, cre_app_date varchar(8)
@@ -258,19 +258,13 @@ COMMENT ON COLUMN tb_lc_mas01.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
-
 COMMENT ON COLUMN tb_lc_mas01.sub_yn IS '약식등록여부';
-
 COMMENT ON COLUMN tb_lc_mas01.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01.pre_lc_num IS '가등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01.con_num IS '계약번호';
-
 COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01.pl_work IS '업종';
-
-
-
 COMMENT ON COLUMN tb_lc_mas01.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
@@ -297,11 +291,12 @@ COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 총수';
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
-COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
 
+COMMENT ON COLUMN tb_lc_mas01.first_apply_date IS '최초심사요청일';
+
+COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.admin_chk_yn IS '관리자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.admin_chk_seq IS '관리자확인회원번호';
-
 COMMENT ON COLUMN tb_lc_mas01.com_upd_date IS '보완요청일';
 COMMENT ON COLUMN tb_lc_mas01.cre_app_fi_date IS '승인남은일';
 COMMENT ON COLUMN tb_lc_mas01.cre_app_date IS '승인일(심사완료일)';
@@ -504,9 +499,7 @@ create table tb_lc_mas01_hist(
 	, pl_regist_no varchar(20)
 	, con_num varchar(10)
 	, pl_class varchar(2)
-	
 	, pl_work varchar(50)
-	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	, pl_product varchar(30)
@@ -534,13 +527,12 @@ create table tb_lc_mas01_hist(
 	, voting_stock_cnt varchar(20)
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
+	
+	, first_app_date varchar(8)
+	
 	, chk_yn char(1)
-	
-	
 	, admin_chk_yn char(1)
 	, admin_chk_seq integer
-	
-	
 	, com_upd_date varchar(8)
 	, cre_app_fi_date varchar(8)
 	, cre_app_date varchar(8)
@@ -572,9 +564,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pre_lc_num IS '가등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_regist_no IS '등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.con_num IS '계약번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_work IS '업종';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
@@ -601,6 +591,9 @@ COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행주식 총수';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
+
+COMMENT ON COLUMN tb_lc_mas01_hist.first_apply_date IS '최초심사요청일';
+
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_yn IS '관리자확인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_seq IS '관리자확인회원번호';
