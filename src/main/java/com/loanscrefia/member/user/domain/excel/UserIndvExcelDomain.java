@@ -25,7 +25,7 @@ public class UserIndvExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="주민등록번호", vCell="C", vLenMin=14, vLenMax=14, chkDb="edu3", vEncrypt="Y", chkFormat="pId")
 	private String plMZId;			//모집인주민등록번호
 	
-	@ExcelColumn(headerName="휴대폰번호", vCell="D", vLenMin=13, vLenMax=13)
+	@ExcelColumn(headerName="휴대폰번호", vCell="D", vLenMin=12, vLenMax=13)
 	private String plCellphone;		//모집인휴대전화번호
 	
 	@ExcelColumn(headerName="주소", vCell="E", vLenMin=1, vLenMax=2, vEnum="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17")
