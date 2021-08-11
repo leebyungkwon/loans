@@ -16,6 +16,25 @@
 	}); 
 	*/
 	
+	//체크박스 전체선택 및 해제
+	$("#allChk").click(function(){
+		var checkedResult = $(this).is(":checked");
+		$(".crefia").each(function(){
+			$(this).prop("checked",checkedResult);
+		});
+	});
+	
+	//담당자 체크박스 전체선택 및 해제
+	$(".memberAllChk").click(function(){
+		var checkedResult 	= $(this).is(":checked");
+		var memberSeq 		= $(this).val();
+		$(".crefia").each(function(){
+			if($(this).val() == memberSeq){
+				$(this).prop("checked",checkedResult);
+			}
+		});
+	});
+	
 	//저장 버튼 클릭 이벤트
 	$("#saveCrefiaWorkBtn").click(function(){
 		var comCodeArr 		= [];
@@ -73,9 +92,14 @@
 			<table>
 				<thead>
 					<tr>
-						<th></th>
+						<th>
+							<input type="checkbox" id="allChk"><label for="allChk">전체</label>
+						</th>
  						<c:forEach items="${memberInfo}" var="memberInfo" varStatus="status"> 
-							<th><c:out value="${memberInfo.memberName}"/></th>
+							<th>
+								<input type="checkbox" class="memberAllChk" id="m${memberInfo.memberSeq}" value="${memberInfo.memberSeq}">
+								<label for="m${memberInfo.memberSeq}"><c:out value="${memberInfo.memberName}"/></label>
+							</th>
 						</c:forEach>
 					</tr>
 				</thead>
