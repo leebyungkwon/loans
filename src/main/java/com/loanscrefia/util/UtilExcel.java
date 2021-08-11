@@ -317,11 +317,9 @@ public class UtilExcel<T> {
 		                			}
 		                		}
 		                		if(!chkDate.get(j).isEmpty()) {
-		                			
-		                			// 2021-08-03 계약일자는 예정일자가 들어갈 수 있으므로 업로드일자보다 미래의 날자 기재 가능
 		                			/*
 		                			if(chkDate.get(j).equals("contDt")) {
-		                				//계약일자 체크(엑셀 업로드 시점보다 이후면 X)
+		                				//계약일자 체크(엑셀 업로드 시점보다 이후면 X) -> 2021-08-03 계약일자는 예정일자가 들어갈 수 있으므로 업로드일자보다 미래의 날자 기재 가능
 		                				if(StringUtils.isNotEmpty(cellVal)) {
 		                					if(!comContDateChk(cellVal)) {
 				                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "가 업로드 일자보다 이후입니다.<br>";
@@ -467,7 +465,7 @@ public class UtilExcel<T> {
 	
 	//주민등록번호 형식 체크
 	private boolean plMZIdFormatChk(String plMZId) {
-		return Pattern.matches("^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$", plMZId);
+		return Pattern.matches("^(?:[0-9]{2}(?:0[0-9]|1[0-6])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-8][0-9]{6}$", plMZId);
 	}
 	
 	//법인번호 형식 체크
