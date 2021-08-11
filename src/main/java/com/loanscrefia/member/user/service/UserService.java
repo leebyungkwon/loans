@@ -857,6 +857,8 @@ public class UserService {
 				return -2;
 			}
 			
+			/*
+			//2021.08.11 엑셀 업로드할 때 법인 등록여부는 체크하니까 협회쪽에서 승인처리할 때 로직 추가
 			if(userRegInfo.getPlClass().equals("1") && userRegInfo.getCorpUserYn().equals("Y")) {
 				//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
 				int corpCheck 		= userRepo.corpStatCheck(userRegInfo);
@@ -866,11 +868,19 @@ public class UserService {
 					return -1;
 				}
 			}
+			*/
 			
 			if(!userRegInfo.getPlStat().equals("2") && !userRegInfo.getPlStat().equals("10")) {
 				//처리상태가 승인요청중이거나 등록요건 불충족이면 이력 저장 X, 상태값 수정 X
 				//기본 이력 저장*****
 				this.insertUserHistory(userDomain);
+				
+				/*
+				//최초승인요청일 저장
+				if(StringUtils.isEmpty(userRegInfo.getFirstAppDate())) {
+					userDomain.setFirstAppDate("reg");
+				}
+				*/
 				
 				//상태값 수정
 				result += this.updateUserStat(userDomain);
@@ -891,6 +901,8 @@ public class UserService {
 			return -2;
 		}
 		
+		/*
+		//2021.08.11 엑셀 업로드할 때 법인 등록여부는 체크하니까 협회쪽에서 승인처리할 때 로직 추가
 		if(userRegInfo.getPlClass().equals("1") && userRegInfo.getCorpUserYn().equals("Y")) {
 			//법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
 			int corpCheck 		= userRepo.corpStatCheck(userRegInfo);
@@ -900,6 +912,7 @@ public class UserService {
 				return -1;
 			}
 		}
+		*/
 		
 		//기본 이력 저장*****
 		this.insertUserHistory(userDomain);
@@ -930,6 +943,13 @@ public class UserService {
 			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
 		}
 		int updateResult1 = userRepo.updateUserRegInfo(userDomain);
+		
+		/*
+		//최초승인요청일 저장
+		if(StringUtils.isEmpty(userRegInfo.getFirstAppDate())) {
+			userDomain.setFirstAppDate("reg");
+		}
+		*/
 		
 		//상태값 수정
 		userDomain.setPlStat("2");
