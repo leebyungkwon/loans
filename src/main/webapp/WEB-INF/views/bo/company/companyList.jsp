@@ -112,15 +112,21 @@ function deleteCompany() {
 		<div class="info_box k_search" id="search">
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
-					<col width="120">
-					<col width="305">
-					<col width="120">
-					<col width="305">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
 				</colgroup>
 				<tr>
 					<th>회원사</th>
 					<td class="half_input">
 						<select name="comCode" id="comCode"></select>
+					</td>
+					<th>담당자명</th>
+					<td class="half_input">
+						<input type="text" name="memberName">
 					</td>
 					<th>승인여부</th>
 					<td class="half_input">

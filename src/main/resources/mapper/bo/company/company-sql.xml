@@ -37,10 +37,13 @@
 	    FROM TB_LC_MEMBERS TLM
 	    WHERE COM_CODE != 3000001
 	    	<if test="comCode != null and comCode != ''">
-				AND	TLM.COM_CODE 	    = #{comCode}
+				AND	TLM.COM_CODE 	= #{comCode}
+			</if>
+			<if test="memberName != null and memberName != ''">
+				AND	TLM.MEMBER_NAME	= #{memberName}
 			</if>
 			<if test="apprStat != null and apprStat != ''">
-				AND	TLM.APPR_STAT 		= #{apprStat}
+				AND	TLM.APPR_STAT 	= #{apprStat}
 			</if>
 	    <include refid="common.pageBottom"/>
     </select>
