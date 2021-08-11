@@ -489,4 +489,17 @@
    	</select>
    	
    	
+	<!-- 법인 승인여부 체크 -->
+	<select id="applyCorpStatCheck" parameterType="user" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM TB_LC_MAS01
+		WHERE PL_CLASS 		= '2' 				-- 법인
+		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND PL_REG_STAT 	= '3'				-- 모집인상태 : 자격취득
+		AND PL_STAT			= '9'				-- 처리상태 : 완료
+		AND PL_PRODUCT		= #{plProduct}
+	</select>
+   	
+   	
 </mapper> 

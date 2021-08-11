@@ -24,6 +24,7 @@ import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
+import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
@@ -64,6 +65,8 @@ public class ApplyService {
 	
 	@Autowired
 	private KfbApiRepository kfbApiRepository;
+	
+	@Autowired private CorpService corpService;
 
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
@@ -868,6 +871,19 @@ public class ApplyService {
 		//승인처리시 이메일 발송
 		if(StringUtils.isEmpty(statCheck.getEmail())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
+		}
+		
+		
+		// 2021-08-11 법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
+		if(statCheck.getCorpUserYn().equals("Y")) {
+			UserDomain user = new UserDomain();
+			user.setPlMerchantNo(statCheck.getPlMerchantNo());
+			user.setPlProduct(statCheck.getPlProduct());
+			int corpCheck = applyRepository.applyCorpStatCheck(user);
+			int corpPassCheck 	= corpService.corpPassCheck(user);
+			if(corpCheck == 0 && corpPassCheck == 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "해당법인이 자격취득 상태가 아니거나\n법인관리에 금융감독원 등록여부(Y/N)를 확인해 주세요.");
+			}
 		}
 		
 		int emailResult = 0;

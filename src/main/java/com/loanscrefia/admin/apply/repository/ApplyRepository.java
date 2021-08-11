@@ -9,6 +9,7 @@ import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
 
 @Mapper
 public interface ApplyRepository {
@@ -55,5 +56,7 @@ public interface ApplyRepository {
 	//기등록여부체크리스트
 	List<ApplyDomain> selectPrevRegCheckList(ApplyDomain applyDomain);
 	
+	//법인 승인여부 체크
+	int applyCorpStatCheck(UserDomain userDomain);
 	
 }
