@@ -60,6 +60,7 @@ public class UserDomain extends BaseDomain {
 	private String votingStockCnt;	//의결권있는 발행주식 총수
 	private String comContDate;		//계약일자(회원사)
 	private String comRegDate;		//신청일(심사요청일)
+	private String firstAppDate;	//최초승인요청일
 	private String chkYn;			//실무자확인여부
 	@ExcelColumn(headerName = "승인완료일", order = 11)
 	private String creAppDate;		//승인일
@@ -93,6 +94,7 @@ public class UserDomain extends BaseDomain {
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
 	private String mobileNo;		//담당자휴대폰번호
+	private String extensionNo;		//담당자내선번호
 	@ExcelColumn(headerName = "모집인분류", order = 3)
 	private String plClassNm;		//분류명
 	private String careerTypNm;		//구분명

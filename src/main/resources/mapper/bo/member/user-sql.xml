@@ -59,6 +59,7 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+			<!-- ,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE -->
 			,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
 			,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
@@ -232,6 +233,7 @@
 				,TLM.PL_PAY_STAT
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TLM.COM_REG_DATE
+				<!-- ,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE -->
 				,TLM.CRE_APP_DATE
 				,TLM.CRE_LICENSE_DATE
 				,TLM.PAY_DATE
@@ -521,7 +523,7 @@
    			,#{item.preLcNum}				-- 가등록 번호
    			<choose>
    				<when test="(item.preRegYn != null and item.preRegYn != '')">
-					,#{item.preRegYn}				-- 수수료 기 납부 여부
+					,#{item.preRegYn}		-- 수수료 기 납부 여부
 				</when>
 				<otherwise>
 					,'N'
@@ -587,7 +589,7 @@
    			,#{item.preLcNum}				-- 가등록 번호
    			<choose>
    				<when test="(item.preRegYn != null and item.preRegYn != '')">
-					,#{item.preRegYn}				-- 수수료 기 납부 여부
+					,#{item.preRegYn}		-- 수수료 기 납부 여부
 				</when>
 				<otherwise>
 					,'N'
@@ -762,6 +764,7 @@
 			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,(SELECT EMAIL FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS EMAIL
 			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
+			,FN_CELLPHONE((SELECT EXTENSION_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS EXTENSION_NO
 			,TLM.SUB_YN
 			,TLM.PRE_REG_YN
 			,TLM.PL_CLASS
@@ -818,6 +821,7 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
+			<!-- ,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE -->
 			,TLM.CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE
 			,TLM.PAY_DATE

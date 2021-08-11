@@ -36,7 +36,7 @@ function goUserChangeApplyPage(){
 					<th>회원사</th>
 					<td>${result.userRegInfo.comCodeNm }</td>
 					<th>담당자</th>
-					<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }<c:if test="${result.userRegInfo.mobileNo ne null && result.userRegInfo.mobileNo ne '' }">, ${result.userRegInfo.mobileNo }</c:if>)</td>
+					<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }<c:if test="${result.userRegInfo.extensionNo ne null && result.userRegInfo.extensionNo ne '' }">, ${result.userRegInfo.extensionNo }</c:if>)</td>
 				</tr>
 				<tr>
 					<th>등록번호</th>

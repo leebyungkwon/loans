@@ -90,6 +90,7 @@ public class ApplyDomain extends BaseDomain {
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
 	private String mobileNo;		//담당자휴대폰번호
+	private String extensionNo;		//담당자내선번호
 	@ExcelColumn(headerName = "모집인분류", order = 4)
 	private String plClassNm;		//분류명
 	private String careerTypNm;		//구분명
