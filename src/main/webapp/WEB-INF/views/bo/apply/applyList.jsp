@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "applyGrid"
   		, url			: "/admin/apply/applyList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "승인상태"]
+  		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "관리자<br>확인", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
@@ -28,8 +28,9 @@ function pageLoad(){
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"12%"		, align:"center"}
-				,{type:"string"	, name:'creAppFiDateNm'	, index:'creAppFiDateNm'		, width:"10%"		, align:"center"}
+				,{type:"string"	, name:'creAppFiDateNm'	, index:'creAppFiDateNm'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'			, width:"8%"		, align:"center"}
+				,{type:"string"	, name:'adminChkYnTxt'	, index:'adminChkYnTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
 		, sortNm 		: "master_seq"
@@ -173,9 +174,19 @@ function goGetDate(opt) {
 					<td class="">
 						<input type="text" name="memberNm">
 					</td>
+				</tr>
+				<tr>
 					<th>실무자 확인</th>
 					<td class="half_input">
 						<select name="chkYn" id="chkYn">
+							<option value="">전체</option>
+							<option value="Y">확인</option>
+							<option value="N">미확인</option>
+						</select>
+					</td>
+					<th>관리자 확인</th>
+					<td class="half_input">
+						<select name="adminChkYn" id="adminChkYn">
 							<option value="">전체</option>
 							<option value="Y">확인</option>
 							<option value="N">미확인</option>
