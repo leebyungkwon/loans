@@ -30,7 +30,6 @@ function goUserSearch() {
 		url		: url
 		,param 		: params
 		,success	: function(opt,result){
-			console.log("결과 :: " , result);
 			if(result.data.resData == null || result.data.resData == ""){
 				alert("조회된 결과가 없습니다.");
 				return false;

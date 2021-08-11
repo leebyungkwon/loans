@@ -22,7 +22,6 @@ function pageLoad(){
 				}
 				, success 	: function (opt,result) {
 					alert("완료");
-					console.log("RESULT == " , result);
 					// fileType27 - 후견부존재증명
 					// fileType12 - 경력
 					// fileType13 - 신규일경우 인증서 추출

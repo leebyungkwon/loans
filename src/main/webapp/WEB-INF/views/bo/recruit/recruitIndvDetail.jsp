@@ -60,11 +60,6 @@ function goRecruitApply(num){
 				,plMZIdEnc		: plMZIdEnc
 			}
 			, success 	: function (opt,result) {
-				
-				
-				console.log("승인결과 데이터 == " , result);
-				console.log("승인결과 데이터 == " + JSON.stringify(result));
-				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/recruit/recruitPage";

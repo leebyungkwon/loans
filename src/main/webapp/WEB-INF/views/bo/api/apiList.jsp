@@ -52,7 +52,6 @@ function pageLoad(){
 			  url		: "/admin/corp/insertCheckCorp"	
 			, param		: {}
 			, success 	: function (opt,result) {
-				console.log("결과값 ===" + JSON.stringify(result));
 		    }
 		}
 		AjaxUtil.post(p);
@@ -64,7 +63,6 @@ function pageLoad(){
 			  url		: "/system/api/getHealthCheck"	
 			, param		: {}
 			, success 	: function (opt,result) {
-				console.log("결과값 ===" + JSON.stringify(result));
 		    }
 		}
 		AjaxUtil.post(p);
@@ -78,7 +76,6 @@ function pageLoad(){
 				code	: ""
 			}
 			, success 	: function (opt,result) {
-				console.log("결과값 ===" + JSON.stringify(result));
 				alert("권한코드 :: " + result.data.code);
 		    }
 		}
@@ -95,14 +92,11 @@ function pageLoad(){
 			}
 			, success 	: function (opt,result) {
 				if(result.code == "success"){
-					console.log("결과값1 ===" + JSON.stringify(result));
 					alert("토큰결과값 :: " + JSON.stringify(result));
 				}else{
 					if(result.data == null){
-						console.log("결과값2 ===" + JSON.stringify(result));
 						alert("심각한 오류가 발생하였습니다");
 					}else{
-						console.log("결과값3 ===" + JSON.stringify(result));
 						alert(result.data.resMsg);	
 					}
 				}
@@ -133,7 +127,6 @@ function pageLoad(){
 			}
 			, url : "/system/api/apiPreSearchPopup"
 			, success : function (opt,result) {
-				console.log("###팝업 오픈 ###");
 				$(".popup_inner").css("width","55%");
 		    }
 		}
@@ -161,7 +154,6 @@ function pageLoad(){
 			}
 			, url : "/system/api/apiSearchPopup"
 			, success : function (opt,result) {
-				console.log("###팝업 오픈 ###");
 				$(".popup_inner").css("width","55%");
 		    }
 		}

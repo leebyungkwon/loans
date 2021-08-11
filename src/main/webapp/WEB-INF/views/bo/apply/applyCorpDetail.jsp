@@ -17,7 +17,6 @@ function pageLoad(){
 				}
 				, success 	: function (opt,result) {
 					alert("완료");
-					console.log("RESULT == " , result);
 					// 법인등기부등본(법인등록번호) - fileType2_12
 					// 법인등기부등본(설립년월일) - fileType2_13
 					
@@ -97,10 +96,6 @@ function goRecruitApply(num){
 				,preLcNum		: preLcNum 
 			}
 			, success 	: function (opt,result) {
-				
-				console.log("승인결과 데이터 == " , result);
-				console.log("승인결과 데이터 == " + JSON.stringify(result));
-				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/apply/applyPage";
@@ -163,10 +158,6 @@ function goApplyImprove(num){
 				,preLcNum	: preLcNum 
 			}
 			, success 	: function (opt,result) {
-				
-				console.log("보완요청 데이터 == " , result);
-				console.log("보완요청 데이터 == " + JSON.stringify(result));
-				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/apply/applyPage";

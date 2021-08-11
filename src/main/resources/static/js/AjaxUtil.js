@@ -75,7 +75,6 @@ var AjaxUtil = {
         }).then(function(response) {
 			AjaxUtil.closeLoadBar(loadYn);
         	var status = WebUtil.nvl(response.data.status, 200);
-        	console.log("#AjaxUtil.post()#" , response);
         	if(status == 200) {
             	if(WebUtil.isNotNull(response.data.code)){
             		if(WebUtil.isNotNull(response.data.message)) alert(response.data.message);
@@ -321,7 +320,6 @@ var AjaxUtil = {
      * 에러 핸들러
      */
     errorHandler: function(callback, error) {
-		console.log(callback, error);
         var errMsg = "서버에 일시적인 문제가 생겼습니다.\n잠시후에 다시 이용해주세요.";
 
         if (error.response) {
@@ -352,7 +350,6 @@ var AjaxUtil = {
             errMsg = WebUtil.replaceAll(errMsg, "\n", "<br />");
             //LayerUtil.alert({ msg: errMsg });
             alert(errMsg);
-            console.log(errMsg);
         }
     }
 

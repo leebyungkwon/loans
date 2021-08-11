@@ -18,7 +18,6 @@ function pageLoad(){
 				}
 				, success 	: function (opt,result) {
 					alert("완료");
-					console.log("RESULT == " , result);
 					// 등록하고자 하는 회원의 주민번호를 비교한다 - fileType2
 					// 경력인경우 - fileType3
 					// 신규인경우 인증서 추출 - fileType4
@@ -108,10 +107,6 @@ function goRecruitApply(num){
 				,preLcNum		: preLcNum
 			}
 			, success 	: function (opt,result) {
-				
-				console.log("승인결과 데이터 == " , result);
-				console.log("승인결과 데이터 == " + JSON.stringify(result));
-				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/apply/applyPage";
@@ -173,10 +168,6 @@ function goApplyImprove(num){
 				,preLcNum	: preLcNum 
 			}
 			, success 	: function (opt,result) {
-				
-				console.log("보완요청 데이터 == " , result);
-				console.log("보완요청 데이터 == " + JSON.stringify(result));
-				
 				if(result.data.code == "success"){
 					alert(result.data.message);
 					location.href="/admin/apply/applyPage";
