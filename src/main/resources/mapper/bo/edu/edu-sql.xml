@@ -48,7 +48,19 @@
 		WHERE CAREER_TYP 			= #{careerTyp}
 		AND USER_NAME 				= #{userName}
 		AND RIGHT(USER_BIRTH,6) 	= #{userBirth}
-		AND USER_SEX 				= #{userSex}
+		<choose>
+			<when test='userSex != null and !userSex.equals("")'>
+				<if test='userSex.equals("1") or userSex.equals("3") or userSex.equals("5") or userSex.equals("7")'>
+				AND USER_SEX 				= '1'
+				</if>
+				<if test='userSex.equals("2") or userSex.equals("4") or userSex.equals("6") or userSex.equals("8")'>
+				AND USER_SEX 				= '2'
+				</if>
+			</when>
+			<otherwise>
+				AND USER_SEX 				= ''
+			</otherwise>
+		</choose>
 		AND PROCESS_CD 				= #{processCd}
 		<if test='careerTyp.equals("1")'>
 		AND EXAM_CERT_NO			= #{srchInput}
