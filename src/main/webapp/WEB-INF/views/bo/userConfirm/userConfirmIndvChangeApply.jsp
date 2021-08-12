@@ -231,7 +231,15 @@ function goUserChangeApply(){
 						<th>위탁예정기간</th>
 						<td colspan="3">${result.userRegInfo.entrustDate }</td>
 					</tr>
-					<c:if test="${result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '6' or result.userRegInfo.plStat eq '7' or result.userRegInfo.plStat eq '10'}">
+					
+					<c:if test="${result.userRegInfo.plStat eq '10' or result.userRegInfo.plStat eq '11' or result.userRegInfo.plStat eq '12'}">
+						<tr>
+							<th>사유</th>
+							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
+						</tr>					
+					</c:if>
+					
+					<c:if test="${result.userRegInfo.plStat eq '5' or result.userRegInfo.plStat eq '6' or result.userRegInfo.plStat eq '7'}">
 						<tr>
 							<th>보완요청사유</th>
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>

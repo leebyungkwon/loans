@@ -459,7 +459,7 @@ function goApplyImprove(num){
 				</tr>
 				
 				<tr>
-					<td class="acenter">위탁계약서 *</td>
+					<td class="acenter">위탁계약서</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType6 ne null }">

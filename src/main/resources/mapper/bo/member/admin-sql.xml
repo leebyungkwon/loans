@@ -55,7 +55,7 @@
 				when TLM.JOIN_DT is null then null
 				else TO_DATE(TLM.JOIN_DT,'YYYYMMDD')
 			end AS JOIN_DT
-			,TLM.FILE_SEQ										/*첨부파일ID*/
+			,COALESCE(TLM.FILE_SEQ, 0) AS FILE_SEQ				/*첨부파일ID*/
 			,TLM.MSG											/*가승인 사유*/
 			,TLM.OPTION_TERMS_YN								/*선택적약관동의*/
 		FROM TB_LC_MEMBERS TLM

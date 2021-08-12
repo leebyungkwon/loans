@@ -7,18 +7,6 @@ var applyGrid = Object.create(GRID);
 
 function pageLoad(){
 	
-	//처리상태
- 	var plStatCode = {
-		 useCode 	: true
-		,code 		: 'MAS001'
-		,target 	: '#plStat'
-		,property03 : 'Y'
-		,updData 	: '2'
-		,defaultMsg : '전체'
-	};
-	DataUtil.selectBox(plStatCode);
-	
-	
 	//모집인 승인처리 그리드
 	applyGrid.set({
 		  id			: "applyGrid"
@@ -65,6 +53,17 @@ function pageLoad(){
 		,defaultMsg : '전체'
 	};
 	DataUtil.selectBox(plClassCode);
+	
+	//처리상태
+ 	var plStatCode = {
+		 useCode 	: true
+		,code 		: 'MAS001'
+		,target 	: '#plStat'
+		,property03 : 'Y'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plStatCode);
 	
 	//금융상품유형
  	var plProductCode = {

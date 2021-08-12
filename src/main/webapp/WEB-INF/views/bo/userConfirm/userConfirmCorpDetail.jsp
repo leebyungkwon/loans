@@ -152,6 +152,13 @@ function goUserChangeApplyPage(){
 						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 					</tr>
 				</c:if>
+				
+				<c:if test="${result.userRegInfo.plStat eq '10' or result.userRegInfo.plStat eq '11' or result.userRegInfo.plStat eq '12' }">
+					<tr>
+						<th>사유</th>
+						<td colspan="3">${result.userRegInfo.plHistTxt }</td>
+					</tr>
+				</c:if>
 			</table>
 		</div>
 

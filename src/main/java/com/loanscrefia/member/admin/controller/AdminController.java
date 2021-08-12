@@ -55,10 +55,12 @@ public class AdminController {
     	mv.addObject("adminInfo", adminInfo);
     	
     	FileDomain file = new FileDomain();
-    	file.setFileSeq(adminInfo.getFileSeq());
-    	file = commonService.getFile(file);
+    	int aa = adminInfo.getFileSeq();
+    	if(aa > 0) {
+        	file.setFileSeq(adminInfo.getFileSeq());
+        	file = commonService.getFile(file);    		
+    	}
     	mv.addObject("file", file);
-    	
         return mv;
     }
 	

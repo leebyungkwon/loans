@@ -199,6 +199,15 @@ function goUserAcceptApply(){
 							<div class="calendar01"></div>
 						</td>
 					</tr>
+					
+					<c:if test="${result.userRegInfo.plStat eq '10' || result.userRegInfo.plStat eq '11' || result.userRegInfo.plStat eq '12' }">
+						<tr>
+							<th>사유</th>
+							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
+						</tr>
+					</c:if>
+					
+					
 					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
 						<tr>
 							<th>보완요청사유</th>
