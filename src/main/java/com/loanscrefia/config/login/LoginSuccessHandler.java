@@ -38,7 +38,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             Object[] bb = mem.getAuthorities().toArray();
             String resultRole = bb[0].toString();
             if("ROLE_MEMBER".equals(resultRole)) {
-            	redirectUrl = "/member/user/userRegPage";
+            	redirectUrl = "/common/board/noticePage";
             }else {
             	redirectUrl = "/main";
             }

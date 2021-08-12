@@ -750,6 +750,8 @@ public class ApplyService {
 	        					itList.get(i).setCheckCd303(tmp.getCheckCd());
 	        				}else if("304".equals(tmp.getCheckCd())) {
 	        					itList.get(i).setCheckCd304(tmp.getCheckCd());
+	        				}else if("305".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd305(tmp.getCheckCd());
 	        				}
 	        			}
 						
