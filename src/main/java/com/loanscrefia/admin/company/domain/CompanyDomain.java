@@ -22,6 +22,7 @@ public class CompanyDomain extends BaseDomain {
 	private String memberName;								//담당자 이름
 	@ExcelColumn(headerName = "이메일", order = 8)
 	private String email;									//이메일
+	@ExcelColumn(headerName = "내선번호", order = 9)
 	private String extensionNo;								//내선번호
 	@ExcelColumn(headerName = "휴대폰번호", order = 7)
 	private String mobileNo;								//휴대폰번호

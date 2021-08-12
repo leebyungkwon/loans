@@ -6,6 +6,19 @@
 var applyGrid = Object.create(GRID);
 
 function pageLoad(){
+	
+	//처리상태
+ 	var plStatCode = {
+		 useCode 	: true
+		,code 		: 'MAS001'
+		,target 	: '#plStat'
+		,property03 : 'Y'
+		,updData 	: '2'
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plStatCode);
+	
+	
 	//모집인 승인처리 그리드
 	applyGrid.set({
 		  id			: "applyGrid"
@@ -42,17 +55,6 @@ function pageLoad(){
 		, excel			: "/admin/apply/applyListExcelDown"
 		, excelFileNm	: "모집인승인처리"
 	});
-	
-	//처리상태
- 	var plStatCode = {
-		 useCode 	: true
-		,code 		: 'MAS001'
-		,target 	: '#plStat'
-		,property03 : 'Y'
-		,updData 	: ''
-		,defaultMsg : '전체'
-	};
-	DataUtil.selectBox(plStatCode);
 	
 	//모집인 분류
  	var plClassCode = {

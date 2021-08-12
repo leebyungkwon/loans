@@ -875,19 +875,6 @@ public class ApplyService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
 		}
 		
-		
-		// 2021-08-11 법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
-		if(statCheck.getCorpUserYn().equals("Y")) {
-			UserDomain user = new UserDomain();
-			user.setPlMerchantNo(statCheck.getPlMerchantNo());
-			user.setPlProduct(statCheck.getPlProduct());
-			int corpCheck = applyRepository.applyCorpStatCheck(user);
-			int corpPassCheck 	= corpService.corpPassCheck(user);
-			if(corpCheck == 0 && corpPassCheck == 0) {
-				return new ResponseMsg(HttpStatus.OK, "fail", "해당법인이 자격취득 상태가 아니거나\n법인관리에 금융감독원 등록여부(Y/N)를 확인해 주세요.");
-			}
-		}
-		
 		int emailResult = 0;
 		EmailDomain emailDomain = new EmailDomain();
 		emailDomain.setName("여신금융협회");
@@ -903,6 +890,19 @@ public class ApplyService {
 			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+applyDomain.getPlHistTxt());		
 			apiCheck = true;
 		}else if("9".equals(applyDomain.getPlStat()) && "2".equals(applyDomain.getPlRegStat()) && "N".equals(applyDomain.getPreRegYn())) {
+			
+			// 2021-08-11 법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
+			if(statCheck.getCorpUserYn().equals("Y")) {
+				UserDomain user = new UserDomain();
+				user.setPlMerchantNo(statCheck.getPlMerchantNo());
+				user.setPlProduct(statCheck.getPlProduct());
+				int corpCheck = applyRepository.applyCorpStatCheck(user);
+				int corpPassCheck 	= corpService.corpPassCheck(user);
+				if(corpCheck == 0 && corpPassCheck == 0) {
+					return new ResponseMsg(HttpStatus.OK, "fail", "해당법인이 자격취득 상태가 아니거나\n법인관리에 금융감독원 등록여부(Y/N)를 확인해 주세요.");
+				}
+			}
+			
 			// 승인요청에 대한 승인
 			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());

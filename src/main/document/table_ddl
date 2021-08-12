@@ -995,3 +995,15 @@ create table kfb_api_key(
 	, PRIMARY KEY(ins_dt)
 );
 
+
+-- 접수번호 seq
+CREATE SEQUENCE tb_lc_mas01_id_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
