@@ -267,7 +267,6 @@ function goApplyImprove(num){
 							<td>신규</td>
 						</c:otherwise>
 					</c:choose>
-					<td></td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
