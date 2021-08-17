@@ -311,9 +311,19 @@ public class UserService {
 								log.info("insertUserRegIndvInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
 								log.info("#########################################");
 								
-								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 			//가등록 번호
-								excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 		//수수료 기 납부 여부
-								excelResult.get(j).put("apiCareerYn", preLoanApiResponse.getString("career_yn").toString());//경력여부
+								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 					//가등록 번호
+								
+								if(!preLoanApiResponse.isNull("fee_yn")) {
+									excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 			//수수료 기 납부 여부
+								}else {
+									excelResult.get(j).put("preRegYn", "N");
+								}
+								
+								if(!preLoanApiResponse.isNull("career_yn")) {
+									excelResult.get(j).put("apiCareerYn", preLoanApiResponse.getString("career_yn").toString());	//경력여부
+								}else {
+									excelResult.get(j).put("apiCareerYn", "N");
+								}
 								
 								//(4)모집인 테이블 저장
 								UserDomain insertDomain 				= new UserDomain();
