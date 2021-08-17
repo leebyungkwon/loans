@@ -126,7 +126,7 @@ function goFileEssentialChk(){
 	var vdChkResult 	= 0;
 	
 	$(".inputFile").each(function(){
-		if($(this).attr("data-essential") == "Y" && $(this).val() == ""){
+		if($(this).attr("data-essential") == "Y" && $(this).val() == "" && $(this).prev().val() == ""){
 			vdChkResult++;
 		}
 	});

@@ -179,15 +179,15 @@ function goDataAreaAdd() {
 										<tr>
 											<th class="acenter">자격확인 서류 또는 경력증명서</th>
 											<td>
+												<input type="text" class="w50 file_input" value="${corpItList.fileType19.fileFullNm }" data-fileSeq="${corpItList.fileType19.fileSeq }" readonly disabled>
+												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+												<input type="hidden" name="fileTypeList" value="19"/>
 												<c:choose>
 													<c:when test="${corpItList.fileType19 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType19.fileSeq }">${corpItList.fileType19.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType19.fileSeq }" data-fileType="19" data-essential="N">삭제</a>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpItList.fileType19.fileSeq }">다운로드</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${corpItList.fileType19.fileSeq }" data-fileType="19" data-essential="N">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="19"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="19" data-essential="N">초기화</a>
 													</c:otherwise>
@@ -197,15 +197,15 @@ function goDataAreaAdd() {
 										<tr>
 											<th class="acenter">상근임을 증빙할 수 있는 서류</th>
 											<td>
+												<input type="text" class="w50 file_input" value="${corpItList.fileType20.fileFullNm }" data-fileSeq="${corpItList.fileType20.fileSeq }" readonly disabled>
+												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+												<input type="hidden" name="fileTypeList" value="20"/>
 												<c:choose>
 													<c:when test="${corpItList.fileType20 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType20.fileSeq }">${corpItList.fileType20.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType20.fileSeq }" data-fileType="20" data-essential="N">삭제</a>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpItList.fileType20.fileSeq }">다운로드</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${corpItList.fileType20.fileSeq }" data-fileType="20" data-essential="N">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="20"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="20" data-essential="N">초기화</a>
 													</c:otherwise>
@@ -215,15 +215,15 @@ function goDataAreaAdd() {
 										<tr>
 											<th class="acenter">아웃소싱 업체 상주직원 관련 증빙서류</th>
 											<td>
+												<input type="text" class="w50 file_input" value="${corpItList.fileType37.fileFullNm }" data-fileSeq="${corpItList.fileType37.fileSeq }" readonly disabled>
+												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
+												<input type="hidden" name="fileTypeList" value="37"/>
 												<c:choose>
 													<c:when test="${corpItList.fileType37 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType37.fileSeq }">${corpItList.fileType37.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType37.fileSeq }" data-fileType="37" data-essential="N">삭제</a>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpItList.fileType37.fileSeq }">다운로드</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${corpItList.fileType37.fileSeq }" data-fileType="37" data-essential="N">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="37"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="37" data-essential="N">초기화</a>
 													</c:otherwise>
@@ -233,15 +233,15 @@ function goDataAreaAdd() {
 										<tr>
 											<th class="acenter">개인정보필수동의서 *</th>
 											<td>
+												<input type="text" class="w50 file_input" value="${corpItList.fileType38.fileFullNm }" data-fileSeq="${corpItList.fileType38.fileSeq }" readonly disabled>
+												<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+												<input type="hidden" name="fileTypeList" value="38"/>
 												<c:choose>
 													<c:when test="${corpItList.fileType38 ne null }">
-														<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType38.fileSeq }">${corpItList.fileType38.fileFullNm }</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${corpItList.fileType38.fileSeq }" data-fileType="38" data-essential="Y">삭제</a>
+														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpItList.fileType38.fileSeq }">다운로드</a>
+														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${corpItList.fileType38.fileSeq }" data-fileType="38" data-essential="Y">삭제</a>
 													</c:when>
 													<c:otherwise>
-														<input type="text" class="w50 file_input" readonly disabled>
-														<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-														<input type="hidden" name="fileTypeList" value="38"/>
 														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
 														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="38" data-essential="Y">초기화</a>
 													</c:otherwise>
