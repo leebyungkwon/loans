@@ -28,6 +28,7 @@
 			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+			,TLM.API_CAREER_YN
 			,TLM.PL_PRODUCT
 			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
 			,TLM.PL_REG_STAT
@@ -59,7 +60,7 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
-			<!-- ,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE -->
+			,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
 			,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
 			,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
@@ -202,6 +203,7 @@
 				,TLM.CORP_USER_YN
 				,TLM.CAREER_TYP
 				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+				,TLM.API_CAREER_YN
 				,TLM.PL_PRODUCT
 				,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
 				,TLM.PL_REG_STAT
@@ -233,7 +235,7 @@
 				,TLM.PL_PAY_STAT
 				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 				,TLM.COM_REG_DATE
-				<!-- ,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE -->
+				,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
 				,TLM.CRE_APP_DATE
 				,TLM.CRE_LICENSE_DATE
 				,TLM.PAY_DATE
@@ -380,6 +382,7 @@
 					AND TLM.PL_REG_STAT = '1'																			-- 모집인 상태가 승인전인 것
 					AND TLM.PL_STAT IN ('1','2','5','10')																-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것
 		    </where>
+		    ORDER BY TLM.MASTER_SEQ DESC
    		)Z
    		<where>
    			<if test="memberNm != null and memberNm != ''">
@@ -486,6 +489,7 @@
 			,CI
 			,PRE_LC_NUM
 			,PRE_REG_YN
+			,API_CAREER_YN
 			,REG_TIMESTAMP
    		)
    		VALUES
@@ -524,6 +528,14 @@
    			<choose>
    				<when test="(item.preRegYn != null and item.preRegYn != '')">
 					,#{item.preRegYn}		-- 수수료 기 납부 여부
+				</when>
+				<otherwise>
+					,'N'
+				</otherwise>
+			</choose>
+			<choose>
+   				<when test="(item.apiCareerYn != null and item.apiCareerYn != '')">
+					,#{item.apiCareerYn}	-- 은행연합회API 경력여부 조회결과값
 				</when>
 				<otherwise>
 					,'N'
@@ -773,6 +785,7 @@
 			,TLM.CORP_USER_YN
 			,TLM.CAREER_TYP
 			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+			,TLM.API_CAREER_YN
 			,TLM.PL_PRODUCT
 			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
 			,TLM.PL_REG_STAT
@@ -821,7 +834,7 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
-			<!-- ,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE -->
+			,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
 			,TLM.CRE_APP_DATE
 			,TLM.CRE_LICENSE_DATE
 			,TLM.PAY_DATE
@@ -1300,6 +1313,9 @@
 			</if>
 			<if test='plStat.equals("2") or plStat.equals("3") or plStat.equals("4")'>
 			,COM_REG_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
+			</if>
+			<if test='firstAppDate != null and firstAppDate != "" and firstAppDate.equals("reg") and plStat.equals("2")'>
+			,FIRST_APP_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>
 			,UPD_SEQ 		= #{updSeq}
 			,UPD_TIMESTAMP 	= NOW()

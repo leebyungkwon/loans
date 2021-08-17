@@ -311,8 +311,9 @@ public class UserService {
 								log.info("insertUserRegIndvInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
 								log.info("#########################################");
 								
-								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 		//가등록 번호
-								excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 			//가등록 번호
+								excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 		//수수료 기 납부 여부
+								excelResult.get(j).put("apiCareerYn", preLoanApiResponse.getString("career_yn").toString());//경력여부
 								
 								//(4)모집인 테이블 저장
 								UserDomain insertDomain 				= new UserDomain();
@@ -625,6 +626,7 @@ public class UserService {
 				return new ResponseMsg(HttpStatus.OK, "fail", "신규/경력, 금융상품유형, 교육이수번호/인증서번호가 일치하지 않습니다.");
 			}
 		}
+		
 		//등록
 		if(StringUtils.isNotEmpty(userImwonDomain.getPlMZId())) {
 			userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
@@ -741,6 +743,7 @@ public class UserService {
 		if(chkResult == 0) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "신규/경력, 금융상품유형, 교육이수번호/인증서번호가 일치하지 않습니다.");
 		}
+		
 		//등록
 		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
 			userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
@@ -875,12 +878,10 @@ public class UserService {
 				//기본 이력 저장*****
 				this.insertUserHistory(userDomain);
 				
-				/*
 				//최초승인요청일 저장
 				if(StringUtils.isEmpty(userRegInfo.getFirstAppDate())) {
 					userDomain.setFirstAppDate("reg");
 				}
-				*/
 				
 				//상태값 수정
 				result += this.updateUserStat(userDomain);
@@ -944,12 +945,10 @@ public class UserService {
 		}
 		int updateResult1 = userRepo.updateUserRegInfo(userDomain);
 		
-		/*
 		//최초승인요청일 저장
 		if(StringUtils.isEmpty(userRegInfo.getFirstAppDate())) {
 			userDomain.setFirstAppDate("reg");
 		}
-		*/
 		
 		//상태값 수정
 		userDomain.setPlStat("2");

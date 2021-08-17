@@ -34,8 +34,8 @@ function pageLoad(){
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'imwonEduCnt'	, index:'imwonEduCnt'		, width:"0%"		, align:"center" , hidden:true}
 			]
-		, sortNm 		: "master_seq"
-		, sort 			: "DESC"
+		//, sortNm 		: "master_seq"
+		//, sort 		: "DESC"
 		, rowClick		: {retFunc : goUserRegDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
