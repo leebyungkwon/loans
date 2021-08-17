@@ -26,6 +26,9 @@ public class ApplyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "법인사용인여부", order = 5)
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
+	
+	private String apiCareerYn;		//은행연합회API 경력여부 조회결과값
+	
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,리스,TM대출,TM리스
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
@@ -63,8 +66,12 @@ public class ApplyDomain extends BaseDomain {
 	private String adminChkYn;		//관리자확인여부
 	@ExcelColumn(headerName = "실무자확인", order = 13)
 	private String chkYnTxt;
+	@ExcelColumn(headerName = "관리자확인", order = 14)
 	private String adminChkYnTxt;
 	private String creAppDate;		//승인일
+	
+	private String firstAppDate;	//최초승인요청일
+	
 	private String creAppFiDate;	// 승인남은일텍스트
 	@ExcelColumn(headerName = "승인남은일수", order = 12)
 	private String creAppFiDateNm;	// 승인남은일
@@ -97,7 +104,7 @@ public class ApplyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "금융상품유형", order = 6)
 	private String plProductNm;		//취급상품명
 	private String plRegStatNm;		//모집인상태명
-	@ExcelColumn(headerName = "승인상태", order = 14)
+	@ExcelColumn(headerName = "승인상태", order = 15)
 	private String plStatNm;		//처리상태명
 	private String addrNm;			//주소명
 	private String plPayStatNm;		//결제상태명

@@ -296,7 +296,7 @@ function goRecruitImprove(rePlStat){
 					<col width="50%"/>
 				</colgroup>
 				<tr>
-					<th class="acenter">사진 (등록증 게시용) *</th>
+					<th class="acenter">사진 (등록증 게시용)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType1 ne null }">

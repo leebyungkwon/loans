@@ -28,6 +28,9 @@ public class RecruitDomain extends BaseDomain {
 	@ExcelColumn(headerName = "법인사용인여부", order = 6)
 	private String corpUserYn;		//법인사용인여부
 	private String careerTyp;		//구분							-> [CAR001]신규,경력
+	
+	private String apiCareerYn;		//은행연합회API 경력여부 조회결과값
+	
 	private String plProduct;		//금융상품유형(취급상품)				-> [PRD001]대출,리스,TM대출,TM리스
 	private String plRegStat;		//모집인상태						-> [REG001]승인전,승인완료,자격취득,해지완료 -> 처리상태가 완료일 때 모집인상태값이 바뀔 수 있다.
 	private String plStat;			//처리상태							-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료
@@ -66,6 +69,9 @@ public class RecruitDomain extends BaseDomain {
 	private String adminChkYn;		//관리자확인여부
 	@ExcelColumn(headerName = "승인완료일", order = 13)
 	private String creAppDate;		//승인일
+	
+	private String firstAppDate;	//최초승인요청일
+	
 	@ExcelColumn(headerName = "자격취득일", order = 15)
 	private String creLicenseDate;	//자격취득일
 	private String plPayStat;		//결제상태							-> []

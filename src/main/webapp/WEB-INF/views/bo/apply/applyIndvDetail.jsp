@@ -257,7 +257,17 @@ function goApplyImprove(num){
 				</c:if>
 				<tr>
 					<th>신규경력구분</th>
-					<td colspan="3">${result.applyInfo.careerTypNm }</td>
+					<td>${result.applyInfo.careerTypNm }</td>
+					<th>API신규경력구분결과</th>
+					<c:choose>
+						<c:when test="${result.applyInfo.apiCareerYn eq 'Y'}">
+							<td>경력</td>
+						</c:when>
+						<c:otherwise>
+							<td>신규</td>
+						</c:otherwise>
+					</c:choose>
+					<td></td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>

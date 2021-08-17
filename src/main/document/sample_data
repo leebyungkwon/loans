@@ -1,3 +1,15 @@
+-- 2021-08-17 최초승인요청일, API경력여부 컬럼 추가
+ALTER TABLE tb_lc_mas01 ADD COLUMN first_app_date varchar(8);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN first_app_date varchar(8);
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN api_career_yn char(1) not null default 'N';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN api_career_yn char(1) not null default 'N';
+
+-- 2021-08-17 최초승인요청일, API경력여부 컬럼 추가 끝
+
+
+
+
 -- 2021-08-05
 -- tb_lc_file01 : file_org_nm을 50 -> 100으로 변경
 
@@ -263,10 +275,7 @@ ALTER TABLE tb_lc_violation ADD COLUMN upd_seq INTEGER;
 
 
 
------------- 2021-08-09 최초승인요청일 (고도화때 작업예정)
-ALTER TABLE tb_lc_mas01 ADD COLUMN first_app_date varchar(8);
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN first_app_date varchar(8);
---------------------------------------------------------------------------------------------------- 2021-08-09 최초승인요청일 (고도화때 작업예정)
+
 
 
 -- 현업 교육이수 데이터 추가 --

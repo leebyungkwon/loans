@@ -163,7 +163,7 @@ function pageLoad(){
 							</colgroup>
 							<tbody>
 								<tr>
-									<td colspan="3" style="text-align: center; font-weight: bold;">등록된 전문인력이 존재하지 않습니다.</td>
+									<td colspan="3" style="text-align: center; font-weight: bold;">등록된 업무수행인력이 존재하지 않습니다.</td>
 								</tr>
 							</tbody>
 						</table>
