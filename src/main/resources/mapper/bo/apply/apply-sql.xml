@@ -188,6 +188,14 @@
 			<if test="srchDate2 != null and srchDate2 != ''">
 				AND Z.COM_REG_DATE 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 			</if>
+			
+			<if test="srchDate3 != null and srchDate3 != ''">
+				AND Z.FIRST_APP_DATE 	<![CDATA[>=]]> #{srchDate3}::TIMESTAMP
+			</if>
+			<if test="srchDate4 != null and srchDate4 != ''">
+				AND Z.FIRST_APP_DATE 	<![CDATA[<]]> #{srchDate4}::TIMESTAMP + INTERVAL '1 day'
+			</if>
+			
 	    </where>
 	    <include refid="common.pageBottom"/>
    	</select>

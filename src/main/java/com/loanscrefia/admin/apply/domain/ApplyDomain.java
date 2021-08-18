@@ -64,16 +64,17 @@ public class ApplyDomain extends BaseDomain {
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부
 	private String adminChkYn;		//관리자확인여부
-	@ExcelColumn(headerName = "실무자확인", order = 13)
+	@ExcelColumn(headerName = "실무자확인", order = 14)
 	private String chkYnTxt;
-	@ExcelColumn(headerName = "관리자확인", order = 14)
+	@ExcelColumn(headerName = "관리자확인", order = 15)
 	private String adminChkYnTxt;
 	private String creAppDate;		//승인일
 	
+	@ExcelColumn(headerName = "최초승인요청일", order = 12)
 	private String firstAppDate;	//최초승인요청일
 	
 	private String creAppFiDate;	// 승인남은일텍스트
-	@ExcelColumn(headerName = "승인남은일수", order = 12)
+	@ExcelColumn(headerName = "승인남은일수", order = 13)
 	private String creAppFiDateNm;	// 승인남은일
 	private String creLicenseDate;	//자격취득일
 	private String plPayStat;		//결제상태							-> []
@@ -104,7 +105,7 @@ public class ApplyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "금융상품유형", order = 6)
 	private String plProductNm;		//취급상품명
 	private String plRegStatNm;		//모집인상태명
-	@ExcelColumn(headerName = "승인상태", order = 15)
+	@ExcelColumn(headerName = "승인상태", order = 16)
 	private String plStatNm;		//처리상태명
 	private String addrNm;			//주소명
 	private String plPayStatNm;		//결제상태명
@@ -167,6 +168,8 @@ public class ApplyDomain extends BaseDomain {
 	private String srchSelect2;
 	private String srchDate1;
 	private String srchDate2;
+	private String srchDate3;
+	private String srchDate4;
 	
 	private ApplyCheckDomain checkDomain;
 	

@@ -103,14 +103,25 @@ public class CompanyService {
 	// 비밀번호 초기화 
 	@Transactional
 	public ResponseMsg cleanPassword(CompanyDomain companyDomain){
-		
+		CompanyDomain companyResult = companyRepository.getCompanyDetail(companyDomain);
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    	String passWord = "qwer1234!";
+    	String passWord = getTempPassword(6);
+    	
+    	int emailResult = 0;
+		EmailDomain emailDomain = new EmailDomain();
+		emailDomain.setName("여신금융협회");
+		emailDomain.setEmail(companyResult.getEmail());
+		emailDomain.setInstId("");
+		emailDomain.setSubsValue(companyResult.getMemberId()+"|"+passWord);
+		emailResult = emailRepository.sendEmail(emailDomain);
+    	
     	companyDomain.setPassword(passwordEncoder.encode(passWord));
-		
 		int result = companyRepository.cleanPassword(companyDomain);
-		if(result > 0) {
-			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.초기화된 비밀번호는 qwer1234! 입니다.");
+		
+		if(emailResult > 0 && result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else if(emailResult == 0){
+			return new ResponseMsg(HttpStatus.OK, "fail", "이메일 발송에 실패하였습니다.");
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
@@ -149,5 +160,23 @@ public class CompanyService {
 	}
 	
 	
+	
+	// 임시비밀번호 생성
+	public static String getTempPassword(int length) {
+	    int index = 0;
+	    char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+	    'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
+	    'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+	    'w', 'x', 'y', 'z' };
+	 
+	    StringBuffer sb = new StringBuffer();
+	 
+	    for (int i = 0; i < length; i++) {
+	        index = (int) (charArr.length * Math.random());
+	        sb.append(charArr[index]);
+	    }
+	 
+	    return sb.toString();
+	}
 	
 }

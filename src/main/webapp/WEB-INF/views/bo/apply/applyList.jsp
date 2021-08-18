@@ -12,7 +12,7 @@ function pageLoad(){
 		  id			: "applyGrid"
   		, url			: "/admin/apply/applyList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "승인<br>남은일수", "실무자<br>확인", "관리자<br>확인", "승인상태"]
+  		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "최초승인<br>요청일", "승인<br>남은일수", "실무자<br>확인", "관리자<br>확인", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
@@ -23,12 +23,13 @@ function pageLoad(){
 				,{type:"string"	, name:'memberNm'		, index:'memberNm'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"12%"		, align:"center"}
+				,{type:"string"	, name:'firstAppDate'	, index:'firstAppDate'		, width:"12%"		, align:"center"}
 				,{type:"string"	, name:'creAppFiDateNm'	, index:'creAppFiDateNm'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'chkYnTxt'		, index:'chkYnTxt'			, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'adminChkYnTxt'	, index:'adminChkYnTxt'		, width:"8%"		, align:"center"}
@@ -97,6 +98,28 @@ function pageLoad(){
 		}
 	});
 	
+	//datepicker
+	$("#date_cal03").datepicker({
+		 dateFormat	: "yy-mm-dd"
+	 	,changeMonth: true
+		,changeYear	: true
+		,yearRange	: "c-10:c+10"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate3").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal04").datepicker({
+		 dateFormat	: "yy-mm-dd"
+	 	,changeMonth: true
+		,changeYear	: true
+		,yearRange	: "c-10:c+10"
+		,onSelect	:function(dateText1,inst) {
+			$("#srchDate4").val(dateText1);
+			$(this).hide();
+		}
+	});
+	
 	// 회원사 코드
  	var companyCode = {
 		useCode : false
@@ -143,6 +166,13 @@ function goGetDate(opt) {
 	var result = WebUtil.getDate(opt);
 	$("#srchDate1").val(result);
 	$("#srchDate2").val(WebUtil.getDate("today"));
+}
+
+//날짜 가져오기
+function goGetDate2(opt) {
+	var result = WebUtil.getDate(opt);
+	$("#srchDate3").val(result);
+	$("#srchDate4").val(WebUtil.getDate("today"));
 }
 
 </script>
@@ -266,6 +296,31 @@ function goGetDate(opt) {
 						</div>
 					</td>
 				</tr>
+				
+				<tr>
+					<th>최초승인요청일</th>
+					<td colspan="6" class="long_input">
+						<div class="input_wrap">
+                			<input type="text" name="srchDate3" id="srchDate3" class="input_calendar" readonly="readonly">
+                			<a class="calendar_ico" onclick="$('#date_cal03').show();"></a>
+						 	<div id="date_cal03" class="calendar01"></div>
+              			</div>
+					  	~
+					 	<div class="input_wrap mgr5">
+							<input type="text" name="srchDate4" id="srchDate4" class="input_calendar" readonly="readonly">
+							<a class="calendar_ico" onclick="$('#date_cal04').show();"></a>
+							<div id="date_cal04" class="calendar01"></div>
+						</div>
+						<div class="date_btn">
+							<a href="javascript:void(0);" onclick="goGetDate2('today');">오늘</a>
+							<a href="javascript:void(0);" onclick="goGetDate2('1');">어제</a>
+							<a href="javascript:void(0);" onclick="goGetDate2('7');">1주일</a>
+							<a href="javascript:void(0);" onclick="goGetDate2('15');">15일</a>
+							<a href="javascript:void(0);" onclick="goGetDate2('oneMonthAgo');">1개월</a>
+						</div>
+					</td>
+				</tr>
+				
 				<input type="hidden" id="sortName" name="sortName" value="master_seq">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>

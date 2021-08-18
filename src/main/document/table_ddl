@@ -203,6 +203,9 @@ create table tb_lc_mas01(
 	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
+	
+	, api_career_yn char(1) not null default 'N';
+	
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
@@ -267,6 +270,9 @@ COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01.pl_work IS '업종';
 COMMENT ON COLUMN tb_lc_mas01.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01.career_typ IS '구분(신규/경력)';
+
+COMMENT ON COLUMN tb_lc_mas01.api_career_yn IS '은행연합회API경력여부(신규/경력)';
+
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
@@ -292,7 +298,7 @@ COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 
-COMMENT ON COLUMN tb_lc_mas01.first_apply_date IS '최초심사요청일';
+COMMENT ON COLUMN tb_lc_mas01.first_app_date IS '최초심사요청일';
 
 COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.admin_chk_yn IS '관리자확인여부';
@@ -502,6 +508,9 @@ create table tb_lc_mas01_hist(
 	, pl_work varchar(50)
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
+	
+	, api_career_yn char(1) not null default 'N';
+	
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
@@ -567,6 +576,9 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_work IS '업종';
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
+COMMENT ON COLUMN tb_lc_mas01_hist.api_career_yn IS '은행연합회API경력여부(신규/경력)';
+
+
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat IS '처리상태';
@@ -592,7 +604,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행�
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 
-COMMENT ON COLUMN tb_lc_mas01_hist.first_apply_date IS '최초심사요청일';
+COMMENT ON COLUMN tb_lc_mas01_hist.first_app_date IS '최초심사요청일';
 
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_yn IS '관리자확인여부';
