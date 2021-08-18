@@ -377,6 +377,13 @@ public class UserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	//선택 삭제
+	@PostMapping(value="/user/deleteSelectedUserRegInfo")
+	public ResponseEntity<ResponseMsg> deleteSelectedUserRegInfo(UserDomain userDomain){
+		ResponseMsg responseMsg = userService.deleteSelectedUserRegInfo(userDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	//변경요청 페이지 : 개인
 	@PostMapping(value="/confirm/userConfirmIndvChangeApply")
     public ModelAndView userConfirmIndvChangeApply(UserDomain userDomain) {

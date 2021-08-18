@@ -219,8 +219,8 @@ function goApplyAccept() {
 	
 	var chkData 		= userRegGrid.getChkData();
 	var masterSeqArr	= [];
-	var fileChk			= 0;
 	var pvtChk			= 0;
+	var fileChk			= 0;
 	var imwonEduChk		= 0;
 	
 	for(var i = 0;i < chkedLen;i++){
@@ -269,6 +269,43 @@ function goApplyAccept() {
 					alert("법인이 승인되지 않은 법인사용인이 존재합니다.");
 					userRegGrid.refresh();
 				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+//선택 삭제
+function goUserRegInfoCancel() {
+	var chkedLen 	= $("tbody > tr > td > input:checkbox:checked").length;
+	
+	if(chkedLen == 0){
+		alert("모집인을 선택해 주세요.");
+		return;
+	}
+	
+	var chkData 		= userRegGrid.getChkData();
+	var masterSeqArr	= [];
+	
+	for(var i = 0;i < chkedLen;i++){
+		if(chkData[i].plStat != "2"){ // && chkData[i].plStat != "10" && chkData[i].plStat != "11" && chkData[i].plStat != "12"
+			masterSeqArr.push(chkData[i].masterSeq);
+		}
+	}
+	
+	if(masterSeqArr.length == 0){
+		alert("선택하신 모집인은 삭제가 불가능한 상태입니다.");
+		return;
+	}
+	
+	if(confirm("삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/user/deleteSelectedUserRegInfo"	
+			, param		: {
+				masterSeqArr 	: masterSeqArr
+			}
+			, success 	: function (opt,result) {
+				location.href = "/member/user/userRegPage";
 		    }
 		}
 		AjaxUtil.post(p);
@@ -395,7 +432,8 @@ function goGetDate(opt) {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goUserRegPopOpen();">모집인 등록</a>
-				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goApplyAccept();">선택 승인요청</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyAccept();">선택 승인요청</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goUserRegInfoCancel();">선택 삭제</a>
 			</div>
 		</div>
 		<div id="userRegGrid" class="long_table"></div>
