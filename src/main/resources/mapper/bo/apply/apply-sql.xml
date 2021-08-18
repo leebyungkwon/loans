@@ -119,15 +119,23 @@
 				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 				,TLM.UPD_SEQ
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+				,TLM.app_date_hold
 		    FROM TB_LC_MAS01 TLM
 			<where>
-				AND TLM.PL_STAT IN ('2','5')													-- 처리상태가 승인요청, 보완
+				AND TLM.PL_STAT IN ('2','5','13')													-- 처리상태가 승인요청, 보완, 승인일 홀딩
 				AND TLM.PL_REG_STAT = '1'
 				<if test='creGrp != "2" '>
 					AND TLM.COM_CODE IN (
 						SELECT COM_CODE FROM tb_lc_work WHERE member_seq = #{regSeq}
 					)
 				</if>
+				
+				<if test="applyResultCheck != null and applyResultCheck != ''">
+					<if test="applyResultCheck.equals('on')">
+						AND TLM.PL_STAT = '2'
+					</if>
+				</if>
+				
 			</where>
    		)Z
    		<where>
@@ -306,6 +314,7 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+			,TLM.app_date_hold
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ = #{masterSeq}
@@ -462,6 +471,7 @@
    		AND CHECK_CD = #{checkCd}
    	</delete>
    	
+   	<!-- 실무자확인 -->
    	<update id="applycheck" parameterType="apply" >
    		UPDATE tb_lc_mas01
    		SET
@@ -471,6 +481,7 @@
    		WHERE master_seq = #{masterSeq}
    	</update>
    	
+   	<!-- 관리자확인 -->
    	<update id="applyAdmincheck" parameterType="apply" >
    		UPDATE tb_lc_mas01
    		SET
@@ -480,6 +491,25 @@
    			, upd_timestamp = NOW()
    		WHERE master_seq = #{masterSeq}
    	</update>
+   	
+   	<!-- 승인일 홀딩 -->
+   	<update id="appDateHold" parameterType="apply" >
+   		UPDATE tb_lc_mas01
+   		SET
+   			<if test='appDateHold.equals("Y")'>
+   				app_date_hold	= TO_CHAR(NOW(),'YYYYMMDD')
+   				, pl_stat = '13'
+   			</if>
+   			<if test='appDateHold.equals("N")'>
+   				app_date_hold	= null
+   				, pl_stat = '2'
+   				, CRE_APP_FI_DATE = TO_CHAR((NOW()::date - app_date_hold::date) + cre_app_fi_date::date, 'YYYYMMDD')
+   			</if>
+   			, upd_seq = #{updSeq}
+   			, upd_timestamp = NOW()
+   		WHERE master_seq = #{masterSeq}
+   	</update>
+   	
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 대표및임원 상세 -->
    	<select id="getApplyImwonDetail" parameterType="applyImwon" resultType="applyImwon">

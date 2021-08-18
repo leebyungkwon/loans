@@ -1085,6 +1085,20 @@ public class ApplyService {
 		}
 	}
 	
+	
+	//모집인 조회 및 변경 > 승인일 홀딩
+	@Transactional
+	public ResponseMsg appDateHold(ApplyDomain applyDomain){
+		int result = applyRepository.appDateHold(applyDomain);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
+	
+	
 	//기등록검증여부확인
 	@Transactional
 	public ResponseMsg prevRegCheck(ApplyDomain applyDomain){

@@ -50,6 +50,9 @@ public interface ApplyRepository {
 	//모집인 조회 및 변경 > 관리자확인
 	int applyAdmincheck(ApplyDomain applyDomain);
 	
+	//모집인 조회 및 변경 > 승인일홀딩
+	int appDateHold(ApplyDomain applyDomain);	
+	
 	//모집인 조회 > 법인 : 대표 및 임원 상세(OCR)
 	ApplyImwonDomain getApplyImwonDetail(ApplyImwonDomain applyImwonDomain);
 	

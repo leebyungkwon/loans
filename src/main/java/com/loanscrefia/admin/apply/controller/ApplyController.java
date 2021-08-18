@@ -186,6 +186,14 @@ public class ApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	// 승인일 홀딩
+	@PostMapping(value="/apply/appDateHold")
+	public ResponseEntity<ResponseMsg> appDateHold(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(applyService.appDateHold(applyDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	
 	// 개인 OCR
 	@PostMapping("/apply/indvOcr")

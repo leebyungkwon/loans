@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -329,7 +330,8 @@ public class KfbApiService {
 		try {
 			//파라미터 설정
 			String param = "?";
-			param += "name="+reqParam.getString("name");
+			String testName = URLEncoder.encode(reqParam.getString("name"),"UTF-8");
+			param += "name="+testName;
 			param += "&ssn="+reqParam.getString("ssn");
 			param += "&ci="+reqParam.getString("ci");
 			param += "&loan_type="+reqParam.getString("loan_type");

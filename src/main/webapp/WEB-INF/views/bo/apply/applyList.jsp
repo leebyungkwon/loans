@@ -142,6 +142,11 @@ function pageLoad(){
 		}
 		applyGrid.refresh();	
 	});
+	
+	// 승인요청건만 조회
+	$("#applyResultCheck").on("click", function(){
+		applyGrid.refresh();
+	})
 }
 
 //모집인 조회 및 변경 row 클릭 이벤트
@@ -271,6 +276,10 @@ function goGetDate2(opt) {
 					<td class="">
 						<input type="text" name="preLcNum">
 					</td>
+					<th>승인요청건</th>
+					<td class="half_input">
+						<input type="checkbox" id="applyResultCheck" name="applyResultCheck" checked/>
+					</td>
 				</tr>
 				
 				<tr>
@@ -320,7 +329,6 @@ function goGetDate2(opt) {
 						</div>
 					</td>
 				</tr>
-				
 				<input type="hidden" id="sortName" name="sortName" value="master_seq">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>

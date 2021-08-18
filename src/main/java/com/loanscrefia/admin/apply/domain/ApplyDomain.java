@@ -64,6 +64,7 @@ public class ApplyDomain extends BaseDomain {
 	private String comRegDate;		//신청일(심사요청일)
 	private String chkYn;			//실무자확인여부
 	private String adminChkYn;		//관리자확인여부
+	private String appDateHold;		//승인일홀딩
 	@ExcelColumn(headerName = "실무자확인", order = 14)
 	private String chkYnTxt;
 	@ExcelColumn(headerName = "관리자확인", order = 15)
@@ -124,6 +125,7 @@ public class ApplyDomain extends BaseDomain {
 	
 	private String preRegYn;		//기등록여부
 	private String subYn;			//약식등록여부
+	private String applyResultCheck;	// 승인요청건조회용 필드
 	
 	@ExcelColumn(headerName = "가등록번호", order = 2)
 	private String preLcNum;		//가등록번호

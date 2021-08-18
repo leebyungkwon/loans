@@ -204,7 +204,7 @@ create table tb_lc_mas01(
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
 	
-	, api_career_yn char(1) not null default 'N';
+	, api_career_yn char(1) not null default 'N'
 	
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)

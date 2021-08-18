@@ -50,6 +50,32 @@ $(document).on("click","#adminCheck",function(){
 	AjaxUtil.post(p);
 });
 
+
+//승인일 홀딩
+$(document).on("click","#appDateHold",function(){
+	
+	var chk = $(this).is(":checked");
+	
+	if(chk){
+		chk = "Y";
+	}else{
+		chk = "N";
+	}
+	
+	var p = {
+		  url		: "/admin/apply/appDateHold"	
+		, param		: {
+			 appDateHold 		: chk
+			,masterSeq	: $("#masterSeq").val()
+		}
+		, success 	: function (opt,result) {
+			alert("완료되었습니다. 리스트에서 상태를 확인해 주세요.");
+			location.href = "/admin/apply/applyPage";
+	    }
+	}
+	AjaxUtil.post(p);
+});
+
 //첨부파일 체크사항
 $(document).on("change",".check_cd",function(){
 	
