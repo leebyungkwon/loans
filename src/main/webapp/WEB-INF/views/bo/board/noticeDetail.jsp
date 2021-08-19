@@ -9,7 +9,8 @@
 
 		// 글 목록 버튼
 		$("#noticeBtn").on("click", function(){
-				location.href = "/common/board/noticePage";
+			//location.href = "/common/board/noticePage";
+			history.back();
 		});
 		
 		// 글 수정 버튼
