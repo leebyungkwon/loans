@@ -63,6 +63,7 @@
 				,TLM.CRE_APP_FI_DATE
 				,case
 					when pl_stat = '5' then '-'
+					when pl_stat = '13' then '-'
 					else
 						case
 							when CONCAT((tlm.cre_app_fi_date::date - NOW()::date), '일') = '일' then ''

@@ -203,12 +203,12 @@ function goApplyImprove(num){
 	<div class="contents">
 		<div class="box block h20 mgt30 mgb10">
 		
-			<c:if test="${result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '13'}">
+ 			<c:if test="${result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '13'}">
 				<div class="input_check_wrap right mgb0" style="margin-right:240px;">
 					<input type="checkbox" id="appDateHold" class="check" <c:if test="${!empty result.applyInfo.appDateHold}">checked</c:if>>
 					<label for="appDateHold">승인일 홀딩</label>
 				</div>
-			</c:if>
+			</c:if> 
 		
 			<div class="input_check_wrap right mgb0" style="margin-right:120px;">
 				<input type="checkbox" id="adminCheck" class="check" <c:if test="${result.applyInfo.adminChkYn eq 'Y'}">checked</c:if>>

@@ -1089,6 +1089,8 @@ public class ApplyService {
 	//모집인 조회 및 변경 > 승인일 홀딩
 	@Transactional
 	public ResponseMsg appDateHold(ApplyDomain applyDomain){
+		// 모집인단계이력
+		applyRepository.insertMasterStep(applyDomain);
 		int result = applyRepository.appDateHold(applyDomain);
 		if(result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
