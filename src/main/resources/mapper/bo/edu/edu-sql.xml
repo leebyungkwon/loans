@@ -34,7 +34,7 @@
 				AND TLE.USER_NAME LIKE CONCAT('%',#{userName},'%')
 			</if>
 			<if test="srchInput != null and srchInput != ''">
-				AND TLE.DEPLOMA_NO LIKE CONCAT('%',#{srchInput},'%') OR TLE.EXAM_CERT_NO LIKE CONCAT('%',#{srchInput},'%')
+				AND (TLE.DEPLOMA_NO LIKE CONCAT('%',#{srchInput},'%') OR TLE.EXAM_CERT_NO LIKE CONCAT('%',#{srchInput},'%'))
 			</if>
 		</where>
 		<include refid="common.pageBottom"/>
