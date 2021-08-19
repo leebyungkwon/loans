@@ -79,8 +79,6 @@ let GRID = {
 			}
 		}
 		
-		console.log(this.gridSearch, $("#"+this.gridSearch));
-		
 		if($("#"+this.gridSearch).length > 0){
 			$("#"+this.gridSearch).find("input").each(function(index){
 				$(this).on("keyup",function(){
