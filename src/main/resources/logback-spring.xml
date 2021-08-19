@@ -4,7 +4,7 @@
 	<!--Environment 내의 프로퍼티들을 개별적으로 설정할 수도 있다. logging.level.root-->
 	<springProperty scope="context" name="LOG_LEVEL" source="ERROR"/>
 	<!-- log file path -->
-	<property name="LOG_PATH" value="C:\logs"/>
+	<property name="LOG_PATH" value="/logs"/>
 	<!-- err log file name -->
 	<property name="ERR_LOG_FILE_NAME" value="crefiaLoan_error_log"/>
 	<!-- pattern -->

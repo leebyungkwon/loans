@@ -111,7 +111,7 @@ public class CompanyService {
 		EmailDomain emailDomain = new EmailDomain();
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(companyResult.getEmail());
-		emailDomain.setInstId("");
+		emailDomain.setInstId("149");
 		emailDomain.setSubsValue(companyResult.getMemberId()+"|"+passWord);
 		emailResult = emailRepository.sendEmail(emailDomain);
     	
