@@ -34,9 +34,9 @@ spring:
       hikari:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: 1234
+        jdbc-url: jdbc:log4jdbc:postgresql://pg1101.gabiadb.com:5432/loans
+        username: loanadmin
+        password: qwer1234!!
   read:
     datasource:
       hikari:
@@ -51,7 +51,7 @@ logging:
     path: C:\
     max-history: 1
   level:
-    org.springframework: debug
+    org.springframework: error
     #worg.hibernate.type: info
     jdbc.audit: off
     jdbc.connection: off
