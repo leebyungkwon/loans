@@ -3,6 +3,7 @@ package com.loanscrefia.member.admin.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,8 +59,10 @@ public class AdminService {
 			return new ResponseMsg(HttpStatus.OK, "fail", ret.get("message"));
 		}
 		
-    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    	adminDomain.setPassword(passwordEncoder.encode(adminDomain.getPassword()));
+		if(StringUtils.isNotEmpty(adminDomain.getPassword())) {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			adminDomain.setPassword(passwordEncoder.encode(adminDomain.getPassword()));
+		}
     	String memCheck = adminDomain.getTempMemberCheck();
     	adminDomain = AdminRepository.saveAdminUpdate(adminDomain);
     	if("Y".equals(memCheck)) {

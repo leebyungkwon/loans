@@ -65,6 +65,11 @@ function companyList(){
 	location.href="/admin/mng/companyPage"
 }
 
+// 회원사 담당자 관리 - 수정페이지 이동
+function companyInfoUpd(){
+	$("#companyInfoUpdFrm").submit();
+}
+
 
 // 비밀번호 초기화
 function cleanPassword(){
@@ -95,6 +100,9 @@ function cleanPassword(){
 		</div>
 	</div>
 	
+	<form name="companyInfoUpdFrm" id="companyInfoUpdFrm" action="/member/admin/adminDetailUpdPage" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
+	</form>
 	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/mng/updateCompanyStat" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
 		
@@ -155,7 +163,7 @@ function cleanPassword(){
 					</tr>
 					<tr style="display: none;" id="msgTr">
 						<th>가승인 사유</th>
-						<td colspan="3"><input maxLength="200" type="text" name="msg" id="msg" class="w100"/></td>
+						<td colspan="3"><textarea maxLength="200" rows="4" type="text" name="msg" id="msg" class="w100"></textarea></td>
 					</tr>
 				</table>
 			</div>
@@ -175,6 +183,7 @@ function cleanPassword(){
      			 </c:if>
      			 
      			 
+     			 <a href="javascript:void(0);" class="btn_black" style="position:absolute; left:180px;" onclick="companyInfoUpd();">수정</a>
      			 <a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="cleanPassword();">비밀번호초기화</a>
 			</div>
 		</div>

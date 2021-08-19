@@ -233,6 +233,7 @@ create table tb_lc_mas01(
 	, com_reg_date varchar(8)
 	
 	, first_app_date varchar(8)
+	, app_date_hold varchar(8)
 
 	, chk_yn char(1)
 	, admin_chk_yn char(1)
@@ -299,6 +300,7 @@ COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 
 COMMENT ON COLUMN tb_lc_mas01.first_app_date IS '최초심사요청일';
+COMMENT ON COLUMN tb_lc_mas01.app_date_hold IS '승인일홀딩';
 
 COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.admin_chk_yn IS '관리자확인여부';
@@ -538,6 +540,7 @@ create table tb_lc_mas01_hist(
 	, com_reg_date varchar(8)
 	
 	, first_app_date varchar(8)
+	, app_date_hold varchar(8)
 	
 	, chk_yn char(1)
 	, admin_chk_yn char(1)
@@ -605,7 +608,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 
 COMMENT ON COLUMN tb_lc_mas01_hist.first_app_date IS '최초심사요청일';
-
+COMMENT ON COLUMN tb_lc_mas01_hist.app_date_hold IS '승인일홀딩';
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_yn IS '관리자확인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.admin_chk_seq IS '관리자확인회원번호';

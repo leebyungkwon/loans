@@ -18,7 +18,6 @@ public class AdminDomain extends BaseDomain{
 	private String 	comCodeNm;					// 회원사 코드명
 	private String 	memberId;					// ID
 	
-	@NotBlank(message = "비밀번호를 입력하세요.")
 	private String 	password;					// 패스워드
 	
 	@NotBlank(message = "부서명을 입력해주세요.")

@@ -47,17 +47,13 @@ spring:
     password: 1234
 
 logging:
-  file:
-    path: C:\
-    max-history: 1
   level:
-    org.springframework: error
+    org.springframework: debug
     #worg.hibernate.type: info
-    jdbc.audit: off
-    jdbc.connection: off
-    jdbc.resultset: off
-    jdbc.sqlonly: error
-
+    jdbc.audit: debug
+    jdbc.connection: debug
+    jdbc.resultset: debug
+    jdbc.sqlonly: debug
 
 upload:
   filePath: C:\Users\a\git\loans\src\main\resources\static\upload
@@ -98,12 +94,12 @@ spring:
         
 logging:
   level:
-    org.springframework: debug
+    org.springframework: error 
+    #worg.hibernate.type: info
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off
     jdbc.sqlonly: error
-   
    
    
 upload:
@@ -120,7 +116,7 @@ spring:
   profiles: prod
   devtools:
     restart:
-      enabled: true
+      enabled: false
   mst:
     datasource:
       hikari:
@@ -139,16 +135,14 @@ spring:
         username: cemms
         password: cemms1234
 
-        
 logging:
   level:
-    org.springframework: debug
+    org.springframework: error 
+    #worg.hibernate.type: info
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off
     jdbc.sqlonly: error
-   
-   
    
 upload:
   filePath: Z:\loanscrefia\static\upload

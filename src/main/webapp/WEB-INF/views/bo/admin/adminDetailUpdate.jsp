@@ -14,44 +14,47 @@
 				var pwChk    		= $("#passwordChk").val();			// 비밀번호 확인
 				var fileName		= $("#fileName").val();
 				var checkCount 	= 0;
-
-				if(/[0-9]/.test(pw)){ //숫자
-				    checkCount++;
-				}
-				if(/[a-z]/.test(pw)){ //소문자
-				    checkCount++;
-				}
-				if(/[A-Z]/.test(pw)){ //대문자
-				    checkCount++;
-				}
-				if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(pw)){ //특수문자
-				    checkCount++;
-				}
-				if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(pw)){ 
-				    alert("비밀번호에 한글을 사용 할 수 없습니다.");
-				    return false;
-				}
-				if(checkCount <= 1){ 
-				    alert('비밀번호는 영문 대/소문자, 숫자, 특수문자 중 2개이상의 조합이여야만 합니다.');
-				    return false;
-				}
-				if (pw.length < 8 || pw.length > 20){ 
-					alert("8자리 ~ 20자리 이내로 입력해주세요.");
-					return false;
-				}
-				if (/(\w)\1\1/.test(pw)){ 
-					alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
-					return false;
-				}
-				if (pw.search(id) > -1){
-					alert("비밀번호에 아이디가 포함되었습니다.");
-					alert(id)
-					return false;
-				}
-				if (pw.search(/\s/) != -1){ 
-					alert("비밀번호는 공백 없이 입력해주세요.");
-					return false;
-				}
+				
+				<sec:authorize access="hasAnyRole('TEMP_MEMBER', 'MEMBER')">
+					if(/[0-9]/.test(pw)){ //숫자
+					    checkCount++;
+					}
+					if(/[a-z]/.test(pw)){ //소문자
+					    checkCount++;
+					}
+					if(/[A-Z]/.test(pw)){ //대문자
+					    checkCount++;
+					}
+					if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(pw)){ //특수문자
+					    checkCount++;
+					}
+					if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(pw)){ 
+					    alert("비밀번호에 한글을 사용 할 수 없습니다.");
+					    return false;
+					}
+					if(checkCount <= 1){ 
+					    alert('비밀번호는 영문 대/소문자, 숫자, 특수문자 중 2개이상의 조합이여야만 합니다.');
+					    return false;
+					}
+					if (pw.length < 8 || pw.length > 20){ 
+						alert("8자리 ~ 20자리 이내로 입력해주세요.");
+						return false;
+					}
+					if (/(\w)\1\1/.test(pw)){ 
+						alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
+						return false;
+					}
+					if (pw.search(id) > -1){
+						alert("비밀번호에 아이디가 포함되었습니다.");
+						alert(id)
+						return false;
+					}
+					if (pw.search(/\s/) != -1){ 
+						alert("비밀번호는 공백 없이 입력해주세요.");
+						return false;
+					}
+				</sec:authorize>
+				
 				if(WebUtil.isNull(fileName)){
 					alert("파일을 첨부해 주세요.");
 					$("#fileName").focus();
@@ -67,7 +70,12 @@
 							if(WebUtil.isNull(result.message)){
 								alert(result.data[0].defaultMessage);
 							}else{
-								location.href="/member/admin/adminPage"
+								<sec:authorize access="hasAnyRole('TEMP_MEMBER', 'MEMBER')">
+									location.href="/member/admin/adminPage"
+								</sec:authorize>
+								<sec:authorize access="hasAnyRole('ADMIN')">
+									location.href="/admin/mng/companyPage"
+								</sec:authorize>
 							}
 						}
 					}
@@ -273,10 +281,12 @@
 							<input type="text" id="memberId" name="memberId" value="${adminInfo.memberId}" readonly="readonly" class="w40" />
 						</td>
 					</tr>
+					
+					<sec:authorize access="hasAnyRole('TEMP_MEMBER', 'MEMBER')">
 					<tr>
 						<th>비밀번호</th>
 						<td>
-							<input type="password" id="password" name="password" onkeyup="checkCapsLock(event);" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}' />
+							<input type="password" id="password" name="password" onkeyup="checkCapsLock(event);" placeholder="8자리~20자리 (2종류 이상의 문자구성)" class="w40" maxlength="20"  />
 							<p class="noti" style="margin-top: 5px;">
 								※ 알파벳 대문자, 알파벳 소문자, 특수문자, 숫자 중 2종류 이상을 선택하여 문자를 구성해야 합니다.<br>
 								※ 아이디, 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용이 불가능 합니다.
@@ -287,9 +297,10 @@
 					<tr>
 						<th>비밀번호 확인</th>
 						<td>
-							<input type="password" id="passwordChk" name="passwordChk" onkeyup="checkCapsLock(event);" placeholder="동일한 비밀번호를 입력해 주세요." class="w40" maxlength="20" data-vd='{"type":"text","len":"8,20","req":true,"msg":"비밀번호를 다시 입력해 주세요"}' />
+							<input type="password" id="passwordChk" name="passwordChk" onkeyup="checkCapsLock(event);" placeholder="동일한 비밀번호를 입력해 주세요." class="w40" maxlength="20"  />
 						</td>
 					</tr>
+					</sec:authorize>
 					<tr>
 						<th>부서명</th>
 						<td>
