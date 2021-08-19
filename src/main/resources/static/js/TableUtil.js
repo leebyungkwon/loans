@@ -59,6 +59,7 @@ let GRID = {
 		this.excelFileNm = (obj.excelFileNm == undefined) ? "엑셀다운로드" : obj.excelFileNm;
 		
 		
+		if(h_gridPage > 0)	this.page = h_gridPage;
 		this.params = {
 			'page': this.page
 			, 'isPaging': this.isPaging
@@ -552,6 +553,9 @@ let GRID = {
 							subEl.parentElement.style.background = _this.rowClick.color;
 							subEl.parentElement.className = _this.id + "_selected";
 							subEl.parentElement.dataset.row = idx;
+							sessionStorage.setItem('P_'+window.location.pathname, JSON.stringify(WebUtil.getTagInParam($(".k_search"))));
+							sessionStorage.setItem('H_'+window.location.pathname, $(".k_search").html());
+							sessionStorage.setItem('PAGE_'+window.location.pathname, _this.params.page);
 							if (_this.rowClick.retFunc != undefined) _this.rowClick.retFunc(idx, _this.gridData[idx]);
 						}
 					});

@@ -13,8 +13,24 @@
 		<tiles:insertAttribute name="css" />
 		<tiles:insertAttribute name="js" />
 		<script>
+		var h_gridPage = 0;
 		window.onload = function() {
-			pageLoad();
+			if(null != sessionStorage.getItem('H_'+window.location.pathname)){
+				window.onpageshow = function(event) {
+				    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+				    	$(".k_search").html(sessionStorage.getItem('H_'+window.location.pathname));
+				    	var b = JSON.parse(sessionStorage.getItem('P_'+window.location.pathname));
+				    	h_gridPage = sessionStorage.getItem('PAGE_'+window.location.pathname)
+				    	WebUtil.setHistoryParam(b);
+				    	sessionStorage.removeItem('H_'+window.location.pathname);
+				    	sessionStorage.removeItem('P_'+window.location.pathname);
+				    	sessionStorage.removeItem('PAGE_'+window.location.pathname);
+				    	pageLoad();
+				    }
+				}
+			}else{
+				pageLoad();
+			}
 			menuActiveFunction();
 		}
 		</script>

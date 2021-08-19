@@ -127,7 +127,27 @@ var WebUtil = {
         }
         return result;
     },
-
+	setHistoryParam: function(param){
+		var t = this;
+		var key = Object.keys(param);
+		
+		$(".k_search").find('input[name] , select[name]').filter(function(index, selector){
+			var selectorTag = $(selector).prop('tagName');
+			var selectorName = $(selector).prop('name');
+			if(t.isNotNull(selectorName)){
+				var selectorType = $(selector).prop('type');
+				for(k in key){
+					
+					if(selectorName == key[k] && selectorType == 'radio') $(".k_search").find("input:radio[name='"+selectorName+"']:radio[value='"+param[key[k]]+"']").prop('checked', true);
+			 		else if(selectorName == key[k] && selectorType == 'checkbox') $(".k_search").find("input[name='"+selectorName+"'][value="+param[key[k]]+"]").prop("checked",true);
+			 		else if(selectorName == key[k] && selectorTag == 'SELECT') 	$(".k_search").find('select[name="'+selectorName+'"]').val(param[key[k]]);
+					else if(selectorName == key[k]){
+						$(".k_search").find('input[name='+selectorName+']').val(param[key[k]]);
+					}
+				}
+			}
+		});
+	},
     getTagInParam: function(tag) {
 		var t = this;
         var result = {};
