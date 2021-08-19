@@ -223,7 +223,7 @@ public class UtilExcel<T> {
 		                				eduChkParam.setUserSex(gender);
 		                			}else if(chkDb.get(j).equals("edu4")) {
 		                				//교육이수번호,인증서번호 유효 체크
-		                				String prdCd = "";
+		                				String prdCd = "prdCd";
 		                				if(StringUtils.isNotEmpty(cellVal)) {
 			                				if(cellVal.equals("1") || cellVal.equals("3")) {
 			                					prdCd = "LP0" + eduChkParam.getCareerTyp();
@@ -256,7 +256,7 @@ public class UtilExcel<T> {
 			                				int chkResult = eduService.plEduNoChk(eduChkParam);
 				                			
 			                				if(chkResult == 0) {
-			                					errorMsg += row.getRowNum() + 1 + "번째 줄의 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
+			                					errorMsg += row.getRowNum() + 1 + "번째 줄의 신규/경력, 금융상품유형, 교육이수번호/인증서번호가 유효하지 않습니다.<br>";
 			                				}
 		                				}
 		                			}
@@ -270,7 +270,7 @@ public class UtilExcel<T> {
 		                			}else if(chkFormat.get(j).equals("cal")) {
 		                				//날짜 형식 체크
 		                				if(StringUtils.isNotEmpty(cellVal) && !dateFormatChk(cellVal,"yyyy-MM-dd")) {
-			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜는 yyyy-mm-dd 형식으로 입력해주시기 바랍니다.<br>";
+			                				errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + "의 날짜는 yyyy-mm-dd 형식으로 입력해 주세요.<br>";
 			                			}
 		                			}else if(chkFormat.get(j).equals("ci")) {
 		                				//CI 형식 체크
