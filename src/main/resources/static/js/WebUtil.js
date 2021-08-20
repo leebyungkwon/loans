@@ -137,9 +137,10 @@ var WebUtil = {
 			if(t.isNotNull(selectorName)){
 				var selectorType = $(selector).prop('type');
 				for(k in key){
+					$(".k_search").find("input:checkbox[name='"+selectorName+"']").prop("checked",false);
 					
 					if(selectorName == key[k] && selectorType == 'radio') $(".k_search").find("input:radio[name='"+selectorName+"']:radio[value='"+param[key[k]]+"']").prop('checked', true);
-			 		else if(selectorName == key[k] && selectorType == 'checkbox') $(".k_search").find("input[name='"+selectorName+"'][value="+param[key[k]]+"]").prop("checked",true);
+			 		else if(selectorName == key[k] && selectorType == 'checkbox') $(".k_search").find("input:checkbox[name='"+selectorName+"'][value="+param[key[k]]+"]").prop("checked",true);
 			 		else if(selectorName == key[k] && selectorTag == 'SELECT') 	$(".k_search").find('select[name="'+selectorName+'"]').val(param[key[k]]);
 					else if(selectorName == key[k]){
 						$(".k_search").find('input[name='+selectorName+']').val(param[key[k]]);

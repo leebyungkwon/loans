@@ -3,7 +3,6 @@ var DataUtil = {
         var result = "";
         
         if (WebUtil.isObject(obj)) {
-			console.log(obj.target, $(obj.target+" option").length );
 			if($(obj.target+" option").length > 0) return false;
 			
         	obj.success = (typeof (obj.success) === "function") ? obj.success : this.successSelectBox;
