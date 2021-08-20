@@ -52,6 +52,10 @@ function menuActiveFunction(){
 			<li id="menuAdmin"><a href="/member/admin/adminPage">관리자 조회 및 변경</a></li>
 		</sec:authorize>
 		
+		<sec:authorize access="hasAnyRole('ADMIN')">
+			<li id="menuUser"><a href="/member/user/userRegPage">모집인 등록</a></li>
+		</sec:authorize>
+		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
 			<li id="menuRecruit"><a href="/admin/recruit/recruitPage">모집인 조회 및 변경</a></li>
 			<li id="menuApply"><a href="/admin/apply/applyPage">모집인 승인처리</a></li>

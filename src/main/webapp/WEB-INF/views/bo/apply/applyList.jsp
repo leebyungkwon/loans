@@ -135,12 +135,12 @@ function pageLoad(){
 	
 	// 승인 남은일 순
 	$("#sortComRegDate").on("click", function(){
-		if($("#sortName").val() == "master_seq"){
+		if($("#sortName").val() == "first_app_date"){
 			$("#sortName").val("CRE_APP_FI_DATE");	
 		}else{
-			$("#sortName").val("master_seq");
+			$("#sortName").val("first_app_date");
 		}
-		applyGrid.refresh();	
+		applyGrid.refresh();
 	});
 	
 	// 승인요청건만 조회
@@ -329,7 +329,7 @@ function goGetDate2(opt) {
 						</div>
 					</td>
 				</tr>
-				<input type="hidden" id="sortName" name="sortName" value="master_seq">
+				<input type="hidden" id="sortName" name="sortName" value="first_app_date">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>

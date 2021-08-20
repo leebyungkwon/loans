@@ -1022,3 +1022,43 @@ CREATE SEQUENCE tb_lc_mas01_id_seq
 
 commit;
 
+
+-- 팝업관리 seq
+CREATE SEQUENCE tb_lc_popup_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+CREATE TABLE tb_lc_popup(
+	pop_seq integer not null default nextval('tb_lc_popup_seq')
+	, pop_title varchar(200)
+	, pop_info text not null
+	, start_date timestamp
+	, end_date timestamp
+	, dis_yn char(1) not null default 'N'
+	, use_yn char(1) not null default 'N'
+	, reg_timestamp timestamp
+	, reg_seq integer
+	, upd_timestamp timestamp
+	, upd_seq integer
+	, primary key (pop_seq)
+);
+
+
+COMMENT ON TABLE tb_lc_popup IS '팝업관리';
+COMMENT ON COLUMN tb_lc_popup.pop_seq IS '팝업시퀀스';
+COMMENT ON COLUMN tb_lc_popup.pop_title IS '제목';
+COMMENT ON COLUMN tb_lc_popup.pop_info IS '내용';
+COMMENT ON COLUMN tb_lc_popup.start_date IS '시작일';
+COMMENT ON COLUMN tb_lc_popup.end_date IS '종료일';
+COMMENT ON COLUMN tb_lc_popup.dis_yn IS '팝업닫기여부';
+COMMENT ON COLUMN tb_lc_popup.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_popup.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_popup.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_popup.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_popup.upd_seq IS '수정자시퀀스';
