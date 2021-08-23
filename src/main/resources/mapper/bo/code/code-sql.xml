@@ -121,7 +121,7 @@
 				AND PROPERTY05 = #{property05}
 			</if>
 		</where>
-		ORDER BY CODE_DTL_CD ASC
+		ORDER BY CODE_DTL_CD::INTEGER ASC
 	</select>
 	
 	<!-- 코드상세 아이디 중복체크 -->
