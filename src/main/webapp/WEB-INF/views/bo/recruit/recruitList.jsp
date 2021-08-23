@@ -90,7 +90,6 @@ function pageLoad(){
 		 dateFormat	: "yy-mm-dd"
 	 	,changeMonth: true
 		,changeYear	: true
-		,yearRange	: "c-10:c+10"
 		,onSelect	:function(dateText1,inst) {
 			$("#srchDate1").val(dateText1);
 			$(this).hide();
@@ -100,7 +99,6 @@ function pageLoad(){
 		 dateFormat	: "yy-mm-dd"
 	 	,changeMonth: true
 		,changeYear	: true
-		,yearRange	: "c-10:c+10"
 		,onSelect	:function(dateText1,inst) {
 			$("#srchDate2").val(dateText1);
 			$(this).hide();
