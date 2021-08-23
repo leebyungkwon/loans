@@ -82,7 +82,7 @@ function goUserAcceptApply(){
 		}
 	}
 	if("${result.userRegInfo.expertCnt}" == 0){
-		if(confirm("최소 1명 이상의 전문인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
+		if(confirm("최소 1명 이상의 업무수행인력을 등록해야 합니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab("3");
 			return;
 		}else{
@@ -106,7 +106,7 @@ function goUserAcceptApply(){
 		}
 	}
 	if("${result.userRegInfo.expertFileCompYn}" == "N"){
-		if(confirm("전문인력의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
+		if(confirm("업무수행인력의 필수 첨부서류가 누락되었습니다.\n해당 탭으로 이동하시겠습니까?")){
 			goTab("3");
 			return;
 		}else{

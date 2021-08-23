@@ -27,7 +27,7 @@ function pageLoad(){
 		$(".data_wrap").addClass("mgt30");
 	}
 	
-	//전문인력 엑셀 업로드
+	//업무수행인력 엑셀 업로드
 	$("#userRegExpertFile").on("change", function () {
 		var fileVal 	= $(this).val().split("\\");
 		var fileName 	= fileVal[fileVal.length - 1];
@@ -49,7 +49,7 @@ function pageLoad(){
 					var html = '';
 					
 					html += '<div class="title_wrap">';
-					html += '<h5>전문인력 등록</h5>';
+					html += '<h5>업무수행인력 등록</h5>';
 					html += '<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopupByReload();"></a>';
 					html += '</div>';
 					html += '<p class="popup_desc" style="line-height: 30px;">'+result.data+'</p>';
