@@ -82,8 +82,6 @@ function goCorpInfoSavePopup(idx, data) {
 //법인 저장
 function goCorpInfoSave() {
 	if(confirm("저장하시겠습니까?")){
-		var params = $('#corpInfoSaveFrm').serialize();
-		var url = $('#corpInfoSaveFrm').attr("action");
 		var mName = $("#plMerchantName").val(); 
 		var mNo = $("#plMerchantNo").val();
 		if(WebUtil.isNull(mName)){
@@ -95,8 +93,7 @@ function goCorpInfoSave() {
 			return false;
 		}
 		var p = {
-			url		: url
-			,param 		: params
+			 name : "corpInfoSaveFrm"
 			,success	: function(opt,result){
 				if(WebUtil.isNull(result.message)){
 					alert(result.data[0].defaultMessage);
@@ -109,7 +106,7 @@ function goCorpInfoSave() {
 				}
 			}
 		}
-		AjaxUtil.post(p);
+		AjaxUtil.form(p);
 	}
 }
 </script>
