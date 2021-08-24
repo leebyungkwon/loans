@@ -524,7 +524,7 @@ function goUserChangeApply(){
 						<th class="acenter">행정정보공동이용사전동의서 *</th>
 						<td>
 							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType14.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+							<input type="file" name="files" class="inputFile pdfOnly" data-essential="Y" style="display: none;"/>
 							<input type="hidden" name="fileTypeList" value="14"/>
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType14 ne null }">

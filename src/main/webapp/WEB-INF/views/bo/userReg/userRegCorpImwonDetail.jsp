@@ -368,7 +368,7 @@ function goDataAreaAdd() {
 											<th class="acenter">행정정보공동이용사전동의서 *</th>
 											<td>
 												<input type="text" class="w50 file_input" value="${corpImwonList.fileType33.fileFullNm }" data-fileSeq="${corpImwonList.fileType33.fileSeq }" readonly disabled>
-												<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
+												<input type="file" name="files" class="inputFile pdfOnly" data-essential="Y" style="display: none;"/>
 												<input type="hidden" name="fileTypeList" value="33"/>
 												<c:choose>
 													<c:when test="${corpImwonList.fileType33 ne null }">

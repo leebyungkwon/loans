@@ -37,9 +37,26 @@ $(document).on("change",".inputFile",function(){
 		//첨부파일 크기 및 확장자 체크
 		var size 	= $(this)[0].files[0].size;
 		var ext 	= fileName.split(".").pop().toLowerCase();
-		if(!Valid.fileCheck(size,ext,"N")){
-			$(this).val("");
-			$(this).prev().val("");
+		
+		if($(this).hasClass("pdfOnly")){
+			var maxSize = 20 * 1024 * 1024; //20MB
+			if(size > maxSize){
+				alert("20MB 이하의 파일만 업로드 가능합니다.");
+				$(this).val("");
+				$(this).prev().val("");
+				return false;	
+			}
+			if($.inArray(ext, ["pdf", "PDF"]) == -1) {
+				alert("행정정보공동이용사전동의서는 PDF 파일로만 첨부가 가능합니다.");
+				$(this).val("");
+				$(this).prev().val("");
+				return false;
+			}
+		}else{
+			if(!Valid.fileCheck(size,ext,"N")){
+				$(this).val("");
+				$(this).prev().val("");
+			}
 		}
 	}else{
 		$(this).prev().val("");
