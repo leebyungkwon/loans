@@ -54,7 +54,7 @@ public class UtilExcel<T> {
 	
 	//암호화 적용여부
 	@Value("${crypto.apply}")
-	public static boolean cryptoApply;
+	public boolean cryptoApply;
 	
 	private String param1; //금융상품유형
 	private String param2; //분류(개인,법인)
