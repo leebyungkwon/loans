@@ -121,7 +121,7 @@ public class UtilExcel<T> {
 		String errorMsg						= "";
 		
 		try {
-			Workbook wb 						= ExcelFileType.getWorkbook(uPath, filePath, fileSaveNm, fileExt);
+			Workbook wb 						= ExcelFileType.getWorkbook(cryptoApply, uPath, filePath, fileSaveNm, fileExt);
 			Sheet sheet 						= wb.getSheetAt(0);
 			int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
 			int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();

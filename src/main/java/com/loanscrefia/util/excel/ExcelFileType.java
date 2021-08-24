@@ -7,21 +7,12 @@ import java.io.IOException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Value;
 
 import sinsiway.CryptoUtil;
 
 public class ExcelFileType {
 	
-	//암호화 적용여부
-	public static boolean cryptoApply;
-	
-	@Value("${crypto.apply}")
-	public void setCryptoApply(boolean apply) {
-		cryptoApply = apply;
-	}
-	
-	public static Workbook getWorkbook(String uPath, String filePath, String fileSaveNm, String fileExt) {
+	public static Workbook getWorkbook(boolean cryptoApply, String uPath, String filePath, String fileSaveNm, String fileExt) {
         
 		FileInputStream fis = null;
         
