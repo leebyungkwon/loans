@@ -1,12 +1,8 @@
 package com.loanscrefia.common.common.controller;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.domain.VersionDomain;
 import com.loanscrefia.common.common.service.CommonService;
-import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
-import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 
@@ -48,11 +38,13 @@ public class CommonController {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired ResourceLoader resourceLoader;
+	
 	@Value("${download.filePath}")
 	public String filePath;
 	
-	@Autowired
-	private KfbApiService kfbApiService;
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
 	
 	@GetMapping(value="/isConnecting")
 	public ResponseEntity<ResponseMsg> isConnecting(HttpServletRequest request){
@@ -105,19 +97,21 @@ public class CommonController {
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileSeq(fileSeq);
 		fileDomain.setUseYn("down");
+		FileDomain f 	= commonService.getFile(fileDomain);
 		
-		FileDomain f = commonService.getFile(fileDomain);
+		File file 		= null;
 		
-		// 암호화 해제
+		if(cryptoApply) {
+			// 암호화 해제
+			String oFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "." + f.getFileExt();
+			String chFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "_dnc." + f.getFileExt();
+			CryptoUtil.decryptFile(oFile, chFile);
+			file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "_dnc." + f.getFileExt());
+			// 해제 끝
+		}else {
+			file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
+		}
 		
-		String oFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "." + f.getFileExt();
-		String chFile = filePath+ "/" +f.getFilePath()+"/"+f.getFileSaveNm() + "_dnc." + f.getFileExt();
-		CryptoUtil.decryptFile(oFile, chFile);
-		File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "_dnc." + f.getFileExt());
-		
-		// 해제 끝
-		
-		//File file = new File(filePath+ "/" +f.getFilePath(), f.getFileSaveNm() + "." + f.getFileExt());
 		if(file != null) {
 			String name = f.getFileOrgNm() + "." + f.getFileExt();
 	        String header = request.getHeader("User-Agent");
@@ -165,40 +159,5 @@ public class CommonController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
-	
-	@GetMapping("/common/api/apiPage")
-	public ModelAndView apiPage() {
-		ModelAndView mv = new ModelAndView(CosntPage.BoMainPage + "api/apiList");
-		return mv;
-	}
-	
-	@PostMapping(value="/common/selectApiList")
-	public ResponseEntity<ResponseMsg> selectApiList(CodeDtlDomain codeDtlDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-    	//responseMsg.setData(codeService.selectCodeDtlList(codeDtlDomain));
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
-	@PostMapping(value="/common/getApiCode")
-	public ResponseEntity<ResponseMsg> getApiCode(KfbApiDomain kfbApiDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg.setData(kfbApiService.getAuthCode());
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
-	@PostMapping(value="/common/getAuthToken")
-	public ResponseEntity<ResponseMsg> getAuthToken(KfbApiDomain kfbApiDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg.setData(kfbApiService.getAuthToken());
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
-	
-	@PostMapping(value="/common/getHealthCheck")
-	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null );
-		responseMsg.setData(kfbApiService.getHealthCheck(KfbApiService.ApiDomain));
-		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
-	}
 	
 }

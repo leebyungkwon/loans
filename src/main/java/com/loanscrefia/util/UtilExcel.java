@@ -23,6 +23,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +51,10 @@ public class UtilExcel<T> {
 	@Autowired private CorpRepository corpRepo;
 	@Autowired private EduService eduService;
 	@Autowired private UserRepository userRepo;
+	
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public static boolean cryptoApply;
 	
 	private String param1; //금융상품유형
 	private String param2; //분류(개인,법인)
@@ -288,8 +293,11 @@ public class UtilExcel<T> {
 		                			//암호화(주민번호,법인번호)
 		                			if(vEncrypt.get(j).equals("Y")) {
 		                				if(StringUtils.isNotEmpty(cellVal)) {
-		                					//cellVal = cellVal.replaceAll("-", ""); //로컬 테스트용
-		                					cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
+		                					if(cryptoApply) {
+		                						cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
+		                					}else {
+		                						cellVal = cellVal.replaceAll("-", "");
+		                					}
 		                				}
 		                			}
 		                		}
@@ -439,7 +447,11 @@ public class UtilExcel<T> {
 	@Transactional(readOnly=true)
 	private int selectCorpInfoChk(CorpDomain corpDomain) {
 		if(StringUtils.isNotEmpty(corpDomain.getPlMerchantNo())) {
-			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+			if(cryptoApply) {
+				corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				corpDomain.setPlMerchantNo(corpDomain.getPlMerchantNo().replaceAll("-", ""));
+			}
 		}
 		int result = corpRepo.selectCorpInfoCnt(corpDomain);
 		return result;
@@ -456,8 +468,8 @@ public class UtilExcel<T> {
 		try {
 			SimpleDateFormat dateFormatParser = new SimpleDateFormat(format, Locale.KOREA);
 			dateFormatParser.setLenient(false);
-			dateFormatParser.parse(date);
-			return true;
+			String result = dateFormatParser.format(dateFormatParser.parse(date));
+			return date.equals(result);
 		}catch(ParseException e) {
 			return false;
 		}

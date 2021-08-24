@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,7 @@ import com.loanscrefia.admin.company.domain.CompanyDomain;
 import com.loanscrefia.admin.company.repository.CompanyRepository;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
-import com.loanscrefia.common.common.repository.CommonRepository;
 import com.loanscrefia.config.message.ResponseMsg;
-
-import sinsiway.CryptoUtil;
 
 @Service
 public class CompanyService {
@@ -26,6 +24,10 @@ public class CompanyService {
 	
 	@Autowired
 	private EmailRepository emailRepository;
+	
+	//이메일 적용여부
+	@Value("${email.apply}")
+	public boolean emailApply;
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 회원사 담당자 관리
@@ -68,9 +70,12 @@ public class CompanyService {
 		}
 		
 		int result = companyRepository.updateCompanyStat(companyDomain);
-		emailResult = emailRepository.sendEmail(emailDomain);
-		// 임시 통과
-		//emailResult = 1;
+		
+		if(emailApply) {
+			emailResult = emailRepository.sendEmail(emailDomain);
+		}else {
+			emailResult = 1;
+		}
 		
 		if(emailResult > 0 && result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
@@ -113,10 +118,15 @@ public class CompanyService {
 		emailDomain.setEmail(companyResult.getEmail());
 		emailDomain.setInstId("149");
 		emailDomain.setSubsValue(companyResult.getMemberId()+"|"+passWord);
-		emailResult = emailRepository.sendEmail(emailDomain);
     	
     	companyDomain.setPassword(passwordEncoder.encode(passWord));
 		int result = companyRepository.cleanPassword(companyDomain);
+		
+		if(emailApply) {
+			emailResult = emailRepository.sendEmail(emailDomain);
+		}else {
+			emailResult = 1;
+		}
 		
 		if(emailResult > 0 && result > 0) {
 			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");

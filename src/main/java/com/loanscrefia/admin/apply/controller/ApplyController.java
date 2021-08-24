@@ -62,6 +62,10 @@ public class ApplyController {
 	
 	@Value("${upload.filePath}")
 	public String filePath;
+	
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 모집인 조회 및 변경
@@ -204,7 +208,11 @@ public class ApplyController {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(applyInfo.getPlMZId()));
+			}else {
+				zid.append(applyInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			applyInfo.setPlMZId(zid.toString());
 		}
@@ -223,15 +231,17 @@ public class ApplyController {
         			if("2".equals(file.getFileType()) || "3".equals(file.getFileType()) || "4".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
-        				
         				// 암호화 해제
-        				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
-        				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
-        				CryptoUtil.decryptFile(oFile, chFile);
-        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				File imageFile = null;
         				
-        				
-        				//File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				if(cryptoApply) {
+        					String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
+            				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
+            				CryptoUtil.decryptFile(oFile, chFile);
+            				imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				}else {
+        					imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				}
         				
             			// 흑색변환 처리시 필요한 랜덤파일명
             			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
@@ -374,7 +384,11 @@ public class ApplyController {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(applyInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(applyInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(applyInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			applyInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -393,15 +407,17 @@ public class ApplyController {
         			if("2".equals(file.getFileType())) {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
-        				
         				// 암호화 해제
-        				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
-        				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
-        				CryptoUtil.decryptFile(oFile, chFile);
-        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				File imageFile = null;
         				
-        				
-        				//File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				if(cryptoApply) {
+        					String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
+            				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
+            				CryptoUtil.decryptFile(oFile, chFile);
+            				imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				}else {
+        					imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				}
         				
             			// 흑색변환 처리시 필요한 랜덤파일명
             			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");
@@ -516,12 +532,16 @@ public class ApplyController {
         				String realfilePath = this.filePath.toString() + "/userReg";
         				
         				// 암호화 해제
-        				String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
-        				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
-        				CryptoUtil.decryptFile(oFile, chFile);
-        				File imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				File imageFile = null;
         				
-        				//File imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				if(cryptoApply) {
+        					String oFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "." + file.getFileExt();
+            				String chFile = this.filePath.toString()+ "/" +file.getFilePath()+"/"+file.getFileSaveNm() + "_dnc." + file.getFileExt();
+            				CryptoUtil.decryptFile(oFile, chFile);
+            				imageFile = new File(realfilePath, file.getFileSaveNm() + "_dnc." + file.getFileExt());
+        				}else {
+        					imageFile = new File(realfilePath, file.getFileSaveNm() + "." + file.getFileExt());
+        				}
         				
             			// 흑색변환 처리시 필요한 랜덤파일명
             			String randomFileNm = UUID.randomUUID().toString().replaceAll("-", "");

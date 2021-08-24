@@ -46,14 +46,16 @@ public class UtilFile {
 	public UtilFile() {
 	}
 
-	@Autowired
-	private CommonRepository commonRepository;
-	@Autowired
-	ResourceLoader resourceLoader;
+	@Autowired private CommonRepository commonRepository;
+	@Autowired ResourceLoader resourceLoader;
 
 	@Value("${upload.filePath}")
 	public String filePath;
 
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
+	
 	private final String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
 
 	private FileDomain fileDomain;
@@ -236,7 +238,9 @@ public class UtilFile {
 					// if(this.zip) target.delete();
 					
 					// 떨군파일 암호화
-					CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
+					if(cryptoApply) {
+						CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -396,7 +400,9 @@ public class UtilFile {
 					// if(this.zip) target.delete();
 					
 					// 떨군파일 암호화
-					CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
+					if(cryptoApply) {
+						CryptoUtil.encryptFile(uploadPath+"/"+saveName + "." + lowerExtension);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

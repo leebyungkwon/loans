@@ -58,13 +58,19 @@ public class UserService {
 	@Autowired private EduService eduService;
 	@Autowired private UtilFile utilFile;
 	@Autowired private UtilExcel<T> utilExcel;
-	
-	//은행연합회
-	@Autowired private KfbApiService kfbApiService;
+	@Autowired private KfbApiService kfbApiService; //은행연합회
 	
 	//첨부파일 경로
 	@Value("${upload.filePath}")
 	public String uPath;
+	
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
+	
+	//은행연합회 API 적용여부
+	@Value("${kfbApi.apply}")
+	public boolean kfbApiApply;
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신 X(임시) -> 추후 조건문 주석
@@ -111,25 +117,43 @@ public class UserService {
 		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
+			}else {
+				userDomain.setPlMZId(userDomain.getPlMZId().replaceAll("-", ""));
+			}
 		}
 		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replaceAll("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				userDomain.setPlMerchantNo(userDomain.getPlMerchantNo().replaceAll("-", ""));
+			}
 		}
 		
 		//리스트
 		List<UserDomain> userConfirmList = userRepo.selectUserConfirmList(userDomain);
 		
 		if(userConfirmList.size() > 0) {
+			String plMZId 		= "";
+			String plMerchantNo = "";
 			for(int i = 0;i < userConfirmList.size();i++) {
 				if(StringUtils.isNotEmpty(userConfirmList.get(i).getPlMZId())) {
-					String plMZId 			= CryptoUtil.decrypt(userConfirmList.get(i).getPlMZId());
-					plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+					if(cryptoApply) {
+						plMZId 	= CryptoUtil.decrypt(userConfirmList.get(i).getPlMZId());
+					}else {
+						plMZId 	= userConfirmList.get(i).getPlMZId();
+					}
+					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 					userConfirmList.get(i).setPlMZId(plMZId);
 				}
 				if(StringUtils.isNotEmpty(userConfirmList.get(i).getPlMerchantNo())) {
-					String plMerchantNo 	= CryptoUtil.decrypt(userConfirmList.get(i).getPlMerchantNo());
-					plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+					if(cryptoApply) {
+						plMerchantNo 	= CryptoUtil.decrypt(userConfirmList.get(i).getPlMerchantNo());
+					}else {
+						plMerchantNo 	= userConfirmList.get(i).getPlMerchantNo();
+					}
+					plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
 					userConfirmList.get(i).setPlMerchantNo(plMerchantNo);
 				}
 			}
@@ -158,25 +182,43 @@ public class UserService {
 		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replaceAll("-", "")));
+			}else {
+				userDomain.setPlMZId(userDomain.getPlMZId().replaceAll("-", ""));
+			}
 		}
 		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replaceAll("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				userDomain.setPlMerchantNo(userDomain.getPlMerchantNo().replaceAll("-", ""));
+			}
 		}
 		
 		//리스트
 		List<UserDomain> userRegList = userRepo.selectUserRegList(userDomain);
 		
 		if(userRegList.size() > 0) {
+			String plMZId 		= "";
+			String plMerchantNo = "";
 			for(int i = 0;i < userRegList.size();i++) {
 				if(StringUtils.isNotEmpty(userRegList.get(i).getPlMZId())) {
-					String plMZId 			= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
-					plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+					if(cryptoApply) {
+						plMZId 	= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
+					}else {
+						plMZId 	= userRegList.get(i).getPlMZId();
+					}
+					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 					userRegList.get(i).setPlMZId(plMZId);
 				}
 				if(StringUtils.isNotEmpty(userRegList.get(i).getPlMerchantNo())) {
-					String plMerchantNo 	= CryptoUtil.decrypt(userRegList.get(i).getPlMerchantNo());
-					plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+					if(cryptoApply) {
+						plMerchantNo 	= CryptoUtil.decrypt(userRegList.get(i).getPlMerchantNo());
+					}else {
+						plMerchantNo 	= userRegList.get(i).getPlMerchantNo();
+					}
+					plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
 					userRegList.get(i).setPlMerchantNo(plMerchantNo);
 				}
 			}
@@ -233,99 +275,114 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
-					//================================================[S : 은행연합회 통신]================================================
-					KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
-					String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
-					String apiMsg 				= "";
-					int insertResult 			= 0;
+					int insertResult = 0;
 					
-					for(int i = 0;i < excelResult.size();i++) {
-						if(kfbApiContinue(excelResult.get(i).get("G").toString())) { //******
-							//(1)등록가능 여부 조회
-							JSONObject checkLoanApiReqParam = new JSONObject();
+					if(kfbApiApply) {
+						//================================================[S : 은행연합회 통신]================================================
+						KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
+						String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
+						String apiMsg 				= "";
 						
-							checkLoanApiReqParam.put("name", excelResult.get(i).get("B").toString());
-							checkLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
-							checkLoanApiReqParam.put("ci", excelResult.get(i).get("O").toString());
-							checkLoanApiReqParam.put("loan_type", "0"+excelResult.get(i).get("G").toString());
+						for(int i = 0;i < excelResult.size();i++) {
+							if(kfbApiContinue(excelResult.get(i).get("G").toString())) { //******
+								//(1)등록가능 여부 조회
+								JSONObject checkLoanApiReqParam = new JSONObject();
 							
-							ResponseMsg checkLoanApiResult = kfbApiService.checkLoan(apiToken, checkLoanApiReqParam);
-							
-							if(checkLoanApiResult.getCode().equals("success")) {
-								//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
-								JSONObject checkLoanApiResponse = (JSONObject)checkLoanApiResult.getData();
-								log.info("#########################################");
-								log.info("insertUserRegIndvInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
-								log.info("#########################################");
+								checkLoanApiReqParam.put("name", excelResult.get(i).get("B").toString());
+								checkLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
+								checkLoanApiReqParam.put("ci", excelResult.get(i).get("O").toString());
+								checkLoanApiReqParam.put("loan_type", "0"+excelResult.get(i).get("G").toString());
 								
-								if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
-									//checkLoanApiResponse의 reg_yn = "N"일 때
-									apiMsg += "은행연합회 등록가능 여부 조회 결과 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님은 가등록이 불가능합니다.<br>";
+								ResponseMsg checkLoanApiResult = kfbApiService.checkLoan(apiToken, checkLoanApiReqParam);
+								
+								if(checkLoanApiResult.getCode().equals("success")) {
+									//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
+									JSONObject checkLoanApiResponse = (JSONObject)checkLoanApiResult.getData();
+									log.info("#########################################");
+									log.info("insertUserRegIndvInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
+									log.info("#########################################");
 									
+									if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
+										//checkLoanApiResponse의 reg_yn = "N"일 때
+										apiMsg += "은행연합회 등록가능 여부 조회 결과 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님은 가등록이 불가능합니다.<br>";
+										
+									}
+								}else {
+									apiMsg += "은행연합회 등록가능 여부 조회 실패 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님 :: " + checkLoanApiResult.getMessage() + "<br>";
 								}
-							}else {
-								apiMsg += "은행연합회 등록가능 여부 조회 실패 :: " + excelResult.get(i).get("B").toString() + "("+excelResult.get(i).get("D").toString()+")" + "님 :: " + checkLoanApiResult.getMessage() + "<br>";
 							}
 						}
-					}
-					
-					if(StringUtils.isNotEmpty(apiMsg)) {
-						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
-					}
-					
-					//(3)가등록
-					for(int j = 0;j < excelResult.size();j++) {
-						if(kfbApiContinue(excelResult.get(j).get("G").toString())) { //******
-							JSONObject preLoanApiReqParam 	= new JSONObject();
-							JSONObject conArrParam 			= new JSONObject();
-							JSONArray conArr				= new JSONArray();
-							
-							preLoanApiReqParam.put("name", excelResult.get(j).get("B").toString());
-							preLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
-							preLoanApiReqParam.put("ci", excelResult.get(j).get("O").toString());
-							
-							if(excelResult.get(j).get("I") == null || excelResult.get(j).get("I").equals("")) {
-								conArrParam.put("corp_num", "");
+						
+						if(StringUtils.isNotEmpty(apiMsg)) {
+							return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+						}
+						
+						//(3)가등록
+						for(int j = 0;j < excelResult.size();j++) {
+							if(kfbApiContinue(excelResult.get(j).get("G").toString())) { //******
+								JSONObject preLoanApiReqParam 	= new JSONObject();
+								JSONObject conArrParam 			= new JSONObject();
+								JSONArray conArr				= new JSONArray();
+								
+								preLoanApiReqParam.put("name", excelResult.get(j).get("B").toString());
+								preLoanApiReqParam.put("ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
+								preLoanApiReqParam.put("ci", excelResult.get(j).get("O").toString());
+								
+								if(excelResult.get(j).get("I") == null || excelResult.get(j).get("I").equals("")) {
+									conArrParam.put("corp_num", "");
+								}else {
+									conArrParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("I").toString()));
+								}
+								
+								conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
+								conArrParam.put("con_date", excelResult.get(j).get("M").toString().replace("-", ""));
+								conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
+								conArrParam.put("fin_phone", "");
+								conArrParam.put("loan_type", "0"+excelResult.get(j).get("G").toString());
+								conArr.put(conArrParam);
+								
+								preLoanApiReqParam.put("con_arr", conArr);
+								
+								log.info("#########################################");
+								log.info("insertUserRegIndvInfoByExcel() >> preLoanApiReqParam >> "+preLoanApiReqParam);
+								log.info("#########################################");
+								
+								ResponseMsg preLoanApiResult = kfbApiService.preLoanIndv(apiToken, preLoanApiReqParam, "POST");
+								
+								if(preLoanApiResult.getCode().equals("success")) {
+									JSONObject preLoanApiResponse = (JSONObject)preLoanApiResult.getData();
+									log.info("#########################################");
+									log.info("insertUserRegIndvInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
+									log.info("#########################################");
+									
+									excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 					//가등록 번호
+									
+									if(!preLoanApiResponse.isNull("fee_yn")) {
+										excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 			//수수료 기 납부 여부
+									}else {
+										excelResult.get(j).put("preRegYn", "N");
+									}
+									
+									if(!preLoanApiResponse.isNull("career_yn")) {
+										excelResult.get(j).put("apiCareerYn", preLoanApiResponse.getString("career_yn").toString());	//경력여부
+									}else {
+										excelResult.get(j).put("apiCareerYn", "N");
+									}
+									
+									//(4)모집인 테이블 저장
+									UserDomain insertDomain 				= new UserDomain();
+									List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
+									
+									insertParam.add(0, excelResult.get(j));
+									
+									insertDomain.setExcelParam(insertParam);
+									insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
+									
+								}else {
+									apiMsg += "은행연합회 가등록 실패 :: " + excelResult.get(j).get("B").toString() + "("+excelResult.get(j).get("D").toString()+")" + "님 :: " + preLoanApiResult.getMessage() +"<br>";
+								}
 							}else {
-								conArrParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("I").toString()));
-							}
-							
-							conArrParam.put("con_mobile", excelResult.get(j).get("D").toString());
-							conArrParam.put("con_date", excelResult.get(j).get("M").toString().replace("-", ""));
-							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
-							conArrParam.put("fin_phone", "");
-							conArrParam.put("loan_type", "0"+excelResult.get(j).get("G").toString());
-							conArr.put(conArrParam);
-							
-							preLoanApiReqParam.put("con_arr", conArr);
-							
-							log.info("#########################################");
-							log.info("insertUserRegIndvInfoByExcel() >> preLoanApiReqParam >> "+preLoanApiReqParam);
-							log.info("#########################################");
-							
-							ResponseMsg preLoanApiResult = kfbApiService.preLoanIndv(apiToken, preLoanApiReqParam, "POST");
-							
-							if(preLoanApiResult.getCode().equals("success")) {
-								JSONObject preLoanApiResponse = (JSONObject)preLoanApiResult.getData();
-								log.info("#########################################");
-								log.info("insertUserRegIndvInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
-								log.info("#########################################");
-								
-								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_lc_num")); 					//가등록 번호
-								
-								if(!preLoanApiResponse.isNull("fee_yn")) {
-									excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 			//수수료 기 납부 여부
-								}else {
-									excelResult.get(j).put("preRegYn", "N");
-								}
-								
-								if(!preLoanApiResponse.isNull("career_yn")) {
-									excelResult.get(j).put("apiCareerYn", preLoanApiResponse.getString("career_yn").toString());	//경력여부
-								}else {
-									excelResult.get(j).put("apiCareerYn", "N");
-								}
-								
-								//(4)모집인 테이블 저장
+								//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
 								UserDomain insertDomain 				= new UserDomain();
 								List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
 								
@@ -333,26 +390,17 @@ public class UserService {
 								
 								insertDomain.setExcelParam(insertParam);
 								insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
-								
-							}else {
-								apiMsg += "은행연합회 가등록 실패 :: " + excelResult.get(j).get("B").toString() + "("+excelResult.get(j).get("D").toString()+")" + "님 :: " + preLoanApiResult.getMessage() +"<br>";
 							}
-						}else {
-							//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
-							UserDomain insertDomain 				= new UserDomain();
-							List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
-							
-							insertParam.add(0, excelResult.get(j));
-							
-							insertDomain.setExcelParam(insertParam);
-							insertResult += userRepo.insertUserRegIndvInfoByExcel(insertDomain);
 						}
+						
+						if(StringUtils.isNotEmpty(apiMsg)) {
+							return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+						}
+						//================================================[E : 은행연합회 통신]================================================
+					}else {
+						userDomain.setExcelParam(excelResult);
+						insertResult = userRepo.insertUserRegIndvInfoByExcel(userDomain);
 					}
-					
-					if(StringUtils.isNotEmpty(apiMsg)) {
-						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
-					}
-					//================================================[E : 은행연합회 통신]================================================
 					
 					//(5)모집인 테이블 저장 결과
 					if(insertResult > 0) {
@@ -405,83 +453,103 @@ public class UserService {
 					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
 				}else {
 					//에러메세지 없음 -> 저장
-					//================================================[S : 은행연합회 통신]================================================
-					KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
-					String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
-					String apiMsg 				= "";
-					int insertResult 			= 0;
+					int insertResult = 0;
 					
-					for(int i = 0;i < excelResult.size();i++) {
-						if(kfbApiContinue(excelResult.get(i).get("K").toString())) { //******
-							//(1)등록가능 여부 조회
-							JSONObject checkLoanApiReqParam = new JSONObject();
+					if(kfbApiApply) {
+						//================================================[S : 은행연합회 통신]================================================
+						KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
+						String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
+						String apiMsg 				= "";
 						
-							checkLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(i).get("E").toString()));
-							checkLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
-							checkLoanApiReqParam.put("corp_rep_ci", excelResult.get(i).get("N").toString());
-							checkLoanApiReqParam.put("loan_type", "0"+excelResult.get(i).get("K").toString());
+						for(int i = 0;i < excelResult.size();i++) {
+							if(kfbApiContinue(excelResult.get(i).get("K").toString())) { //******
+								//(1)등록가능 여부 조회
+								JSONObject checkLoanApiReqParam = new JSONObject();
 							
-							ResponseMsg checkLoanApiResult = kfbApiService.checkLoanCorp(apiToken, checkLoanApiReqParam);
-							
-							if(checkLoanApiResult.getCode().equals("success")) {
-								//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
-								JSONObject checkLoanApiResponse = (JSONObject)checkLoanApiResult.getData();
-								log.info("#########################################");
-								log.info("insertUserRegCorpInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
-								log.info("#########################################");
+								checkLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(i).get("E").toString()));
+								checkLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(i).get("C").toString()));
+								checkLoanApiReqParam.put("corp_rep_ci", excelResult.get(i).get("N").toString());
+								checkLoanApiReqParam.put("loan_type", "0"+excelResult.get(i).get("K").toString());
 								
-								if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
-									//checkLoanApiResponse의 reg_yn = "N"일 때
-									apiMsg += "은행연합회 등록가능 여부 조회 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: 가등록이 불가능합니다.<br>";
+								ResponseMsg checkLoanApiResult = kfbApiService.checkLoanCorp(apiToken, checkLoanApiReqParam);
+								
+								if(checkLoanApiResult.getCode().equals("success")) {
+									//(2)등록가능 여부 조회 결과 : 한건이라도 등록이 불가능한 모집인(reg_yn = "N")이 있으면 데이터 등록 X
+									JSONObject checkLoanApiResponse = (JSONObject)checkLoanApiResult.getData();
+									log.info("#########################################");
+									log.info("insertUserRegCorpInfoByExcel() >> checkLoanApiResponse >> "+checkLoanApiResponse);
+									log.info("#########################################");
 									
+									if(checkLoanApiResponse.getString("reg_yn").equals("N")) {
+										//checkLoanApiResponse의 reg_yn = "N"일 때
+										apiMsg += "은행연합회 등록가능 여부 조회 결과 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: 가등록이 불가능합니다.<br>";
+										
+									}
+								}else {
+									apiMsg += "은행연합회 등록가능 여부 조회 실패 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: " + checkLoanApiResult.getMessage() + "<br>";
 								}
-							}else {
-								apiMsg += "은행연합회 등록가능 여부 조회 실패 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(i).get("E").toString()) + " :: " + checkLoanApiResult.getMessage() + "<br>";
 							}
 						}
-					}
-					
-					if(StringUtils.isNotEmpty(apiMsg)) {
-						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
-					}
-					
-					//(3)가등록
-					for(int j = 0;j < excelResult.size();j++) {
-						if(kfbApiContinue(excelResult.get(j).get("K").toString())) { //******
-							JSONObject preLoanApiReqParam 	= new JSONObject();
-							JSONObject conArrParam 			= new JSONObject();
-							JSONArray conArr				= new JSONArray();
-							
-							preLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("E").toString()));
-							preLoanApiReqParam.put("corp_name", excelResult.get(j).get("A").toString());
-							preLoanApiReqParam.put("corp_rep_name", excelResult.get(j).get("B").toString());
-							preLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
-							preLoanApiReqParam.put("corp_rep_ci", excelResult.get(j).get("N").toString());
-							
-							conArrParam.put("con_date", excelResult.get(j).get("L").toString().replace("-", ""));
-							conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
-							conArrParam.put("fin_phone", "");
-							conArrParam.put("loan_type", "0"+excelResult.get(j).get("K").toString());
-							conArr.put(conArrParam);
-							
-							preLoanApiReqParam.put("con_arr", conArr);
-							
-							log.info("#########################################");
-							log.info("insertUserRegCorpInfoByExcel() >> preLoanApiReqParam >> "+preLoanApiReqParam);
-							log.info("#########################################");
-							
-							ResponseMsg preLoanApiResult = kfbApiService.preLoanCorp(apiToken, preLoanApiReqParam, "POST");
-							
-							if(preLoanApiResult.getCode().equals("success")) {
-								JSONObject preLoanApiResponse = (JSONObject)preLoanApiResult.getData();
+						
+						if(StringUtils.isNotEmpty(apiMsg)) {
+							return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+						}
+						
+						//(3)가등록
+						for(int j = 0;j < excelResult.size();j++) {
+							if(kfbApiContinue(excelResult.get(j).get("K").toString())) { //******
+								JSONObject preLoanApiReqParam 	= new JSONObject();
+								JSONObject conArrParam 			= new JSONObject();
+								JSONArray conArr				= new JSONArray();
+								
+								preLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(excelResult.get(j).get("E").toString()));
+								preLoanApiReqParam.put("corp_name", excelResult.get(j).get("A").toString());
+								preLoanApiReqParam.put("corp_rep_name", excelResult.get(j).get("B").toString());
+								preLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(excelResult.get(j).get("C").toString()));
+								preLoanApiReqParam.put("corp_rep_ci", excelResult.get(j).get("N").toString());
+								
+								conArrParam.put("con_date", excelResult.get(j).get("L").toString().replace("-", ""));
+								conArrParam.put("fin_code", Integer.toString(loginInfo.getComCode()));
+								conArrParam.put("fin_phone", "");
+								conArrParam.put("loan_type", "0"+excelResult.get(j).get("K").toString());
+								conArr.put(conArrParam);
+								
+								preLoanApiReqParam.put("con_arr", conArr);
+								
 								log.info("#########################################");
-								log.info("insertUserRegCorpInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
+								log.info("insertUserRegCorpInfoByExcel() >> preLoanApiReqParam >> "+preLoanApiReqParam);
 								log.info("#########################################");
 								
-								excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_corp_lc_num")); 	//가등록 번호
-								excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+								ResponseMsg preLoanApiResult = kfbApiService.preLoanCorp(apiToken, preLoanApiReqParam, "POST");
 								
-								//(4)모집인 테이블 저장
+								if(preLoanApiResult.getCode().equals("success")) {
+									JSONObject preLoanApiResponse = (JSONObject)preLoanApiResult.getData();
+									log.info("#########################################");
+									log.info("insertUserRegCorpInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
+									log.info("#########################################");
+									
+									excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_corp_lc_num")); 	//가등록 번호
+									excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+									
+									//(4)모집인 테이블 저장
+									UserDomain insertDomain 				= new UserDomain();
+									List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
+									
+									insertParam.add(0, excelResult.get(j));
+									
+									insertDomain.setExcelParam(insertParam);
+									insertResult += userRepo.insertUserRegCorpInfoByExcel(insertDomain);
+									
+									//(5)법인 정보 저장
+									CorpDomain corpDomain = new CorpDomain();
+									corpDomain.setExcelParam(insertParam);
+									corpService.insertCorpInfoByExcel(corpDomain);
+									
+								}else {
+									apiMsg += "은행연합회 가등록 실패 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(j).get("E").toString()) + " :: "+ preLoanApiResult.getMessage() +"<br>";
+								}
+							}else {
+								//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
 								UserDomain insertDomain 				= new UserDomain();
 								List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
 								
@@ -494,32 +562,23 @@ public class UserService {
 								CorpDomain corpDomain = new CorpDomain();
 								corpDomain.setExcelParam(insertParam);
 								corpService.insertCorpInfoByExcel(corpDomain);
-								
-							}else {
-								apiMsg += "은행연합회 가등록 실패 :: 법인등록번호 " + CryptoUtil.decrypt(excelResult.get(j).get("E").toString()) + " :: "+ preLoanApiResult.getMessage() +"<br>";
 							}
-						}else {
-							//(4)금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신은 하지않지만 모집인 테이블에 저장은 해야함
-							UserDomain insertDomain 				= new UserDomain();
-							List<Map<String, Object>> insertParam 	= new ArrayList<Map<String, Object>>();
-							
-							insertParam.add(0, excelResult.get(j));
-							
-							insertDomain.setExcelParam(insertParam);
-							insertResult += userRepo.insertUserRegCorpInfoByExcel(insertDomain);
-							
-							//(5)법인 정보 저장
-							CorpDomain corpDomain = new CorpDomain();
-							corpDomain.setExcelParam(insertParam);
-							corpService.insertCorpInfoByExcel(corpDomain);
 						}
+						
+						if(StringUtils.isNotEmpty(apiMsg)) {
+							return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
+						}
+						//================================================[E : 은행연합회 통신]================================================
+					}else {
+						userDomain.setExcelParam(excelResult);
+						insertResult = userRepo.insertUserRegCorpInfoByExcel(userDomain);
+						
+						CorpDomain corpDomain = new CorpDomain();
+						corpDomain.setExcelParam(excelResult);
+						corpService.insertCorpInfoByExcel(corpDomain);
 					}
 					
-					if(StringUtils.isNotEmpty(apiMsg)) {
-						return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
-					}
-					//================================================[E : 은행연합회 통신]================================================
-					
+					//(6)모집인 테이블 저장 결과
 					if(insertResult > 0) {
 						return new ResponseMsg(HttpStatus.OK, "success", "모집인이 등록되었습니다.");
 					}
@@ -639,7 +698,11 @@ public class UserService {
 		
 		//등록
 		if(StringUtils.isNotEmpty(userImwonDomain.getPlMZId())) {
-			userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
+			}else {
+				userImwonDomain.setPlMZId(userImwonDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		int result = userRepo.insertUserRegCorpImwonInfo(userImwonDomain);
 		
@@ -692,7 +755,7 @@ public class UserService {
 					int insertResult = userRepo.insertUserRegCorpExpertInfoByExcel(userExpertDomain);
 					
 					if(insertResult > 0) {
-						return new ResponseMsg(HttpStatus.OK, "success", "전문인력이 등록되었습니다.");
+						return new ResponseMsg(HttpStatus.OK, "success", "업무수행인력이 등록되었습니다.");
 					}
 				}
 			}
@@ -756,7 +819,11 @@ public class UserService {
 		
 		//등록
 		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
-			userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+			}else {
+				userExpertDomain.setPlMZId(userExpertDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		int result = userRepo.insertUserRegCorpExpertInfo(userExpertDomain);
 		
@@ -842,7 +909,11 @@ public class UserService {
 		
 		//등록
 		if(StringUtils.isNotEmpty(userItDomain.getPlMZId())) {
-			userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+			}else {
+				userItDomain.setPlMZId(userItDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		int result = userRepo.insertUserRegCorpItInfo(userItDomain);
 		
@@ -948,10 +1019,18 @@ public class UserService {
 		
 		//수정
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
+			}else {
+				userDomain.setPlMZId(userDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
+			}else {
+				userDomain.setPlMerchantNo(userDomain.getPlMerchantNo().replace("-", ""));
+			}
 		}
 		int updateResult1 = userRepo.updateUserRegInfo(userDomain);
 		
@@ -992,14 +1071,24 @@ public class UserService {
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
-			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
-			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			String plMZId 	= "";
+			if(cryptoApply) {
+				plMZId 		= CryptoUtil.decrypt(userRegInfo.getPlMZId());
+			}else {
+				plMZId 		= userRegInfo.getPlMZId();
+			}
+			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
-			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
-			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			String plMerchantNo = "";
+			if(cryptoApply) {
+				plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+			}else {
+				plMerchantNo 	= userRegInfo.getPlMerchantNo();
+			}
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
 		}
 		
@@ -1085,14 +1174,24 @@ public class UserService {
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
-			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
-			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			String plMZId 	= "";
+			if(cryptoApply) {
+				plMZId 		= CryptoUtil.decrypt(userRegInfo.getPlMZId());
+			}else {
+				plMZId 		= userRegInfo.getPlMZId();
+			}
+			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
-			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
-			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			String plMerchantNo = "";
+			if(cryptoApply) {
+				plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+			}else {
+				plMerchantNo 	= userRegInfo.getPlMerchantNo();
+			}
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
 		}
 		
@@ -1172,14 +1271,24 @@ public class UserService {
 		UserDomain userRegInfo 		= userRepo.getUserRegDetail(dtlParam);
 		
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
-			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
-			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			String plMZId 	= "";
+			if(cryptoApply) {
+				plMZId 		= CryptoUtil.decrypt(userRegInfo.getPlMZId());
+			}else {
+				plMZId 		= userRegInfo.getPlMZId();
+			}
+			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
-			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
-			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			String plMerchantNo = "";
+			if(cryptoApply) {
+				plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+			}else {
+				plMerchantNo 	= userRegInfo.getPlMerchantNo();
+			}
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
 		}
 		
@@ -1189,7 +1298,12 @@ public class UserService {
 		//첨부파일
 		if(imwonList.size() > 0) {
 			for(int i = 0;i < imwonList.size();i++) {
-				String imwonPlMZId 	= CryptoUtil.decrypt(imwonList.get(i).getPlMZId());
+				String imwonPlMZId 	= "";
+				if(cryptoApply) {
+					imwonPlMZId 	= CryptoUtil.decrypt(imwonList.get(i).getPlMZId());
+				}else {
+					imwonPlMZId 	= imwonList.get(i).getPlMZId();
+				}
 				imwonPlMZId 		= imwonPlMZId.substring(0, 6) + "-" + imwonPlMZId.substring(6);
 				imwonList.get(i).setPlMZId(imwonPlMZId);
 				
@@ -1260,14 +1374,24 @@ public class UserService {
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(dtlParam);
 		
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
-			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
-			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			String plMZId 	= "";
+			if(cryptoApply) {
+				plMZId 		= CryptoUtil.decrypt(userRegInfo.getPlMZId());
+			}else {
+				plMZId 		= userRegInfo.getPlMZId();
+			}
+			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
-			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
-			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			String plMerchantNo = "";
+			if(cryptoApply) {
+				plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+			}else {
+				plMerchantNo 	= userRegInfo.getPlMerchantNo();
+			}
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
 		}
 		
@@ -1277,7 +1401,12 @@ public class UserService {
 		//첨부파일
 		if(expertList.size() > 0) {
 			for(int i = 0;i < expertList.size();i++) {
-				String expertPlMZId = CryptoUtil.decrypt(expertList.get(i).getPlMZId());
+				String expertPlMZId = "";
+				if(cryptoApply) {
+					expertPlMZId 	= CryptoUtil.decrypt(expertList.get(i).getPlMZId());
+				}else {
+					expertPlMZId 	= expertList.get(i).getPlMZId();
+				}
 				expertPlMZId 		= expertPlMZId.substring(0, 6) + "-" + expertPlMZId.substring(6);
 				expertList.get(i).setPlMZId(expertPlMZId);
 				
@@ -1325,14 +1454,24 @@ public class UserService {
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(dtlParam);
 		
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
-			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
-			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			String plMZId 	= "";
+			if(cryptoApply) {
+				plMZId 		= CryptoUtil.decrypt(userRegInfo.getPlMZId());
+			}else {
+				plMZId 		= userRegInfo.getPlMZId();
+			}
+			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
-			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
-			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			String plMerchantNo = "";
+			if(cryptoApply) {
+				plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+			}else {
+				plMerchantNo 	= userRegInfo.getPlMerchantNo();
+			}
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
 		}
 		
@@ -1343,7 +1482,12 @@ public class UserService {
 		if(itList.size() > 0) {
 			for(int i = 0;i < itList.size();i++) {
 				if(StringUtils.isNotEmpty(itList.get(i).getPlMZId())) {
-					String itPlMZId 	= CryptoUtil.decrypt(itList.get(i).getPlMZId());
+					String itPlMZId 	= "";
+					if(cryptoApply) {
+						itPlMZId 		= CryptoUtil.decrypt(itList.get(i).getPlMZId());
+					}else {
+						itPlMZId 		= itList.get(i).getPlMZId();
+					}
 					itPlMZId 			= itPlMZId.substring(0, 6) + "-" + itPlMZId.substring(6);
 					itList.get(i).setPlMZId(itPlMZId);
 				}
@@ -1384,14 +1528,24 @@ public class UserService {
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
 		
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
-			String plMZId 			= CryptoUtil.decrypt(userRegInfo.getPlMZId());
-			plMZId 					= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			String plMZId 	= "";
+			if(cryptoApply) {
+				plMZId 		= CryptoUtil.decrypt(userRegInfo.getPlMZId());
+			}else {
+				plMZId 		= userRegInfo.getPlMZId();
+			}
+			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
-			String plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
-			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			String plMerchantNo = "";
+			if(cryptoApply) {
+				plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+			}else {
+				plMerchantNo 	= userRegInfo.getPlMerchantNo();
+			}
+			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
 			userRegInfo.setPlMerchantNo(plMerchantNo);
 		}
 		
@@ -1457,10 +1611,18 @@ public class UserService {
 		
 		//수정
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
+			}else {
+				userDomain.setPlMZId(userDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
+			}else {
+				userDomain.setPlMerchantNo(userDomain.getPlMerchantNo().replace("-", ""));
+			}
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		
@@ -1497,7 +1659,11 @@ public class UserService {
 		
 		//수정
 		if(StringUtils.isNotEmpty(userImwonDomain.getPlMZId())) {
-			userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));			
+			if(cryptoApply) {
+				userImwonDomain.setPlMZId(CryptoUtil.encrypt(userImwonDomain.getPlMZId().replace("-", "")));
+			}else {
+				userImwonDomain.setPlMZId(userImwonDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		int result = userRepo.updateUserRegCorpImwonInfo(userImwonDomain);
 		
@@ -1534,7 +1700,11 @@ public class UserService {
 		
 		//수정
 		if(StringUtils.isNotEmpty(userExpertDomain.getPlMZId())) {
-			userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userExpertDomain.setPlMZId(CryptoUtil.encrypt(userExpertDomain.getPlMZId().replace("-", "")));
+			}else {
+				userExpertDomain.setPlMZId(userExpertDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		int result = userRepo.updateUserRegCorpExpertInfo(userExpertDomain);
 		
@@ -1570,7 +1740,13 @@ public class UserService {
 		}
 		
 		//수정
-		userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+		if(StringUtils.isNotEmpty(userItDomain.getPlMZId())) {
+			if(cryptoApply) {
+				userItDomain.setPlMZId(CryptoUtil.encrypt(userItDomain.getPlMZId().replace("-", "")));
+			}else {
+				userItDomain.setPlMZId(userItDomain.getPlMZId().replace("-", ""));
+			}
+		}
 		int result = userRepo.updateUserRegCorpItInfo(userItDomain);
 		
 		if(result > 0) {
@@ -1597,27 +1773,31 @@ public class UserService {
 			//부적격인 상태는 이미 협회쪽에서 가등록 취소 API 완료된 상태 -> 따라서 우리쪽 테이블에서 삭제만 시키면 OK
 			deleteContinue = true;
 		}else {
-			//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
-			if(kfbApiContinue2(userRegInfo.getPlProduct())) {
-				KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
-				String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
-				JSONObject preLoanApiReqParam	= new JSONObject();
-				ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
-				
-				if("1".equals(userRegInfo.getPlClass())) {
-					preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+			if(kfbApiApply) {
+				//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
+				if(kfbApiContinue2(userRegInfo.getPlProduct())) {
+					KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
+					String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
+					JSONObject preLoanApiReqParam	= new JSONObject();
+					ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+					
+					if("1".equals(userRegInfo.getPlClass())) {
+						preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
+						responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+					}else {
+						preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
+						responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+					}
+					
+					if("success".equals(responseMsg.getCode())) {
+						deleteContinue = true;
+					}else {
+						return responseMsg;
+					}
+					
 				}else {
-					preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
-					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
-				}
-				
-				if("success".equals(responseMsg.getCode())) {
 					deleteContinue = true;
-				}else {
-					return responseMsg;
 				}
-				
 			}else {
 				deleteContinue = true;
 			}
@@ -1725,27 +1905,31 @@ public class UserService {
 				//부적격인 상태는 이미 협회쪽에서 가등록 취소 API 완료된 상태 -> 따라서 우리쪽 테이블에서 삭제만 시키면 OK
 				deleteContinue = true;
 			}else {
-				//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
-				if(kfbApiContinue2(userRegInfo.getPlProduct())) {
-					KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
-					String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
-					JSONObject preLoanApiReqParam	= new JSONObject();
-					ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
-					
-					if("1".equals(userRegInfo.getPlClass())) {
-						preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
-						responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+				if(kfbApiApply) {
+					//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
+					if(kfbApiContinue2(userRegInfo.getPlProduct())) {
+						KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
+						String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
+						JSONObject preLoanApiReqParam	= new JSONObject();
+						ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+						
+						if("1".equals(userRegInfo.getPlClass())) {
+							preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
+							responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+						}else {
+							preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
+							responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+						}
+						
+						if("success".equals(responseMsg.getCode())) {
+							deleteContinue = true;
+						}else {
+							return responseMsg;
+						}
+						
 					}else {
-						preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
-						responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
-					}
-					
-					if("success".equals(responseMsg.getCode())) {
 						deleteContinue = true;
-					}else {
-						return responseMsg;
 					}
-					
 				}else {
 					deleteContinue = true;
 				}
@@ -1906,26 +2090,29 @@ public class UserService {
 		int updateResult 		= 0;
 		
 		//가등록 취소 API(TM 제외) + 우리쪽 테이블 UPDATE
-		if(kfbApiContinue2(userRegInfo.getPlProduct())) {
-			KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
-			String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
-			JSONObject preLoanApiReqParam	= new JSONObject(); //여기
-			ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
-			
-			if("1".equals(userRegInfo.getPlClass())) {
-				preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+		if(kfbApiApply) {
+			if(kfbApiContinue2(userRegInfo.getPlProduct())) {
+				KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
+				String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
+				JSONObject preLoanApiReqParam	= new JSONObject();
+				ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+				
+				if("1".equals(userRegInfo.getPlClass())) {
+					preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+				}else {
+					preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
+					responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+				}
+				
+				if("success".equals(responseMsg.getCode())) {
+					updateContinue = true;
+				}else {
+					return responseMsg;
+				}
 			}else {
-				preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
-				responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
-			}
-			
-			if("success".equals(responseMsg.getCode())) {
 				updateContinue = true;
-			}else {
-				return responseMsg;
 			}
-			
 		}else {
 			updateContinue = true;
 		}
@@ -1972,10 +2159,18 @@ public class UserService {
 		}
 		
 		if(StringUtils.isNotEmpty(userDomain.getPlMZId())) {
-			userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMZId(CryptoUtil.encrypt(userDomain.getPlMZId().replace("-", "")));
+			}else {
+				userDomain.setPlMZId(userDomain.getPlMZId().replace("-", ""));
+			}
 		}
 		if(StringUtils.isNotEmpty(userDomain.getPlMerchantNo())) {
-			userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
+			if(cryptoApply) {
+				userDomain.setPlMerchantNo(CryptoUtil.encrypt(userDomain.getPlMerchantNo().replace("-", "")));
+			}else {
+				userDomain.setPlMerchantNo(userDomain.getPlMerchantNo().replace("-", ""));
+			}
 		}
 		int result = userRepo.updateUserRegInfo(userDomain);
 		

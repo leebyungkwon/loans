@@ -8,12 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitExpertDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
@@ -45,13 +44,22 @@ public class RecruitService {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private UserRepository userRepo;
-	@Autowired
-	private EmailRepository emailRepository;
-	@Autowired
-	private KfbApiRepository kfbApiRepository;
-	@Autowired 
-	private KfbApiService kfbApiService;
+	@Autowired private EmailRepository emailRepository;
+	@Autowired private KfbApiRepository kfbApiRepository;
+	@Autowired private KfbApiService kfbApiService;
 
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
+	
+	//은행연합회 API 적용여부
+	@Value("${kfbApi.apply}")
+	public boolean kfbApiApply;
+	
+	//이메일 적용여부
+	@Value("${email.apply}")
+	public boolean emailApply;
+	
 	//모집인 조회 및 변경 > 리스트
 	@Transactional(readOnly=true)
 	public List<RecruitDomain> selectRecruitList(RecruitDomain recruitDomain){
@@ -60,21 +68,35 @@ public class RecruitService {
 		recruitDomain.setCreGrp(result.getCreGrp());
 		
 		// 주민번호 및 법인번호 암호화 후 비교
-		recruitDomain.setPlMerchantNo(CryptoUtil.encrypt(recruitDomain.getPlMerchantNo()));
-		recruitDomain.setPlMZId(CryptoUtil.encrypt(recruitDomain.getPlMZId()));
+		if(cryptoApply) {
+			recruitDomain.setPlMerchantNo(CryptoUtil.encrypt(recruitDomain.getPlMerchantNo()));
+			recruitDomain.setPlMZId(CryptoUtil.encrypt(recruitDomain.getPlMZId()));
+		}else {
+			recruitDomain.setPlMerchantNo(recruitDomain.getPlMerchantNo());
+			recruitDomain.setPlMZId(recruitDomain.getPlMZId());
+		}
 		
 		List<RecruitDomain> recruitResultList = recruitRepository.selectRecruitList(recruitDomain);
+		
 		for(RecruitDomain list : recruitResultList) {
 			StringBuilder jumin = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMZId())) {
-				jumin.append(CryptoUtil.decrypt(list.getPlMZId()));
+				if(cryptoApply) {
+					jumin.append(CryptoUtil.decrypt(list.getPlMZId()));
+				}else {
+					jumin.append(list.getPlMZId());
+				}
 				jumin.insert(6, "-");
 				list.setPlMZId(jumin.toString());
 			}
 			
 			StringBuilder merchantNo = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
-				merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				if(cryptoApply) {
+					merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				}else {
+					merchantNo.append(list.getPlMerchantNo());
+				}
 				merchantNo.insert(6, "-");
 				list.setPlMerchantNo(merchantNo.toString());
 			}
@@ -122,7 +144,11 @@ public class RecruitService {
 				// 주민번호 암호화 해제		
 				StringBuilder histZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(recruitHistInfoZid.getPlMZId())) {
-					histZid.append(CryptoUtil.decrypt(recruitHistInfoZid.getPlMZId()));
+					if(cryptoApply) {
+						histZid.append(CryptoUtil.decrypt(recruitHistInfoZid.getPlMZId()));
+					}else {
+						histZid.append(recruitHistInfoZid.getPlMZId());
+					}
 					histZid.insert(6, "-");
 					recruitInfo.setHistPlMZId(histZid.toString());
 					recruitInfo.setHistZidSeq(recruitHistInfoZid.getMasterHistSeq());
@@ -146,7 +172,11 @@ public class RecruitService {
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
-			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			if(cryptoApply) {
+				orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			}else {
+				orgMerchantNo.append(recruitInfo.getOriginPlMerchantNo());
+			}
 			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
@@ -154,7 +184,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(recruitInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -162,7 +196,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			}else {
+				zid.append(recruitInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
@@ -287,7 +325,11 @@ public class RecruitService {
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
-			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			if(cryptoApply) {
+				orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			}else {
+				orgMerchantNo.append(recruitInfo.getOriginPlMerchantNo());
+			}
 			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
@@ -295,7 +337,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(recruitInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -303,7 +349,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			}else {
+				zid.append(recruitInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
@@ -417,7 +467,11 @@ public class RecruitService {
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
-			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			if(cryptoApply) {
+				orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			}else {
+				orgMerchantNo.append(recruitInfo.getOriginPlMerchantNo());
+			}
 			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
@@ -425,7 +479,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(recruitInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -433,7 +491,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			}else {
+				zid.append(recruitInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
@@ -448,7 +510,11 @@ public class RecruitService {
 				// 주민번호 암호화 해제		
 				StringBuilder imwonZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(imwonList.get(i).getPlMZId())) {
-					imwonZid.append(CryptoUtil.decrypt(imwonList.get(i).getPlMZId()));
+					if(cryptoApply) {
+						imwonZid.append(CryptoUtil.decrypt(imwonList.get(i).getPlMZId()));
+					}else {
+						imwonZid.append(imwonList.get(i).getPlMZId());
+					}
 					imwonZid.insert(6, "-");
 					imwonList.get(i).setPlMZId(imwonZid.toString());
 				}
@@ -520,7 +586,11 @@ public class RecruitService {
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
-			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			if(cryptoApply) {
+				orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			}else {
+				orgMerchantNo.append(recruitInfo.getOriginPlMerchantNo());
+			}
 			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
@@ -528,7 +598,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(recruitInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -536,7 +610,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			}else {
+				zid.append(recruitInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
@@ -551,7 +629,11 @@ public class RecruitService {
 				// 주민번호 암호화 해제		
 				StringBuilder expertZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(expertList.get(i).getPlMZId())) {
-					expertZid.append(CryptoUtil.decrypt(expertList.get(i).getPlMZId()));
+					if(cryptoApply) {
+						expertZid.append(CryptoUtil.decrypt(expertList.get(i).getPlMZId()));
+					}else {
+						expertZid.append(expertList.get(i).getPlMZId());
+					}
 					expertZid.insert(6, "-");
 					expertList.get(i).setPlMZId(expertZid.toString());
 				}
@@ -602,7 +684,11 @@ public class RecruitService {
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
-			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			if(cryptoApply) {
+				orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			}else {
+				orgMerchantNo.append(recruitInfo.getOriginPlMerchantNo());
+			}
 			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
@@ -610,7 +696,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(recruitInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -618,7 +708,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			}else {
+				zid.append(recruitInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
@@ -633,7 +727,11 @@ public class RecruitService {
 				// 주민번호 암호화 해제		
 				StringBuilder itZid = new StringBuilder();
 				if(StringUtils.isNotEmpty(itList.get(i).getPlMZId())) {
-					itZid.append(CryptoUtil.decrypt(itList.get(i).getPlMZId()));
+					if(cryptoApply) {
+						itZid.append(CryptoUtil.decrypt(itList.get(i).getPlMZId()));
+					}else {
+						itZid.append(itList.get(i).getPlMZId());
+					}
 					itZid.insert(6, "-");
 					itList.get(i).setPlMZId(itZid.toString());
 				}
@@ -677,7 +775,11 @@ public class RecruitService {
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getOriginPlMerchantNo())) {
-			orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			if(cryptoApply) {
+				orgMerchantNo.append(CryptoUtil.decrypt(recruitInfo.getOriginPlMerchantNo()));
+			}else {
+				orgMerchantNo.append(recruitInfo.getOriginPlMerchantNo());
+			}
 			orgMerchantNo.insert(6, "-");
 			recruitInfo.setOriginPlMerchantNo(orgMerchantNo.toString());
 		}
@@ -685,7 +787,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(recruitInfo.getPlMerchantNo()));
+			}else {
+				merchantNo.append(recruitInfo.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			recruitInfo.setPlMerchantNo(merchantNo.toString());
 		}
@@ -693,7 +799,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(recruitInfo.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(recruitInfo.getPlMZId()));
+			}else {
+				zid.append(recruitInfo.getPlMZId());
+			}
 			zid.insert(6, "-");
 			recruitInfo.setPlMZId(zid.toString());
 		}
@@ -800,136 +910,141 @@ public class RecruitService {
 			emailDomain.setInstId("145");
 			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
 			emailDomain.setSubsValue(statCheck.getMasterToId());
-			String prdCheck = statCheck.getPlProduct();
-			// 금융상품 TM대출(3), TM리스(6) 제외
-			if("01".equals(prdCheck) || "05".equals(prdCheck)) {
-				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-				JSONObject jsonParam = new JSONObject();
-				JSONObject jsonArrayParam = new JSONObject();
-				JSONArray jsonArray = new JSONArray();
+			
+			if(kfbApiApply) {
+				String prdCheck = statCheck.getPlProduct();
+				// 금융상품 TM대출(3), TM리스(6) 제외
+				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+					String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+					JSONObject jsonParam = new JSONObject();
+					JSONObject jsonArrayParam = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
 
-				// 2021-07-04 은행연합회 API 통신 - 수정
-				// 정보수정시 등록번호 + 계약번호 = 단독수정, 등록번호만 던질시 전체수정임
-				// 주민번호 변경은 정보변경과 다른 API 분기
-				// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
-				String plClass = statCheck.getPlClass();
-				if("1".equals(plClass)) {
-					jsonParam.put("lc_num", statCheck.getPlRegistNo());
-					jsonParam.put("name", statCheck.getPlMName());
+					// 2021-07-04 은행연합회 API 통신 - 수정
+					// 정보수정시 등록번호 + 계약번호 = 단독수정, 등록번호만 던질시 전체수정임
+					// 주민번호 변경은 정보변경과 다른 API 분기
+					// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
+					String plClass = statCheck.getPlClass();
+					if("1".equals(plClass)) {
+						jsonParam.put("lc_num", statCheck.getPlRegistNo());
+						jsonParam.put("name", statCheck.getPlMName());
+						
+						jsonArrayParam.put("con_num", statCheck.getConNum());
+						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+						jsonArrayParam.put("fin_phone", "");
+						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+						jsonArrayParam.put("cancel_date", "");
+						jsonArrayParam.put("cancel_code", "");
+						
+						jsonArray.put(jsonArrayParam);
+						jsonParam.put("con_arr", jsonArray);
+						
+						log.info("########################");
+						log.info("JSONObject In JSONArray :: " + jsonParam);
+						log.info(":::::::::::::API통신 시작 :::::::::");
+						log.info("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
+						if("success".equals(responseMsg.getCode())) {
+							// 주민번호 변경 API 호출 - 은행연합회 확인
+							boolean zIdCheck = false;
+							JSONObject zIdParam = new JSONObject();
+							if(zIdCheck) {
+								zIdParam.put("bef_ssn", "");											// 변경 전 주민번호 - API 조회된 결과값
+								zIdParam.put("aft_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 변경 후 주민번호 - DB데이터
+								log.info("########################");
+								log.info("jsonParam :: " + zIdParam);
+								log.info("########################");
+								responseMsg = kfbApiService.commonKfbApi(apiKey, zIdParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass, "N");
+								if(!"success".equals(responseMsg.getCode())) {
+									return responseMsg;
+								}
+							}
+							
+							apiCheck = true;
+							
+						}else {
+							return responseMsg;
+						}
+						
+					}else {
+						jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
+						jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
+						jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
+						jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
+						//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
+						
+						jsonArrayParam.put("con_num", statCheck.getConNum());
+						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+						jsonArrayParam.put("fin_phone", "");
+						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+						jsonArrayParam.put("cancel_date", "");
+						jsonArrayParam.put("cancel_code", "");
+						
+						jsonArray.put(jsonArrayParam);
+						jsonParam.put("con_arr", jsonArray);
+						
+						log.info("########################");
+						log.info("JSONObject In JSONArray :: " + jsonParam);
+						log.info(":::::::::::::API통신 시작 :::::::::");
+						log.info("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
+						if(!"success".equals(responseMsg.getCode())) {
+							return responseMsg;
+						}
+					}
 					
-					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
-					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
-					
-					jsonArray.put(jsonArrayParam);
-					jsonParam.put("con_arr", jsonArray);
-					
-					log.info("########################");
-					log.info("JSONObject In JSONArray :: " + jsonParam);
-					log.info(":::::::::::::API통신 시작 :::::::::");
-					log.info("########################");
-					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
-					if("success".equals(responseMsg.getCode())) {
-						// 주민번호 변경 API 호출 - 은행연합회 확인
-						boolean zIdCheck = false;
-						JSONObject zIdParam = new JSONObject();
-						if(zIdCheck) {
-							zIdParam.put("bef_ssn", "");											// 변경 전 주민번호 - API 조회된 결과값
-							zIdParam.put("aft_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 변경 후 주민번호 - DB데이터
-							log.info("########################");
-							log.info("jsonParam :: " + zIdParam);
-							log.info("########################");
-							responseMsg = kfbApiService.commonKfbApi(apiKey, zIdParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass, "N");
-							if(!"success".equals(responseMsg.getCode())) {
+					if(violationRegList.size() > 0) {
+						// 위반이력 등록
+						for(UserDomain regVio : violationRegList) {
+							JSONObject jsonRegVioParam = new JSONObject();
+							jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
+							jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
+							jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
+							jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
+							jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
+							
+							responseMsg = kfbApiService.violation(apiKey, jsonRegVioParam, "POST");
+							if("success".equals(responseMsg.getCode())) {
+								JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+								String apiVioNum = responseJson.getString("vio_num");
+								UserDomain vioRegDomain = new UserDomain();
+								vioRegDomain.setVioNum(apiVioNum);
+								vioRegDomain.setViolationSeq(regVio.getViolationSeq());
+								userRepo.updateUserViolationInfo(vioRegDomain);
+							}else {
 								return responseMsg;
 							}
 						}
-						
+					}
+					
+					if(violationDelList.size() > 0) {
+						// 위반이력 삭제
+						for(UserDomain delVio : violationDelList) {
+							JSONObject jsonDelVioParam = new JSONObject();
+							jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
+							responseMsg = kfbApiService.violation(apiKey, jsonDelVioParam, "DELETE");
+							if("success".equals(responseMsg.getCode())) {
+								UserDomain vioDelDomain = new UserDomain();
+								vioDelDomain.setViolationSeq(delVio.getViolationSeq());
+								userRepo.deleteUserViolationInfo(vioDelDomain);
+							}else {
+								return responseMsg;
+							}
+						}
+					}
+					
+					if("success".equals(responseMsg.getCode())) {
 						apiCheck = true;
-						
 					}else {
 						return responseMsg;
 					}
 					
 				}else {
-					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
-					jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
-					jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
-					jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
-					//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
-					
-					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
-					
-					jsonArray.put(jsonArrayParam);
-					jsonParam.put("con_arr", jsonArray);
-					
-					log.info("########################");
-					log.info("JSONObject In JSONArray :: " + jsonParam);
-					log.info(":::::::::::::API통신 시작 :::::::::");
-					log.info("########################");
-					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
-					if(!"success".equals(responseMsg.getCode())) {
-						return responseMsg;
-					}
-				}
-				
-				if(violationRegList.size() > 0) {
-					// 위반이력 등록
-					for(UserDomain regVio : violationRegList) {
-						JSONObject jsonRegVioParam = new JSONObject();
-						jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
-						jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
-						jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
-						jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
-						jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
-						
-						responseMsg = kfbApiService.violation(apiKey, jsonRegVioParam, "POST");
-						if("success".equals(responseMsg.getCode())) {
-							JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-							String apiVioNum = responseJson.getString("vio_num");
-							UserDomain vioRegDomain = new UserDomain();
-							vioRegDomain.setVioNum(apiVioNum);
-							vioRegDomain.setViolationSeq(regVio.getViolationSeq());
-							userRepo.updateUserViolationInfo(vioRegDomain);
-						}else {
-							return responseMsg;
-						}
-					}
-				}
-				
-				if(violationDelList.size() > 0) {
-					// 위반이력 삭제
-					for(UserDomain delVio : violationDelList) {
-						JSONObject jsonDelVioParam = new JSONObject();
-						jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
-						responseMsg = kfbApiService.violation(apiKey, jsonDelVioParam, "DELETE");
-						if("success".equals(responseMsg.getCode())) {
-							UserDomain vioDelDomain = new UserDomain();
-							vioDelDomain.setViolationSeq(delVio.getViolationSeq());
-							userRepo.deleteUserViolationInfo(vioDelDomain);
-						}else {
-							return responseMsg;
-						}
-					}
-				}
-				
-				if("success".equals(responseMsg.getCode())) {
 					apiCheck = true;
-				}else {
-					return responseMsg;
 				}
-				
 			}else {
 				apiCheck = true;
 			}
@@ -944,71 +1059,76 @@ public class RecruitService {
 			emailDomain.setInstId("147");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			
-			// 2021-07-04 은행연합회 API 통신 - 수정
-			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-			JSONObject jsonParam = new JSONObject();
-			JSONObject jsonArrayParam = new JSONObject();
-			JSONArray jsonArray = new JSONArray();
-			
-			String plClass = statCheck.getPlClass();
-			String prdCheck = statCheck.getPlProduct();
-			if("01".equals(prdCheck) || "05".equals(prdCheck)) {
-				if("1".equals(plClass)) {
-					jsonParam.put("lc_num", statCheck.getPlRegistNo());
-					jsonParam.put("name", statCheck.getPlMName());
-					
-					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
-					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
-					jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
-					
-					jsonArray.put(jsonArrayParam);
-					jsonParam.put("con_arr", jsonArray);
-					
-					log.info("########################");
-					log.info("JSONObject In JSONArray :: " + jsonParam);
-					log.info(":::::::::::::API통신 시작 :::::::::");
-					log.info("########################");
-					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
-					
-				}else {
-					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
-					jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
-					jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
-					jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
-					//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
-					
-					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
-					jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
-					
-					jsonArray.put(jsonArrayParam);
-					jsonParam.put("con_arr", jsonArray);
-					
-					log.info("########################");
-					log.info("JSONObject In JSONArray :: " + jsonParam);
-					log.info(":::::::::::::API통신 시작 :::::::::");
-					log.info("########################");
-					
-					responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
-				}
+			if(kfbApiApply) {
+				// 2021-07-04 은행연합회 API 통신 - 수정
+				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+				JSONObject jsonParam = new JSONObject();
+				JSONObject jsonArrayParam = new JSONObject();
+				JSONArray jsonArray = new JSONArray();
 				
-				if("success".equals(responseMsg.getCode())) {
-					apiCheck = true;
+				String plClass = statCheck.getPlClass();
+				String prdCheck = statCheck.getPlProduct();
+				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+					if("1".equals(plClass)) {
+						jsonParam.put("lc_num", statCheck.getPlRegistNo());
+						jsonParam.put("name", statCheck.getPlMName());
+						
+						jsonArrayParam.put("con_num", statCheck.getConNum());
+						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+						jsonArrayParam.put("fin_phone", "");
+						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+						jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
+						jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
+						
+						jsonArray.put(jsonArrayParam);
+						jsonParam.put("con_arr", jsonArray);
+						
+						log.info("########################");
+						log.info("JSONObject In JSONArray :: " + jsonParam);
+						log.info(":::::::::::::API통신 시작 :::::::::");
+						log.info("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
+						
+					}else {
+						jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
+						jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
+						jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
+						jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
+						//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
+						
+						jsonArrayParam.put("con_num", statCheck.getConNum());
+						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+						jsonArrayParam.put("fin_phone", "");
+						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+						jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
+						jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
+						
+						jsonArray.put(jsonArrayParam);
+						jsonParam.put("con_arr", jsonArray);
+						
+						log.info("########################");
+						log.info("JSONObject In JSONArray :: " + jsonParam);
+						log.info(":::::::::::::API통신 시작 :::::::::");
+						log.info("########################");
+						
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
+					}
+					
+					if("success".equals(responseMsg.getCode())) {
+						apiCheck = true;
+					}else {
+						return responseMsg;
+					}
 				}else {
-					return responseMsg;
+					// TM대출, TM리스 제외
+					apiCheck = true;				
 				}
 			}else {
-				// TM대출, TM리스 제외
-				apiCheck = true;				
+				apiCheck = true;
 			}
+			
 		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			// 승인요청에 대한 승인 - 제외됐음
 			emailDomain.setInstId("142");
@@ -1018,10 +1138,15 @@ public class RecruitService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		
 		if(apiCheck) {
 			int result = recruitRepository.updateRecruitPlStat(recruitDomain);
-			emailResult = emailRepository.sendEmail(emailDomain);
+			
+			if(emailApply) {
+				emailResult = emailRepository.sendEmail(emailDomain);
+			}else {
+				emailResult = 1;
+			}
+			
 			if(emailResult > 0 && result > 0) {
 				// 모집인단계이력
 				recruitRepository.insertMasterStep(recruitDomain);
@@ -1045,7 +1170,11 @@ public class RecruitService {
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
 		if(StringUtils.isNotEmpty(histDetail.getPlMerchantNo())) {
-			merchantNo.append(CryptoUtil.decrypt(histDetail.getPlMerchantNo()));
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(histDetail.getPlMerchantNo()));
+			}else {
+				merchantNo.append(histDetail.getPlMerchantNo());
+			}
 			merchantNo.insert(6, "-");
 			histDetail.setPlMerchantNo(merchantNo.toString());
 		}
@@ -1053,7 +1182,11 @@ public class RecruitService {
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
 		if(StringUtils.isNotEmpty(histDetail.getPlMZId())) {
-			zid.append(CryptoUtil.decrypt(histDetail.getPlMZId()));
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(histDetail.getPlMZId()));
+			}else {
+				zid.append(histDetail.getPlMZId());
+			}
 			zid.insert(6, "-");
 			histDetail.setPlMZId(zid.toString());
 		}

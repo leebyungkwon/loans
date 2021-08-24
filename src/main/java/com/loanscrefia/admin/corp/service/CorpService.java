@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,24 +22,38 @@ public class CorpService {
 
 	@Autowired private CorpRepository corpRepo;
 	
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
+	
 	//법인 리스트
 	@Transactional(readOnly=true)
 	public List<CorpDomain> selectCorpList(CorpDomain corpDomain) {
 		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(corpDomain.getPlMerchantNo())) {
-			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+			if(cryptoApply) {
+				corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				corpDomain.setPlMerchantNo(corpDomain.getPlMerchantNo().replaceAll("-", ""));
+			}
 		}
 		
 		//리스트
-		List<CorpDomain> corp = corpRepo.selectCorpList(corpDomain);
+		List<CorpDomain> corp 	= corpRepo.selectCorpList(corpDomain);
 		
 		//리스트 데이터 복호화
+		String plMerchantNo 	= "";
 		for(int i=0; i<corp.size(); i++) {
-			String plMerchantNo = CryptoUtil.decrypt(corp.get(i).getPlMerchantNo());
-			plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+			if(cryptoApply) {
+				plMerchantNo = CryptoUtil.decrypt(corp.get(i).getPlMerchantNo());
+			}else {
+				plMerchantNo = corp.get(i).getPlMerchantNo();
+			}
+			plMerchantNo = plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
 			corp.get(i).setPlMerchantNo(plMerchantNo);
 		}
+		
 		return corp;
 	}
 	
@@ -48,7 +63,11 @@ public class CorpService {
 		
 		//법인번호 암호화
 		if(StringUtils.isNotEmpty(corpDomain.getPlMerchantNo())) {
-			corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+			if(cryptoApply) {
+				corpDomain.setPlMerchantNo(CryptoUtil.encrypt(corpDomain.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				corpDomain.setPlMerchantNo(corpDomain.getPlMerchantNo().replaceAll("-", ""));
+			}
 		}
 		
 		//법인번호 중복체크
@@ -104,10 +123,16 @@ public class CorpService {
 	public CorpDomain getCorpInfo(CorpDomain corpDomain) {
 
 		CorpDomain result 	= corpRepo.getCorpInfo(corpDomain);
+		String plMerchantNo	= "";
 		
-		String dnc 			= CryptoUtil.decrypt(result.getPlMerchantNo());
-		dnc 				= dnc.substring(0, 6) + "-" + dnc.substring(6);
-		result.setPlMerchantNo(dnc);
+		if(cryptoApply) {
+			plMerchantNo = CryptoUtil.decrypt(result.getPlMerchantNo());
+		}else {
+			plMerchantNo = result.getPlMerchantNo();
+		}
+		
+		plMerchantNo = plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+		result.setPlMerchantNo(plMerchantNo);
 		
 		return result;
 	}
@@ -155,7 +180,6 @@ public class CorpService {
 		return corpRepo.corpPassCheck(userDomain);
 	}
 	
-	
 	@Transactional
 	public ResponseMsg insertCheckCorp(CorpDomain corpDomain) {
 		
@@ -165,17 +189,19 @@ public class CorpService {
 		for(CorpDomain tmp : corp) {
 			CorpDomain resultDomain = new CorpDomain();
 			resultDomain.setPlMerchantName(tmp.getPlMerchantName());
-			resultDomain.setPlMerchantNo(CryptoUtil.encrypt(tmp.getPlMerchantNo().replaceAll("-", "")));
-			//resultDomain.setPlMerchantNo(tmp.getPlMerchantNo().replaceAll("-", ""));
+			
+			if(cryptoApply) {
+				resultDomain.setPlMerchantNo(CryptoUtil.encrypt(tmp.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				resultDomain.setPlMerchantNo(tmp.getPlMerchantNo().replaceAll("-", ""));
+			}
+			
 			resultDomain.setPathTyp("2");
 			resultDomain.setPassYn("Y");
 			resultDomain.setRegSeq(1);
 			resultDomain.setUpdSeq(1);
 			corpRepo.insertCorpInfo(resultDomain);
 		}
-
-		
-		
 		return new ResponseMsg(HttpStatus.OK, "success", 1, "저장되었습니다.");
 	}
 }

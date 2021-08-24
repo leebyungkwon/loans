@@ -47,22 +47,35 @@ spring:
     password: 1234
 
 logging:
+  file:
+    path: C:\
+    max-history: 1
   level:
-    org.springframework: debug
+    org.springframework: error
     #worg.hibernate.type: info
-    jdbc.audit: debug
-    jdbc.connection: debug
-    jdbc.resultset: debug
-    jdbc.sqlonly: debug
+    jdbc.audit: off
+    jdbc.connection: off
+    jdbc.resultset: off
+    jdbc.sqlonly: error
+
 
 upload:
-  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
   
 download:
-  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
 
 kfbApi:
   url: http://172.16.123.10:43003
+  apply: false
+ 
+crypto:
+  apply: false
+ 
+email:
+  apply: false
+  
+  
 ---
 
 
@@ -94,12 +107,12 @@ spring:
         
 logging:
   level:
-    org.springframework: error 
-    #worg.hibernate.type: info
+    org.springframework: debug
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off
     jdbc.sqlonly: error
+   
    
    
 upload:
@@ -110,13 +123,22 @@ download:
     
 kfbApi:
   url: http://172.16.123.10:43003
+  apply: true
+  
+crypto:
+  apply: true
+  
+email:
+  apply: true
+  
+  
 ---
 
 spring:
   profiles: prod
   devtools:
     restart:
-      enabled: false
+      enabled: true
   mst:
     datasource:
       hikari:
@@ -135,14 +157,16 @@ spring:
         username: cemms
         password: cemms1234
 
+        
 logging:
   level:
-    org.springframework: error 
-    #worg.hibernate.type: info
+    org.springframework: debug
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off
     jdbc.sqlonly: error
+   
+   
    
 upload:
   filePath: Z:\loanscrefia\static\upload
@@ -153,3 +177,12 @@ download:
 
 kfbApi:
   url: http://172.16.33.10:33003
+  apply: true
+
+crypto:
+  apply: true
+  
+email:
+  apply: true
+  
+  
