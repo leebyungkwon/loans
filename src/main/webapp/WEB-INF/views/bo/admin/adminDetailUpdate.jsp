@@ -112,7 +112,13 @@
 		
 		// 취소 버튼
 		$("#adminCancelBtn").on("click", function(){
-			$("#adminDetailFrm").submit();
+			<sec:authorize access="hasAnyRole('TEMP_MEMBER', 'MEMBER')">
+				$("#adminDetailFrm").submit();
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ADMIN')">
+				$("#adminDetailFrm").attr("action","/admin/mng/companyDetail");	
+				$("#adminDetailFrm").submit();
+			</sec:authorize>
 		});
 		
 		// 첨부파일 삭제
