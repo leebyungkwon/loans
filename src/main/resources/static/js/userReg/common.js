@@ -44,13 +44,11 @@ $(document).on("change",".inputFile",function(){
 				alert("20MB 이하의 파일만 업로드 가능합니다.");
 				$(this).val("");
 				$(this).prev().val("");
-				return false;	
 			}
 			if($.inArray(ext, ["pdf", "PDF"]) == -1) {
 				alert("행정정보공동이용사전동의서는 PDF 파일로만 첨부가 가능합니다.");
 				$(this).val("");
 				$(this).prev().val("");
-				return false;
 			}
 		}else{
 			if(!Valid.fileCheck(size,ext,"N")){
