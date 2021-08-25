@@ -123,6 +123,13 @@ function pageLoad(){
 	})
 }
 
+$(document).mouseup(function(e){
+	var calendar01 = $(".calendar01");
+	if(calendar01.has(e.target).length === 0){
+		calendar01.hide();
+	}
+});
+
 //모집인 조회 및 변경 row 클릭 이벤트
 function goRecruitDetail(idx, data){
 	var masterSeq 	= recruitGrid.gridData[idx].masterSeq;
@@ -235,15 +242,15 @@ function goGetDate(opt) {
 							<option value="creLicenseDate">자격취득일</option>
 						</select>
 						<div class="input_wrap">
-                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" style="margin-left: 5px;">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" onclick="$('#date_cal01').show();">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly" onclick="$('#date_cal02').show();">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
-							<div id="date_cal02" class="calendar02"></div>
+							<div id="date_cal02" class="calendar01"></div>
 						</div>
 						<div class="date_btn">
 							<a href="javascript:void(0);" onclick="goGetDate('today');">오늘</a>

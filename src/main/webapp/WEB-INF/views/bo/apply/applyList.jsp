@@ -95,8 +95,6 @@ function pageLoad(){
 			$(this).hide();
 		}
 	});
-	
-	//datepicker
 	$("#date_cal03").datepicker({
 		 dateFormat	: "yy-mm-dd"
 	 	,changeMonth: true
@@ -144,6 +142,13 @@ function pageLoad(){
 		applyGrid.refresh();
 	})
 }
+
+$(document).mouseup(function(e){
+	var calendar01 = $(".calendar01");
+	if(calendar01.has(e.target).length === 0){
+		calendar01.hide();
+	}
+});
 
 //모집인 조회 및 변경 row 클릭 이벤트
 function goApplyDetail(idx, data){
@@ -282,13 +287,13 @@ function goGetDate2(opt) {
 					<th>승인요청일</th>
 					<td colspan="6" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly">
+                			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" onclick="$('#date_cal01').show();">
                 			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
 						 	<div id="date_cal01" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly">
+							<input type="text" name="srchDate2" id="srchDate2" class="input_calendar" readonly="readonly" onclick="$('#date_cal02').show();">
 							<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
 							<div id="date_cal02" class="calendar01"></div>
 						</div>
@@ -306,13 +311,13 @@ function goGetDate2(opt) {
 					<th>최초승인요청일</th>
 					<td colspan="6" class="long_input">
 						<div class="input_wrap">
-                			<input type="text" name="srchDate3" id="srchDate3" class="input_calendar" readonly="readonly">
+                			<input type="text" name="srchDate3" id="srchDate3" class="input_calendar" readonly="readonly" onclick="$('#date_cal03').show();">
                 			<a class="calendar_ico" onclick="$('#date_cal03').show();"></a>
 						 	<div id="date_cal03" class="calendar01"></div>
               			</div>
 					  	~
 					 	<div class="input_wrap mgr5">
-							<input type="text" name="srchDate4" id="srchDate4" class="input_calendar" readonly="readonly">
+							<input type="text" name="srchDate4" id="srchDate4" class="input_calendar" readonly="readonly" onclick="$('#date_cal04').show();">
 							<a class="calendar_ico" onclick="$('#date_cal04').show();"></a>
 							<div id="date_cal04" class="calendar01"></div>
 						</div>
