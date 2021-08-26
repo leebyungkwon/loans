@@ -78,17 +78,15 @@ let GRID = {
 			if (this.gridSearch != "" && this.searchBtn != "") {
 				document.getElementById(this.searchBtn).onclick = function() { _this.getData('init'); };
 			}
+			if($("#"+this.gridSearch).length > 0){
+				$("#"+this.gridSearch).find("input").each(function(index){
+					$(this).on("keyup",function(){
+						if (window.event.keyCode == 13) 	$("#"+_this.searchBtn).trigger("click");
+					});
+				});
+	        }
 		}
 		
-		if($("#"+this.gridSearch).length > 0){
-			$("#"+this.gridSearch).find("input").each(function(index){
-				$(this).on("keyup",function(){
-					if (window.event.keyCode == 13) 	$("#"+_this.searchBtn).trigger("click");
-				});
-			});
-        }
-
-
 		if (this.excel != "") {
 			let button = document.createElement("a");
 			let btnText = document.createTextNode("엑셀다운로드");

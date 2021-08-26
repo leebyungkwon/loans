@@ -12,13 +12,13 @@ function menuActiveFunction(){
 	var menuUrl 	= pathName.split("/");
 	if(menuUrl[2] == "user"){
 		$("#menuUser").addClass("on");
-	}else if(menuUrl[2] == "admin"){
+	}else if("${sessionScope.member.creYn}" == "N" && menuUrl[2] == "admin"){
 		$("#menuAdmin").addClass("on");
 	}else if(menuUrl[2] == "company"){
 		$("#menuCompany").addClass("on");
 	}else if(menuUrl[2] == "crefia"){
 		$("#menuCrefia").addClass("on");
-	}else if(menuUrl[2] == "mng"){
+	}else if(menuUrl[2] == "mng" || ("${sessionScope.member.creYn}" == "Y" && menuUrl[2] == "admin")){
 		$("#menuMng").addClass("on");
 	}else if(menuUrl[2] == "board"){
 		$("#menuBoard").addClass("on");
