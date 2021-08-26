@@ -28,6 +28,10 @@ function goCertiCardDownload(){
 				</colgroup>
 				<tbody>
 					<tr>
+						<th>등록번호</th>
+						<td>${payResultInfo.plRegistNo }</td>
+					</tr>
+					<tr>
 						<th>계약금융회사</th>
 						<td>${payResultInfo.comCodeNm }</td>
 					</tr>
