@@ -124,7 +124,11 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				</li>
 				<li>
 					<span class="dot"></span>
-					<p>조회 후에 수수료를 결제하시면 최종 등록번호 확인 및 모집인 등록증을 다운로드 받으 실 수 있습니다.</p>
+					<p>조회 후에 수수료를 결제하시면 최종 등록번호를 확인하실 수 있습니다.</p>
+				</li>
+				<li>
+					<span class="dot"></span>
+					<p>모집인 등록증은 대출모집인 포탈사이트(<a href="http://www.loanconsultant.or.kr/" target="_blank">http://www.loanconsultant.or.kr/</a>)에서 2021년 9월 중순 이후부터 조회 및 다운로드 받으실 수 있습니다.</p>
 				</li>
 				<li>
 					<span class="red_dot"></span>
@@ -168,7 +172,11 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				</li>
 				<li>
 					<span class="dot"></span>
-					<p>조회 후에 수수료를 결제하시면 최종 등록번호 확인 및 모집인 등록증을 다운로드 받으 실 수 있습니다.</p>
+					<p>조회 후에 수수료를 결제하시면 최종 등록번호를 확인하실 수 있습니다.</p>
+				</li>
+				<li>
+					<span class="dot"></span>
+					<p>모집인 등록증은 대출모집인 포탈사이트(<a href="http://www.loanconsultant.or.kr/" target="_blank">http://www.loanconsultant.or.kr/</a>)에서 2021년 9월 중순 이후부터 조회 및 다운로드 받으실 수 있습니다.</p>
 				</li>
 				<li>
 					<span class="red_dot"></span>
