@@ -524,7 +524,7 @@
    			,'1'							-- 승인미요청
    			,'1'		 					-- 개인,법인
    			<choose>
-   				<when test="(item.G != null and item.G != '') and (item.H != null and item.H != '')">
+   				<when test="(item.H != null and item.H != '') and (item.I != null and item.I != '')">
 					,'Y'
 				</when>
 				<otherwise>
