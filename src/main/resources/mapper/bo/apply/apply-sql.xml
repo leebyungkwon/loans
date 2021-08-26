@@ -140,7 +140,6 @@
 						AND TLM.PL_STAT = '2'
 					</if>
 				</if>
-				
 			</where>
    		)Z
    		<where>
@@ -210,6 +209,8 @@
 			</if>
 			
 	    </where>
+	    ORDER BY ${searchAppDate}, Z.MASTER_SEQ ASC
+	    
 	    <include refid="common.pageBottom"/>
    	</select>
    

@@ -35,8 +35,6 @@ function pageLoad(){
 				,{type:"string"	, name:'adminChkYnTxt'	, index:'adminChkYnTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
-		, sortNm 		: "master_seq"
-		, sort 			: "ASC"
 		, rowClick		: {retFunc : goApplyDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
@@ -129,10 +127,10 @@ function pageLoad(){
 	
 	// 승인 남은일 순
 	$("#sortComRegDate").on("click", function(){
-		if($("#sortName").val() == "first_app_date"){
-			$("#sortName").val("CRE_APP_FI_DATE");	
+		if($("#searchAppDate").val() == "first_app_date"){
+			$("#searchAppDate").val("CRE_APP_FI_DATE");	
 		}else{
-			$("#sortName").val("first_app_date");
+			$("#searchAppDate").val("first_app_date");
 		}
 		applyGrid.refresh();
 	});
@@ -330,7 +328,7 @@ function goGetDate2(opt) {
 						</div>
 					</td>
 				</tr>
-				<input type="hidden" id="sortName" name="sortName" value="first_app_date">
+				<input type="hidden" id="searchAppDate" name="searchAppDate" value="first_app_date">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>

@@ -130,6 +130,8 @@ public class ApplyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "가등록번호", order = 2)
 	private String preLcNum;		//가등록번호
 	
+	private String searchAppDate;	//승인남은일수btn
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
