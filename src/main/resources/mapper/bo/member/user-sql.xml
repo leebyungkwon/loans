@@ -170,16 +170,29 @@
    		SELECT
    			COUNT(*)
    		FROM TB_LC_MAS01
-   		WHERE CORP_USER_YN 	= 'Y'
-   		AND PL_REG_STAT <![CDATA[!=]]> '4'					-- 해지완료가 아닌 법인사용인
-   		AND PL_STAT <![CDATA[!=]]> '8'						-- 즉시취소가 아닌 법인사용인
+   		WHERE PL_CLASS		= '1'
+   		AND CORP_USER_YN 	= 'Y'
+   		AND PL_REG_STAT <![CDATA[!=]]> '4'
+   		AND PL_STAT NOT IN ('8','10','11','12')
    		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+   		AND PL_PRODUCT		= #{plProduct}
    	</select>
    	
-   	<!-- 모집인 조회 및 변경 > -->
-   	<!-- 모집인 조회 및 변경 > -->
-   	<!-- 모집인 조회 및 변경 > -->
-   	
+   	<!-- 모집인 조회 및 변경 > 법인사용인 리스트 -->
+   	<select id="selectCorpUserList" parameterType="user" resultType="user">
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_PRODUCT
+   			,PRE_LC_NUM
+   			,FILE_SEQ
+   		FROM TB_LC_MAS01
+   		WHERE PL_CLASS		= '1'
+   		AND CORP_USER_YN 	= 'Y'
+   		AND PL_REG_STAT <![CDATA[!=]]> '4'
+   		AND PL_STAT NOT IN ('8','10','11','12')
+   		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+   		AND PL_PRODUCT		= #{plProduct}
+   	</select>
    	
    	<!-- ====================================================================================================== -->
    	<!-- [회원사 시스템 > 모집인 등록] -->
@@ -1242,6 +1255,7 @@
 	    	AND PL_CLASS 		= '1'
 	    	AND CORP_USER_YN 	= 'Y'
 	   		AND PL_MERCHANT_NO 	= #{plMerchantNo}
+	   		AND PL_PRODUCT		= #{plProduct}
 	    </where>
 	</delete>
    	

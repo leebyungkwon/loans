@@ -1763,7 +1763,32 @@ public class UserService {
 		this.userValidation(userDomain.getMasterSeq());
 		
 		//상세
-		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
+		
+		if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 삭제 불가
+			UserImwonDomain chkParam1 	= new UserImwonDomain();
+			UserExpertDomain chkParam2 	= new UserExpertDomain();
+			UserItDomain chkParam3 		= new UserItDomain();
+			
+			//법인사용인
+			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
+			
+			//임원
+			chkParam1.setMasterSeq(userDomain.getMasterSeq());
+			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
+			
+			//전문인력
+			chkParam2.setMasterSeq(userDomain.getMasterSeq());
+			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
+			
+			//전산인력
+			chkParam3.setMasterSeq(userDomain.getMasterSeq());
+			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
+			
+			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 삭제가 불가능 합니다.");
+			}
+		}
 		
 		//부적격일 때 우리 테이블에서 삭제 + 나머지는 취소 API 태우고 삭제***
 		boolean deleteContinue 	= false;
@@ -1811,6 +1836,7 @@ public class UserService {
 				commonService.realDeleteFileByGrpSeq(fileParam);
 			}
 			
+			/*
 			//법인 삭제 시 하위 데이터도 삭제
 			if(userRegInfo.getPlClass().equals("2")) {
 				UserImwonDomain chkParam1 	= new UserImwonDomain();
@@ -1818,13 +1844,58 @@ public class UserService {
 				UserItDomain chkParam3 		= new UserItDomain();
 				
 				//법인사용인 삭제
-				userRepo.deleteCorpUserRegInfo(userRegInfo);
+				List<UserDomain> corpIndvList = userRepo.selectCorpUserList(userRegInfo);
 				
-				//임원 첨부파일 삭제
+				if(corpIndvList.size() > 0) {
+					//첨부파일 및 정보 삭제
+					for(int i = 0;i < corpIndvList.size();i++) {
+						if(kfbApiApply) {
+							//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
+							if(kfbApiContinue2(corpIndvList.get(i).getPlProduct())) {
+								JSONObject preLoanApiReqParam	= new JSONObject();
+								ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+								
+								preLoanApiReqParam.put("pre_lc_num", corpIndvList.get(i).getPreLcNum());
+								responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", "1", "Y");
+								
+								if("success".equals(responseMsg.getCode())) {
+									if(corpIndvList.get(i).getFileSeq() != null) {
+										FileDomain fileParam = new FileDomain();
+										fileParam.setFileGrpSeq(corpIndvList.get(i).getFileSeq());
+										commonService.realDeleteFileByGrpSeq(fileParam);
+									}
+									
+									userRepo.deleteUserRegInfo(corpIndvList.get(i));
+								}else {
+									
+								}
+							}else {
+								if(corpIndvList.get(i).getFileSeq() != null) {
+									FileDomain fileParam = new FileDomain();
+									fileParam.setFileGrpSeq(corpIndvList.get(i).getFileSeq());
+									commonService.realDeleteFileByGrpSeq(fileParam);
+								}
+								
+								userRepo.deleteUserRegInfo(corpIndvList.get(i));
+							}
+						}else {
+							if(corpIndvList.get(i).getFileSeq() != null) {
+								FileDomain fileParam = new FileDomain();
+								fileParam.setFileGrpSeq(corpIndvList.get(i).getFileSeq());
+								commonService.realDeleteFileByGrpSeq(fileParam);
+							}
+							
+							userRepo.deleteUserRegInfo(corpIndvList.get(i));
+						}
+					}
+				}
+				
+				//임원 삭제
 				chkParam1.setMasterSeq(userRegInfo.getMasterSeq());
 				List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
 				
 				if(imwonList.size() > 0) {
+					//첨부파일 삭제
 					for(int i = 0;i < imwonList.size();i++) {
 						if(imwonList.get(i).getFileSeq() != null) {
 							FileDomain fileParam = new FileDomain();
@@ -1832,16 +1903,17 @@ public class UserService {
 							commonService.realDeleteFileByGrpSeq(fileParam);
 						}
 					}
+					
+					//정보 삭제
+					userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
 				}
 				
-				//임원 삭제
-				userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
-				
-				//전문인력 첨부파일 삭제
+				//전문인력 삭제
 				chkParam2.setMasterSeq(userRegInfo.getMasterSeq());
 				List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
 				
 				if(expertList.size() > 0) {
+					//첨부파일 삭제
 					for(int i = 0;i < expertList.size();i++) {
 						if(expertList.get(i).getFileSeq() != null) {
 							FileDomain fileParam = new FileDomain();
@@ -1849,16 +1921,17 @@ public class UserService {
 							commonService.realDeleteFileByGrpSeq(fileParam);
 						}
 					}
+					
+					//정보 삭제
+					userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
 				}
 				
-				//전문인력 삭제
-				userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
-				
-				//전산인력 첨부파일 삭제
+				//전산인력 삭제
 				chkParam3.setMasterSeq(userRegInfo.getMasterSeq());
 				List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 				
 				if(itList.size() > 0) {
+					//첨부파일 삭제
 					for(int i = 0;i < itList.size();i++) {
 						if(itList.get(i).getFileSeq() != null) {
 							FileDomain fileParam = new FileDomain();
@@ -1866,11 +1939,12 @@ public class UserService {
 							commonService.realDeleteFileByGrpSeq(fileParam);
 						}
 					}
+					
+					//정보 삭제
+					userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
 				}
-				
-				//전산인력 삭제
-				userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
 			}
+			*/
 			
 			//삭제
 			deleteResult = userRepo.deleteUserRegInfo(userRegInfo);
@@ -1890,122 +1964,199 @@ public class UserService {
 		int[] masterSeqArr 	= userDomain.getMasterSeqArr();
 		int deleteResult 	= 0;
 		
+		KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
+		String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
+		
 		for(int i = 0;i < masterSeqArr.length;i++) {
-			//상태값 체크*****
-			this.userValidation(masterSeqArr[i]);
-			
 			//상세
 			userDomain.setMasterSeq(masterSeqArr[i]);
 			UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
 			
-			//부적격일 때 우리 테이블에서 삭제 + 나머지는 취소 API 태우고 삭제***
-			boolean deleteContinue 	= false;
-			
-			if(userRegInfo.getPlStat().equals("10")) {
-				//부적격인 상태는 이미 협회쪽에서 가등록 취소 API 완료된 상태 -> 따라서 우리쪽 테이블에서 삭제만 시키면 OK
-				deleteContinue = true;
-			}else {
-				if(kfbApiApply) {
-					//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
-					if(kfbApiContinue2(userRegInfo.getPlProduct())) {
-						KfbApiDomain kfbApiDomain 		= new KfbApiDomain();
-						String apiToken 				= kfbApiService.selectKfbApiKey(kfbApiDomain);
-						JSONObject preLoanApiReqParam	= new JSONObject();
-						ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
-						
-						if("1".equals(userRegInfo.getPlClass())) {
-							preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
-							responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
-						}else {
-							preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
-							responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
-						}
-						
-						if("success".equals(responseMsg.getCode())) {
-							deleteContinue = true;
-						}else {
-							return responseMsg;
-						}
-						
-					}else {
-						deleteContinue = true;
-					}
-				}else {
-					deleteContinue = true;
-				}
-			}
-			
-			if(deleteContinue) {
-				//관련 첨부파일 삭제
-				if(userRegInfo.getFileSeq() != null) {
-					FileDomain fileParam = new FileDomain();
-					fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
-					commonService.realDeleteFileByGrpSeq(fileParam);
-				}
+			if(userRegInfo != null) {
+				//상태값 체크*****
+				this.userValidation(masterSeqArr[i]);
 				
-				//법인 삭제 시 하위 데이터도 삭제
-				if(userRegInfo.getPlClass().equals("2")) {
+				if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 삭제 불가
 					UserImwonDomain chkParam1 	= new UserImwonDomain();
 					UserExpertDomain chkParam2 	= new UserExpertDomain();
 					UserItDomain chkParam3 		= new UserItDomain();
 					
-					//법인사용인 삭제
-					userRepo.deleteCorpUserRegInfo(userRegInfo);
+					//법인사용인
+					int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
 					
-					//임원 첨부파일 삭제
-					chkParam1.setMasterSeq(userRegInfo.getMasterSeq());
+					//임원
+					chkParam1.setMasterSeq(userDomain.getMasterSeq());
 					List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
 					
-					if(imwonList.size() > 0) {
-						for(int j = 0;j < imwonList.size();j++) {
-							if(imwonList.get(j).getFileSeq() != null) {
-								FileDomain fileParam = new FileDomain();
-								fileParam.setFileGrpSeq(imwonList.get(j).getFileSeq());
-								commonService.realDeleteFileByGrpSeq(fileParam);
-							}
-						}
-					}
-					
-					//임원 삭제
-					userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
-					
-					//전문인력 첨부파일 삭제
-					chkParam2.setMasterSeq(userRegInfo.getMasterSeq());
+					//전문인력
+					chkParam2.setMasterSeq(userDomain.getMasterSeq());
 					List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
 					
-					if(expertList.size() > 0) {
-						for(int j = 0;j < expertList.size();j++) {
-							if(expertList.get(j).getFileSeq() != null) {
-								FileDomain fileParam = new FileDomain();
-								fileParam.setFileGrpSeq(expertList.get(j).getFileSeq());
-								commonService.realDeleteFileByGrpSeq(fileParam);
-							}
-						}
-					}
-					
-					//전문인력 삭제
-					userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
-					
-					//전산인력 첨부파일 삭제
-					chkParam3.setMasterSeq(userRegInfo.getMasterSeq());
+					//전산인력
+					chkParam3.setMasterSeq(userDomain.getMasterSeq());
 					List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 					
-					if(itList.size() > 0) {
-						for(int j = 0;j < itList.size();j++) {
-							if(itList.get(j).getFileSeq() != null) {
-								FileDomain fileParam = new FileDomain();
-								fileParam.setFileGrpSeq(itList.get(j).getFileSeq());
-								commonService.realDeleteFileByGrpSeq(fileParam);
-							}
-						}
+					if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+						return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 삭제가 불가능 합니다.");
 					}
-					
-					//전산인력 삭제
-					userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
 				}
 				
-				//삭제
-				deleteResult += userRepo.deleteUserRegInfo(userRegInfo);
+				//부적격일 때 우리 테이블에서 삭제 + 나머지는 취소 API 태우고 삭제***
+				boolean deleteContinue 	= false;
+				
+				if(userRegInfo.getPlStat().equals("10")) {
+					//부적격인 상태는 이미 협회쪽에서 가등록 취소 API 완료된 상태 -> 따라서 우리쪽 테이블에서 삭제만 시키면 OK
+					deleteContinue = true;
+				}else {
+					if(kfbApiApply) {
+						//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
+						if(kfbApiContinue2(userRegInfo.getPlProduct())) {
+							JSONObject preLoanApiReqParam	= new JSONObject();
+							ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+							
+							if("1".equals(userRegInfo.getPlClass())) {
+								preLoanApiReqParam.put("pre_lc_num", userRegInfo.getPreLcNum());
+								responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+							}else {
+								preLoanApiReqParam.put("pre_corp_lc_num", userRegInfo.getPreLcNum());
+								responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", userRegInfo.getPlClass(), "Y");
+							}
+							
+							if("success".equals(responseMsg.getCode())) {
+								deleteContinue = true;
+							}else {
+								return responseMsg;
+							}
+							
+						}else {
+							deleteContinue = true;
+						}
+					}else {
+						deleteContinue = true;
+					}
+				}
+				
+				if(deleteContinue) {
+					//관련 첨부파일 삭제
+					if(userRegInfo.getFileSeq() != null) {
+						FileDomain fileParam = new FileDomain();
+						fileParam.setFileGrpSeq(userRegInfo.getFileSeq());
+						commonService.realDeleteFileByGrpSeq(fileParam);
+					}
+					
+					/*
+					//법인 삭제 시 하위 데이터도 삭제
+					if(userRegInfo.getPlClass().equals("2")) {
+						UserImwonDomain chkParam1 	= new UserImwonDomain();
+						UserExpertDomain chkParam2 	= new UserExpertDomain();
+						UserItDomain chkParam3 		= new UserItDomain();
+						
+						//법인사용인 삭제
+						List<UserDomain> corpIndvList = userRepo.selectCorpUserList(userRegInfo);
+						
+						if(corpIndvList.size() > 0) {
+							//첨부파일 및 정보 삭제
+							for(int j = 0;i < corpIndvList.size();j++) {
+								if(kfbApiApply) {
+									//가등록 취소 API(TM 제외) + 우리쪽 테이블에서 삭제
+									if(kfbApiContinue2(corpIndvList.get(j).getPlProduct())) {
+										JSONObject preLoanApiReqParam	= new JSONObject();
+										ResponseMsg responseMsg 		= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+										
+										preLoanApiReqParam.put("pre_lc_num", corpIndvList.get(j).getPreLcNum());
+										responseMsg = kfbApiService.commonKfbApi(apiToken, preLoanApiReqParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", "1", "Y");
+										
+										if("success".equals(responseMsg.getCode())) {
+											if(corpIndvList.get(j).getFileSeq() != null) {
+												FileDomain fileParam = new FileDomain();
+												fileParam.setFileGrpSeq(corpIndvList.get(j).getFileSeq());
+												commonService.realDeleteFileByGrpSeq(fileParam);
+											}
+											
+											userRepo.deleteUserRegInfo(corpIndvList.get(j));
+										}else {
+											
+										}
+									}else {
+										if(corpIndvList.get(j).getFileSeq() != null) {
+											FileDomain fileParam = new FileDomain();
+											fileParam.setFileGrpSeq(corpIndvList.get(j).getFileSeq());
+											commonService.realDeleteFileByGrpSeq(fileParam);
+										}
+										
+										userRepo.deleteUserRegInfo(corpIndvList.get(j));
+									}
+								}else {
+									if(corpIndvList.get(j).getFileSeq() != null) {
+										FileDomain fileParam = new FileDomain();
+										fileParam.setFileGrpSeq(corpIndvList.get(j).getFileSeq());
+										commonService.realDeleteFileByGrpSeq(fileParam);
+									}
+									
+									userRepo.deleteUserRegInfo(corpIndvList.get(j));
+								}
+							}
+						}
+						
+						//임원 삭제
+						chkParam1.setMasterSeq(userRegInfo.getMasterSeq());
+						List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
+						
+						if(imwonList.size() > 0) {
+							//첨부파일 삭제
+							for(int j = 0;j < imwonList.size();j++) {
+								if(imwonList.get(j).getFileSeq() != null) {
+									FileDomain fileParam = new FileDomain();
+									fileParam.setFileGrpSeq(imwonList.get(j).getFileSeq());
+									commonService.realDeleteFileByGrpSeq(fileParam);
+								}
+							}
+							
+							//정보 삭제
+							userRepo.deleteUserRegCorpImwonInfoByMasterSeq(chkParam1);
+						}
+						
+						//전문인력 삭제
+						chkParam2.setMasterSeq(userRegInfo.getMasterSeq());
+						List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
+						
+						if(expertList.size() > 0) {
+							//첨부파일 삭제
+							for(int j = 0;j < expertList.size();j++) {
+								if(expertList.get(j).getFileSeq() != null) {
+									FileDomain fileParam = new FileDomain();
+									fileParam.setFileGrpSeq(expertList.get(j).getFileSeq());
+									commonService.realDeleteFileByGrpSeq(fileParam);
+								}
+							}
+							
+							//정보 삭제
+							userRepo.deleteUserRegCorpExpertInfoByMasterSeq(chkParam2);
+						}
+						
+						//전산인력 삭제
+						chkParam3.setMasterSeq(userRegInfo.getMasterSeq());
+						List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
+						
+						if(itList.size() > 0) {
+							//첨부파일 삭제
+							for(int j = 0;j < itList.size();j++) {
+								if(itList.get(j).getFileSeq() != null) {
+									FileDomain fileParam = new FileDomain();
+									fileParam.setFileGrpSeq(itList.get(j).getFileSeq());
+									commonService.realDeleteFileByGrpSeq(fileParam);
+								}
+							}
+						}
+						
+						//정보 삭제
+						userRepo.deleteUserRegCorpItInfoByMasterSeq(chkParam3);
+					}
+					*/
+					
+					//삭제
+					deleteResult += userRepo.deleteUserRegInfo(userRegInfo);
+				}
 			}
 		}
 		if(deleteResult > 0) {
@@ -2085,6 +2236,31 @@ public class UserService {
 		
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);
+		
+		if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 즉시취소 불가
+			UserImwonDomain chkParam1 	= new UserImwonDomain();
+			UserExpertDomain chkParam2 	= new UserExpertDomain();
+			UserItDomain chkParam3 		= new UserItDomain();
+			
+			//법인사용인
+			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
+			
+			//임원
+			chkParam1.setMasterSeq(userDomain.getMasterSeq());
+			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
+			
+			//전문인력
+			chkParam2.setMasterSeq(userDomain.getMasterSeq());
+			List<UserExpertDomain> expertList = userRepo.selectUserRegCorpExpertList(chkParam2);
+			
+			//전산인력
+			chkParam3.setMasterSeq(userDomain.getMasterSeq());
+			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
+			
+			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 즉시취소가 불가능 합니다.");
+			}
+		}
 		
 		boolean updateContinue 	= false;
 		int updateResult 		= 0;

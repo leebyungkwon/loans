@@ -32,23 +32,15 @@ public class PayService {
 	@Transactional
 	public boolean insertPayResult(PayDomain payDomain) {
 		
+		boolean goAcqUpdate = true;
 		SearchDomain param 	= new SearchDomain();
+		String lcNum 		= "";
+		String conNum 		= "";
 		
 		//(1)결제 테이블에 정보 저장
 		int payResultInsertResult = payRepo.insertPayResult(payDomain);
 		
 		if(payResultInsertResult > 0) {
-			/*
-			//임시
-			param.setMasterSeq(payDomain.getMasterSeq());
-			param.setPlRegStat("3");
-			int updateResult = searchService.updatePlRegStat(param);
-			
-			if(updateResult == 0) {
-				result = false;
-			}
-			*/
-			
 			//(2)은행연합회 통신(본동록) : 성공 시 모집인 상태(pl_reg_stat) = 자격취득 / 실패 시 결제완료(이후 프로세스는 협회쪽에서 수동으로 진행)
 			SearchDomain searchDoamin 	= new SearchDomain();
 			searchDoamin.setMasterSeq(payDomain.getMasterSeq());
@@ -72,9 +64,6 @@ public class PayService {
 					loanApiResult = kfbApiService.commonKfbApi(apiToken, loanApiReqParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", userInfo.getPlClass(), "Y");
 				}
 				
-				String lcNum 	= "";
-				String conNum 	= "";
-				
 				if(loanApiResult.getCode().equals("success")) {
 					JSONObject loanApiResponse = (JSONObject)loanApiResult.getData();
 					log.info("#########################################");
@@ -83,10 +72,14 @@ public class PayService {
 					
 					if(userInfo.getPlClass().equals("1")) {
 						//개인
-						lcNum = loanApiResponse.getString("lc_num");
+						if(!loanApiResponse.isNull("lc_num")) {
+							lcNum = loanApiResponse.getString("lc_num");
+						}
 					}else {
 						//법인
-						lcNum = loanApiResponse.getString("corp_lc_num");
+						if(!loanApiResponse.isNull("corp_lc_num")) {
+							lcNum = loanApiResponse.getString("corp_lc_num");
+						}
 					}
 					
 					if(StringUtils.isEmpty(lcNum)) {
@@ -94,11 +87,7 @@ public class PayService {
 						log.info("payService >> insertPayResult() >> lcNum empty");
 						log.info("#########################################");
 						
-						param.setMasterSeq(payDomain.getMasterSeq());
-						param.setPlRegStat("5");
-						searchService.updatePlRegStat(param);
-						
-						return false;
+						goAcqUpdate = false;
 					}
 					
 					JSONObject jsonObj 	= new JSONObject();
@@ -106,11 +95,16 @@ public class PayService {
 					
 					for(int i = 0; i < conArr.length(); i++){
 						jsonObj 		= conArr.getJSONObject(i);
-						String loanType = jsonObj.getString("loan_type");
-						String finCode 	= jsonObj.getString("fin_code");
-						//통신결과로 리턴받은 계약금융기관코드와 상품코드 등록된 데이터와 비교
-						if(loanType.equals(userInfo.getPlProduct()) && finCode.equals(Integer.toString(userInfo.getComCode()))) {
-							conNum = jsonObj.getString("con_num");
+						
+						if(!jsonObj.isNull("loan_type") && !jsonObj.isNull("fin_code") ) {
+							String loanType = jsonObj.getString("loan_type");
+							String finCode 	= jsonObj.getString("fin_code");
+							
+							//통신결과로 리턴받은 상품코드와 계약금융기관코드를 등록된 데이터와 비교
+							if(loanType.equals(userInfo.getPlProduct()) && finCode.equals(Integer.toString(userInfo.getComCode()))) {
+								conNum = jsonObj.getString("con_num");
+								break;
+							}
 						}
 					}
 					
@@ -119,46 +113,23 @@ public class PayService {
 						log.info("payService >> insertPayResult() >> conNum empty");
 						log.info("#########################################");
 						
-						param.setMasterSeq(payDomain.getMasterSeq());
-						param.setPlRegStat("5");
-						searchService.updatePlRegStat(param);
-						
-						return false;
+						goAcqUpdate = false;
 					}
 					
-					//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정 + 계약번호 저장
-					param.setMasterSeq(payDomain.getMasterSeq());
-					param.setPlRegStat("3");
-					param.setPlRegistNo(lcNum);
-					param.setConNum(conNum);
-					int updateResult = searchService.updatePlRegStat(param);
+					//(3)모집인 상태(pl_reg_stat) 자격취득으로 수정 + 본등록번호 및 계약번호 저장*****
+					goAcqUpdate = true;
 					
-					if(updateResult == 0) {
-						//모집인 상태(pl_reg_stat) 변경 실패
-						log.info("#########################################");
-						log.info("payService >> insertPayResult() >> 모집인 상태(pl_reg_stat) 변경 실패");
-						log.info("#########################################");
-						
-						param.setMasterSeq(payDomain.getMasterSeq());
-						param.setPlRegStat("5");
-						param.setPlRegistNo(lcNum);
-						param.setConNum(conNum);
-						searchService.updatePlRegStat(param);
-						
-						return false;
-					}
 				}else {
 					//은행연합회 통신(본동록) 실패
 					log.info("#########################################");
 					log.info("payService >> insertPayResult() >> 은행연합회 통신(본동록) 실패");
 					log.info("#########################################");
 					
-					param.setMasterSeq(payDomain.getMasterSeq());
-					param.setPlRegStat("5");
-					searchService.updatePlRegStat(param);
-					
-					return false;
+					goAcqUpdate = false;
 				}
+			}else {
+				//TM상품일 때 : 모집인 상태(pl_reg_stat) 결제완료로 수정 -> 나중에 일괄로 자격취득하는걸로
+				goAcqUpdate = false;
 			}
 			
 		}else {
@@ -167,8 +138,36 @@ public class PayService {
 			log.info("payService >> insertPayResult() >> 결제 테이블 저장 실패");
 			log.info("#########################################");
 			
+			goAcqUpdate = false;
+		}
+		
+		if(goAcqUpdate) {
+			//모집인 상태(pl_reg_stat) : 자격취득
+			param.setMasterSeq(payDomain.getMasterSeq());
+			param.setPlRegStat("3");
+			param.setPlRegistNo(lcNum);
+			param.setConNum(conNum);
+			int updateResult = searchService.updatePlRegStat(param);
+			
+			if(updateResult == 0) {
+				log.info("#########################################");
+				log.info("payService >> insertPayResult() >> 모집인 상태(pl_reg_stat) 자격취득으로 변경 실패");
+				log.info("#########################################");
+				
+				param.setMasterSeq(payDomain.getMasterSeq());
+				param.setPlRegStat("5");
+				param.setPlRegistNo(lcNum);
+				param.setConNum(conNum);
+				searchService.updatePlRegStat(param);
+				
+				return false;
+			}
+		}else {
+			//모집인 상태(pl_reg_stat) : 결제완료
 			param.setMasterSeq(payDomain.getMasterSeq());
 			param.setPlRegStat("5");
+			param.setPlRegistNo(lcNum);
+			param.setConNum(conNum);
 			searchService.updatePlRegStat(param);
 			
 			return false;

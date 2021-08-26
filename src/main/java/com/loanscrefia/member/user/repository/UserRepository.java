@@ -23,10 +23,8 @@ public interface UserRepository {
 	//모집인 조회 및 변경 > 법인사용인 존재유무
 	int selectCorpUserCnt(UserDomain userDomain);
 	
-	//모집인 조회 및 변경 > 
-	//모집인 조회 및 변경 > 
-	//모집인 조회 및 변경 > 
-	//모집인 조회 및 변경 > 
+	//모집인 조회 및 변경 > 법인사용인 리스트
+	List<UserDomain> selectCorpUserList(UserDomain userDomain);
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 회원사 시스템 > 모집인 등록
