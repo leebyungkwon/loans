@@ -1770,9 +1770,6 @@ public class UserService {
 			UserExpertDomain chkParam2 	= new UserExpertDomain();
 			UserItDomain chkParam3 		= new UserItDomain();
 			
-			//법인사용인
-			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
-			
 			//임원
 			chkParam1.setMasterSeq(userDomain.getMasterSeq());
 			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
@@ -1785,7 +1782,7 @@ public class UserService {
 			chkParam3.setMasterSeq(userDomain.getMasterSeq());
 			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 			
-			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+			if(imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
 				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 삭제가 불가능 합니다.");
 			}
 		}
@@ -1981,9 +1978,6 @@ public class UserService {
 					UserExpertDomain chkParam2 	= new UserExpertDomain();
 					UserItDomain chkParam3 		= new UserItDomain();
 					
-					//법인사용인
-					int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
-					
 					//임원
 					chkParam1.setMasterSeq(userDomain.getMasterSeq());
 					List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
@@ -1996,7 +1990,7 @@ public class UserService {
 					chkParam3.setMasterSeq(userDomain.getMasterSeq());
 					List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 					
-					if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+					if(imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
 						if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 							String plMerchantNo = "";
 							if(cryptoApply) {
@@ -2252,9 +2246,6 @@ public class UserService {
 			UserExpertDomain chkParam2 	= new UserExpertDomain();
 			UserItDomain chkParam3 		= new UserItDomain();
 			
-			//법인사용인
-			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
-			
 			//임원
 			chkParam1.setMasterSeq(userDomain.getMasterSeq());
 			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
@@ -2267,7 +2258,7 @@ public class UserService {
 			chkParam3.setMasterSeq(userDomain.getMasterSeq());
 			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 			
-			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+			if(imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
 				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 즉시취소가 불가능 합니다.");
 			}
 		}
@@ -2392,9 +2383,6 @@ public class UserService {
 			UserExpertDomain chkParam2 	= new UserExpertDomain();
 			UserItDomain chkParam3 		= new UserItDomain();
 			
-			//법인사용인
-			int corpIndvCnt = userRepo.selectCorpUserCnt(userRegInfo);
-			
 			//임원
 			chkParam1.setMasterSeq(userDomain.getMasterSeq());
 			List<UserImwonDomain> imwonList = userRepo.selectUserRegCorpImwonList(chkParam1);
@@ -2407,7 +2395,7 @@ public class UserService {
 			chkParam3.setMasterSeq(userDomain.getMasterSeq());
 			List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 			
-			if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
+			if(imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
 				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능 합니다.");
 			}
 		}
