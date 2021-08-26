@@ -1997,7 +1997,17 @@ public class UserService {
 					List<UserItDomain> itList = userRepo.selectUserRegCorpItList(chkParam3);
 					
 					if(corpIndvCnt > 0 || imwonList.size() > 0 || expertList.size() > 0 || itList.size() > 0) {
-						return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 삭제가 불가능 합니다.");
+						if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
+							String plMerchantNo = "";
+							if(cryptoApply) {
+								plMerchantNo 	= CryptoUtil.decrypt(userRegInfo.getPlMerchantNo());
+							}else {
+								plMerchantNo 	= userRegInfo.getPlMerchantNo();
+							}
+							plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+							userRegInfo.setPlMerchantNo(plMerchantNo);
+						}
+						return new ResponseMsg(HttpStatus.OK, "fail", userRegInfo.getPlMerchantName()+"("+userRegInfo.getPlMerchantNo()+")는 하위 데이터가 존재하여 삭제가 불가능 합니다.");
 					}
 				}
 				
