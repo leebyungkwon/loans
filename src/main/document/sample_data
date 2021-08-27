@@ -1,3 +1,29 @@
+-- 2021-08-27 기본컬럼 추가
+ALTER TABLE tb_lc_mas01 ADD COLUMN use_yn char(1) not null default 'Y';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN use_yn char(1) not null default 'Y';
+
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN use_yn char(1) not null default 'Y';
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_seq int;
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_timestamp timestamp;
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN upd_seq int;
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN upd_timestamp timestamp;
+
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN use_yn char(1) not null default 'Y';
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN reg_seq int;
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN reg_timestamp timestamp;
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN upd_seq int;
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN upd_timestamp timestamp;
+
+ALTER TABLE tb_lc_mas01_it ADD COLUMN use_yn char(1) not null default 'Y';
+ALTER TABLE tb_lc_mas01_it ADD COLUMN reg_seq int;
+ALTER TABLE tb_lc_mas01_it ADD COLUMN reg_timestamp timestamp;
+ALTER TABLE tb_lc_mas01_it ADD COLUMN upd_seq int;
+ALTER TABLE tb_lc_mas01_it ADD COLUMN upd_timestamp timestamp;
+
+
+
+
+
 -- 2021-08-17 승인남은일수 홀딩
 ALTER TABLE tb_lc_mas01 ADD COLUMN app_date_hold varchar(8);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN app_date_hold varchar(8);
