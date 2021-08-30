@@ -10,16 +10,17 @@ function menuActiveFunction(){
 	$(".gnb > ul > li").removeClass("on");
 	var pathName 	= location.pathname;
 	var menuUrl 	= pathName.split("/");
-	if(menuUrl[2] == "user"){
+	var prevMn		= "${prevMn}";
+	if(menuUrl[2] == "mng" || prevMn == "mng"){ 
+		$("#menuMng").addClass("on");
+	}else if(menuUrl[2] == "user"){
 		$("#menuUser").addClass("on");
-	}else if("${sessionScope.member.creYn}" == "N" && menuUrl[2] == "admin"){
+	}else if(menuUrl[2] == "admin"){
 		$("#menuAdmin").addClass("on");
 	}else if(menuUrl[2] == "company"){
 		$("#menuCompany").addClass("on");
 	}else if(menuUrl[2] == "crefia"){
 		$("#menuCrefia").addClass("on");
-	}else if(menuUrl[2] == "mng" || ("${sessionScope.member.creYn}" == "Y" && menuUrl[2] == "admin")){
-		$("#menuMng").addClass("on");
 	}else if(menuUrl[2] == "board"){
 		$("#menuBoard").addClass("on");
 	}else if(menuUrl[2] == "code"){

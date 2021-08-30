@@ -70,12 +70,11 @@
 							if(WebUtil.isNull(result.message)){
 								alert(result.data[0].defaultMessage);
 							}else{
-								<sec:authorize access="hasAnyRole('TEMP_MEMBER', 'MEMBER')">
-									location.href="/member/admin/adminPage"
-								</sec:authorize>
-								<sec:authorize access="hasAnyRole('ADMIN')">
+								if("${prevMn}" == "mng"){
 									location.href="/admin/mng/companyPage"
-								</sec:authorize>
+								}else{
+									location.href="/member/admin/adminPage"
+								}
 							}
 						}
 					}
@@ -112,13 +111,11 @@
 		
 		// 취소 버튼
 		$("#adminCancelBtn").on("click", function(){
-			<sec:authorize access="hasAnyRole('TEMP_MEMBER', 'MEMBER')">
-				$("#adminDetailFrm").submit();
-			</sec:authorize>
-			<sec:authorize access="hasAnyRole('ADMIN')">
-				$("#adminDetailFrm").attr("action","/admin/mng/companyDetail");	
-				$("#adminDetailFrm").submit();
-			</sec:authorize>
+			if("${prevMn}" == "mng"){
+				location.href="/admin/mng/companyPage"
+			}else{
+				location.href="/member/admin/adminPage"
+			}
 		});
 		
 		// 첨부파일 삭제
@@ -270,7 +267,14 @@
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>관리자 조회 및 변경</h2>
+			<c:choose>
+				<c:when test="${prevMn eq 'mng' }">
+					<h2>회원사 담당자 관리</h2>
+				</c:when>
+				<c:otherwise>
+					<h2>관리자 조회 및 변경</h2>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 		

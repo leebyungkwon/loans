@@ -103,6 +103,7 @@ function cleanPassword(){
 	
 	<form name="companyInfoUpdFrm" id="companyInfoUpdFrm" action="/member/admin/adminDetailUpdPage" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>
+		<input type="hidden" name="prevMn" value="mng"/>
 	</form>
 	<form name="companyStatUpdt" id="companyDetailFrm" action="/admin/mng/updateCompanyStat" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="memberSeq" id="memberSeq" value="${companyDetail.memberSeq }"/>

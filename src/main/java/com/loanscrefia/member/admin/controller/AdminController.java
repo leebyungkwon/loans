@@ -1,8 +1,6 @@
 package com.loanscrefia.member.admin.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.member.admin.domain.AdminDomain;
 import com.loanscrefia.member.admin.service.AdminService;
-import com.loanscrefia.util.UtilFile;
 
 @Controller
 @RequestMapping(value="/member/admin")
@@ -51,35 +48,41 @@ public class AdminController {
     public ModelAndView adminDetail(AdminDomain adminDomain) {
     	ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetail");
     	
+    	//상세
     	AdminDomain adminInfo = adminService.getAdminDetail(adminDomain);
     	mv.addObject("adminInfo", adminInfo);
     	
+    	//첨부파일
     	FileDomain file = new FileDomain();
-    	int aa = adminInfo.getFileSeq();
-    	if(aa > 0) {
+    	if(adminInfo.getFileSeq() > 0) {
         	file.setFileSeq(adminInfo.getFileSeq());
         	file = commonService.getFile(file);    		
     	}
     	mv.addObject("file", file);
+    	
         return mv;
     }
 	
 	// 회원사 시스템 - 관리자 수정 페이지
 	@PostMapping(value="/adminDetailUpdPage")
-	public ModelAndView adminDetailUpdate(AdminDomain adminDomain) {
+	public ModelAndView adminDetailUpdate(HttpServletRequest request ,AdminDomain adminDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoMemberAdminPage+"/adminDetailUpdate");
 	
+		//상세
 		AdminDomain adminInfo = adminService.getAdminDetailUpd(adminDomain);
-		
-		// denied 페이지에서 진입시 가승인 회원 체크
-		adminInfo.setTempMemberCheck(adminDomain.getTempMemberCheck());
-
+		adminInfo.setTempMemberCheck(adminDomain.getTempMemberCheck()); //denied 페이지에서 진입시 가승인 회원 체크
 		mv.addObject("adminInfo", adminInfo);
 
-    	FileDomain file = new FileDomain();
-    	file.setFileSeq(adminInfo.getFileSeq());
-    	file = commonService.getFile(file);
+		//첨부파일
+		FileDomain file = new FileDomain();
+		if(adminInfo.getFileSeq() > 0) {
+			file.setFileSeq(adminInfo.getFileSeq());
+	    	file = commonService.getFile(file);
+		}
     	mv.addObject("file", file);
+    	
+    	//메뉴
+    	mv.addObject("prevMn", request.getParameter("prevMn"));
 		
 		return mv;
 	}
@@ -93,7 +96,6 @@ public class AdminController {
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
-		
 		ResponseMsg resultResponseMsg = adminService.saveAdminUpdate(files, adminDomain);
 		return new ResponseEntity<ResponseMsg>(resultResponseMsg ,HttpStatus.OK);
 	}
