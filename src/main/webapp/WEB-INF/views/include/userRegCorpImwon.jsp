@@ -153,7 +153,7 @@
 						<input type="file" name="files" class="inputFile pdfOnly" data-essential="Y" style="display: none;"/>
 						<input type="hidden" name="fileTypeList" value="33"/>
 						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="33" data-essential="Y">초기화</a>
+						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="33" data-essential="Y" data-pdfOnly="Y">초기화</a>
 					</td>
 				</tr>
 				<tr>

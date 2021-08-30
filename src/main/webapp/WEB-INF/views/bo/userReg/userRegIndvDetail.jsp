@@ -437,11 +437,11 @@ function goUserAcceptApply(){
 							<c:choose>
 								<c:when test="${result.userRegInfo.fileType14 ne null }">
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }">다운로드</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y" data-realDel="Y">삭제</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${result.userRegInfo.fileType14.fileSeq }" data-fileType="14" data-essential="Y" data-pdfOnly="Y" data-realDel="Y">삭제</a>
 								</c:when>
 								<c:otherwise>
 									<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="14" data-essential="Y">초기화</a>
+									<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="14" data-essential="Y" data-pdfOnly="Y">초기화</a>
 								</c:otherwise>
 							</c:choose>
 						</td>

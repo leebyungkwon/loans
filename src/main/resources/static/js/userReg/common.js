@@ -65,12 +65,20 @@ $(document).on("change",".inputFile",function(){
 $(document).on("click",".goFileReset",function(){
 	var fileType 	= $(this).attr("data-fileType");
 	var essential 	= $(this).attr("data-essential");
+	var pdfOnly		= WebUtil.nvl($(this).attr("data-pdfOnly"), "N");
+	var fClass		= "";
 	var targetArea 	= $(this).parent();
+	
+	if(pdfOnly == "Y"){
+		fClass = "inputFile pdfOnly";
+	}else{
+		fClass = "inputFile";
+	}
 	
 	var html = '';
 					
 	html += '<input type="text" class="w50 file_input" readonly disabled> '; //공백 제거 금지
-	html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
+	html += '<input type="file" name="files" class="'+fClass+'" data-essential="'+essential+'" style="display: none;"/>';
 	html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
 	html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
 	html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
@@ -84,9 +92,19 @@ $(document).on("click",".goFileDel",function(){
 	var fileSeq 	= $(this).attr("data-fileSeq");
 	var fileType 	= $(this).attr("data-fileType");
 	var essential 	= $(this).attr("data-essential");
+	var pdfOnly		= WebUtil.nvl($(this).attr("data-pdfOnly"), "N");
+	var fClass		= "";
 	var targetArea 	= $(this).parent();
 	var url			= "";
 	
+	//class
+	if(pdfOnly == "Y"){
+		fClass = "inputFile pdfOnly";
+	}else{
+		fClass = "inputFile";
+	}
+	
+	//url
 	if(realDel == "Y"){
 		url = "/common/fileDelete";
 		//url = "/common/fileRealDelete";
@@ -107,7 +125,7 @@ $(document).on("click",".goFileDel",function(){
 					var html = '';
 					
 					html += '<input type="text" class="w50 file_input" readonly disabled> '; //공백 제거 금지
-					html += '<input type="file" name="files" class="inputFile" data-essential="'+essential+'" style="display: none;"/>';
+					html += '<input type="file" name="files" class="'+fClass+'" data-essential="'+essential+'" style="display: none;"/>';
 					html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
 					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
 					html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
