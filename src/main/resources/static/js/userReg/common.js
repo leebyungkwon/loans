@@ -81,7 +81,7 @@ $(document).on("click",".goFileReset",function(){
 	html += '<input type="file" name="files" class="'+fClass+'" data-essential="'+essential+'" style="display: none;"/>';
 	html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
 	html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
-	html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
+	html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'" data-pdfOnly="'+pdfOnly+'">초기화</a>';
 	
 	targetArea.html(html);
 });
@@ -128,7 +128,7 @@ $(document).on("click",".goFileDel",function(){
 					html += '<input type="file" name="files" class="'+fClass+'" data-essential="'+essential+'" style="display: none;"/>';
 					html += '<input type="hidden" name="fileTypeList" value="'+fileType+'"/>';
 					html += '<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a> '; //공백 제거 금지
-					html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'">초기화</a>';
+					html += '<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="'+fileType+'" data-essential="'+essential+'" data-pdfOnly="'+pdfOnly+'">초기화</a>';
 					
 					targetArea.html(html);
 				}
