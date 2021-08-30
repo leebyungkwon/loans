@@ -112,6 +112,7 @@
 				,(SELECT TO_CHAR(pay.reg_timestamp, 'YYYY-MM-DD') from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_REG_DATE 
 		    FROM TB_LC_MAS01 TLM
 			<where>
+				AND TLM.USE_YN = 'Y'
 				AND TLM.PL_STAT IN ('3','4','5','6','7','9','10','11','12')													
 				AND TLM.PL_REG_STAT NOT IN ('1')
 				<if test='creGrp != "2" '>
@@ -304,7 +305,8 @@
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 	    FROM TB_LC_MAS01 TLM
 	    <where>
-	    	AND TLM.MASTER_SEQ = #{masterSeq}
+	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
+	    	AND TLM.USE_YN 		= 'Y'
 	    </where>
    	</select>
    	
@@ -336,7 +338,8 @@
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IMWON
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
+   			AND MASTER_SEQ 	= #{masterSeq}
+   			AND USE_YN 		= 'Y'
    		</where>
    		ORDER BY EXC_SEQ ASC
    	</select>
@@ -364,7 +367,8 @@
 			,FILE_SEQ
    		FROM TB_LC_MAS01_EXPERT
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
+   			AND MASTER_SEQ 	= #{masterSeq}
+   			AND USE_YN 		= 'Y'
    		</where>
    		ORDER BY EXP_SEQ ASC
    	</select>
@@ -379,7 +383,8 @@
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IT
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
+   			AND MASTER_SEQ 	= #{masterSeq}
+   			AND USE_YN 		= 'Y'
    		</where>
    		ORDER BY OPER_SEQ ASC
    	</select>
@@ -423,7 +428,7 @@
    			,PL_STAT
    			,CASE 
 				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
-				WHEN PL_STAT IN ('3','5','6','7','10','11','12') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
 				ELSE ''
 			 END AS PL_HIST_TXT
    			,NOW()

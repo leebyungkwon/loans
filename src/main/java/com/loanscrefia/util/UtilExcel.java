@@ -201,9 +201,17 @@ public class UtilExcel<T> {
 		        	                }
 		                		}
 		                		if(!chkDb.get(j).isEmpty()){
-		                			if(chkDb.get(j).equals("corp")) {
+		                			if(chkDb.get(j).equals("corp1")) {
 		                				//법인 정보 유효 체크(법인사용인)
-		                				if(StringUtils.isNotEmpty(cellVal)) { // && !cellVal.equals("도이치 법인번호") 추가해야해************************
+		                				corpChkParam.setPlMerchantName(cellVal);
+		                			}else if(chkDb.get(j).equals("corp2")) {
+		                				//법인 정보 유효 체크(법인사용인)
+		                				boolean goContinue = true;
+		                				if((StringUtils.isNotEmpty(corpChkParam.getPlMerchantName()) && StringUtils.isEmpty(cellVal)) || (StringUtils.isEmpty(corpChkParam.getPlMerchantName()) && StringUtils.isNotEmpty(cellVal))) {
+		                					goContinue = false;
+		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 법인명 또는 법인번호를 확인해 주세요.<br>";
+		                				}
+		                				if(goContinue) {
 		                					corpChkParam.setPlMerchantNo(cellVal);
 		                					if(selectCorpInfoChk(corpChkParam) == 0) {
 		                						errorMsg += row.getRowNum() + 1 + "번째 줄의 법인정보가 유효하지 않습니다.<br>";

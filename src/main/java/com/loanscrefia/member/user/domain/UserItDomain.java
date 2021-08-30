@@ -28,6 +28,7 @@ public class UserItDomain extends BaseDomain {
 	private String plMZId;			//주민등록번호
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
+	private String useYn;			//사용여부
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

@@ -30,6 +30,9 @@ public interface CommonRepository {
 	//첨부파일 삭제
 	int deleteFile(FileDomain fileDomain);
 	
+	//첨부파일 삭제(그룹 시퀀스 사용)
+	int deleteFileByGrpSeq(FileDomain fileDomain);
+	
 	//첨부파일 real 삭제
 	int realDeleteFile(FileDomain fileDomain);
 	

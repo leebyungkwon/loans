@@ -114,5 +114,8 @@ public class SearchDomain extends BaseDomain {
 	
 	private int amt;
 	
+	//사용여부
+	private String useYn;
+	
 	
 }

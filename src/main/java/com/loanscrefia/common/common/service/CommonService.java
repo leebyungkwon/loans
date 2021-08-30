@@ -67,6 +67,12 @@ public class CommonService {
 		return commonRepository.deleteFile(fileDomain);
 	}
 	
+	//첨부파일 삭제(그룹 시퀀스 사용)
+	@Transactional
+	public int deleteFileByGrpSeq(FileDomain fileDomain) {
+		return commonRepository.deleteFileByGrpSeq(fileDomain);
+	}
+	
 	//첨부파일 real 삭제
 	@Transactional
 	public int realDeleteFile(FileDomain fileDomain) {

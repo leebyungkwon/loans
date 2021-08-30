@@ -49,6 +49,7 @@ public class UserImwonDomain extends BaseDomain {
 	private String expertStat;		//전문인력여부				-> [EXP001]전문인력,비전문인력
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
+	private String useYn;			//사용여부
 	
 	//가공
 	private String careerTypNm;		//구분명

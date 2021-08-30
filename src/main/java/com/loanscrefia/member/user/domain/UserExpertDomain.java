@@ -40,6 +40,7 @@ public class UserExpertDomain extends BaseDomain {
 	private String careerEndDate;	//경력종료일
 	
 	private Integer fileSeq;		//첨부파일 그룹 시퀀스
+	private String useYn;			//사용여부
 	
 	//가공
 	private String careerTypNm;		//구분명

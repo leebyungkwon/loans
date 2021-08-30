@@ -85,11 +85,12 @@
 			,(SELECT TO_CHAR(TLP.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_REG_DATE
 	    FROM TB_LC_MAS01 TLM
 		<where>
+				AND TLM.USE_YN = 'Y'
 			<if test='creGrp != "2"'>
 				AND	TLM.COM_CODE IN ('1',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 			</if>
 				AND TLM.PL_REG_STAT <![CDATA[!=]]> '1'														-- 모집인상태가 승인전이 아닌 것
-				AND TLM.PL_STAT NOT IN ('1','2','5','8','10', '13')											-- 처리상태가 미요청, 승인요청, 보완요청(=반려), 취소, 등록요건 불충족(=부적격), 승인일홀딩이 아닌 것
+				AND TLM.PL_STAT NOT IN ('1','2','5','8','10','13')											-- 처리상태가 미요청, 승인요청, 보완요청(=반려), 취소, 등록요건 불충족(=부적격), 승인일홀딩이 아닌 것
 	    </where>
    		)Z
    		<where>
@@ -176,6 +177,7 @@
    		AND PL_STAT NOT IN ('8','10','11','12')
    		AND PL_MERCHANT_NO 	= #{plMerchantNo}
    		AND PL_PRODUCT		= #{plProduct}
+   		AND USE_YN = 'Y'
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인사용인 리스트 -->
@@ -192,6 +194,7 @@
    		AND PL_STAT NOT IN ('8','10','11','12')
    		AND PL_MERCHANT_NO 	= #{plMerchantNo}
    		AND PL_PRODUCT		= #{plProduct}
+   		AND USE_YN = 'Y'
    	</select>
    	
    	<!-- ====================================================================================================== -->
@@ -279,50 +282,50 @@
 					WHEN 
 						TLM.PL_CLASS = '2' 
 							AND TLM.FILE_SEQ IS NOT NULL 
-							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
-							AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
-							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
-							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','15')) = 5 -- 법인(등록정보)
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','15')) = 5 			-- 법인(등록정보)
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('7','33','34')
-								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') -- 법인(임원) : 신규
+								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 				-- 법인(임원) : 신규
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('7','33','34')
-								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 				-- 법인(임원) : 경력 
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('17','36')
-								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') -- 법인(전문인력) : 신규
+								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 				-- 법인(전문인력) : 신규
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('16','36')
-								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 				-- 법인(전문인력) : 경력
 							AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('38')
-							 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) -- 법인(전산인력)
+							 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 												-- 법인(전산인력)
 							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('21','22','23','25','26','29')) = 6 -- 법인(기타)
 					THEN 'Y'
 					ELSE 'N'
@@ -341,55 +344,55 @@
 					WHEN 
 						TLM.PL_CLASS = '2' 
 							AND TLM.FILE_SEQ IS NOT NULL 
-							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
-							AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
-							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
-							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','15')) = 5 -- 법인(등록정보)
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
+							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','15')) = 5 			-- 법인(등록정보)
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('7','33','34')
-								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') -- 법인(임원) : 신규
+								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 				-- 법인(임원) : 신규
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('7','33','34')
-								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+								 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 				-- 법인(임원) : 경력 
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('17','36')
-								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') -- 법인(전문인력) : 신규
+								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 				-- 법인(전문인력) : 신규
 							AND (
 									SELECT 
 										COUNT(1) 
 									FROM TB_LC_FILE01 TLF 
-									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
+									WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 									AND TLF.USE_YN = 'Y' 
 									AND TLF.FILE_TYPE IN ('16','36')
-								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+								 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 				-- 법인(전문인력) : 경력
 							AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('38')
-							 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) -- 법인(전산인력)
+							 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 												-- 법인(전산인력)
 							AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('21','22','23','25','26','29')) = 6 -- 법인(기타)
 					THEN '완료'
 					ELSE '미완료'
 				 END AS FILE_COMP_TXT
-				,(SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.PL_EDU_NO IS NOT NULL AND TLMI.PL_EDU_NO != '') AS IMWON_EDU_CNT -- 법인(임원)은 유효한 교육이수번호가 한명이상 등록 필수
+				,(SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.PL_EDU_NO IS NOT NULL AND TLMI.PL_EDU_NO != '') AS IMWON_EDU_CNT -- 법인(임원)은 유효한 교육이수번호가 한명이상 등록 필수
 				,TLM.REG_TIMESTAMP AS ORIGIN_REG_TIMESTAMP
 				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 				,TLM.UPD_SEQ
@@ -397,6 +400,7 @@
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 		    FROM TB_LC_MAS01 TLM
 			<where>
+					AND TLM.USE_YN = 'Y'
 				<if test='creGrp != "2"'>
 					AND	TLM.COM_CODE IN ('3000001',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 				</if>
@@ -463,6 +467,7 @@
    		FROM TB_LC_MAS01
    		WHERE PL_REG_STAT != '4'
    		AND PL_STAT NOT IN ('8','10','11','12')
+   		AND USE_YN = 'Y'
    		<choose>
   			<when test='plClass != null and !plClass.equals("") and plClass.equals("1")'> -- 개인일 때
   				AND PL_CLASS 	= '1'
@@ -649,6 +654,8 @@
 			,CAREER_END_DATE
 			,FULL_TM_STAT
 			,EXPERT_STAT
+			,REG_SEQ
+			,REG_TIMESTAMP
    		)
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
@@ -663,6 +670,8 @@
    			,REPLACE(#{item.G}, '-', '')	-- 경력종료일
    			,#{item.H}						-- 상근여부
    			,#{item.I}						-- 전문인력여부
+   			,#{regSeq}
+   			,NOW()
    		)
    		</foreach>
    	</insert>
@@ -682,6 +691,8 @@
 			,FULL_TM_STAT
 			,EXPERT_STAT
 			,FILE_SEQ
+			,REG_SEQ
+			,REG_TIMESTAMP
    		)
    		VALUES
    		(
@@ -696,6 +707,8 @@
    			,#{fullTmStat}
    			,#{expertStat}
    			,#{fileSeq}
+   			,#{regSeq}
+   			,NOW()
    		)
    	</insert>
    	
@@ -710,6 +723,8 @@
 			,PL_EDU_NO
 			,CAREER_START_DATE
 			,CAREER_END_DATE
+			,REG_SEQ
+			,REG_TIMESTAMP
    		)
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
@@ -721,6 +736,8 @@
    			,#{item.D}						-- 교육이수번호/인증서번호
    			,REPLACE(#{item.E}, '-', '')	-- 경력시작일
    			,REPLACE(#{item.F}, '-', '')	-- 경력종료일
+   			,#{regSeq}
+   			,NOW()
    		)
    		</foreach>
    	</insert>
@@ -737,6 +754,8 @@
 			,CAREER_START_DATE
 			,CAREER_END_DATE
 			,FILE_SEQ
+			,REG_SEQ
+			,REG_TIMESTAMP
    		)
    		VALUES
    		(
@@ -748,6 +767,8 @@
    			,REPLACE(#{careerStartDate}, '-', '')
    			,REPLACE(#{careerEndDate}, '-', '')
    			,#{fileSeq}
+   			,#{regSeq}
+   			,NOW()
    		)
    	</insert>
    	
@@ -758,6 +779,8 @@
    			 MASTER_SEQ
 			,OPER_NAME
 			,PL_M_Z_ID
+			,REG_SEQ
+			,REG_TIMESTAMP
    		)
    		VALUES
    		<foreach collection="excelParam" item="item" separator=",">
@@ -765,6 +788,8 @@
    			 #{masterSeq}
    			,#{item.A}						-- 성명
    			,#{item.B}						-- 주민등록번호
+   			,#{regSeq}
+   			,NOW()
    		)
    		</foreach>
    	</insert>
@@ -777,6 +802,8 @@
 			,OPER_NAME
 			,PL_M_Z_ID
 			,FILE_SEQ
+			,REG_SEQ
+			,REG_TIMESTAMP
    		)
    		VALUES
    		(
@@ -784,6 +811,8 @@
    			,#{operName}
    			,#{plMZId}
    			,#{fileSeq}
+   			,#{regSeq}
+   			,NOW()
    		)
    	</insert>
    
@@ -871,9 +900,9 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
-			,(SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) AS IMWON_CNT
-			,(SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) AS EXPERT_CNT
-			,(SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) AS IT_CNT
+			,(SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ) AS IMWON_CNT
+			,(SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ) AS EXPERT_CNT
+			,(SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) AS IT_CNT
 			,CASE 
 				WHEN 
 					TLM.PL_CLASS = '1' AND TLM.CAREER_TYP = '1' -- 개인(신규)
@@ -888,50 +917,50 @@
 				WHEN 
 					TLM.PL_CLASS = '2' 
 						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
-						AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
-						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
-						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','15')) = 5 -- 법인(등록정보)
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('1','2','3','5','15')) = 5 			-- 법인(등록정보)
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('7','33','34')
-							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') -- 법인(임원) : 신규
+							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 				-- 법인(임원) : 신규
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('7','33','34')
-							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 				-- 법인(임원) : 경력 
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('17','36')
-							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') -- 법인(전문인력) : 신규
+							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 				-- 법인(전문인력) : 신규
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('16','36')
-							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 				-- 법인(전문인력) : 경력
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('38')
-							 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) -- 법인(전산인력)
+							 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 											-- 법인(전산인력)
 						AND (SELECT COUNT(1) FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLM.FILE_SEQ AND TLF.USE_YN = 'Y' AND TLF.FILE_TYPE IN ('21','22','23','25','26','29')) = 6 -- 법인(기타)
 				THEN 'Y'
 				ELSE 'N'
@@ -940,23 +969,23 @@
 				WHEN 
 					TLM.PL_CLASS = '2' 
 						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 임원 한명이상 등록 필수
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('7','33','34')
-							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') -- 법인(임원) : 신규
+							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '1') -- 법인(임원) : 신규
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMI.FILE_SEQ FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('7','33','34')
-							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
+							 ) = 3 * (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.CAREER_TYP = '2') -- 법인(임원) : 경력 
 				THEN 'Y'
 				ELSE 'N'
 			 END AS IMWON_FILE_COMP_YN
@@ -964,23 +993,23 @@
 				WHEN 
 					TLM.PL_CLASS = '2' 
 						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ) > 0	-- 전문인력 한명이상 등록 필수
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('17','36')
-							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') -- 법인(전문인력) : 신규
+							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '1') -- 법인(전문인력) : 신규
 						AND (
 								SELECT 
 									COUNT(1) 
 								FROM TB_LC_FILE01 TLF 
-								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
+								WHERE TLF.FILE_GRP_SEQ IN (SELECT TLME.FILE_SEQ FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') 
 								AND TLF.USE_YN = 'Y' 
 								AND TLF.FILE_TYPE IN ('16','36')
-							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
+							 ) = 2 * (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ AND TLME.CAREER_TYP = '2') -- 법인(전문인력) : 경력
 				THEN 'Y'
 				ELSE 'N'
 			  END AS EXPERT_FILE_COMP_YN
@@ -988,15 +1017,15 @@
 				WHEN 
 					TLM.PL_CLASS = '2' 
 						AND TLM.FILE_SEQ IS NOT NULL 
-						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
+						AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) > 0		-- 전산인력 한명이상 등록 필수
 						AND (
 							SELECT 
 								COUNT(1) 
 							FROM TB_LC_FILE01 TLF 
-							WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
+							WHERE TLF.FILE_GRP_SEQ IN (SELECT TLMT.FILE_SEQ FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) 
 							AND TLF.USE_YN = 'Y' 
 							AND TLF.FILE_TYPE IN ('38')
-						 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.MASTER_SEQ = TLM.MASTER_SEQ) -- 법인(전산인력)
+						 ) = 1 * (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) -- 법인(전산인력)
 				THEN 'Y'
 				ELSE 'N'
 			 END AS IT_FILE_COMP_YN
@@ -1008,10 +1037,11 @@
 				THEN 'Y'
 				ELSE 'N'
 			 END AS ETC_FILE_COMP_YN
-			,(SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.PL_EDU_NO IS NOT NULL AND TLMI.PL_EDU_NO != '') AS IMWON_EDU_CNT -- 법인(임원)은 유효한 교육이수번호가 한명이상 등록 필수
+			,(SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ AND TLMI.PL_EDU_NO IS NOT NULL AND TLMI.PL_EDU_NO != '') AS IMWON_EDU_CNT -- 법인(임원)은 유효한 교육이수번호가 한명이상 등록 필수
 	    FROM TB_LC_MAS01 TLM
 	    <where>
-	    	AND TLM.MASTER_SEQ = #{masterSeq}
+	    	AND TLM.USE_YN 		= 'Y'
+	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
 	    </where>
    	</select>
    	
@@ -1043,7 +1073,8 @@
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IMWON
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
+   			AND USE_YN 		= 'Y'
+   			AND MASTER_SEQ 	= #{masterSeq}
    		</where>
    		ORDER BY EXC_SEQ ASC
    	</select>
@@ -1066,11 +1097,10 @@
 			,TLMI.EXPERT_STAT
 			,FN_CD_DTL('EXP001',TLMI.EXPERT_STAT) AS EXPERT_STAT_NM
 			,TLMI.FILE_SEQ
-			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLMI.FILE_SEQ AND TLF.FILE_TYPE = '12' AND TLF.USE_YN = 'Y') AS CAREER_FILE_SEQ
-			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLMI.FILE_SEQ AND TLF.FILE_TYPE = '13' AND TLF.USE_YN = 'Y') AS NEWCOMER_FILE_SEQ
 		FROM TB_LC_MAS01_IMWON TLMI
    		<where>
-   			AND TLMI.EXC_SEQ = #{excSeq}
+   			AND TLMI.USE_YN 	= 'Y'
+   			AND TLMI.EXC_SEQ 	= #{excSeq}
    		</where>
    	</select>
    	
@@ -1097,7 +1127,8 @@
 			,FILE_SEQ
    		FROM TB_LC_MAS01_EXPERT
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
+   			AND USE_YN 		= 'Y'
+   			AND MASTER_SEQ 	= #{masterSeq}
    		</where>
    		ORDER BY EXP_SEQ ASC
    	</select>
@@ -1115,11 +1146,10 @@
 			,TO_DATE(TLME.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
 			,TO_DATE(TLME.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
 			,TLME.FILE_SEQ
-			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLME.FILE_SEQ AND TLF.FILE_TYPE = '16' AND TLF.USE_YN = 'Y') AS CAREER_FILE_SEQ
-			,(SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.FILE_GRP_SEQ = TLME.FILE_SEQ AND TLF.FILE_TYPE = '17' AND TLF.USE_YN = 'Y') AS NEWCOMER_FILE_SEQ
    		FROM TB_LC_MAS01_EXPERT TLME
    		<where>
-   			AND TLME.EXP_SEQ = #{expSeq}
+   			AND TLME.USE_YN 	= 'Y'
+   			AND TLME.EXP_SEQ 	= #{expSeq}
    		</where>
    	</select>
    	
@@ -1133,9 +1163,25 @@
 			,FILE_SEQ
    		FROM TB_LC_MAS01_IT
    		<where>
-   			AND MASTER_SEQ = #{masterSeq}
+   			AND USE_YN 		= 'Y'
+   			AND MASTER_SEQ 	= #{masterSeq}
    		</where>
    		ORDER BY OPER_SEQ ASC
+   	</select>
+   	
+   	<!-- 모집인 등록 > 법인 : 전산인력 상세 -->
+   	<select id="getUserRegCorpItInfo" parameterType="userIt" resultType="userIt">
+   		SELECT
+	   		 OPER_SEQ
+			,MASTER_SEQ
+			,OPER_NAME
+			,PL_M_Z_ID
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IT
+   		<where>
+   			AND USE_YN 		= 'Y'
+   			AND OPER_SEQ 	= #{operSeq}
+   		</where>
    	</select>
    
 	<!-- 모집인 등록 > 수정 -->
@@ -1209,6 +1255,8 @@
 			,FULL_TM_STAT		= #{fullTmStat}
 			,EXPERT_STAT		= #{expertStat}
 			,FILE_SEQ			= #{fileSeq}
+			,UPD_SEQ			= #{updSeq}
+			,UPD_TIMESTAMP		= NOW()
 		<where>
 	    	AND EXC_SEQ = #{excSeq}
 	    </where>
@@ -1223,6 +1271,8 @@
 			,CAREER_START_DATE	= REPLACE(#{careerStartDate}, '-', '')
 			,CAREER_END_DATE	= REPLACE(#{careerEndDate}, '-', '')
 			,FILE_SEQ			= #{fileSeq}
+			,UPD_SEQ			= #{updSeq}
+			,UPD_TIMESTAMP		= NOW()
 		<where>
 	    	AND EXP_SEQ = #{expSeq}
 	    </where>
@@ -1235,77 +1285,60 @@
    			 OPER_NAME		= #{operName}
 			,PL_M_Z_ID		= #{plMZId}
 			,FILE_SEQ		= #{fileSeq}
+			,UPD_SEQ		= #{updSeq}
+			,UPD_TIMESTAMP	= NOW()
    		<where>
 	    	AND OPER_SEQ 	= #{operSeq}
 	    </where>
    	</update>
    	
    	<!-- 모집인 등록 : 모집인 정보 삭제 -->
-   	<delete id="deleteUserRegInfo" parameterType="user">
-		DELETE FROM TB_LC_MAS01
-		<where>
+   	<update id="deleteUserRegInfo" parameterType="user">
+   		UPDATE TB_LC_MAS01
+   		SET  USE_YN 		= 'N'
+   			,UPD_SEQ 		= #{updSeq}
+   			,UPD_TIMESTAMP 	= NOW()
+   		<where>
 	    	AND MASTER_SEQ = #{masterSeq}
 	    </where>
-	</delete>
+   	</update>
 	
-	<!-- 모집인 등록 : 법인사용인 정보 삭제 -->
-   	<delete id="deleteCorpUserRegInfo" parameterType="user">
-		DELETE FROM TB_LC_MAS01
-		<where>
-	    	AND PL_CLASS 		= '1'
-	    	AND CORP_USER_YN 	= 'Y'
-	   		AND PL_MERCHANT_NO 	= #{plMerchantNo}
-	   		AND PL_PRODUCT		= #{plProduct}
-	    </where>
-	</delete>
-   	
 	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 삭제 -->
-	<delete id="deleteUserRegCorpImwonInfo" parameterType="userImwon">
-		DELETE FROM TB_LC_MAS01_IMWON
-		<where>
+	<update id="deleteUserRegCorpImwonInfo" parameterType="userImwon">
+		UPDATE TB_LC_MAS01_IMWON
+   		SET  USE_YN 		= 'N'
+   			,UPD_SEQ 		= #{updSeq}
+   			,UPD_TIMESTAMP 	= NOW()
+   		<where>
 	    	AND EXC_SEQ = #{excSeq}
 	    </where>
-	</delete>
+	</update>
  	
    	<!-- 모집인 등록 > 법인 : 전문인력 정보 삭제 -->
-   	<delete id="deleteUserRegCorpExpertInfo" parameterType="userExpert">
-   		DELETE FROM TB_LC_MAS01_EXPERT
+   	<update id="deleteUserRegCorpExpertInfo" parameterType="userExpert">
+		UPDATE TB_LC_MAS01_EXPERT
+   		SET  USE_YN 		= 'N'
+   			,UPD_SEQ 		= #{updSeq}
+   			,UPD_TIMESTAMP 	= NOW()
 		<where>
 	    	AND EXP_SEQ = #{expSeq}
 	    </where>
-	</delete>
+	</update>
    	
    	<!-- 모집인 등록 > 법인 : 전산인력 정보 삭제 -->
-   	<delete id="deleteUserRegCorpItInfo" parameterType="userIt">
-   		DELETE FROM TB_LC_MAS01_IT
+   	<update id="deleteUserRegCorpItInfo" parameterType="userIt">
+		UPDATE TB_LC_MAS01_IT
+   		SET  USE_YN 		= 'N'
+   			,UPD_SEQ 		= #{updSeq}
+   			,UPD_TIMESTAMP 	= NOW()
 		<where>
 	    	AND OPER_SEQ 	= #{operSeq}
 	    </where>
-	</delete>
+	</update>
 	
 	<!-- 모집인 등록 > 법인 : 대표자 및 임원 정보 삭제(masterSeq 사용) -->
-	<delete id="deleteUserRegCorpImwonInfoByMasterSeq" parameterType="userImwon">
-		DELETE FROM TB_LC_MAS01_IMWON
-		<where>
-	    	AND MASTER_SEQ = #{masterSeq}
-	    </where>
-	</delete>
- 	
    	<!-- 모집인 등록 > 법인 : 전문인력 정보 삭제(masterSeq 사용) -->
-   	<delete id="deleteUserRegCorpExpertInfoByMasterSeq" parameterType="userExpert">
-   		DELETE FROM TB_LC_MAS01_EXPERT
-		<where>
-	    	AND MASTER_SEQ = #{masterSeq}
-	    </where>
-	</delete>
-   	
    	<!-- 모집인 등록 > 법인 : 전산인력 정보 삭제(masterSeq 사용) -->
-   	<delete id="deleteUserRegCorpItInfoByMasterSeq" parameterType="userIt">
-   		DELETE FROM TB_LC_MAS01_IT
-		<where>
-	    	AND MASTER_SEQ = #{masterSeq}
-	    </where>
-	</delete>
    	
    	<!-- ====================================================================================================== -->
    	<!-- [모집인 상태 / 처리상태 변경 관련] -->
@@ -1358,6 +1391,7 @@
 		AND PL_STAT			= '9'				-- 처리상태 : 완료
 		AND PL_PRODUCT		= #{plProduct}
 		AND COM_CODE		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+		AND USE_YN			= 'Y'
 	</select>
 	
 	<!-- ====================================================================================================== -->

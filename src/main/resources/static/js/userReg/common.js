@@ -88,7 +88,8 @@ $(document).on("click",".goFileDel",function(){
 	var url			= "";
 	
 	if(realDel == "Y"){
-		url = "/common/fileRealDelete";
+		url = "/common/fileDelete";
+		//url = "/common/fileRealDelete";
 	}else{
 		url = "/common/fileDelete";
 	}

@@ -79,6 +79,9 @@ public interface UserRepository {
 	//모집인 등록 > 법인 : 전산인력 리스트
 	List<UserItDomain> selectUserRegCorpItList(UserItDomain userItDomain);
 	
+	//모집인 등록 > 법인 : 전산인력 상세
+	UserItDomain getUserRegCorpItInfo(UserItDomain userItDomain);
+	
 	//모집인 등록 > 수정
 	int updateUserRegInfo(UserDomain userDomain);
 	
@@ -94,9 +97,6 @@ public interface UserRepository {
 	//모집인 등록 : 모집인 정보 삭제
 	int deleteUserRegInfo(UserDomain userDomain);
 	
-	//모집인 등록 : 법인사용인 정보 삭제
-	int deleteCorpUserRegInfo(UserDomain userDomain);
-	
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제
 	int deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain);
 	
@@ -107,13 +107,13 @@ public interface UserRepository {
 	int deleteUserRegCorpItInfo(UserItDomain userItDomain);
 	
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제(masterSeq 사용)
-	int deleteUserRegCorpImwonInfoByMasterSeq(UserImwonDomain userImwonDomain);
+	//int deleteUserRegCorpImwonInfoByMasterSeq(UserImwonDomain userImwonDomain);
 	
 	//모집인 등록 > 법인 : 전문인력 정보 삭제(masterSeq 사용)
-	int deleteUserRegCorpExpertInfoByMasterSeq(UserExpertDomain userExpertDomain);
+	//int deleteUserRegCorpExpertInfoByMasterSeq(UserExpertDomain userExpertDomain);
 	
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제(masterSeq 사용)
-	int deleteUserRegCorpItInfoByMasterSeq(UserItDomain userItDomain);
+	//int deleteUserRegCorpItInfoByMasterSeq(UserItDomain userItDomain);
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 모집인 상태 / 처리상태 변경 관련

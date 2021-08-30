@@ -129,6 +129,18 @@
    		</where>
    	</update>
    	
+   	<!-- 첨부파일 삭제(그룹 시퀀스 사용) -->
+	<update id="deleteFileByGrpSeq" parameterType="file">
+   		UPDATE TB_LC_FILE01
+   		SET
+   			 USE_YN 			= 'N'
+   			,UPD_SEQ 			= #{updSeq}
+   			,UPD_TIMESTAMP 		= NOW()
+   		<where>
+   			AND FILE_GRP_SEQ 	= #{fileGrpSeq}
+   		</where>
+   	</update>
+   	
    	<!-- 첨부파일 real 삭제 -->
 	<delete id="realDeleteFile" parameterType="file">
 		DELETE FROM TB_LC_FILE01

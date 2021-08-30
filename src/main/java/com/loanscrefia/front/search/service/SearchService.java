@@ -53,7 +53,7 @@ public class SearchService {
 		String rPlMZIdEnd	= rPlMZId.substring(6);
 		String rGender 		= "";
 		
-		if(rPlMZIdEnd.startsWith("1") || rPlMZIdEnd.startsWith("3")) {
+		if(rPlMZIdEnd.startsWith("1") || rPlMZIdEnd.startsWith("3") || rPlMZIdEnd.startsWith("5") || rPlMZIdEnd.startsWith("7")) {
 			rGender = "M";
 		}else {
 			rGender = "F";
@@ -172,7 +172,7 @@ public class SearchService {
 			result.setPlMZIdFront(plMZIdFront);
 			
 			//성별
-			if(plMZId.substring(7).startsWith("1") || plMZId.substring(7).startsWith("3")) {
+			if(plMZIdEnd.startsWith("1") || plMZIdEnd.startsWith("3") || plMZIdEnd.startsWith("5") || plMZIdEnd.startsWith("7")) {
 				result.setGender("M");
 			}else {
 				result.setGender("F");

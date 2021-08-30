@@ -14,6 +14,7 @@
 		AND TLM.PL_CELLPHONE 	= #{plCellphone}
 		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
    	</select>
    	
    	<!-- 모집인 조회 : 법인(결제) -->
@@ -27,6 +28,7 @@
 		AND TLM.PL_CEO_NAME 	= #{plCeoName}
 		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
    	</select>
    	
    	<!-- 모집인 조회 : 개인 -->
@@ -44,6 +46,7 @@
 		AND TLM.PL_CELLPHONE 	= #{plCellphone}
 		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 자격취득
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
    	</select>
    	
    	<!-- 모집인 조회 : 법인 -->
@@ -61,6 +64,7 @@
 		AND TLM.PL_MERCHANT_NAME 	= #{plMerchantName}
 		AND TLM.PL_REG_STAT 		= '3' 				-- 모집인상태 : 자격취득
 		AND TLM.PL_STAT 			= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
    	</select>
    	
    	<!-- 모집인 상세 -->
@@ -129,6 +133,7 @@
 		WHERE TLM.MASTER_SEQ	= #{masterSeq}
 		AND TLM.PL_STAT 		= '9'						-- 처리상태가 완료인 것
 		AND TLM.PL_REG_STAT 	= #{plRegStat}
+		AND TLM.USE_YN			= 'Y'
 	</select>
 	
    	<!-- 모집인 상태 변경 : 자격취득 -->
@@ -166,7 +171,7 @@
    			,PL_STAT
    			,CASE 
 				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
-				WHEN PL_STAT IN ('3','5','6','7','10','11','12') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
 				ELSE ''
 			 END AS PL_HIST_TXT
    			,NOW()
