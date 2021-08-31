@@ -478,11 +478,12 @@
   				</if>
 			</when>
 			<when test='plClass != null and !plClass.equals("") and plClass.equals("2")'> -- 법인일 때
-				AND PL_CLASS 	= '2'
-				AND PL_PRODUCT 	= #{plProduct}
-				AND CI 			= #{ci}
+				AND PL_CLASS 		= '2'
+				AND PL_PRODUCT 		= #{plProduct}
+				AND CI 				= #{ci}
 				<if test='plProduct != null and !plProduct.equals("") and !plProduct.equals("01")'>
-  				AND COM_CODE	= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
+				AND PL_MERCHANT_NO 	= #{plMerchantNo}
+  				AND COM_CODE		= (SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq})
   				</if>
 			</when>
 		</choose>

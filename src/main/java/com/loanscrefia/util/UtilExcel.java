@@ -321,6 +321,10 @@ public class UtilExcel<T> {
 		                				//S : 엑셀 파일 내 중복 확인용
 	                					prdMap.put("plProduct", userChkParam.getPlProduct());
 		                				prdMap.put("ci", cellVal);
+		                				
+		                				if(StringUtils.isNotEmpty(userChkParam.getPlMerchantNo())) {
+		                					prdMap.put("plMerchantNo", userChkParam.getPlMerchantNo());
+		                				}
 		                				plProductArr.add(arrPosition, prdMap);
 		                				//E : 엑셀 파일 내 중복 확인용
 		                				
@@ -332,6 +336,9 @@ public class UtilExcel<T> {
 		                				if(dupChkResult > 0) {
 		                					errorMsg += row.getRowNum() + 1 + "번째 줄의 모집인은 이미 등록된 상태입니다.<br>";
 	                					}
+		                			}else if(chkPrd.get(j).equals("prd3")) {
+		                				//모집인 테이블(mas01) 중복 체크
+		                				userChkParam.setPlMerchantNo(cellVal); //암호화되서 들어가는지 확인 필요
 		                			}
 		                		}
 		                		if(!chkDate.get(j).isEmpty()) {

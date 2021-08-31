@@ -28,7 +28,7 @@ public class UserCorpExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="대표이사 휴대폰번호", vCell="D", vLenMin=12, vLenMax=13)
 	private String plCellphone;		//모집인휴대전화번호
 	
-	@ExcelColumn(headerName="법인등록번호", vCell="E", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="mNo")
+	@ExcelColumn(headerName="법인등록번호", vCell="E", vLenMin=14, vLenMax=14, vEncrypt="Y", chkFormat="mNo", chkPrd="prd3")
 	private String plMerchantNo;	//법인등록번호
 	
 	@ExcelColumn(headerName="설립년월일", vCell="F", vLenMin=10, vLenMax=10, chkFormat="cal")
