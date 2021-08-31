@@ -1139,8 +1139,15 @@ public class RecruitService {
 		}
 		
 		if(apiCheck) {
+			//모집인 이력 저장
+			UserDomain param = new UserDomain();
+			param.setMasterSeq(recruitDomain.getMasterSeq());
+			userRepo.insertUserHistory(param);
+			
+			//모집인 상태 변경
 			int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 			
+			//이메일 전송
 			if(emailApply) {
 				emailResult = emailRepository.sendEmail(emailDomain);
 			}else {
