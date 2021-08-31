@@ -49,8 +49,8 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<input type="hidden" name="allat_buyer_nm" id="allat_buyer_nm" value="" maxlength="20"> <!-- 결제자성명 -->
 	<input type="hidden" name="allat_recp_nm" value="여신금융협회" maxlength="20"> <!-- 수취인성명 -->
 	<input type="hidden" name="allat_recp_addr" value="서울특별시 중구 다동길 43 (다동70번지) 한외빌딩12~13층 여신금융협회 (04521)" maxlength="120"> <!-- 수취인주소 -->
- 	<input type="hidden" name="shop_receive_url" value="https://loanagent.crefia.or.kr/front/pay/allatReceive">
-	<!-- <input type="hidden" name="shop_receive_url" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive"> -->
+ 	<!-- <input type="hidden" name="shop_receive_url" value="https://loanagent.crefia.or.kr/front/pay/allatReceive"> -->
+	<input type="hidden" name="shop_receive_url" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive">
 	<input type="hidden" name="allat_enc_data" value=""> <!-- 주문정보암호화필드 : 값은 자동으로 설정됨 -->
 	<!-- 옵션정보 -->
 	<input type="hidden" name="allat_card_yn" value="N" maxlength="1"> <!-- 신용카드 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->

@@ -11,9 +11,21 @@ public interface SearchRepository {
 
 	//모집인 조회 : 개인(결제)
 	SearchDomain selectPayIndvUserInfo(SearchDomain searchDoamin);
+	
+	//모집인 조회 : 개인(기등록여부 - 결제여부 체크 : 승인전)
+	List<SearchDomain> selectPayResultIndvUserList(SearchDomain searchDoamin);
+	
+	//모집인 조회 : 개인(기등록여부 - 결제여부 체크 : 승인완료)
+	SearchDomain selectPayResultIndvUserInfo(SearchDomain searchDoamin);
 		
 	//모집인 조회 : 법인(결제)
 	SearchDomain selectPayCorpUserInfo(SearchDomain searchDoamin);
+	
+	//모집인 조회 : 법인(기등록여부 - 결제여부 체크 : 승인전)
+	List<SearchDomain> selectPayCorpUserList(SearchDomain searchDoamin);
+	
+	//모집인 조회 : 법인(기등록여부 - 결제여부 체크 : 승인완료)
+	SearchDomain selectPayResultCorpUserInfo(SearchDomain searchDoamin);	
 	
 	//모집인 조회 : 개인
 	SearchDomain selectIndvUserInfo(SearchDomain searchDoamin);
@@ -30,6 +42,16 @@ public interface SearchRepository {
 	//모집인 정보 단계별(STATUS) 이력 저장
 	int insertSearchUserStepHistory(SearchDomain searchDoamin);
 	
+	//모집인 정보 이력 저장
+	int insertSearchUserHistory(SearchDomain searchDoamin);
+	
 	//위반이력 리스트
 	List<SearchDomain> selectSearchUserViolationInfoList(SearchDomain searchDoamin);
+	
+	//기등록여부에 따른 상태값 변경
+	int updatePayResultStat(SearchDomain searchDoamin);
+	
+	//모집인 상태 변경 : 승인완료 이전건에 대한 기등록여부 상태 변경
+	int updatePreRegYn(SearchDomain searchDoamin);
+	
 }

@@ -1,21 +1,25 @@
 package com.loanscrefia.front.search.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.search.domain.SearchDomain;
+import com.loanscrefia.front.search.domain.SearchResultDomain;
 import com.loanscrefia.front.search.repository.SearchRepository;
 import com.loanscrefia.member.user.domain.UserDomain;
 
@@ -34,6 +38,7 @@ public class SearchService {
 	
 	//모집인 조회 : 개인(결제)
 	public ResponseMsg selectPayIndvUserInfo(SearchDomain searchDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[0].");
 		
 		//검색어
 		String plMZIdFront 	= searchDomain.getPlMZIdFront();
@@ -41,12 +46,75 @@ public class SearchService {
 		
 		//조회 결과
 		searchDomain.setPlCellphone(searchDomain.getPlCellphone().replaceAll("-", ""));
-		SearchDomain result = searchRepo.selectPayIndvUserInfo(searchDomain);
 		
+		// 내부 테이블 조회 - 결제 대상자 조회
+		SearchDomain result = searchRepo.selectPayIndvUserInfo(searchDomain);
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
 		}
 		
+		// 내부 테이블 조회 - 자격취득된 건 조회
+		SearchDomain payResult = searchRepo.selectPayResultIndvUserInfo(searchDomain);
+		if(payResult != null) {
+			// 이미 자격취득한 건 외에 다른건들도 자격취득 및 기등록여부(수수료기납부여부) 변경
+			List<SearchDomain> payResultList = searchRepo.selectPayResultIndvUserList(searchDomain);
+			if(payResultList.size() > 0) {
+				for(SearchDomain tmp : payResultList) {
+					// hist 쌓기
+					SearchDomain updateDomain = new SearchDomain();
+					updateDomain.setMasterSeq(tmp.getMasterSeq());
+					searchRepo.insertSearchUserHistory(updateDomain);
+					searchRepo.updatePreRegYn(updateDomain);
+				}
+			}
+			
+			// hist, step 이력 쌓기
+			searchDomain.setMasterSeq(0);
+			searchDomain.setPlClass("1");
+			searchRepo.insertSearchUserStepHistory(searchDomain);
+			searchRepo.updatePayResultStat(searchDomain);
+			
+			return new ResponseMsg(HttpStatus.OK, "fail", "이미 자격취득(결제완료)한 대상입니다. 등록번호를 확인해 주세요.");
+		}
+		
+
+		// 2. 은행연합회 API 기등록여부(수수료납부여부 확인)
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject indvParam = new JSONObject();
+		indvParam.put("pre_lc_num", result.getPreLcNum());
+		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "GET", "1", "Y");
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			// 기등록여부 Y / N으로 분기처리
+			if(!responseJson.isNull("fee_yn")) {
+				if("Y".equals(responseJson.getString("fee_yn"))) {
+					
+					// 내부 테이블 조회 - 승인전 조회 데이터 기등록여부값만 변경
+					List<SearchDomain> payResultList = searchRepo.selectPayResultIndvUserList(searchDomain);
+					if(payResultList.size() > 0) {
+						for(SearchDomain tmp : payResultList) {
+							// hist 쌓기
+							SearchDomain updateDomain = new SearchDomain();
+							updateDomain.setMasterSeq(tmp.getMasterSeq());
+							searchRepo.insertSearchUserHistory(updateDomain);
+							searchRepo.updatePreRegYn(updateDomain);
+						}
+					}
+					
+					// hist, step 이력 쌓기
+					searchDomain.setMasterSeq(0);
+					searchDomain.setPlClass("1");
+					searchRepo.insertSearchUserStepHistory(searchDomain);
+					searchRepo.updatePayResultStat(searchDomain);
+				}
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[20].");
+			}
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[30].");
+		}
+
 		//데이터 복호화해서 검색어와 비교
 		String rPlMZId 		= CryptoUtil.decrypt(result.getPlMZId());
 		String rPlMZIdFront = rPlMZId.substring(0, 6);
@@ -62,23 +130,86 @@ public class SearchService {
 		if(plMZIdFront.equals(rPlMZIdFront) && gender.equals(rGender)) {
 			return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 		}
-		return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[40].");
 	}
 	
 	//모집인 조회 : 법인(결제)
 	public ResponseMsg selectPayCorpUserInfo(SearchDomain searchDomain) {
+		
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[0].");
 		
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(searchDomain.getPlMerchantNo())) {
 			searchDomain.setPlMerchantNo(CryptoUtil.encrypt(searchDomain.getPlMerchantNo()));
 		}
 		
-		//조회 결과
+		// 내부 테이블 조회 - 결제 대상자 조회
 		SearchDomain result = searchRepo.selectPayCorpUserInfo(searchDomain); 
-		
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
 		}
+		
+		// 내부 테이블 조회 - 자격취득된 건 조회
+		SearchDomain payResult = searchRepo.selectPayResultCorpUserInfo(searchDomain); 
+		if(payResult != null) {
+			// 내부 테이블 조회 - 승인전 조회 데이터 기등록여부값만 변경
+			List<SearchDomain> payResultList = searchRepo.selectPayCorpUserList(searchDomain);
+			if(payResultList.size() > 0) {
+				for(SearchDomain tmp : payResultList) {
+					// hist 쌓기
+					SearchDomain updateDomain = new SearchDomain();
+					updateDomain.setMasterSeq(tmp.getMasterSeq());
+					searchRepo.insertSearchUserHistory(updateDomain);
+					searchRepo.updatePreRegYn(updateDomain);
+				}
+			}
+			
+			// hist, step 이력 쌓기
+			searchDomain.setMasterSeq(0);
+			searchDomain.setPlClass("2");
+			searchRepo.insertSearchUserStepHistory(searchDomain);
+			searchRepo.updatePayResultStat(searchDomain);
+			return new ResponseMsg(HttpStatus.OK, "fail", "이미 자격취득(결제완료)한 대상입니다. 등록번호를 확인해 주세요.");
+		}
+		
+		// 2. 은행연합회 API 기등록여부(수수료납부여부 확인)
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject indvParam = new JSONObject();
+		indvParam.put("pre_corp_lc_num", result.getPreLcNum());
+		responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "GET", "2", "Y");
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			// 기등록여부 Y / N으로 분기처리
+			if(!responseJson.isNull("fee_yn")) {
+				if("Y".equals(responseJson.getString("fee_yn"))) {
+					
+					// 내부 테이블 조회 - 승인전 조회 데이터 기등록여부값만 변경
+					List<SearchDomain> payResultList = searchRepo.selectPayCorpUserList(searchDomain);
+					if(payResultList.size() > 0) {
+						for(SearchDomain tmp : payResultList) {
+							// hist 쌓기
+							SearchDomain updateDomain = new SearchDomain();
+							updateDomain.setMasterSeq(tmp.getMasterSeq());
+							searchRepo.insertSearchUserHistory(updateDomain);
+							searchRepo.updatePreRegYn(updateDomain);
+						}
+					}
+					
+					// hist, step 이력 쌓기
+					searchDomain.setMasterSeq(0);
+					searchDomain.setPlClass("2");
+					searchRepo.insertSearchUserStepHistory(searchDomain);
+					searchRepo.updatePayResultStat(searchDomain);
+				}
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[20].");
+			}
+		}else {
+			// 이전 검증에서 통과 후				
+			// 서버통신오류
+		}
+		
 		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 	}
 

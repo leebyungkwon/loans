@@ -218,9 +218,15 @@ public class ApiController {
 					jsonObj = conArr.getJSONObject(i);
 					
 					SearchResultDomain searchResultDomain = new SearchResultDomain();
-					searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
-					searchResultDomain.setConDate(jsonObj.getString("con_date"));
-					searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					if(!jsonObj.isNull("biz_code")) {
+						searchResultDomain.setBizCode(jsonObj.getString("biz_code"));
+					}
+					if(!jsonObj.isNull("con_date")) {
+						searchResultDomain.setConDate(jsonObj.getString("con_date"));
+					}
+					if(!jsonObj.isNull("fin_code")) {
+						searchResultDomain.setFinCode(jsonObj.getString("fin_code"));
+					}
 					if(!jsonObj.isNull("fin_name")) {
 						searchResultDomain.setFinName(jsonObj.getString("fin_name"));
 					}

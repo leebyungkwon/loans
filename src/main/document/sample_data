@@ -3,21 +3,21 @@ ALTER TABLE tb_lc_mas01 ADD COLUMN use_yn char(1) not null default 'Y';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN use_yn char(1) not null default 'Y';
 
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN use_yn char(1) not null default 'Y';
-ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_seq int;
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_seq INTEGER;
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_timestamp timestamp;
-ALTER TABLE tb_lc_mas01_imwon ADD COLUMN upd_seq int;
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN upd_seq INTEGER;
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN upd_timestamp timestamp;
 
 ALTER TABLE tb_lc_mas01_expert ADD COLUMN use_yn char(1) not null default 'Y';
-ALTER TABLE tb_lc_mas01_expert ADD COLUMN reg_seq int;
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN reg_seq INTEGER;
 ALTER TABLE tb_lc_mas01_expert ADD COLUMN reg_timestamp timestamp;
-ALTER TABLE tb_lc_mas01_expert ADD COLUMN upd_seq int;
+ALTER TABLE tb_lc_mas01_expert ADD COLUMN upd_seq INTEGER;
 ALTER TABLE tb_lc_mas01_expert ADD COLUMN upd_timestamp timestamp;
 
 ALTER TABLE tb_lc_mas01_it ADD COLUMN use_yn char(1) not null default 'Y';
-ALTER TABLE tb_lc_mas01_it ADD COLUMN reg_seq int;
+ALTER TABLE tb_lc_mas01_it ADD COLUMN reg_seq INTEGER;
 ALTER TABLE tb_lc_mas01_it ADD COLUMN reg_timestamp timestamp;
-ALTER TABLE tb_lc_mas01_it ADD COLUMN upd_seq int;
+ALTER TABLE tb_lc_mas01_it ADD COLUMN upd_seq INTEGER;
 ALTER TABLE tb_lc_mas01_it ADD COLUMN upd_timestamp timestamp;
 
 

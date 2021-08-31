@@ -1118,3 +1118,48 @@ COMMENT ON COLUMN tb_lc_popup.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_popup.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_popup.upd_timestamp IS '수정일시';
 COMMENT ON COLUMN tb_lc_popup.upd_seq IS '수정자시퀀스';
+
+
+
+---------------- FO 분기 ------------------------
+
+-- 회원 seq
+CREATE SEQUENCE tb_lc_users_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+create table tb_lc_users(
+	user_seq integer not null default nextval('tb_lc_users_seq')
+	, user_id varchar(30) not null
+	, password varchar(100) not null
+	, user_name varchar(30) not null
+	, mobile_no varchar(20) not null
+	, pl_class char(1) not null
+	, birth_dt varchar(8) not null
+	, gender char(1) not null
+	, email varchar(100)
+	, addr varchar(2)
+	, addr_detail varchar(200)
+	, user_ci varchar(100)
+	, corp_appr_stat char(1) not null default 'N'
+	, file_seq integer
+	, join_dt timestamp
+	, terms_yn char(1) not null default 'N'
+	, terms_dt timestamp
+	, drop_yn char(1) not null default 'N'
+	, drop_dt timestamp
+	, inactive_yn char(1) not null default 'N'
+	, inactive_dt timestamp
+	, last_login_dt timestamp
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+	, PRIMARY KEY (user_seq)
+)

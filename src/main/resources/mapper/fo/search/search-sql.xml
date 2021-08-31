@@ -7,6 +7,7 @@
   		SELECT
    			 TLM.MASTER_SEQ
    			,TLM.PL_M_Z_ID
+   			,TLM.PRE_LC_NUM
    		FROM TB_LC_MAS01 TLM
 		WHERE TLM.PL_CLASS		= '1' 				-- 개인
 		AND TLM.COM_CODE 		= #{comCode} 
@@ -15,12 +16,41 @@
 		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
 		AND TLM.USE_YN			= 'Y'
+		LIMIT 1
+   	</select>
+   	
+   	<!-- 모집인 조회 : 개인(기등록여부 - 결제여부 체크 : 승인전) -->
+   	<select id="selectPayResultIndvUserList" parameterType="search" resultType="search">
+  		SELECT
+   			 TLM.MASTER_SEQ
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '1' 				-- 개인
+		AND TLM.PL_M_NAME 		= #{plMName}
+		AND TLM.PL_CELLPHONE 	= #{plCellphone}
+		AND TLM.PL_REG_STAT 	= '1' 				
+		AND TLM.USE_YN			= 'Y'
+   	</select>
+   	
+   	<!-- 모집인 조회 : 개인(기등록여부 - 결제여부 체크 : 자격취득확인) -->
+   	<select id="selectPayResultIndvUserInfo" parameterType="search" resultType="search">
+  		SELECT
+   			 TLM.MASTER_SEQ
+   			,TLM.PL_M_Z_ID
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '1' 				-- 개인
+		AND TLM.PL_M_NAME 		= #{plMName}
+		AND TLM.PL_CELLPHONE 	= #{plCellphone}
+		AND TLM.PL_REG_STAT 	= '3' 				
+		AND TLM.PL_STAT 		= '9' 				
+		AND TLM.USE_YN			= 'Y'
+		LIMIT 1
    	</select>
    	
    	<!-- 모집인 조회 : 법인(결제) -->
    	<select id="selectPayCorpUserInfo" parameterType="search" resultType="search">
    		SELECT
    			TLM.MASTER_SEQ
+   			,TLM.PRE_LC_NUM
    		FROM TB_LC_MAS01 TLM
 		WHERE TLM.PL_CLASS		= '2' 				-- 법인 
 		AND TLM.COM_CODE 		= #{comCode}
@@ -28,6 +58,33 @@
 		AND TLM.PL_CEO_NAME 	= #{plCeoName}
 		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
+		LIMIT 1
+   	</select>
+   	
+   	<!-- 모집인 조회 : 법인(기등록여부 - 결제여부 체크 : 자격취득확인) -->
+   	<select id="selectPayResultCorpUserInfo" parameterType="search" resultType="search">
+   		SELECT
+   			TLM.MASTER_SEQ
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '2' 				-- 법인 
+		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND TLM.PL_CEO_NAME 	= #{plCeoName}
+		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
+		LIMIT 1
+   	</select>
+   	
+   	<!-- 모집인 조회 : 법인(기등록여부 - 결제여부 체크 : 승인전) -->
+   	<select id="selectPayCorpUserList" parameterType="search" resultType="search">
+   		SELECT
+   			TLM.MASTER_SEQ
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '2' 				 
+		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND TLM.PL_CEO_NAME 	= #{plCeoName}
+		AND TLM.PL_REG_STAT 	= '1' 				
 		AND TLM.USE_YN			= 'Y'
    	</select>
    	
@@ -136,21 +193,24 @@
 		AND TLM.USE_YN			= 'Y'
 	</select>
 	
-   	<!-- 모집인 상태 변경 : 자격취득 -->
+   	<!-- 모집인 상태 변경 : 자격취득 / 결제완료 -->
 	<update id="updatePlRegStat" parameterType="search">
 		UPDATE TB_LC_MAS01
 		SET
-			 PL_REG_STAT 	= #{plRegStat}
+			 PL_REG_STAT 		= #{plRegStat}
 			<if test="plRegistNo != null and plRegistNo != ''">
-			,PL_REGIST_NO	= #{plRegistNo}		-- 은행연합회 등록번호
+			,PL_REGIST_NO		= #{plRegistNo}		-- 은행연합회 등록번호
 			</if> 
 			<if test="conNum != null and conNum != ''">
-			,CON_NUM 		= #{conNum}			-- 은행연합회 계약번호
+			,CON_NUM 			= #{conNum}			-- 은행연합회 계약번호
 			</if> 
-			,UPD_SEQ 		= #{updSeq}
-			,UPD_TIMESTAMP 	= NOW()
+			<if test='plRegStat != null and plRegStat != "" and plRegStat.equals("3")'>
+			,CRE_LICENSE_DATE 	= #{creLicenseDate}
+			</if> 
+			,UPD_SEQ 			= #{updSeq}
+			,UPD_TIMESTAMP 		= NOW()
 		<where>
-			AND MASTER_SEQ 	= #{masterSeq}
+			AND MASTER_SEQ 		= #{masterSeq}
 		</where>
 	</update>
 	
@@ -169,17 +229,194 @@
    			 MASTER_SEQ
    			,PL_REG_STAT
    			,PL_STAT
-   			,CASE 
-				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
-				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
-				ELSE ''
-			 END AS PL_HIST_TXT
+			<choose>
+   				<when test="masterSeq > 0">
+   					,CASE 
+						WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
+						WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
+						ELSE ''
+					 END AS PL_HIST_TXT
+   				</when>
+   				<otherwise>
+   					,'수수료기납부여부에 따른 자격취득으로 변경' AS PL_HIST_TXT
+   				</otherwise>
+   			</choose>
    			,NOW()
    			,#{regSeq}
    		FROM TB_LC_MAS01
-   		WHERE MASTER_SEQ = #{masterSeq}
+   		<where>
+   			<choose>
+   				<when test="masterSeq > 0">
+   					AND MASTER_SEQ = #{masterSeq}
+   				</when>
+   				<otherwise>
+   					<if test='plClass.equals("1")'>
+					AND PL_CLASS		= '1'
+					AND PL_M_NAME 		= #{plMName}
+					AND PL_CELLPHONE 	= #{plCellphone}
+					</if>
+					<if test='plClass.equals("2")'>
+					AND PL_CLASS		= '2' 
+					AND PL_MERCHANT_NO 	= #{plMerchantNo}
+					AND PL_CEO_NAME 	= #{plCeoName}
+					</if>
+					AND PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
+					AND PL_STAT 		= '9' 				-- 처리상태 : 완료
+					AND USE_YN			= 'Y'
+   				</otherwise>
+   			</choose>
+   		</where>
    	</insert>
-	
+   	
+   	<!-- 모집인 이력 등록 -->
+	<insert id="insertSearchUserHistory" parameterType="search">
+   		INSERT INTO TB_LC_MAS01_HIST
+   		(
+   			 MASTER_SEQ
+   			,MASTER_TO_ID
+			,COM_CODE
+			,MEMBER_SEQ
+			,SUB_YN
+			,PRE_REG_YN
+			,PRE_LC_NUM
+			,PL_REGIST_NO
+			,CON_NUM
+			,PL_CLASS
+			,PL_WORK
+			,CORP_USER_YN
+			,CAREER_TYP
+			,API_CAREER_YN
+			,PL_PRODUCT
+			,PL_REG_STAT
+			,PL_STAT
+			,CI
+			,PL_M_NAME
+			,PL_M_Z_ID
+			,PL_M_Z_ID_EDU
+			,PL_CELLPHONE
+			,ADDR
+			,ADDR_DETAIL
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,ENTRUST_DATE
+			,COM_CONT_DATE
+			,PL_MERCHANT_NAME
+			,PL_CEO_NAME
+			,PL_MERCHANT_NO
+			,PL_BUSINESS_NO
+			,COMP_PHONE_NO
+			,CORP_FOUND_DATE
+			,CAPITAL
+			,VOTING_STOCK_CNT
+			,PL_PAY_STAT
+			,COM_REG_DATE
+			,FIRST_APP_DATE
+			,APP_DATE_HOLD
+			,CHK_YN
+			,ADMIN_CHK_YN
+			,ADMIN_CHK_SEQ
+			,COM_UPD_DATE
+			,CRE_APP_FI_DATE
+			,CRE_APP_DATE
+			,CRE_LICENSE_DATE
+			,PAY_DATE
+			,SEND_MSG
+			,PL_HIST_CD
+			,PL_HIST_TXT
+			,COM_HAEJI_DATE
+			,CRE_HAEJI_DATE
+			,FILE_SEQ
+			,USE_YN
+			,REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
+   		)
+   		SELECT
+   			 MASTER_SEQ
+   			,MASTER_TO_ID
+			,COM_CODE
+			,MEMBER_SEQ
+			,SUB_YN
+			,PRE_REG_YN
+			,PRE_LC_NUM
+			,PL_REGIST_NO
+			,CON_NUM
+			,PL_CLASS
+			,PL_WORK
+			,CORP_USER_YN
+			,CAREER_TYP
+			,API_CAREER_YN
+			,PL_PRODUCT
+			,PL_REG_STAT
+			,PL_STAT
+			,CI
+			,PL_M_NAME
+			,PL_M_Z_ID
+			,PL_M_Z_ID_EDU
+			,PL_CELLPHONE
+			,ADDR
+			,ADDR_DETAIL
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,ENTRUST_DATE
+			,COM_CONT_DATE
+			,PL_MERCHANT_NAME
+			,PL_CEO_NAME
+			,PL_MERCHANT_NO
+			,PL_BUSINESS_NO
+			,COMP_PHONE_NO
+			,CORP_FOUND_DATE
+			,CAPITAL
+			,VOTING_STOCK_CNT
+			,PL_PAY_STAT
+			,COM_REG_DATE
+			,FIRST_APP_DATE
+			,APP_DATE_HOLD
+			,CHK_YN
+			,ADMIN_CHK_YN
+			,ADMIN_CHK_SEQ
+			,COM_UPD_DATE
+			,CRE_APP_FI_DATE
+			,CRE_APP_DATE
+			,CRE_LICENSE_DATE
+			,PAY_DATE
+			,SEND_MSG
+			,PL_HIST_CD
+			,PL_HIST_TXT
+			,COM_HAEJI_DATE
+			,CRE_HAEJI_DATE
+			,FILE_SEQ
+			,USE_YN
+			,REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
+   		FROM TB_LC_MAS01
+   		<where>
+   			<choose>
+   				<when test="masterSeq > 0">
+   					AND MASTER_SEQ = #{masterSeq}
+   				</when>
+   				<otherwise>
+   					<if test='plClass.equals("1")'>
+					AND PL_CLASS		= '1'
+					AND PL_M_NAME 		= #{plMName}
+					AND PL_CELLPHONE 	= #{plCellphone}
+					</if>
+					<if test='plClass.equals("2")'>
+					AND PL_CLASS		= '2' 
+					AND PL_MERCHANT_NO 	= #{plMerchantNo}
+					AND PL_CEO_NAME 	= #{plCeoName}
+					</if>
+					AND PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
+					AND PL_STAT 		= '9' 				-- 처리상태 : 완료
+					AND USE_YN			= 'Y'
+   				</otherwise>
+   			</choose>
+   		</where>
+   	</insert>
+   	
 	<!-- 위반이력 리스트 -->
 	<select id="selectSearchUserViolationInfoList" parameterType="search" resultType="search">
 		SELECT
@@ -193,24 +430,43 @@
 		WHERE MASTER_SEQ = #{masterSeq}
 	</select>
 	
+   	<!-- 기등록여부에 따른 상태값 변경 -->
+	<update id="updatePayResultStat" parameterType="search">
+		UPDATE TB_LC_MAS01
+		SET
+			 PL_REG_STAT 	= '3'
+			,PL_STAT		= '9'
+			,PRE_REG_YN		= 'Y'
+			,UPD_SEQ 		= #{updSeq}
+			,UPD_TIMESTAMP 	= NOW()
+		<where>
+			<if test='plClass.equals("1")'>
+			AND PL_CLASS		= '1'
+			AND PL_M_NAME 		= #{plMName}
+			AND PL_CELLPHONE 	= #{plCellphone}
+			</if>
+			<if test='plClass.equals("2")'>
+			AND PL_CLASS		= '2' 
+			AND PL_MERCHANT_NO 	= #{plMerchantNo}
+			AND PL_CEO_NAME 	= #{plCeoName}
+			</if>
+			AND PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
+			AND PL_STAT 		= '9' 				-- 처리상태 : 완료
+			AND USE_YN			= 'Y'
+		</where>
+	</update>
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+   	<!-- 모집인 상태 변경 : 승인완료 이전건에 대한 기등록여부 상태 변경 -->
+	<update id="updatePreRegYn" parameterType="search">
+		UPDATE TB_LC_MAS01
+		SET
+			 PRE_REG_YN 	= 'Y'
+			,UPD_SEQ 		= #{updSeq}
+			,UPD_TIMESTAMP 	= NOW()
+		<where>
+			AND MASTER_SEQ 	= #{masterSeq}
+		</where>
+	</update>
    	
 </mapper> 

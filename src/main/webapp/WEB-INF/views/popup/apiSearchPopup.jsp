@@ -28,6 +28,10 @@
 					<th>생년월일</th>
 					<td>${result.plMZId }</td>
 				</tr>
+				<tr>
+					<th>수수료기납부여부</th>
+					<td>${result.preRegYn }</td>
+				</tr>
 			</c:when>
 			<c:when test="${result.plClass eq '2' }">
 				<tr>
@@ -41,6 +45,10 @@
 				<tr>
 					<th>대표성명</th>
 					<td>${result.plCeoName }</td>
+				</tr>
+				<tr>
+					<th>수수료기납부여부</th>
+					<td>${result.preRegYn }</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
