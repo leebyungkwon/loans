@@ -347,7 +347,7 @@ function goDataAreaAdd() {
 										</tr>
 										 --%>
 										<tr>
-											<th class="acenter">결격요건 확인서 등 관련서류</th>
+											<th class="acenter">결격요건 확인서 및 본국 감독당국의 결격요건, 범죄이력 확인서류 등</th>
 											<td>
 												<input type="text" class="w50 file_input" value="${corpImwonList.fileType27.fileFullNm }" data-fileSeq="${corpImwonList.fileType27.fileSeq }" readonly disabled>
 												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
@@ -365,7 +365,7 @@ function goDataAreaAdd() {
 											</td>
 										</tr>
 										<tr>
-											<th class="acenter">행정정보공동이용사전동의서 *</th>
+											<th class="acenter">행정정보공동이용 사전동의서 *<br>(외국인인 경우 결격요건 확인서 및 본국 감독당국의 결격요건, 범죄이력 확인서류)</th>
 											<td>
 												<input type="text" class="w50 file_input" value="${corpImwonList.fileType33.fileFullNm }" data-fileSeq="${corpImwonList.fileType33.fileSeq }" readonly disabled>
 												<input type="file" name="files" class="inputFile pdfOnly" data-essential="Y" style="display: none;"/>

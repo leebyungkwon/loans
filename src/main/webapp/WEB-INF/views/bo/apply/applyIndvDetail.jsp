@@ -597,7 +597,7 @@ function goApplyImprove(num){
 				
 				
 				<tr>
-					<td class="acenter">행정정보 공동이용 사전동의서 *</td>
+					<td class="acenter">행정정보공동이용 사전동의서 *<br>(외국인인 경우 결격요건 확인서 및 본국 감독당국의 결격요건, 범죄이력 확인서류)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType14 ne null }">

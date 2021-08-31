@@ -46,7 +46,7 @@ $(document).on("change",".inputFile",function(){
 				$(this).prev().val("");
 			}
 			if($.inArray(ext, ["pdf", "PDF"]) == -1) {
-				alert("행정정보공동이용사전동의서는 PDF 파일로만 첨부가 가능합니다.");
+				alert("행정정보공동이용 사전동의서는 PDF 파일로만 첨부가 가능합니다.");
 				$(this).val("");
 				$(this).prev().val("");
 			}
