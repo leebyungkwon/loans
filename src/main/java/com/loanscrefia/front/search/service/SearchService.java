@@ -322,6 +322,8 @@ public class SearchService {
 	//모집인 상태 변경
 	@Transactional
 	public int updatePlRegStat(SearchDomain searchDomain) {
+		//기본이력저장
+		searchRepo.insertSearchUserHistory(searchDomain);
 		
 		int updateResult = searchRepo.updatePlRegStat(searchDomain);
 		

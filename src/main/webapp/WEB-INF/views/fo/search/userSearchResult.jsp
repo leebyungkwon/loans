@@ -30,10 +30,6 @@ function pageLoad() {
 						<th>성명</th>
 						<td>${result.plMName }</td>
 					</tr>
-					<tr>
-						<th>생년월일</th>
-						<td>${result.plMZId }</td>
-					</tr>
 				</c:if>
 				<c:if test="${result.plClass eq '2' }">
 					<tr>
@@ -75,10 +71,6 @@ function pageLoad() {
 								</td>
 							</tr>
 							<tr>
-								<th>계약번호</th>
-								<td>${searchResultList.conNum }</td>
-							</tr>
-							<tr>
 								<th>계약일자</th>
 								<td>
 									${fn:substring(searchResultList.conDate,0,4)}-${fn:substring(searchResultList.conDate,4,6)}-${fn:substring(searchResultList.conDate,6,8)}
@@ -89,6 +81,16 @@ function pageLoad() {
 				</c:forEach>
 			</c:when>
 		</c:choose>
+	</div>
+	<div class="tap_cont">
+		<div class="bottom_box">
+			<ul>
+				<li>
+					<span class="dot"></span>
+					<p>취급상품이 리스로 표시되는 경우에는 할부와 오토론을 취급할 수도 있습니다.</p>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<div class="btn_wrap">
 		<a href="/front/search/userSearchPage" class="btn_black">홈으로</a>

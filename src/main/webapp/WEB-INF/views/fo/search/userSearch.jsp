@@ -44,7 +44,7 @@ function goUserSearch() {
 //은행연합회 이동
 function goKfbSearch(){
 	//location.href="/front/search/userSearchResult";
-	alert("은행연합회 통합조회사이트 준비중");
+	alert("모집인 등록증은 대출모집인 포탈사이트(http://www.loanconsultant.or.kr/)에서 2021년 9월 중순 이후부터 조회 및 다운로드 받으 실 수 있습니다.");
 }
 
 //조회 결과 있을 때
@@ -89,7 +89,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				</li>
 				<li>
 					<span class="dot"></span>
-					<p>조회가능정보: 대출상담사의 등록번호, 성명, 생년월일, 취급상품, 등록일자, 계약금융회사 등</p>
+					<p>조회가능정보: 대출모집인의 등록번호, 성명, 연락처, 계약 금융회사, 취급상품, 계약일자 등</p>
 				</li>
 				<li>
 					<span class="dot"></span>
