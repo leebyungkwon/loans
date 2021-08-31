@@ -396,6 +396,9 @@
    			pl_stat = #{plStat}
    			<if test="plRegStat != null and plRegStat != ''">
    				, pl_reg_stat = #{plRegStat}
+   				<if test='plRegStat.equals("3")'>
+   					,cre_license_date = TO_CHAR(NOW(),'YYYYMMDD')
+   				</if>
    			</if>
    			<if test="plRegStat != null and plRegStat != ''">
    				, cre_app_date = TO_CHAR(NOW(), 'YYYYMMDD')
