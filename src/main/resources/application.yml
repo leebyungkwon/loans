@@ -36,7 +36,7 @@ spring:
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         jdbc-url: jdbc:log4jdbc:postgresql://pg1101.gabiadb.com:5432/loans
         username: loanadmin
-        password: qwer1234!!
+        password: qwer1234!@
   read:
     datasource:
       hikari:
