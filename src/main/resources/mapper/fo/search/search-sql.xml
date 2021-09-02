@@ -205,7 +205,7 @@
 			,CON_NUM 			= #{conNum}			-- 은행연합회 계약번호
 			</if> 
 			<if test='plRegStat != null and plRegStat != "" and plRegStat.equals("3")'>
-			,CRE_LICENSE_DATE 	= #{creLicenseDate}
+			,CRE_LICENSE_DATE 	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if> 
 			,UPD_SEQ 			= #{updSeq}
 			,UPD_TIMESTAMP 		= NOW()
