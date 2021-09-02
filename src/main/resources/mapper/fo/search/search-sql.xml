@@ -434,11 +434,12 @@
 	<update id="updatePayResultStat" parameterType="search">
 		UPDATE TB_LC_MAS01
 		SET
-			 PL_REG_STAT 	= '3'
-			,PL_STAT		= '9'
-			,PRE_REG_YN		= 'Y'
-			,UPD_SEQ 		= #{updSeq}
-			,UPD_TIMESTAMP 	= NOW()
+			 PL_REG_STAT 		= '3'
+			,PL_STAT			= '9'
+			,PRE_REG_YN			= 'Y'
+			,UPD_SEQ 			= #{updSeq}
+			,UPD_TIMESTAMP 		= NOW()
+			,CRE_LICENSE_DATE 	= TO_CHAR(NOW(),'YYYYMMDD')
 		<where>
 			<if test='plClass.equals("1")'>
 			AND PL_CLASS		= '1'

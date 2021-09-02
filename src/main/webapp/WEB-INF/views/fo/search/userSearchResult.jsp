@@ -76,6 +76,13 @@ function pageLoad() {
 									${fn:substring(searchResultList.conDate,0,4)}-${fn:substring(searchResultList.conDate,4,6)}-${fn:substring(searchResultList.conDate,6,8)}
 								</td>
 							</tr>
+							
+							<c:if test="${result.plClass eq '1' }">
+								<tr>
+									<th>연락처</th>
+									<td>${searchResultList.conMobile}</td>
+								</tr>							
+							</c:if>
 						</table>
 					</div>
 				</c:forEach>
