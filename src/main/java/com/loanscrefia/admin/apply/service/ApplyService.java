@@ -1,5 +1,6 @@
 package com.loanscrefia.admin.apply.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1239,4 +1240,239 @@ public class ApplyService {
 		return new ResponseMsg(HttpStatus.OK, "fail", "API오류가 발생하였습니다.");
 	}
 	
+	
+	
+	
+	
+	
+	//모집인 조회 및 변경 > 상태변경처리
+	@Transactional
+	public ResponseMsg checkboxUpdatePlStat(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		int[] masterSeqArr 	= applyDomain.getMasterSeqArr();
+		boolean applyCheck = false;
+		String applyCheckMessage = "";
+		
+		List<ApplyDomain> applyList = new ArrayList<ApplyDomain>();
+		
+		for(int i = 0; i < masterSeqArr.length; i++) {
+			ApplyDomain resultDomain = new ApplyDomain();
+			resultDomain.setMasterSeq(masterSeqArr[i]);
+			ApplyDomain statCheck = applyRepository.getApplyDetail(resultDomain);
+			if(statCheck == null) {
+				applyCheckMessage = i+1+"번째 데이터를 확인해 주세요.";
+				applyCheck = true;
+				break;
+			}
+			
+			if(!"Y".equals(statCheck.getChkYn())) {
+				applyCheckMessage = i+1+"번째 실무자 확인여부를 확인해 주세요.";
+				applyCheck = true;
+				break;
+			}
+			
+			if(!"Y".equals(statCheck.getAdminChkYn())) {
+				applyCheckMessage = i+1+"번째 관리자 확인여부를 확인해 주세요.";
+				applyCheck = true;
+				break;
+			}
+			
+			//승인처리시 이메일 발송
+			if(StringUtils.isEmpty(statCheck.getEmail())) {
+				applyCheckMessage = i+1+"번째 이메일을 확인해 주세요.";
+				applyCheck = true;
+				break;
+			}
+			
+			//승인상태가 승인요청중인건만 확인
+			if(!"2".equals(statCheck.getPlStat())) {
+				applyCheckMessage = i+1+"번째 승인상태를 확인해 주세요.";
+				applyCheck = true;
+				break;
+			}
+			
+			// 2021-08-11 법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
+			if(statCheck.getCorpUserYn().equals("Y")) {
+				UserDomain user = new UserDomain();
+				user.setPlMerchantNo(statCheck.getPlMerchantNo());
+				user.setPlProduct(statCheck.getPlProduct());
+				int corpCheck = applyRepository.applyCorpStatCheck(user);
+				int corpPassCheck 	= corpService.corpPassCheck(user);
+				if(corpCheck == 0 && corpPassCheck == 0) {
+					applyCheckMessage = i+1+"번째 법인이 자격취득 상태가 아니거나\n법인관리에 금융감독원 등록여부(Y/N)를 확인해 주세요.";
+					applyCheck = true;
+					break;
+				}
+			}
+			
+			applyList.add(statCheck);
+		}
+		
+		// 데이터 검증
+		if(applyCheck) {
+			responseMsg.setMessage(applyCheckMessage); 
+			return responseMsg;
+		}else {
+			responseMsg.setData(applyList);
+			return responseMsg;
+		}
+	}
+	
+	
+	// 이메일 발송
+	public int applySendEmail(List<EmailDomain> resultEmailDomain) {
+		int emailResult = 0;
+		for(int i=0; i<resultEmailDomain.size(); i++) {
+			EmailDomain emailDomain = new EmailDomain();
+			emailDomain.setName("여신금융협회");
+			emailDomain.setEmail(resultEmailDomain.get(i).getEmail());
+			emailDomain.setInstId(resultEmailDomain.get(i).getInstId());
+			emailDomain.setSubsValue(resultEmailDomain.get(i).getSubsValue());
+			emailRepository.sendEmail(emailDomain);
+			emailResult++;
+		}
+		
+		if(resultEmailDomain.size() != emailResult) {
+			return -1;
+		}else {
+			return emailResult;
+		}
+	}
+	
+	//모집인 조회 및 변경 > 상태변경처리
+	@Transactional
+	public ResponseMsg updateApplyListPlStat(List<ApplyDomain> applyDomainList){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		// API성공여부
+		List<EmailDomain> resultEmail = new ArrayList<EmailDomain>();
+		for(ApplyDomain tmp : applyDomainList) {
+			EmailDomain emailDomain = new EmailDomain();
+			emailDomain.setEmail(tmp.getEmail());
+			// API성공여부
+			boolean apiCheck = false;
+			KfbApiDomain kfbApiDomain = new KfbApiDomain();
+			ApplyDomain resultDomain = new ApplyDomain();
+			
+			if("2".equals(tmp.getPlStat()) && "1".equals(tmp.getPlRegStat()) && "N".equals(tmp.getPreRegYn())) {
+				
+				// 승인요청에 대한 승인
+				emailDomain.setInstId("142");
+				emailDomain.setSubsValue(tmp.getMasterToId());
+				resultDomain.setPlStat("9");
+				resultDomain.setPlRegStat("2");
+				resultEmail.add(emailDomain);
+				apiCheck = true;
+				
+			}else if("2".equals(tmp.getPlStat()) && "1".equals(tmp.getPlRegStat()) && "Y".equals(tmp.getPreRegYn())) {
+				// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
+				emailDomain.setInstId("143");
+				emailDomain.setSubsValue(tmp.getMasterToId());
+				resultEmail.add(emailDomain);
+				resultDomain.setPlStat("9");
+				resultDomain.setPlRegStat("3");
+				
+				if(kfbApiApply) {
+					// 금융상품 3, 6번 제외
+					String prdCheck = tmp.getPlProduct();
+					String lcNum = "";
+					String conNum = "";
+					// 가등록에서 본등록시 등록번호 발급
+					
+					UserDomain userDomain = new UserDomain();
+					if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+						
+						// 2021-06-25 은행연합회 API 통신 - 등록
+						String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+						JSONObject jsonParam = new JSONObject();
+						String plClass = tmp.getPlClass();
+						if("1".equals(plClass)) {
+							jsonParam.put("pre_lc_num", tmp.getPreLcNum());
+							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");				
+						}else {
+							jsonParam.put("pre_corp_lc_num", tmp.getPreLcNum());
+							responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
+						}
+						
+						if("success".equals(responseMsg.getCode())) {
+							JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+							if("1".equals(tmp.getPlClass())) {
+								lcNum = responseJson.getString("lc_num");
+							}else {
+								lcNum = responseJson.getString("corp_lc_num");
+							}
+							
+							if(StringUtils.isEmpty(lcNum)) {
+								return new ResponseMsg(HttpStatus.OK, "fail", "가등록시 전달받은 등록번호 오류.\n관리자에 문의해 주세요.");
+							}
+							
+							// 계약번호 갖고오기[배열]
+							// 등록시 가등록번호를 은행연합회에 던지고 1:N인 등록번호를 받고
+							// 하나의 KEY인 계약번호를 받는데 계약번호가 배열로 리턴되면 뭐가 내번호인지 어케알수있음?????
+							// 계약금융기관코드로 판별????
+							// 가등록시 계약금융기관코드가 필수임 확인해야함 - 중요
+							
+							JSONObject jsonObj = new JSONObject();
+							JSONArray conArr = responseJson.getJSONArray("con_arr");
+							// 계약금융기관코드(저장되어있는 데이터 비교)
+							String comCode = tmp.getComCode();
+							for(int j=0; j<conArr.length(); j++){
+								jsonObj = conArr.getJSONObject(j);
+								String loanType = jsonObj.getString("loan_type");
+								String finCode = jsonObj.getString("fin_code");
+								// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+								if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
+									conNum = jsonObj.getString("con_num");
+								}
+							}
+							
+							if(StringUtils.isEmpty(conNum)) {
+								return new ResponseMsg(HttpStatus.OK, "success", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
+							}
+							
+							userDomain.setMasterSeq(tmp.getMasterSeq());
+							userDomain.setPlRegistNo(lcNum);
+							userDomain.setConNum(conNum);
+							int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
+							if(updateCnt > 0) {
+								apiCheck = true;
+							}else {
+								return new ResponseMsg(HttpStatus.OK, "success", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+							}
+						}else {
+							return responseMsg;
+						}
+					}else {
+						apiCheck = true;
+					}
+				}else {
+					apiCheck = true;
+				}
+				
+			}else{
+				return new ResponseMsg(HttpStatus.OK, "success", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+			}
+			
+			if(apiCheck) {
+				//모집인 이력 저장
+				UserDomain param = new UserDomain();
+				param.setMasterSeq(tmp.getMasterSeq());
+				resultDomain.setMasterSeq(tmp.getMasterSeq());
+				userRepo.insertUserHistory(param);
+				
+				//모집인 상태 변경
+				int updateResult = applyRepository.updateApplyPlStat(resultDomain);
+				if(updateResult > 0) {
+					// 모집인단계이력
+					applyRepository.insertMasterStep(tmp);
+					//return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "success", "오류가 발생하였습니다.");
+				}
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "API오류가 발생하였습니다.");
+			}
+		}
+		responseMsg.setData(resultEmail);
+		return responseMsg;
+	}
 }

@@ -299,6 +299,13 @@ function goApplyImprove(num){
 					<td>${result.applyInfo.entrustDate }</td>
 				</tr>
 				
+				<tr>
+					<th>승인요청사유</th>
+					<td colspan="3">
+						<textarea rows="6" cols="" id="" name="" class="w100" readonly>${result.applyInfo.applyHistTxt }</textarea>
+					</td>
+				</tr>
+				
 				<c:choose>
 					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
 					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7'}">

@@ -1,27 +1,22 @@
 package com.loanscrefia.front.search.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.loanscrefia.admin.recruit.domain.RecruitDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.search.domain.SearchDomain;
-import com.loanscrefia.front.search.domain.SearchResultDomain;
 import com.loanscrefia.front.search.repository.SearchRepository;
-import com.loanscrefia.member.user.domain.UserDomain;
 
 import sinsiway.CryptoUtil;
 
@@ -43,6 +38,9 @@ public class SearchService {
 		//검색어
 		String plMZIdFront 	= searchDomain.getPlMZIdFront();
 		String gender 		= searchDomain.getGender();
+
+
+		String plRegistNo = "";
 		
 		//조회 결과
 		searchDomain.setPlCellphone(searchDomain.getPlCellphone().replaceAll("-", ""));
@@ -56,6 +54,7 @@ public class SearchService {
 		// 내부 테이블 조회 - 자격취득된 건 조회
 		SearchDomain payResult = searchRepo.selectPayResultIndvUserInfo(searchDomain);
 		if(payResult != null) {
+			plRegistNo = payResult.getPlRegistNo();
 			// 이미 자격취득한 건 외에 다른건들도 자격취득 및 기등록여부(수수료기납부여부) 변경
 			List<SearchDomain> payResultList = searchRepo.selectPayResultIndvUserList(searchDomain);
 			if(payResultList.size() > 0) {
@@ -71,6 +70,9 @@ public class SearchService {
 			// hist, step 이력 쌓기
 			searchDomain.setMasterSeq(0);
 			searchDomain.setPlClass("1");
+			if(StringUtils.isNotEmpty(plRegistNo)) {
+				searchDomain.setPlRegistNo(plRegistNo);
+			}
 			searchRepo.insertSearchUserStepHistory(searchDomain);
 			searchRepo.updatePayResultStat(searchDomain);
 			
@@ -105,6 +107,9 @@ public class SearchService {
 					// hist, step 이력 쌓기
 					searchDomain.setMasterSeq(0);
 					searchDomain.setPlClass("1");
+					if(StringUtils.isNotEmpty(plRegistNo)) {
+						searchDomain.setPlRegistNo(plRegistNo);
+					}
 					searchRepo.insertSearchUserStepHistory(searchDomain);
 					searchRepo.updatePayResultStat(searchDomain);
 				}
@@ -137,7 +142,7 @@ public class SearchService {
 	public ResponseMsg selectPayCorpUserInfo(SearchDomain searchDomain) {
 		
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[0].");
-		
+		String plRegistNo = "";
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(searchDomain.getPlMerchantNo())) {
 			searchDomain.setPlMerchantNo(CryptoUtil.encrypt(searchDomain.getPlMerchantNo()));
@@ -150,8 +155,9 @@ public class SearchService {
 		}
 		
 		// 내부 테이블 조회 - 자격취득된 건 조회
-		SearchDomain payResult = searchRepo.selectPayResultCorpUserInfo(searchDomain); 
+		SearchDomain payResult = searchRepo.selectPayResultCorpUserInfo(searchDomain);
 		if(payResult != null) {
+			plRegistNo = payResult.getPlRegistNo();
 			// 내부 테이블 조회 - 승인전 조회 데이터 기등록여부값만 변경
 			List<SearchDomain> payResultList = searchRepo.selectPayCorpUserList(searchDomain);
 			if(payResultList.size() > 0) {
@@ -167,6 +173,9 @@ public class SearchService {
 			// hist, step 이력 쌓기
 			searchDomain.setMasterSeq(0);
 			searchDomain.setPlClass("2");
+			if(StringUtils.isNotEmpty(plRegistNo)) {
+				searchDomain.setPlRegistNo(plRegistNo);
+			}
 			searchRepo.insertSearchUserStepHistory(searchDomain);
 			searchRepo.updatePayResultStat(searchDomain);
 			return new ResponseMsg(HttpStatus.OK, "fail", "이미 자격취득(결제완료)한 대상입니다. 등록번호를 확인해 주세요.");
@@ -199,6 +208,9 @@ public class SearchService {
 					// hist, step 이력 쌓기
 					searchDomain.setMasterSeq(0);
 					searchDomain.setPlClass("2");
+					if(StringUtils.isNotEmpty(plRegistNo)) {
+						searchDomain.setPlRegistNo(plRegistNo);
+					}
 					searchRepo.insertSearchUserStepHistory(searchDomain);
 					searchRepo.updatePayResultStat(searchDomain);
 				}
@@ -345,13 +357,89 @@ public class SearchService {
 	
 	
 	
+
+	
+	//2021-09-03 모집인결제조회 : 개인
+	public ResponseMsg getPayResultIndvSearch(SearchDomain searchDomain) {
+		
+		//검색어
+		String plMZIdFront 	= searchDomain.getPlMZIdFront();
+		String gender 		= searchDomain.getGender();
+		
+		//조회 결과
+		searchDomain.setPlCellphone(searchDomain.getPlCellphone().replaceAll("-", ""));
+		
+		SearchDomain result = searchRepo.getPayResultIndvSearch(searchDomain);
+		if(result == null) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		}
+
+		//데이터 복호화해서 검색어와 비교
+		String rPlMZId 		= CryptoUtil.decrypt(result.getPlMZId());
+		String rPlMZIdFront = rPlMZId.substring(0, 6);
+		String rPlMZIdEnd	= rPlMZId.substring(6);
+		String rGender 		= "";
+		
+		if(rPlMZIdEnd.startsWith("1") || rPlMZIdEnd.startsWith("3") || rPlMZIdEnd.startsWith("5") || rPlMZIdEnd.startsWith("7")) {
+			rGender = "M";
+		}else {
+			rGender = "F";
+		}
+		
+		if(plMZIdFront.equals(rPlMZIdFront) && gender.equals(rGender)) {
+			return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다[40].");
+	}
 	
 	
+	//2021-09-03 모집인결제조회 : 법인
+	public ResponseMsg getPayResultCorpSearch(SearchDomain searchDomain) {
+		
+		//검색어 암호화
+		if(StringUtils.isNotEmpty(searchDomain.getPlMerchantNo())) {
+			searchDomain.setPlMerchantNo(CryptoUtil.encrypt(searchDomain.getPlMerchantNo()));
+		}
+		
+		SearchDomain result = searchRepo.getPayResultCorpSearch(searchDomain); 
+		if(result == null) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		}
+		
+		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
+	}
+
 	
-	
-	
-	
-	
-	
+	//모집인 상세
+	public SearchDomain getPayResultSearchResult(SearchDomain searchDomain) {
+		SearchDomain result = searchRepo.getPayResultSearchResult(searchDomain);
+		if(StringUtils.isNotEmpty(result.getPlMZId())) {
+			//주민번호
+			String plMZId 			= CryptoUtil.decrypt(result.getPlMZId());
+			String plMZIdFront		= plMZId.substring(0, 6);
+			String plMZIdEnd		= plMZId.substring(6);
+			plMZId 					= plMZIdFront + "-" + plMZIdEnd;
+			result.setPlMZId(plMZId);
+			
+			//생년월일
+			result.setPlMZIdFront(plMZIdFront);
+			
+			//성별
+			if(plMZIdEnd.startsWith("1") || plMZIdEnd.startsWith("3") || plMZIdEnd.startsWith("5") || plMZIdEnd.startsWith("7")) {
+				result.setGender("M");
+			}else {
+				result.setGender("F");
+			}
+		}
+		if(StringUtils.isNotEmpty(result.getPlMerchantNo())) {
+			//법인번호
+			String plMerchantNo 	= CryptoUtil.decrypt(result.getPlMerchantNo());
+			plMerchantNo 			= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6); 
+			result.setPlMerchantNo(plMerchantNo);
+		}
+		
+		return result;
+	}
 	
 }

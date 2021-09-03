@@ -36,6 +36,7 @@
   		SELECT
    			 TLM.MASTER_SEQ
    			,TLM.PL_M_Z_ID
+   			,TLM.pl_regist_no
    		FROM TB_LC_MAS01 TLM
 		WHERE TLM.PL_CLASS		= '1' 				-- 개인
 		AND TLM.PL_M_NAME 		= #{plMName}
@@ -440,6 +441,9 @@
 			,UPD_SEQ 			= #{updSeq}
 			,UPD_TIMESTAMP 		= NOW()
 			,CRE_LICENSE_DATE 	= TO_CHAR(NOW(),'YYYYMMDD')
+			<if test="plRegistNo != null and plRegistNo != ''">
+			,PL_REGIST_NO		= #{plRegistNo}		
+			</if> 
 		<where>
 			<if test='plClass.equals("1")'>
 			AND PL_CLASS		= '1'
@@ -469,5 +473,58 @@
 			AND MASTER_SEQ 	= #{masterSeq}
 		</where>
 	</update>
-   	
+	
+	
+	<!-- 2021-09-03 모집인 결제 조회 : 개인 -->
+	<select id="getPayResultIndvSearch" parameterType="search" resultType="search">
+  		SELECT
+   			 TLM.MASTER_SEQ
+   			,TLM.PL_M_Z_ID
+   			,TLM.PRE_LC_NUM
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '1' 				-- 개인
+		AND TLM.PL_M_NAME 		= #{plMName}
+		AND TLM.PL_CELLPHONE 	= #{plCellphone}
+		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
+		LIMIT 1
+	</select>
+	
+	
+	<!-- 2021-09-03 모집인 결제 조회 : 법인 -->
+	<select id="getPayResultCorpSearch" parameterType="search" resultType="search">
+   		SELECT
+   			TLM.MASTER_SEQ
+   			,TLM.PRE_LC_NUM
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '2' 				-- 법인 
+		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND TLM.PL_CEO_NAME 	= #{plCeoName}
+		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
+		LIMIT 1
+	</select>
+	
+	<!-- 2021-09-03 모집인 결제 조회 결과 상세 -->
+	<select id="getPayResultSearchResult" parameterType="search" resultType="search">
+		SELECT
+			a.MASTER_SEQ
+			, PL_REGIST_NO
+			, a.PL_M_NAME
+			, a.PL_CLASS
+			, a.PL_M_Z_ID
+			, FN_CELLPHONE(a.PL_CELLPHONE) AS PL_CELLPHONE
+			, a.PL_MERCHANT_NO
+			, a.PL_CEO_NAME
+			, (SELECT b.name FROM TB_LC_PAY b WHERE a.MASTER_SEQ = b.MASTER_SEQ LIMIT 1) AS PAY_NAME
+			, (SELECT b.amt FROM TB_LC_PAY b WHERE a.MASTER_SEQ = b.MASTER_SEQ LIMIT 1) AS AMT
+			, (SELECT TO_CHAR(b.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY b WHERE a.MASTER_SEQ = b.MASTER_SEQ LIMIT 1) AS PAY_DATE
+		FROM
+			TB_LC_MAS01 a
+		WHERE a.MASTER_SEQ = #{masterSeq}
+		LIMIT 1
+	</select>
+	
 </mapper> 

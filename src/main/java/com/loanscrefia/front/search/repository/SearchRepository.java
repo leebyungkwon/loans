@@ -54,4 +54,13 @@ public interface SearchRepository {
 	//모집인 상태 변경 : 승인완료 이전건에 대한 기등록여부 상태 변경
 	int updatePreRegYn(SearchDomain searchDoamin);
 	
+	//2021-09-03 모집인 결제 조회 : 개인
+	SearchDomain getPayResultIndvSearch(SearchDomain searchDomain);
+	
+	//2021-09-03 모집인 결제 조회 : 법인
+	SearchDomain getPayResultCorpSearch(SearchDomain searchDomain);
+	
+	//2021-09-03 모집인 결제 조회 : 결과
+	SearchDomain getPayResultSearchResult(SearchDomain searchDomain);
+	
 }

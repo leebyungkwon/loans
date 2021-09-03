@@ -22,6 +22,8 @@ ALTER TABLE tb_lc_mas01_it ADD COLUMN upd_timestamp timestamp;
 
 
 
+ALTER TABLE tb_lc_mas01 ADD COLUMN apply_hist_txt text;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN apply_hist_txt text;
 
 
 -- 2021-08-17 승인남은일수 홀딩

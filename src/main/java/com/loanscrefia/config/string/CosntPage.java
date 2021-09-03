@@ -80,4 +80,5 @@ public class CosntPage {
 	
 	//대출모집인 결제
 	public static String FoPayPage = "fo/pay";
+
 }

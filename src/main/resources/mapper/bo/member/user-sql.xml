@@ -896,6 +896,7 @@
 			,TLM.PL_HIST_CD
 			,FN_CD_DTL('DRP001',TLM.PL_HIST_CD) AS PL_HIST_CD_NM
 			,TLM.PL_HIST_TXT
+			,TLM.APPLY_HIST_TXT
 			,TO_DATE(TLM.COM_HAEJI_DATE,'YYYYMMDD') AS COM_HAEJI_DATE
 			,TO_DATE(TLM.CRE_HAEJI_DATE,'YYYYMMDD') AS CRE_HAEJI_DATE
 			,TLM.FILE_SEQ
@@ -1118,6 +1119,9 @@
    		UPDATE TB_LC_MAS01
    		SET
    			  FILE_SEQ 			= #{fileSeq}
+   			<if test="applyHistTxt != null and applyHistTxt != ''">
+   			 ,APPLY_HIST_TXT 	= #{applyHistTxt}
+   			</if>
    			<if test="plMName != null and plMName != ''">
    			 ,PL_M_NAME 		= #{plMName}
    			</if>

@@ -18,17 +18,6 @@ function pageLoad() {
 		$("#gender").val($(this).attr("data-gender"));
 	});
 	
-	//금융회사
- 	var comCode = {
-		 useCode 	: false
-		,target 	: '.comCode'
-		,url 		: '/common/selectCompanyCodeList'
-		,key 		: 'codeDtlCd'
-		,value 		: 'codeDtlNm'
-		,updData 	: ''
-		,defaultMsg : '계약금융회사를 선택해 주세요.'
-	};
-	DataUtil.selectBox(comCode);
 }
 
 //모집인 조회
@@ -39,10 +28,6 @@ function goPayUserSearch() {
 	var url 		= $("#"+formNm).attr("action");
 	
 	if(formNm == "indvUserSearchFrm"){
-		if(WebUtil.isNull($("#searchComCode").val())){
-			alert("금융회사를 선택해 주세요.");
-			return false;
-		}
 		if(WebUtil.isNull($("#searchPlMName").val())){
 			alert("성명을 입력해 주세요.");
 			return false;
@@ -57,10 +42,6 @@ function goPayUserSearch() {
 		}
 		 
 	}else{
-		if(WebUtil.isNull($("#searchCorpComCode").val())){
-			alert("금융회사를 선택해 주세요.");
-			return false;
-		}
 		if(WebUtil.isNull($("#searchPlMerchantNo").val())){
 			alert("법인번호를 입력해 주세요.");
 			return false;
@@ -86,13 +67,13 @@ function goPayUserSearch() {
 //조회 결과 있을 때
 function goPayUserSearchResultPage(formNm,masterSeq) {
 	$("#"+formNm).append('<input type="hidden" name="masterSeq" value="'+masterSeq+'">');
-	$("#"+formNm).attr("action","/front/pay/payUserSearchResult");
+	$("#"+formNm).attr("action","/front/paySearch/payResultSearchResult");
 	$("#"+formNm).submit();
 }
 </script>
 
 <div class="inquiry_wrap">
-	<div class="title">모집인 결제</div>
+	<div class="title">등록수수료 결제내역 조회</div>
 	<div class="tap_wrap">
 		<ul>
 			<li class="on">
@@ -104,7 +85,7 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 		</ul>
 	</div>
 	<div class="tap_cont on">
-		<form name="indvUserSearchFrm" id="indvUserSearchFrm" method="post" action="/front/pay/payIndvUserSearch">
+		<form name="indvUserSearchFrm" id="indvUserSearchFrm" method="post" action="/front/paySearch/payResultIndvSearch">
 			<input type="hidden" name="gender" id="gender" value="M"/>
 			
 			<table class="payment_table">
@@ -112,12 +93,6 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 					<col width="124"/>
 					<col width="*"/>
 				</colgroup>
-				<tr>
-					<th>금융회사 선택</th>
-					<td>
-						<select name="comCode" id="searchComCode" class="comCode" data-vd='{"type":"text","req":true,"msg":"금융회사를 선택해 주세요."}'></select>
-					</td>
-				</tr>
 				<tr>
 					<th>성명</th>
 					<td>
@@ -149,43 +124,16 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				</tr>
 			</table>
 		</form>
-		<div class="bottom_box">
-			<ul>
-				<li>
-					<span class="dot"></span>
-					<p>계약된 금융회사를 통해 신청 후에 승인완료 된 모집인에 대한 결제 페이지 입니다.</p>
-				</li>
-				<li>
-					<span class="dot"></span>
-					<p>조회 후에 수수료를 결제하시면 최종 등록번호를 확인하실 수 있습니다.</p>
-				</li>
-				<li>
-					<span class="dot"></span>
-					<p>모집인 등록증은 대출모집인 포탈사이트(<a href="http://www.loanconsultant.or.kr/" target="_blank">http://www.loanconsultant.or.kr/</a>)에서 2021년 9월 중순 이후부터 조회 및 다운로드 받으실 수 있습니다.</p>
-				</li>
-				<li>
-					<span class="red_dot"></span>
-					<p class="red">결제 후 환불은 불가능 합니다.</p>
-				</li>
-				<li>
-					<a href="/static/sample/등록수수료결제안내서.pdf" style="width:220px; font: 400 15px/46px 'Montserrat','Noto Sans KR';" class="btn_blue btn_small">등록수수료 결제 안내서 다운로드</a>
-				</li>
-			</ul>
-		</div>
 	</div>
+	
+	
 	<div class="tap_cont">
-		<form name="corpUserSearchFrm" id="corpUserSearchFrm" method="post" action="/front/pay/payCorpUserSearch">
+		<form name="corpUserSearchFrm" id="corpUserSearchFrm" method="post" action="/front/paySearch/payResultCorpSearch">
 			<table class="payment_table">
 				<colgroup>
 					<col width="124"/>
 					<col width="*"/>
 				</colgroup>
-				<tr>
-					<th>금융회사 선택</th>
-					<td>
-						<select name="comCode" id="searchCorpComCode" class="comCode" data-vd='{"type":"text","req":true,"msg":"금융회사를 선택해 주세요."}'></select>
-					</td>
-				</tr>
 				<tr>
 					<th>법인번호</th>
 					<td>
@@ -200,29 +148,6 @@ function goPayUserSearchResultPage(formNm,masterSeq) {
 				</tr>
 			</table>
 		</form>
-		<div class="bottom_box">
-			<ul>
-				<li>
-					<span class="dot"></span>
-					<p>계약된 금융회사를 통해 신청 후에 승인완료 된 모집인에 대한 결제 페이지 입니다.</p>
-				</li>
-				<li>
-					<span class="dot"></span>
-					<p>조회 후에 수수료를 결제하시면 최종 등록번호를 확인하실 수 있습니다.</p>
-				</li>
-				<li>
-					<span class="dot"></span>
-					<p>모집인 등록증은 대출모집인 포탈사이트(<a href="http://www.loanconsultant.or.kr/" target="_blank">http://www.loanconsultant.or.kr/</a>)에서 2021년 9월 중순 이후부터 조회 및 다운로드 받으실 수 있습니다.</p>
-				</li>
-				<li>
-					<span class="red_dot"></span>
-					<p class="red">결제 후 환불은 불가능 합니다.</p>
-				</li>
-				<li>
-					<a href="/static/sample/등록수수료결제안내서.pdf" style="width:220px; font: 400 15px/46px 'Montserrat','Noto Sans KR';" class="btn_blue btn_small">등록수수료 결제 안내서 다운로드</a>
-				</li>
-			</ul>
-		</div>
 	</div>
 	<div class="btn_wrap">
 		<a href="javascript:void(0);" class="btn_black_long" onclick="goPayUserSearch();">조회</a>

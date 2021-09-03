@@ -18,6 +18,8 @@ function menuActiveFunction(){
 		$("#menuSearch").addClass("on");
 	}else if(menuUrl[2] == "pay"){
 		$("#menuPay").addClass("on");
+	}else if(menuUrl[2] == "paySearch"){
+		$("#menyPaySearch").addClass("on");
 	}
 }
 </script>
@@ -39,6 +41,7 @@ function menuActiveFunction(){
 						<li id="menuInfo"><a href="/front/info">대출모집인 제도</a></li>
 						<li id="menuSearch"><a href="/front/search/userSearchPage">대출모집인 조회</a></li>
 						<li id="menuPay"><a href="/front/pay/payUserSearchPage">모집인 결제</a></li>
+						<li id="menyPaySearch"><a href="/front/paySearch/payResultSearch">등록수수료 결제내역 조회</a></li>
 					</ul>
 				</div>
 			</div>
