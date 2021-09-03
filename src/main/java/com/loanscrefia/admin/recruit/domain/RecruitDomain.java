@@ -80,6 +80,7 @@ public class RecruitDomain extends BaseDomain {
 	private String sendMsg;			//전달메세지
 	private String plHistCd;		//해지사유코드
 	private String plHistTxt;		//직접입력(사유)
+	private String applyHistTxt;	//승인요청사유
 	private String comHaejiDate;	//회원사해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private String creHaejiDate;	//협회해지일자						-> 회원사가 해지요청한 날짜를 넣어줌
 	private Integer fileSeq;		//첨부파일시퀀스

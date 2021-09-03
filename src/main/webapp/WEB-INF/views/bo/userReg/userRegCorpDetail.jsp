@@ -283,6 +283,14 @@ function goUserAcceptApply(){
 							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
 						</tr>
 					</c:if>
+					
+					<tr>
+						<th>승인요청사유</th>
+						<td colspan="3">
+							<textarea rows="6" cols="" id="applyHistTxt" name="applyHistTxt" class="w100">${result.userRegInfo.applyHistTxt }</textarea>
+						</td>
+					</tr>
+					
 				</table>
 			</div>
 	

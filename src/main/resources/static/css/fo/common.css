@@ -420,7 +420,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 
 .gnb{
   display: inline-block;
-  width: 700px;
+  width: 900px;
   float: right;
   text-align: right;
 }

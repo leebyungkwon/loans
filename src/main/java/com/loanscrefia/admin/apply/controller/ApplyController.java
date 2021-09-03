@@ -38,6 +38,8 @@ import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.admin.apply.service.ApplyService;
 import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.email.domain.EmailDomain;
+import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -60,12 +62,19 @@ public class ApplyController {
 	@Autowired 
 	private ApplyRepository applyRepository;
 	
+	@Autowired
+	private EmailRepository emailRepository;
+	
 	@Value("${upload.filePath}")
 	public String filePath;
 	
 	//암호화 적용여부
 	@Value("${crypto.apply}")
 	public boolean cryptoApply;
+	
+	//이메일 적용여부
+	@Value("${email.apply}")
+	public boolean emailApply;
 
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 모집인 조회 및 변경
@@ -668,4 +677,32 @@ public class ApplyController {
         return mav;
 	}
 	
+	
+	// 상태변경처리
+	@PostMapping(value="/apply/checkboxUpdatePlStat")
+	public ResponseEntity<ResponseMsg> checkboxUpdatePlStat(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = applyService.checkboxUpdatePlStat(applyDomain);
+		List<ApplyDomain> applyResult = (List<ApplyDomain>) responseMsg.getData();
+		if(applyResult != null) {
+			ResponseMsg responseMsg2 = applyService.updateApplyListPlStat(applyResult);
+			List<EmailDomain> resultEmail = (List<EmailDomain>) responseMsg2.getData();
+			int emailResult = 0;
+			if(resultEmail != null) {
+				if(emailApply) {
+					emailResult = applyService.applySendEmail(resultEmail);
+					if(emailResult == -1) {
+						responseMsg.setMessage("메일발송시 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
+					}else {
+						responseMsg.setMessage("완료되었습니다.");
+					}
+				}else {
+					responseMsg.setMessage("완료되었습니다.");
+				}
+			}
+		}else {
+			return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 }

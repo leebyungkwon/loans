@@ -307,6 +307,7 @@
 			,TLM.PL_HIST_CD
 			,FN_CD_DTL('DRP001',TLM.PL_HIST_CD) AS PL_HIST_CD_NM
 			,TLM.PL_HIST_TXT
+			,TLM.APPLY_HIST_TXT
 			,case
 				when TLM.COM_HAEJI_DATE = '' then null
 				when TLM.COM_HAEJI_DATE is null then null
@@ -416,7 +417,10 @@
    			<if test="plRegStat != null and plRegStat != ''">
    				, pl_reg_stat = #{plRegStat}
    				<if test='plRegStat.equals("3")'>
-   					,cre_license_date = TO_CHAR(NOW(),'YYYYMMDD')
+   					,cre_license_date = case
+								when cre_license_date is null or cre_license_date = '' then TO_CHAR(NOW(), 'YYYYMMDD')
+								else cre_license_date
+							end
    				</if>
    			</if>
    			<if test="plRegStat != null and plRegStat != ''">
@@ -451,6 +455,7 @@
    			,CASE 
 				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
 				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('2') THEN APPLY_HIST_TXT
 				ELSE ''
 			 END AS PL_HIST_TXT
    			,NOW()
