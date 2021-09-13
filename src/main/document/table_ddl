@@ -1163,9 +1163,21 @@ create table tb_lc_users(
 	, inactive_dt timestamp
 	, last_login_dt timestamp
 	, fail_cnt INTEGER
+	, fail_stop_dt timestamp
+	, pw_change_dt timestamp
 	, reg_seq integer not null
 	, reg_timestamp timestamp not null
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp null
 	, PRIMARY KEY (user_seq)
 )
+
+
+create table TB_LC_PAY_LOG
+(
+	URL text
+	, RES_DATA text
+	, FULL_URL text
+	, reg_timestamp timestamp
+);
+commit;

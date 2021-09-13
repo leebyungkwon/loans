@@ -80,5 +80,11 @@ public class CosntPage {
 	
 	//대출모집인 결제
 	public static String FoPayPage = "fo/pay";
+	
+	
+	
+	//2021-09-13 회원관리 리스트페이지
+	public static String BoUsersPage 	= "bo/users";
+	
 
 }

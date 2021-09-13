@@ -1,6 +1,14 @@
 ALTER TABLE tb_lc_users ADD COLUMN corp_appr_dt timestamp;
 ALTER TABLE tb_lc_users ADD COLUMN fail_cnt INTEGER NOT NULL DEFAULT 0;
 
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_seq INTEGER;
+
+ALTER TABLE tb_lc_users ADD COLUMN fail_cnt INTEGER;
+ALTER TABLE tb_lc_users ADD COLUMN corp_appr_dt timestamp;
+
+
+ALTER TABLE tb_lc_users ADD COLUMN pw_change_dt timestamp;
 
 
 

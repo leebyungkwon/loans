@@ -75,7 +75,6 @@ public class RecruitDomain extends BaseDomain {
 	@ExcelColumn(headerName = "자격취득일", order = 15)
 	private String creLicenseDate;	//자격취득일
 	private String plPayStat;		//결제상태							-> []
-	@ExcelColumn(headerName = "결제완료일", order = 14)
 	private String payDate;			//결제완료일
 	private String sendMsg;			//전달메세지
 	private String plHistCd;		//해지사유코드
@@ -131,6 +130,7 @@ public class RecruitDomain extends BaseDomain {
 	private String payType;
 	private String payName;
 	private String originPayRegDate;
+	@ExcelColumn(headerName = "결제완료일", order = 14)
 	private String payRegDate;
 	
 	private String afterData;		//변경이력 현재데이터
