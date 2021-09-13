@@ -1,5 +1,7 @@
 package com.loanscrefia.front.pay.service;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +16,7 @@ import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.pay.domain.PayDomain;
 import com.loanscrefia.front.pay.repository.PayRepository;
 import com.loanscrefia.front.search.domain.SearchDomain;
+import com.loanscrefia.front.search.repository.SearchRepository;
 import com.loanscrefia.front.search.service.SearchService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ public class PayService {
 	
 	//은행연합회
 	@Autowired private KfbApiService kfbApiService;
+	@Autowired private SearchRepository searchRepo;
 	
 	//결제정보 저장
 	@Transactional
@@ -172,11 +176,96 @@ public class PayService {
 			
 			return false;
 		}
-		
 		return true;
 	}
 	
-	
+	//승인완료 -> 자격취득(API)
+	@Transactional
+	public boolean updatePayResultApi(SearchDomain searchDomain) {
+		List<SearchDomain> applyList = null;
+		if("1".equals(searchDomain.getPlClass())) {
+			applyList = searchService.selectPrevIndvPaySearchResult(searchDomain);
+		}else {
+			applyList = searchService.selectPrevCorpPaySearchResult(searchDomain);
+		}
+		
+		if(applyList.size() > 0) {
+			for(SearchDomain list : applyList) {
+				SearchDomain param = new SearchDomain();
+				param.setMasterSeq(list.getMasterSeq());
+				searchRepo.updatePreRegYn(param);
+			}
+		}
+		
+		List<SearchDomain> resultList = null;
+		if("1".equals(searchDomain.getPlClass())) {
+			resultList = searchService.selectIndvPaySearchResult(searchDomain);
+		}else {
+			resultList = searchService.selectCorpPaySearchResult(searchDomain);
+		}
+		
+		if(resultList.size() > 0) {
+			KfbApiDomain kfbApiDomain 	= new KfbApiDomain();
+			String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
+			
+			for(SearchDomain tmp : resultList) {
+				String lcNum = "";
+				String conNum = "";
+				if("01".equals(tmp.getPlProduct()) || "05".equals(tmp.getPlProduct())) { //금융상품유형이 TM대출,TM리스이면 은행연합회 API 통신 X(임시) -> 추후 조건문 주석
+					JSONObject loanApiReqParam 	= new JSONObject();
+					ResponseMsg loanApiResult 	= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
+					
+					if(tmp.getPlClass().equals("1")) {
+						//개인
+						loanApiReqParam.put("pre_lc_num", tmp.getPreLcNum());
+						loanApiResult = kfbApiService.commonKfbApi(apiToken, loanApiReqParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", tmp.getPlClass(), "Y");
+					}else {
+						//법인
+						loanApiReqParam.put("pre_corp_lc_num", tmp.getPreLcNum());
+						loanApiResult = kfbApiService.commonKfbApi(apiToken, loanApiReqParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", tmp.getPlClass(), "Y");
+					}
+					
+					if(loanApiResult.getCode().equals("success")) {
+						JSONObject loanApiResponse = (JSONObject)loanApiResult.getData();
+						if(tmp.getPlClass().equals("1")) {
+							if(!loanApiResponse.isNull("lc_num")) {
+								lcNum = loanApiResponse.getString("lc_num");
+							}
+						}else {
+							if(!loanApiResponse.isNull("corp_lc_num")) {
+								lcNum = loanApiResponse.getString("corp_lc_num");
+							}
+						}
+						JSONObject jsonObj 	= new JSONObject();
+						JSONArray conArr 	= loanApiResponse.getJSONArray("con_arr");
+						for(int i = 0; i < conArr.length(); i++){
+							jsonObj 		= conArr.getJSONObject(i);
+							if(!jsonObj.isNull("loan_type") && !jsonObj.isNull("fin_code") ) {
+								String loanType = jsonObj.getString("loan_type");
+								String finCode 	= jsonObj.getString("fin_code");
+								//통신결과로 리턴받은 상품코드와 계약금융기관코드를 등록된 데이터와 비교
+								if(loanType.equals(tmp.getPlProduct()) && finCode.equals(Integer.toString(tmp.getComCode()))) {
+									conNum = jsonObj.getString("con_num");
+									break;
+								}
+							}
+						}
+					}
+					
+					SearchDomain param = new SearchDomain();
+					//모집인 상태(pl_reg_stat) : 자격취득
+					param.setMasterSeq(tmp.getMasterSeq());
+					param.setPlRegStat("3");
+					param.setPlRegistNo(lcNum); //실패하면 얘가 없잖아???
+					param.setConNum(conNum); //얘도
+					searchService.updatePlRegStat(param);
+				}else {
+					//TM상품일 때 : 모집인 상태(pl_reg_stat) 결제완료로 수정 -> 나중에 일괄로 자격취득하는걸로
+				}
+			}
+		}
+		return true;
+	}
 	
 	
 	

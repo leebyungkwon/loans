@@ -1075,6 +1075,7 @@ public class ApplyService {
 							// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
 							if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
 								conNum = jsonObj.getString("con_num");
+								break;
 							}
 						}
 						

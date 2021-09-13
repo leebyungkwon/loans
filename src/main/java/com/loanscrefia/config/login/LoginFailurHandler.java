@@ -38,7 +38,7 @@ public class LoginFailurHandler implements AuthenticationFailureHandler {
 			loginService.loginFailCnt(memberDomain);
 			req.setAttribute("loginFailMsg", "아이디 또는 비밀번호가 틀립니다.");
 		} else if(exception instanceof LockedException) {
-			req.setAttribute("loginFailMsg", "잠긴 계정입니다..");
+			req.setAttribute("loginFailMsg", "잠긴 계정입니다.");
 			
 		} else if(exception instanceof DisabledException) {
 			req.setAttribute("loginFailMsg", "승인이 필요한 계정입니다.");

@@ -1152,6 +1152,7 @@ create table tb_lc_users(
 	, addr_detail varchar(200)
 	, user_ci varchar(100)
 	, corp_appr_stat char(1) not null default 'N'
+	, corp_appr_dt timestamp
 	, file_seq integer
 	, join_dt timestamp
 	, terms_yn char(1) not null default 'N'
@@ -1161,6 +1162,7 @@ create table tb_lc_users(
 	, inactive_yn char(1) not null default 'N'
 	, inactive_dt timestamp
 	, last_login_dt timestamp
+	, fail_cnt INTEGER
 	, reg_seq integer not null
 	, reg_timestamp timestamp not null
 	, upd_seq INTEGER NULL

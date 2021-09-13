@@ -1,3 +1,9 @@
+ALTER TABLE tb_lc_users ADD COLUMN corp_appr_dt timestamp;
+ALTER TABLE tb_lc_users ADD COLUMN fail_cnt INTEGER NOT NULL DEFAULT 0;
+
+
+
+
 -- 2021-08-27 기본컬럼 추가
 ALTER TABLE tb_lc_mas01 ADD COLUMN use_yn char(1) not null default 'Y';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN use_yn char(1) not null default 'Y';

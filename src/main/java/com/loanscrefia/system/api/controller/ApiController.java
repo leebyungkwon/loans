@@ -3,6 +3,7 @@ package com.loanscrefia.system.api.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.front.search.domain.SearchResultDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.api.service.ApiService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +43,8 @@ public class ApiController {
 	
 	@Autowired
 	private KfbApiRepository kfbApiRepository;
+	
+	@Autowired private UserRepository userRepo;
 
 	// API관리 페이지
 	@GetMapping("/api/apiPage")
@@ -383,5 +388,199 @@ public class ApiController {
 		}
         return mv;
     }
+	
+	
+	
+	
+	// 가등록번호로 본등록번호 등록 배치
+	@PostMapping(value="/api/apiBatch")
+	public ResponseEntity<ResponseMsg> apiBatch(KfbApiDomain kfbApiDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		UserDomain userSearchDomain = new UserDomain();
+		List<UserDomain> userList = userRepo.selectApiBatchList(userSearchDomain);
+		if(userList.size() > 0) {
+			for(UserDomain tmp : userList) {
+				// 금융상품 3, 6번 제외
+				String prdCheck = tmp.getPlProduct();
+				String lcNum = "";
+				String conNum = "";
+				// 가등록에서 본등록시 등록번호 발급
+				
+				UserDomain userDomain = new UserDomain();
+				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+					
+					// 2021-06-25 은행연합회 API 통신 - 등록
+					String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+					JSONObject jsonParam = new JSONObject();
+					String plClass = tmp.getPlClass();
+					if("1".equals(plClass)) {
+						jsonParam.put("pre_lc_num", tmp.getPreLcNum());
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");				
+					}else {
+						jsonParam.put("pre_corp_lc_num", tmp.getPreLcNum());
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
+					}
+					
+					if("success".equals(responseMsg.getCode())) {
+						JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+						if("1".equals(tmp.getPlClass())) {
+							lcNum = responseJson.getString("lc_num");
+						}else {
+							lcNum = responseJson.getString("corp_lc_num");
+						}
+						JSONObject jsonObj = new JSONObject();
+						JSONArray conArr = responseJson.getJSONArray("con_arr");
+						// 계약금융기관코드(저장되어있는 데이터 비교)
+						String comCode = Integer.toString(tmp.getComCode());
+						for(int i=0; i<conArr.length(); i++){
+							jsonObj = conArr.getJSONObject(i);
+							String loanType = jsonObj.getString("loan_type");
+							String finCode = jsonObj.getString("fin_code");
+							// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+							if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
+								conNum = jsonObj.getString("con_num");
+								break;
+							}
+						}
+						
+						userDomain.setMasterSeq(tmp.getMasterSeq());
+						userDomain.setPlRegistNo(lcNum);
+						userDomain.setConNum(conNum);
+						userDomain.setConNum("3");
+						kfbApiRepository.updateKfbApiByUserInfo(userDomain);
+					}
+				}				
+			}
+		}
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 가등록번호로 본등록번호 수동등록
+	@PostMapping(value="/api/apiReg")
+	public ResponseEntity<ResponseMsg> apiReg(UserDomain userSearchDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		UserDomain userResult = userRepo.getApiReg(userSearchDomain);
+		// 금융상품 3, 6번 제외
+		String prdCheck = userResult.getPlProduct();
+		String lcNum = "";
+		String conNum = "";
+		// 가등록에서 본등록시 등록번호 발급
+		
+		if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+			
+			// 2021-06-25 은행연합회 API 통신 - 등록
+			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+			JSONObject jsonParam = new JSONObject();
+			String plClass = userResult.getPlClass();
+			if("1".equals(plClass)) {
+				jsonParam.put("pre_lc_num", userResult.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");				
+			}else {
+				jsonParam.put("pre_corp_lc_num", userResult.getPreLcNum());
+				responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
+			}
+			
+			if("success".equals(responseMsg.getCode())) {
+				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+				if("1".equals(userResult.getPlClass())) {
+					lcNum = responseJson.getString("lc_num");
+				}else {
+					lcNum = responseJson.getString("corp_lc_num");
+				}
+				JSONObject jsonObj = new JSONObject();
+				JSONArray conArr = responseJson.getJSONArray("con_arr");
+				// 계약금융기관코드(저장되어있는 데이터 비교)
+				String comCode = Integer.toString(userResult.getComCode());
+				for(int i=0; i<conArr.length(); i++){
+					jsonObj = conArr.getJSONObject(i);
+					String loanType = jsonObj.getString("loan_type");
+					String finCode = jsonObj.getString("fin_code");
+					// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+					if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
+						conNum = jsonObj.getString("con_num");
+						break;
+					}
+				}
+				
+				UserDomain updateDomain = new UserDomain();
+				updateDomain.setMasterSeq(userResult.getMasterSeq());
+				updateDomain.setPlRegistNo(lcNum);
+				updateDomain.setConNum(conNum);
+				updateDomain.setPlRegStat("3");
+				kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
+			}
+		}
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	// 승인완료인 건 결제정보가 있을시 자격취득으로 변경
+	@PostMapping(value="/api/apiApplyReg")
+	public ResponseEntity<ResponseMsg> apiApplyReg(KfbApiDomain kfbApiDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		UserDomain userSearchDomain = new UserDomain();
+		List<UserDomain> userList = userRepo.selectApiApplyList(userSearchDomain);
+		if(userList.size() > 0) {
+			for(UserDomain tmp : userList) {
+				// 금융상품 3, 6번 제외
+				String prdCheck = tmp.getPlProduct();
+				String lcNum = "";
+				String conNum = "";
+				// 가등록에서 본등록시 등록번호 발급
+				
+				UserDomain userDomain = new UserDomain();
+				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+					
+					// 2021-06-25 은행연합회 API 통신 - 등록
+					String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+					JSONObject jsonParam = new JSONObject();
+					String plClass = tmp.getPlClass();
+					if("1".equals(plClass)) {
+						jsonParam.put("pre_lc_num", tmp.getPreLcNum());
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");				
+					}else {
+						jsonParam.put("pre_corp_lc_num", tmp.getPreLcNum());
+						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
+					}
+					
+					if("success".equals(responseMsg.getCode())) {
+						JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+						if("1".equals(tmp.getPlClass())) {
+							lcNum = responseJson.getString("lc_num");
+						}else {
+							lcNum = responseJson.getString("corp_lc_num");
+						}
+						JSONObject jsonObj = new JSONObject();
+						JSONArray conArr = responseJson.getJSONArray("con_arr");
+						// 계약금융기관코드(저장되어있는 데이터 비교)
+						String comCode = Integer.toString(tmp.getComCode());
+						for(int i=0; i<conArr.length(); i++){
+							jsonObj = conArr.getJSONObject(i);
+							String loanType = jsonObj.getString("loan_type");
+							String finCode = jsonObj.getString("fin_code");
+							// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+							if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
+								conNum = jsonObj.getString("con_num");
+								break;
+							}
+						}
+						
+						userDomain.setMasterSeq(tmp.getMasterSeq());
+						userDomain.setPlRegistNo(lcNum);
+						userDomain.setConNum(conNum);
+						userDomain.setPlRegStat("3");
+						kfbApiRepository.updateKfbApiByUserInfo(userDomain);
+					}
+				}				
+			}
+		}
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
 	
 }

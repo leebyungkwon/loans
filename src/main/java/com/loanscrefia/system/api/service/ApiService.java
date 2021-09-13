@@ -20,4 +20,16 @@ public class ApiService {
 	public List<KfbApiDomain> selectApiList(KfbApiDomain kfbApiDomain){
 		return kfbApiRepository.selectApiList(kfbApiDomain);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

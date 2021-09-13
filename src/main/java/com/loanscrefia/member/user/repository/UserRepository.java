@@ -159,4 +159,13 @@ public interface UserRepository {
 	//모집인 단계별 이력 리스트
 	List<UserDomain> selectUserStepHistoryList(UserDomain userDomain);
 	
+	//가등록번호로 본등록번호 등록 배치
+	List<UserDomain> selectApiBatchList(UserDomain userDomain);
+	
+	//가등록번호로 본등록번호 수동등록
+	UserDomain getApiReg(UserDomain userDomain);
+	
+	//승인완료인 건 결제정보가 있을시 자격취득으로 변경
+	List<UserDomain> selectApiApplyList(UserDomain userDomain);
+	
 }

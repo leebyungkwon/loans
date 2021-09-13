@@ -481,13 +481,14 @@
    			 TLM.MASTER_SEQ
    			,TLM.PL_M_Z_ID
    			,TLM.PRE_LC_NUM
-   		FROM TB_LC_MAS01 TLM
+   		FROM TB_LC_MAS01 TLM, TB_LC_PAY PAY
 		WHERE TLM.PL_CLASS		= '1' 				-- 개인
 		AND TLM.PL_M_NAME 		= #{plMName}
 		AND TLM.PL_CELLPHONE 	= #{plCellphone}
-		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 자격취득
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
 		AND TLM.USE_YN			= 'Y'
+		AND TLM.MASTER_SEQ 		= PAY.MASTER_SEQ
 		LIMIT 1
 	</select>
 	
@@ -497,13 +498,14 @@
    		SELECT
    			TLM.MASTER_SEQ
    			,TLM.PRE_LC_NUM
-   		FROM TB_LC_MAS01 TLM
+   		FROM TB_LC_MAS01 TLM, TB_LC_PAY PAY
 		WHERE TLM.PL_CLASS		= '2' 				-- 법인 
 		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
 		AND TLM.PL_CEO_NAME 	= #{plCeoName}
-		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 자격취득
 		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
 		AND TLM.USE_YN			= 'Y'
+		AND TLM.MASTER_SEQ 		= PAY.MASTER_SEQ
 		LIMIT 1
 	</select>
 	
@@ -525,6 +527,117 @@
 			TB_LC_MAS01 a
 		WHERE a.MASTER_SEQ = #{masterSeq}
 		LIMIT 1
+	</select>
+	
+	
+	
+	<!-- 2021-09-03 결제완료 후 승인상태가 승인완료 이전 리스트 - 개인 -->
+	<select id="selectPrevIndvPaySearchResult" parameterType="search" resultType="search">
+		select
+			a.master_seq
+			, a.pre_lc_num
+			, a.pl_product
+			, a.pl_class
+			, a.com_code
+		from
+			tb_lc_mas01 a,
+			(
+				select
+					ci
+					,pl_m_name
+				from
+					tb_lc_mas01
+				where master_seq = #{masterSeq}
+			) b
+		where b.ci = a.ci
+		and b.pl_m_name = a.pl_m_name
+		and (a.pl_regist_no is null or a.pl_regist_no = '')
+		and a.pl_reg_stat = '1'
+		and a.pre_reg_yn = 'N'
+		and a.use_yn = 'Y'
+	</select>
+	
+	
+	<!-- 2021-09-03 결제완료 후 승인상태가 승인완료 이전 리스트 - 법인 -->
+	<select id="selectPrevCorpPaySearchResult" parameterType="search" resultType="search">
+		select
+			a.master_seq
+			, a.pre_lc_num
+			, a.pl_product
+			, a.pl_class
+			, a.com_code
+		from
+			tb_lc_mas01 a,
+			(
+				select
+					pl_merchant_no
+					, pl_ceo_name
+				from
+					tb_lc_mas01
+				where master_seq = #{masterSeq}
+			) b
+		where b.pl_merchant_no = a.pl_merchant_no
+		and b.pl_ceo_name = a.pl_ceo_name
+		and (a.pl_regist_no is null or a.pl_regist_no = '')
+		and a.pl_reg_stat = '1'
+		and a.pre_reg_yn = 'N'
+		and a.use_yn = 'Y'
+	</select>
+	
+	
+	
+	
+	<!-- 2021-09-03 모집인 결제 조회 결과 상세 -->
+	<select id="selectIndvPaySearchResult" parameterType="search" resultType="search">
+		select
+			a.master_seq
+			, a.pre_lc_num
+			, a.pl_product
+			, a.pl_class
+			, a.com_code
+		from
+			tb_lc_mas01 a,
+			(
+				select
+					ci
+					,pl_m_name
+				from
+					tb_lc_mas01
+				where master_seq = #{masterSeq}
+			) b
+		where b.ci = a.ci
+		and b.pl_m_name = a.pl_m_name
+		and (a.pl_regist_no is null or a.pl_regist_no = '')
+		and a.pl_reg_stat = '2'
+		and a.pl_stat = '9'
+		and a.use_yn = 'Y'
+	</select>
+	
+	
+	<!-- 2021-09-03 모집인 결제 조회 결과 상세 -->
+	<select id="selectCorpPaySearchResult" parameterType="search" resultType="search">
+		select
+			a.master_seq
+			, a.pre_lc_num
+			, a.pl_product
+			, a.pl_class
+			, a.com_code
+		from
+			tb_lc_mas01 a,
+			(
+				select
+					pl_merchant_no
+					, pl_ceo_name
+				from
+					tb_lc_mas01
+				where master_seq = #{masterSeq}
+			) b
+		where b.pl_merchant_no = a.pl_merchant_no
+		and b.pl_ceo_name = a.pl_ceo_name
+		and (a.pl_regist_no is null or a.pl_regist_no = '')
+		and a.pl_reg_stat = '2'
+		and a.pl_stat = '9'
+		and a.use_yn = 'Y'
 	</select>
 	
 </mapper> 

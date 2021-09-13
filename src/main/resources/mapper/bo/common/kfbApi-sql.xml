@@ -78,6 +78,13 @@
 			<if test="conNum != null and conNum != ''">
 				,CON_NUM 		= #{conNum}
 			</if>
+			
+			<if test="plRegStat != null and plRegStat != ''">
+				,PL_REG_STAT 	= #{plRegStat}
+				<if test='plRegStat.equals("3")'>
+					,CRE_LICENSE_DATE 	= TO_CHAR(NOW(),'YYYYMMDD')
+				</if>
+			</if>
 		<where>
 			AND MASTER_SEQ 	= #{masterSeq}
 		</where>

@@ -213,4 +213,15 @@
 		LIMIT 1
 	</select>
 	
+	<!-- 2021-09-06 결제관련 메뉴 로그저장 -->
+	<insert id="savePayLog" parameterType="paylog">
+		INSERT INTO TB_LC_PAY_LOG
+		VALUES(
+			#{url}
+			, #{resData}
+			, #{fullUrl}
+			, NOW()
+		)	
+	</insert>
+	
 </mapper> 

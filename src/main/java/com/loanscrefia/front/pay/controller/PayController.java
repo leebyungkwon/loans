@@ -86,9 +86,8 @@ public class PayController {
 			searchDomain.setPlRegStat("5"); //모집인 상태가 결제완료인 것
 			payResultInfo 	= searchService.selectSearchUserInfo(searchDomain);
 		}
-		
+		payService.updatePayResultApi(payResultInfo);
 		payResultInfo.setAmt(payDomain.getAmt());
-		
 		mv.addObject("payResultInfo",payResultInfo);
 		return mv;
 	}

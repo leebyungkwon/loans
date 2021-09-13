@@ -22,6 +22,12 @@ function menuActiveFunction(){
 		$("#menyPaySearch").addClass("on");
 	}
 }
+/* 
+function serviceStop(){
+	alert("결제서비스 점검중 입니다.");
+	return false;	
+}
+ */
 </script>
 
 <div id="wrap"> <!-- class="main" -->
@@ -41,6 +47,7 @@ function menuActiveFunction(){
 						<li id="menuInfo"><a href="/front/info">대출모집인 제도</a></li>
 						<li id="menuSearch"><a href="/front/search/userSearchPage">대출모집인 조회</a></li>
 						<li id="menuPay"><a href="/front/pay/payUserSearchPage">모집인 결제</a></li>
+						<!-- <li id="menuPay"><a href="javascript:void(0)" onclick="serviceStop()">모집인 결제</a></li> -->
 						<li id="menyPaySearch"><a href="/front/paySearch/payResultSearch">등록수수료 결제내역 조회</a></li>
 					</ul>
 				</div>

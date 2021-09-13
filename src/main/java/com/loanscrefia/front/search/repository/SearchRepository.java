@@ -63,4 +63,18 @@ public interface SearchRepository {
 	//2021-09-03 모집인 결제 조회 : 결과
 	SearchDomain getPayResultSearchResult(SearchDomain searchDomain);
 	
+	
+	//결제완료 후 승인상태가 승인완료 이전 리스트 - 개인
+	List<SearchDomain> selectPrevIndvPaySearchResult(SearchDomain searchDoamin);
+	
+	//결제완료 후 승인상태가 승인완료 이전 리스트 - 법인
+	List<SearchDomain> selectPrevCorpPaySearchResult(SearchDomain searchDoamin);
+	
+	//결제완료 후 승인상태가 승인완료인 리스트 - 개인
+	List<SearchDomain> selectIndvPaySearchResult(SearchDomain searchDoamin);
+	
+	//결제완료 후 승인상태가 승인완료인 리스트 - 법인
+	List<SearchDomain> selectCorpPaySearchResult(SearchDomain searchDoamin);
+	
+	
 }

@@ -159,6 +159,62 @@ function pageLoad(){
 		}
 		PopUtil.openPopup(p);
 	});
+	
+	
+	// API수동배치
+	$("#apiBatch").on("click", function(){
+		var p = {
+			  url		: "/system/api/apiBatch"	
+			, param		: {
+				
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("결과값 :: " , result);
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	
+	// API수동본등록
+	$("#apiReg").on("click", function(){
+		var preLcNum = $("#regPreLcNum").val();
+		if(WebUtil.isNull(preLcNum)){
+			alert("가등록번호를 입력해 주세요.");
+			return false;
+		}
+		var p = {
+			  url		: "/system/api/apiReg"	
+			, param		: {
+				preLcNum	:	preLcNum
+			}
+			, success 	: function (opt,result) {
+				console.log("?????", result);
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+
+	
+	// 승인완료 자격취득
+	$("#apiApplyReg").on("click", function(){
+		var p = {
+			  url		: "/system/api/apiApplyReg"	
+			, param		: {
+				
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("결과값 :: " , result);
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	
 }
 
 //날짜 가져오기
@@ -276,6 +332,70 @@ function goGetDate(opt) {
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiSearch">등록조회</a>
 		</div>
 		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="">
+						
+					</td>
+					<th></th>
+					<td class="" colspan="3">
+						#자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiBatch">본등록수동배치</a>
+		</div>
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>가등록번호</th>
+					<td class="">
+						<input type="text" id="regPreLcNum" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiReg">수동본등록</a>
+		</div>
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="">
+						<input type="text" id="" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiApplyReg">승인완료자격취득</a>
+		</div>
 		
 		
 	</div>
