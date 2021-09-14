@@ -1,7 +1,9 @@
 package com.loanscrefia.admin.users.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.member.admin.domain.AdminDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 
 @Service
@@ -28,7 +31,11 @@ public class UsersService {
 	}
 	
 	
-	
+	// 회원관리 상세
+	@Transactional(readOnly=true)
+	public UsersDomain getUsersDetail(UsersDomain usersDomain){
+		return usersRepository.getUsersDetail(usersDomain);
+	}
 	
 	// 로그인 차단 해제
 	@Transactional

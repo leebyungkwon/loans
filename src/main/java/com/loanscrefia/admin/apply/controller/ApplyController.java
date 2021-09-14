@@ -83,8 +83,10 @@ public class ApplyController {
 	
 	//리스트 페이지
 	@GetMapping(value="/apply/applyPage")
-	public String applyPage() {
-		return CosntPage.BoApplyPage+"/applyList";
+	public ModelAndView applyPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoApplyPage+"/applyList");
+		mv.addObject("historyback", historyback);
+		return mv;
 	}
 	
 	//리스트

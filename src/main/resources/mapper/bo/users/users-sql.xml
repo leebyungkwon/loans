@@ -82,5 +82,38 @@
    			, upd_timestamp = NOW()
    		WHERE user_seq = #{userSeq}
 	</update>
+	
+	<!-- 회원관리 상세 조회 -->
+   	<select id="getUsersDetail" parameterType="users" resultType="users">
+   		SELECT
+   			users.user_seq
+   			, users.user_id
+   			, users.password
+   			, users.user_name
+   			, users.mobile_no
+   			, users.pl_class
+   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+   			, users.birth_dt
+   			, users.gender
+   			, users.email
+   			, users.user_ci
+   			, users.corp_appr_stat
+   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
+   			, users.terms_yn
+   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
+   			, users.drop_yn
+   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
+   			, users.inactive_yn
+   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
+   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+   			, users.fail_cnt
+   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
+   			, CASE
+   				WHEN fail_stop_dt is null THEN 'N'
+   				ELSE 'Y'
+   			END AS fail_stop_yn
+	    FROM tb_lc_users users
+	    WHERE USER_SEQ = #{userSeq}
+   	</select>
    	
 </mapper> 

@@ -15,26 +15,37 @@
 		<script>
 		var h_gridPage = 0;
 		window.onload = function() {
-			if(null != sessionStorage.getItem('H_'+window.location.pathname) &&
-				null != sessionStorage.getItem('P_'+window.location.pathname) &&
-				null != sessionStorage.getItem('PAGE_'+window.location.pathname)){
-				window.onpageshow = function(event) {
-				    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
-				    	$(".k_search").html(sessionStorage.getItem('H_'+window.location.pathname));
-				    	var b = JSON.parse(sessionStorage.getItem('P_'+window.location.pathname));
-				    	h_gridPage = sessionStorage.getItem('PAGE_'+window.location.pathname)
-				    	WebUtil.setHistoryParam(b);
-				    	removeBackHistory();
-				    	pageLoad();
-				    }else{
-				    	removeBackHistory();
-				    	pageLoad();
-				    }
-				}
+			
+			if('${historyback}' == 'Y'){
+		    	$(".k_search").html(sessionStorage.getItem('H_'+window.location.pathname));
+		    	var b = JSON.parse(sessionStorage.getItem('P_'+window.location.pathname));
+		    	h_gridPage = sessionStorage.getItem('PAGE_'+window.location.pathname)
+		    	WebUtil.setHistoryParam(b);
+		    	removeBackHistory();
+		    	pageLoad();
 			}else{
-				removeBackHistory();
-				pageLoad();
+				if(null != sessionStorage.getItem('H_'+window.location.pathname) &&
+						null != sessionStorage.getItem('P_'+window.location.pathname) &&
+						null != sessionStorage.getItem('PAGE_'+window.location.pathname)){
+						window.onpageshow = function(event) {
+						    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+						    	$(".k_search").html(sessionStorage.getItem('H_'+window.location.pathname));
+						    	var b = JSON.parse(sessionStorage.getItem('P_'+window.location.pathname));
+						    	h_gridPage = sessionStorage.getItem('PAGE_'+window.location.pathname)
+						    	WebUtil.setHistoryParam(b);
+						    	removeBackHistory();
+						    	pageLoad();
+						    }else{
+						    	removeBackHistory();
+						    	pageLoad();
+						    }
+						}
+					}else{
+						removeBackHistory();
+						pageLoad();
+					}
 			}
+			
 			menuActiveFunction();
 		}
 		function removeBackHistory(){

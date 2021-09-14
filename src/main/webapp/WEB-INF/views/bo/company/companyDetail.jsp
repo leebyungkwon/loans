@@ -62,8 +62,8 @@ function msgUpdate(){
 
 // 리스트 페이지 이동
 function companyList(){
-	//location.href="/admin/mng/companyPage"
-	history.back();
+	location.href="/admin/mng/companyPage?historyback=Y"
+	//history.back();
 }
 
 // 회원사 담당자 관리 - 수정페이지 이동

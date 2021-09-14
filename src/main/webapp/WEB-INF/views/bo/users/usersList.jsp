@@ -91,10 +91,10 @@ function goGetDate(opt) {
 // 회원정보 상세보기
 function usersDetail(idx, data){
 	
-	alert("내일해야쥐");
+	alert("준비중");
 	return false;
 	
-	var userSeq = usersGrid.gridData[idx].memberSeq;
+	var userSeq = usersGrid.gridData[idx].userSeq;
 	$("#userSeq").val(userSeq);
 	$("#usersDetailFrm").submit();
 }

@@ -43,8 +43,10 @@ public class CompanyController {
 	
 	//리스트 페이지
 	@GetMapping(value="/mng/companyPage")
-	public String companyPage() {
-		return CosntPage.BoCompanyPage+"/companyList";
+	public ModelAndView companyPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoCompanyPage+"/companyList");
+		mv.addObject("historyback", historyback);
+		return mv;
 	}
 	
 	//리스트

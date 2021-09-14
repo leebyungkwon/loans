@@ -153,8 +153,8 @@ function goRecruitList(){
 
 //모집인 승인처리 > 목록 이동
 function goApplyList(){
-	//location.href = "/admin/apply/applyPage";
-	history.back();
+	location.href = "/admin/apply/applyPage?historyback=Y";
+	//history.back();
 }
 
 /* ===============================================================================================================================
