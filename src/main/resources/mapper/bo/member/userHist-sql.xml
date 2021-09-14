@@ -67,6 +67,7 @@
 			,CRE_HAEJI_DATE
 			,FILE_SEQ
 			,USE_YN
+			,REG_SEQ
 			,REG_TIMESTAMP
 			,UPD_SEQ
 			,UPD_TIMESTAMP
@@ -129,9 +130,10 @@
 			,CRE_HAEJI_DATE
 			,FILE_SEQ
 			,USE_YN
-			,REG_TIMESTAMP
-			,UPD_SEQ
-			,UPD_TIMESTAMP
+			,#{regSeq}
+			,NOW()
+			,#{updSeq}
+			,NOW()
    		FROM TB_LC_MAS01
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>
