@@ -135,19 +135,6 @@ function goCorpImwonInfoDel(excSeq) {
 											</c:choose>
 										</td>
 									</tr>
-									<%-- 
-									<tr>
-										<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType9 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType9.fileSeq }">${corpImwonList.fileType9.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									 --%>
 									<tr>
 										<th class="acenter">인감증명서</th>
 										<td>
@@ -159,19 +146,6 @@ function goCorpImwonInfoDel(excSeq) {
 											</c:choose>
 										</td>
 									</tr>
-									<%-- 
-									<tr>
-										<th class="acenter">주민등록사본 *</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType30 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType30.fileSeq }">${corpImwonList.fileType30.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									 --%>
 									<tr>
 										<th class="acenter">결격요건 확인서 및 본국 감독당국의 결격요건, 범죄이력 확인서류 등</th>
 										<td>
@@ -277,19 +251,6 @@ function goCorpImwonInfoDel(excSeq) {
 											</td>
 										</tr>
 									</c:if>
-									<%-- 
-									<tr>
-										<th class="acenter">대표 경력증명서 *</th>
-										<td>
-											<c:choose>
-												<c:when test="${corpImwonList.fileType14 ne null }">
-													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType14.fileSeq }">${corpImwonList.fileType14.fileFullNm }</a>
-												</c:when>
-												<c:otherwise>-</c:otherwise>
-											</c:choose>
-										</td>
-									</tr>
-									 --%>
 								</tbody>
 							</table>
 						</div>

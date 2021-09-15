@@ -231,7 +231,7 @@ function goDataAreaAdd() {
 									</colgroup>
 									<tbody>
 										<c:if test="${corpExpertList.careerTyp eq '1' }">
-											<tr class="careerTypOneTr" data-fileType="17" data-fileSeq="${corpExpertList.fileType17.fileSeq }">
+											<tr>
 												<th class="acenter">인증서(신규) *</th>
 												<td>
 													<input type="text" class="w50 file_input" value="${corpExpertList.fileType17.fileFullNm }" data-fileSeq="${corpExpertList.fileType17.fileSeq }" readonly disabled>
@@ -251,7 +251,7 @@ function goDataAreaAdd() {
 											</tr>
 										</c:if>
 										<c:if test="${corpExpertList.careerTyp eq '2' }">
-											<tr class="careerTypTwoTr" data-fileType="16" data-fileSeq="${corpExpertList.fileType16.fileSeq }">
+											<tr>
 												<th class="acenter">경력교육과정 수료증 *</th>
 												<td>
 													<input type="text" class="w50 file_input" value="${corpExpertList.fileType16.fileFullNm }" data-fileSeq="${corpExpertList.fileType16.fileSeq }" readonly disabled>

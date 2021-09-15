@@ -18,7 +18,7 @@
 				<tr>
 					<th>신규경력 구분</th>
 					<td colspan="3">
-						<select name="careerTyp" class="careerTyp">
+						<select name="careerTyp" class="imwonCareerTyp">
 							<c:forEach var="careerTypList" items="${result.careerTypList }">
 								<option value="${careerTypList.codeDtlCd }">${careerTypList.codeDtlNm }</option>
 							</c:forEach>
@@ -103,17 +103,6 @@
 						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="8" data-essential="N">초기화</a>
 					</td>
 				</tr>
-				<!-- 
-				<tr>
-					<th class="acenter">임원자격에 적합함에 관한 확인서(결격사유없음 확인서) 및 증빙서류 *</th>
-					<td>
-						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-						<input type="hidden" name="fileTypeList" value="9"/>
-						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-					</td>
-				</tr>
-				 -->
 				<tr>
 					<th class="acenter">인감증명서</th>
 					<td>
@@ -124,18 +113,6 @@
 						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
 					</td>
 				</tr>
-				<!-- 
-				<tr>
-					<th class="acenter">주민등록사본 *</th>
-					<td>
-						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-						<input type="hidden" name="fileTypeList" value="30"/>
-						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="30" data-essential="Y">초기화</a>
-					</td>
-				</tr>
-				 -->
 				<tr>
 					<th class="acenter">결격요건 확인서 및 본국 감독당국의 결격요건, 범죄이력 확인서류 등</th>
 					<td>
@@ -230,17 +207,6 @@
 						<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="13" data-essential="N">초기화</a>
 					</td>
 				</tr>
-				<!-- 
-				<tr>
-					<th class="acenter">대표 경력증명서 *</th>
-					<td>
-						<input type="text" class="w50 file_input" readonly disabled>
-						<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-						<input type="hidden" name="fileTypeList" value="14"/>
-						<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-					</td>
-				</tr>
-				 -->
 			</tbody>
 		</table>
 	</div>

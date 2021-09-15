@@ -91,7 +91,7 @@ public interface UserRepository {
 	//모집인 등록 > 법인 : 전문인력 정보 수정
 	int updateUserRegCorpExpertInfo(UserExpertDomain userExpertDomain);
 	
-	//모집인 등록 > 법인 : 대표자 및 임원 정보 수정
+	//모집인 등록 > 법인 : 전산인력 정보 수정
 	int updateUserRegCorpItInfo(UserItDomain userItDomain);
 	
 	//모집인 등록 : 모집인 정보 삭제
@@ -103,7 +103,7 @@ public interface UserRepository {
 	//모집인 등록 > 법인 : 전문인력 정보 삭제
 	int deleteUserRegCorpExpertInfo(UserExpertDomain userExpertDomain);
 	
-	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제
+	//모집인 등록 > 법인 : 전산인력 삭제
 	int deleteUserRegCorpItInfo(UserItDomain userItDomain);
 	
 	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제(masterSeq 사용)
@@ -112,7 +112,7 @@ public interface UserRepository {
 	//모집인 등록 > 법인 : 전문인력 정보 삭제(masterSeq 사용)
 	//int deleteUserRegCorpExpertInfoByMasterSeq(UserExpertDomain userExpertDomain);
 	
-	//모집인 등록 > 법인 : 대표자 및 임원 정보 삭제(masterSeq 사용)
+	//모집인 등록 > 법인 : 전산인력 삭제(masterSeq 사용)
 	//int deleteUserRegCorpItInfoByMasterSeq(UserItDomain userItDomain);
 
 	/* -------------------------------------------------------------------------------------------------------

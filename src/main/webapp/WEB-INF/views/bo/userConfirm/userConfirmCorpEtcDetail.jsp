@@ -86,19 +86,6 @@ function pageLoad(){
 						<col width="62%">
 					</colgroup>
 					<tbody>
-						<%-- 
-						<tr>
-							<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</th>
-							<td>
-								<c:choose>
-									<c:when test="${result.userRegInfo.fileType24 ne null }">
-										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType24.fileSeq }">${result.userRegInfo.fileType24.fileFullNm }</a>
-									</c:when>
-									<c:otherwise>-</c:otherwise>
-								</c:choose>
-							</td>
-						</tr>
-						 --%>
 						<tr>
 							<th class="acenter">기업 신용정보조회서 *</th>
 							<td>

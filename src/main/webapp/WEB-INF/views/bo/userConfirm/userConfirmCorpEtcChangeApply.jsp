@@ -126,25 +126,6 @@ function goUserRegInfoUpdt() {
 							<col width="62%">
 						</colgroup>
 						<tbody>
-							<%-- 
-							<tr>
-								<th class="acenter">신청인의 사회적신용에 대한 결격사유없음 확인서 *</th>
-								<td>
-									<c:choose>
-										<c:when test="${result.userRegInfo.fileType24 ne null }">
-											<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType24.fileSeq }">${result.userRegInfo.fileType24.fileFullNm }</a>
-											<a href="javascript:void(0);" class="btn_gray btn_del mgl10 goFileDel" data-fileSeq="${result.userRegInfo.fileType24.fileSeq }" data-fileType="24" data-essential="Y">삭제</a>
-										</c:when>
-										<c:otherwise>
-											<input type="text" class="w50 file_input" readonly disabled>
-											<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-											<input type="hidden" name="fileTypeList" value="24"/>
-											<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-										</c:otherwise>
-									</c:choose>
-								</td>
-							</tr>
-							 --%>
 							<tr>
 								<th class="acenter">기업 신용정보조회서 *</th>
 								<td>

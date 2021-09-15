@@ -248,19 +248,6 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
-				<%-- 
-				<tr>
-					<th class="acenter">결격사유없음 확인서(파산, 피한정후견인등) *</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType7 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType7.fileSeq }">${result.userRegInfo.fileType7.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				 --%>
 				<tr>
 					<th class="acenter">대리인 신청 위임장 *</th>
 					<td>
@@ -283,30 +270,6 @@ function goUserChangeApplyPage(){
 						</c:choose>
 					</td>
 				</tr>
-				<%-- 
-				<tr>
-					<th class="acenter">후견부존재증명서 *</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType13 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType13.fileSeq }">${result.userRegInfo.fileType13.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<th class="acenter">주민등록증 또는 주민등록 초본(성명, 주민등록번호 변경 시)</th>
-					<td>
-						<c:choose>
-							<c:when test="${result.userRegInfo.fileType10 ne null }">
-								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.userRegInfo.fileType10.fileSeq }">${result.userRegInfo.fileType10.fileFullNm }</a>
-							</c:when>
-							<c:otherwise>-</c:otherwise>
-						</c:choose>
-					</td>
-				</tr>
-				 --%>
 				<tr>
 					<th class="acenter">행정정보공동이용 사전동의서 *<br>(외국인인 경우 결격요건 확인서 및 본국 감독당국의 결격요건, 범죄이력 확인서류)</th>
 					<td>
@@ -352,11 +315,6 @@ function goUserChangeApplyPage(){
 					<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="userChangeApply" onclick="goUserChangeApplyPage();">변경요청</a>
 					<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
 				</c:if>
-				<%-- 
-				<c:if test="${result.userRegInfo.plStat eq '11' or result.userRegInfo.plStat eq '12' }">
-					<a href="javascript:void(0);" class="btn_black btn_right w100p">삭제</a>
-				</c:if>
-				 --%>
 			</c:if>
 		</div>
 	</div>
