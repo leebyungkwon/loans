@@ -11,12 +11,13 @@ function pageLoad(){
 		  id			: "userConfirmGrid"
   		, url			: "/member/confirm/userConfirmList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호", "", "모집인<br>상태", "","처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
+  		, headCol		: ["", "접수번호", "","등록번호", "모집인<br>상태", "","처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
 				,{type:"string"	, name:'masterToId'		, index:'masterToId'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'plRegStat'		, index:'plRegStat'			, width:"0%"		, align:"center" , hidden:true}
+				,{type:"string"	, name:'plRegistNo'		, index:'plRegistNo'		, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plRegStatNm'	, index:'plRegStatNm'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
@@ -207,6 +208,10 @@ function goGetDate(opt) {
 					<th>접수번호</th>
 					<td class="">
 						<input type="text" name="masterToId">
+					</td>
+					<th>등록번호</th>
+					<td class="">
+						<input type="text" name="plRegistNo">
 					</td>
 				</tr>
 				<tr>

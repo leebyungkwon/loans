@@ -33,7 +33,11 @@ public class UsersDomain extends BaseDomain {
 	private String addr;					// 주소
 	private String addrDetail;				// 상세주소
 	private String userCi;					// 사용자CI값
+	private String managerName;				// 담당자이름
+	private String managerMobileNo;			// 담당자연락처
+	private String managerEmail;			// 담당자이메일
 	private String corpApprStat;			// 법인승인여부
+	private String corpApprDt;				// 법인승인일
 	private int fileSeq;					// 첨부파일시퀀스
 	@ExcelColumn(headerName = "가입일", order = 7)
 	private String joinDt;					// 가입일

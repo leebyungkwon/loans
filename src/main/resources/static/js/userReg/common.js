@@ -145,6 +145,7 @@ $(document).on("click",".goFileDownload",function(){
 
 //fileTypeList hidden disabled
 function goFileTypeListDisabled(){
+	/*
 	$(".inputFile").each(function(){
 		if(WebUtil.isNull($(this).val())){
 			$(this).next().prop("disabled",true);
@@ -152,6 +153,7 @@ function goFileTypeListDisabled(){
 			$(this).next().prop("disabled",false);
 		}
 	});
+	*/
 }
 
 //첨부파일 필수 체크

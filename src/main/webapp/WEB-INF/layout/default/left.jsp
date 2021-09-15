@@ -80,7 +80,7 @@ function menuActiveFunction(){
 		<sec:authorize access="hasAnyRole('SYSTEM')">
 			<li id="menuCode"><a href="/system/code/codePage">코드관리</a></li>
 			<li id="menuApi"><a href="/system/api/apiPage">API관리</a></li>
-			<!-- <li id="menuUsers"><a href="/admin/users/usersPage">회원관리</a></li> -->
+			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
 		</sec:authorize>
 	</ul>
 </div>

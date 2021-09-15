@@ -1098,8 +1098,10 @@ CREATE TABLE tb_lc_popup(
 	pop_seq integer not null default nextval('tb_lc_popup_seq')
 	, pop_title varchar(200)
 	, pop_info text not null
-	, start_date timestamp
-	, end_date timestamp
+	, start_day VARCHAR(8)
+	, start_tm VARCHAR(6)
+	, end_day VARCHAR(8)
+	, end_tm VARCHAR(6)
 	, dis_yn char(1) not null default 'N'
 	, use_yn char(1) not null default 'N'
 	, reg_timestamp timestamp
@@ -1142,15 +1144,18 @@ create table tb_lc_users(
 	user_seq integer not null default nextval('tb_lc_users_seq')
 	, user_id varchar(30) not null
 	, password varchar(100) not null
-	, user_name varchar(30) not null
+	, user_name varchar(50) not null
 	, mobile_no varchar(20) not null
 	, pl_class char(1) not null
-	, birth_dt varchar(8) not null
-	, gender char(1) not null
+	, birth_dt varchar(8)
+	, gender char(1)
 	, email varchar(100)
 	, addr varchar(2)
 	, addr_detail varchar(200)
 	, user_ci varchar(100)
+	, manager_name varchar(50)
+	, manager_mobile_no varchar(20)
+	, manager_email varchar(100)
 	, corp_appr_stat char(1) not null default 'N'
 	, corp_appr_dt timestamp
 	, file_seq integer
@@ -1181,3 +1186,70 @@ create table TB_LC_PAY_LOG
 	, reg_timestamp timestamp
 );
 commit;
+
+
+create table tb_lc_users_inactive(
+	user_seq integer 
+	, user_id varchar(30) 
+	, password varchar(100) 
+	, user_name varchar(50) 
+	, mobile_no varchar(20)
+	, pl_class char(1) 
+	, birth_dt varchar(8)
+	, gender char(1)
+	, email varchar(100)
+	, addr varchar(2)
+	, addr_detail varchar(200)
+	, user_ci varchar(100)
+	, manager_name varchar(50)
+	, manager_mobile_no varchar(20)
+	, manager_email varchar(100)
+	, corp_appr_stat char(1) 
+	, corp_appr_dt timestamp
+	, file_seq integer
+	, join_dt timestamp
+	, terms_yn char(1) 
+	, terms_dt timestamp
+	, drop_yn char(1)
+	, drop_dt timestamp
+	, inactive_yn char(1) 
+	, inactive_dt timestamp
+	, last_login_dt timestamp
+	, pw_change_dt timestamp
+	, reg_seq integer 
+	, reg_timestamp timestamp
+	, upd_seq INTEGER 
+	, upd_timestamp timestamp 
+	, PRIMARY KEY (user_seq)
+);
+
+
+-- 회원사, 관리자 휴먼테이블
+create table tb_lc_members_inactive(
+	member_seq integer
+	, member_id varchar(20)
+	, password varchar(100)
+	, com_code integer
+	, member_name varchar(20)
+	, email varchar(100)
+	, extension_no varchar(20)
+	, mobile_no varchar(20)
+	, dept_nm varchar(30)
+	, position_nm varchar(20)
+	, join_dt varchar(8)
+	, role_name varchar(20)
+	, terms_yn char(1)
+	, terms_date varchar(8)
+	, option_terms_yn char(1)
+	, option_terms_date varchar(8)
+	, appr_stat char(1)
+	, msg varchar(200)
+	, file_seq integer
+	, fail_cnt integer
+	, cre_yn char(1)
+	, cre_grp char(1)
+	, drop_yn char(1)
+	, upd_seq INTEGER 
+	, upd_timestamp timestamp
+	, PRIMARY KEY (member_seq)
+);

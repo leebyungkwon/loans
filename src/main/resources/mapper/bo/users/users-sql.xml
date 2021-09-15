@@ -20,6 +20,8 @@
 	   			, users.birth_dt
 	   			, users.gender
 	   			, users.email
+	   			, users.addr
+	   			, users.addr_detail
 	   			, users.user_ci
 	   			, users.corp_appr_stat
 	   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
@@ -30,6 +32,7 @@
 	   			, users.inactive_yn
 	   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
 	   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+	   			, TO_CHAR(users.corp_appr_dt,'YYYY-MM-DD') AS corp_appr_dt
 	   			, users.fail_cnt
 	   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
 	   			, CASE
@@ -97,7 +100,11 @@
    			, users.gender
    			, users.email
    			, users.user_ci
+   			, users.manager_name
+   			, users.manager_mobile_no
+   			, users.manager_email
    			, users.corp_appr_stat
+   			, users.file_seq
    			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
    			, users.terms_yn
    			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt

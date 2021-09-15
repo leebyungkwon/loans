@@ -685,21 +685,27 @@ public class ApplyController {
 	public ResponseEntity<ResponseMsg> checkboxUpdatePlStat(ApplyDomain applyDomain){
 		ResponseMsg responseMsg = applyService.checkboxUpdatePlStat(applyDomain);
 		List<ApplyDomain> applyResult = (List<ApplyDomain>) responseMsg.getData();
-		if(applyResult != null) {
+		if(applyResult != null) { 
 			ResponseMsg responseMsg2 = applyService.updateApplyListPlStat(applyResult);
+			System.out.println("##### checkboxUpdatePlStat ");
+			System.out.println(responseMsg2);
 			List<EmailDomain> resultEmail = (List<EmailDomain>) responseMsg2.getData();
-			int emailResult = 0;
 			if(resultEmail != null) {
-				if(emailApply) {
-					emailResult = applyService.applySendEmail(resultEmail);
-					if(emailResult == -1) {
-						responseMsg.setMessage("메일발송시 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
+				int emailResult = 0;
+				if(resultEmail != null) {
+					if(emailApply) {
+						emailResult = applyService.applySendEmail(resultEmail);
+						if(emailResult == -1) {
+							responseMsg.setMessage("메일발송시 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
+						}else {
+							responseMsg.setMessage("완료되었습니다.");
+						}
 					}else {
 						responseMsg.setMessage("완료되었습니다.");
 					}
-				}else {
-					responseMsg.setMessage("완료되었습니다.");
 				}
+			}else {
+				return new ResponseEntity<ResponseMsg>(responseMsg2 ,HttpStatus.OK);
 			}
 		}else {
 			return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

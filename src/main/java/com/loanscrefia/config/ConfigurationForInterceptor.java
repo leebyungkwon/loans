@@ -31,6 +31,7 @@ public class ConfigurationForInterceptor extends HandlerInterceptorAdapter {
 		String ips 			= request.getHeader("X-Forwarded-For");
 		
 		// 2021-09-06 FO결제이슈에 대한 url 및 데이터 확인 저장
+		
 		if(url != null) {
 			String aa = url;
 			String payUrl[] = aa.split("/");
@@ -63,6 +64,7 @@ public class ConfigurationForInterceptor extends HandlerInterceptorAdapter {
 				}
 			}
 		}
+		
 		
 		//세션 체크
 		boolean isContinue	= false;

@@ -234,7 +234,6 @@ public class UtilFile {
 						fileList = this.unZip(attach, file, fileList);
 					*/
 					success = true;
-					count++;
 					// if(this.zip) target.delete();
 					
 					// 떨군파일 암호화
@@ -244,6 +243,8 @@ public class UtilFile {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				count++;
 			}
 		}
 		result.put("message", msg);
@@ -396,7 +397,6 @@ public class UtilFile {
 						fileList = this.unZip(attach, file, fileList);
 					*/
 					success = true;
-					count++;
 					// if(this.zip) target.delete();
 					
 					// 떨군파일 암호화
@@ -406,6 +406,8 @@ public class UtilFile {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+			} finally {
+				count++;
 			}
 		}
 		result.put("message", msg);

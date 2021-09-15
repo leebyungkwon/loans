@@ -21,4 +21,7 @@ public class PayDomain extends BaseDomain {
 	private String name;			//카드,은행명
 	private String sellMm;			//할부개월
 	private int amt;				//금액
+
+	private String sReplyCd;		//결과코드
+	private String sReplyMsg;		//결과메세지
 }

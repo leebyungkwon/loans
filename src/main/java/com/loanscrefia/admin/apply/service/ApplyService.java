@@ -1271,12 +1271,13 @@ public class ApplyService {
 				applyCheck = true;
 				break;
 			}
-			
+			/*
 			if(!"Y".equals(statCheck.getAdminChkYn())) {
 				applyCheckMessage = i+1+"번째 관리자 확인여부를 확인해 주세요.";
 				applyCheck = true;
 				break;
 			}
+			*/
 			
 			//승인처리시 이메일 발송
 			if(StringUtils.isEmpty(statCheck.getEmail())) {
@@ -1396,6 +1397,7 @@ public class ApplyService {
 						
 						if("success".equals(responseMsg.getCode())) {
 							JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+							
 							if("1".equals(tmp.getPlClass())) {
 								lcNum = responseJson.getString("lc_num");
 							}else {
@@ -1403,7 +1405,12 @@ public class ApplyService {
 							}
 							
 							if(StringUtils.isEmpty(lcNum)) {
-								return new ResponseMsg(HttpStatus.OK, "fail", "가등록시 전달받은 등록번호 오류.\n관리자에 문의해 주세요.");
+								
+								System.out.println("########### apply return222222222222222");
+								
+								responseMsg.setMessage("가등록시 전달받은 등록번호 오류.\n관리자에 문의해 주세요.");
+								return responseMsg;
+								//return new ResponseMsg(HttpStatus.OK, "fail", "가등록시 전달받은 등록번호 오류.\n관리자에 문의해 주세요.");
 							}
 							
 							// 계약번호 갖고오기[배열]
@@ -1427,7 +1434,9 @@ public class ApplyService {
 							}
 							
 							if(StringUtils.isEmpty(conNum)) {
-								return new ResponseMsg(HttpStatus.OK, "success", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
+								responseMsg.setMessage("계약금융기관코드가 잘못되었습니다.\\n관리자에 문의해 주세요.");
+								return responseMsg;
+								//return new ResponseMsg(HttpStatus.OK, "success", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
 							}
 							
 							userDomain.setMasterSeq(tmp.getMasterSeq());
@@ -1437,9 +1446,43 @@ public class ApplyService {
 							if(updateCnt > 0) {
 								apiCheck = true;
 							}else {
-								return new ResponseMsg(HttpStatus.OK, "success", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+								responseMsg.setMessage("API연동 후 내부데이터 오류 발생\\n관리자에 문의해 주세요.");
+								return responseMsg;
+								//return new ResponseMsg(HttpStatus.OK, "success", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
 							}
 						}else {
+							
+							JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+							responseMsg.setData(null);
+							if(responseJson.getString("res_code").equals("401")) {
+								responseMsg.setMessage("인증오류 발생 [CODE :: 401]");
+							}else if(responseJson.getString("res_code").equals("403")) {
+								responseMsg.setMessage("접근권한이 없는 리소스 요청 [CODE :: 403]");
+							}else if(responseJson.getString("res_code").equals("404")) {
+								responseMsg.setMessage("해당 URI 없음 [CODE :: 404]");
+							}else if(responseJson.getString("res_code").equals("405")) {
+								responseMsg.setMessage("지원하지 않는 메소드 호출 [CODE :: 405]");
+							}else if(responseJson.getString("res_code").equals("406")) {
+								responseMsg.setMessage("JSON형식 요청 오류 [CODE :: 406]");
+							}else if(responseJson.getString("res_code").equals("421")) {
+								responseMsg.setMessage("파라미터 형식 오류 [CODE :: 421]");
+							}else if(responseJson.getString("res_code").equals("422")) {
+								responseMsg.setMessage("타 협회 가등록 진행 중 [CODE :: 422]");
+							}else if(responseJson.getString("res_code").equals("423")) {
+								responseMsg.setMessage("대출모집인 유형 중복 [CODE :: 423]");
+							}else if(responseJson.getString("res_code").equals("424")) {
+								responseMsg.setMessage("해당 데이터 없음 [CODE :: 424]");
+							}else if(responseJson.getString("res_code").equals("425")) {
+								responseMsg.setMessage("본 등록 완료 된 가등록 [CODE :: 425]");
+							}else if(responseJson.getString("res_code").equals("426")) {
+								responseMsg.setMessage("취소 된 가등록 [CODE :: 426]");
+							}else if(responseJson.getString("res_code").equals("427")) {
+								responseMsg.setMessage("가등록 기간 만료 [CODE :: 427]");
+							}else if(responseJson.getString("res_code").equals("428")) {
+								responseMsg.setMessage("업권이 일치하지 않음 [CODE :: 428]");
+							}
+							System.out.println("########### apply return111111111111");
+							System.out.println(responseMsg);
 							return responseMsg;
 						}
 					}else {
@@ -1450,7 +1493,9 @@ public class ApplyService {
 				}
 				
 			}else{
-				return new ResponseMsg(HttpStatus.OK, "success", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+				responseMsg.setMessage("승인상태가 올바르지 않습니다.\\n새로고침 후 다시 시도해 주세요.");
+				return responseMsg;
+				//return new ResponseMsg(HttpStatus.OK, "success", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 			}
 			
 			if(apiCheck) {
@@ -1467,13 +1512,17 @@ public class ApplyService {
 					applyRepository.insertMasterStep(tmp);
 					//return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
 				}else {
-					return new ResponseMsg(HttpStatus.OK, "success", "오류가 발생하였습니다.");
+					responseMsg.setMessage("모집인 상태변경에 오류가 발생하였습니다.");
+					return responseMsg;
+					//return new ResponseMsg(HttpStatus.OK, "success", "오류가 발생하였습니다.");
 				}
 			}else {
-				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "API오류가 발생하였습니다.");
+				responseMsg.setMessage("API오류가 발생하였습니다.");
+				return responseMsg;
+				//return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "API오류가 발생하였습니다.");
 			}
+			responseMsg.setData(resultEmail);
 		}
-		responseMsg.setData(resultEmail);
 		return responseMsg;
 	}
 }

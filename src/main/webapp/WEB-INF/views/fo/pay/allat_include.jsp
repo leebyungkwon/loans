@@ -27,7 +27,8 @@ function result_submit(result_cd,result_msg,enc_data) {
 	if(result_cd != '0000'){
 		window.setTimeout(function(){alert(result_cd + " : " + result_msg);},1000);
 	}else{
-		//결제성공하면 인증결과값을 allat_enc_data 필드에 설정하고 After Page(allat_approval.jsp)로 submit
+		$(".loading_wrap").show();
+		//결제성공하면 인증결과값을 allat_enc_data 필드에 설정하고 After Server - controller(allat_approval)로 submit
 		fm.allat_enc_data.value = enc_data;
 		fm.action = "/front/pay/allatApproval"; //"allat_approval.jsp";
 		fm.method = "post";
