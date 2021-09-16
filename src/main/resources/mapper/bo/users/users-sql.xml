@@ -123,4 +123,15 @@
 	    WHERE USER_SEQ = #{userSeq}
    	</select>
    	
+   	<!-- 회원관리 법인 승인처리 -->
+	<update id="usersCorpApply" parameterType="users" >
+   		UPDATE tb_lc_users
+   		SET
+   			corp_appr_stat = 'Y'
+   			, corp_appr_dt = NOW()
+   			, upd_seq = #{updSeq}
+   			, upd_timestamp = NOW()
+   		WHERE user_seq = #{userSeq}
+	</update>
+   	
 </mapper> 

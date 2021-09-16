@@ -74,6 +74,13 @@ public class UsersController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	// 회원관리 법인 승인처리
+	@PostMapping(value="/users/usersCorpApply")
+	public ResponseEntity<ResponseMsg> usersCorpApply(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.usersCorpApply(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	//엑셀 다운로드
 	@PostMapping("/users/usersExcelListDown")
 	public void applyListExcelDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {

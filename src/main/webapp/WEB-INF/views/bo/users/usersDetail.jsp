@@ -17,7 +17,6 @@ function usersList(){
 
 //로그인 차단 해제
 function loginStopUpdate() {
-	
 	var userSeqArr = [];
 	var userSeq = $("#userSeq").val();
 	if(WebUtil.isNull(userSeq)){
@@ -32,6 +31,29 @@ function loginStopUpdate() {
 			  url		: "/admin/users/loginStopUpdate"	
 			, param		: {
 				userSeqArr 	: userSeqArr  
+			}
+			, success 	: function (opt,result) {
+				console.log("#####" , result);
+				usersGrid.refresh();
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+// 회원관리 법인 승인처리
+function usersCorpApply(){
+	var userSeq = $("#userSeq").val();
+	if(WebUtil.isNull(userSeq)){
+		alert("법인회원정보가 잘못되었습니다.\w새로고침 후 다시 시도해 주세요.");
+		return false;
+	}
+	
+	if(confirm("법인회원을 승인하시겠습니까?")){
+		var p = {
+			  url		: "/admin/users/usersCorpApply"	
+			, param		: {
+				userSeq 	: userSeq  
 			}
 			, success 	: function (opt,result) {
 				console.log("#####" , result);
@@ -159,7 +181,9 @@ function loginStopUpdate() {
 				<a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="loginStopUpdate();">로그인차단해제</a>
 			</c:if>
 			<a href="javascript:void(0);" class="btn_gray" onclick="usersList();">목록</a>
-			<a href="javascript:void(0);" class="btn_blue btn_right" onclick="goCompanyStatUpdt('3','MEMBER');">승인</a>
+			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprStat eq 'N'}">
+				<a href="javascript:void(0);" class="btn_blue btn_right" onclick="usersCorpApply();">법인승인</a>
+			</c:if>
 		</div>
 	</div>
 </div>
