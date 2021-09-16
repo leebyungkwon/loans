@@ -3,40 +3,21 @@
  */
 
 //신규,경력 관련
-$(document).on("change",".imwonCareerTyp",function(){
+$(document).on("change",".careerTyp",function(){
 	
 	var parentTag = $(this).closest("div").parent();
 	
 	if($(this).val() == "1"){
 		//신규
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").show();
+		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".file_input").val("");
+		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".inputFile").val("");
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").hide();
 	}else if($(this).val() == "2"){
 		//경력
 		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").show();
-		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").hide();
-	}
-});
-
-$(document).on("change",".expertCareerTyp",function(){
-	
-	var parentTag = $(this).closest("div").parent();
-	
-	if($(this).val() == "1"){
-		//신규
-		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".inputFile").attr("data-essential","Y");
-		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".goFileReset").attr("data-essential","Y");
-		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").show();
-		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".inputFile").attr("data-essential","N");
-		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".goFileReset").attr("data-essential","N");
-		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").hide();
-	}else if($(this).val() == "2"){
-		//경력
-		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".inputFile").attr("data-essential","Y");
-		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").find("td").find(".goFileReset").attr("data-essential","Y");
-		$(parentTag).find(".eduFileTable").find(".careerTypTwoTr").show();
-		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".inputFile").attr("data-essential","N");
-		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".goFileReset").attr("data-essential","N");
+		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".file_input").val("");
+		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").find("td").find(".inputFile").val("");
 		$(parentTag).find(".eduFileTable").find(".careerTypOneTr").hide();
 	}
 });

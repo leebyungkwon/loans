@@ -18,7 +18,7 @@
 				<tr>
 					<th>신규경력 구분</th>
 					<td colspan="3">
-						<select name="careerTyp" class="imwonCareerTyp">
+						<select name="careerTyp" class="careerTyp">
 							<c:forEach var="careerTypList" items="${result.careerTypList }">
 								<option value="${careerTypList.codeDtlCd }">${careerTypList.codeDtlNm }</option>
 							</c:forEach>
