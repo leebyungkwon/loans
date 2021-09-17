@@ -43,6 +43,7 @@ import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
+import com.loanscrefia.util.UtilMask;
 
 import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
@@ -174,6 +175,8 @@ public class UserService {
 	//모집인 등록 > 리스트
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserRegList(UserDomain userDomain){
+
+		UtilMask mask = new UtilMask();
 		
 		//세션 정보
 		MemberDomain memberDomain 	= new MemberDomain();
@@ -208,6 +211,10 @@ public class UserService {
 						plMZId 	= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
 					}else {
 						plMZId 	= userRegList.get(i).getPlMZId();
+						userDomain.setPlMZId(plMZId);
+					}
+					if(StringUtils.isNotEmpty(plMZId)) {
+						plMZId = mask.maskSSN(plMZId);
 					}
 					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 					userRegList.get(i).setPlMZId(plMZId);
