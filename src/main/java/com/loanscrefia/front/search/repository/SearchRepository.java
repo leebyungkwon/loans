@@ -17,6 +17,10 @@ public interface SearchRepository {
 	
 	//모집인 조회 : 개인(기등록여부 - 결제여부 체크 : 승인완료)
 	SearchDomain selectPayResultIndvUserInfo(SearchDomain searchDoamin);
+	
+	//모집인 조회 : 개인(기등록여부 - 결제여부 체크 : 승인완료를 자격취득으로 변경하기 위한 조회)
+	List<SearchDomain> selectApiResultIndvUserList(SearchDomain searchDoamin);
+	
 		
 	//모집인 조회 : 법인(결제)
 	SearchDomain selectPayCorpUserInfo(SearchDomain searchDoamin);
@@ -25,7 +29,10 @@ public interface SearchRepository {
 	List<SearchDomain> selectPayCorpUserList(SearchDomain searchDoamin);
 	
 	//모집인 조회 : 법인(기등록여부 - 결제여부 체크 : 승인완료)
-	SearchDomain selectPayResultCorpUserInfo(SearchDomain searchDoamin);	
+	SearchDomain selectPayResultCorpUserInfo(SearchDomain searchDoamin);
+	
+	//모집인 조회 : 법인(기등록여부 - 결제여부 체크 : 승인완료 자격취득으로 변경하기 위한 조회)
+	List<SearchDomain> selectApiResultCorpList(SearchDomain searchDoamin);
 	
 	//모집인 조회 : 개인
 	SearchDomain selectIndvUserInfo(SearchDomain searchDoamin);

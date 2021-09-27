@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.front.search.repository.SearchRepository;
+import com.loanscrefia.member.user.domain.UserDomain;
 
 import sinsiway.CryptoUtil;
 
@@ -45,6 +47,89 @@ public class SearchService {
 		SearchDomain result = searchRepo.selectPayIndvUserInfo(searchDomain);
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		}
+		
+		if(!"1".equals(result.getPlClass())) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "데이터 오류가 발생하였습니다.");
+		}
+		
+		// 은행연합회 API 기등록여부(수수료납부여부 확인)
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject indvParam = new JSONObject();
+		indvParam.put("pre_lc_num", result.getPreLcNum());
+		ResponseMsg responseMsg = kfbApiService.commonKfbApi(apiKey, indvParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "GET", "1", "Y");
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			// 기등록여부 Y / N으로 분기처리
+			if(!responseJson.isNull("fee_yn")) {
+				if("Y".equals(responseJson.getString("fee_yn"))) {
+					// 내부 테이블 조회 - 승인전 조회 데이터 기등록여부값만 변경
+					List<SearchDomain> payResultList = searchRepo.selectPayResultIndvUserList(searchDomain);
+					if(payResultList.size() > 0) {
+						for(SearchDomain tmp : payResultList) {
+							SearchDomain updateDomain = new SearchDomain();
+							updateDomain.setMasterSeq(tmp.getMasterSeq());
+							updateDomain.setPlClass("1");
+							searchRepo.insertSearchUserHistory(updateDomain);
+							searchRepo.updatePreRegYn(updateDomain);
+						}
+					}
+					
+					// 내부 테이블 조회 - 승인완료 데이터 본등록 API
+					List<SearchDomain> payApiResultList = searchRepo.selectApiResultIndvUserList(searchDomain);
+					if(payApiResultList.size() > 0) {
+						for(SearchDomain apiTmp : payApiResultList) {
+							// 금융상품 3, 6번 제외
+							String prdCheck = apiTmp.getPlProduct();
+							String lcNum = "";
+							String conNum = "";
+							if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+								JSONObject jsonParam = new JSONObject();
+								String plClass = apiTmp.getPlClass();
+								jsonParam.put("pre_lc_num", apiTmp.getPreLcNum());
+								ResponseMsg apiResponseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");
+								if("success".equals(apiResponseMsg.getCode())) {
+									JSONObject apiResponseJson = new JSONObject(apiResponseMsg.getData().toString());
+									lcNum = apiResponseJson.getString("lc_num");
+									JSONObject jsonObj = new JSONObject();
+									JSONArray conArr = apiResponseJson.getJSONArray("con_arr");
+									// 계약금융기관코드(저장되어있는 데이터 비교)
+									String comCode = Integer.toString(apiTmp.getComCode());
+									for(int i=0; i<conArr.length(); i++){
+										jsonObj = conArr.getJSONObject(i);
+										String loanType = jsonObj.getString("loan_type");
+										String finCode = jsonObj.getString("fin_code");
+										// 등록시 계약금융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+										if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
+											conNum = jsonObj.getString("con_num");
+											break;
+										}
+									}
+									
+									UserDomain updateApiDomain = new UserDomain();
+									updateApiDomain.setMasterSeq(apiTmp.getMasterSeq());
+									updateApiDomain.setPlRegistNo(lcNum);
+									updateApiDomain.setConNum(conNum);
+									updateApiDomain.setPlRegStat("3");
+									
+									kfbApiRepository.updateKfbApiByUserInfo(updateApiDomain);
+									
+									// STEP 이력저장
+									SearchDomain sDomain = new SearchDomain();
+									sDomain.setMasterSeq(0);
+									sDomain.setPlClass("1");
+									sDomain.setPlCellphone(searchDomain.getPlCellphone());
+									sDomain.setPlMName(searchDomain.getPlMName());
+									searchRepo.insertSearchUserStepHistory(sDomain);
+									
+								}
+							}
+						}
+						return new ResponseMsg(HttpStatus.OK, "fail", "이미 결제한 정보가 존재합니다.\n자격취득여부를 확인해 주세요.");
+					}
+				}
+			}
 		}
 
 		//데이터 복호화해서 검색어와 비교
@@ -75,6 +160,89 @@ public class SearchService {
 		SearchDomain result = searchRepo.selectPayCorpUserInfo(searchDomain); 
 		if(result == null) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "조회된 결과가 없습니다.");
+		}
+		
+		if(!"2".equals(result.getPlClass())) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "데이터 오류가 발생하였습니다.");
+		}		
+		
+		// 은행연합회 API 기등록여부(수수료납부여부 확인)
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject corpParam = new JSONObject();
+		corpParam.put("pre_corp_lc_num", result.getPreLcNum());
+		ResponseMsg responseMsg = kfbApiService.commonKfbApi(apiKey, corpParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "GET", "2", "Y");
+		
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			// 기등록여부 Y / N으로 분기처리
+			if(!responseJson.isNull("fee_yn")) {
+				if("Y".equals(responseJson.getString("fee_yn"))) {
+					// 내부 테이블 조회 - 승인전 조회 데이터 기등록여부값만 변경
+					List<SearchDomain> payResultList = searchRepo.selectPayCorpUserList(searchDomain);
+					if(payResultList.size() > 0) {
+						for(SearchDomain tmp : payResultList) {
+							SearchDomain updateDomain = new SearchDomain();
+							updateDomain.setMasterSeq(tmp.getMasterSeq());
+							updateDomain.setPlClass("2");
+							searchRepo.insertSearchUserHistory(updateDomain);
+							searchRepo.updatePreRegYn(updateDomain);
+						}
+					}
+					
+					// 내부 테이블 조회 - 승인완료 데이터 본등록 API
+					List<SearchDomain> payApiResultList = searchRepo.selectApiResultCorpList(searchDomain);
+					if(payApiResultList.size() > 0) {
+						for(SearchDomain apiTmp : payApiResultList) {
+							
+							// 금융상품 3, 6번 제외
+							String prdCheck = apiTmp.getPlProduct();
+							String lcNum = "";
+							String conNum = "";
+							if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+								JSONObject jsonParam = new JSONObject();
+								String plClass = apiTmp.getPlClass();
+								jsonParam.put("pre_corp_lc_num", apiTmp.getPreLcNum());
+								ResponseMsg apiResponseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
+								if("success".equals(apiResponseMsg.getCode())) {
+									JSONObject apiResponseJson = new JSONObject(apiResponseMsg.getData().toString());
+									lcNum = apiResponseJson.getString("corp_lc_num");
+									JSONObject jsonObj = new JSONObject();
+									JSONArray conArr = apiResponseJson.getJSONArray("con_arr");
+									// 계약금융기관코드(저장되어있는 데이터 비교)
+									String comCode = Integer.toString(apiTmp.getComCode());
+									for(int i=0; i<conArr.length(); i++){
+										jsonObj = conArr.getJSONObject(i);
+										String loanType = jsonObj.getString("loan_type");
+										String finCode = jsonObj.getString("fin_code");
+										// 등록시 계약금융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+										if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
+											conNum = jsonObj.getString("con_num");
+											break;
+										}
+									}
+									
+									UserDomain updateApiDomain = new UserDomain();
+									updateApiDomain.setMasterSeq(apiTmp.getMasterSeq());
+									updateApiDomain.setPlRegistNo(lcNum);
+									updateApiDomain.setConNum(conNum);
+									updateApiDomain.setPlRegStat("3");
+									kfbApiRepository.updateKfbApiByUserInfo(updateApiDomain);
+									
+									// STEP 이력저장
+									SearchDomain sDomain = new SearchDomain();
+									sDomain.setMasterSeq(0);
+									sDomain.setPlClass("2");
+									sDomain.setPlMerchantNo(searchDomain.getPlMerchantNo());
+									sDomain.setPlCeoName(searchDomain.getPlCeoName());
+									searchRepo.insertSearchUserStepHistory(sDomain);
+								}
+							}
+						}
+						return new ResponseMsg(HttpStatus.OK, "fail", "이미 결제한 정보가 존재합니다.\n자격취득여부를 확인해 주세요.");
+					}
+				}
+			}
 		}
 		return new ResponseMsg(HttpStatus.OK, null, result.getMasterSeq(), "");
 	}

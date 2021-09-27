@@ -10,11 +10,29 @@ function pageLoad() {
 	if("${searchUserInfo.plClass }" == "1"){
 		$("#allat_amt").val("20000");
 		$("#testAmt").val("20000"); //결제 테스트
-		$("#allat_buyer_nm").val("${searchUserInfo.plMName}");
+		
+		var plName = "${searchUserInfo.plMName}";
+		var resultPlName = "";
+		if(plName.length > 10){
+			resultPlName = plName.substr(0, 10);
+			$("#allat_buyer_nm").val(resultPlName);
+		}else{
+			$("#allat_buyer_nm").val(plName);
+		}
+		
 	}else{
 		$("#allat_amt").val("200000");
 		$("#testAmt").val("200000"); //결제 테스트
-		$("#allat_buyer_nm").val("${searchUserInfo.plMerchantName}");
+		
+		var mName = "${searchUserInfo.plMerchantName}";
+		var resultName = "";
+		if(mName.length > 10){
+			resultName = mName.substr(0, 10);
+			$("#allat_buyer_nm").val(resultName);
+		}else{
+			$("#allat_buyer_nm").val(mName);
+		}
+		
 	}
 }
 

@@ -350,7 +350,7 @@ function goGetDate(opt) {
 					</td>
 					<th></th>
 					<td class="" colspan="3">
-						#자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기
+						#자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기(전체)
 					</td>
 				</tr>
 			</table>
@@ -372,6 +372,10 @@ function goGetDate(opt) {
 					<td class="">
 						<input type="text" id="regPreLcNum" >
 					</td>
+					<th></th>
+					<td class="" colspan="3">
+						상태가 자격취득이고 등록번호가 없는 케이스의 수동 API등록
+					</td>
 				</tr>
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiReg">수동본등록</a>
@@ -389,8 +393,8 @@ function goGetDate(opt) {
 				</colgroup>
 				<tr>
 					<th></th>
-					<td class="">
-						<input type="text" id="" >
+					<td class="" colspan="1">
+						자격취득한 케이스가 있는경우 하위의 모든 승인완료 데이터를 자격취득으로 변경
 					</td>
 				</tr>
 			</table>

@@ -8,6 +8,7 @@
    			 TLM.MASTER_SEQ
    			,TLM.PL_M_Z_ID
    			,TLM.PRE_LC_NUM
+   			,TLM.PL_CLASS
    		FROM TB_LC_MAS01 TLM
 		WHERE TLM.PL_CLASS		= '1' 				-- 개인
 		AND TLM.COM_CODE 		= #{comCode} 
@@ -52,6 +53,7 @@
    		SELECT
    			TLM.MASTER_SEQ
    			,TLM.PRE_LC_NUM
+   			,TLM.PL_CLASS
    		FROM TB_LC_MAS01 TLM
 		WHERE TLM.PL_CLASS		= '2' 				-- 법인 
 		AND TLM.COM_CODE 		= #{comCode}
@@ -639,5 +641,43 @@
 		and a.pl_stat = '9'
 		and a.use_yn = 'Y'
 	</select>
+	
+	
+	
+   	<!-- 모집인 조회 : 개인(결제) -->
+   	<select id="selectApiResultIndvUserList" parameterType="search" resultType="search">
+  		SELECT
+   			 TLM.MASTER_SEQ
+   			,TLM.PL_M_Z_ID
+   			,TLM.PRE_LC_NUM
+   			,TLM.PL_CLASS
+   			,TLM.PL_PRODUCT
+   			,TLM.COM_CODE
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '1' 				-- 개인
+		AND TLM.PL_M_NAME 		= #{plMName}
+		AND TLM.PL_CELLPHONE 	= #{plCellphone}
+		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
+   	</select>
+   	
+   	<!-- 모집인 조회 : 법인(결제) -->
+   	<select id="selectApiResultCorpList" parameterType="search" resultType="search">
+  		SELECT
+   			 TLM.MASTER_SEQ
+   			,TLM.PL_M_Z_ID
+   			,TLM.PRE_LC_NUM
+   			,TLM.PL_CLASS
+   			,TLM.PL_PRODUCT
+   			,TLM.COM_CODE
+   		FROM TB_LC_MAS01 TLM
+		WHERE TLM.PL_CLASS		= '2' 				-- 법인
+		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
+		AND TLM.PL_CEO_NAME 	= #{plCeoName}
+		AND TLM.PL_REG_STAT 	= '2' 				-- 모집인상태 : 승인완료
+		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
+		AND TLM.USE_YN			= 'Y'
+   	</select>
 	
 </mapper> 
