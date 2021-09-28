@@ -280,12 +280,12 @@
 	<!-- 모집인 등록 > 리스트 -->
    	<select id="selectUserRegList" parameterType="user" resultType="user">
    		SELECT 
-   			<include refid="common.totalPages"/>
    			Z.*
    		FROM
    		(
    			SELECT 
-		    	 TLM.MASTER_SEQ
+   				<include refid="common.totalPages"/>
+		    	TLM.MASTER_SEQ
 		    	,TLM.MASTER_TO_ID
 				,TLM.COM_CODE
 				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
@@ -406,59 +406,87 @@
 				<if test='creGrp != "2"'>
 					AND	TLM.COM_CODE IN ('3000001',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
 				</if>
+	   			<if test="memberNm != null and memberNm != ''">
+					AND FN_MEMBER_NAME(TLM.MEMBER_SEQ) LIKE '%' || #{memberNm} || '%'
+				</if>
+				<if test="plClass != null and plClass != ''">
+					<if test='plClass.equals("1") || plClass.equals("2")'>
+						AND TLM.PL_CLASS 		= #{plClass} 
+						AND TLM.CORP_USER_YN  = 'N'
+					</if>
+					<if test='plClass.equals("3")'>
+						AND TLM.PL_CLASS 		= '1' 
+						AND TLM.CORP_USER_YN  = 'Y'
+					</if>
+				</if>
+				<if test="plProduct != null and plProduct != ''">
+					AND TLM.PL_PRODUCT = #{plProduct}
+				</if>
+				<if test="plMName != null and plMName != ''">
+					AND (CASE 
+						 WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+						 WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 		  END
+				 		 ) LIKE '%' || #{plMName} || '%'
+				</if>
+				<if test="plMZId != null and plMZId != ''">
+					AND TLM.PL_M_Z_ID = #{plMZId}
+				</if>
+				<if test="plCellphone != null and plCellphone != ''">
+					AND FN_CELLPHONE(TLM.PL_CELLPHONE) LIKE '%' || #{plCellphone} || '%'
+				</if>
+				<if test="plMerchantName != null and plMerchantName != ''">
+					AND TLM.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+				</if>
+				<if test="plMerchantNo != null and plMerchantNo != ''">
+					AND TLM.PL_MERCHANT_NO = #{plMerchantNo}
+				</if>
+		    	<if test="plStat != null and plStat != ''">
+					AND TLM.PL_STAT = #{plStat}
+				</if>
+				<if test="masterToId != null and masterToId != ''">
+					AND TLM.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+				</if>
+				<if test="srchDate1 != null and srchDate1 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+				</if>
+				<if test="srchDate2 != null and srchDate2 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				</if>
+				<if test="fileCompYn != null and fileCompYn != ''">
+					AND (
+					CASE 
+						WHEN 
+							TLM.PL_CLASS = '1' AND TLM.CAREER_TYP = '1' -- 개인(신규)
+								AND TLM.FILE_SEQ IS NOT NULL 
+								<include refid="indvNewComerFileCompChk"/>
+						THEN 'Y'
+						WHEN 
+							TLM.PL_CLASS = '1' AND TLM.CAREER_TYP = '2' -- 개인(경력)
+								AND TLM.FILE_SEQ IS NOT NULL
+								<include refid="indvCareerFileCompChk"/>
+						THEN 'Y'
+						WHEN 
+							TLM.PL_CLASS = '2' 
+								AND TLM.FILE_SEQ IS NOT NULL 
+								AND (SELECT COUNT(1) FROM TB_LC_MAS01_IMWON TLMI WHERE TLMI.USE_YN = 'Y' AND TLMI.MASTER_SEQ = TLM.MASTER_SEQ) <![CDATA[>]]> 0	-- 임원 한명이상 등록 필수
+								AND (SELECT COUNT(1) FROM TB_LC_MAS01_EXPERT TLME WHERE TLME.USE_YN = 'Y' AND TLME.MASTER_SEQ = TLM.MASTER_SEQ) <![CDATA[>]]> 0	-- 전문인력 한명이상 등록 필수
+								AND (SELECT COUNT(1) FROM TB_LC_MAS01_IT TLMT WHERE TLMT.USE_YN = 'Y' AND TLMT.MASTER_SEQ = TLM.MASTER_SEQ) <![CDATA[>]]> 0		-- 전산인력 한명이상 등록 필수
+								<include refid="corpFirstTabFileCompChk"/>
+								<include refid="corpSecondTabFileCompChk"/>
+								<include refid="corpThirdTabFileCompChk"/>
+								<include refid="corpFourthTabFileCompChk"/>
+								<include refid="corpFifthTabFileCompChk"/>
+						THEN 'Y'
+						ELSE 'N'
+					 END 
+				 ) = #{fileCompYn}
+				 </if>
 					AND TLM.PL_REG_STAT = '1'																			-- 모집인 상태가 승인전인 것
 					AND TLM.PL_STAT IN ('1','2','5','10')																-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것
 		    </where>
 		    ORDER BY TLM.MASTER_SEQ DESC
    		)Z
-   		<where>
-   			<if test="memberNm != null and memberNm != ''">
-				AND Z.MEMBER_NM LIKE '%' || #{memberNm} || '%'
-			</if>
-			<if test="plClass != null and plClass != ''">
-				<if test='plClass.equals("1") || plClass.equals("2")'>
-					AND Z.PL_CLASS 		= #{plClass} 
-					AND Z.CORP_USER_YN  = 'N'
-				</if>
-				<if test='plClass.equals("3")'>
-					AND Z.PL_CLASS 		= '1' 
-					AND Z.CORP_USER_YN  = 'Y'
-				</if>
-			</if>
-			<if test="plProduct != null and plProduct != ''">
-				AND Z.PL_PRODUCT = #{plProduct}
-			</if>
-			<if test="plMName != null and plMName != ''">
-				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
-			</if>
-			<if test="plMZId != null and plMZId != ''">
-				AND Z.PL_M_Z_ID = #{plMZId}
-			</if>
-			<if test="plCellphone != null and plCellphone != ''">
-				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
-			</if>
-			<if test="plMerchantName != null and plMerchantName != ''">
-				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
-			</if>
-			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
-			</if>
-			<if test="fileCompYn != null and fileCompYn != ''">
-				AND Z.FILE_COMP_YN = #{fileCompYn}
-			</if>
-	    	<if test="plStat != null and plStat != ''">
-				AND Z.PL_STAT = #{plStat}
-			</if>
-			<if test="masterToId != null and masterToId != ''">
-				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
-			</if>
-			<if test="srchDate1 != null and srchDate1 != ''">
-				AND Z.ORIGIN_REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
-			</if>
-			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.ORIGIN_REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
-			</if>
-	    </where>
 	    <include refid="common.pageBottom"/>
    	</select>
    	
