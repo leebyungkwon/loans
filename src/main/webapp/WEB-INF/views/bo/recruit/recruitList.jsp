@@ -33,8 +33,6 @@ function pageLoad(){
 				,{type:"string"	, name:'payRegDate'		, index:'payRegDate'		, width:"12%"		, align:"center"}
 				,{type:"string"	, name:'creLicenseDate'	, index:'creLicenseDate'	, width:"12%"		, align:"center"}
 			]
-		, sortNm 		: "master_seq"
-		, sort 			: "DESC"
 		, rowClick		: {retFunc : goRecruitDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
@@ -118,9 +116,28 @@ function pageLoad(){
 	};
 	DataUtil.selectBox(companyCode);
 	
+	// 정보변경여부 체크
 	$("#updFileCheck").on("click", function(){
 		recruitGrid.refresh();
 	})
+	
+	
+	// 결제일순 정렬
+	$("#sortPayDate").on("click", function(){
+		if($("#searchPayDate").val() == "cre_app_date"){
+			$("#searchPayDate").val("order_pay_date");	
+		}else{
+			$("#searchPayDate").val("cre_app_date");
+		}
+		recruitGrid.refresh();
+	});
+	
+	
+	// 2021-09-27 버튼활성화
+	if($("#searchPayDate").val() == "order_pay_date"){
+		$("#sortPayDate").addClass("on");
+	}
+	
 }
 
 $(document).mouseup(function(e){
@@ -272,6 +289,7 @@ function goGetDate(opt) {
 						</select> -->
 					</td>
 				</tr>
+				<input type="hidden" id="searchPayDate" name="searchPayDate" value="cre_app_date">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -281,7 +299,8 @@ function goGetDate(opt) {
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_sort" id="sortPayDate"><span class="ico_check"></span>결제일 정렬</a>
 			</div>
 		</div>
 		<div id="recruitGrid" class="long_table"></div>

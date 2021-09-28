@@ -140,6 +140,12 @@ function pageLoad(){
 	$("#applyResultCheck").on("click", function(){
 		applyGrid.refresh();
 	})
+	
+	if($("#searchAppDate").val() == "CRE_APP_FI_DATE"){
+		$("#sortComRegDate").addClass("on");
+	}
+	 
+	
 }
 
 $(document).mouseup(function(e){

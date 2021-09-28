@@ -280,11 +280,11 @@
 	<!-- 모집인 등록 > 리스트 -->
    	<select id="selectUserRegList" parameterType="user" resultType="user">
    		SELECT 
+   			<include refid="common.totalPages"/>
    			Z.*
    		FROM
    		(
    			SELECT 
-   				<include refid="common.totalPages"/>
 		    	 TLM.MASTER_SEQ
 		    	,TLM.MASTER_TO_ID
 				,TLM.COM_CODE

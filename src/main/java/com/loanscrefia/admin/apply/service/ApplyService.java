@@ -40,6 +40,7 @@ import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
+import com.loanscrefia.util.UtilMask;
 
 import sinsiway.CryptoUtil;
 
@@ -82,9 +83,12 @@ public class ApplyService {
 	@Value("${email.apply}")
 	public boolean emailApply;
 
-	//모집인 조회 및 변경 > 리스트
+	//모집인 승인처리 > 리스트
 	@Transactional(readOnly=true)
 	public List<ApplyDomain> selectApplyList(ApplyDomain applyDomain){
+		
+		UtilMask mask = new UtilMask();
+		
 		MemberDomain memberDomain = new MemberDomain();
 		MemberDomain result = commonService.getMemberDetail(memberDomain);
 		applyDomain.setCreGrp(result.getCreGrp());
@@ -106,16 +110,20 @@ public class ApplyService {
 		}
 		
 		List<ApplyDomain> applyResultList = applyRepository.selectApplyList(applyDomain);
+		String plMZId = "";
 		for(ApplyDomain list : applyResultList) {
-			StringBuilder jumin = new StringBuilder();
 			if(StringUtils.isNotEmpty(list.getPlMZId())) {
 				if(cryptoApply) {
-					jumin.append(CryptoUtil.decrypt(list.getPlMZId()));
+					plMZId 	= CryptoUtil.decrypt(list.getPlMZId());
 				}else {
-					jumin.append(list.getPlMZId());
+					plMZId 	= list.getPlMZId();
+					applyDomain.setPlMZId(plMZId);
 				}
-				jumin.insert(6, "-");
-				list.setPlMZId(jumin.toString());
+				if(StringUtils.isNotEmpty(plMZId)) {
+					plMZId = mask.maskSSN(plMZId);
+				}
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+				list.setPlMZId(plMZId);
 			}
 			
 			StringBuilder merchantNo = new StringBuilder();

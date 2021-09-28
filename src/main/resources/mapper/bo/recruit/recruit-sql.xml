@@ -10,7 +10,6 @@
    		FROM
    		(
 	   		SELECT 
-		    	<include refid="common.totalPages"/>
 		    	 TLM.MASTER_SEQ
 				,TLM.COM_CODE
 		    	,TLM.MASTER_TO_ID
@@ -109,7 +108,8 @@
 				,(SELECT pay.pay_type from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_TYPE
 				,(SELECT pay.name from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_NAME
 				,(SELECT pay.reg_timestamp from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS ORIGIN_PAY_REG_DATE
-				,(SELECT TO_CHAR(pay.reg_timestamp, 'YYYY-MM-DD') from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_REG_DATE 
+				,(SELECT TO_CHAR(pay.reg_timestamp, 'YYYY-MM-DD') from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS PAY_REG_DATE
+				,(SELECT pay.reg_timestamp from tb_lc_pay pay where pay.master_seq = tlm.master_seq order by pay_seq desc limit 1) AS ORDER_PAY_DATE
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				AND TLM.USE_YN = 'Y'
@@ -175,6 +175,11 @@
 			<if test="masterToId != null and masterToId != ''">
 				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
 			</if>
+			
+			<if test="searchPayDate.equals('order_pay_date')">
+				AND Z.ORDER_PAY_DATE IS NOT NULL
+			</if>
+			
 	    	<choose>
    				<when test="srchSelect2 != null and srchSelect2 != ''">
 					<if test="srchSelect2.equals('creAppDate')">
@@ -204,6 +209,9 @@
 				</when>
 			</choose>
 	    </where>
+	    
+	    ORDER BY ${searchPayDate} DESC
+	    
 	    <include refid="common.pageBottom"/>
    	</select>
    

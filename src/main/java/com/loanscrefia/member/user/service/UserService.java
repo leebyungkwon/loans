@@ -111,6 +111,8 @@ public class UserService {
 	@Transactional(readOnly=true)
 	public List<UserDomain> selectUserConfirmList(UserDomain userDomain){
 		
+		UtilMask mask = new UtilMask();		
+		
 		//세션 정보
 		MemberDomain memberDomain 	= new MemberDomain();
 		MemberDomain loginInfo 		= commonService.getMemberDetail(memberDomain);
@@ -144,6 +146,10 @@ public class UserService {
 						plMZId 	= CryptoUtil.decrypt(userConfirmList.get(i).getPlMZId());
 					}else {
 						plMZId 	= userConfirmList.get(i).getPlMZId();
+						userDomain.setPlMZId(plMZId);
+					}
+					if(StringUtils.isNotEmpty(plMZId)) {
+						plMZId = mask.maskSSN(plMZId);
 					}
 					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 					userConfirmList.get(i).setPlMZId(plMZId);

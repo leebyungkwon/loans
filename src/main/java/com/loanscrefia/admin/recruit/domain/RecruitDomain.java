@@ -153,6 +153,9 @@ public class RecruitDomain extends BaseDomain {
 	
 	private List<SearchResultDomain> SearchResultList;	// FO - 은행연합회 API검색결과 필드
 	
+	private String searchPayDate;	// 결제일 정렬 btn값 필드
+	private String orderPayDate;	// 결제일 정렬 필드
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
