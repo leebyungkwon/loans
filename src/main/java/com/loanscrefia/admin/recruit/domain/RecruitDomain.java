@@ -38,6 +38,7 @@ public class RecruitDomain extends BaseDomain {
 	@ExcelColumn(headerName = "등록번호", order = 1)
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
 	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
+	@ExcelColumn(headerName = "CI", order = 17)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 8)
 	private String plMName;			//모집인이름
@@ -139,6 +140,7 @@ public class RecruitDomain extends BaseDomain {
 	
 	private String preRegYn;		//기등록여부
 	private String subYn;			//약식등록여부
+	@ExcelColumn(headerName = "가등록번호", order = 16)
 	private String preLcNum;		//가등록번호
 	private String preRegState;		//가등록상태
 	

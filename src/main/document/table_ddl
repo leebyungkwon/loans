@@ -1156,7 +1156,7 @@ create table tb_lc_users(
 	, manager_name varchar(50)
 	, manager_mobile_no varchar(20)
 	, manager_email varchar(100)
-	, corp_appr_stat char(1) not null default 'N'
+	, corp_appr_yn char(1) not null default 'N'
 	, corp_appr_dt timestamp
 	, file_seq integer
 	, join_dt timestamp
@@ -1170,6 +1170,8 @@ create table tb_lc_users(
 	, fail_cnt INTEGER
 	, fail_stop_dt timestamp
 	, pw_change_dt timestamp
+	, pw_token varchar(100)
+	, pw_token_dt timestamp
 	, reg_seq integer not null
 	, reg_timestamp timestamp not null
 	, upd_seq INTEGER NULL
@@ -1204,7 +1206,7 @@ create table tb_lc_users_inactive(
 	, manager_name varchar(50)
 	, manager_mobile_no varchar(20)
 	, manager_email varchar(100)
-	, corp_appr_stat char(1) 
+	, corp_appr_yn char(1) not null default 'N'
 	, corp_appr_dt timestamp
 	, file_seq integer
 	, join_dt timestamp
@@ -1216,6 +1218,8 @@ create table tb_lc_users_inactive(
 	, inactive_dt timestamp
 	, last_login_dt timestamp
 	, pw_change_dt timestamp
+	, pw_token varchar(100)
+	, pw_token_dt timestamp
 	, reg_seq integer 
 	, reg_timestamp timestamp
 	, upd_seq INTEGER 

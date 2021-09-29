@@ -23,6 +23,7 @@ public class UserDomain extends BaseDomain {
 	private int memberSeq;			//담당자시퀀스
 	private String subYn;			//약식등록여부
 	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
+	@ExcelColumn(headerName = "가등록번호", order = 15)
 	private String preLcNum;		//가등록번호
 	private String plClass;			//분류							-> [CLS001]개인,법인
 	private String plWork;			//업종
@@ -36,6 +37,7 @@ public class UserDomain extends BaseDomain {
 	@ExcelColumn(headerName = "등록번호", order = 1)
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
 	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
+	@ExcelColumn(headerName = "CI", order = 16)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 7)
 	private String plMName;			//모집인이름
