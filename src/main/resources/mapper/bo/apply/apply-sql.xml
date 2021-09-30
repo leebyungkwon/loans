@@ -5,11 +5,11 @@
    	<!-- 모집인 조회 및 변경 > 리스트 -->
    	<select id="selectApplyList" parameterType="apply" resultType="apply">
    		SELECT 
-   			<include refid="common.totalPages"/>
    			Z.*
    		FROM
    		(
 	   		SELECT 
+   			    <include refid="common.totalPages"/>
 		    	 TLM.MASTER_SEQ
 		    	,TLM.MASTER_TO_ID
 		    	,TLM.SUB_YN
@@ -141,77 +141,89 @@
 						AND TLM.PL_STAT = '2'
 					</if>
 				</if>
+                <if test="comCode != null and comCode != ''">
+                    AND TLM.COM_CODE = CAST(#{comCode} AS INTEGER)
+                </if>	
+                <if test="memberNm != null and memberNm != ''">
+                    AND FN_MEMBER_NAME(TLM.MEMBER_SEQ) LIKE '%' || #{memberNm} || '%'
+                </if>
+                <if test="chkYn != null and chkYn != ''">
+                    AND COALESCE(TLM.CHK_YN,'N') = #{chkYn}
+                </if>
+                <if test="adminChkYn != null and adminChkYn != ''">
+                    AND COALESCE(TLM.ADMIN_CHK_YN,'N') = #{adminChkYn}
+                </if>             
+                <if test="plClass != null and plClass != ''">
+                    <if test='plClass.equals("1") || plClass.equals("2")'>
+                        AND TLM.PL_CLASS 		= #{plClass} 
+                        AND TLM.CORP_USER_YN  = 'N'
+                    </if>
+                    <if test='plClass.equals("3")'>
+                        AND TLM.PL_CLASS 		= '1'
+                        AND TLM.CORP_USER_YN  = 'Y'
+                    </if>
+                </if>
+                <if test="plProduct != null and plProduct != ''">
+                    AND TLM.PL_PRODUCT 	= #{plProduct}
+                </if>
+                <if test="plStat != null and plStat != ''">
+                    AND TLM.PL_STAT 	= #{plStat}
+                </if>                 
+                <if test="plMName != null and plMName != ''">
+                    AND (CASE 
+                            WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+                            WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+                        END ) LIKE '%' || #{plMName} || '%'
+                </if>
+                <if test="plCellphone != null and plCellphone != ''">
+                    AND FN_CELLPHONE(TLM.PL_CELLPHONE) LIKE '%' || #{plCellphone} || '%'
+                </if>
+                <if test="plMerchantName != null and plMerchantName != ''">
+                    AND TLM.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+                </if>
+                <if test="plMerchantNo != null and plMerchantNo != ''">
+                    AND TLM.PL_MERCHANT_NO = #{plMerchantNo}
+                </if>
+                <if test="plMZId != null and plMZId != ''">
+                    AND TLM.PL_M_Z_ID = #{plMZId}
+                </if>             
+                <if test="masterToId != null and masterToId != ''">
+                    AND TLM.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+                </if>
+                <if test="preLcNum != null and preLcNum != ''">
+                    AND TLM.PRE_LC_NUM LIKE '%' || #{preLcNum} || '%'
+                </if>
+                <if test="srchDate1 != null and srchDate1 != ''">
+                    AND (case
+                            when TLM.COM_REG_DATE = '' then null
+                            when TLM.COM_REG_DATE is null then null
+                            else TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD')
+                        end) 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+                </if>
+                <if test="srchDate2 != null and srchDate2 != ''">
+                    AND (case
+                            when TLM.COM_REG_DATE = '' then null
+                            when TLM.COM_REG_DATE is null then null
+                            else TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD')
+                        end) 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+                </if>
+                <if test="srchDate3 != null and srchDate3 != ''">
+                    AND (case
+                            when TLM.FIRST_APP_DATE = '' then null
+                            when TLM.FIRST_APP_DATE is null then null
+                            else TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD')
+                        end) 	<![CDATA[>=]]> #{srchDate3}::TIMESTAMP
+                </if>
+                <if test="srchDate4 != null and srchDate4 != ''">
+                    AND (case
+                            when TLM.FIRST_APP_DATE = '' then null
+                            when TLM.FIRST_APP_DATE is null then null
+                            else TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD')
+                        end) 	<![CDATA[<]]> #{srchDate4}::TIMESTAMP + INTERVAL '1 day'
+                </if>
 			</where>
    		)Z
-   		<where>
-			<if test="comCode != null and comCode != ''">
-				AND Z.COM_CODE = CAST(#{comCode} AS INTEGER)
-			</if>		
-   			<if test="memberNm != null and memberNm != ''">
-				AND Z.MEMBER_NM LIKE '%' || #{memberNm} || '%'
-			</if>
-   			<if test="chkYn != null and chkYn != ''">
-				AND Z.CHK_YN = #{chkYn}
-			</if>
-			
-   			<if test="adminChkYn != null and adminChkYn != ''">
-				AND Z.ADMIN_CHK_YN = #{adminChkYn}
-			</if>
-			
-			<if test="plClass != null and plClass != ''">
-				<if test='plClass.equals("1") || plClass.equals("2")'>
-					AND Z.PL_CLASS 		= #{plClass} 
-					AND Z.CORP_USER_YN  = 'N'
-				</if>
-				<if test='plClass.equals("3")'>
-					AND Z.PL_CLASS 		= '1'
-					AND Z.CORP_USER_YN  = 'Y'
-				</if>
-			</if>
-			<if test="plProduct != null and plProduct != ''">
-				AND Z.PL_PRODUCT 	= #{plProduct}
-			</if>
-			<if test="plStat != null and plStat != ''">
-				AND Z.PL_STAT 	= #{plStat}
-			</if>
-			<if test="plMName != null and plMName != ''">
-				AND Z.PL_M_NAME LIKE '%' || #{plMName} || '%'
-			</if>
-			<if test="plCellphone != null and plCellphone != ''">
-				AND Z.PL_CELLPHONE LIKE '%' || #{plCellphone} || '%'
-			</if>
-			<if test="plMerchantName != null and plMerchantName != ''">
-				AND Z.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
-			</if>
-			<if test="plMerchantNo != null and plMerchantNo != ''">
-				AND Z.PL_MERCHANT_NO = #{plMerchantNo}
-			</if>
-			<if test="plMZId != null and plMZId != ''">
-				AND Z.PL_M_Z_ID = #{plMZId}
-			</if>
-			<if test="masterToId != null and masterToId != ''">
-				AND Z.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
-			</if>
-			<if test="preLcNum != null and preLcNum != ''">
-				AND Z.PRE_LC_NUM LIKE '%' || #{preLcNum} || '%'
-			</if>
-			<if test="srchDate1 != null and srchDate1 != ''">
-				AND Z.COM_REG_DATE 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
-			</if>
-			<if test="srchDate2 != null and srchDate2 != ''">
-				AND Z.COM_REG_DATE 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
-			</if>
-			
-			<if test="srchDate3 != null and srchDate3 != ''">
-				AND Z.FIRST_APP_DATE 	<![CDATA[>=]]> #{srchDate3}::TIMESTAMP
-			</if>
-			<if test="srchDate4 != null and srchDate4 != ''">
-				AND Z.FIRST_APP_DATE 	<![CDATA[<]]> #{srchDate4}::TIMESTAMP + INTERVAL '1 day'
-			</if>
-			
-	    </where>
 	    ORDER BY ${searchAppDate}, Z.MASTER_SEQ ASC
-	    
 	    <include refid="common.pageBottom"/>
    	</select>
    
