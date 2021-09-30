@@ -89,11 +89,16 @@ public class KfbApiService {
 	public ResponseMsg getHealthCheck(String apiDomain) {
 		
 		String result = "fail";
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		try {
 			//URL 설정
 			URL url 				= new URL(apiDomain+HealthCheckUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
@@ -104,16 +109,15 @@ public class KfbApiService {
 			
 			if(responseCode == 200) {
 				result = "success";
-				
 	        	log.error("########m 시작 7  ::  commonKfbApi()");
-
 	        	log.error("########m 시작 7 a ::  " + conn.getInputStream());
 	        	log.error("########m 시작 7 b ::  " + new InputStreamReader(conn.getInputStream()));
 	        	log.error("########m 시작 7 c ::  " + new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        	
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        	
 	        	log.error("########m 시작 7-1  ::  commonKfbApi()");
 	        	StringBuilder sb 	= new StringBuilder();
-	        	
 	        	
 	        	String line 		= "";
 	            while((line = br.readLine()) != null) {
@@ -122,7 +126,6 @@ public class KfbApiService {
 	            }
 	            
 	            br.close();
-				
 				
 				JSONObject responseJson = new JSONObject(sb.toString());
 	            log.error("########m 시작 8  ::  commonKfbApi()");
@@ -144,9 +147,7 @@ public class KfbApiService {
 	            logParam.setResCode(resCode);
 	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
-	            
 	            log.error("########m 시작 9  ::  commonKfbApi()");
-	            
 	            this.insertKfbApiResLog(logParam);
 				conn.disconnect();
 				return new ResponseMsg(HttpStatus.OK, result, responseJson, "성공");
@@ -168,12 +169,16 @@ public class KfbApiService {
 	public String getAuthCode() {
 		
 		String authCode 		= "";
-		
+		int TIMEOUT_VALUE = 3000;		// 3초
 		try {
 			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+AuthCodeUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
 	        
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
@@ -201,11 +206,6 @@ public class KfbApiService {
 				}
 				
 				JSONObject responseJson = new JSONObject(sb.toString());
-				
-				log.info("#########################################");
-		        log.info("KfbApiService >> getAuthCode() > responseJson :: 결과값 :: " + responseJson);
-		        log.info("#########################################");
-				
 				if(responseJson.getString("res_code").equals("200")) {
 					authCode = responseJson.getString("authorize_code");
 				}
@@ -218,9 +218,9 @@ public class KfbApiService {
 		        
 			}else {
 				//통신오류
-				log.info("#########################################");
-		        log.info("KfbApiService >> getAuthCode() > 통신오류");
-		        log.info("#########################################");
+				log.error("#########################################");
+		        log.error("KfbApiService >> getAuthCode() > 통신오류");
+		        log.error("#########################################");
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -245,6 +245,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		try {
 			//URL 설정
@@ -253,7 +254,11 @@ public class KfbApiService {
 			
 			//authCode
 			String authCode 		= this.getAuthCode();
-	        
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
+			
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
@@ -280,13 +285,7 @@ public class KfbApiService {
 				while((line = br.readLine()) != null) {
 					sb.append(line);
 				}
-				
 				responseJson = new JSONObject(sb.toString());
-				
-				log.info("#########################################");
-		        log.info("KfbApiService >> getAuthToken() > responseJson :: 결과값 :: " + responseJson);
-		        log.info("#########################################");
-				
 				if(responseJson.getString("res_code").equals("200")) {
 					//successCheck
 					successCheck = "success";
@@ -304,9 +303,9 @@ public class KfbApiService {
 	            this.insertKfbApiResLog(logParam);
 		        
 			}else{
-				log.info("#########################################");
-		        log.info("KfbApiService >> getAuthToken() > 통신오류");
-		        log.info("#########################################");
+				log.error("#########################################");
+		        log.error("KfbApiService >> getAuthToken() > 통신오류");
+		        log.error("#########################################");
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -355,6 +354,8 @@ public class KfbApiService {
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
 		
+		int TIMEOUT_VALUE = 3000;		// 3초
+		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
 		}else {
@@ -370,13 +371,16 @@ public class KfbApiService {
 			param += "&ci="+reqParam.getString("ci");
 			param += "&loan_type="+reqParam.getString("loan_type");
 			
-			
 			log.error("########m 시작 #############################  ::  checkLoan()");
 			log.error("########m 시작 #############################  ::  checkLoan()");
 			
 			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl+param);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
@@ -390,9 +394,8 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
-
 	    	log.error("########m 1  ::  checkLoan()");
-	        //요청 결과
+	    	
 	        int responseCode = conn.getResponseCode();
 
 	    	log.error("########m 2  ::  checkLoan()");
@@ -408,11 +411,7 @@ public class KfbApiService {
 	            
 	            br.close();
 
-	            //응답 JSON
-
 	            responseJson = new JSONObject(sb.toString());
-	            
-
 	            log.error("########m 4-1  ::  checkLoan()");
 	            
 	            String resCode = "000";
@@ -422,7 +421,6 @@ public class KfbApiService {
 	            }
 	            
 	            log.error("########m 5  ::  checkLoan()");
-	            
 	            if(!responseJson.isNull("res_msg")) {
 	            	resMsg = responseJson.getString("res_msg");
 	            }
@@ -438,6 +436,11 @@ public class KfbApiService {
 	            log.error("KfbApiService >> checkLoan() > responseJson :: 결과값 :: " + responseJson);
 	            log.error("#########################################");
 	            
+	            //결과
+	            if(responseJson.getString("res_code").equals("200")) {
+	            	//successCheck
+	            	successCheck = "success";
+	            }
 
 
 		    	log.error("########m 7  ::  checkLoan()");
@@ -486,6 +489,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -507,6 +511,10 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(connUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -607,6 +615,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		try {
 			//connect URL
@@ -622,6 +631,10 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(connUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -731,6 +744,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -749,6 +763,10 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+CheckLoanCorpUrl+param);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
@@ -839,6 +857,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -860,6 +879,10 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(connUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -960,6 +983,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -981,6 +1005,10 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(connUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -1089,6 +1117,7 @@ public class KfbApiService {
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -1112,6 +1141,10 @@ public class KfbApiService {
 			//URL 설정
 			URL url 				= new URL(connUrl);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -1217,6 +1250,7 @@ public class KfbApiService {
         String successCheck 	= "fail";
         String message 			= "";
         JSONObject responseJson = new JSONObject();
+        int TIMEOUT_VALUE = 3000;		// 3초
         
         if(authToken == null && !"healthCheck".equals(authToken)) {
         	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : 토큰을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
@@ -1259,6 +1293,10 @@ public class KfbApiService {
 	        
 	        
 	        log.error("########m 시작 3  ::  commonKfbApi()");
+	        
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
 	        
 	        conn.setRequestMethod(methodType);
 			conn.setRequestProperty("Content-Type", "application/json"); //요청

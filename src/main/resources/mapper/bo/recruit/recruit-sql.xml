@@ -224,9 +224,8 @@
 					</when>
 				</choose>
 			</where> 
+	    	ORDER BY ${searchPayDate} DESC
    		)Z
-	    ORDER BY ${searchPayDate} DESC
-	    
 	    <include refid="common.pageBottom"/>
    	</select>
    

@@ -222,8 +222,8 @@
                         end) 	<![CDATA[<]]> #{srchDate4}::TIMESTAMP + INTERVAL '1 day'
                 </if>
 			</where>
-   		)Z
-	    ORDER BY ${searchAppDate}, Z.MASTER_SEQ ASC
+	   	 ORDER BY ${searchAppDate}, TLM.MASTER_SEQ ASC
+   		)Z	
 	    <include refid="common.pageBottom"/>
    	</select>
    

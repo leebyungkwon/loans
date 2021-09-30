@@ -91,7 +91,10 @@ public class RecruitService {
 					recruitDomain.setPlMZId(plMZId);
 				}
 				if(StringUtils.isNotEmpty(plMZId)) {
-					plMZId = mask.maskSSN(plMZId);
+					// 2021-09-30 엑셀다운로드시 주민번호 마스킹 해제
+					if(!"false".equals(recruitDomain.getIsPaging())) {
+						plMZId = mask.maskSSN(plMZId);
+					}
 				}
 				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				list.setPlMZId(plMZId);
