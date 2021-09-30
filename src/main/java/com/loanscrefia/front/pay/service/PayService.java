@@ -58,6 +58,11 @@ public class PayService {
 				JSONObject loanApiReqParam 	= new JSONObject();
 				ResponseMsg loanApiResult 	= new ResponseMsg(HttpStatus.OK, "fail", null, "오류가 발생하였습니다.");
 				
+				
+				log.error("########m 결제시작  :: ");
+				log.error("########m 결제시작  :: ");
+				
+				
 				if(userInfo.getPlClass().equals("1")) {
 					//개인
 					loanApiReqParam.put("pre_lc_num", userInfo.getPreLcNum());

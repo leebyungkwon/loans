@@ -105,15 +105,49 @@ public class KfbApiService {
 			if(responseCode == 200) {
 				result = "success";
 				
-				BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-				String line 		= "";
-				StringBuilder sb 	= new StringBuilder();
+	        	log.error("########m 시작 7  ::  commonKfbApi()");
+
+	        	log.error("########m 시작 7 a ::  " + conn.getInputStream());
+	        	log.error("########m 시작 7 b ::  " + new InputStreamReader(conn.getInputStream()));
+	        	log.error("########m 시작 7 c ::  " + new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        	log.error("########m 시작 7-1  ::  commonKfbApi()");
+	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	        	
+	        	String line 		= "";
+	            while((line = br.readLine()) != null) {
+		        	log.error("########m 시작 7-2  ::  "+line);
+	            	sb.append(line);
+	            }
+	            
+	            br.close();
 				
-				while((line = br.readLine()) != null) {
-					sb.append(line);
-				}
 				
 				JSONObject responseJson = new JSONObject(sb.toString());
+	            log.error("########m 시작 8  ::  commonKfbApi()");
+	            
+	            String resCode = "000";
+	            String resMsg = "res_msg :: null";
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+	            }
+	            
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            }
+	            
+	            KfbApiDomain logParam = new KfbApiDomain();
+	            //응답 이력 저장
+	            logParam.setToken("서버상태확인");
+	            logParam.setUrl("/loan/v1/health-check");
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
+	            logParam.setResData(responseJson.toString());
+	            
+	            log.error("########m 시작 9  ::  commonKfbApi()");
+	            
+	            this.insertKfbApiResLog(logParam);
 				conn.disconnect();
 				return new ResponseMsg(HttpStatus.OK, result, responseJson, "성공");
 			}else {
@@ -336,6 +370,10 @@ public class KfbApiService {
 			param += "&ci="+reqParam.getString("ci");
 			param += "&loan_type="+reqParam.getString("loan_type");
 			
+			
+			log.error("########m 시작 #############################  ::  checkLoan()");
+			log.error("########m 시작 #############################  ::  checkLoan()");
+			
 			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl+param);
 			HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
@@ -352,10 +390,14 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+
+	    	log.error("########m 1  ::  checkLoan()");
 	        //요청 결과
 	        int responseCode = conn.getResponseCode();
-	        
+
+	    	log.error("########m 2  ::  checkLoan()");
 	        if(responseCode == 200) {
+		    	log.error("########m 3  ::  checkLoan()");
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -365,30 +407,44 @@ public class KfbApiService {
 	            }
 	            
 	            br.close();
-	            
+
 	            //응답 JSON
+
 	            responseJson = new JSONObject(sb.toString());
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
+
+	            log.error("########m 4-1  ::  checkLoan()");
 	            
-	            log.info("#########################################");
-	            log.info("KfbApiService >> checkLoan() > responseJson :: 결과값 :: " + responseJson);
-	            log.info("#########################################");
-	            
-	            //결과
-	            if(responseJson.getString("res_code").equals("200")) {
-	            	//successCheck
-	            	successCheck = "success";
+	            String resCode = "000";
+	            String resMsg = "res_msg :: null";
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
 	            }
 	            
+	            log.error("########m 5  ::  checkLoan()");
+	            
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            }
+	            
+	            log.error("########m 6  ::  checkLoan()");
 	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
+		    	
+		    	
+	            log.error("#########################################");
+	            log.error("KfbApiService >> checkLoan() > responseJson :: 결과값 :: " + responseJson);
+	            log.error("#########################################");
+	            
+
+
+		    	log.error("########m 7  ::  checkLoan()");
 	            this.insertKfbApiResLog(logParam);
 	        	
 	        }else {
+		    	log.error("########m 1-1  ::  checkLoan()");
 		        log.info("#########################################");
 		        log.info("KfbApiService >> checkLoan() > 통신오류");
 		        log.info("#########################################");
@@ -406,10 +462,17 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  checkLoan()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException  ::  checkLoan()");
+	    	log.error(e.getMessage());
+	    	log.error(e.toString());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+	    	log.error("########m JSONException  ::  checkLoan()");
+	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
@@ -521,10 +584,16 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  preLoanIndv()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException  ::  preLoanIndv()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+	    	log.error("########m JSONException  ::  preLoanIndv()");
+	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
@@ -590,27 +659,31 @@ public class KfbApiService {
 	            
 	            br.close();
 	            
-	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
+	            String resCode = "000";
+	            String resMsg = "res_msg :: null";
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+	            }
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            }
 	            
-		        log.info("#########################################");
-		        log.info("KfbApiService >> loanIndv() > responseJson :: 결과값 :: " + responseJson);
-		        log.info("#########################################");
-		        
-		        //결과
-	            if(responseJson.getString("res_code").equals("200")) {
+	            //응답 이력 저장
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+	            
+
+	            //결과
+	            if(resCode.equals("200")) {
 	            	//successCheck
 	            	successCheck = "success";
 	            }
 	            
-	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
-	            logParam.setResData(responseJson.toString());
-	            this.insertKfbApiResLog(logParam);
+	            
 	            
 	        }else {
 		        log.info("#########################################");
@@ -630,10 +703,16 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  loanIndv()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException  ::  loanIndv()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+	    	log.error("########m JSONException  ::  loanIndv()");
+	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
@@ -737,10 +816,16 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  checkLoanCorp()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException  ::  checkLoanCorp()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+	    	log.error("########m JSONException  ::  checkLoanCorp()");
+	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
@@ -852,10 +937,16 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  preLoanCorp()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException  ::  preLoanCorp()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+	    	log.error("########m JSONException  ::  preLoanCorp()");
+	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
@@ -929,25 +1020,29 @@ public class KfbApiService {
 	            
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
+	            String resCode = "000";
+	            String resMsg = "res_msg :: null";
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+	            }
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            }
 	            
-		        log.info("#########################################");
-		        log.info("KfbApiService >> loanCorp() > responseJson :: 결과값 :: " + responseJson);
-		        log.info("#########################################");
-		        
-		        //결과
-	            if(responseJson.getString("res_code").equals("200")) {
+	            //응답 이력 저장
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+	            
+
+	            //결과
+	            if(resCode.equals("200")) {
 	            	//successCheck
 	            	successCheck = "success";
 	            }
 	            
-	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
-	            logParam.setResData(responseJson.toString());
-	            this.insertKfbApiResLog(logParam);
 	            
 	        }else {
 		        log.info("#########################################");
@@ -967,10 +1062,16 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  loanCorp()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException  ::  loanCorp()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+	    	log.error("########m JSONException  ::  loanCorp()");
+	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    }
@@ -1089,10 +1190,16 @@ public class KfbApiService {
 	        
 	    } catch (MalformedURLException e) {
 	        e.printStackTrace();
+	    	log.error("########m MalformedURLException  ::  violation()");
+	    	log.error(e.getMessage());
 	    } catch (IOException e) {
 	        e.printStackTrace();
+	    	log.error("########m IOException  ::  violation()");
+	    	log.error(e.getMessage());
 	    } catch (JSONException e) {
 	        log.info("not JSON Format response");
+	    	log.error("########m JSONException  ::  violation()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    }
 	    
@@ -1119,6 +1226,8 @@ public class KfbApiService {
         	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : method형식을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
         }
         
+        log.error("########m 시작 1111111  ::  commonKfbApi()");
+        
 	    try {
 			String connUrl 	= apiNm;
 			String param 	= "";
@@ -1141,9 +1250,15 @@ public class KfbApiService {
 				connUrl = connUrl + param;
 			}
 	    	
+			
+			log.error("########m 시작 2  ::  commonKfbApi()");
+			
 	        //URL 설정
 	        URL url 				= new URL(connUrl);
 	        HttpURLConnection conn 	= (HttpURLConnection)url.openConnection();
+	        
+	        
+	        log.error("########m 시작 3  ::  commonKfbApi()");
 	        
 	        conn.setRequestMethod(methodType);
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
@@ -1153,6 +1268,8 @@ public class KfbApiService {
 	        if(methodType.equals("POST") || methodType.equals("PUT")) {
 	        	conn.setDoOutput(true);
 		        if(reqParam != null) {
+		        	
+		        	log.error("########m 시작 3 - 1  ::  commonKfbApi()");
 			        //요청 데이터 전송
 					OutputStream os = null;
 					os = conn.getOutputStream(); 
@@ -1161,6 +1278,10 @@ public class KfbApiService {
 					os.close();
 		        }
 	        }
+	        
+	        
+	        log.error("########m 시작 4 ::  commonKfbApi()");
+	        
 	        
 	        //요청 이력 저장
 	        KfbApiDomain logParam = new KfbApiDomain();
@@ -1171,52 +1292,103 @@ public class KfbApiService {
 	        }
 	        this.insertKfbApiReqLog(logParam);
 	        
+	        
+	        log.error("########m 시작 5  ::  commonKfbApi()");
+	        
 	        //요청 결과
 	        int responseCode = conn.getResponseCode();
+	        
+	        
+	        log.error("########m 시작 6  ::  commonKfbApi()");
+	        
 	        if(responseCode == 200) {
 	        	
+	        	
+	        	log.error("########m 시작 7  ::  commonKfbApi()");
+
+	        	log.error("########m 시작 7 a ::  " + conn.getInputStream());
+	        	log.error("########m 시작 7 b ::  " + new InputStreamReader(conn.getInputStream()));
+	        	log.error("########m 시작 7 c ::  " + new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	BufferedReader br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        	log.error("########m 시작 7-1  ::  commonKfbApi()");
 	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	        	
 	        	String line 		= "";
+	        	log.error("########m 시작 7-1 a  ::  " );
+	        	
 	            while((line = br.readLine()) != null) {
+		        	log.error("########m 시작 7-2  ::  "+line);
 	            	sb.append(line);
 	            }
 	            
 	            br.close();
 	            
-	            responseJson = new JSONObject(sb.toString());
 	            
+	            
+	            log.error("########m 시작 8  ::  commonKfbApi()");
+	            responseJson = new JSONObject(sb.toString());
+	            log.error("########m 시작 8-1  ::  commonKfbApi() " + responseJson.toString());
+	            String resCode = "000";
+	            String resMsg = "res_msg :: null";
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+	            }
+	            
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            }
+	            
+	            
+	            
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
+	            logParam.setResData(responseJson.toString());
+	            
+	            
+	            
+	            log.error("########m 시작 9  ::  commonKfbApi()");
+	            
+	            this.insertKfbApiResLog(logParam);
+	            conn.disconnect();
+	            
+
 	            //결과
-	            if(responseJson.getString("res_code").equals("200")) {
+	            if(resCode.equals("200")) {
 	            	//successCheck
 	            	successCheck = "success";
 	            }
 	            
-	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(responseJson.getString("res_msg"));
-	            logParam.setResData(responseJson.toString());
-	            this.insertKfbApiResLog(logParam);
 	            
+	            log.error("########m 시작 10  ::  commonKfbApi()");
 	            
 	            return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, responseJson.getString("res_msg"));
-	            
 	        }else {
+	            log.error("########m error 1-1  ::  commonKfbApi()");
 	        	// 통신오류 - 응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("HTTP Method [" + methodType + "] :: commonKfbApi() 메소드 확인 필요");
 	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
-	        	
+	            conn.disconnect();
 	        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API통신오류 : 시스템관리자에게 문의해 주세요.");
 	        }
 	        
+	        
 	    } catch (MalformedURLException e) {
+	    	log.error("########m MalformedURLException  ::  commonKfbApi()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+	    	log.error("########m IOException   ::  commonKfbApi()");
+	    	log.error(e.getMessage());
+	    	log.error(e.toString());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
-	        log.info("not JSON Format response");
+	    	log.error("########m JSONException   ::  commonKfbApi()");
+	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    }
 	    return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
