@@ -286,11 +286,11 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('CLS001','1','개인','개인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
 	 ('CLS001','2','법인','법인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('CLS001','3','법인사용인','법인사용인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
-	 ('CAR001','1','신규','신규',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
-	 ('CAR001','2','경력','경력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
-	 ('PRD001','01','대출','대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('CAR001','1','신규','신규','Y','Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL), -- 고도화(property 값 수정)
+	 ('CAR001','2','경력','경력','Y','Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL), -- 고도화(property 값 수정)
+	 ('PRD001','01','대출','대출','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL), -- 고도화(property 값 수정)
 	 ('PRD001','03','TM대출','TM대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','05','리스','리스',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('PRD001','05','리스','리스','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL), -- 고도화(property 값 수정)
 	 ('PRD001','06','TM리스','TM리스',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('ADD001','1','서울','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:39.107933',NULL,NULL),
@@ -323,8 +323,8 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('MEM001','2','가승인','가승인',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-07 09:57:26.875467',NULL,NULL),
 	 ('FTM001','1','상근','상근',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('FTM001','2','비상근','비상근',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
-	 ('EXP001','1','전문인력','전문인력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
-	 ('EXP001','2','비전문인력','비전문인력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('EXP001','1','전문인력','전문인력','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL), -- 고도화(property 값 수정)
+	 ('EXP001','2','비전문인력','비전문인력','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL), -- 고도화(property 값 수정)
 	 ('CRE001','1','실무자','실무자',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:17.163737',NULL,NULL),
 	 ('CRE001','2','관리자','관리자',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL),
 	 ('CPT001','1','엑셀','엑셀',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-05-11 11:20:45.405173',NULL,NULL),
@@ -379,7 +379,7 @@ INSERT INTO tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_des
 	 ('MAS001','9','완료','완료',NULL,'Y',NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:18.264646',NULL,NULL),
 	 ('MAS001','10','등록요건 불충족','등록요건 불충족','Y',NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','11','보완 미이행','보완 미이행',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
-	 ('MAS001','12','등록수수료 미결제','등록수수료 미결제',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL);
+	 ('MAS001','12','등록수수료 미결제','등록수수료 미결제',NULL,NULL,NULL,NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','13','승인일홀딩','승인일홀딩',NULL,NULL,'Y',NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL);
 	 
 	 
@@ -453,6 +453,44 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 -- 현업 교육이수 데이터 추가 --
 
 
+/************************************************************** 고도화 관련 추가 S **************************************************************/
+-- 컬럼 추가
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr varchar(2); 			-- 등록기준지 주소 코드
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr_detail varchar(200); 	-- 등록기준지 상세 주소
+ALTER TABLE tb_lc_mas01 ADD COLUMN other_field varchar(100); 		-- 영위하는 다른 업종
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr varchar(100); 		-- 관할 검찰청 또는 지청
+
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr varchar(2);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr_detail varchar(200);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN other_field varchar(100);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr varchar(100);
+
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 		-- 직위
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 		-- 임원자격 적합여부
+
+-- 코드(property 값 수정)
+CAR001 : 2개 모두 property01,property02 값 Y로 수정
+PRD001 : 01,05만 property01 값 Y로 수정				-> BO영향 없음
+EXP001 : 1,2만 property01 값 Y로 수정
+
+-- 코드(추가)
+INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('PST001','직위','직위',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('QUA001','임원자격 적합여부','임원자격 적합여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('PST001','1','대표이사','대표이사',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
+	 ('PST001','2','임원','임원',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('QUA001','1','적합','적합',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('QUA001','2','부적합','부적합',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
+	 ('EXP001','3','업무수행인력','업무수행인력',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('EXP001','4','전산설비인력','전산설비인력',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('EXP001','5','미해당','미해당',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
+	 ('MAS001','14','승인요청취소','승인요청취소',NULL,NULL,'Y',NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
+	 ('MAS001','15','회원사 확인요청','회원사 확인요청',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('MAS001','16','승인거절','승인거절',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('CAR001','3','미해당','미해당',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL);
+/************************************************************** 고도화 관련 추가 E **************************************************************/
 	 
 	 
 	 
