@@ -216,6 +216,10 @@ create table tb_lc_mas01(
 	, pl_cellphone varchar(20)
 	, addr varchar(2)
 	, addr_detail varchar(200)
+	
+	, reg_addr varchar(2)
+	, reg_addr_detail varchar(200)
+	
 	, pl_edu_no varchar(30)
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
@@ -229,6 +233,10 @@ create table tb_lc_mas01(
 	, corp_found_date varchar(8)
 	, capital varchar(20)
 	, voting_stock_cnt varchar(20)
+	
+	, other_field varchar(100)
+	, within_govr varchar(100)
+	
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	
@@ -288,6 +296,10 @@ COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id_edu IS '교육수료대조(주민등록�
 COMMENT ON COLUMN tb_lc_mas01.pl_cellphone IS '모집인휴대전화번호';
 COMMENT ON COLUMN tb_lc_mas01.addr IS '본점소재지(코드)';
 COMMENT ON COLUMN tb_lc_mas01.addr_detail IS '상세주소(법인등기부등본상)';
+
+COMMENT ON COLUMN tb_lc_mas01.reg_addr IS '등록기준지(코드)';
+COMMENT ON COLUMN tb_lc_mas01.reg_addr_detail IS '등록기준지 상세주소';
+
 COMMENT ON COLUMN tb_lc_mas01.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01.career_end_date IS '경력종료일';
@@ -300,6 +312,10 @@ COMMENT ON COLUMN tb_lc_mas01.comp_phone_no IS '회원사대표번호';
 COMMENT ON COLUMN tb_lc_mas01.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 총수';
+
+COMMENT ON COLUMN tb_lc_mas01.other_field IS '영위하는 다른 업종';
+COMMENT ON COLUMN tb_lc_mas01.within_govr IS '관할 검찰청 또는 지청';
+
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 
@@ -359,6 +375,10 @@ create table tb_lc_mas01_imwon(
 	, career_end_date varchar(8)
 	, full_tm_stat char(1)
 	, expert_stat char(1)
+	
+	, position_cd char(1)
+	, proper_cd char(1)
+	
 	, file_seq integer
 	
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
@@ -382,6 +402,10 @@ COMMENT ON COLUMN tb_lc_mas01_imwon.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_end_date IS '경력종료일';
 COMMENT ON COLUMN tb_lc_mas01_imwon.full_tm_stat IS '상근상태';
 COMMENT ON COLUMN tb_lc_mas01_imwon.expert_stat IS '전문인력상태';
+
+COMMENT ON COLUMN tb_lc_mas01_imwon.position_cd IS '직위';
+COMMENT ON COLUMN tb_lc_mas01_imwon.proper_cd IS '임원자격 적합여부';
+
 COMMENT ON COLUMN tb_lc_mas01_imwon.file_seq IS '파일시퀀스';
 
 COMMENT ON COLUMN tb_lc_mas01_imwon.use_yn IS '사용여부';
@@ -575,6 +599,10 @@ create table tb_lc_mas01_hist(
 	, pl_cellphone varchar(20)
 	, addr varchar(2)
 	, addr_detail varchar(200)
+	
+	, reg_addr varchar(2)
+	, reg_addr_detail varchar(200)
+	
 	, pl_edu_no varchar(30)
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
@@ -588,6 +616,10 @@ create table tb_lc_mas01_hist(
 	, corp_found_date varchar(8)
 	, capital varchar(20)
 	, voting_stock_cnt varchar(20)
+	
+	, other_field varchar(100)
+	, within_govr varchar(100)
+	
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	
@@ -648,6 +680,10 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id_edu IS '교육수료대조(주민�
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_cellphone IS '모집인휴대전화번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.addr IS '본점소재지(코드)';
 COMMENT ON COLUMN tb_lc_mas01_hist.addr_detail IS '상세주소(법인등기부등본상)';
+
+COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr IS '등록기준지(코드)';
+COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr_detail IS '등록기준지 상세주소';
+
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_end_date IS '경력종료일';
@@ -660,6 +696,10 @@ COMMENT ON COLUMN tb_lc_mas01_hist.comp_phone_no IS '회원사대표번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행주식 총수';
+
+COMMENT ON COLUMN tb_lc_mas01_hist.other_field IS '영위하는 다른 업종';
+COMMENT ON COLUMN tb_lc_mas01_hist.within_govr IS '관할 검찰청 또는 지청';
+
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 
