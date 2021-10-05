@@ -119,7 +119,7 @@ public class RecruitController {
 	
 	// 상태변경처리
 	@PostMapping(value="/recruit/updatePlStat")
-	public ResponseEntity<ResponseMsg> updateRecruitPlStat(RecruitDomain recruitDomain){
+	public ResponseEntity<ResponseMsg> updateRecruitPlStat(RecruitDomain recruitDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(recruitService.updateRecruitPlStat(recruitDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);

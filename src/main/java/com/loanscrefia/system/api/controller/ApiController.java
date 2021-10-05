@@ -1,5 +1,6 @@
 package com.loanscrefia.system.api.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class ApiController {
 	
 	// API네트워크 및 서버상태 확인
 	@PostMapping(value="/api/getHealthCheck")
-	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain){
+	public ResponseEntity<ResponseMsg> getHealthCheck(KfbApiDomain kfbApiDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		responseMsg = kfbApiService.getHealthCheck(KfbApiService.ApiDomain);
 		KfbApiDomain kfbApiResultDomain = new KfbApiDomain();
@@ -83,7 +84,7 @@ public class ApiController {
 	
 	// API코드발급
 	@PostMapping(value="/api/getApiCode")
-	public ResponseEntity<ResponseMsg> getApiCode(KfbApiDomain kfbApiDomain){
+	public ResponseEntity<ResponseMsg> getApiCode(KfbApiDomain kfbApiDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		//responseMsg.setData(kfbApiService.getAuthCode());
 		String authCode = kfbApiService.getAuthCode();
@@ -94,7 +95,7 @@ public class ApiController {
 	
 	// API토큰발급
 	@PostMapping(value="/api/getAuthToken")
-	public ResponseEntity<ResponseMsg> getAuthToken(KfbApiDomain kfbApiDomain){
+	public ResponseEntity<ResponseMsg> getAuthToken(KfbApiDomain kfbApiDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		responseMsg = kfbApiService.getAuthToken();
 		KfbApiDomain kfbApiResultDomain = new KfbApiDomain();
@@ -125,7 +126,7 @@ public class ApiController {
 	
 	//가등록번호 조회 팝업
 	@GetMapping("/api/apiPreSearchPopup")
-    public ModelAndView apiPreSearchPopup(RecruitDomain recruitSearchDomain) {
+    public ModelAndView apiPreSearchPopup(RecruitDomain recruitSearchDomain) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
     	ModelAndView mv = new ModelAndView(CosntPage.Popup+"/apiSearchPopup");
     	
@@ -257,7 +258,7 @@ public class ApiController {
 	
 	//등록번호 조회 팝업
 	@GetMapping("/api/apiSearchPopup")
-    public ModelAndView apiSearchPopup(RecruitDomain recruitSearchDomain) {
+    public ModelAndView apiSearchPopup(RecruitDomain recruitSearchDomain) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
     	ModelAndView mv = new ModelAndView(CosntPage.Popup+"/apiSearchPopup");
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
@@ -394,7 +395,7 @@ public class ApiController {
 	
 	// 가등록번호로 본등록번호 등록 배치
 	@PostMapping(value="/api/apiBatch")
-	public ResponseEntity<ResponseMsg> apiBatch(KfbApiDomain kfbApiDomain){
+	public ResponseEntity<ResponseMsg> apiBatch(KfbApiDomain kfbApiDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		UserDomain userSearchDomain = new UserDomain();
 		List<UserDomain> userList = userRepo.selectApiBatchList(userSearchDomain);
@@ -457,7 +458,7 @@ public class ApiController {
 	
 	// 가등록번호로 본등록번호 수동등록
 	@PostMapping(value="/api/apiReg")
-	public ResponseEntity<ResponseMsg> apiReg(UserDomain userSearchDomain){
+	public ResponseEntity<ResponseMsg> apiReg(UserDomain userSearchDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		UserDomain userResult = userRepo.getApiReg(userSearchDomain);
@@ -519,7 +520,7 @@ public class ApiController {
 	
 	// 승인완료인 건 결제정보가 있을시 자격취득으로 변경
 	@PostMapping(value="/api/apiApplyReg")
-	public ResponseEntity<ResponseMsg> apiApplyReg(KfbApiDomain kfbApiDomain){
+	public ResponseEntity<ResponseMsg> apiApplyReg(KfbApiDomain kfbApiDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		UserDomain userSearchDomain = new UserDomain();
 		List<UserDomain> userList = userRepo.selectApiApplyList(userSearchDomain);

@@ -1,5 +1,6 @@
 package com.loanscrefia.front.search.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,21 +46,21 @@ public class SearchController {
 	
 	//대출모집인 조회 : 개인
 	@PostMapping(value="/indvUserSearch")
-	public ResponseEntity<ResponseMsg> indvUserSearch(SearchDomain searchDomain){
+	public ResponseEntity<ResponseMsg> indvUserSearch(SearchDomain searchDomain) throws IOException{
 		ResponseMsg responseMsg = searchService.selectIndvUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//대출모집인 조회 : 법인
 	@PostMapping(value="corpUserSearch")
-	public ResponseEntity<ResponseMsg> corpUserSearch(SearchDomain searchDomain){
+	public ResponseEntity<ResponseMsg> corpUserSearch(SearchDomain searchDomain) throws IOException{
 		ResponseMsg responseMsg = searchService.selectCorpUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//대출모집인 조회 결과 페이지
 	@PostMapping(value="/userSearchResult")
-	public ModelAndView userSearchResult(SearchDomain searchDomain){
+	public ModelAndView userSearchResult(SearchDomain searchDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		ModelAndView mv = new ModelAndView(CosntPage.FoSearchPage+"/userSearchResult");
 		

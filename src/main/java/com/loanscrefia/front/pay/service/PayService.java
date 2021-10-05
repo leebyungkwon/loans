@@ -1,5 +1,6 @@
 package com.loanscrefia.front.pay.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +35,7 @@ public class PayService {
 	
 	//결제정보 저장
 	@Transactional
-	public boolean insertPayResult(PayDomain payDomain) {
+	public boolean insertPayResult(PayDomain payDomain) throws IOException {
 		
 		boolean goAcqUpdate = true;
 		SearchDomain param 	= new SearchDomain();
@@ -186,7 +187,7 @@ public class PayService {
 	
 	//승인완료 -> 자격취득(API)
 	@Transactional
-	public boolean updatePayResultApi(SearchDomain searchDomain) {
+	public boolean updatePayResultApi(SearchDomain searchDomain) throws IOException {
 		List<SearchDomain> applyList = null;
 		if("1".equals(searchDomain.getPlClass())) {
 			applyList = searchService.selectPrevIndvPaySearchResult(searchDomain);

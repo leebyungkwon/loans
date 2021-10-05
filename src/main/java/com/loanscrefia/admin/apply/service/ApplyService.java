@@ -1,5 +1,6 @@
 package com.loanscrefia.admin.apply.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -984,7 +985,7 @@ public class ApplyService {
 	
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
-	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain){
+	public ResponseMsg updateApplyPlStat(ApplyDomain applyDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		ApplyDomain statCheck = applyRepository.getApplyDetail(applyDomain);
 		
@@ -1354,7 +1355,7 @@ public class ApplyService {
 	
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
-	public ResponseMsg updateApplyListPlStat(List<ApplyDomain> applyDomainList){
+	public ResponseMsg updateApplyListPlStat(List<ApplyDomain> applyDomainList) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
 		// API성공여부
 		List<EmailDomain> resultEmail = new ArrayList<EmailDomain>();

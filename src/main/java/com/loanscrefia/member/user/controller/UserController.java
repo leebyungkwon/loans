@@ -174,14 +174,14 @@ public class UserController {
 	
 	//등록 처리(엑셀 업로드) : 개인
 	@PostMapping(value="/user/insertUserRegIndvInfoByExcel")
-	public ResponseEntity<ResponseMsg> insertUserRegIndvInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+	public ResponseEntity<ResponseMsg> insertUserRegIndvInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain) throws IOException{
 		ResponseMsg responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//등록 처리(엑셀 업로드) : 법인
 	@PostMapping(value="/user/insertUserRegCorpInfoByExcel")
-	public ResponseEntity<ResponseMsg> insertUserRegCorpInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain){
+	public ResponseEntity<ResponseMsg> insertUserRegCorpInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain) throws IOException{
 		ResponseMsg responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -372,14 +372,14 @@ public class UserController {
 	
 	//삭제
 	@PostMapping(value="/user/deleteUserRegInfo")
-	public ResponseEntity<ResponseMsg> deleteUserRegInfo(UserDomain userDomain){
+	public ResponseEntity<ResponseMsg> deleteUserRegInfo(UserDomain userDomain) throws IOException{
 		ResponseMsg responseMsg = userService.deleteUserRegInfo(userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//선택 삭제
 	@PostMapping(value="/user/deleteSelectedUserRegInfo")
-	public ResponseEntity<ResponseMsg> deleteSelectedUserRegInfo(UserDomain userDomain){
+	public ResponseEntity<ResponseMsg> deleteSelectedUserRegInfo(UserDomain userDomain) throws IOException{
 		ResponseMsg responseMsg = userService.deleteSelectedUserRegInfo(userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -440,7 +440,7 @@ public class UserController {
 	
 	//즉시취소
 	@PostMapping(value="/confirm/userCancel")
-    public ResponseEntity<ResponseMsg> userCancel(UserDomain userDomain) {
+    public ResponseEntity<ResponseMsg> userCancel(UserDomain userDomain) throws IOException {
 		ResponseMsg responseMsg = userService.userCancel(userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
     }

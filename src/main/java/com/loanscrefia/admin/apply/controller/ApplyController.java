@@ -162,7 +162,7 @@ public class ApplyController {
 	
 	// 상태변경처리
 	@PostMapping(value="/apply/updatePlStat")
-	public ResponseEntity<ResponseMsg> updateRecruitPlStat(ApplyDomain applyDomain){
+	public ResponseEntity<ResponseMsg> updateRecruitPlStat(ApplyDomain applyDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(applyService.updateApplyPlStat(applyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
@@ -682,7 +682,7 @@ public class ApplyController {
 	
 	// 상태변경처리
 	@PostMapping(value="/apply/checkboxUpdatePlStat")
-	public ResponseEntity<ResponseMsg> checkboxUpdatePlStat(ApplyDomain applyDomain){
+	public ResponseEntity<ResponseMsg> checkboxUpdatePlStat(ApplyDomain applyDomain) throws IOException{
 		ResponseMsg responseMsg = applyService.checkboxUpdatePlStat(applyDomain);
 		List<ApplyDomain> applyResult = (List<ApplyDomain>) responseMsg.getData();
 		if(applyResult != null) { 

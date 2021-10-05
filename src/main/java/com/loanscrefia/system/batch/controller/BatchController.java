@@ -1,5 +1,7 @@
 package com.loanscrefia.system.batch.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -81,7 +83,7 @@ public class BatchController {
 	//매일0시1분
 	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
-    public void apiKeyConnection() {
+    public void apiKeyConnection() throws IOException {
     	log.info("================ apiAuthToken() START ================");
     	kfbApiService.getAuthToken();
     	log.info("================ apiAuthToken() END ================");

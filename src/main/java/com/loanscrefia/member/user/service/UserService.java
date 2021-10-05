@@ -1,5 +1,6 @@
 package com.loanscrefia.member.user.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -254,7 +255,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 개인
 	@Transactional
-	public ResponseMsg insertUserRegIndvInfoByExcel(MultipartFile[] files, UserDomain userDomain){
+	public ResponseMsg insertUserRegIndvInfoByExcel(MultipartFile[] files, UserDomain userDomain) throws IOException{
 		
 		//세션 정보
 		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -434,7 +435,7 @@ public class UserService {
 	
 	//모집인 등록(엑셀) > 법인
 	@Transactional
-	public ResponseMsg insertUserRegCorpInfoByExcel(MultipartFile[] files, UserDomain userDomain){
+	public ResponseMsg insertUserRegCorpInfoByExcel(MultipartFile[] files, UserDomain userDomain) throws IOException{
 		
 		//세션 정보
 		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -1768,7 +1769,7 @@ public class UserService {
 	
 	//모집인 등록 > 삭제 
 	@Transactional
-	public ResponseMsg deleteUserRegInfo(UserDomain userDomain){
+	public ResponseMsg deleteUserRegInfo(UserDomain userDomain) throws IOException{
 		//상태값 체크*****
 		this.userValidation(userDomain.getMasterSeq());
 		
@@ -1859,7 +1860,7 @@ public class UserService {
 	
 	//모집인 등록 > 선택 삭제
 	@Transactional
-	public ResponseMsg deleteSelectedUserRegInfo(UserDomain userDomain){
+	public ResponseMsg deleteSelectedUserRegInfo(UserDomain userDomain) throws IOException{
 		
 		int[] masterSeqArr 	= userDomain.getMasterSeqArr();
 		int deleteResult 	= 0;
@@ -2062,7 +2063,7 @@ public class UserService {
 	
 	//즉시취소
 	@Transactional
-	public ResponseMsg userCancel(UserDomain userDomain){
+	public ResponseMsg userCancel(UserDomain userDomain) throws IOException{
 		
 		//상세
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(userDomain);

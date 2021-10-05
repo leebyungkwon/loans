@@ -1,5 +1,6 @@
 package com.loanscrefia.admin.recruit.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -879,7 +880,7 @@ public class RecruitService {
 	
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional
-	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain){
+	public ResponseMsg updateRecruitPlStat(RecruitDomain recruitDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		RecruitDomain statCheck = recruitRepository.getRecruitDetail(recruitDomain);
 		

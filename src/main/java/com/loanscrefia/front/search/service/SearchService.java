@@ -1,5 +1,6 @@
 package com.loanscrefia.front.search.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class SearchService {
 	private KfbApiRepository kfbApiRepository;
 	
 	//모집인 조회 : 개인(결제)
-	public ResponseMsg selectPayIndvUserInfo(SearchDomain searchDomain) {
+	public ResponseMsg selectPayIndvUserInfo(SearchDomain searchDomain) throws IOException {
 		
 		//검색어
 		String plMZIdFront 	= searchDomain.getPlMZIdFront();
@@ -151,7 +152,7 @@ public class SearchService {
 	}
 	
 	//모집인 조회 : 법인(결제)
-	public ResponseMsg selectPayCorpUserInfo(SearchDomain searchDomain) {
+	public ResponseMsg selectPayCorpUserInfo(SearchDomain searchDomain) throws IOException {
 		//검색어 암호화
 		if(StringUtils.isNotEmpty(searchDomain.getPlMerchantNo())) {
 			searchDomain.setPlMerchantNo(CryptoUtil.encrypt(searchDomain.getPlMerchantNo()));
@@ -248,7 +249,7 @@ public class SearchService {
 	}
 
 	//모집인 조회 : 개인
-	public ResponseMsg selectIndvUserInfo(SearchDomain searchDomain) {
+	public ResponseMsg selectIndvUserInfo(SearchDomain searchDomain) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		// 2021-07-10 은행연합회 API 통신 - 개인조회
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
@@ -272,7 +273,7 @@ public class SearchService {
 	}
 	
 	//모집인 조회 : 법인
-	public ResponseMsg selectCorpUserInfo(SearchDomain searchDomain) {
+	public ResponseMsg selectCorpUserInfo(SearchDomain searchDomain) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		// 2021-07-10 은행연합회 API 통신 - 법인조회
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();

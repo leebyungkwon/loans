@@ -1,5 +1,6 @@
 package com.loanscrefia.front.pay.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,14 +39,14 @@ public class PayController {
 	
 	//모집인 결제 > 모집인 조회 : 개인
 	@PostMapping(value="/pay/payIndvUserSearch")
-	public ResponseEntity<ResponseMsg> payIndvUserSearch(SearchDomain searchDomain) {
+	public ResponseEntity<ResponseMsg> payIndvUserSearch(SearchDomain searchDomain) throws IOException {
 		ResponseMsg responseMsg = searchService.selectPayIndvUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//모집인 결제 > 모집인 조회 : 법인
 	@PostMapping(value="/pay/payCorpUserSearch")
-	public ResponseEntity<ResponseMsg> payCorpUserSearch(SearchDomain searchDomain) {
+	public ResponseEntity<ResponseMsg> payCorpUserSearch(SearchDomain searchDomain) throws IOException {
 		ResponseMsg responseMsg = searchService.selectPayCorpUserInfo(searchDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -69,7 +70,7 @@ public class PayController {
 	
 	//[allAt]결제 승인요청 및 결과수신 페이지
 	@PostMapping(value="/pay/allatApproval")
-	public ModelAndView allatApproval(HttpServletRequest request) {
+	public ModelAndView allatApproval(HttpServletRequest request) throws IOException {
 		
 		System.out.println("PayController > allatApproval() >> result :::::::: 결과값 작업진행 :::::::::::::");
 		
@@ -221,7 +222,7 @@ public class PayController {
 	
 	//결제 테스트용[추후 삭제]
 	@PostMapping(value="/pay/payTest")
-	public ResponseEntity<ResponseMsg> payTest(PayDomain payDomain) {
+	public ResponseEntity<ResponseMsg> payTest(PayDomain payDomain) throws IOException {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
 		responseMsg.setData(payService.insertPayResult(payDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
