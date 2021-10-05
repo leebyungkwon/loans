@@ -532,7 +532,7 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				--%>
 				<tr>
-					<th class="acenter">휴대폰 명의 확인서(휴대폰번호 변경 시)</th>
+					<th class="acenter">정보변경 관련 서류<br>(개명시에는 주민등록초본 첨부 필요)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType11 ne null }">
