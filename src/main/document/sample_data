@@ -469,7 +469,7 @@ ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 		-- 직위
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 		-- 임원자격 적합여부
 
 -- 코드(property 값 수정)
-CAR001 : 2개 모두 property01,property02 값 Y로 수정
+CAR001 : 1,2만 모두 property01,property02 값 Y로 수정
 PRD001 : 01,05만 property01 값 Y로 수정				-> BO영향 없음
 EXP001 : 1,2만 property01 값 Y로 수정
 
