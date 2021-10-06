@@ -93,6 +93,15 @@ public class KfbApiService {
 		
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
+		JSONObject responseJson = new JSONObject();
 		
 		try {
 			//URL 설정
@@ -107,11 +116,21 @@ public class KfbApiService {
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
 			
+			
+			
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken("");
+	        newLogParam.setUrl(this.getApiDomain()+AuthCodeUrl);
+	        newLogParam.setSendData("getHealthCheck");
+	        newLogParam.setSendUser(1);
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+			
 			//요청 결과
-			int responseCode = conn.getResponseCode();
+			responseCode = conn.getResponseCode();
 			
 			if(responseCode == 200) {
 				result = "success";
+				apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -121,11 +140,9 @@ public class KfbApiService {
 	            
 	            br.close();
 				
-				JSONObject responseJson = new JSONObject(sb.toString());
+				responseJson = new JSONObject(sb.toString());
 	            log.error("########m 시작 8  ::  commonKfbApi()");
 	            
-	            String resCode = "000";
-	            String resMsg = "res_msg :: null";
 	            if(!responseJson.isNull("res_code")) {
 	            	resCode = responseJson.getString("res_code");
 	            }
@@ -146,15 +163,32 @@ public class KfbApiService {
 				conn.disconnect();
 				return new ResponseMsg(HttpStatus.OK, result, responseJson, "성공");
 			}else {
+				apiCheck = false;
 				conn.disconnect();
 				return new ResponseMsg(HttpStatus.OK, result, null, "실패");
 			}
 			
 			
 		} catch (Exception e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
+			
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
 			
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
@@ -376,6 +410,18 @@ public class KfbApiService {
 		kfbApiRepo.insertKfbApiResLog(kfbApiDomain);
 	}
 	
+	//API 로그 INSERT
+	@Transactional
+	public int insertNewKfbApiLog(KfbApiDomain kfbApiDomain) {
+		return kfbApiRepo.insertNewKfbApiLog(kfbApiDomain);
+	}
+	
+	//API 로그 UPDATE
+	@Transactional
+	public int updateNewKfbApiLog(KfbApiDomain kfbApiDomain) {
+		return kfbApiRepo.updateNewKfbApiLog(kfbApiDomain);
+	}
+	
 	//은행연합회 토큰 조회
 	@Transactional(readOnly=true)
 	public String selectKfbApiKey(KfbApiDomain kfbApiDomain) {
@@ -398,6 +444,14 @@ public class KfbApiService {
 		
 		int TIMEOUT_VALUE = 3000;		// 3초
 		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
+		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
 		}else {
@@ -412,9 +466,6 @@ public class KfbApiService {
 			param += "&ssn="+reqParam.getString("ssn");
 			param += "&ci="+reqParam.getString("ci");
 			param += "&loan_type="+reqParam.getString("loan_type");
-			
-			log.error("########m 시작 #############################  ::  checkLoan()");
-			log.error("########m 시작 #############################  ::  checkLoan()");
 			
 			//URL 설정
 			URL url 				= new URL(this.getApiDomain()+CheckLoanUrl+param);
@@ -436,13 +487,16 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
-	    	log.error("########m 1  ::  checkLoan()");
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+CheckLoanUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
 	    	
-	        int responseCode = conn.getResponseCode();
-
-	    	log.error("########m 2  ::  checkLoan()");
+	        responseCode = conn.getResponseCode();
+	        
 	        if(responseCode == 200) {
-		    	log.error("########m 3  ::  checkLoan()");
+		    	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -452,51 +506,29 @@ public class KfbApiService {
 	            }
 	            
 	            br.close();
-
 	            responseJson = new JSONObject(sb.toString());
-	            log.error("########m 4-1  ::  checkLoan()");
-	            
-	            String resCode = "000";
-	            String resMsg = "res_msg :: null";
 	            if(!responseJson.isNull("res_code")) {
 	            	resCode = responseJson.getString("res_code");
+		            if(responseJson.getString("res_code").equals("200")) {
+		            	//successCheck
+		            	successCheck = "success";
+		            }
 	            }
-	            
-	            log.error("########m 5  ::  checkLoan()");
 	            if(!responseJson.isNull("res_msg")) {
 	            	resMsg = responseJson.getString("res_msg");
 	            }
-	            
-	            log.error("########m 6  ::  checkLoan()");
 	            //응답 이력 저장
 	            logParam.setResCode(resCode);
 	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
-		    	
-		    	
-	            log.error("#########################################");
-	            log.error("KfbApiService >> checkLoan() > responseJson :: 결과값 :: " + responseJson);
-	            log.error("#########################################");
-	            
-	            //결과
-	            if(responseJson.getString("res_code").equals("200")) {
-	            	//successCheck
-	            	successCheck = "success";
-	            }
-
-
-		    	log.error("########m 7  ::  checkLoan()");
 	            this.insertKfbApiResLog(logParam);
+	            conn.disconnect();
 	        	
 	        }else {
-		    	log.error("########m 1-1  ::  checkLoan()");
-		        log.info("#########################################");
-		        log.info("KfbApiService >> checkLoan() > 통신오류");
-		        log.info("#########################################");
-		        
+	        	apiCheck = false;
 		        //message
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        
+		        resExpMsg = message;
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("checkLoan() 메소드 확인 필요");
@@ -507,21 +539,41 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  checkLoan()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException  ::  checkLoan()");
 	    	log.error(e.getMessage());
 	    	log.error(e.toString());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException  ::  checkLoan()");
 	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    } finally {
-			
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
+	    	
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
 				conn.disconnect();
@@ -547,6 +599,16 @@ public class KfbApiService {
 		int TIMEOUT_VALUE = 3000;		// 3초
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
+		
+		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -595,10 +657,18 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+PreLoanUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
+	        responseCode = conn.getResponseCode();
 	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -609,36 +679,32 @@ public class KfbApiService {
 	            
 	            br.close();
 	            
-	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
-	            
-	            log.info("#########################################");
-	            log.info("KfbApiService >> preLoanIndv() > responseJson :: 결과값 :: " + responseJson);
-	            log.info("#########################################");
-	            
-	            //결과
-	            if(responseJson.getString("res_code").equals("200")) {
-	            	//successCheck
-	            	successCheck = "success";
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+		            if(responseJson.getString("res_code").equals("200")) {
+		            	//successCheck
+		            	successCheck = "success";
+		            }
+	            }
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            	message = responseJson.getString("res_msg");
 	            }
 	            
 	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
 	            
+	            conn.disconnect();
+	            
 	        }else {
-		        log.info("#########################################");
-		        log.info("KfbApiService >> preLoanIndv() > 통신오류");
-		        log.info("#########################################");
-		        
-		        //message
+	        	apiCheck = false;
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        
+		        resExpMsg = message;
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("HTTP Method [" + method + "] :: preLoanIndv() 메소드 확인 필요");
@@ -649,19 +715,38 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  preLoanIndv()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException  ::  preLoanIndv()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException  ::  preLoanIndv()");
 	    	log.error(e.getMessage());
-	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    } finally {
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
 			
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
@@ -688,6 +773,15 @@ public class KfbApiService {
 		int TIMEOUT_VALUE = 3000;		// 3초
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
+		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
 		
 		try {
 			//connect URL
@@ -730,10 +824,17 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+LoanUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
+	        responseCode = conn.getResponseCode();
 	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -745,8 +846,6 @@ public class KfbApiService {
 	            br.close();
 	            
 	            responseJson = new JSONObject(sb.toString());
-	            String resCode = "000";
-	            String resMsg = "res_msg :: null";
 	            if(!responseJson.isNull("res_code")) {
 	            	resCode = responseJson.getString("res_code");
 	            }
@@ -761,23 +860,19 @@ public class KfbApiService {
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
 	            
-
 	            //결과
 	            if(resCode.equals("200")) {
 	            	//successCheck
 	            	successCheck = "success";
 	            }
 	            
-	            
+	            conn.disconnect();
 	            
 	        }else {
-		        log.info("#########################################");
-		        log.info("KfbApiService >> loanIndv() > 통신오류");
-		        log.info("#########################################");
-		        
+	        	apiCheck = false;		        
 		        //message
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        
+		        resExpMsg = message;
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("HTTP Method [" + method + "] :: loanIndv() 메소드 확인 필요");
@@ -788,20 +883,40 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  loanIndv()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException  ::  loanIndv()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException  ::  loanIndv()");
 	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    } finally {
-			
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
+            
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
 				conn.disconnect();
@@ -832,6 +947,15 @@ public class KfbApiService {
 		int TIMEOUT_VALUE = 3000;		// 3초
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
+		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -867,10 +991,17 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+CheckLoanCorpUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
+	        responseCode = conn.getResponseCode();
 	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -884,57 +1015,76 @@ public class KfbApiService {
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+		            if(responseJson.getString("res_code").equals("200")) {
+		            	successCheck = "success";
+		            }
+	            }
 	            
-	            log.info("#########################################");
-	            log.info("KfbApiService >> checkLoanCorp() > responseJson :: 결과값 :: " + responseJson);
-	            log.info("#########################################");
-	            
-	            //결과
-	            if(responseJson.getString("res_code").equals("200")) {
-	            	//successCheck
-	            	successCheck = "success";
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+			        message = responseJson.getString("res_msg");
 	            }
 	            
 	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
+	            
+	            conn.disconnect();
 	        	
 	        }else {
-		        log.info("#########################################");
-		        log.info("KfbApiService >> checkLoanCorp() > 통신오류");
-		        log.info("#########################################");
-		        
+	        	apiCheck = false;
 		        //message
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        
+		        resExpMsg = message;
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("checkLoanCorp() 메소드 확인 필요");
 	            logParam.setResData("empty");
 	            this.insertKfbApiResLog(logParam);
+	            conn.disconnect();
 	        }
 	        
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  checkLoanCorp()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException  ::  checkLoanCorp()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException  ::  checkLoanCorp()");
 	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    } finally {
 			
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
+	    	
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
 				conn.disconnect();
@@ -960,6 +1110,15 @@ public class KfbApiService {
 		int TIMEOUT_VALUE = 3000;		// 3초
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
+		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -1008,10 +1167,17 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+PreLoanCorpUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
+	        responseCode = conn.getResponseCode();
 	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -1025,33 +1191,30 @@ public class KfbApiService {
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+		            if(responseJson.getString("res_code").equals("200")) {
+		            	successCheck = "success";
+		            }
+	            }
 	            
-	            log.info("#########################################");
-	            log.info("KfbApiService >> preLoanCorp() > responseJson :: 결과값 :: " + responseJson);
-	            log.info("#########################################");
-	            
-	            //결과
-	            if(responseJson.getString("res_code").equals("200")) {
-	            	//successCheck
-	            	successCheck = "success";
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+			        message = responseJson.getString("res_msg");
 	            }
 	            
 	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
-	            
+	            conn.disconnect();
 	        }else {
-		        log.info("#########################################");
-		        log.info("KfbApiService >> preLoanCorp() > 통신오류");
-		        log.info("#########################################");
-		        
+				apiCheck = false;
+				conn.disconnect();
 		        //message
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        
+		        resExpMsg = message;
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("HTTP Method [" + method + "] :: preLoanCorp() 메소드 확인 필요");
@@ -1062,20 +1225,40 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  preLoanCorp()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException  ::  preLoanCorp()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException  ::  preLoanCorp()");
 	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    } finally {
 			
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
+	    	
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
 				conn.disconnect();
@@ -1102,6 +1285,15 @@ public class KfbApiService {
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
 		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
+		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
 		}else {
@@ -1115,7 +1307,6 @@ public class KfbApiService {
 			//파라미터 설정
 			if(method.equals("GET") || method.equals("DELETE")) {
 				String param = "?pre_corp_lc_num="+reqParam.getString("pre_corp_lc_num");
-				
 				connUrl = connUrl + param;
 			}
 			
@@ -1149,10 +1340,17 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+LoanCorpUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
+	        responseCode = conn.getResponseCode();
 	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -1165,8 +1363,6 @@ public class KfbApiService {
 	            
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
-	            String resCode = "000";
-	            String resMsg = "res_msg :: null";
 	            if(!responseJson.isNull("res_code")) {
 	            	resCode = responseJson.getString("res_code");
 	            }
@@ -1180,22 +1376,21 @@ public class KfbApiService {
 	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
-	            
 
 	            //결과
 	            if(resCode.equals("200")) {
-	            	//successCheck
 	            	successCheck = "success";
 	            }
 	            
+	            conn.disconnect();
 	            
 	        }else {
-		        log.info("#########################################");
-		        log.info("KfbApiService >> loanCorp() > 통신오류");
-		        log.info("#########################################");
+				apiCheck = false;
+				conn.disconnect();
 		        
 		        //message
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+		        resExpMsg = message;
 		        
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -1207,19 +1402,39 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  loanCorp()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException  ::  loanCorp()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException  ::  loanCorp()");
 	    	log.error(e.getMessage());
 	        log.info("not JSON Format response");
 	        e.printStackTrace();
 	    } finally {
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
 			
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
@@ -1250,6 +1465,15 @@ public class KfbApiService {
 		int TIMEOUT_VALUE = 3000;		// 3초
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
+		
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
 		
 		if(StringUtils.isEmpty(authToken)) {
 			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
@@ -1300,10 +1524,17 @@ public class KfbApiService {
 	        logParam.setSendData(reqParam.toString());
 	        this.insertKfbApiReqLog(logParam);
 	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl(this.getApiDomain()+ViolationUrl);
+	        newLogParam.setSendData(reqParam.toString());
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
+	        responseCode = conn.getResponseCode();
 	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        	StringBuilder sb 	= new StringBuilder();
 	        	String line 		= "";
@@ -1316,34 +1547,32 @@ public class KfbApiService {
 	            
 	            //응답 JSON
 	            responseJson = new JSONObject(sb.toString());
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+		            if(responseJson.getString("res_code").equals("200")) {
+		            	//successCheck
+		            	successCheck = "success";
+		            }
+	            }
 	            
-	            //message
-		        message = responseJson.getString("res_msg");
-	            
-		        log.info("#########################################");
-		        log.info("KfbApiService >> violoation() > responseJson :: 결과값 :: " + responseJson);
-		        log.info("#########################################");
-		        
-		        //결과
-	            if(responseJson.getString("res_code").equals("200")) {
-	            	//successCheck
-	            	successCheck = "success";
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            	message = responseJson.getString("res_msg");
 	            }
 	            
 	            //응답 이력 저장
-	            logParam.setResCode(responseJson.getString("res_code"));
-	            logParam.setResMsg(message);
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
 	            logParam.setResData(responseJson.toString());
 	            this.insertKfbApiResLog(logParam);
-	            
+	            conn.disconnect();
 	        }else {
-		        log.info("#########################################");
-		        log.info("KfbApiService >> violoation() > 통신오류");
-		        log.info("#########################################");
+				apiCheck = false;
+				conn.disconnect();
 		        
 		        //message
 		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        
+		        resExpMsg = message;
 		        //응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
 	            logParam.setResMsg("HTTP Method [" + method + "] :: violoation() 메소드 확인 필요");
@@ -1354,19 +1583,39 @@ public class KfbApiService {
 	        conn.disconnect();
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	        e.printStackTrace();
 	    	log.error("########m MalformedURLException  ::  violation()");
 	    	log.error(e.getMessage());
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	        e.printStackTrace();
 	    	log.error("########m IOException  ::  violation()");
 	    	log.error(e.getMessage());
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	        log.info("not JSON Format response");
 	    	log.error("########m JSONException  ::  violation()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } finally {
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
 			
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {
@@ -1398,6 +1647,15 @@ public class KfbApiService {
         int TIMEOUT_VALUE = 3000;		// 3초
         HttpURLConnection conn = null;
         BufferedReader br = null;
+        
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
         
         if(authToken == null && !"healthCheck".equals(authToken)) {
         	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : 토큰을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
@@ -1474,14 +1732,22 @@ public class KfbApiService {
 	        }
 	        this.insertKfbApiReqLog(logParam);
 	        
-	        log.error("########m 시작 5  ::  commonKfbApi()");
+	        
+	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl("HTTP Method [" + methodType + "] ::" +connUrl);
+	        if(reqParam != null) {
+	        	newLogParam.setSendData(reqParam.toString());
+	        }
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
 	        
 	        //요청 결과
-	        int responseCode = conn.getResponseCode();
-	        
+	        responseCode = conn.getResponseCode();
 	        log.error("########m 시작 6  ::  commonKfbApi()");
-	        
 	        if(responseCode == 200) {
+	        	apiCheck = true;
 	        	log.error("########m 시작 7  ::  commonKfbApi()");
 	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 	        	log.error("########m 시작 7-1  ::  commonKfbApi()");
@@ -1500,8 +1766,6 @@ public class KfbApiService {
 	            log.error("########m 시작 8  ::  commonKfbApi()");
 	            responseJson = new JSONObject(sb.toString());
 	            log.error("########m 시작 8-1  ::  commonKfbApi() " + responseJson.toString());
-	            String resCode = "000";
-	            String resMsg = "res_msg :: null";
 	            if(!responseJson.isNull("res_code")) {
 	            	resCode = responseJson.getString("res_code");
 	            }
@@ -1530,6 +1794,8 @@ public class KfbApiService {
 	            
 	            return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, responseJson.getString("res_msg"));
 	        }else {
+				apiCheck = false;
+				resExpMsg = "API통신오류 : 시스템관리자에게 문의해 주세요.";
 	            log.error("########m error 1-1  ::  commonKfbApi()");
 	        	// 통신오류 - 응답 이력 저장
 	            logParam.setResCode(Integer.toString(responseCode));
@@ -1541,19 +1807,39 @@ public class KfbApiService {
 	        }
 	        
 	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  commonKfbApi()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m IOException   ::  commonKfbApi()");
 	    	log.error(e.getMessage());
 	    	log.error(e.toString());
 	        e.printStackTrace();
 	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException   ::  commonKfbApi()");
 	    	log.error(e.getMessage());
 	        e.printStackTrace();
 	    } finally {
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
 			
 			// 2021-10-05 disconnect 강제 종료 실행
 			if(conn != null) {

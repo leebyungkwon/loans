@@ -62,4 +62,7 @@ public interface ApplyRepository {
 	//법인 승인여부 체크
 	int applyCorpStatCheck(UserDomain userDomain);
 	
+	//모집인 승인처리 > 일괄 보완요청
+	int updateApplyImprovePlStat(ApplyDomain applyDomain);
+	
 }

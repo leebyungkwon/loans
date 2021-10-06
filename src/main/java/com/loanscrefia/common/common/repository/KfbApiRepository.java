@@ -21,6 +21,12 @@ public interface KfbApiRepository {
 	//응답 이력 등록
 	int insertKfbApiResLog(KfbApiDomain kfbApiDomain);
 	
+	//API 로그 insert
+	int insertNewKfbApiLog(KfbApiDomain kfbApiDomain);
+	
+	//API 로그 update
+	int updateNewKfbApiLog(KfbApiDomain kfbApiDomain);
+	
 	//은행연합회 토큰 저장
 	void insertKfbApiKey(KfbApiDomain kfbApiDomain);
 	

@@ -1269,6 +1269,7 @@ public class ApplyService {
 		List<ApplyDomain> applyList = new ArrayList<ApplyDomain>();
 		
 		for(int i = 0; i < masterSeqArr.length; i++) {
+			int applyCheckCnt = 0;
 			ApplyDomain resultDomain = new ApplyDomain();
 			resultDomain.setMasterSeq(masterSeqArr[i]);
 			ApplyDomain statCheck = applyRepository.getApplyDetail(resultDomain);
@@ -1278,18 +1279,20 @@ public class ApplyService {
 				break;
 			}
 			
-			if(!"Y".equals(statCheck.getChkYn())) {
-				applyCheckMessage = i+1+"번째 실무자 확인여부를 확인해 주세요.";
-				applyCheck = true;
-				break;
+			if("Y".equals(statCheck.getChkYn())) {
+				applyCheckCnt++;
 			}
-			/*
-			if(!"Y".equals(statCheck.getAdminChkYn())) {
-				applyCheckMessage = i+1+"번째 관리자 확인여부를 확인해 주세요.";
-				applyCheck = true;
-				break;
+			
+			if("Y".equals(statCheck.getAdminChkYn())) {
+				applyCheckCnt++;
 			}
-			*/
+			
+			if(applyCheckCnt == 0) {
+				applyCheckMessage = i+1+"번째 관리자 또는 실무자 확인여부를 확인해 주세요.";
+				applyCheck = true;
+				break;				
+			}
+			
 			
 			//승인처리시 이메일 발송
 			if(StringUtils.isEmpty(statCheck.getEmail())) {
@@ -1537,4 +1540,31 @@ public class ApplyService {
 		}
 		return responseMsg;
 	}
+	
+	
+	
+	//모집인 등록 > 승인요청
+	@Transactional
+	public int checkboxImproveUpdate(ApplyDomain applyDomain){
+		int result 			= 0;
+		int[] masterSeqArr 	= applyDomain.getMasterSeqArr();
+		
+		for(int i = 0;i < masterSeqArr.length;i++) {
+			ApplyDomain applyResultDomain = new ApplyDomain();
+			applyResultDomain.setMasterSeq(masterSeqArr[i]);
+			UserDomain param = new UserDomain();
+			param.setMasterSeq(applyResultDomain.getMasterSeq());
+			userRepo.insertUserHistory(param);
+			int updateResult = applyRepository.updateApplyImprovePlStat(applyResultDomain);
+			if(updateResult > 0) {
+				applyRepository.insertMasterStep(applyResultDomain);
+			}else {
+				result = -1;
+				break;
+			}
+			result++;
+		}
+		return result;
+	}
+	
 }

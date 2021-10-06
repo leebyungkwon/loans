@@ -417,7 +417,7 @@ public class UtilExcel<T> {
 	}
 	
 
-	public void downLoad(List<T> data, Class<T> type,OutputStream stream) throws IOException, IllegalArgumentException, IllegalAccessException {
+	public void downLoad(List<T> datas, Class<T> type,OutputStream stream) throws IOException, IllegalArgumentException, IllegalAccessException {
 		
 		SXSSFWorkbook wb = new SXSSFWorkbook();
 		Sheet sheet = wb.createSheet();
@@ -432,23 +432,25 @@ public class UtilExcel<T> {
 			}
 		}
 
-		for(T target: data) {
+		for(T data: datas) {
 			row = sheet.createRow(rowIndex++);
-			for(Field field : target.getClass().getDeclaredFields()){
-				for (Field f : type.getDeclaredFields()) {
-					if (null != f.getAnnotation(ExcelColumn.class)) {
-						if(field.getName().equals(f.getName())) {
-
-							field.setAccessible(true);
-							f.setAccessible(true);
-							Object value = f.get(target); 
-							Cell cell = row.createCell(f.getAnnotation(ExcelColumn.class).order());
+			for (Field typefield : type.getDeclaredFields()) {
+				for(Field datafield : data.getClass().getDeclaredFields()){
+					if (null != typefield.getAnnotation(ExcelColumn.class)) {
+						if(datafield.getName().equals(typefield.getName())) {
+							datafield.setAccessible(true);
+							typefield.setAccessible(true);
+							//Object value = typefield.get(data); 
+							Object value = datafield.get(data); 
+							Cell cell = row.createCell(typefield.getAnnotation(ExcelColumn.class).order());
 							
 							if(value == null || value.equals("")) {
 								cell.setCellValue("");
 							}else {
 								cell.setCellValue(StringEscapeUtils.unescapeHtml3(value.toString()));
 							}
+							
+							break;
 						}
 					}
 				}

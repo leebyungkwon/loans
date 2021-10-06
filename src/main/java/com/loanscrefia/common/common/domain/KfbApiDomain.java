@@ -14,6 +14,7 @@ public class KfbApiDomain extends BaseDomain {
 	 */
 	
 	//공통
+	private int apiSeq;					//Api시퀀스
 	private String code;				//권한코드
 	private String token;				//토큰
 	private String url;					//요청URL
@@ -24,6 +25,9 @@ public class KfbApiDomain extends BaseDomain {
 	private String sendTimestamp;		//요청일시
 	
 	//은행연합회수신정보(tb_lc_kfb_res)
+	private String resYn;				//응답여부
+	private int resConCode;				//응답연결코드
+	private String resExpMsg;			//응답실패시 Exception메세지
 	private String resCode;				//응답코드
 	private String resMsg;				//응답메세지
 	private String resData;				//응답데이터

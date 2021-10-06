@@ -2,6 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.common.common.repository.KfbApiRepository">
 
+	<!-- API_LOG 등록 -->
+	<select id="insertNewKfbApiLog" parameterType="kfbApi" resultType="int">
+		INSERT INTO tb_lc_kfb_api_log
+		(
+			 TOKEN
+			,URL
+			,SEND_DATA
+			,SEND_USER
+			,SEND_TIMESTAMP
+		)
+		VALUES
+		(
+			 #{token}
+			,#{url}
+			,#{sendData}
+			,#{regSeq}
+			,NOW()
+		)
+		RETURNING API_SEQ AS apiSeq
+	</select>
+	
+	<!-- API_LOG 수정(결과값) -->
+	<update id="updateNewKfbApiLog" parameterType="kfbApi">
+		UPDATE tb_lc_kfb_api_log
+		SET
+			RES_YN 			= #{resYn}
+			, RES_CON_CODE	= #{resConCode}
+			, RES_EXP_MSG 	= #{resExpMsg}
+			, RES_CODE 		= #{resCode}
+			, RES_MSG 		= #{resMsg}
+			, RES_DATA 		= #{resData}
+			, RES_TIMESTAMP = NOW()
+		WHERE
+			API_SEQ = #{apiSeq} 
+	</update>
+
+
 	<!-- 요청 이력 등록 -->
 	<insert id="insertKfbApiReqLog" parameterType="kfbApi">
 		INSERT INTO TB_LC_KFB_REQ

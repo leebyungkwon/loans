@@ -309,8 +309,8 @@
 			,TLM.PL_PAY_STAT
 			<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
 			,TLM.COM_REG_DATE
-			,TLM.CHK_YN
-			,TLM.ADMIN_CHK_YN
+			,COALESCE(TLM.CHK_YN,'N') AS CHK_YN
+			,COALESCE(TLM.ADMIN_CHK_YN,'N') AS ADMIN_CHK_YN
 			,TLM.CRE_APP_DATE
 			,TLM.FIRST_APP_DATE
 			,TLM.CRE_LICENSE_DATE
@@ -580,6 +580,14 @@
 		AND PL_PRODUCT		= #{plProduct}
 		AND USE_YN 			= 'Y'
 	</select>
-   	
+	
+   	<!-- 모집인 승인처리 > 일괄 보완요청 -->
+   	<update id="updateApplyImprovePlStat" parameterType="apply">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			PL_STAT = '5'
+   			,com_upd_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   		WHERE master_seq = #{masterSeq}
+   	</update>
    	
 </mapper> 

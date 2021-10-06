@@ -95,6 +95,9 @@ public class UserDomain extends BaseDomain {
 	
 	//가공
 	private String comCodeNm;		//담당회원사명
+	
+	
+	@ExcelColumn(headerName = "담당자명", order = 17)
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
 	private String mobileNo;		//담당자휴대폰번호

@@ -22,6 +22,7 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.domain.UserExcelDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
 import com.loanscrefia.member.user.domain.UserItDomain;
@@ -59,7 +60,7 @@ public class UserController {
 		// 2021-07-27 페이징 false
 		userDomain.setIsPaging("false");
  		List<UserDomain> excelDownList = userService.selectUserConfirmList(userDomain);
- 		new UtilExcel().downLoad(excelDownList, UserDomain.class, response.getOutputStream());
+ 		new UtilExcel().downLoad(excelDownList, UserExcelDomain.class, response.getOutputStream());
 	}
 	
 	//상세 페이지 : 개인

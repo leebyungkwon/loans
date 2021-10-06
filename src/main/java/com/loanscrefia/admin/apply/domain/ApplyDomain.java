@@ -35,6 +35,7 @@ public class ApplyDomain extends BaseDomain {
 	private String oldPlStat;		//현재처리상태
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
 	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
+	@ExcelColumn(headerName = "CI", order = 17)
 	private String ci;				//CI값
 	@ExcelColumn(headerName = "이름", order = 7)
 	private String plMName;			//모집인이름

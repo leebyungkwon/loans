@@ -219,6 +219,47 @@ function goApplyAccept() {
 	}
 }
 
+//선택 보안요청
+function goApplyImprove() {
+	var chkedLen 	= $("#tbl_applyGrid_body tr td input:checkbox:checked").length;
+	if(chkedLen == 0){
+		alert("모집인을 선택해 주세요.");
+		return;
+	}
+
+	var chkData 		= applyGrid.getChkData();
+	var masterSeqArr	= [];
+	for(var i=0; i<chkedLen; i++){
+		masterSeqArr.push(chkData[i].masterSeq);
+	}
+	
+	if(confirm("보완요청 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/apply/checkboxImproveUpdate"	
+			, param		: {
+				masterSeqArr 	: masterSeqArr  
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("결과11 == ", result);				
+				console.log("결과22 == ", masterSeqArr.length);				
+				
+				if(result.data == masterSeqArr.length){
+					alert("보완요청이 완료되었습니다.");
+					applyGrid.refresh();
+					//location.href = "/member/user/userRegPage";
+				}else if(result.data == -2){
+					alert("이미 승인완료된 모집인입니다.");
+					applyGrid.refresh();
+				}else{
+					alert("오류가 발생하였습니다.[모집인 상태변경 실패]");
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
 
 </script>
 
@@ -380,6 +421,7 @@ function goApplyAccept() {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyAccept();">선택 승인완료</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyImprove();">선택 보완요청</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
 				<a href="javascript:void(0);" class="btn_sort" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
 			</div>

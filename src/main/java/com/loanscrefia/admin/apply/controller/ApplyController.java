@@ -24,14 +24,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
+import com.loanscrefia.admin.apply.domain.ApplyExcelDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
@@ -103,7 +102,7 @@ public class ApplyController {
 		// 2021-07-27 페이징 false
 		applyDomain.setIsPaging("false");
  		List<ApplyDomain> excelDownList = applyService.selectApplyList(applyDomain);
- 		new UtilExcel().downLoad(excelDownList, ApplyDomain.class, response.getOutputStream());
+ 		new UtilExcel().downLoad(excelDownList, ApplyExcelDomain.class, response.getOutputStream());
 	}
 	
 	//상세 페이지 : 개인
@@ -711,6 +710,16 @@ public class ApplyController {
 			return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
 		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+
+	
+	//선택 보완요청
+	@PostMapping(value="/apply/checkboxImproveUpdate")
+	public ResponseEntity<ResponseMsg> checkboxImproveUpdate(ApplyDomain applyDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(applyService.checkboxImproveUpdate(applyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 }

@@ -54,7 +54,7 @@ function result_submit(result_cd,result_msg,enc_data) {
 	<!-- <input type="hidden" name="shop_receive_url" value="http://loanagentd.crefia.or.kr/front/pay/allatReceive"> -->
 	<input type="hidden" name="allat_enc_data" value=""> <!-- 주문정보암호화필드 : 값은 자동으로 설정됨 -->
 	<!-- 옵션정보 -->
-	<input type="hidden" name="allat_card_yn" value="N" maxlength="1"> <!-- 신용카드 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
+	<input type="hidden" name="allat_card_yn" value="Y" maxlength="1"> <!-- 신용카드 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
 	<input type="hidden" name="allat_bank_yn" value="Y" maxlength="1"> <!-- 계좌이체 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
 	<input type="hidden" name="allat_vbank_yn" value="N" maxlength="1"> <!-- 무통장(가상계좌) 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->
 	<input type="hidden" name="allat_hp_yn" value="N" maxlength="1"> <!-- 휴대폰 결제 사용 여부 : 사용(Y),사용하지 않음(N) - Default : 올앳과 계약된 사용여부 -->

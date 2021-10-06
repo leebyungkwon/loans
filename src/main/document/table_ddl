@@ -1297,3 +1297,32 @@ create table tb_lc_members_inactive(
 	, upd_timestamp timestamp
 	, PRIMARY KEY (member_seq)
 );
+
+-- api seq
+CREATE SEQUENCE tb_lc_kfb_api_log_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+create table tb_lc_kfb_api_log(
+	api_seq integer not null default nextval('tb_lc_kfb_api_log_seq')
+	, token text
+	, url text
+	, send_data text 
+	, send_user INTEGER
+	, send_timestamp timestamp
+	, res_yn char(1)
+	, res_exp_msg text
+	, res_code varchar(10)
+	, res_msg text
+	, res_data text
+	, res_timestamp timestamp
+);
+
+
+
