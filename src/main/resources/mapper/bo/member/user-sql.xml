@@ -485,7 +485,7 @@
 				 ) = #{fileCompYn}
 				 </if>
 					AND TLM.PL_REG_STAT = '1'																			-- 모집인 상태가 승인전인 것
-					AND TLM.PL_STAT IN ('1','2','5','10')																-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것
+					AND TLM.PL_STAT IN ('1','2','5','10','13')																-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것
 		    </where>
 		    ORDER BY TLM.MASTER_SEQ DESC
    		)Z

@@ -688,7 +688,7 @@ function goApplyImprove(num){
 				</tr>
 				--%>
 				<tr>
-					<td class="acenter">정보변경 관련 서류<br>(개명시에는 주민등록초본 첨부 필요)</td>
+					<td class="acenter">정보변경 관련 서류<br>(개명시 주민등록초본, 휴대폰번호 변경시 휴대폰명의확인서 첨부 필요)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType11 ne null }">

@@ -54,12 +54,12 @@ function pageLoad(){
 		var inputVal = $(this).val();
 		
 		if(originPlCellphone != inputVal){
-			$("#chgVeriDoc2").prev().empty().append("정보변경 관련 서류 *<br>(개명시에는 주민등록초본 첨부 필요)");
+			$("#chgVeriDoc2").prev().empty().append("정보변경 관련 서류 *<br>(개명시 주민등록초본, 휴대폰번호 변경시 휴대폰명의확인서 첨부 필요)");
 			$("#chgVeriDoc2 > .inputFile").attr("data-essential","Y");
 			$("#chgVeriDoc2 > .goFileReset").attr("data-essential","Y");
 			$("#chgVeriDoc2 > .goFileDel").attr("data-essential","Y");
 		}else{
-			$("#chgVeriDoc2").prev().empty().append("정보변경 관련 서류<br>(개명시에는 주민등록초본 첨부 필요)");
+			$("#chgVeriDoc2").prev().empty().append("정보변경 관련 서류<br>(개명시 주민등록초본, 휴대폰번호 변경시 휴대폰명의확인서 첨부 필요)");
 			$("#chgVeriDoc2 > .inputFile").attr("data-essential","N");
 			$("#chgVeriDoc2 > .goFileReset").attr("data-essential","N");
 			$("#chgVeriDoc2 > .goFileDel").attr("data-essential","N");
@@ -501,7 +501,7 @@ function goUserChangeApply(){
 						</td>
 					</tr>
 					<tr>
-						<th class="acenter">정보변경 관련 서류<br>(개명시에는 주민등록초본 첨부 필요)</th>
+						<th class="acenter">정보변경 관련 서류<br>(개명시 주민등록초본, 휴대폰번호 변경시 휴대폰명의확인서 첨부 필요)</th>
 						<td id="chgVeriDoc2">
 							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType11.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType11.fileSeq }" readonly disabled>
 							<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
