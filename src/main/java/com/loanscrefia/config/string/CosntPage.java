@@ -86,5 +86,8 @@ public class CosntPage {
 	//2021-09-13 회원관리 리스트페이지
 	public static String BoUsersPage 	= "bo/users";
 	
+	//2021-10-07 휴면회원관리 리스트페이지
+	public static String BoInactivePage	= "bo/inactive";
+	
 
 }

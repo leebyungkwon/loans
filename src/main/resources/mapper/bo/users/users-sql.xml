@@ -130,5 +130,157 @@
    		WHERE user_seq = #{userSeq}
 	</update>
 	
+	
+   	
+   	<!-- 휴면회원관리 리스트 조회 -->
+   	<select id="selectInactiveList" parameterType="users" resultType="users">
+   		SELECT 
+   			<include refid="common.totalPages"/>
+   			Z.*
+   		FROM
+   		(
+	   		SELECT
+	   			users.user_seq
+	   			, users.user_id
+	   			, users.password
+	   			, users.user_name
+	   			, users.mobile_no
+	   			, users.pl_class
+	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+	   			, users.birth_dt
+	   			, users.email
+	   			, users.user_ci
+	   			, users.corp_appr_yn
+	   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
+	   			, users.terms_yn
+	   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
+	   			, users.drop_yn
+	   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
+	   			, users.inactive_yn
+	   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
+	   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+	   			, TO_CHAR(users.corp_appr_dt,'YYYY-MM-DD') AS corp_appr_dt
+	   			, users.fail_cnt
+	   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
+	   			, CASE
+	   				WHEN fail_stop_dt is null THEN 'N'
+	   				ELSE 'Y'
+	   			END AS fail_stop_yn
+		    FROM tb_lc_users_inactive users
+		    ORDER BY users.user_seq DESC
+   		)Z
+   		<where>
+			<if test="userId != null and userId != ''">
+				AND Z.user_id LIKE '%' || #{userId} || '%'
+			</if>
+			
+			<if test="userName != null and userName != ''">
+				AND Z.user_name LIKE '%' || #{userName} || '%'
+			</if>	
+			
+			<if test="mobileNo != null and mobileNo != ''">
+				AND Z.mobile_no LIKE '%' || #{mobileNo} || '%'
+			</if>
+			
+			<if test="plClass != null and plClass != ''">
+				AND Z.pl_class = #{plClass}
+			</if>
+			
+			<if test="email != null and email != ''">
+				AND Z.email LIKE '%' || #{email} || '%'
+			</if>
+			
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.inactive_dt::TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.inactive_dt::TIMESTAMP 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+			</if>
+			
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+	<!-- 휴면회원관리 상세 조회 -->
+   	<select id="getInactiveDetail" parameterType="users" resultType="users">
+   		SELECT
+   			users.user_seq
+   			, users.user_id
+   			, users.password
+   			, users.user_name
+   			, users.mobile_no
+   			, users.pl_class
+   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+   			, users.birth_dt
+   			, users.email
+   			, users.user_ci
+   			, users.manager_name
+   			, users.manager_mobile_no
+   			, users.manager_email
+   			, users.corp_appr_yn
+   			, users.file_seq
+   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
+   			, users.terms_yn
+   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
+   			, users.drop_yn
+   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
+   			, users.inactive_yn
+   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
+   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+   			, users.fail_cnt
+   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
+   			, CASE
+   				WHEN fail_stop_dt is null THEN 'N'
+   				ELSE 'Y'
+   			END AS fail_stop_yn
+	    FROM tb_lc_users_inactive users
+	    WHERE USER_SEQ = #{userSeq}
+   	</select>
+   	
+   	<!-- 휴면회원 활성화 -->
+	<update id="updateBoInactiveUser" parameterType="users" >
+    	UPDATE tb_lc_users as a
+    	SET 
+    		user_id = b.user_id
+    		, password = b.password
+    		, user_name = b.user_name
+    		, mobile_no = b.mobile_no
+    		, pl_class = b.pl_class
+    		, birth_dt = b.birth_dt
+    		, email = b.email
+			, user_ci = b.user_ci
+			, file_seq = b.file_seq
+			, join_dt = b.join_dt
+			, terms_yn = b.terms_yn
+			, terms_dt = b.terms_dt
+			, drop_yn = b.drop_yn
+			, drop_dt = b.drop_dt
+			, inactive_yn = 'N'
+			, inactive_dt = null
+			, last_login_dt = b.last_login_dt
+    		, reg_seq = b.reg_seq
+    		, reg_timestamp = b.reg_timestamp
+    		, upd_seq = b.upd_seq
+    		, upd_timestamp = b.upd_timestamp
+    		, corp_appr_dt = b.corp_appr_dt
+    		, fail_cnt = b.fail_cnt
+    		, fail_stop_dt = b.fail_stop_dt
+    		, pw_change_dt = b.pw_change_dt
+    		, manager_name = b.manager_name
+    		, manager_mobile_no = b.manager_mobile_no
+    		, manager_email = b.manager_email
+    		, pw_token = b.pw_token
+    		, pw_token_dt = b.pw_token_dt
+    		, corp_appr_yn = b.corp_appr_yn
+    	FROM tb_lc_users_inactive as b
+    	WHERE a.user_seq = #{userSeq}
+    	and a.user_seq = b.user_seq
+	</update>
+	
+   	<!-- 휴면회원 활성화 후 휴면회원 정보 삭제 -->
+	<delete id="deleteBoInactiveUser" parameterType="users" >
+		DELETE FROM tb_lc_users_inactive
+		WHERE user_seq = #{userSeq}
+	</delete>
    	
 </mapper> 

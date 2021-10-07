@@ -41,6 +41,8 @@ function menuActiveFunction(){
 		$("#menuApi").addClass("on");
 	}else if(menuUrl[2] == "users"){
 		$("#menuUsers").addClass("on");
+	}else if(menuUrl[2] == "inactive"){
+		$("#menuInactive").addClass("on");
 	}
 	
 }
@@ -81,6 +83,7 @@ function menuActiveFunction(){
 			<li id="menuCode"><a href="/system/code/codePage">코드관리</a></li>
 			<li id="menuApi"><a href="/system/api/apiPage">API관리</a></li>
 			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
+			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
 		</sec:authorize>
 	</ul>
 </div>

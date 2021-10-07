@@ -12,4 +12,10 @@ public interface UsersRepository {
 	int loginStopUpdate(UsersDomain usersDomain);
 	int usersCorpApply(UsersDomain usersDomain);
 	UsersDomain getUsersDetail(UsersDomain usersDomain);
+	int updateBoInactiveUser(UsersDomain usersDomain);
+	int deleteBoInactiveUser(UsersDomain usersDomain);
+	
+	List<UsersDomain> selectInactiveList(UsersDomain usersDomain);
+	UsersDomain getInactiveDetail(UsersDomain usersDomain);
+	
 }

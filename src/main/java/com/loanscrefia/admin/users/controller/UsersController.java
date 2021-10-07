@@ -83,13 +83,62 @@ public class UsersController {
 	
 	//엑셀 다운로드
 	@PostMapping("/users/usersExcelListDown")
-	public void applyListExcelDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+	public void usersExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
 		usersDomain.setIsPaging("false");
  		List<UsersDomain> excelDownList = usersService.selectUsersList(usersDomain);
  		new UtilExcel().downLoad(excelDownList, UsersDomain.class, response.getOutputStream());
 	}
 	
 	
+	
+	
+	// 휴면회원관리 리스트 페이지
+	@GetMapping(value="/inactive/inactivePage")
+	public String inactiveUsersPage() {
+		return CosntPage.BoInactivePage+"/inactiveList";
+	}
+	
+	// 휴면회원관리 리스트 조회
+	@PostMapping(value="/inactive/inactiveList")
+	public ResponseEntity<ResponseMsg> inactiveList(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(usersService.selectInactiveList(usersDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	// 회원관리 상세
+	@PostMapping(value="/inactive/inactiveDetail")
+    public ModelAndView inactiveDetail(UsersDomain usersDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoInactivePage+"/inactiveDetail");
+		UsersDomain usersInfo = usersService.getInactiveDetail(usersDomain);
+    	mv.addObject("usersInfo", usersInfo);
+    	
+    	//첨부파일
+    	FileDomain file = new FileDomain();
+    	if(usersInfo.getFileSeq() > 0) {
+        	file.setFileSeq(usersInfo.getFileSeq());
+        	file = commonService.getFile(file);    		
+    	}
+    	mv.addObject("file", file);
+        return mv;
+    }
+	
+	
+	//엑셀 다운로드
+	@PostMapping("/inactive/inactiveExcelListDown")
+	public void inactiveExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		usersDomain.setIsPaging("false");
+ 		List<UsersDomain> excelDownList = usersService.selectInactiveList(usersDomain);
+ 		new UtilExcel().downLoad(excelDownList, UsersDomain.class, response.getOutputStream());
+	}
+	
+	// 휴면회원 활성화
+	@PostMapping(value="/inactive/boInactiveUser")
+	public ResponseEntity<ResponseMsg> boInactiveUser(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.boInactiveUser(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 }

@@ -8,15 +8,13 @@ function pageLoad(){
 	
 }
 
-
-
 // 리스트 페이지 이동
-function usersList(){
+function inactiveList(){
 	history.back();
 }
 
-//로그인 차단 해제
-function loginStopUpdate() {
+//휴면회원 활성화
+function boInactiveUser() {
 	var userSeqArr = [];
 	var userSeq = $("#userSeq").val();
 	if(WebUtil.isNull(userSeq)){
@@ -26,19 +24,20 @@ function loginStopUpdate() {
 		userSeqArr.push(userSeq);	
 	}
 	
-	if(confirm("로그인 차단을 해제 하시겠습니까?")){
+	if(confirm("휴면회원을 활성화 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/users/loginStopUpdate"	
+			  url		: "/admin/inactive/boInactiveUser"	
 			, param		: {
 				userSeqArr 	: userSeqArr  
 			}
 			, success 	: function (opt,result) {
-				console.log("#####" , result);
+				history.back();
 		    }
 		}
 		AjaxUtil.post(p);
 	}
 }
+
 
 // 회원관리 법인 승인처리
 function usersCorpApply(){
@@ -98,8 +97,8 @@ function usersCorpApply(){
 					<td>${usersInfo.plClassNm}</td>
 					<th>생년월일</th>
 					<td>${usersInfo.birthDt}</td>
-					<th></th>
-					<td></td>					
+					<th>이메일</th>
+					<td>${usersInfo.email}</td>				
 				</tr>
 				
 				<tr>
@@ -129,16 +128,6 @@ function usersCorpApply(){
 						<td></td>
 					</tr>
 				</c:if>
-				
-				<tr>
-					<th>이메일</th>
-					<td>${usersInfo.email}</td>
-					<th>탈퇴여부</th>
-					<td>${usersInfo.dropYn}</td>
-					<th>탈퇴일</th>
-					<td>${usersInfo.dropDt}</td>
-				</tr>
-				
 				<tr>
 					<th>마지막로그인일시</th>
 					<td>${usersInfo.lastLoginDt}</td>
@@ -160,14 +149,8 @@ function usersCorpApply(){
 		</div>
 		
 		<div class="btn_wrap">
-			<c:if test="${not empty usersInfo.failStopDt}">
-				<a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="loginStopUpdate();">로그인차단해제</a>
-			</c:if>
-			<a href="javascript:void(0);" class="btn_gray" onclick="usersList();">목록</a>
-			
-			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprYn eq 'N'}">
-				<a href="javascript:void(0);" class="btn_blue btn_right" onclick="usersCorpApply();">법인승인</a>
-			</c:if>
+			<a href="javascript:void(0);" class="btn_blue btn_right" onclick="boInactiveUser();">휴면회원활성화</a>
+			<a href="javascript:void(0);" class="btn_gray" onclick="inactiveList();">목록</a>
 		</div>
 	</div>
 </div>

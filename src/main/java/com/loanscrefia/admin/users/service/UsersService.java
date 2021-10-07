@@ -95,4 +95,42 @@ public class UsersService {
 		}
 		return responseMsg;
 	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 휴면회원관리 리스트 조회
+	@Transactional(readOnly=true)
+	public List<UsersDomain> selectInactiveList(UsersDomain usersDomain){
+		return usersRepository.selectInactiveList(usersDomain);
+	}
+	
+	// 휴면회원관리 상세
+	@Transactional(readOnly=true)
+	public UsersDomain getInactiveDetail(UsersDomain usersDomain){
+		return usersRepository.getInactiveDetail(usersDomain);
+	}
+	
+	// 휴면회원 활성화
+	@Transactional
+	public ResponseMsg boInactiveUser(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		int[] userSeqArr 	= usersDomain.getUserSeqArr();
+		for(int i = 0; i < userSeqArr.length; i++) {
+			UsersDomain resultDomain = new UsersDomain();
+			resultDomain.setUserSeq(userSeqArr[i]);
+			usersRepository.updateBoInactiveUser(resultDomain);
+			usersRepository.deleteBoInactiveUser(resultDomain);
+		}
+		return responseMsg;
+	}
+	
 }
