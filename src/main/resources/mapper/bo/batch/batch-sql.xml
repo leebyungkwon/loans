@@ -12,6 +12,61 @@
 		AND TO_CHAR(REG_TIMESTAMP + INTERVAL '1 month', 'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(NOW(), 'YYYYMMDD')
     </select>
     
-    
+   	<!-- 마지막로그인일시 기준 3개월 지난 회원 리스트 -->
+   	<select id="selectInactiveUser" parameterType="users" resultType="users">
+   		SELECT
+   			USER_SEQ
+   		FROM
+   			tb_lc_users
+   		WHERE
+   			(last_login_dt + '3 month'::interval) <![CDATA[<=]]> now()
+   	</select>
+   	
+   	
+   	
+   	<!-- 휴면회원 테이블로 insert -->
+	<insert id="insertInactiveUserBatch" parameterType="users" >
+   		INSERT INTO tb_lc_users_inactive
+   		SELECT * FROM tb_lc_users
+   		WHERE USER_SEQ = #{userSeq}
+	</insert>
+	
+   	<!-- 휴면회원 테이블 update - null 처리 -->
+	<update id="updateInactiveUserBatch" parameterType="users" >
+		UPDATE tb_lc_users
+		SET
+			USER_ID			= ''
+			, PASSWORD		= ''
+			, USER_NAME		= ''
+			, MOBILE_NO		= ''
+			, PL_CLASS		= ''
+			, BIRTH_DT		= null
+			, EMAIL			= null
+			, USER_CI		= null
+			, FILE_SEQ		= null
+			, JOIN_DT		= null
+			, TERMS_YN		= ''
+			, TERMS_DT		= null
+			, DROP_YN		= ''
+			, DROP_DT		= null
+			, INACTIVE_YN	= ''
+			, INACTIVE_DT	= null
+			, LAST_LOGIN_DT = null
+			, REG_SEQ		= null
+			, REG_TIMESTAMP = ('99991231'::TIMESTAMP)
+			, UPD_SEQ		= null
+			, UPD_TIMESTAMP	= null
+			, CORP_APPR_YN	= null
+			, CORP_APPR_DT	= null
+			, FAIL_CNT		= 0
+			, FAIL_STOP_DT	= null
+			, PW_CHANGE_DT	= null
+			, MANAGER_NAME	= null
+			, MANAGER_MOBILE_NO = null
+			, MANAGER_EMAIL = null
+			, PW_TOKEN		= null
+			, PW_TOKEN_DT	= null
+		WHERE USER_SEQ = #{userSeq}			
+	</update>
     
 </mapper>

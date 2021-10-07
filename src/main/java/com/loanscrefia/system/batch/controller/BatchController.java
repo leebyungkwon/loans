@@ -1,15 +1,15 @@
 package com.loanscrefia.system.batch.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.loanscrefia.common.common.repository.KfbApiRepository;
+import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.common.common.service.KfbApiService;
-import com.loanscrefia.member.user.service.UserService;
 import com.loanscrefia.system.batch.repository.BatchRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +25,8 @@ public class BatchController {
 	@Autowired 
 	private BatchRepository batchRepository;
 	
-	@Autowired 
-	private UserService userService;
-	
 	@Autowired
 	private KfbApiService kfbApiService;
-	
-	@Autowired
-	private KfbApiRepository kfbApiRepository;
 	
 	private static final String ONE_MIN = "PT30S"; // 1분동안 Lock
 	
@@ -106,6 +100,27 @@ public class BatchController {
     	log.info("================ shedlockTest()11111111111111111111111111111 END ================");
     }
     
+    */
+	
+	
+	/*
+	//매일0시2분
+	@Scheduled(cron = "0 2 0 * * *")
+    @SchedulerLock(name = "inactiveUserCheck" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void inactiveUserCheck() throws IOException {
+    	log.info("================ inactiveUserCheck() START ================");
+    	UsersDomain usersDomain = new UsersDomain();
+    	List<UsersDomain> inactiveList = batchRepository.selectInactiveUser(usersDomain);
+    	for(UsersDomain tmp : inactiveList) {
+    		log.info("================ inactiveUserCheck() FOR!!!!!!!!! ================");
+    		UsersDomain inactiveDomain = new UsersDomain();
+    		inactiveDomain.setUserSeq(tmp.getUserSeq());
+    		batchRepository.insertInactiveUserBatch(inactiveDomain);
+    		batchRepository.updateInactiveUserBatch(inactiveDomain);
+    	}
+    	
+    	log.info("================ inactiveUserCheck() END ================");
+    }
     */
 	
 	

@@ -99,15 +99,8 @@ function usersCorpApply(){
 					<td>${usersInfo.plClassNm}</td>
 					<th>생년월일</th>
 					<td>${usersInfo.birthDt}</td>
-					<th>성별</th>
-					<td>${usersInfo.gender}</td>
-				</tr>
-				
-				<tr>
-					<th>주소</th>
-					<td>${usersInfo.addr}</td>
-					<th>상세주소</th>
-					<td colspan="3">${usersInfo.addrDetail}</td>
+					<th></th>
+					<td></td>					
 				</tr>
 				
 				<tr>
@@ -130,7 +123,7 @@ function usersCorpApply(){
 					</tr>
 					<tr>
 						<th>법인승인여부</th>
-						<td>${usersInfo.corpApprStat}</td>
+						<td>${usersInfo.corpApprYn}</td>
 						<th>법인승인일</th>
 						<td>${usersInfo.corpApprDt}</td>
 						<th></th>
@@ -166,7 +159,7 @@ function usersCorpApply(){
 				</tr>
 				
 				<tr>
-					<th class="acenter">첨부파일</th>
+					<th>첨부파일</th>
 					<td colspan="5">
 						<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 					</td>
@@ -181,7 +174,7 @@ function usersCorpApply(){
 				<a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="loginStopUpdate();">로그인차단해제</a>
 			</c:if>
 			<a href="javascript:void(0);" class="btn_gray" onclick="usersList();">목록</a>
-			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprStat eq 'N'}">
+			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprYn eq 'N'}">
 				<a href="javascript:void(0);" class="btn_blue btn_right" onclick="usersCorpApply();">법인승인</a>
 			</c:if>
 		</div>

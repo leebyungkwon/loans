@@ -1188,10 +1188,7 @@ create table tb_lc_users(
 	, mobile_no varchar(20) not null
 	, pl_class char(1) not null
 	, birth_dt varchar(8)
-	, gender char(1)
 	, email varchar(100)
-	, addr varchar(2)
-	, addr_detail varchar(200)
 	, user_ci varchar(100)
 	, manager_name varchar(50)
 	, manager_mobile_no varchar(20)

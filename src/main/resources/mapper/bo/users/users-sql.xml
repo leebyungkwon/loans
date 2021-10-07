@@ -18,12 +18,9 @@
 	   			, users.pl_class
 	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
 	   			, users.birth_dt
-	   			, users.gender
 	   			, users.email
-	   			, users.addr
-	   			, users.addr_detail
 	   			, users.user_ci
-	   			, users.corp_appr_stat
+	   			, users.corp_appr_yn
 	   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
 	   			, users.terms_yn
 	   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
@@ -97,13 +94,12 @@
    			, users.pl_class
    			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
    			, users.birth_dt
-   			, users.gender
    			, users.email
    			, users.user_ci
    			, users.manager_name
    			, users.manager_mobile_no
    			, users.manager_email
-   			, users.corp_appr_stat
+   			, users.corp_appr_yn
    			, users.file_seq
    			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
    			, users.terms_yn
@@ -133,5 +129,6 @@
    			, upd_timestamp = NOW()
    		WHERE user_seq = #{userSeq}
 	</update>
+	
    	
 </mapper> 
