@@ -656,7 +656,70 @@ public class KfbApiService {
 	
 	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
 	public ResponseMsg preLoanIndv(String authToken, JSONObject reqParam, String method) throws IOException {
+		//connect URL
+		String connUrl = this.getApiDomain()+PreLoanUrl;
 		
+		//파라미터 설정
+		if(method.equals("GET") || method.equals("DELETE")) {
+			String param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
+			
+			connUrl = connUrl + param;
+		}
+		
+		
+		OutApiConnector.setApi api = new OutApiConnector.setApi("", "preLoanIndv");
+        api.url(connUrl);
+        api.parameterJson(null);
+        api.token(authToken);
+        api.method(method);
+
+        log.info("## 호출 START");
+        Response res = api.call();
+        //System.out.println(res);
+
+		String successCheck 	= "fail";
+		String message 			= "";
+        String resMsg = "res_msg :: null";
+        String resCode = "000";
+        
+		JSONObject responseJson = new JSONObject();
+		
+
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;        
+		// 2021-10-05 api_log 생성
+        newLogParam.setToken(authToken);
+        newLogParam.setUrl(this.getApiDomain()+CheckLoanUrl);
+        newLogParam.setSendData(reqParam.toString());
+        apiKey = this.insertNewKfbApiLog(newLogParam);
+        int responseCode = OutApiParse.getCode(res);
+        if (OutApiParse.getCode(res) == HttpURLConnection.HTTP_CREATED) {
+        	newLogParam.setResYn("Y");
+            log.info("## 호출 성공 ");
+            String dlvRsvNo = OutApiParse.getData(res, "");
+            log.info("## 호출 DATA = " + dlvRsvNo);
+            responseJson = new JSONObject(dlvRsvNo);
+            successCheck = "success";
+            resCode = responseJson.getString("res_code");
+            resMsg = responseJson.getString("res_msg");
+        } else {
+        	newLogParam.setResYn("N");
+            log.info("## 호출 실패");
+            JSONObject err = OutApiParse.getError(res);
+            responseJson = err;
+            log.info(String.valueOf(err));
+        }
+        
+
+        newLogParam.setApiSeq(apiKey);
+        newLogParam.setResConCode(responseCode);
+        newLogParam.setResCode(resCode);
+        newLogParam.setResMsg(resMsg);
+        newLogParam.setResData(responseJson.toString());
+        this.updateNewKfbApiLog(newLogParam);
+        
+        
+        /*
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
@@ -824,7 +887,7 @@ public class KfbApiService {
 			}
 			br = null;
 		}
-	    
+	    */
 		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
 	

@@ -55,7 +55,7 @@ public class OutApiConnector {
             return this;
         }
         public setApi token(String token){
-            this.token = token;
+            this.token = "Bearer " + token;
             return this;
         }
         public setApi method(String method){
