@@ -51,6 +51,7 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'javax.validation:validation-api'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.aspectj:aspectjweaver:1.7.0'
 	implementation 'org.aspectj:aspectjrt:1.7.0'
