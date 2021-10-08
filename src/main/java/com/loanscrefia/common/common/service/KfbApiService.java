@@ -15,15 +15,17 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.util.OutApiConnector;
+import com.loanscrefia.util.OutApiParse;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import okhttp3.Response;
 
 @Slf4j
 @Service
@@ -87,6 +89,7 @@ public class KfbApiService {
 	
 	//네트워크 및 서버상태확인
 	public ResponseMsg getHealthCheck(String apiDomain) throws IOException {
+		
 		
 		String result = "fail";
 		int TIMEOUT_VALUE = 3000;		// 3초
@@ -435,7 +438,68 @@ public class KfbApiService {
 	
 	//등록가능 여부 조회
 	public ResponseMsg checkLoan(String authToken, JSONObject reqParam) throws IOException {
+
+		//파라미터 설정
+		String param = "?";
+		String testName = URLEncoder.encode(reqParam.getString("name"),"UTF-8");
+		param += "name="+testName;
+		param += "&ssn="+reqParam.getString("ssn");
+		param += "&ci="+reqParam.getString("ci");
+		param += "&loan_type="+reqParam.getString("loan_type");
 		
+		
+	    OutApiConnector.setApi api = new OutApiConnector.setApi("", "checkLoan");
+        api.url(this.getApiDomain()+CheckLoanUrl+param);
+        api.parameterJson(null);
+        api.token(authToken);
+        api.method("GET");
+
+        log.info("## 호출 START");
+        Response res = api.call();
+        //System.out.println(res);
+
+		String successCheck 	= "fail";
+		String message 			= "";
+        String resMsg = "res_msg :: null";
+        String resCode = "000";
+        
+		JSONObject responseJson = new JSONObject();
+		
+
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;        
+		// 2021-10-05 api_log 생성
+        newLogParam.setToken(authToken);
+        newLogParam.setUrl(this.getApiDomain()+CheckLoanUrl);
+        newLogParam.setSendData(reqParam.toString());
+        apiKey = this.insertNewKfbApiLog(newLogParam);
+        int responseCode = OutApiParse.getCode(res);
+        if (OutApiParse.getCode(res) == HttpURLConnection.HTTP_CREATED) {
+        	newLogParam.setResYn("Y");
+            log.info("## 호출 성공 ");
+            String dlvRsvNo = OutApiParse.getData(res, "");
+            log.info("## 호출 DATA = " + dlvRsvNo);
+            responseJson = new JSONObject(dlvRsvNo);
+            successCheck = "success";
+            resCode = responseJson.getString("res_code");
+            resMsg = responseJson.getString("res_msg");
+        } else {
+        	newLogParam.setResYn("N");
+            log.info("## 호출 실패");
+            JSONObject err = OutApiParse.getError(res);
+            responseJson = err;
+            log.info(String.valueOf(err));
+        }
+        
+
+        newLogParam.setApiSeq(apiKey);
+        newLogParam.setResConCode(responseCode);
+        newLogParam.setResCode(resCode);
+        newLogParam.setResMsg(resMsg);
+        newLogParam.setResData(responseJson.toString());
+        this.updateNewKfbApiLog(newLogParam);
+        
+        /*
 		String successCheck 	= "fail";
 		String message 			= "";
 		JSONObject responseJson = new JSONObject();
@@ -586,7 +650,7 @@ public class KfbApiService {
 			}
 			br = null;
 		}
-	    
+	    */
 		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
 	
