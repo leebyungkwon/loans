@@ -12,10 +12,9 @@ import com.loanscrefia.util.excel.ExcelColumn;
 import lombok.Data;
 
 @Data
-@Alias("user")
-public class UserDomain extends BaseDomain {
+@Alias("newUser")
+public class NewUserDomain extends BaseDomain {
 
-	//모집인정보(tb_lc_mas01) & 모집인정보이력(tb_lc_mas01_hist)
 	private int masterSeq;			//시퀀스
 	@ExcelColumn(headerName = "접수번호", order = 0)
 	private String masterToId;		//접수번호ID(조회)
@@ -96,9 +95,6 @@ public class UserDomain extends BaseDomain {
 	
 	//가공
 	private String comCodeNm;		//담당회원사명
-	
-	
-	@ExcelColumn(headerName = "담당자명", order = 17)
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
 	private String mobileNo;		//담당자휴대폰번호
@@ -175,6 +171,7 @@ public class UserDomain extends BaseDomain {
 	private FileDomain fileType25;
 	private FileDomain fileType26;
 	private FileDomain fileType29;
+	private FileDomain fileType41;
 	
 	//검색
 	private String srchInput1;

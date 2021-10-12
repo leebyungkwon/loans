@@ -1,3 +1,8 @@
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_path char(1) not null default 'B';
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_path char(1) not null default 'B';
+
+
 -- 회원사, 관리자 휴먼테이블
 create table tb_lc_members_inactive(
 	member_seq integer

@@ -27,7 +27,74 @@
    	<!-- 휴면회원 테이블로 insert -->
 	<insert id="insertInactiveUserBatch" parameterType="users" >
    		INSERT INTO tb_lc_users_inactive
-   		SELECT * FROM tb_lc_users
+   		(
+   			USER_SEQ
+			, USER_ID
+			, PASSWORD
+			, USER_NAME
+			, MOBILE_NO
+			, PL_CLASS
+			, BIRTH_DT
+			, EMAIL
+			, USER_CI
+			, FILE_SEQ
+			, JOIN_DT
+			, TERMS_YN
+			, TERMS_DT
+			, DROP_YN
+			, DROP_DT
+			, INACTIVE_YN
+			, INACTIVE_DT
+			, LAST_LOGIN_DT
+			, REG_SEQ
+			, REG_TIMESTAMP
+			, UPD_SEQ
+			, UPD_TIMESTAMP
+			, CORP_APPR_YN
+			, CORP_APPR_DT
+			, FAIL_CNT
+			, FAIL_STOP_DT
+			, PW_CHANGE_DT
+			, MANAGER_NAME
+			, MANAGER_MOBILE_NO
+			, MANAGER_EMAIL
+			, PW_TOKEN
+			, PW_TOKEN_DT
+   		)
+   		SELECT 
+   			USER_SEQ
+			, USER_ID
+			, PASSWORD
+			, USER_NAME
+			, MOBILE_NO
+			, PL_CLASS
+			, BIRTH_DT
+			, EMAIL
+			, USER_CI
+			, FILE_SEQ
+			, JOIN_DT
+			, TERMS_YN
+			, TERMS_DT
+			, DROP_YN
+			, DROP_DT
+			, 'Y'
+			, NOW()
+			, LAST_LOGIN_DT
+			, REG_SEQ
+			, REG_TIMESTAMP
+			, #{updSeq}
+			, NOW()
+			, CORP_APPR_YN
+			, CORP_APPR_DT
+			, FAIL_CNT
+			, FAIL_STOP_DT
+			, PW_CHANGE_DT
+			, MANAGER_NAME
+			, MANAGER_MOBILE_NO
+			, MANAGER_EMAIL
+			, PW_TOKEN
+			, PW_TOKEN_DT
+   		FROM tb_lc_users
    		WHERE USER_SEQ = #{userSeq}
 	</insert>
 	

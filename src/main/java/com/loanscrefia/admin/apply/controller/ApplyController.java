@@ -88,6 +88,14 @@ public class ApplyController {
 		return mv;
 	}
 	
+	// 2021-10-08 일반사용자가 등록한 모집인등록 리스트 페이지
+	@GetMapping(value="/newApply/newApplyPage")
+	public ModelAndView companyApplyPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyList");
+		mv.addObject("historyback", historyback);
+		return mv;
+	}
+	
 	//리스트
 	@PostMapping(value="/apply/applyList")
 	public ResponseEntity<ResponseMsg> selectApplyList(ApplyDomain applyDomain){

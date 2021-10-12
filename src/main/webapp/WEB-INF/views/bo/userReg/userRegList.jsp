@@ -420,11 +420,11 @@ function goGetDate(opt) {
 						</div>
 					</td>
 				</tr>
+				<input type="hidden" id="regPath" name="regPath" value="B" />
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
 	</div>
-	
 	<div class="contents">
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>

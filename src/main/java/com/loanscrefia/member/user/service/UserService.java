@@ -33,6 +33,7 @@ import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
@@ -2369,9 +2370,6 @@ public class UserService {
 		
 		return new ResponseMsg(HttpStatus.OK, code, msg);
 	}
-	
-	
-	
 	
 	
 	

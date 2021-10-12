@@ -190,6 +190,7 @@ commit;
 create table tb_lc_mas01(
 	master_seq integer not null default nextval('tb_lc_mas01_seq')
 	, master_to_id varchar(20)
+	, reg_path char(1) not null default 'B'
 	, com_code integer
 	, member_seq integer
 	, sub_yn char(1) not null default 'N'
@@ -272,6 +273,8 @@ commit;
 COMMENT ON TABLE tb_lc_mas01 IS '모집인정보';
 COMMENT ON COLUMN tb_lc_mas01.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.master_to_id IS '접수번호ID(조회)';
+COMMENT ON COLUMN tb_lc_mas01.reg_path IS '등록경로';
+
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.sub_yn IS '약식등록여부';
@@ -575,6 +578,7 @@ create table tb_lc_mas01_hist(
 	master_hist_seq integer not null default nextval('tb_lc_mas01_hist_seq')
 	, master_seq integer
 	, master_to_id varchar(20)
+	, reg_path char(1) not null default 'B'
 	, com_code integer
 	, member_seq integer
 	, sub_yn char(1) not null default 'N'
@@ -656,6 +660,7 @@ COMMENT ON TABLE tb_lc_mas01_hist IS '모집인정보';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_hist_seq IS '모집인변경이력시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_to_id IS '접수번호ID(조회)';
+COMMENT ON COLUMN tb_lc_mas01_hist.reg_path IS '등록경로';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.sub_yn IS '약식등록여부';

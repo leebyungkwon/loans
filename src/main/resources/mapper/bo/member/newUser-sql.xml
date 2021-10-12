@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.member.user.repository.NewUserRepository">
+
+	<!-- 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사) -->
+   	<select id="selectNewUserRegList" parameterType="newUser" resultType="newUser">
+   		SELECT 
+   			Z.*
+   		FROM
+   		(
+   			SELECT 
+   				<include refid="common.totalPages"/>
+		    	TLM.MASTER_SEQ
+		    	,TLM.MASTER_TO_ID
+				,TLM.COM_CODE
+				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+				,TLM.MEMBER_SEQ
+				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+				,TLM.SUB_YN
+				,TLM.PRE_REG_YN
+				,TLM.PRE_LC_NUM
+				,TLM.PL_CLASS
+				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.PL_WORK
+				,TLM.CORP_USER_YN
+				,TLM.CAREER_TYP
+				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+				,TLM.API_CAREER_YN
+				,TLM.PL_PRODUCT
+				,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+				,TLM.PL_REG_STAT
+				,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+				,TLM.PL_STAT
+				,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+				,TLM.PL_REGIST_NO
+				,TLM.CON_NUM
+				,TLM.CI
+				,CASE 
+					WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+					WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 END AS PL_M_NAME
+				<!-- ,TLM.PL_M_NAME -->
+				,TLM.PL_M_Z_ID
+				,TLM.PL_M_Z_ID_EDU
+				,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+				,TLM.ADDR
+				,TLM.ADDR_DETAIL
+				,TLM.PL_EDU_NO
+				,TLM.CAREER_START_DATE
+				,TLM.CAREER_END_DATE
+				,TLM.ENTRUST_DATE
+				,TLM.COM_CONT_DATE
+				,TLM.PL_MERCHANT_NAME
+				,TLM.PL_CEO_NAME
+				,TLM.PL_MERCHANT_NO
+				,TLM.PL_BUSINESS_NO
+				,TLM.COMP_PHONE_NO
+				,TLM.CORP_FOUND_DATE
+				,TLM.CAPITAL
+				,TLM.VOTING_STOCK_CNT
+				,TLM.PL_PAY_STAT
+				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+				,TLM.COM_REG_DATE
+				,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
+				,TLM.CRE_APP_DATE
+				,TLM.CRE_LICENSE_DATE
+				,TLM.PAY_DATE
+				,TLM.SEND_MSG
+				,TLM.PL_HIST_CD
+				,TLM.COM_HAEJI_DATE
+				,TLM.CRE_HAEJI_DATE
+				,TLM.FILE_SEQ
+				,TLM.REG_TIMESTAMP AS ORIGIN_REG_TIMESTAMP
+				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+				,TLM.UPD_SEQ
+				,TLM.UPD_TIMESTAMP AS ORIGIN_UPD_TIMESTAMP
+				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+		    FROM TB_LC_MAS01 TLM
+			<where>
+					AND TLM.USE_YN = 'Y'
+					AND TLM.PL_REG_STAT = '1'												-- 모집인 상태가 승인전인 것
+					
+					<if test="regPath != null and regPath != ''">
+						AND TLM.REG_PATH = #{regPath}
+						AND TLM.PL_STAT IN ('2','5','8','10','11','12','13','14','15','16')	 -- 승인요청, 보완요청, 취소, 등록요건불충족, 보완미이행, 미결제, 승인일홀딩, 승인요청취소, 회원사확인완료, 승인거절
+					</if>
+					
+				<if test='creGrp != "2"'>
+					AND	TLM.COM_CODE IN ('3000001',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				</if>
+	   			<if test="memberNm != null and memberNm != ''">
+					AND FN_MEMBER_NAME(TLM.MEMBER_SEQ) LIKE '%' || #{memberNm} || '%'
+				</if>
+				<if test="plClass != null and plClass != ''">
+					<if test='plClass.equals("1") || plClass.equals("2")'>
+						AND TLM.PL_CLASS 		= #{plClass} 
+						AND TLM.CORP_USER_YN  = 'N'
+					</if>
+					<if test='plClass.equals("3")'>
+						AND TLM.PL_CLASS 		= '1' 
+						AND TLM.CORP_USER_YN  = 'Y'
+					</if>
+				</if>
+				<if test="plProduct != null and plProduct != ''">
+					AND TLM.PL_PRODUCT = #{plProduct}
+				</if>
+				<if test="plMName != null and plMName != ''">
+					AND (CASE 
+						 WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+						 WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 		  END
+				 		 ) LIKE '%' || #{plMName} || '%'
+				</if>
+				<if test="plMZId != null and plMZId != ''">
+					AND TLM.PL_M_Z_ID = #{plMZId}
+				</if>
+				<if test="plCellphone != null and plCellphone != ''">
+					AND FN_CELLPHONE(TLM.PL_CELLPHONE) LIKE '%' || #{plCellphone} || '%'
+				</if>
+				<if test="plMerchantName != null and plMerchantName != ''">
+					AND TLM.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+				</if>
+				<if test="plMerchantNo != null and plMerchantNo != ''">
+					AND TLM.PL_MERCHANT_NO = #{plMerchantNo}
+				</if>
+		    	<if test="plStat != null and plStat != ''">
+					AND TLM.PL_STAT = #{plStat}
+				</if>
+				<if test="masterToId != null and masterToId != ''">
+					AND TLM.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+				</if>
+				<if test="srchDate1 != null and srchDate1 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+				</if>
+				<if test="srchDate2 != null and srchDate2 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				</if>
+		    </where>
+		    ORDER BY TLM.MASTER_SEQ DESC
+   		)Z
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 개인 조회 -->
+   	<select id="getNewUserRegDetail" parameterType="newUser" resultType="newUser">
+   		SELECT 
+	    	 TLM.MASTER_SEQ
+	    	,TLM.MASTER_TO_ID
+			,TLM.COM_CODE
+			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+			,TLM.MEMBER_SEQ
+			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+			,(SELECT EMAIL FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS EMAIL
+			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
+			,FN_CELLPHONE((SELECT EXTENSION_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS EXTENSION_NO
+			,TLM.SUB_YN
+			,TLM.PRE_REG_YN
+			,TLM.PL_CLASS
+			,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+			,TLM.PL_WORK
+			,TLM.CORP_USER_YN
+			,TLM.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+			,TLM.API_CAREER_YN
+			,TLM.PL_PRODUCT
+			,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+			,TLM.PL_REG_STAT
+			,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+			,TLM.PL_STAT
+			,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+			,TLM.PL_REGIST_NO
+			,TLM.CON_NUM
+			,TLM.CI
+			,TLM.PL_M_NAME
+			,TLM.PL_M_Z_ID
+			,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+			,TLM.ADDR
+			,FN_CD_DTL('ADD001',TLM.ADDR) AS ADDR_NM
+			,TLM.ADDR_DETAIL
+			,TLM.PL_EDU_NO
+			,CASE
+				WHEN TLM.CAREER_START_DATE IS NULL THEN NULL
+				WHEN TLM.CAREER_START_DATE = '' THEN NULL
+				ELSE TO_DATE(TLM.CAREER_START_DATE,'YYYYMMDD')
+			 END AS CAREER_START_DATE
+			,CASE
+				WHEN TLM.CAREER_END_DATE IS NULL THEN NULL
+				WHEN TLM.CAREER_END_DATE = '' THEN NULL
+				ELSE TO_DATE(TLM.CAREER_END_DATE,'YYYYMMDD')
+			 END AS CAREER_END_DATE
+			,CASE
+				WHEN TLM.ENTRUST_DATE IS NULL THEN NULL
+				WHEN TLM.ENTRUST_DATE = '' THEN NULL
+				ELSE TO_DATE(TLM.ENTRUST_DATE,'YYYYMMDD')
+			 END AS ENTRUST_DATE
+			,CASE
+				WHEN TLM.COM_CONT_DATE IS NULL THEN NULL
+				WHEN TLM.COM_CONT_DATE = '' THEN NULL
+				ELSE TO_DATE(TLM.COM_CONT_DATE,'YYYYMMDD')
+			 END AS COM_CONT_DATE 
+			,TLM.PL_MERCHANT_NAME
+			,TLM.PL_CEO_NAME
+			,TLM.PL_MERCHANT_NO AS ORIGIN_PL_MERCHANT_NO
+			,TLM.PL_MERCHANT_NO
+			,TLM.PL_BUSINESS_NO
+			,TLM.COMP_PHONE_NO
+			,TO_DATE(TLM.CORP_FOUND_DATE,'YYYYMMDD') AS CORP_FOUND_DATE
+			,TLM.CAPITAL
+			,TLM.VOTING_STOCK_CNT
+			,TLM.PL_PAY_STAT
+			,TLM.COM_REG_DATE
+			,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
+			,TLM.CRE_APP_DATE
+			,TLM.CRE_LICENSE_DATE
+			,TLM.PAY_DATE
+			,TLM.SEND_MSG
+			,TLM.PL_HIST_CD
+			,FN_CD_DTL('DRP001',TLM.PL_HIST_CD) AS PL_HIST_CD_NM
+			,TLM.PL_HIST_TXT
+			,TLM.APPLY_HIST_TXT
+			,TO_DATE(TLM.COM_HAEJI_DATE,'YYYYMMDD') AS COM_HAEJI_DATE
+			,TO_DATE(TLM.CRE_HAEJI_DATE,'YYYYMMDD') AS CRE_HAEJI_DATE
+			,TLM.FILE_SEQ
+			,TLM.PRE_LC_NUM
+			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+			,TLM.UPD_SEQ
+			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+	    FROM TB_LC_MAS01 TLM
+	    <where>
+	    	AND TLM.USE_YN 		= 'Y'
+	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
+	    </where>
+   	</select>
+   	
+	<!-- 2021-10-12 고도화 - 모집인 확인처리 위반이력 조회 -->
+	<select id="selectNewUserViolationInfoList" parameterType="newUser" resultType="newUser">
+		SELECT
+			 VIOLATION_SEQ
+			,MASTER_SEQ
+			,VIOLATION_CD
+			,FN_CD_DTL('VIT001',VIOLATION_CD) AS VIOLATION_CD_NM
+			,VIO_NUM
+			,APPLY_YN
+			,REG_SEQ
+			,TO_CHAR(REG_TIMESTAMP, 'YYYYMMDD') AS REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
+		FROM TB_LC_VIOLATION
+		WHERE MASTER_SEQ = #{masterSeq}
+		<if test="vioNum != null and vioNum != ''">
+			<if test='vioNum.equals("empty")'>
+				AND (VIO_NUM IS NULL OR VIO_NUM = '')
+				AND APPLY_YN = 'N'
+			</if>
+			<if test='vioNum.equals("notEmpty")'>
+				AND APPLY_YN = 'Y'
+			</if>			
+		</if>
+		ORDER BY VIOLATION_SEQ ASC
+	</select>
+	
+	
+
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 대표자 및 임원 리스트 -->
+   	<select id="selectNewUserRegCorpImwonList" parameterType="userImwon" resultType="userImwon">
+   		SELECT 
+			 EXC_SEQ
+			,MASTER_SEQ
+			,CAREER_TYP
+			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
+			,POSITION_NM
+			,EXC_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CASE
+				WHEN CAREER_START_DATE IS NULL THEN NULL
+				WHEN CAREER_START_DATE = '' THEN NULL
+				ELSE TO_DATE(CAREER_START_DATE,'YYYYMMDD')
+			 END AS CAREER_START_DATE
+			,CASE
+				WHEN CAREER_END_DATE IS NULL THEN NULL
+				WHEN CAREER_END_DATE = '' THEN NULL
+				ELSE TO_DATE(CAREER_END_DATE,'YYYYMMDD')
+			 END AS CAREER_END_DATE
+			,FULL_TM_STAT
+			,FN_CD_DTL('FTM001',FULL_TM_STAT) AS FULL_TM_STAT_NM
+			,EXPERT_STAT
+			,FN_CD_DTL('EXP001',EXPERT_STAT) AS EXPERT_STAT_NM
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IMWON
+   		<where>
+   			AND USE_YN 		= 'Y'
+   			AND MASTER_SEQ 	= #{masterSeq}
+   		</where>
+   		ORDER BY EXC_SEQ ASC
+   	</select>
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 대표자 및 임원 상세 -->
+   	<select id="getNewUserRegCorpImwonInfo" parameterType="userImwon" resultType="userImwon">
+   		SELECT 
+			 TLMI.EXC_SEQ
+			,TLMI.MASTER_SEQ
+			,TLMI.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLMI.CAREER_TYP) AS CAREER_TYP_NM
+			,TLMI.POSITION_NM
+			,TLMI.EXC_NAME
+			,TLMI.PL_M_Z_ID
+			,TLMI.PL_EDU_NO
+			,TO_DATE(TLMI.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(TLMI.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,TLMI.FULL_TM_STAT
+			,FN_CD_DTL('FTM001',TLMI.FULL_TM_STAT) AS FULL_TM_STAT_NM
+			,TLMI.EXPERT_STAT
+			,FN_CD_DTL('EXP001',TLMI.EXPERT_STAT) AS EXPERT_STAT_NM
+			,TLMI.FILE_SEQ
+		FROM TB_LC_MAS01_IMWON TLMI
+   		<where>
+   			AND TLMI.USE_YN 	= 'Y'
+   			AND TLMI.EXC_SEQ 	= #{excSeq}
+   		</where>
+   	</select>
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 전문인력 리스트 -->
+   	<select id="selectNewUserRegCorpExpertList" parameterType="userExpert" resultType="userExpert">
+   		SELECT
+			 EXP_SEQ
+			,MASTER_SEQ
+			,CAREER_TYP
+			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
+			,EXP_NAME
+			,PL_M_Z_ID
+			,PL_EDU_NO
+			,CASE
+				WHEN CAREER_START_DATE IS NULL THEN NULL
+				WHEN CAREER_START_DATE = '' THEN NULL
+				ELSE TO_DATE(CAREER_START_DATE,'YYYYMMDD')
+			 END AS CAREER_START_DATE
+			,CASE
+				WHEN CAREER_END_DATE IS NULL THEN NULL
+				WHEN CAREER_END_DATE = '' THEN NULL
+				ELSE TO_DATE(CAREER_END_DATE,'YYYYMMDD')
+			 END AS CAREER_END_DATE
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_EXPERT
+   		<where>
+   			AND USE_YN 		= 'Y'
+   			AND MASTER_SEQ 	= #{masterSeq}
+   		</where>
+   		ORDER BY EXP_SEQ ASC
+   	</select>
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 전문인력 상세 -->
+   	<select id="getNewUserRegCorpExpertInfo" parameterType="userExpert" resultType="userExpert">
+   		SELECT 
+			 TLME.EXP_SEQ
+			,TLME.MASTER_SEQ
+			,TLME.CAREER_TYP
+			,FN_CD_DTL('CAR001',TLME.CAREER_TYP) AS CAREER_TYP_NM
+			,TLME.EXP_NAME
+			,TLME.PL_M_Z_ID
+			,TLME.PL_EDU_NO
+			,TO_DATE(TLME.CAREER_START_DATE,'YYYYMMDD') AS CAREER_START_DATE
+			,TO_DATE(TLME.CAREER_END_DATE,'YYYYMMDD') AS CAREER_END_DATE
+			,TLME.FILE_SEQ
+   		FROM TB_LC_MAS01_EXPERT TLME
+   		<where>
+   			AND TLME.USE_YN 	= 'Y'
+   			AND TLME.EXP_SEQ 	= #{expSeq}
+   		</where>
+   	</select>
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 전산인력 리스트 -->
+   	<select id="selectNewUserRegCorpItList" parameterType="userIt" resultType="userIt">
+   		SELECT
+	   		 OPER_SEQ
+			,MASTER_SEQ
+			,OPER_NAME
+			,PL_M_Z_ID
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IT
+   		<where>
+   			AND USE_YN 		= 'Y'
+   			AND MASTER_SEQ 	= #{masterSeq}
+   		</where>
+   		ORDER BY OPER_SEQ ASC
+   	</select>
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 전산인력 상세 -->
+   	<select id="getNewUserRegCorpItInfo" parameterType="userIt" resultType="userIt">
+   		SELECT
+	   		 OPER_SEQ
+			,MASTER_SEQ
+			,OPER_NAME
+			,PL_M_Z_ID
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IT
+   		<where>
+   			AND USE_YN 		= 'Y'
+   			AND OPER_SEQ 	= #{operSeq}
+   		</where>
+   	</select>
+
+
+   	<!-- 2021-10-12 고도화 - 모집인 정보 기본 이력 저장 -->
+   	<insert id="insertNewUserHistory" parameterType="newUser">
+   		INSERT INTO TB_LC_MAS01_HIST
+   		(
+   			 MASTER_SEQ
+   			,MASTER_TO_ID
+   			,REG_PATH
+			,COM_CODE
+			,MEMBER_SEQ
+			,SUB_YN
+			,PRE_REG_YN
+			,PRE_LC_NUM
+			,PL_REGIST_NO
+			,CON_NUM
+			,PL_CLASS
+			,PL_WORK
+			,CORP_USER_YN
+			,CAREER_TYP
+			,API_CAREER_YN
+			,PL_PRODUCT
+			,PL_REG_STAT
+			,PL_STAT
+			,CI
+			,PL_M_NAME
+			,PL_M_Z_ID
+			,PL_M_Z_ID_EDU
+			,PL_CELLPHONE
+			,ADDR
+			,ADDR_DETAIL
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,ENTRUST_DATE
+			,COM_CONT_DATE
+			,PL_MERCHANT_NAME
+			,PL_CEO_NAME
+			,PL_MERCHANT_NO
+			,PL_BUSINESS_NO
+			,COMP_PHONE_NO
+			,CORP_FOUND_DATE
+			,CAPITAL
+			,VOTING_STOCK_CNT
+			,PL_PAY_STAT
+			,COM_REG_DATE
+			,FIRST_APP_DATE
+			,APP_DATE_HOLD
+			,CHK_YN
+			,ADMIN_CHK_YN
+			,ADMIN_CHK_SEQ
+			,COM_UPD_DATE
+			,CRE_APP_FI_DATE
+			,CRE_APP_DATE
+			,CRE_LICENSE_DATE
+			,PAY_DATE
+			,SEND_MSG
+			,PL_HIST_CD
+			,PL_HIST_TXT
+			,APPLY_HIST_TXT
+			,COM_HAEJI_DATE
+			,CRE_HAEJI_DATE
+			,FILE_SEQ
+			,USE_YN
+			,REG_SEQ
+			,REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
+   		)
+   		SELECT
+   			 MASTER_SEQ
+   			,MASTER_TO_ID
+   			,REG_PATH
+			,COM_CODE
+			,MEMBER_SEQ
+			,SUB_YN
+			,PRE_REG_YN
+			,PRE_LC_NUM
+			,PL_REGIST_NO
+			,CON_NUM
+			,PL_CLASS
+			,PL_WORK
+			,CORP_USER_YN
+			,CAREER_TYP
+			,API_CAREER_YN
+			,PL_PRODUCT
+			,PL_REG_STAT
+			,PL_STAT
+			,CI
+			,PL_M_NAME
+			,PL_M_Z_ID
+			,PL_M_Z_ID_EDU
+			,PL_CELLPHONE
+			,ADDR
+			,ADDR_DETAIL
+			,PL_EDU_NO
+			,CAREER_START_DATE
+			,CAREER_END_DATE
+			,ENTRUST_DATE
+			,COM_CONT_DATE
+			,PL_MERCHANT_NAME
+			,PL_CEO_NAME
+			,PL_MERCHANT_NO
+			,PL_BUSINESS_NO
+			,COMP_PHONE_NO
+			,CORP_FOUND_DATE
+			,CAPITAL
+			,VOTING_STOCK_CNT
+			,PL_PAY_STAT
+			,COM_REG_DATE
+			,FIRST_APP_DATE
+			,APP_DATE_HOLD
+			,CHK_YN
+			,ADMIN_CHK_YN
+			,ADMIN_CHK_SEQ
+			,COM_UPD_DATE
+			,CRE_APP_FI_DATE
+			,CRE_APP_DATE
+			,CRE_LICENSE_DATE
+			,PAY_DATE
+			,SEND_MSG
+			,PL_HIST_CD
+			,PL_HIST_TXT
+			,APPLY_HIST_TXT
+			,COM_HAEJI_DATE
+			,CRE_HAEJI_DATE
+			,FILE_SEQ
+			,USE_YN
+			,#{regSeq}
+			,NOW()
+			,#{updSeq}
+			,NOW()
+   		FROM TB_LC_MAS01
+   		WHERE MASTER_SEQ = #{masterSeq}
+   	</insert>
+   	
+   	
+   	<!-- 2021-10-12 고도화 - 회원사 거절 -->
+   	<update id="newUserApply" parameterType="newUser">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			PL_STAT			= #{plStat}
+			,UPD_SEQ		= #{regSeq}
+			,UPD_TIMESTAMP	= NOW()
+		WHERE
+			MASTER_SEQ = #{masterSeq}
+   	</update>
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 상태 단계별 이력 저장 -->
+   	<insert id="insertNewMasterStep" parameterType="newUser">
+   		INSERT INTO TB_LC_MAS01_STEP
+   		(
+   			 MASTER_SEQ
+   			,PL_REG_STAT
+   			,PL_STAT
+   			,PL_HIST_TXT
+   			,REG_TIMESTAMP
+   			,REG_SEQ
+   		)
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_REG_STAT
+   			,PL_STAT
+   			,CASE 
+				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
+				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('2') THEN APPLY_HIST_TXT
+				WHEN PL_STAT IN ('16') THEN '회원사 승인거절'
+				ELSE ''
+			 END AS PL_HIST_TXT
+   			,NOW()
+   			,#{regSeq}
+   		FROM TB_LC_MAS01
+   		WHERE MASTER_SEQ = #{masterSeq}
+   	</insert>
+
+   	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사) -->
+   	<select id="selectNewConfirmList" parameterType="newUser" resultType="newUser">
+   		SELECT 
+   			Z.*
+   		FROM
+   		(
+   			SELECT 
+   				<include refid="common.totalPages"/>
+		    	 TLM.MASTER_SEQ
+		    	,TLM.MASTER_TO_ID
+				,TLM.COM_CODE
+				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+				,TLM.MEMBER_SEQ
+				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+				,TLM.SUB_YN
+				,TLM.PRE_REG_YN
+				,TLM.PRE_LC_NUM
+				,TLM.PL_CLASS
+				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.CORP_USER_YN
+				,TLM.CAREER_TYP
+				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+				,TLM.API_CAREER_YN
+				,TLM.PL_PRODUCT
+				,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+				,TLM.PL_REG_STAT
+				,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+				,TLM.PL_STAT
+				,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+				,TLM.PL_REGIST_NO
+				,TLM.CON_NUM
+				,TLM.CI
+				,CASE 
+					WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+					WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 END AS PL_M_NAME
+				<!-- ,TLM.PL_M_NAME -->
+				,TLM.PL_M_Z_ID
+				,TLM.PL_M_Z_ID_EDU
+				,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+				,TLM.ADDR
+				,TLM.ADDR_DETAIL
+				,TLM.PL_EDU_NO
+				,TLM.CAREER_START_DATE
+				,TLM.CAREER_END_DATE
+				,TLM.ENTRUST_DATE
+				,TLM.COM_CONT_DATE
+				,TLM.PL_MERCHANT_NAME
+				,TLM.PL_CEO_NAME
+				,TLM.PL_MERCHANT_NO
+				,TLM.PL_BUSINESS_NO
+				,TLM.COMP_PHONE_NO
+				,TLM.CORP_FOUND_DATE
+				,TLM.CAPITAL
+				,TLM.VOTING_STOCK_CNT
+				,TLM.PL_PAY_STAT
+				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+				,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+				,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
+				,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
+				,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
+				,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
+				,TO_DATE(TLM.CRE_LICENSE_DATE,'YYYYMMDD') AS CRE_LICENSE_DATE
+				,TLM.PAY_DATE AS ORIGIN_PAY_DATE
+				,TO_DATE(TLM.PAY_DATE,'YYYYMMDD') AS PAY_DATE
+				,TLM.SEND_MSG
+				,TLM.PL_HIST_CD
+				,TLM.COM_HAEJI_DATE
+				,TLM.CRE_HAEJI_DATE
+				,TLM.FILE_SEQ
+				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+				,TLM.UPD_SEQ
+				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+				,(SELECT TLP.PAY_TYPE FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_TYPE
+				,(SELECT TLP.NAME FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_NAME
+				,(SELECT TLP.REG_TIMESTAMP FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS ORIGIN_PAY_REG_DATE
+				,(SELECT TO_CHAR(TLP.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_REG_DATE
+		    FROM TB_LC_MAS01 TLM
+			<where>
+					AND TLM.USE_YN = 'Y'
+					<if test="regPath != null and regPath != ''">
+						AND TLM.REG_PATH = #{regPath}
+						AND TLM.PL_STAT IN ('3','4','6','7','9')								-- 변경요청, 해지요청, 변경요청(보완), 해지요청(보완), 완료
+					</if>
+					
+				<if test='creGrp != "2"'>
+					AND	TLM.COM_CODE IN ('3000001',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				</if>
+	   			<if test="memberNm != null and memberNm != ''">
+					AND FN_MEMBER_NAME(TLM.MEMBER_SEQ) LIKE '%' || #{memberNm} || '%'
+				</if>
+				<if test="plClass != null and plClass != ''">
+					<if test='plClass.equals("1") || plClass.equals("2")'>
+						AND TLM.PL_CLASS 		= #{plClass} 
+						AND TLM.CORP_USER_YN  = 'N'
+					</if>
+					<if test='plClass.equals("3")'>
+						AND TLM.PL_CLASS 		= '1' 
+						AND TLM.CORP_USER_YN  = 'Y'
+					</if>
+				</if>
+				<if test="plProduct != null and plProduct != ''">
+					AND TLM.PL_PRODUCT = #{plProduct}
+				</if>
+				<if test="plMName != null and plMName != ''">
+					AND (CASE 
+						 WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+						 WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 		  END
+				 		 ) LIKE '%' || #{plMName} || '%'
+				</if>
+				<if test="plMZId != null and plMZId != ''">
+					AND TLM.PL_M_Z_ID = #{plMZId}
+				</if>
+				<if test="plCellphone != null and plCellphone != ''">
+					AND FN_CELLPHONE(TLM.PL_CELLPHONE) LIKE '%' || #{plCellphone} || '%'
+				</if>
+				<if test="plMerchantName != null and plMerchantName != ''">
+					AND TLM.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+				</if>
+				<if test="plMerchantNo != null and plMerchantNo != ''">
+					AND TLM.PL_MERCHANT_NO = #{plMerchantNo}
+				</if>
+		    	<if test="plStat != null and plStat != ''">
+					AND TLM.PL_STAT = #{plStat}
+				</if>
+				<if test="masterToId != null and masterToId != ''">
+					AND TLM.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+				</if>
+				<if test="srchDate1 != null and srchDate1 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+				</if>
+				<if test="srchDate2 != null and srchDate2 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				</if>
+		    </where>
+		    ORDER BY TLM.MASTER_SEQ DESC
+   		)Z
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	
+   	
+   	<!-- 2021-10-12 고도화 - 모집인 조회 및 해지 - 해지요청 -->
+   	<update id="newUserDropApply" parameterType="newUser">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			PL_STAT			= #{plStat}
+			,UPD_SEQ		= #{regSeq}
+			,UPD_TIMESTAMP	= NOW()
+			<if test="plHistTxt != null and plHistTxt != ''">
+			,PL_HIST_TXT 	= #{plHistTxt}
+			</if>
+			<if test='plStat.equals("4")'>
+			,PL_HIST_CD		= #{plHistCd}
+			,COM_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
+			,CRE_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
+			</if>
+		WHERE
+			MASTER_SEQ = #{masterSeq}
+   	</update>
+   
+   
+   
+   
+   	
+</mapper> 

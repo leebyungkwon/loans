@@ -43,12 +43,17 @@ function menuActiveFunction(){
 		$("#menuUsers").addClass("on");
 	}else if(menuUrl[2] == "inactive"){
 		$("#menuInactive").addClass("on");
+	}else if(menuUrl[2] == "newUser"){
+		$("#menuNewUser").addClass("on");
+	}else if(menuUrl[2] == "companyApply"){
+		$("#menuCompanyApply").addClass("on");
+	}else if(menuUrl[2] == "newConfirm"){
+		$("#menuNewConfirm").addClass("on");
 	}
+	
 	
 }
 </script>
-
-
 
 <div class="gnb">
 	<ul>
@@ -84,6 +89,13 @@ function menuActiveFunction(){
 			<li id="menuApi"><a href="/system/api/apiPage">API관리</a></li>
 			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
+			
+			
+			<li id="menuNewUser"><a href="/member/newUser/newUserRegPage">(고도화-회원사)모집인 등록신청 확인</a></li>
+			<li id="menuNewConfirm"><a href="/member/newConfirm/newConfirmPage">(고도화-회원사)모집인 조회 및 해지</a></li>
+			
+			
+			<li id="menuCompanyApply"><a href="/admin/newApply/newApplyPage">(고도화-협회)모집인 등록 승인처리</a></li>
 		</sec:authorize>
 	</ul>
 </div>

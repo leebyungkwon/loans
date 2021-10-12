@@ -3,13 +3,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script type="text/javascript">
-var applyGrid = Object.create(GRID);
+var newApplyGrid = Object.create(GRID);
 
 function pageLoad(){
 	
 	//모집인 승인처리 그리드
-	applyGrid.set({
-		  id			: "applyGrid"
+	newApplyGrid.set({
+		  id			: "newApplyGrid"
   		, url			: "/admin/apply/applyList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
@@ -36,7 +36,7 @@ function pageLoad(){
 				,{type:"string"	, name:'adminChkYnTxt'	, index:'adminChkYnTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
-		, rowClick		: {retFunc : goApplyDetail}
+		, rowClick		: {retFunc : goNewApplyDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
@@ -133,12 +133,12 @@ function pageLoad(){
 		}else{
 			$("#searchAppDate").val("first_app_date");
 		}
-		applyGrid.refresh();
+		companyApplyGrid.refresh();
 	});
 	
 	// 승인요청건만 조회
 	$("#applyResultCheck").on("click", function(){
-		applyGrid.refresh();
+		companyApplyGrid.refresh();
 	})
 	
 	if($("#searchAppDate").val() == "CRE_APP_FI_DATE"){
@@ -156,9 +156,9 @@ $(document).mouseup(function(e){
 });
 
 //모집인 조회 및 변경 row 클릭 이벤트
-function goApplyDetail(idx, data){
-	var masterSeq 	= applyGrid.gridData[idx].masterSeq;
-	var plClass		= applyGrid.gridData[idx].plClass;
+function goNewApplyDetail(idx, data){
+	var masterSeq 	= newApplyGrid.gridData[idx].masterSeq;
+	var plClass		= newApplyGrid.gridData[idx].plClass;
 	
 	if(plClass == "1"){
 		//개인
@@ -190,13 +190,13 @@ function goGetDate2(opt) {
 
 //선택 승인완료 -> 필수 첨부파일 하나라도 없으면 요청 불가 *****
 function goApplyAccept() {
-	var chkedLen 	= $("#tbl_applyGrid_body tr td input:checkbox:checked").length;
+	var chkedLen 	= $("#tbl_newApplyGrid_body tr td input:checkbox:checked").length;
 	if(chkedLen == 0){
 		alert("모집인을 선택해 주세요.");
 		return;
 	}
 
-	var chkData 		= applyGrid.getChkData();
+	var chkData 		= newApplyGrid.getChkData();
 	var masterSeqArr	= [];
 	for(var i=0; i<chkedLen; i++){
 		masterSeqArr.push(chkData[i].masterSeq);
@@ -212,7 +212,7 @@ function goApplyAccept() {
 				
 				console.log("#####" , result);
 				//alert(result.data.message);
-				applyGrid.refresh();
+				companyApplyGrid.refresh();
 		    }
 		}
 		AjaxUtil.post(p);
@@ -221,13 +221,13 @@ function goApplyAccept() {
 
 //선택 보안요청
 function goApplyImprove() {
-	var chkedLen 	= $("#tbl_applyGrid_body tr td input:checkbox:checked").length;
+	var chkedLen 	= $("#tbl_newApplyGrid_body tr td input:checkbox:checked").length;
 	if(chkedLen == 0){
 		alert("모집인을 선택해 주세요.");
 		return;
 	}
 
-	var chkData 		= applyGrid.getChkData();
+	var chkData 		= newApplyGrid.getChkData();
 	var masterSeqArr	= [];
 	for(var i=0; i<chkedLen; i++){
 		masterSeqArr.push(chkData[i].masterSeq);
@@ -240,17 +240,12 @@ function goApplyImprove() {
 				masterSeqArr 	: masterSeqArr  
 			}
 			, success 	: function (opt,result) {
-				
-				console.log("결과11 == ", result);				
-				console.log("결과22 == ", masterSeqArr.length);				
-				
 				if(result.data == masterSeqArr.length){
 					alert("보완요청이 완료되었습니다.");
-					applyGrid.refresh();
-					//location.href = "/member/user/userRegPage";
+					newApplyGrid.refresh();
 				}else if(result.data == -2){
 					alert("이미 승인완료된 모집인입니다.");
-					applyGrid.refresh();
+					newApplyGrid.refresh();
 				}else{
 					alert("오류가 발생하였습니다.[모집인 상태변경 실패]");
 				}
@@ -270,7 +265,7 @@ function goApplyImprove() {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>모집인 승인처리</h2>
+			<h2>모집인 확인처리</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
@@ -411,7 +406,7 @@ function goApplyImprove() {
 					</td>
 				</tr>
 				<input type="hidden" id="searchAppDate" name="searchAppDate" value="first_app_date">
-				<input type="hidden" id="regPath" name="regPath" value="B" />
+				<input type="hidden" id="regPath" name="regPath" value="F">
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -427,6 +422,6 @@ function goApplyImprove() {
 				<a href="javascript:void(0);" class="btn_sort" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
 			</div>
 		</div>
-		<div id="applyGrid" class="long_table"></div>
+		<div id="newApplyGrid" class="long_table"></div>
 	</div>
 </div>
