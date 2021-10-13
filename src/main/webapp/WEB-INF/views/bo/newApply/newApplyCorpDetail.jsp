@@ -79,6 +79,9 @@ function goRecruitApply(num){
 	}else if(num == "3"){
 		plStat = "9";
 		plRegStat = "3";
+	}else if(num == "5"){
+		plStat = "1";
+		plRegStat = "1";
 	}else{
 		alert("오류가 발생하였습니다.");
 		return false;
@@ -608,20 +611,25 @@ function goApplyImprove(num){
 			<c:if test="${result.applyInfo.plStat eq '4'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>
+				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a> -->
 			</c:if>
-			<c:if test="${result.applyInfo.plStat eq '2'}">
+			
+			<c:if test="${result.applyInfo.plStat eq '14'}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(5);">승인요청취소승인</a>
+			</c:if>
+			
+			<c:if test="${result.applyInfo.plStat eq '15'}">
 				<c:if test="${result.adminCreGrp eq '2'}">
 					<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>
+				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a> -->
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a>					
+				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a> -->					
 			</c:if>
 			<a href="javascript:void(0);" class="btn_Lgray" style="position: absolute; left: 0;" onclick="prevRegCheckPopup()">기등록확인</a>
 		</div>

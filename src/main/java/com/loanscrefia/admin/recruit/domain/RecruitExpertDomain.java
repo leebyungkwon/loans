@@ -52,4 +52,6 @@ public class RecruitExpertDomain extends BaseDomain {
 	private FileDomain fileType31;
 	private FileDomain fileType35;
 	private FileDomain fileType36;
+	private FileDomain fileType39;
+	private FileDomain fileType40;
 }

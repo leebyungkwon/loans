@@ -312,13 +312,13 @@ function pageLoad(){
 								</tr>
 							</table>
 						</div>
-						<div class="btn_wrap02">
+<%-- 						<div class="btn_wrap02">
 							<div class="right">
 								<a href="javascript:void(0);" class="btn_blue btn_middle mgr5 ocr_imwon_click" 
 								data-index="${status.index}" data-imwon-file-seq="${corpImwonList.fileSeq}"
 								data-imwon-seq="${corpImwonList.excSeq}" >OCR검증</a>
 							</div>
-						</div>
+						</div> --%>
 					</div>
 				</c:forEach>
 			</c:when>

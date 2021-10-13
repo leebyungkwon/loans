@@ -1016,19 +1016,24 @@ public class NewApplyService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
 		}
 		
+		
+		// 2021-10-13 SMS 추가예정
+		/*
 		int emailResult = 0;
 		EmailDomain emailDomain = new EmailDomain();
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(statCheck.getEmail());
-		
+		*/
 		// API성공여부
 		boolean apiCheck = false;
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		
-		if("5".equals(newApplyDomain.getPlStat())) {
+		if("1".equals(newApplyDomain.getPlStat()) && "1".equals(newApplyDomain.getPlRegStat())){
+			apiCheck = true;
+		}else if("5".equals(newApplyDomain.getPlStat())) {
 			// 승인요청에 대한 보완
-			emailDomain.setInstId("141");
-			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());		
+			//emailDomain.setInstId("141");
+			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());		
 			apiCheck = true;
 		}else if("9".equals(newApplyDomain.getPlStat()) && "2".equals(newApplyDomain.getPlRegStat()) && "N".equals(newApplyDomain.getPreRegYn())) {
 			
@@ -1051,13 +1056,13 @@ public class NewApplyService {
 			}
 			
 			// 승인요청에 대한 승인
-			emailDomain.setInstId("142");
-			emailDomain.setSubsValue(statCheck.getMasterToId());
+			//emailDomain.setInstId("142");
+			//emailDomain.setSubsValue(statCheck.getMasterToId());
 			apiCheck = true;
 		}else if("9".equals(newApplyDomain.getPlStat()) && "3".equals(newApplyDomain.getPlRegStat()) && "Y".equals(newApplyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
-			emailDomain.setInstId("143");
-			emailDomain.setSubsValue(statCheck.getMasterToId());
+			//emailDomain.setInstId("143");
+			//emailDomain.setSubsValue(statCheck.getMasterToId());
 			
 			if(kfbApiApply) {
 				// 금융상품 3, 6번 제외
@@ -1139,8 +1144,8 @@ public class NewApplyService {
 			
 		}else if("10".equals(newApplyDomain.getPlStat())) {
 			// 승인요청에 대한 부적격
-			emailDomain.setInstId("144");
-			emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());
+			//emailDomain.setInstId("144");
+			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());
 
 			if(kfbApiApply) {
 				// 금융상품 3, 6번 제외
@@ -1185,18 +1190,19 @@ public class NewApplyService {
 			int result = applyRepository.updateNewApplyPlStat(newApplyDomain);
 			
 			//이메일 전송
+			
+			/*
 			if(emailApply) {
 				emailResult = emailRepository.sendEmail(emailDomain);
 			}else {
 				emailResult = 1;
 			}
+			*/
 			
-			if(emailResult > 0 && result > 0) {
+			if(result > 0) {
 				// 모집인단계이력
 				applyRepository.insertNewMasterStep(newApplyDomain);
 				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
-			}else if(emailResult == 0){
-				return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 			}

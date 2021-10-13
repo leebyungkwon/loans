@@ -61,4 +61,17 @@ public interface NewUserRepository {
 	// 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사)
 	List<NewUserDomain> selectNewConfirmList(NewUserDomain newUserDomain);
 	
+	
+	//위반이력 삭제
+	int deleteNewUserViolationInfo(NewUserDomain userDomain);
+	
+	//위반이력 삭제요청
+	int applyNewDeleteUserViolationInfo(NewUserDomain userDomain);
+	
+	//위반이력 저장
+	int insertNewUserViolationInfo(NewUserDomain userDomain);
+	
+	//위반이력 수정
+	int updateNewUserViolationInfo(NewUserDomain userDomain);
+	
 }

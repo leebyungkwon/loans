@@ -98,5 +98,8 @@ public class CosntPage {
 	//2021-10-13 모집인 등록 승인처리 페이지
 	public static String BoNewApplyPage = "bo/newApply";
 	
+	//2021-10-13 모집인 조회 및 해지 페이지
+	public static String BoNewRecruitPage = "bo/newRecruit";
+	
 
 }
