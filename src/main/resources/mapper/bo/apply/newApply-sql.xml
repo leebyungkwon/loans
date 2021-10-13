@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.loanscrefia.admin.apply.repository.ApplyRepository">
+<mapper namespace="com.loanscrefia.admin.apply.repository.NewApplyRepository">
 
-   	<!-- 모집인 조회 및 변경 > 리스트 -->
-   	<select id="selectApplyList" parameterType="apply" resultType="apply">
+   	<!-- 2021-10-13 모집인 등록 승인처리 리스트 -->
+   	<select id="selectNewApplyList" parameterType="newApply" resultType="newApply">
    		SELECT 
    			Z.*
    		FROM
@@ -132,13 +132,7 @@
 				
 				<if test="regPath != null and regPath != ''">
 					AND TLM.REG_PATH = #{regPath}
-					<if test='regPath.equals("B")'>
-						AND TLM.PL_STAT IN ('2','5','13')						-- 처리상태가 승인요청, 보완, 승인일 홀딩
-					</if>
-					
-					<if test='regPath.equals("F")'>
-						AND TLM.PL_STAT IN ('5','13','14','15')					-- 처리상태가 보완요청, 승인일 홀딩, ,승인요청취소, 회원사 확인완료
-					</if>
+					AND TLM.PL_STAT IN ('5','13','14','15')					-- 처리상태가 보완요청, 승인일 홀딩, ,승인요청취소, 회원사 확인완료
 				</if>
 				
 				<if test='creGrp != "2" '>
@@ -239,7 +233,7 @@
    	</select>
    
    	<!-- 모집인 조회 및 변경 > 상세 -->
-   	<select id="getApplyDetail" parameterType="apply" resultType="apply">
+   	<select id="getNewApplyDetail" parameterType="newApply" resultType="newApply">
    		SELECT 
 	    	 TLM.MASTER_SEQ
 	    	,TLM.MASTER_TO_ID
@@ -354,7 +348,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 대표자 및 임원 상세 -->
-   	<select id="selectApplyCorpImwonList" parameterType="applyImwon" resultType="applyImwon">
+   	<select id="selectNewApplyCorpImwonList" parameterType="applyImwon" resultType="applyImwon">
    		SELECT 
 			 EXC_SEQ
 			,MASTER_SEQ
@@ -388,7 +382,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 전문인력 상세 -->
-   	<select id="selecApplyCorpExpertList" parameterType="applyExpert" resultType="applyExpert">
+   	<select id="selectNewApplyCorpExpertList" parameterType="applyExpert" resultType="applyExpert">
    		SELECT
 			 EXP_SEQ
 			,MASTER_SEQ
@@ -417,7 +411,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 전산인력 상세 -->
-   	<select id="selectApplyCorpItList" parameterType="applyIt" resultType="applyIt">
+   	<select id="selectNewApplyCorpItList" parameterType="applyIt" resultType="applyIt">
    		SELECT
 	   		 OPER_SEQ
 			,MASTER_SEQ
@@ -433,7 +427,7 @@
    	</select>
    	
    	<!-- 모집인 조회 및 변경 > 승인처리 -->
-   	<update id="updateApplyPlStat" parameterType="apply">
+   	<update id="updateNewApplyPlStat" parameterType="newApply">
    		UPDATE tb_lc_mas01
    		SET
    			pl_stat = #{plStat}
@@ -461,7 +455,7 @@
    			master_seq = #{masterSeq}
    	</update>
    	
-   	<insert id="insertMasterStep" parameterType="apply">
+   	<insert id="insertNewMasterStep" parameterType="newApply">
    		INSERT INTO TB_LC_MAS01_STEP
    		(
    			 MASTER_SEQ
@@ -487,7 +481,7 @@
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>
    	
-   	<select id="selectApplyCheckList" parameterType="applyCheck" resultType="applyCheck">
+   	<select id="selectNewApplyCheckList" parameterType="applyCheck" resultType="applyCheck">
    		SELECT
    			FILE_SEQ
    			, CHECK_CD
@@ -496,7 +490,7 @@
    		WHERE FILE_SEQ = #{fileSeq}
    	</select>
    	
-   	<insert id="insertApplyCheck" parameterType="applyCheck">
+   	<insert id="insertNewApplyCheck" parameterType="applyCheck">
    		INSERT INTO TB_LC_FILE_CHECK
    		VALUES(
    			#{fileSeq}
@@ -506,7 +500,7 @@
    		)
    	</insert>
    	
-   	<delete id="deleteApplyCheck" parameterType="applyCheck">
+   	<delete id="deleteNewApplyCheck" parameterType="applyCheck">
    		DELETE FROM TB_LC_FILE_CHECK 
    		WHERE
    			FILE_SEQ = #{fileSeq}
@@ -514,7 +508,7 @@
    	</delete>
    	
    	<!-- 실무자확인 -->
-   	<update id="applycheck" parameterType="apply" >
+   	<update id="applyNewcheck" parameterType="newApply" >
    		UPDATE tb_lc_mas01
    		SET
    			chk_yn = #{chkYn}
@@ -524,7 +518,7 @@
    	</update>
    	
    	<!-- 관리자확인 -->
-   	<update id="applyAdmincheck" parameterType="apply" >
+   	<update id="applyNewAdmincheck" parameterType="newApply" >
    		UPDATE tb_lc_mas01
    		SET
    			admin_chk_yn = #{adminChkYn}
@@ -535,7 +529,7 @@
    	</update>
    	
    	<!-- 승인일 홀딩 -->
-   	<update id="appDateHold" parameterType="apply" >
+   	<update id="newAppDateHold" parameterType="newApply" >
    		UPDATE tb_lc_mas01
    		SET
    			<if test='appDateHold.equals("Y")'>
@@ -554,7 +548,7 @@
    	
    	
    	<!-- 모집인 조회 및 변경 > 법인 : 대표및임원 상세 -->
-   	<select id="getApplyImwonDetail" parameterType="applyImwon" resultType="applyImwon">
+   	<select id="getNewApplyImwonDetail" parameterType="applyImwon" resultType="applyImwon">
   		SELECT
   			*
   		FROM
@@ -564,7 +558,7 @@
    	</select>
    	
    	
-   	<select id="selectPrevRegCheckList" parameterType="apply" resultType="apply">
+   	<select id="selectNewPrevRegCheckList" parameterType="newApply" resultType="newApply">
    		SELECT
    			a.MASTER_TO_ID
 			, FN_COM_CODE(a.COM_CODE) AS COM_CODE_NM
@@ -580,7 +574,7 @@
    	
    	
 	<!-- 법인 승인여부 체크 -->
-	<select id="applyCorpStatCheck" parameterType="user" resultType="int">
+	<select id="applyNewCorpStatCheck" parameterType="newUser" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM TB_LC_MAS01
@@ -593,7 +587,7 @@
 	</select>
 	
    	<!-- 모집인 승인처리 > 일괄 보완요청 -->
-   	<update id="updateApplyImprovePlStat" parameterType="apply">
+   	<update id="updateNewApplyImprovePlStat" parameterType="newApply">
    		UPDATE TB_LC_MAS01
    		SET
    			PL_STAT = '5'

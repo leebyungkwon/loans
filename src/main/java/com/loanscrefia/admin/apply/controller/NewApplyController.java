@@ -29,13 +29,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
-import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExcelDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
-import com.loanscrefia.admin.apply.repository.ApplyRepository;
-import com.loanscrefia.admin.apply.service.ApplyService;
+import com.loanscrefia.admin.apply.domain.NewApplyDomain;
+import com.loanscrefia.admin.apply.repository.NewApplyRepository;
+import com.loanscrefia.admin.apply.service.NewApplyService;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
@@ -50,16 +50,16 @@ import sinsiway.CryptoUtil;
 
 @Controller
 @RequestMapping(value="/admin")
-public class ApplyController {
+public class NewApplyController {
 	
 	@Autowired 
-	private ApplyService applyService;
+	private NewApplyService applyService;
 	
 	@Autowired
 	private CommonService commonService;
 	
 	@Autowired 
-	private ApplyRepository applyRepository;
+	private NewApplyRepository applyRepository;
 	
 	@Autowired
 	private EmailRepository emailRepository;
@@ -75,145 +75,143 @@ public class ApplyController {
 	@Value("${email.apply}")
 	public boolean emailApply;
 
-	/* -------------------------------------------------------------------------------------------------------
-	 * 협회 시스템 > 모집인 조회 및 변경
-	 * -------------------------------------------------------------------------------------------------------
-	 */
-	
-	//리스트 페이지
-	@GetMapping(value="/apply/applyPage")
-	public ModelAndView applyPage(String historyback) {
-		ModelAndView mv =  new ModelAndView(CosntPage.BoApplyPage+"/applyList");
+
+	// 2021-10-13 모집인 등록 승인처리 페이지
+	@GetMapping(value="/newApply/newApplyPage")
+	public ModelAndView newApplyPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyList");
 		mv.addObject("historyback", historyback);
 		return mv;
 	}
 	
-	//리스트
-	@PostMapping(value="/apply/applyList")
-	public ResponseEntity<ResponseMsg> selectApplyList(ApplyDomain applyDomain){
+	// 2021-10-13 모집인 등록 승인처리 리스트
+	@PostMapping(value="/newApply/newApplyList")
+	public ResponseEntity<ResponseMsg> newApplyList(NewApplyDomain newApplyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.selectApplyList(applyDomain));
+    	responseMsg.setData(applyService.selectNewApplyList(newApplyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//엑셀 다운로드
-	@PostMapping("/apply/applyListExcelDown")
-	public void applyListExcelDown(ApplyDomain applyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+	// 2021-10-13 모집인 등록 승인처리 - 엑셀 다운로드
+	@PostMapping("/newApply/newApplyListExcelDown")
+	public void newApplyListExcelDown(NewApplyDomain newApplyDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
 		// 2021-07-27 페이징 false
-		applyDomain.setIsPaging("false");
- 		List<ApplyDomain> excelDownList = applyService.selectApplyList(applyDomain);
+		newApplyDomain.setIsPaging("false");
+ 		List<NewApplyDomain> excelDownList = applyService.selectNewApplyList(newApplyDomain);
  		new UtilExcel().downLoad(excelDownList, ApplyExcelDomain.class, response.getOutputStream());
 	}
 	
-	//상세 페이지 : 개인
-	@PostMapping(value="/apply/applyIndvDetail")
-    public ModelAndView applyIndvDetail(ApplyDomain applyDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoApplyPage+"/applyIndvDetail");
-    	Map<String, Object> result 	= applyService.getApplyIndvDetail(applyDomain);
+	
+	
+	// 2021-10-13 모집인 등록 승인처리 - 상세 페이지 : 개인
+	@PostMapping(value="/newApply/newApplyIndvDetail")
+    public ModelAndView newApplyIndvDetail(NewApplyDomain newApplyDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyIndvDetail");
+    	Map<String, Object> result 	= applyService.getNewApplyIndvDetail(newApplyDomain);
     	mv.addObject("result", result);
         return mv;
     }
 	
-	//상세 페이지 : 법인 > 등록정보 탭
-	@PostMapping(value="/apply/applyCorpDetail")
-    public ModelAndView recruitCorpDetail(ApplyDomain applyDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoApplyPage+"/applyCorpDetail");
-    	Map<String, Object> result 	= applyService.getApplyCorpDetail(applyDomain);
+	// 2021-10-13 모집인 등록 승인처리 - 상세 페이지 : 법인 > 등록정보 탭
+	@PostMapping(value="/newApply/newApplyCorpDetail")
+    public ModelAndView newRecruitCorpDetail(NewApplyDomain newApplyDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyCorpDetail");
+    	Map<String, Object> result 	= applyService.getNewApplyCorpDetail(newApplyDomain);
     	mv.addObject("result", result);
         return mv;
     }
 	
-	//상세 페이지 : 법인 > 대표자 및 임원관련사항 탭
-	@PostMapping(value="/apply/applyCorpImwonDetail")
-    public ModelAndView recruitCorpImwonDetail(ApplyImwonDomain applyImwonDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoApplyPage+"/applyCorpImwonDetail");
-    	Map<String, Object> result 	= applyService.getApplyCorpImwonDetail(applyImwonDomain);
+	// 2021-10-13 모집인 등록 승인처리 - 상세 페이지 : 법인 > 대표자 및 임원관련사항 탭
+	@PostMapping(value="/newApply/newApplyCorpImwonDetail")
+    public ModelAndView newRecruitCorpImwonDetail(ApplyImwonDomain applyImwonDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyCorpImwonDetail");
+    	Map<String, Object> result 	= applyService.getNewApplyCorpImwonDetail(applyImwonDomain);
     	mv.addObject("result", result);
         return mv;
     }
 	
-	//상세 페이지 : 법인 > 전문인력 탭
-	@PostMapping(value="/apply/applyCorpExpertDetail")
-    public ModelAndView recruitCorpExpertDetail(ApplyExpertDomain applyExpertDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoApplyPage+"/applyCorpExpertDetail");
-    	Map<String, Object> result 	= applyService.getApplyCorpExpertDetail(applyExpertDomain);
+	// 2021-10-13 모집인 등록 승인처리 - 상세 페이지 : 법인 > 전문인력 탭
+	@PostMapping(value="/newApply/newApplyCorpExpertDetail")
+    public ModelAndView newRecruitCorpExpertDetail(ApplyExpertDomain applyExpertDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyCorpExpertDetail");
+    	Map<String, Object> result 	= applyService.getNewApplyCorpExpertDetail(applyExpertDomain);
     	mv.addObject("result", result);
         return mv;
     }
 	
-	//상세 페이지 : 법인 > 전산인력 탭
-	@PostMapping(value="/apply/applyCorpItDetail")
-    public ModelAndView recruitCorpItDetail(ApplyItDomain applyItDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoApplyPage+"/applyCorpItDetail");
-    	Map<String, Object> result 	= applyService.getApplyCorpItDetail(applyItDomain);
+	// 2021-10-13 모집인 등록 승인처리 - 상세 페이지 : 법인 > 전산인력 탭
+	@PostMapping(value="/newApply/newApplyCorpItDetail")
+    public ModelAndView newRecruitCorpItDetail(ApplyItDomain applyItDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyCorpItDetail");
+    	Map<String, Object> result 	= applyService.getNewApplyCorpItDetail(applyItDomain);
     	mv.addObject("result", result);
         return mv;
     }
 	
-	//상세 페이지 : 법인 > 기타 탭
-	@PostMapping(value="/apply/applyCorpEtcDetail")
-    public ModelAndView recruitCorpEtcDetail(ApplyDomain applyDomain) {
-    	ModelAndView mv 			= new ModelAndView(CosntPage.BoApplyPage+"/applyCorpEtcDetail");
-    	Map<String, Object> result 	= applyService.getApplyCorpEtcDetail(applyDomain);
+	// 2021-10-13 모집인 등록 승인처리 - 상세 페이지 : 법인 > 기타 탭
+	@PostMapping(value="/newApply/newApplyCorpEtcDetail")
+    public ModelAndView newRecruitCorpEtcDetail(NewApplyDomain newApplyDomain) {
+    	ModelAndView mv 			= new ModelAndView(CosntPage.BoNewApplyPage+"/newApplyCorpEtcDetail");
+    	Map<String, Object> result 	= applyService.getNewApplyCorpEtcDetail(newApplyDomain);
     	mv.addObject("result", result);
         return mv;
     }
 	
-	// 상태변경처리
-	@PostMapping(value="/apply/updatePlStat")
-	public ResponseEntity<ResponseMsg> updateRecruitPlStat(ApplyDomain applyDomain) throws IOException{
+	// 2021-10-13 모집인 등록 승인처리 - 상태변경처리
+	@PostMapping(value="/newApply/updateNewPlStat")
+	public ResponseEntity<ResponseMsg> updateNewRecruitPlStat(NewApplyDomain newApplyDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.updateApplyPlStat(applyDomain));
+    	responseMsg.setData(applyService.updateNewApplyPlStat(newApplyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	
-	// 첨부서류체크 등록
-	@PostMapping(value="/apply/insertApplyCheck")
-	public ResponseEntity<ResponseMsg> insertApplyCheck(ApplyCheckDomain applyCheckDomain){
+	// 2021-10-13 모집인 등록 승인처리 - 첨부서류체크 등록
+	@PostMapping(value="/newApply/insertNewApplyCheck")
+	public ResponseEntity<ResponseMsg> insertNewApplyCheck(ApplyCheckDomain applyCheckDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.insertApplyCheck(applyCheckDomain));
+    	responseMsg.setData(applyService.insertNewApplyCheck(applyCheckDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 첨부서류체크 삭제
-	@PostMapping(value="/apply/deleteApplyCheck")
-	public ResponseEntity<ResponseMsg> deleteApplyCheck(ApplyCheckDomain applyCheckDomain){
+	// 2021-10-13 모집인 등록 승인처리 - 첨부서류체크 삭제
+	@PostMapping(value="/newApply/deleteNewApplyCheck")
+	public ResponseEntity<ResponseMsg> deleteNewApplyCheck(ApplyCheckDomain applyCheckDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.deleteApplyCheck(applyCheckDomain));
+    	responseMsg.setData(applyService.deleteNewApplyCheck(applyCheckDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 실무자확인
-	@PostMapping(value="/apply/applyCheck")
-	public ResponseEntity<ResponseMsg> applyCheck(ApplyDomain applyDomain){
+	// 2021-10-13 모집인 등록 승인처리 - 실무자확인
+	@PostMapping(value="/newApply/applyNewCheck")
+	public ResponseEntity<ResponseMsg> applyNewCheck(NewApplyDomain newApplyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.applyCheck(applyDomain));
+    	responseMsg.setData(applyService.applyNewCheck(newApplyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 관리자확인
-	@PostMapping(value="/apply/applyAdminCheck")
-	public ResponseEntity<ResponseMsg> applyAdminCheck(ApplyDomain applyDomain){
+	// 2021-10-13 모집인 등록 승인처리 - 관리자확인
+	@PostMapping(value="/newApply/applyNewAdminCheck")
+	public ResponseEntity<ResponseMsg> applyAdminNewCheck(NewApplyDomain newApplyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.applyAdminCheck(applyDomain));
+    	responseMsg.setData(applyService.applyNewAdminCheck(newApplyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 승인일 홀딩
-	@PostMapping(value="/apply/appDateHold")
-	public ResponseEntity<ResponseMsg> appDateHold(ApplyDomain applyDomain){
+	// 2021-10-13 모집인 등록 승인처리 - 승인일 홀딩
+	@PostMapping(value="/newApply/newAppDateHold")
+	public ResponseEntity<ResponseMsg> newAppDateHold(NewApplyDomain newApplyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.appDateHold(applyDomain));
+    	responseMsg.setData(applyService.newAppDateHold(newApplyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	
-	// 개인 OCR
-	@PostMapping("/apply/indvOcr")
-	public ResponseEntity<ResponseMsg> indvOcr(ApplyDomain applyDomain) throws IOException { 
+	// 2021-10-13 모집인 등록 승인처리 - 개인 OCR
+	@PostMapping("/newApply/newIndvOcr")
+	public ResponseEntity<ResponseMsg> newIndvOcr(NewApplyDomain newApplyDomain) throws IOException { 
 		//상세
-		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		NewApplyDomain applyInfo = applyRepository.getNewApplyDetail(newApplyDomain);
 		
 		// 주민번호 암호화 해제		
 		StringBuilder zid = new StringBuilder();
@@ -385,11 +383,11 @@ public class ApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 법인 등록정보 OCR
-	@PostMapping("/apply/corpOcr")
-	public ResponseEntity<ResponseMsg> corpOcr(ApplyDomain applyDomain) throws IOException { 
+	// 2021-10-13 모집인 등록 승인처리 - 법인 등록정보 OCR
+	@PostMapping("/newApply/newCorpOcr")
+	public ResponseEntity<ResponseMsg> newCorpOcr(NewApplyDomain newApplyDomain) throws IOException { 
 		//상세
-		ApplyDomain applyInfo = applyRepository.getApplyDetail(applyDomain);
+		NewApplyDomain applyInfo = applyRepository.getNewApplyDetail(newApplyDomain);
 		
 		// 법인번호 암호화 해제		
 		StringBuilder merchantNo = new StringBuilder();
@@ -522,11 +520,11 @@ public class ApplyController {
 	
 	
 	
-	// 법인 임원정보 OCR
-	@PostMapping("/apply/corpImwonOcr")
-	public ResponseEntity<ResponseMsg> corpImwonOcr(ApplyImwonDomain applyImwonDomain) throws IOException { 
+	// 2021-10-13 모집인 등록 승인처리 - 법인 임원정보 OCR
+	@PostMapping("/newApply/newCorpImwonOcr")
+	public ResponseEntity<ResponseMsg> newCorpImwonOcr(ApplyImwonDomain applyImwonDomain) throws IOException { 
 		//상세
-		ApplyImwonDomain applyInfo = applyRepository.getApplyImwonDetail(applyImwonDomain);
+		ApplyImwonDomain applyInfo = applyRepository.getNewApplyImwonDetail(applyImwonDomain);
 		FileDomain fileDomain = new FileDomain();
 		fileDomain.setFileGrpSeq(applyInfo.getFileSeq());
 		List<FileDomain> files = commonService.selectFileList(fileDomain);
@@ -669,23 +667,23 @@ public class ApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//기등록여부체크리스트
-	@GetMapping(value="/apply/prevRegCheckPopup")
-	public ModelAndView prevRegCheck(ApplyDomain applyDomain) {
+	// 2021-10-13 모집인 등록 승인처리 - 기등록여부체크리스트
+	@GetMapping(value="/newApply/prevNewRegCheckPopup")
+	public ModelAndView prevNewRegCheckPopup(NewApplyDomain newApplyDomain) {
 		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/prevRegCheckPopup");
-		List<ApplyDomain> result = applyRepository.selectPrevRegCheckList(applyDomain);
+		List<NewApplyDomain> result = applyRepository.selectNewPrevRegCheckList(newApplyDomain);
 		mav.addObject("result", result);
         return mav;
 	}
 	
 	
-	// 상태변경처리
-	@PostMapping(value="/apply/checkboxUpdatePlStat")
-	public ResponseEntity<ResponseMsg> checkboxUpdatePlStat(ApplyDomain applyDomain) throws IOException{
-		ResponseMsg responseMsg = applyService.checkboxUpdatePlStat(applyDomain);
-		List<ApplyDomain> applyResult = (List<ApplyDomain>) responseMsg.getData();
+	// 2021-10-13 모집인 등록 승인처리 - 상태변경처리
+	@PostMapping(value="/newApply/checkboxNewUpdatePlStat")
+	public ResponseEntity<ResponseMsg> checkboxNewUpdatePlStat(NewApplyDomain newApplyDomain) throws IOException{
+		ResponseMsg responseMsg = applyService.checkboxNewUpdatePlStat(newApplyDomain);
+		List<NewApplyDomain> applyResult = (List<NewApplyDomain>) responseMsg.getData();
 		if(applyResult != null) { 
-			ResponseMsg responseMsg2 = applyService.updateApplyListPlStat(applyResult);
+			ResponseMsg responseMsg2 = applyService.updateNewApplyListPlStat(applyResult);
 			System.out.println("##### checkboxUpdatePlStat ");
 			System.out.println(responseMsg2);
 			List<EmailDomain> resultEmail = (List<EmailDomain>) responseMsg2.getData();
@@ -693,7 +691,7 @@ public class ApplyController {
 				int emailResult = 0;
 				if(resultEmail != null) {
 					if(emailApply) {
-						emailResult = applyService.applySendEmail(resultEmail);
+						emailResult = applyService.applyNewSendEmail(resultEmail);
 						if(emailResult == -1) {
 							responseMsg.setMessage("메일발송시 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
 						}else {
@@ -715,11 +713,11 @@ public class ApplyController {
 	
 
 	
-	//선택 보완요청
-	@PostMapping(value="/apply/checkboxImproveUpdate")
-	public ResponseEntity<ResponseMsg> checkboxImproveUpdate(ApplyDomain applyDomain){
+	// 2021-10-13 모집인 등록 승인처리 - 선택 보완요청
+	@PostMapping(value="/newApply/checkboxNewImproveUpdate")
+	public ResponseEntity<ResponseMsg> checkboxNewImproveUpdate(NewApplyDomain newApplyDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(applyService.checkboxImproveUpdate(applyDomain));
+    	responseMsg.setData(applyService.checkboxNewImproveUpdate(newApplyDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 }

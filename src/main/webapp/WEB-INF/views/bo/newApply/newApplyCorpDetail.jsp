@@ -3,14 +3,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<script type="text/javascript" src="/static/js/recruit/common.js"></script>
+<script type="text/javascript" src="/static/js/newRecruit/common.js"></script>
 
 <script type="text/javascript">
 function pageLoad(){
 	$("#corpOcr").on("click", function(){
 		if(confirm("OCR 검증을 시작 하시겠습니까?")){
 			var p = {
-				  url		: "/admin/apply/corpOcr"
+				  url		: "/admin/newApply/newCorpOcr"
 				, async		: false
 				, param		: {
 					 masterSeq 	: $("#masterSeq").val()
@@ -37,7 +37,7 @@ function pageLoad(){
 function prevRegCheckPopup() {
 	let p = {
 		  id 		: "prevRegCheckPopup"
-		, url 		: "/admin/apply/prevRegCheckPopup"
+		, url 		: "/admin/newApply/prevNewRegCheckPopup"
 		, params 	: {
 			"masterSeq" : $("#masterSeq").val()
 		}
@@ -86,7 +86,7 @@ function goRecruitApply(num){
 	
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
-			  url		: "/admin/apply/updatePlStat"	
+			  url		: "/admin/newApply/updateNewPlStat"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: plStat
@@ -98,7 +98,7 @@ function goRecruitApply(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/apply/applyPage";
+					location.href="/admin/newApply/newApplyPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -149,7 +149,7 @@ function goApplyImprove(num){
 	
 	if(confirm(confirmMessage)){
 		var p = {
-			  url		: "/admin/apply/updatePlStat"	
+			  url		: "/admin/newApply/updateNewPlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: plStat
@@ -160,7 +160,7 @@ function goApplyImprove(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/apply/applyPage";
+					location.href="/admin/newApply/newApplyPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -186,7 +186,7 @@ function goApplyImprove(num){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>모집인 조회 및 변경 - 법인</h2>
+			<h2>모집인 등록 승인처리 - 법인</h2>
 		</div>
 	</div>
 
@@ -423,7 +423,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">설립, 등록 신청의 의사결정을 증명하는 서류 *<br />(등록신청 관련 발기인총회, 창립주주총회 또는 이사회의 공증을 받은 의사록)</td>
+					<td class="acenter">설립,등록 신청의 의사록 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType3 ne null }">
@@ -448,7 +448,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">본점의 위치 및 명칭을 기재한 서류<br />(법인등기부에서 확인되지 않는 경우 제출)</td>
+					<td class="acenter">본점의 위치 및 명칭을 기재한 서류</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType4 ne null }">
@@ -524,7 +524,7 @@ function goApplyImprove(num){
 				</tr>
 				
 				<tr>
-					<td class="acenter">업무수행기준요건관련 서류 *</td>
+					<td class="acenter">업무수행기준 *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType15 ne null }">
@@ -576,7 +576,7 @@ function goApplyImprove(num){
 				</tr>
 				
 				<tr>
-					<td class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</td>
+					<td class="acenter">위탁 금융상품직접판매업자 확인서</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType32 ne null }">

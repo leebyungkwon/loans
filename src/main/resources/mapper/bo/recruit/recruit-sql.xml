@@ -114,7 +114,18 @@
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				AND TLM.USE_YN = 'Y'
-				AND TLM.PL_STAT IN ('3','4','5','6','7','9','10','11','12')													
+				
+				<if test="regPath != null and regPath != ''">
+					AND TLM.REG_PATH = #{regPath}
+					<if test='regPath.equals("B")'>
+						AND TLM.PL_STAT IN ('3','4','5','6','7','9','10','11','12')	
+					</if>
+					
+					<if test='regPath.equals("F")'>
+						AND TLM.PL_STAT IN ('5','13','14','15')											-- 처리상태가 보완요청, 승인일 홀딩, ,승인요청취소, 회원사 확인완료
+					</if>
+				</if>
+				
 				AND TLM.PL_REG_STAT NOT IN ('1')
 				<if test='creGrp != "2" '>
 					AND TLM.COM_CODE IN (

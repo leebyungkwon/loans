@@ -254,7 +254,7 @@ function pageLoad(){
 							</td>
 						</tr>
 						<tr>
-							<th class="acenter">금융상품 유형 등 위탁내용에 대한 확인서<br>(계약서가 없거나,계약서 상에 금융상품에 대한 내용이 없는 경우)</th>
+							<th class="acenter">위탁 금융상품직접판매업자 확인서</th>
 							<td>
 								<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType12.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType12.fileSeq }" readonly disabled>
 								<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>

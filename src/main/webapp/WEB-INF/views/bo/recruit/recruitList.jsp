@@ -290,6 +290,7 @@ function goGetDate(opt) {
 					</td>
 				</tr>
 				<input type="hidden" id="searchPayDate" name="searchPayDate" value="cre_app_date">
+				<input type="hidden" id="regPath" name="regPath" value="B" />
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>

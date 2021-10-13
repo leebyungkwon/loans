@@ -89,15 +89,14 @@ public class CosntPage {
 	//2021-10-07 휴면회원관리 리스트페이지
 	public static String BoInactivePage	= "bo/inactive";
 	
-	//2021-10-08 일반사용자가 등록한 모집인등록 리스트 페이지(협회)
-	public static String BoNewApplyPage = "bo/newApply";	
-
-	
 	//2021-10-08 일반사용자가 등록한 모집인등록 리스트 페이지(회원사)
 	public static String BoNewUserRegPage = "bo/newUserReg";
 	
 	//2021-10-12 고도화 - 모집인 조회 및 해지 페이지(회원사)
 	public static String BoNewConfirmPage = "bo/newConfirm";
+	
+	//2021-10-13 모집인 등록 승인처리 페이지
+	public static String BoNewApplyPage = "bo/newApply";
 	
 
 }

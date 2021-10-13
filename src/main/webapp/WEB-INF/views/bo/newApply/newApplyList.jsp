@@ -3,14 +3,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script type="text/javascript">
-var newApplyGrid = Object.create(GRID);
+var applyGrid = Object.create(GRID);
 
 function pageLoad(){
 	
 	//모집인 승인처리 그리드
-	newApplyGrid.set({
-		  id			: "newApplyGrid"
-  		, url			: "/admin/apply/applyList"
+	applyGrid.set({
+		  id			: "applyGrid"
+  		, url			: "/admin/newApply/newApplyList"
 	    , width			: "100%"
 	    , check			: true					//체크박스 생성
   		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "최초승인<br>요청일", "승인<br>남은일수", "실무자<br>확인", "관리자<br>확인", "승인상태"]
@@ -36,11 +36,11 @@ function pageLoad(){
 				,{type:"string"	, name:'adminChkYnTxt'	, index:'adminChkYnTxt'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
-		, rowClick		: {retFunc : goNewApplyDetail}
+		, rowClick		: {retFunc : goApplyDetail}
 		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
-		, excel			: "/admin/apply/applyListExcelDown"
+		, excel			: "/admin/newApply/newApplyListExcelDown"
 		, excelFileNm	: "모집인승인처리"
 	});
 	
@@ -133,12 +133,12 @@ function pageLoad(){
 		}else{
 			$("#searchAppDate").val("first_app_date");
 		}
-		companyApplyGrid.refresh();
+		applyGrid.refresh();
 	});
 	
 	// 승인요청건만 조회
 	$("#applyResultCheck").on("click", function(){
-		companyApplyGrid.refresh();
+		applyGrid.refresh();
 	})
 	
 	if($("#searchAppDate").val() == "CRE_APP_FI_DATE"){
@@ -156,16 +156,16 @@ $(document).mouseup(function(e){
 });
 
 //모집인 조회 및 변경 row 클릭 이벤트
-function goNewApplyDetail(idx, data){
-	var masterSeq 	= newApplyGrid.gridData[idx].masterSeq;
-	var plClass		= newApplyGrid.gridData[idx].plClass;
+function goApplyDetail(idx, data){
+	var masterSeq 	= applyGrid.gridData[idx].masterSeq;
+	var plClass		= applyGrid.gridData[idx].plClass;
 	
 	if(plClass == "1"){
 		//개인
-		$("#applyDetailFrm").attr("action","/admin/apply/applyIndvDetail");
+		$("#applyDetailFrm").attr("action","/admin/newApply/newApplyIndvDetail");
 	}else if(plClass == "2"){
 		//법인
-		$("#applyDetailFrm").attr("action","/admin/apply/applyCorpDetail");
+		$("#applyDetailFrm").attr("action","/admin/newApply/newApplyCorpDetail");
 	}
 	
 	$("#hMasterSeq").val(masterSeq);
@@ -190,13 +190,13 @@ function goGetDate2(opt) {
 
 //선택 승인완료 -> 필수 첨부파일 하나라도 없으면 요청 불가 *****
 function goApplyAccept() {
-	var chkedLen 	= $("#tbl_newApplyGrid_body tr td input:checkbox:checked").length;
+	var chkedLen 	= $("#tbl_applyGrid_body tr td input:checkbox:checked").length;
 	if(chkedLen == 0){
 		alert("모집인을 선택해 주세요.");
 		return;
 	}
 
-	var chkData 		= newApplyGrid.getChkData();
+	var chkData 		= applyGrid.getChkData();
 	var masterSeqArr	= [];
 	for(var i=0; i<chkedLen; i++){
 		masterSeqArr.push(chkData[i].masterSeq);
@@ -204,7 +204,7 @@ function goApplyAccept() {
 	
 	if(confirm("승인처리 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/apply/checkboxUpdatePlStat"	
+			  url		: "/admin/newApply/checkboxNewUpdatePlStat"	
 			, param		: {
 				masterSeqArr 	: masterSeqArr  
 			}
@@ -212,7 +212,7 @@ function goApplyAccept() {
 				
 				console.log("#####" , result);
 				//alert(result.data.message);
-				companyApplyGrid.refresh();
+				applyGrid.refresh();
 		    }
 		}
 		AjaxUtil.post(p);
@@ -221,13 +221,13 @@ function goApplyAccept() {
 
 //선택 보안요청
 function goApplyImprove() {
-	var chkedLen 	= $("#tbl_newApplyGrid_body tr td input:checkbox:checked").length;
+	var chkedLen 	= $("#tbl_applyGrid_body tr td input:checkbox:checked").length;
 	if(chkedLen == 0){
 		alert("모집인을 선택해 주세요.");
 		return;
 	}
 
-	var chkData 		= newApplyGrid.getChkData();
+	var chkData 		= applyGrid.getChkData();
 	var masterSeqArr	= [];
 	for(var i=0; i<chkedLen; i++){
 		masterSeqArr.push(chkData[i].masterSeq);
@@ -235,17 +235,21 @@ function goApplyImprove() {
 	
 	if(confirm("보완요청 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/apply/checkboxImproveUpdate"	
+			  url		: "/admin/newApply/checkboxNewImproveUpdate"	
 			, param		: {
 				masterSeqArr 	: masterSeqArr  
 			}
 			, success 	: function (opt,result) {
+				
+				console.log("결과11 == ", result);				
+				console.log("결과22 == ", masterSeqArr.length);				
+				
 				if(result.data == masterSeqArr.length){
 					alert("보완요청이 완료되었습니다.");
-					newApplyGrid.refresh();
+					applyGrid.refresh();
 				}else if(result.data == -2){
 					alert("이미 승인완료된 모집인입니다.");
-					newApplyGrid.refresh();
+					applyGrid.refresh();
 				}else{
 					alert("오류가 발생하였습니다.[모집인 상태변경 실패]");
 				}
@@ -265,7 +269,7 @@ function goApplyImprove() {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>모집인 확인처리</h2>
+			<h2>모집인 등록 승인처리</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
@@ -352,9 +356,9 @@ function goApplyImprove() {
 					<td class="">
 						<input type="text" name="preLcNum">
 					</td>
-					<th>승인요청건</th>
+					<th>승인요청건(확인필요)</th>
 					<td class="half_input">
-						<input type="checkbox" id="applyResultCheck" name="applyResultCheck" checked/>
+						<input type="checkbox" id="applyResultCheck" name="applyResultCheck"/>
 					</td>
 				</tr>
 				
@@ -406,7 +410,7 @@ function goApplyImprove() {
 					</td>
 				</tr>
 				<input type="hidden" id="searchAppDate" name="searchAppDate" value="first_app_date">
-				<input type="hidden" id="regPath" name="regPath" value="F">
+				<input type="hidden" id="regPath" name="regPath" value="F" />
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -422,6 +426,6 @@ function goApplyImprove() {
 				<a href="javascript:void(0);" class="btn_sort" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
 			</div>
 		</div>
-		<div id="newApplyGrid" class="long_table"></div>
+		<div id="applyGrid" class="long_table"></div>
 	</div>
 </div>

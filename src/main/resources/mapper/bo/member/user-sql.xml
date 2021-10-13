@@ -416,11 +416,11 @@
 					<if test="regPath != null and regPath != ''">
 						AND TLM.REG_PATH = #{regPath}
 						
-						<if test='regPathequals("B")'>
+						<if test='regPath.equals("B")'>
 							AND TLM.PL_STAT IN ('1','2','5','10','13')						-- 처리상태가 미요청, 승인요청, 반려(보완요청), 등록요건 불충족(=부적격)인 것	
 						</if>
 						
-						<if test='regPathequals("F")'>
+						<if test='regPath.equals("F")'>
 							AND TLM.PL_STAT IN ('2')										-- 처리상태가 승인요청인 것
 						</if>
 						
