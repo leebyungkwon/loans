@@ -87,6 +87,9 @@ function menuActiveFunction(){
 			
 			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">(고도화-협회)모집인 등록 승인처리</a></li>
 			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">(고도화-협회)모집인 조회 및 해지</a></li>
+			
+			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
+			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
