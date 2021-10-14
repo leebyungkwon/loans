@@ -65,6 +65,8 @@ function menuActiveFunction(){
 			<li id="menuConfirm"><a href="/member/confirm/userConfirmPage">모집인 조회 및 변경</a></li>
 			<li id="menuUser"><a href="/member/user/userRegPage">모집인 등록</a></li>
 			<li id="menuAdmin"><a href="/member/admin/adminPage">관리자 조회 및 변경</a></li>
+			<li id="menuNewUser"><a href="/member/newUser/newUserRegPage">(고도화-회원사)모집인 등록신청 확인</a></li>
+			<li id="menuNewConfirm"><a href="/member/newConfirm/newConfirmPage">(고도화-회원사)모집인 조회 및 해지</a></li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN')">
@@ -82,6 +84,9 @@ function menuActiveFunction(){
 			<li id="menuCorp"><a href="/admin/corp/corpPage">법인 관리</a></li>
 			<li id="menuEdu"><a href="/admin/edu/eduPage">교육이수번호 조회</a></li>
 			<li id="menuStats"><a href="javascript:void(0);">통계</a></li>
+			
+			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">(고도화-협회)모집인 등록 승인처리</a></li>
+			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">(고도화-협회)모집인 조회 및 해지</a></li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
