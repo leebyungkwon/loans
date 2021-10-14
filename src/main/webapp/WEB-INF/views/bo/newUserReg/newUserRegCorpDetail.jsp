@@ -141,7 +141,7 @@ function pageLoad(){
 					</tr>
 					<tr>
 						<th>본점소재지</th>
-						<td>${result.userRegInfo.addr}</td>
+						<td>${result.userRegInfo.addrBase}</td>
 						<th>상세주소(법인등기부등본상)</th>
 						<td>${result.userRegInfo.addrDetail }</td>
 					</tr>
@@ -152,6 +152,14 @@ function pageLoad(){
 					<tr>
 						<th>의결권있는 발행주식 총수</th>
 						<td colspan="3">${result.userRegInfo.votingStockCnt }</td>
+					</tr>
+					<tr>
+						<th>영위하는 다른 업종</th>
+						<td colspan="3">${result.userRegInfo.otherField }</td>
+					</tr>
+					<tr>
+						<th>관할검찰청 또는 지청</th>
+						<td colspan="3">${result.userRegInfo.withinGovr }</td>
 					</tr>
 					<tr>
 						<th>계약일자</th>

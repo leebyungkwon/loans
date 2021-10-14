@@ -211,7 +211,7 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>본점소재지</th>
-					<td colspan="3">${result.recruitInfo.addrNm }</td>
+					<td colspan="3">${result.recruitInfo.addrBase }</td>
 				</tr>
 				<tr>
 					<th>상세주소(법인등기부등본상)</th>
@@ -224,6 +224,14 @@ function goRecruitImprove(rePlStat){
 				<tr>
 					<th>의결권있는 발행주식 총수</th>
 					<td colspan="3">${result.recruitInfo.votingStockCnt }</td>
+				</tr>
+				<tr>
+					<th>영위하는 다른 업종</th>
+					<td colspan="3">${result.recruitInfo.otherField }</td>
+				</tr>
+				<tr>
+					<th>관할검찰청 또는 지청</th>
+					<td colspan="3">${result.recruitInfo.withinGovr }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>
