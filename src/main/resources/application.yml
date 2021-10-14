@@ -2,8 +2,9 @@ server:
   port: 8080
   servlet:
     session:
+      timeout: 30m
       cookie:
-        name: K_IDF 
+        name: K_IDF2
         http-only: true
   tomcat:
     max-swallow-size: 1
@@ -46,7 +47,7 @@ spring:
     jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 1234
-
+    
 logging:
   file:
     path: C:\logs\
@@ -60,7 +61,6 @@ logging:
     jdbc.connection: off
     jdbc.resultset: off
     jdbc.sqlonly: debug
-
 
 upload:
   filePath: C:\Users\a\git\loans\src\main\resources\static\upload
