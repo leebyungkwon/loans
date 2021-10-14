@@ -18,12 +18,15 @@ function goRecruitApply(num){
 	var preRegYn = $("#preRegYn").val();
 	var plRegistNo = $("#plRegistNo").val();
 	var plProduct = $("#plProduct").val();
+	
+	/*
 	if(plProduct == "01" || plProduct == "05"){
 		if(WebUtil.isNull(plRegistNo)){
 			alert("은행연합회 등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
 			return false;
 		}
 	}
+	*/
 	
 	var plMZIdEnc = $("#encId").val();
 	if(num == "2"){
