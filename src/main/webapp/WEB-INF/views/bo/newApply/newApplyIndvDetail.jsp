@@ -329,7 +329,7 @@ function goApplyImprove(num){
 				
 				<c:choose>
 					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
-					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7'}">
+					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7' or result.applyInfo.plStat eq '15'}">
 						<tr>
 							<th>사유</th>
 							<td colspan="3">
