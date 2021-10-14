@@ -19,6 +19,7 @@ public class UserDomain extends BaseDomain {
 	private int masterSeq;			//시퀀스
 	@ExcelColumn(headerName = "접수번호", order = 0)
 	private String masterToId;		//접수번호ID(조회)
+	private String regPath;			//등록경로(BO:'B', FO:'F')
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String subYn;			//약식등록여부

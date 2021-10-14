@@ -43,16 +43,25 @@ function menuActiveFunction(){
 		$("#menuUsers").addClass("on");
 	}else if(menuUrl[2] == "inactive"){
 		$("#menuInactive").addClass("on");
+	}else if(menuUrl[2] == "newUser"){
+		$("#menuNewUser").addClass("on");
+	}else if(menuUrl[2] == "newConfirm"){
+		$("#menuNewConfirm").addClass("on");
+	}else if(menuUrl[2] == "newApply"){
+		$("#menuNewApply").addClass("on");
+	}else if(menuUrl[2] == "newRecruit"){
+		$("#menuNewRecruit").addClass("on");
 	}
+	
+	
+	
 	
 }
 </script>
 
-
-
 <div class="gnb">
 	<ul>
-		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
+		<sec:authorize access="hasAnyRole('MEMBER')">
 			<li id="menuConfirm"><a href="/member/confirm/userConfirmPage">모집인 조회 및 변경</a></li>
 			<li id="menuUser"><a href="/member/user/userRegPage">모집인 등록</a></li>
 			<li id="menuAdmin"><a href="/member/admin/adminPage">관리자 조회 및 변경</a></li>
@@ -62,7 +71,7 @@ function menuActiveFunction(){
 			<li id="menuUser"><a href="/member/user/userRegPage">모집인 등록</a></li>
 		</sec:authorize>
 		
-		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
+		<sec:authorize access="hasAnyRole('ADMIN')">
 			<li id="menuRecruit"><a href="/admin/recruit/recruitPage">모집인 조회 및 변경</a></li>
 			<li id="menuApply"><a href="/admin/apply/applyPage">모집인 승인처리</a></li>
 			<!-- <li id=""><a href="javascript:alert('준비중입니다.');">타협회 내역 다운로드</a></li> --> 
@@ -80,10 +89,35 @@ function menuActiveFunction(){
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('SYSTEM')">
+			<li id="menuConfirm"><a href="/member/confirm/userConfirmPage">(회원사)모집인 조회 및 변경</a></li>
+			<li id="menuUser"><a href="/member/user/userRegPage">모집인 등록</a></li>
+			<li id="menuAdmin"><a href="/member/admin/adminPage">관리자 조회 및 변경</a></li>
+			
+			
+			<li id="menuRecruit"><a href="/admin/recruit/recruitPage">(협회)모집인 조회 및 변경</a></li>
+			<li id="menuApply"><a href="/admin/apply/applyPage">모집인 승인처리</a></li>
+			<li id="menuCompany"><a href="/admin/company/companyCodePage">회원사 관리</a></li> 
+			<li id="menuMng"><a href="/admin/mng/companyPage">회원사 담당자 관리</a></li>
+			<li id="menuCrefia"><a href="/admin/crefia/crefiaPage">협회 관리자 관리</a></li>
+			<li id="menuCrefiaWork"><a href="/admin/crefiaWork/crefiaWorkPage">협회 관리자 업무분장</a></li>
+			<li id="menuCorp"><a href="/admin/corp/corpPage">법인 관리</a></li>
+			<li id="menuEdu"><a href="/admin/edu/eduPage">교육이수번호 조회</a></li>
+			<li id="menuStats"><a href="javascript:void(0);">통계</a></li>
+			
 			<li id="menuCode"><a href="/system/code/codePage">코드관리</a></li>
 			<li id="menuApi"><a href="/system/api/apiPage">API관리</a></li>
 			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
+			
+			
+			<li id="menuNewUser"><a href="/member/newUser/newUserRegPage">(고도화-회원사)모집인 등록신청 확인</a></li>
+			<li id="menuNewConfirm"><a href="/member/newConfirm/newConfirmPage">(고도화-회원사)모집인 조회 및 해지</a></li>
+			
+			
+			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">(고도화-협회)모집인 등록 승인처리</a></li>
+			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">(고도화-협회)모집인 조회 및 해지</a></li>
+			
+			
 		</sec:authorize>
 	</ul>
 </div>

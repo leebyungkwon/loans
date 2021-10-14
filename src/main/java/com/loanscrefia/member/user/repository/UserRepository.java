@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
@@ -167,5 +168,9 @@ public interface UserRepository {
 	
 	//승인완료인 건 결제정보가 있을시 자격취득으로 변경
 	List<UserDomain> selectApiApplyList(UserDomain userDomain);
+	
+	
+	
+
 	
 }

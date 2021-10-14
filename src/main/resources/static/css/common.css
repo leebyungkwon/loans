@@ -365,7 +365,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   font-size: 0;
   position: relative;
   overflow: hidden;
-  min-height: 856px;
+  min-height: 1056px;
 }
 
 /* #container .gnb{

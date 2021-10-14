@@ -21,6 +21,9 @@ public class RecruitDomain extends BaseDomain {
 	private int masterHistSeq;		//이력시퀀스
 	@ExcelColumn(headerName = "접수번호", order = 0)
 	private String masterToId;		//접수번호ID(조회)
+	
+	private String regPath;			//등록경로(BO:B, FO:F)
+	
 	private String comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
 	private String plClass;			//분류							-> [CLS001]개인,법인
