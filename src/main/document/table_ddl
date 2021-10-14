@@ -216,9 +216,10 @@ create table tb_lc_mas01(
 	, pl_m_z_id_edu varchar(30)
 	, pl_cellphone varchar(20)
 	, addr varchar(2)
+	, addr_base varchar(200)
 	, addr_detail varchar(200)
 	
-	, reg_addr varchar(2)
+	, reg_addr varchar(200)
 	, reg_addr_detail varchar(200)
 	
 	, pl_edu_no varchar(30)
@@ -298,9 +299,10 @@ COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id_edu IS '교육수료대조(주민등록번호대체값)';
 COMMENT ON COLUMN tb_lc_mas01.pl_cellphone IS '모집인휴대전화번호';
 COMMENT ON COLUMN tb_lc_mas01.addr IS '본점소재지(코드)';
+COMMENT ON COLUMN tb_lc_mas01.addr_base IS '본점소재지';
 COMMENT ON COLUMN tb_lc_mas01.addr_detail IS '상세주소(법인등기부등본상)';
 
-COMMENT ON COLUMN tb_lc_mas01.reg_addr IS '등록기준지(코드)';
+COMMENT ON COLUMN tb_lc_mas01.reg_addr IS '등록기준지';
 COMMENT ON COLUMN tb_lc_mas01.reg_addr_detail IS '등록기준지 상세주소';
 
 COMMENT ON COLUMN tb_lc_mas01.pl_edu_no IS '교육이수번호';
@@ -602,9 +604,10 @@ create table tb_lc_mas01_hist(
 	, pl_m_z_id_edu varchar(30)
 	, pl_cellphone varchar(20)
 	, addr varchar(2)
+	, addr_base varchar(200)
 	, addr_detail varchar(200)
 	
-	, reg_addr varchar(2)
+	, reg_addr varchar(200)
 	, reg_addr_detail varchar(200)
 	
 	, pl_edu_no varchar(30)
@@ -661,6 +664,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.master_hist_seq IS '모집인변경이력시�
 COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_path IS '등록경로';
+
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.sub_yn IS '약식등록여부';
@@ -684,9 +688,10 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id IS '모집인주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id_edu IS '교육수료대조(주민등록번호대체값)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_cellphone IS '모집인휴대전화번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.addr IS '본점소재지(코드)';
+COMMENT ON COLUMN tb_lc_mas01_hist.addr_base IS '본점소재지';
 COMMENT ON COLUMN tb_lc_mas01_hist.addr_detail IS '상세주소(법인등기부등본상)';
 
-COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr IS '등록기준지(코드)';
+COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr IS '등록기준지';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr_detail IS '등록기준지 상세주소';
 
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_edu_no IS '교육이수번호';

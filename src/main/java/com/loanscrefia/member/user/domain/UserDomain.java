@@ -97,6 +97,13 @@ public class UserDomain extends BaseDomain {
 	//가공
 	private String comCodeNm;		//담당회원사명
 	
+	// 2021-10-14 컬럼추가
+	private String otherField;			// 영위하는 다른업종
+	private String withinGovr;			// 관할검찰청 또는 지청
+	private String regAddr;				// 등록기준지
+	private String regAddrDetail;		// 등록기준지 상세
+	private String addrBase;			// 주소
+	
 	
 	@ExcelColumn(headerName = "담당자명", order = 17)
 	private String memberNm;		//담당자명

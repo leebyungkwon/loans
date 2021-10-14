@@ -56,7 +56,6 @@ function usersCorpApply(){
 			}
 			, success 	: function (opt,result) {
 				console.log("#####" , result);
-				usersGrid.refresh();
 		    }
 		}
 		AjaxUtil.post(p);

@@ -123,7 +123,7 @@
 	<update id="usersCorpApply" parameterType="users" >
    		UPDATE tb_lc_users
    		SET
-   			corp_appr_stat = 'Y'
+   			corp_appr_yn = 'Y'
    			, corp_appr_dt = NOW()
    			, upd_seq = #{updSeq}
    			, upd_timestamp = NOW()

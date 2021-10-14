@@ -223,11 +223,20 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>주소</th>
-					<td colspan="3">${result.recruitInfo.addrNm }</td>
+					<td colspan="3">${result.recruitInfo.addrBase }</td>
 				</tr>
 				<tr>
 					<th>상세주소</th>
 					<td colspan="3">${result.recruitInfo.addrDetail }</td>
+				</tr>
+				
+				<tr>
+					<th>등록기준지 주소</th>
+					<td colspan="3">${result.recruitInfo.regAddr }</td>
+				</tr>
+				<tr>
+					<th>등록기준지 상세주소</th>
+					<td colspan="3">${result.recruitInfo.regAddrDetail }</td>
 				</tr>
 				<tr>
 					<th>교육이수번호/인증서번호</th>

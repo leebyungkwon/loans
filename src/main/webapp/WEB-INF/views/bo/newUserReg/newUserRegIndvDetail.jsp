@@ -137,9 +137,15 @@ function pageLoad(){
 					
 					<tr>
 						<th>주소</th>
-						<td>${result.userRegInfo.addrNm }</td>
+						<td>${result.userRegInfo.addrBase }</td>
 						<th>상세주소</th>
 						<td>${result.userRegInfo.addrDetail }</td>
+					</tr>
+					<tr>
+						<th>등록기준지</th>
+						<td>${result.userRegInfo.regAddr }</td>
+						<th>등록기준지 상세주소</th>
+						<td>${result.userRegInfo.regAddrDetail }</td>
 					</tr>
 					 
 <%-- 					<tr>
