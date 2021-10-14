@@ -274,8 +274,8 @@ function pageLoad(){
 			
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plRegStat eq '1' and result.userRegInfo.plStat eq '2'}">
-					<a href="javascript:void(0);" class="btn_Lgray btn_right_small02 w100p" id="newUserApplyImprove">회원사 거절</a>
-					<a href="javascript:void(0);" class="btn_blue btn_right_small01 w100p" id="newUserApply">회원사 승인</a>
+					<a href="javascript:void(0);" class="btn_Lgray btn_right_small02 w100p" id="newUserApplyImprove">거절</a>
+					<a href="javascript:void(0);" class="btn_blue btn_right_small01 w100p" id="newUserApply">승인</a>
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
 			</div>
