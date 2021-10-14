@@ -126,12 +126,16 @@ function goApplyImprove(num){
 	var preLcNum = $("#preLcNum").val();
 	if(num == "1"){
 		var plProduct = $("#plProduct").val();
+		
+		/*
 		if(plProduct == "01" || plProduct == "05"){
 			if(WebUtil.isNull(preLcNum)){
 				alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
 				return false;
 			}
 		}
+		
+		*/
 		plStat = '10';
 		messageCheck = "부적격 사유를 입력해 주세요.";
 	}else{
