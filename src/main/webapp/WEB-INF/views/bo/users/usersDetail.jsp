@@ -111,6 +111,7 @@ function usersCorpApply(){
 				</tr>
 				
 				<c:if test="${usersInfo.plClass eq '2'}">
+					<%-- 
 					<tr>
 						<th>담당자이름</th>
 						<td>${usersInfo.managerName}</td>
@@ -119,6 +120,7 @@ function usersCorpApply(){
 						<th>담당자이메일</th>
 						<td>${usersInfo.managerEmail}</td>
 					</tr>
+					 --%>
 					<tr>
 						<th>법인승인여부</th>
 						<td>${usersInfo.corpApprYn}</td>
