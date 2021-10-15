@@ -15,7 +15,7 @@ function pageLoad(){
 	
 	// 회원사 거절
 	$("#newUserApplyImprove").on("click", function(){
-		if(confirm("회원사 거절을 하시겠습니까?")){
+		if(confirm("회원사 승인거절을 하시겠습니까?")){
 			$("#plStat").val("16");
 			var p = {
 				  name 		: "userRegInfoUpdFrm"
@@ -40,7 +40,7 @@ function pageLoad(){
 	
 	// 회원사 승인
 	$("#newUserApply").on("click", function(){
-		if(confirm("회원사 승인을 하시겠습니까?")){
+		if(confirm("회원사 확인완료를 하시겠습니까?")){
 			$("#plStat").val("15");
 			var p = {
 				  name 		: "userRegInfoUpdFrm"
@@ -275,7 +275,7 @@ function pageLoad(){
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plRegStat eq '1' and result.userRegInfo.plStat eq '2'}">
 					<a href="javascript:void(0);" class="btn_Lgray btn_right_small02 w100p" id="newUserApplyImprove">거절</a>
-					<a href="javascript:void(0);" class="btn_blue btn_right_small01 w100p" id="newUserApply">승인</a>
+					<a href="javascript:void(0);" class="btn_blue btn_right_small01 w100p" id="newUserApply">확인</a>
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray" onclick="goUserRegInfoList();">목록</a>
 			</div>
