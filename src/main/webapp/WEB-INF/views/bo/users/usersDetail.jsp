@@ -55,7 +55,7 @@ function usersCorpApply(){
 				userSeq 	: userSeq  
 			}
 			, success 	: function (opt,result) {
-				console.log("#####" , result);
+				location.reload();
 		    }
 		}
 		AjaxUtil.post(p);
