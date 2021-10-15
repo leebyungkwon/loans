@@ -24,7 +24,7 @@ function pageLoad(){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>모집인 등록신청 확인 - 개인</h2>
+			<h2>모집인 조회 및 해지 - 개인</h2>
 		</div>
 	</div>
 

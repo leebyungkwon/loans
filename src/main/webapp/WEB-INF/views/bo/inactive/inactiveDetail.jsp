@@ -38,7 +38,6 @@ function boInactiveUser() {
 	}
 }
 
-
 // 회원관리 법인 승인처리
 function usersCorpApply(){
 	var userSeq = $("#userSeq").val();
@@ -61,13 +60,12 @@ function usersCorpApply(){
 		AjaxUtil.post(p);
 	}
 }
-
 </script>
 
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>회원관리 상세</h2>
+			<h2>휴먼회원관리 상세</h2>
 		</div>
 	</div>
 	<div class="contents">
