@@ -17,7 +17,7 @@
 	   			, users.mobile_no
 	   			, users.pl_class
 	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
-	   			, users.birth_dt
+	   			, users.pl_m_z_id
 	   			, users.email
 	   			, users.user_ci
 	   			, users.corp_appr_yn
@@ -93,7 +93,7 @@
    			, users.mobile_no
    			, users.pl_class
    			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
-   			, users.birth_dt
+   			, users.pl_m_z_id
    			, users.email
    			, users.user_ci
    			, users.manager_name
@@ -147,7 +147,7 @@
 	   			, users.mobile_no
 	   			, users.pl_class
 	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
-	   			, users.birth_dt
+	   			, users.pl_m_z_id
 	   			, users.email
 	   			, users.user_ci
 	   			, users.corp_appr_yn
@@ -211,7 +211,7 @@
    			, users.mobile_no
    			, users.pl_class
    			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
-   			, users.birth_dt
+   			, users.pl_m_z_id
    			, users.email
    			, users.user_ci
    			, users.manager_name
@@ -246,7 +246,7 @@
     		, user_name = b.user_name
     		, mobile_no = b.mobile_no
     		, pl_class = b.pl_class
-    		, birth_dt = b.birth_dt
+    		, pl_m_z_id = b.pl_m_z_id
     		, email = b.email
 			, user_ci = b.user_ci
 			, file_seq = b.file_seq

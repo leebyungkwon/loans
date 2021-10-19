@@ -23,9 +23,8 @@ public class UsersDomain extends BaseDomain {
 	private String plClass;					// 구분(개인 / 법인)
 	@ExcelColumn(headerName = "구분", order = 3)
 	private String plClassNm;				// 구분명
-	@ExcelColumn(headerName = "생년월일", order = 4)
-	private String birthDt;					// 생년월일
-	@ExcelColumn(headerName = "이메일", order = 5)
+	private String plMZId;					// 주민등록번호
+	@ExcelColumn(headerName = "이메일", order = 4)
 	private String email;					// 이메일
 	private String userCi;					// 사용자CI값
 	private String managerName;				// 담당자이름
@@ -34,17 +33,17 @@ public class UsersDomain extends BaseDomain {
 	private String corpApprYn;			// 법인승인여부
 	private String corpApprDt;				// 법인승인일
 	private int fileSeq;					// 첨부파일시퀀스
-	@ExcelColumn(headerName = "가입일", order = 6)
+	@ExcelColumn(headerName = "가입일", order = 5)
 	private String joinDt;					// 가입일
 	private String termsYn;					// 약관동의여부
 	private String termsDt;					// 약관동의일시
-	@ExcelColumn(headerName = "탈퇴여부", order = 10)
+	@ExcelColumn(headerName = "탈퇴여부", order = 9)
 	private String dropYn;					// 탈퇴여부
 	private String dropDt;					// 탈퇴일시
-	@ExcelColumn(headerName = "휴면여부", order = 8)
+	@ExcelColumn(headerName = "휴면여부", order = 7)
 	private String inactiveYn;				// 휴면여부
 	private String inactiveDt;				// 휴면일시
-	@ExcelColumn(headerName = "마지막로그인일시", order = 7)
+	@ExcelColumn(headerName = "마지막로그인일시", order = 6)
 	private String lastLoginDt;				// 마지막로그인일시
 	
 	// 로그인에 사용되는 flag - 법인승인여부
@@ -58,7 +57,7 @@ public class UsersDomain extends BaseDomain {
 	
 	private int failCnt;					// 로그인실패횟수
 	private String failStopDt;				// 로그인5회실패시잠금일시
-	@ExcelColumn(headerName = "로그인차단여부", order = 9)
+	@ExcelColumn(headerName = "로그인차단여부", order = 8)
 	private String failStopYn;				// 로그인닫힘여부(30분간 로그인 불가)
 	private String pwChangeDt;				// 비밀번호변경일시
 	

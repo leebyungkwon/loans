@@ -95,8 +95,10 @@ function usersCorpApply(){
 				<tr>
 					<th>구분</th>
 					<td>${usersInfo.plClassNm}</td>
+					<%-- 
 					<th>생년월일</th>
 					<td>${usersInfo.birthDt}</td>
+					 --%>
 					<th></th>
 					<td></td>					
 				</tr>

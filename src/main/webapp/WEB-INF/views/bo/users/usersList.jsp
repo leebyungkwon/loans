@@ -12,7 +12,7 @@ function pageLoad(){
 		, url			: "/admin/users/usersList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","아이디", "이름", "연락처", "구분", "생년월일", "이메일", "가입일", "마지막</br>로그인일시","로그인</br>차단여부", "탈퇴여부"]
+		, headCol		: ["","아이디", "이름", "연락처", "구분", "이메일", "가입일", "마지막</br>로그인일시","로그인</br>차단여부", "탈퇴여부"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'userSeq'		, index:'userSeq'		, width:"5%"	, hidden:true  	, id:true}
@@ -20,7 +20,6 @@ function pageLoad(){
 				,{type:"string"	, name:'userName'		, index:'userName'		, width:"10%"	}
 				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'		, width:"12%"	, align:"center"}
 				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'		, width:"8%"	, align:"center"}
-				,{type:"string"	, name:'birthDt'		, index:'birthDt'		, width:"8%"	, align:"center"}
 				,{type:"string"	, name:'email'			, index:'email'			, width:"15%"	}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'lastLoginDt'	, index:'lastLoginDt'	, width:"12%"	, align:"center"}
