@@ -455,16 +455,16 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 
 /************************************************************** 고도화 관련 추가 S **************************************************************/
 -- 테이블 추가(table_ddl 참고)
-(1)금융상품유형 상세 테이블 : tb_lc_product_dtl
+(1)금융상품유형 상세 테이블 : tb_lc_product_detail
 (2)
 
 -- 컬럼 추가
-ALTER TABLE tb_lc_mas01 ADD COLUMN reg_path char(1) not null default 'B'; 		-- 등록경로
-ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr varchar(200); 						-- 등록기준지 주소
-ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr_detail varchar(200); 				-- 등록기준지 상세 주소
-ALTER TABLE tb_lc_mas01 ADD COLUMN other_field varchar(100); 					-- 영위하는 다른 업종
-ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr varchar(100); 					-- 관할 검찰청 또는 지청
-ALTER TABLE tb_lc_mas01 ADD COLUMN addr_base varchar(200); 						-- 주소
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_path char(1) not null default 'B'; 			-- 등록경로
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr varchar(200); 							-- 등록기준지 주소
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr_detail varchar(200); 					-- 등록기준지 상세 주소
+ALTER TABLE tb_lc_mas01 ADD COLUMN other_field varchar(100); 						-- 영위하는 다른 업종
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr varchar(100); 						-- 관할 검찰청 또는 지청
+ALTER TABLE tb_lc_mas01 ADD COLUMN addr_base varchar(200); 							-- 주소
 
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_path char(1) not null default 'B';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr varchar(200);
@@ -473,8 +473,10 @@ ALTER TABLE tb_lc_mas01_hist ADD COLUMN other_field varchar(100);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr varchar(100);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN addr_base varchar(200);
 
-ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 					-- 직위
-ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 					-- 임원자격 적합여부
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 						-- 직위
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 						-- 임원자격 적합여부
+
+ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1'; 	-- 공지대상(1 : 금융회사 / 2 : 모집인)
 
 -- 코드(property 값 수정)
 CAR001 : 1,2만 모두 property01,property02 값 Y로 수정
@@ -485,7 +487,8 @@ EXP001 : 1,2만 property01 값 Y로 수정
 INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('PST001','직위','직위',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('QUA001','임원자격 적합여부','임원자격 적합여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
-	 ('PRD002','금융상품유형 상세','금융상품유형 상세',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 ('PRD002','금융상품유형 상세','금융상품유형 상세',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('NTC001','공지사항 노출대상','공지사항 노출대상',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('PST001','1','대표이사','대표이사',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
@@ -510,7 +513,10 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('PRD002','9','주택할부금융','주택할부금융',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD002','10','기계할부금융','기계할부금융',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD002','11','할부금융','할부금융',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
-	 ('PRD002','12','오토론','오토론',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL);
+	 ('PRD002','12','오토론','오토론',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('NTC001','1','금융회사','금융회사',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
+	 ('NTC001','2','모집인','모집인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL);
+	 
 /************************************************************** 고도화 관련 추가 E **************************************************************/
 	 
 	 

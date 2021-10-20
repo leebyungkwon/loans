@@ -862,6 +862,7 @@ commit;
 -- 공지사항
 create table tb_lc_notice(
 	notice_seq integer not null default nextval('tb_lc_notice_seq')
+	, notice_disp_cd char(1) not null default '1'
 	, title varchar(100) not null
 	, info text not null 
 	, view_cnt integer not null default 0
@@ -876,6 +877,7 @@ create table tb_lc_notice(
 
 COMMENT ON TABLE tb_lc_notice IS '공지사항';
 COMMENT ON COLUMN tb_lc_notice.notice_seq IS '공지사항시퀀스';
+COMMENT ON COLUMN tb_lc_notice.notice_disp_cd IS '노출대상';
 COMMENT ON COLUMN tb_lc_notice.title IS '제목';
 COMMENT ON COLUMN tb_lc_notice.info IS '내용';
 COMMENT ON COLUMN tb_lc_notice.view_cnt IS '조회수';
@@ -1357,7 +1359,7 @@ commit;
 create table tb_lc_product_detail(
 	product_detail_seq integer not null default nextval('tb_lc_product_detail_seq')
 	, master_seq integer not null
-	, pl_product_dtl varchar(30) not null
+	, pl_product_dtl_cd varchar(30) not null
 	, use_yn char(1) not null default 'Y'
 	, reg_seq integer
 	, reg_timestamp timestamp
@@ -1371,7 +1373,7 @@ commit;
 COMMENT ON TABLE tb_lc_product_detail IS '금융상품유형 상세';
 COMMENT ON COLUMN tb_lc_product_detail.product_detail_seq IS '';
 COMMENT ON COLUMN tb_lc_product_detail.master_seq IS '';
-COMMENT ON COLUMN tb_lc_product_detail.pl_product_dtl IS '금융상품유형 상세코드';
+COMMENT ON COLUMN tb_lc_product_detail.pl_product_dtl_cd IS '금융상품유형 상세코드';
 COMMENT ON COLUMN tb_lc_product_detail.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_product_detail.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_product_detail.reg_timestamp IS '등록일시';
