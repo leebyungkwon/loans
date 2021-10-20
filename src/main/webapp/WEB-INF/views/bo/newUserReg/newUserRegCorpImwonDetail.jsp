@@ -171,25 +171,6 @@ function pageLoad(){
 											</tr>
 											
 										</c:if>
-
-<%-- 										<tr>
-											<th class="acenter">인감증명서</th>
-											<td>
-												<input type="text" class="w50 file_input" value="${corpImwonList.fileType10.fileFullNm }" data-fileSeq="${corpImwonList.fileType10.fileSeq }" readonly disabled>
-												<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-												<input type="hidden" name="fileTypeList" value="10"/>
-												<c:choose>
-													<c:when test="${corpImwonList.fileType10 ne null }">
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpImwonList.fileType10.fileSeq }">다운로드</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${corpImwonList.fileType10.fileSeq }" data-fileType="10" data-essential="N" data-realDel="Y">삭제</a>
-													</c:when>
-													<c:otherwise>
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="10" data-essential="N">초기화</a>
-													</c:otherwise>
-												</c:choose>
-											</td>
-										</tr> --%>
 										<tr>
 											<th class="acenter">결격사유 없음 확인서</th>
 											<td>
@@ -199,28 +180,6 @@ function pageLoad(){
 												<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpImwonList.fileType27.fileSeq }">다운로드</a>
 											</td>
 										</tr>
-										<%-- 
-										<tr>
-											<th class="acenter">행정정보공동이용 사전동의서 *</th>
-											<td>
-												<input type="text" class="w50 file_input" value="${corpImwonList.fileType33.fileFullNm }" data-fileSeq="${corpImwonList.fileType33.fileSeq }" readonly disabled>
-												<input type="file" name="files" class="inputFile pdfOnly" data-essential="Y" style="display: none;"/>
-												<input type="hidden" name="fileTypeList" value="33"/>
-												<c:choose>
-													<c:when test="${corpImwonList.fileType33 ne null }">
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${corpImwonList.fileType33.fileSeq }">다운로드</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileDel" data-fileSeq="${corpImwonList.fileType33.fileSeq }" data-fileType="33" data-essential="Y" data-pdfOnly="Y" data-realDel="Y">삭제</a>
-													</c:when>
-													<c:otherwise>
-														<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileUpload">파일찾기</a>
-														<a href="javascript:void(0);" class="btn_gray btn_del mgl5 goFileReset" data-fileType="33" data-essential="Y" data-pdfOnly="Y">초기화</a>
-													</c:otherwise>
-												</c:choose>
-											</td>
-										</tr> --%>
-
-										
-										
 									</tbody>
 								</table>
 							</div>

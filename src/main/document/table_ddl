@@ -210,6 +210,10 @@ create table tb_lc_mas01(
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
+	
+	, pl_stat_req_seq integer
+	, pl_stat_req_path char(1)
+	
 	, ci varchar(88)
 	, pl_m_name varchar(50)
 	, pl_m_z_id varchar(100)
@@ -293,6 +297,10 @@ COMMENT ON COLUMN tb_lc_mas01.api_career_yn IS '은행연합회API경력여부(�
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
+
+COMMENT ON COLUMN tb_lc_mas01.pl_stat_req_seq IS '처리상태 요청자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01.pl_stat_req_path IS '처리상태 요청경로';
+
 COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
@@ -547,6 +555,10 @@ create table tb_lc_mas01_step(
 	, pl_reg_stat varchar(2) null
 	, pl_stat varchar(2) null
 	, pl_hist_txt text null
+	
+	, pl_stat_req_seq integer
+	, pl_stat_req_path char(1)
+	
 	, reg_timestamp timestamp
 	, reg_seq integer
 	, primary key (master_step_seq)
@@ -558,6 +570,8 @@ COMMENT ON COLUMN tb_lc_mas01_step.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_reg_stat IS '모집인상태';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_stat IS '처리상태';
 COMMENT ON COLUMN tb_lc_mas01_step.pl_hist_txt IS '직접입력(사유)';
+COMMENT ON COLUMN tb_lc_mas01_step.pl_stat_req_seq IS '처리상태 요청자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_step.pl_stat_req_path IS '처리상태 요청경로';
 COMMENT ON COLUMN tb_lc_mas01_step.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_step.reg_timestamp IS '등록일시';
 
@@ -598,6 +612,10 @@ create table tb_lc_mas01_hist(
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
+	
+	, pl_stat_req_seq integer
+	, pl_stat_req_path char(1)
+	
 	, ci varchar(88)
 	, pl_m_name varchar(50)
 	, pl_m_z_id varchar(100)
@@ -682,6 +700,10 @@ COMMENT ON COLUMN tb_lc_mas01_hist.api_career_yn IS '은행연합회API경력여
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat IS '처리상태';
+
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat_req_seq IS '처리상태 요청자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat_req_path IS '처리상태 요청경로';
+
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01_hist.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id IS '모집인주민등록번호';

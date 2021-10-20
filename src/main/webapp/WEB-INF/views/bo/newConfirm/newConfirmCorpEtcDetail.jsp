@@ -8,21 +8,6 @@
 function pageLoad(){
 	
 }
-
-//수정
-function goUserRegInfoUpdt() {
-	if(confirm("저장하시겠습니까?")){
-		goFileTypeListDisabled();
-		
-		var p = {
-			  name 		: "userRegInfoUpdFrm"
-			, success 	: function (opt,result) {
-				goTab("5");
-	 	    }
-		}
-		AjaxUtil.files(p);
-	}
-}
 </script>
 
 <form name="pageFrm" id="pageFrm" method="post">
