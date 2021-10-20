@@ -40,6 +40,7 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.service.CommonService;
+import com.loanscrefia.common.common.sms.domain.SmsDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.util.UtilExcel;
@@ -74,6 +75,10 @@ public class NewApplyController {
 	//이메일 적용여부
 	@Value("${email.apply}")
 	public boolean emailApply;
+	
+	//SMS 적용여부
+	@Value("${sms.apply}")
+	public boolean smsApply;
 
 
 	// 2021-10-13 모집인 등록 승인처리 페이지
@@ -684,16 +689,19 @@ public class NewApplyController {
 		List<NewApplyDomain> applyResult = (List<NewApplyDomain>) responseMsg.getData();
 		if(applyResult != null) { 
 			ResponseMsg responseMsg2 = applyService.updateNewApplyListPlStat(applyResult);
-			System.out.println("##### checkboxUpdatePlStat ");
-			System.out.println(responseMsg2);
-			List<EmailDomain> resultEmail = (List<EmailDomain>) responseMsg2.getData();
-			if(resultEmail != null) {
-				int emailResult = 0;
-				if(resultEmail != null) {
-					if(emailApply) {
-						emailResult = applyService.applyNewSendEmail(resultEmail);
-						if(emailResult == -1) {
-							responseMsg.setMessage("메일발송시 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
+			
+			//List<EmailDomain> resultEmail = (List<EmailDomain>) responseMsg2.getData();
+			
+			// 2021-10-20 EMAIL 발송에서 SMS발송으로 전환
+			List<SmsDomain> resultSms = (List<SmsDomain>) responseMsg2.getData();
+			
+			if(resultSms != null) {
+				int smsResult = 0;
+				if(resultSms != null) {
+					if(smsApply) {
+						smsResult = applyService.applyNewSendSms(resultSms);
+						if(smsResult == -1) {
+							responseMsg.setMessage("문자발송시 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
 						}else {
 							responseMsg.setMessage("완료되었습니다.");
 						}

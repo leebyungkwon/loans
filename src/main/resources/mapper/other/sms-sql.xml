@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.loanscrefia.common.common.sms.repository.SmsRepository">
+
+	<insert id="sendSms" parameterType="sms">
+		INSERT INTO EM_TRAN(
+		   tran_phone
+		   , tran_callback
+		   , tran_status
+		   , tran_date
+		   , tran_msg
+		   , tran_etc1
+		   , tran_etc3
+		) VALUES (
+		   #{tranPhone}
+		   , #{tranCallback}
+		   , '1'
+		   , GETDATE()
+		   , #{tranMsg}
+		   , #{tranEtc1}
+		   , ''
+		)
+	</insert>
+
+</mapper> 

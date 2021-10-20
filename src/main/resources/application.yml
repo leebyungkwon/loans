@@ -39,10 +39,19 @@ spring:
         username: loanadmin
         password: qwer1234!@
         maximum-pool-size: 1
-  read:
+  email:
     datasource:
       hikari:
-        pool-name: READ-DB
+        pool-name: EMAIL-DB
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1234
+    
+  sms:
+    datasource:
+      hikari:
+        pool-name: SMS-DB
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -78,6 +87,8 @@ crypto:
 email:
   apply: false
   
+sms:
+  apply: false
   
 ---
 
@@ -98,14 +109,23 @@ spring:
         username: postgres
         password: 1234
         
-  read:
+  email:
     datasource:
       hikari:
-        pool-name: READ-DB
-        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
-        username: cemms
-        password: cemms1234
+        pool-name: EMAIL-DB
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+    username: cemms
+    password: cemms1234
+    
+  sms:
+    datasource:
+      hikari:
+        pool-name: SMS-DB
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
+    username: cesms
+    password: cesms001
 
         
 logging:
@@ -140,6 +160,9 @@ crypto:
 email:
   apply: true
   
+sms:
+  apply: true
+  
   
 ---
 
@@ -157,14 +180,24 @@ spring:
         username: postgres
         password: crefiaL0ans!@
         
-  read:
+        
+  email:
     datasource:
       hikari:
-        pool-name: READ-DB
-        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
-        username: cemms
-        password: cemms1234
+        pool-name: EMAIL-DB
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+    username: cemms
+    password: cemms1234
+    
+  sms:
+    datasource:
+      hikari:
+        pool-name: SMS-DB
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
+    username: cesms
+    password: cesms001
 
         
 logging:
@@ -198,6 +231,9 @@ crypto:
   apply: true
   
 email:
+  apply: true
+  
+sms:
   apply: true
   
   

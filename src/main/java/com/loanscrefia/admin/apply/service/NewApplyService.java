@@ -37,6 +37,8 @@ import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.common.service.KfbApiService;
+import com.loanscrefia.common.common.sms.domain.SmsDomain;
+import com.loanscrefia.common.common.sms.repository.SmsRepository;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
@@ -67,6 +69,9 @@ public class NewApplyService {
 	@Autowired
 	private EmailRepository emailRepository;
 	
+	@Autowired
+	private SmsRepository smsRepository;
+	
 	//은행연합회
 	@Autowired 
 	private KfbApiService kfbApiService;
@@ -87,6 +92,10 @@ public class NewApplyService {
 	//이메일 적용여부
 	@Value("${email.apply}")
 	public boolean emailApply;
+	
+	//SMS 적용여부
+	@Value("${sms.apply}")
+	public boolean smsApply;
 
 	
 	// 2021-10-13 모집인 등록 승인처리 리스트
@@ -1019,7 +1028,6 @@ public class NewApplyService {
 		
 		*/
 		
-		
 		// 2021-10-13 SMS 추가예정
 		/*
 		int emailResult = 0;
@@ -1027,6 +1035,20 @@ public class NewApplyService {
 		emailDomain.setName("여신금융협회");
 		emailDomain.setEmail(statCheck.getEmail());
 		*/
+		
+		
+		//승인처리시 SMS 발송
+		if(StringUtils.isEmpty(statCheck.getPlCellphone())) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "휴대폰번호를 확인해 주세요.");
+		}
+		
+		// 2021-10-20 SMS 추가
+		int smsResult = 0;
+		SmsDomain smsDomain = new SmsDomain();
+		smsDomain.setTranCallback("0103167216");
+		smsDomain.setTranStatus("1");
+		
+		
 		// API성공여부
 		boolean apiCheck = false;
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
@@ -1036,7 +1058,15 @@ public class NewApplyService {
 		}else if("5".equals(newApplyDomain.getPlStat())) {
 			// 승인요청에 대한 보완
 			//emailDomain.setInstId("141");
-			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());		
+			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());
+			
+			
+			// 2021-10-20 SMS발송 추가
+			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
+			smsDomain.setTranMsg("내용");
+			smsDomain.setTranPhone(statCheck.getPlCellphone());
+			
+			
 			apiCheck = true;
 		}else if("9".equals(newApplyDomain.getPlStat()) && "2".equals(newApplyDomain.getPlRegStat()) && "N".equals(newApplyDomain.getPreRegYn())) {
 			
@@ -1061,11 +1091,22 @@ public class NewApplyService {
 			// 승인요청에 대한 승인
 			//emailDomain.setInstId("142");
 			//emailDomain.setSubsValue(statCheck.getMasterToId());
+			
+			// 2021-10-20 SMS발송 추가
+			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
+			smsDomain.setTranMsg("내용");
+			smsDomain.setTranPhone(statCheck.getPlCellphone());
+			
 			apiCheck = true;
 		}else if("9".equals(newApplyDomain.getPlStat()) && "3".equals(newApplyDomain.getPlRegStat()) && "Y".equals(newApplyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
 			//emailDomain.setInstId("143");
 			//emailDomain.setSubsValue(statCheck.getMasterToId());
+			
+			// 2021-10-20 SMS발송 추가
+			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
+			smsDomain.setTranMsg("내용");
+			smsDomain.setTranPhone(statCheck.getPlCellphone());
 			
 			if(kfbApiApply) {
 				// 금융상품 3, 6번 제외
@@ -1149,6 +1190,11 @@ public class NewApplyService {
 			// 승인요청에 대한 부적격
 			//emailDomain.setInstId("144");
 			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());
+			
+			// 2021-10-20 SMS발송 추가
+			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
+			smsDomain.setTranMsg("내용");
+			smsDomain.setTranPhone(statCheck.getPlCellphone());
 
 			if(kfbApiApply) {
 				// 금융상품 3, 6번 제외
@@ -1202,7 +1248,14 @@ public class NewApplyService {
 			}
 			*/
 			
-			if(result > 0) {
+			// 2021-10-20 SMS발송
+			if(smsApply) {
+				smsResult = smsRepository.sendSms(smsDomain);
+			}else {
+				smsResult = 1;
+			}
+			
+			if(smsResult > 0 && result > 0) {
 				// 모집인단계이력
 				applyRepository.insertNewMasterStep(newApplyDomain);
 				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
@@ -1325,13 +1378,22 @@ public class NewApplyService {
 				break;				
 			}
 			
-			
+			/*
 			//승인처리시 이메일 발송
 			if(StringUtils.isEmpty(statCheck.getEmail())) {
 				applyCheckMessage = i+1+"번째 이메일을 확인해 주세요.";
 				applyCheck = true;
 				break;
 			}
+			*/
+			
+			// 승인처리시 SMS 발송
+			if(StringUtils.isEmpty(statCheck.getPlCellphone())) {
+				applyCheckMessage = i+1+"번째 휴대폰번호를 확인해 주세요.";
+				applyCheck = true;
+				break;
+			}
+			
 			
 			//승인상태가 승인요청중인건만 확인
 			if(!"2".equals(statCheck.getPlStat())) {
@@ -1392,6 +1454,30 @@ public class NewApplyService {
 			return emailResult;
 		}
 	}
+	
+	// sms 발송
+	public int applyNewSendSms(List<SmsDomain> resultSmsDomain) {
+		int smsResult = 0;
+		for(int i=0; i<resultSmsDomain.size(); i++) {
+			SmsDomain smsDomain = new SmsDomain();
+			smsDomain.setTranCallback("발신번호");
+			smsDomain.setTranPhone(resultSmsDomain.get(i).getTranPhone());
+			smsDomain.setTranStatus("1");
+			smsDomain.setTranMsg(resultSmsDomain.get(i).getTranMsg());
+			smsDomain.setTranEtc1(resultSmsDomain.get(i).getTranEtc1());
+			smsRepository.sendSms(smsDomain);
+			smsResult++;
+		}
+		
+		if(resultSmsDomain.size() != smsResult) {
+			return -1;
+		}else {
+			return smsResult;
+		}
+	}
+	
+	
+	
 	
 	//모집인 조회 및 변경 > 상태변경처리
 	@Transactional

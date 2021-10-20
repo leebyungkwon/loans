@@ -15,22 +15,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan(value = "com.loanscrefia.common.common.email.repository", sqlSessionFactoryRef = "secondSqlSessionFactory")
-public class SecondDataSourceConfiguration {
-    @Bean(name = "secondDataSource")
-    @ConfigurationProperties(prefix="spring.email.datasource.hikari")
-    public DataSource secondDataSource() {
+@MapperScan(value = "com.loanscrefia.common.common.sms.repository", sqlSessionFactoryRef = "thirdSqlSessionFactory")
+public class ThirdDataSourceConfiguration {
+    @Bean(name = "thirdDataSource")
+    @ConfigurationProperties(prefix="spring.sms.datasource.hikari")
+    public DataSource thirdDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "secondSqlSessionFactory")
-    public SqlSessionFactory secondSqlSessionFactory(@Qualifier("secondDataSource") DataSource secondDataSource,
+    @Bean(name = "thirdSqlSessionFactory")
+    public SqlSessionFactory thirdSqlSessionFactory(@Qualifier("thirdDataSource") DataSource thirdDataSource,
                                                           ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         
         //sqlSessionFactoryBean.setEnvironment("mssql");
         
-        sqlSessionFactoryBean.setDataSource(secondDataSource);
+        sqlSessionFactoryBean.setDataSource(thirdDataSource);
         sqlSessionFactoryBean.setVfs(SpringBootVFS.class);  // Spring Boot 전용 VFS 사용하도록 지정
         sqlSessionFactoryBean.setTypeAliasesPackage("com.loanscrefia.*.*.*.domain");
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/other/**.xml"));
@@ -40,8 +40,8 @@ public class SecondDataSourceConfiguration {
         return sqlSessionFactoryBean.getObject();
     }
 
-    @Bean(name = "secondSessionTemplate")
-    public SqlSessionTemplate secondSqlSessionTemplate(@Qualifier("secondSqlSessionFactory") SqlSessionFactory secondSqlSessionFactory) {
-        return new SqlSessionTemplate(secondSqlSessionFactory);
+    @Bean(name = "thirdSessionTemplate")
+    public SqlSessionTemplate thirdSqlSessionTemplate(@Qualifier("thirdSqlSessionFactory") SqlSessionFactory thirdSqlSessionFactory) {
+        return new SqlSessionTemplate(thirdSqlSessionFactory);
     }
 }
