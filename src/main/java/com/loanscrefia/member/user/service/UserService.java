@@ -305,6 +305,7 @@ public class UserService {
 						String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
 						String apiMsg 				= "";
 						
+						/*
 						for(int i = 0;i < excelResult.size();i++) {
 							if(kfbApiContinue(excelResult.get(i).get("G").toString())) { //******
 								//(1)등록가능 여부 조회
@@ -338,6 +339,7 @@ public class UserService {
 						if(StringUtils.isNotEmpty(apiMsg)) {
 							return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
 						}
+						*/
 						
 						//(3)가등록
 						for(int j = 0;j < excelResult.size();j++) {
@@ -385,11 +387,13 @@ public class UserService {
 										excelResult.get(j).put("preRegYn", "N");
 									}
 									
-									if(!preLoanApiResponse.isNull("career_yn")) {
-										excelResult.get(j).put("apiCareerYn", preLoanApiResponse.getString("career_yn").toString());	//경력여부
+									/*
+									if(!checkLoanApiResponse.isNull("career_yn")) {
+										excelResult.get(j).put("apiCareerYn", checkLoanApiResponse.getString("career_yn").toString());	//경력여부
 									}else {
 										excelResult.get(j).put("apiCareerYn", "N");
 									}
+									*/
 									
 									//(4)모집인 테이블 저장
 									UserDomain insertDomain 				= new UserDomain();
@@ -485,6 +489,7 @@ public class UserService {
 						String apiToken 			= kfbApiService.selectKfbApiKey(kfbApiDomain);
 						String apiMsg 				= "";
 						
+						/*
 						for(int i = 0;i < excelResult.size();i++) {
 							if(kfbApiContinue(excelResult.get(i).get("K").toString())) { //******
 								//(1)등록가능 여부 조회
@@ -518,6 +523,7 @@ public class UserService {
 						if(StringUtils.isNotEmpty(apiMsg)) {
 							return new ResponseMsg(HttpStatus.OK, "", apiMsg, "");
 						}
+						*/
 						
 						//(3)가등록
 						for(int j = 0;j < excelResult.size();j++) {
@@ -552,8 +558,13 @@ public class UserService {
 									log.info("insertUserRegCorpInfoByExcel() >> preLoanApiResponse >> "+preLoanApiResponse);
 									log.info("#########################################");
 									
-									excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_corp_lc_num")); 	//가등록 번호
-									excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+									excelResult.get(j).put("preLcNum", preLoanApiResponse.getString("pre_corp_lc_num")); 		//가등록 번호
+									
+									if(!preLoanApiResponse.isNull("fee_yn")) {
+										excelResult.get(j).put("preRegYn", preLoanApiResponse.getString("fee_yn").toString()); 	//수수료 기 납부 여부
+									}else {
+										excelResult.get(j).put("preRegYn", "N");
+									}
 									
 									//(4)모집인 테이블 저장
 									UserDomain insertDomain 				= new UserDomain();
@@ -2370,6 +2381,9 @@ public class UserService {
 		
 		return new ResponseMsg(HttpStatus.OK, code, msg);
 	}
+	
+	
+	
 	
 	
 	
