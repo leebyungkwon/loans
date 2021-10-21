@@ -1,7 +1,11 @@
 package com.loanscrefia.member.user.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
-import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExcelDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
@@ -137,10 +140,39 @@ public class UserController {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
+	//2021.10.21
+	public String compareDtForReg() {
+		
+		String btnShow = "O";
+		
+		try {
+			SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+			Date currentDt = new Date();
+			
+			Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
+			Date d2 = dateFormatParser.parse("2021-10-21 16:00:00"); //2021-10-24 24:00:00
+			
+			//System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
+			//System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
+
+			if(d1.compareTo(d2) >= 0) {
+				//System.out.println("버튼을 숨겨라아아");
+				btnShow = "X";
+			}
+		}catch(ParseException e) {
+			btnShow = "X";
+		}
+		
+		return btnShow;
+	}
+	
 	//리스트 페이지
 	@GetMapping(value="/user/userRegPage")
-	public String userRegPage() {
-		return CosntPage.BoUserRegPage+"/userRegList";
+	public ModelAndView userRegPage() {
+		ModelAndView mav = new ModelAndView(CosntPage.BoUserRegPage+"/userRegList");
+		mav.addObject("btnShow", this.compareDtForReg());
+        return mav;
+		//return CosntPage.BoUserRegPage+"/userRegList";
 	}
 	
 	//리스트
@@ -177,14 +209,28 @@ public class UserController {
 	//등록 처리(엑셀 업로드) : 개인
 	@PostMapping(value="/user/insertUserRegIndvInfoByExcel")
 	public ResponseEntity<ResponseMsg> insertUserRegIndvInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain) throws IOException{
-		ResponseMsg responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
+		
+		//2021.10.21
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "등록 가능 시간이 초과되었습니다.");
+		if(this.compareDtForReg().equals("O")) {
+			responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
+		}
+		
+		//ResponseMsg responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
 	//등록 처리(엑셀 업로드) : 법인
 	@PostMapping(value="/user/insertUserRegCorpInfoByExcel")
 	public ResponseEntity<ResponseMsg> insertUserRegCorpInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain) throws IOException{
-		ResponseMsg responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
+		
+		//2021.10.21
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "등록 가능 시간이 초과되었습니다.");
+		if(this.compareDtForReg().equals("O")) {
+			responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
+		}
+		
+		//ResponseMsg responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
