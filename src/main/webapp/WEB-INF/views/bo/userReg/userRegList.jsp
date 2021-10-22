@@ -431,8 +431,8 @@ function goGetDate(opt) {
 			<div class="action">
 				<c:if test="${btnShow eq 'O' }">
 					<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="testt" onclick="goUserRegPopOpen();">모집인 등록</a>
+					<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyAccept();">선택 승인요청</a>
 				</c:if>
-				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyAccept();">선택 승인요청</a>
 				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="goUserRegInfoCancel();">선택 삭제</a>
 			</div>
 		</div>

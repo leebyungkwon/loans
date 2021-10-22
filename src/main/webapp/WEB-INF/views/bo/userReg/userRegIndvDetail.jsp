@@ -1,7 +1,34 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.ParseException" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Locale" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+<%
+String btnShow = "O";
+
+try {
+	SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+	Date currentDt = new Date();
+	
+	Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
+	Date d2 = dateFormatParser.parse("2021-10-22 13:30:00");
+	
+	System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
+	System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
+
+	if(d1.compareTo(d2) >= 0) {
+		System.out.println("버튼을 숨겨라아아");
+		btnShow = "X";
+	}
+}catch(ParseException e) {
+	btnShow = "X";
+}
+%>
 
 <script type="text/javascript" src="/static/js/userReg/common.js"></script>
 
@@ -435,7 +462,13 @@ function goUserAcceptApply(){
 				</table>
 			</div>
 			<div class="btn_wrap">
-				<c:if test="${result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
+				<c:set var="btnShow" value="<%=btnShow %>"></c:set>
+				<c:if test="${btnShow eq 'O' && result.userRegInfo.plStat ne '2' && result.userRegInfo.fileCompYn eq 'Y' }"> 
+					<c:if test="${result.userRegInfo.plRegStat eq '1' && result.userRegInfo.plStat ne '10' && result.userRegInfo.plStat ne '11' && result.userRegInfo.plStat ne '12' }">
+						<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
+					</c:if>
+				</c:if>
+				<c:if test="${btnShow eq 'X' && result.userRegInfo.plStat eq '5' && result.userRegInfo.fileCompYn eq 'Y' }"> 
 					<c:if test="${result.userRegInfo.plRegStat eq '1' && result.userRegInfo.plStat ne '10' && result.userRegInfo.plStat ne '11' && result.userRegInfo.plStat ne '12' }">
 						<a href="javascript:void(0);" class="btn_blue" onclick="goUserAcceptApply();" style="position: absolute; left: 0;">승인요청</a>
 					</c:if>
