@@ -41,12 +41,6 @@ function goUserSearch() {
 	AjaxUtil.post(p);
 }
 
-//은행연합회 이동
-function goKfbSearch(){
-	//location.href="/front/search/userSearchResult";
-	alert("모집인 등록증은 대출모집인 포탈사이트(http://www.loanconsultant.or.kr/)에서 2021년 9월 중순 이후부터 조회 및 다운로드 받으 실 수 있습니다.");
-}
-
 //조회 결과 있을 때
 function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 	$("#"+formNm).append('<input type="hidden" name="plRegistSearchNo" value="'+plRegistSearchNo+'">');
@@ -94,7 +88,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				<li>
 					<span class="dot"></span>
 					<p>
-						<a href="javascript:void(0);" class="btn_login red" onclick="goKfbSearch();">등록증발급</a>
+						<a href="https://www.loanconsultant.or.kr/loan_downloadLicense.do?gubun=P" target="_blank" class="btn_login red">등록증발급</a>
 					</p>
 				</li>
 				
@@ -131,7 +125,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				<li>
 					<span class="dot"></span>
 					<p>
-						<a href="javascript:void(0);" class="btn_login red" onclick="goKfbSearch();">등록증발급</a>
+						<a href="https://www.loanconsultant.or.kr/loan_downloadLicense.do?gubun=P" target="_blank" class="btn_login red">등록증발급</a>
 					</p>
 				</li>
 				

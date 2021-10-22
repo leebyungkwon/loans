@@ -42,11 +42,6 @@ function goUserSearch() {
 	AjaxUtil.post(p);
 }
 
-//은행연합회 이동
-function goKfbSearch(){
-	alert("은행연합회 통합조회사이트 준비중");
-}
-
 //조회 결과 있을 때
 function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 	$("#"+formNm).append('<input type="hidden" name="plRegistSearchNo" value="'+plRegistSearchNo+'">');
@@ -100,7 +95,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				<li>
 					<span class="dot"></span>
 					<p>
-						<a href="javascript:void(0);" class="btn_login red" onclick="goKfbSearch();">등록증발급</a>
+						<a href="https://www.loanconsultant.or.kr/loan_downloadLicense.do?gubun=P" target="_blank" class="btn_login red">등록증발급</a>
 					</p>
 				</li>
 				
@@ -137,7 +132,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				<li>
 					<span class="dot"></span>
 					<p>
-						<a href="javascript:void(0);" class="btn_login red" onclick="goKfbSearch();">등록증발급</a>
+						<a href="https://www.loanconsultant.or.kr/loan_downloadLicense.do?gubun=P" target="_blank" class="btn_login red">등록증발급</a>
 					</p>
 				</li>
 				
