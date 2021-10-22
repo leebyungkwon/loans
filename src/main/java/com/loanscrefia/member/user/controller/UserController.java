@@ -150,7 +150,7 @@ public class UserController {
 			Date currentDt = new Date();
 			
 			Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
-			Date d2 = dateFormatParser.parse("2021-10-22 10:30:00"); //2021-10-24 24:00:00
+			Date d2 = dateFormatParser.parse("2021-10-24 24:00:00");
 			
 			//System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
 			//System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
