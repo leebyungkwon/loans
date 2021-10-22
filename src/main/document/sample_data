@@ -494,6 +494,10 @@ CAR001 : 1,2만 모두 property01,property02 값 Y로 수정
 PRD001 : 01,05만 property01 값 Y로 수정				-> BO영향 없음
 EXP001 : 1,2만 property01 값 Y로 수정
 
+UPDATE tb_lc_cod01_detail SET property01 = 'Y', property02 = 'Y' WHERE code_mst_cd = 'CAR001' AND code_dtl_cd IN ('1','2');
+UPDATE tb_lc_cod01_detail SET property01 = 'Y' WHERE code_mst_cd = 'PRD001' AND code_dtl_cd IN ('01','05');
+UPDATE tb_lc_cod01_detail SET property01 = 'Y' WHERE code_mst_cd = 'EXP001' AND code_dtl_cd IN ('1','2');
+
 -- 코드(추가)
 INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('PST001','직위','직위',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),

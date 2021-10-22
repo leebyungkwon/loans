@@ -16,13 +16,13 @@ try {
 	Date currentDt = new Date();
 	
 	Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
-	Date d2 = dateFormatParser.parse("2021-10-22 13:30:00");
+	Date d2 = dateFormatParser.parse("2021-10-24 24:00:00");
 	
-	System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
-	System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
+	//System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
+	//System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
 
 	if(d1.compareTo(d2) >= 0) {
-		System.out.println("버튼을 숨겨라아아");
+		//System.out.println("버튼을 숨겨라아아");
 		btnShow = "X";
 	}
 }catch(ParseException e) {
