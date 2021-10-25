@@ -654,8 +654,8 @@ public class KfbApiService {
 		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
 	
-	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
-	public ResponseMsg preLoanIndv(String authToken, JSONObject reqParam, String method) throws IOException {
+	//확인용
+	public ResponseMsg chkLoanIndv(String authToken, JSONObject reqParam, String method) throws IOException {
 		//connect URL
 		String connUrl = this.getApiDomain()+PreLoanUrl;
 		
@@ -665,7 +665,6 @@ public class KfbApiService {
 			
 			connUrl = connUrl + param;
 		}
-		
 		
 		OutApiConnector.setApi api = new OutApiConnector.setApi("", "preLoanIndv");
         api.url(connUrl);
@@ -693,7 +692,8 @@ public class KfbApiService {
         newLogParam.setSendData(reqParam.toString());
         apiKey = this.insertNewKfbApiLog(newLogParam);
         int responseCode = OutApiParse.getCode(res);
-        if (OutApiParse.getCode(res) == HttpURLConnection.HTTP_CREATED) {
+        if (OutApiParse.getCode(res) == HttpURLConnection.HTTP_CREATED
+        		|| OutApiParse.getCode(res) == HttpURLConnection.HTTP_OK) {
         	newLogParam.setResYn("Y");
             log.info("## 호출 성공 ");
             String dlvRsvNo = OutApiParse.getData(res, "");
@@ -718,177 +718,180 @@ public class KfbApiService {
         newLogParam.setResData(responseJson.toString());
         this.updateNewKfbApiLog(newLogParam);
         
-        
-        /*
-		String successCheck 	= "fail";
-		String message 			= "";
-		JSONObject responseJson = new JSONObject();
-		int TIMEOUT_VALUE = 3000;		// 3초
-		HttpURLConnection conn = null;
-		BufferedReader br = null;
-		
-		
-		int responseCode = 0;
-		boolean apiCheck = false; 
-        String resCode = "000";
-        String resMsg = "res_msg :: null";
-        String resExpMsg = "";
-		
-		KfbApiDomain newLogParam = new KfbApiDomain();
-		int apiKey = 0;
-		
-		if(StringUtils.isEmpty(authToken)) {
-			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
-		}else {
-			authToken = "Bearer " + authToken;
-		}
-		
-		try {
-			//connect URL
-			String connUrl = this.getApiDomain()+PreLoanUrl;
-			
-			//파라미터 설정
-			if(method.equals("GET") || method.equals("DELETE")) {
-				String param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
-				
-				connUrl = connUrl + param;
-			}
-			
-			//URL 설정
-			URL url 				= new URL(connUrl);
-			conn 	= (HttpURLConnection)url.openConnection();
-			
-			//2021-09-30 timeout설정
-			conn.setConnectTimeout(TIMEOUT_VALUE);
-			conn.setReadTimeout(TIMEOUT_VALUE);
-			
-			conn.setRequestMethod(method);
-			conn.setRequestProperty("Content-Type", "application/json");
-			conn.setRequestProperty("Accept", "application/json");
-			conn.setRequestProperty("Authorization", authToken);
-
-			if(method.equals("POST")) {
-				conn.setDoOutput(true);
-				
-				//요청 데이터 전송
-				OutputStream os = conn.getOutputStream(); 
-				os.write(reqParam.toString().getBytes("utf-8")); //*****
-				os.flush();
-				os.close();
-			}
-			
-	        //요청 이력 저장
-	        KfbApiDomain logParam = new KfbApiDomain();
-	        logParam.setToken(authToken);
-	        logParam.setUrl(this.getApiDomain()+PreLoanUrl);
-	        logParam.setSendData(reqParam.toString());
-	        this.insertKfbApiReqLog(logParam);
-	        
-	        
-			// 2021-10-05 api_log 생성
-	        newLogParam.setToken(authToken);
-	        newLogParam.setUrl(this.getApiDomain()+PreLoanUrl);
-	        newLogParam.setSendData(reqParam.toString());
-            apiKey = this.insertNewKfbApiLog(newLogParam);
-	        
-	        //요청 결과
-	        responseCode = conn.getResponseCode();
-	        
-	        if(responseCode == 200) {
-	        	apiCheck = true;
-	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	        	StringBuilder sb 	= new StringBuilder();
-	        	String line 		= "";
-	        	
-	            while((line = br.readLine()) != null) {
-	            	sb.append(line);
-	            }
-	            
-	            br.close();
-	            
-	            responseJson = new JSONObject(sb.toString());
-	            
-	            if(!responseJson.isNull("res_code")) {
-	            	resCode = responseJson.getString("res_code");
-		            if(responseJson.getString("res_code").equals("200")) {
-		            	//successCheck
-		            	successCheck = "success";
-		            }
-	            }
-	            if(!responseJson.isNull("res_msg")) {
-	            	resMsg = responseJson.getString("res_msg");
-	            	message = responseJson.getString("res_msg");
-	            }
-	            
-	            //응답 이력 저장
-	            logParam.setResCode(resCode);
-	            logParam.setResMsg(resMsg);
-	            logParam.setResData(responseJson.toString());
-	            this.insertKfbApiResLog(logParam);
-	            
-	            conn.disconnect();
-	            
-	        }else {
-	        	apiCheck = false;
-		        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
-		        resExpMsg = message;
-		        //응답 이력 저장
-	            logParam.setResCode(Integer.toString(responseCode));
-	            logParam.setResMsg("HTTP Method [" + method + "] :: preLoanIndv() 메소드 확인 필요");
-	            logParam.setResData("empty");
-	            this.insertKfbApiResLog(logParam);
-	        }
-	        
-	        conn.disconnect();
-	        
-	    } catch (MalformedURLException e) {
-			apiCheck = false;
-			resExpMsg = e.getMessage();
-	    	log.error("########m MalformedURLException  ::  preLoanIndv()");
-	    	log.error(e.getMessage());
-	        e.printStackTrace();
-	    } catch (IOException e) {
-			apiCheck = false;
-			resExpMsg = e.getMessage();
-	    	log.error("########m IOException  ::  preLoanIndv()");
-	    	log.error(e.getMessage());
-	        e.printStackTrace();
-	    } catch (JSONException e) {
-			apiCheck = false;
-			resExpMsg = e.getMessage();
-	    	log.error("########m JSONException  ::  preLoanIndv()");
-	    	log.error(e.getMessage());
-	        e.printStackTrace();
-	    } finally {
-	    	
-            // 2021-10-05 api_log 생성
-            newLogParam.setApiSeq(apiKey);
-            if(apiCheck == true) {
-            	newLogParam.setResYn("Y");
-            }else {
-            	newLogParam.setResYn("N");
-            	newLogParam.setResExpMsg(resExpMsg);
-            }
-            newLogParam.setResConCode(responseCode);
-            newLogParam.setResCode(resCode);
-            newLogParam.setResMsg(resMsg);
-            newLogParam.setResData(responseJson.toString());
-            this.updateNewKfbApiLog(newLogParam);
-			
-			// 2021-10-05 disconnect 강제 종료 실행
-			if(conn != null) {
-				conn.disconnect();
-			}
-			conn = null;
-			
-			// 2021-10-05 BufferedReader 강제 종료 실행
-			if(br != null) {
-				br.close();
-			}
-			br = null;
-		}
-	    */
 		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
+	}
+	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
+	public ResponseMsg preLoanIndv(String authToken, JSONObject reqParam, String method) throws IOException {
+			
+			String successCheck 	= "fail";
+			String message 			= "";
+			JSONObject responseJson = new JSONObject();
+			int TIMEOUT_VALUE = 3000;		// 3초
+			HttpURLConnection conn = null;
+			BufferedReader br = null;
+			
+			
+			int responseCode = 0;
+			boolean apiCheck = false; 
+	        String resCode = "000";
+	        String resMsg = "res_msg :: null";
+	        String resExpMsg = "";
+			
+			KfbApiDomain newLogParam = new KfbApiDomain();
+			int apiKey = 0;
+			
+			if(StringUtils.isEmpty(authToken)) {
+				return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API 토큰 오류 : 시스템관리자에게 문의해 주세요.");
+			}else {
+				authToken = "Bearer " + authToken;
+			}
+			
+			try {
+				//connect URL
+				String connUrl = this.getApiDomain()+PreLoanUrl;
+				
+				//파라미터 설정
+				if(method.equals("GET") || method.equals("DELETE")) {
+					String param = "?pre_lc_num="+reqParam.getString("pre_lc_num");
+					
+					connUrl = connUrl + param;
+				}
+				
+				//URL 설정
+				URL url 				= new URL(connUrl);
+				conn 	= (HttpURLConnection)url.openConnection();
+				
+				//2021-09-30 timeout설정
+				conn.setConnectTimeout(TIMEOUT_VALUE);
+				conn.setReadTimeout(TIMEOUT_VALUE);
+				
+				conn.setRequestMethod(method);
+				conn.setRequestProperty("Content-Type", "application/json");
+				conn.setRequestProperty("Accept", "application/json");
+				conn.setRequestProperty("Authorization", authToken);
+
+				if(method.equals("POST")) {
+					conn.setDoOutput(true);
+					
+					//요청 데이터 전송
+					OutputStream os = conn.getOutputStream(); 
+					os.write(reqParam.toString().getBytes("utf-8")); //*****
+					os.flush();
+					os.close();
+				}
+				
+		        //요청 이력 저장
+		        KfbApiDomain logParam = new KfbApiDomain();
+		        logParam.setToken(authToken);
+		        logParam.setUrl(this.getApiDomain()+PreLoanUrl);
+		        logParam.setSendData(reqParam.toString());
+		        this.insertKfbApiReqLog(logParam);
+		        
+		        
+				// 2021-10-05 api_log 생성
+		        newLogParam.setToken(authToken);
+		        newLogParam.setUrl(this.getApiDomain()+PreLoanUrl);
+		        newLogParam.setSendData(reqParam.toString());
+	            apiKey = this.insertNewKfbApiLog(newLogParam);
+		        
+		        //요청 결과
+		        responseCode = conn.getResponseCode();
+		        
+		        if(responseCode == 200) {
+		        	apiCheck = true;
+		        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		        	StringBuilder sb 	= new StringBuilder();
+		        	String line 		= "";
+		        	
+		            while((line = br.readLine()) != null) {
+		            	sb.append(line);
+		            }
+		            
+		            br.close();
+		            
+		            responseJson = new JSONObject(sb.toString());
+		            
+		            if(!responseJson.isNull("res_code")) {
+		            	resCode = responseJson.getString("res_code");
+			            if(responseJson.getString("res_code").equals("200")) {
+			            	//successCheck
+			            	successCheck = "success";
+			            }
+		            }
+		            if(!responseJson.isNull("res_msg")) {
+		            	resMsg = responseJson.getString("res_msg");
+		            	message = responseJson.getString("res_msg");
+		            }
+		            
+		            //응답 이력 저장
+		            logParam.setResCode(resCode);
+		            logParam.setResMsg(resMsg);
+		            logParam.setResData(responseJson.toString());
+		            this.insertKfbApiResLog(logParam);
+		            
+		            conn.disconnect();
+		            
+		        }else {
+		        	apiCheck = false;
+			        message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+			        resExpMsg = message;
+			        //응답 이력 저장
+		            logParam.setResCode(Integer.toString(responseCode));
+		            logParam.setResMsg("HTTP Method [" + method + "] :: preLoanIndv() 메소드 확인 필요");
+		            logParam.setResData("empty");
+		            this.insertKfbApiResLog(logParam);
+		        }
+		        
+		        conn.disconnect();
+		        
+		    } catch (MalformedURLException e) {
+				apiCheck = false;
+				resExpMsg = e.getMessage();
+		    	log.error("########m MalformedURLException  ::  preLoanIndv()");
+		    	log.error(e.getMessage());
+		        e.printStackTrace();
+		    } catch (IOException e) {
+				apiCheck = false;
+				resExpMsg = e.getMessage();
+		    	log.error("########m IOException  ::  preLoanIndv()");
+		    	log.error(e.getMessage());
+		        e.printStackTrace();
+		    } catch (JSONException e) {
+				apiCheck = false;
+				resExpMsg = e.getMessage();
+		    	log.error("########m JSONException  ::  preLoanIndv()");
+		    	log.error(e.getMessage());
+		        e.printStackTrace();
+		    } finally {
+		    	
+	            // 2021-10-05 api_log 생성
+	            newLogParam.setApiSeq(apiKey);
+	            if(apiCheck == true) {
+	            	newLogParam.setResYn("Y");
+	            }else {
+	            	newLogParam.setResYn("N");
+	            	newLogParam.setResExpMsg(resExpMsg);
+	            }
+	            newLogParam.setResConCode(responseCode);
+	            newLogParam.setResCode(resCode);
+	            newLogParam.setResMsg(resMsg);
+	            newLogParam.setResData(responseJson.toString());
+	            this.updateNewKfbApiLog(newLogParam);
+				
+				// 2021-10-05 disconnect 강제 종료 실행
+				if(conn != null) {
+					conn.disconnect();
+				}
+				conn = null;
+				
+				// 2021-10-05 BufferedReader 강제 종료 실행
+				if(br != null) {
+					br.close();
+				}
+				br = null;
+			}
+		    
+			return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
 	
 	//본등록 : POST(본등록 처리),GET(조회),PUT(수정),DELETE(삭제)

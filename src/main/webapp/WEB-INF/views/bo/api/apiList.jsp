@@ -133,6 +133,33 @@ function pageLoad(){
 		PopUtil.openPopup(p);
 	});
 	
+	// NEW가등록번호 조회 결과 팝업
+	$("#newApiPreSearch").on("click", function(){
+		var plClass		=	$("#newPrePlClass").val();
+		var preLcNum	=	$("#newPreLcNum").val();
+		var conNum		=	$("#newPreConNum").val();
+		
+		if(WebUtil.isNull(preLcNum)){
+			alert("가등록번호를 입력해 주세요.");
+			return false;
+		}
+		
+		let p = {
+			id : "newCrefiaRegPop"
+			, params : {
+				preLcNum	: preLcNum
+				, conNum	: conNum
+				, plClass	:	plClass
+			}
+			, url : "/system/api/newApiPreSearchPopup"
+			, success : function (opt,result) {
+				$(".popup_inner").css("width","55%");
+		    }
+		}
+		PopUtil.openPopup(p);
+	});
+	
+	
 	
 	// 등록번호 조회 결과 팝업
 	$("#apiSearch").on("click", function(){
@@ -214,6 +241,27 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
+	// 가등록 삭제
+	$("#deletePreLoan").on("click", function(){
+		
+		var plClass		=	$("#delPreLcNum").val();
+		var preLcNum		=	$("#delPrelcNum").val();
+		
+		if(confirm("가등록을 삭제하시겠습니까?")){
+			var p = {
+				  url		: "/system/api/deletePreLoan"	
+				, param : {
+					, plClass	: plClass
+					, preLcNum	:	preLcNum
+				}
+				, success 	: function (opt,result) {
+					
+					
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
 	
 }
 
@@ -297,6 +345,64 @@ function goGetDate(opt) {
 				</tr>
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreSearch">가등록조회</a>
+		</div>
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>NEW가등록번호</th>
+					<td class="">
+						<input type="text" id="newPreLcNum" >
+					</td>
+					<th>NEW계약번호</th>
+					<td class="">
+						<input type="text" id="newPreConNum" >
+					</td>
+					<th>NEW모집인 분류</th>
+					<td class="half_input">
+						<select id="newPrePlClass">
+							<option value="1">개인</option>
+							<option value="2">법인</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="newApiPreSearch">NEW가등록조회</a>
+		</div>
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>가등록번호</th>
+					<td class="">
+						<input type="text" id="delPreLcNum" >
+					</td>
+					<th>모집인 분류</th>
+					<td class="half_input">
+						<select id="delPlClass">
+							<option value="1">개인</option>
+							<option value="2">법인</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="deletePreLoan">가등록삭제</a>
 		</div>
 		
 		
