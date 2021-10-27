@@ -98,29 +98,6 @@ create table tb_lc_users_inactive(
 ----------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-ALTER TABLE tb_lc_users ADD COLUMN corp_appr_dt timestamp;
-ALTER TABLE tb_lc_users ADD COLUMN fail_cnt INTEGER NOT NULL DEFAULT 0;
-
-ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_seq INTEGER;
-
-ALTER TABLE tb_lc_users ADD COLUMN fail_cnt INTEGER;
-ALTER TABLE tb_lc_users ADD COLUMN corp_appr_dt timestamp;
-
-
-ALTER TABLE tb_lc_users ADD COLUMN pw_change_dt timestamp;
-
-
-
-
-
-
 -- 2021-08-27 기본컬럼 추가
 ALTER TABLE tb_lc_mas01 ADD COLUMN use_yn char(1) not null default 'Y';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN use_yn char(1) not null default 'Y';
@@ -459,6 +436,7 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 (2)
 
 -- 컬럼 추가
+ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_path char(1) not null default 'B'; 			-- 등록경로
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr varchar(200); 							-- 등록기준지 주소
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr_detail varchar(200); 					-- 등록기준지 상세 주소
@@ -468,11 +446,7 @@ ALTER TABLE tb_lc_mas01 ADD COLUMN addr_base varchar(200); 							-- 주소
 ALTER TABLE tb_lc_mas01 ADD COLUMN pl_stat_req_seq INTEGER; 						-- 처리상태 요청자시퀀스
 ALTER TABLE tb_lc_mas01 ADD COLUMN pl_stat_req_path char(1); 						-- 처리상태 요청경로
 
-
-ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;
-ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);
-
-
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_seq INTEGER;
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_path char(1) not null default 'B';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr_detail varchar(200);
@@ -483,9 +457,12 @@ ALTER TABLE tb_lc_mas01_hist ADD COLUMN addr_base varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_seq INTEGER; 
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_path char(1); 
 
-
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 						-- 직위
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 						-- 임원자격 적합여부
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN user_seq INTEGER; 							-- 사용자시퀀스
+
+ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;
+ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);
 
 ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1'; 	-- 공지대상(1 : 금융회사 / 2 : 모집인)
 
