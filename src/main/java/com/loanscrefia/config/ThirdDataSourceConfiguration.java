@@ -33,7 +33,7 @@ public class ThirdDataSourceConfiguration {
         sqlSessionFactoryBean.setDataSource(thirdDataSource);
         sqlSessionFactoryBean.setVfs(SpringBootVFS.class);  // Spring Boot 전용 VFS 사용하도록 지정
         sqlSessionFactoryBean.setTypeAliasesPackage("com.loanscrefia.*.*.*.domain");
-        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/other/**.xml"));
+        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/sms/**.xml"));
         org.apache.ibatis.session.Configuration ibatisConfiguration = new org.apache.ibatis.session.Configuration();
         ibatisConfiguration.setMapUnderscoreToCamelCase(true);
         sqlSessionFactoryBean.setConfiguration(ibatisConfiguration);

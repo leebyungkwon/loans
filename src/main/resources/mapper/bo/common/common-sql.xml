@@ -181,7 +181,30 @@
 	<!-- session 회원정보 조회 -->
 	<select id="getMemberDetail" parameterType="member" resultType="member">
 		SELECT
-			*
+			member_seq
+			, member_id
+			, password
+			, com_code
+			, FN_COM_CODE(COM_CODE) AS COM_CODE_NM
+			, member_name
+			, email
+			, extension_no
+			, mobile_no
+			, dept_nm
+			, position_nm
+			, join_dt
+			, role_name
+			, terms_yn
+			, terms_date
+			, option_terms_yn
+			, option_terms_date
+			, appr_stat
+			, msg
+			, file_seq
+			, fail_cnt
+			, cre_yn
+			, cre_grp
+			, drop_yn
 		FROM tb_lc_members
 		WHERE member_seq = #{regSeq}
 	</select>

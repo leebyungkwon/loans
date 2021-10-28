@@ -25,9 +25,12 @@ import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.common.service.KfbApiService;
+import com.loanscrefia.common.common.sms.domain.SmsDomain;
+import com.loanscrefia.common.common.sms.repository.SmsRepository;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.domain.ProductDtlDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
@@ -47,13 +50,10 @@ import sinsiway.CryptoUtil;
 public class NewUserService {
 
 	@Autowired private NewUserRepository userRepo;
-	@Autowired private CorpService corpService;
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
-	@Autowired private EduService eduService;
-	@Autowired private UtilFile utilFile;
-	@Autowired private UtilExcel<T> utilExcel;
-	@Autowired private KfbApiService kfbApiService; //은행연합회
+	@Autowired
+	private SmsRepository smsRepository;
 	
 	//첨부파일 경로
 	@Value("${upload.filePath}")
@@ -162,6 +162,14 @@ public class NewUserService {
 			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
+			// 2021-10-27 주민등록번호로 생년월일 및 성별 추출
+			userRegInfo.setBirthDt(plMZId.substring(0, 6));
+			String genderCheck = plMZId.substring(6, 6);
+			if("1".equals(genderCheck) || "3".equals(genderCheck) || "5".equals(genderCheck) || "7".equals(genderCheck)) {
+				userRegInfo.setGender("남성");
+			}else {
+				userRegInfo.setGender("여성");
+			}
 		}
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMerchantNo())) {
 			String plMerchantNo = "";
@@ -220,12 +228,16 @@ public class NewUserService {
     	payResultDomain.setMasterSeq(newUserDomain.getMasterSeq());
     	PayResultDomain payResult 			= commonService.getPayResultDetail(payResultDomain);
     	
+    	//금융상품세부내용 리스트 조회
+    	List<ProductDtlDomain> plProductDetailList	= userRepo.selectPlProductDetailList(newUserDomain);
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("violationCodeList", violationCodeList);
     	result.put("userRegInfo", userRegInfo);
     	result.put("violationInfoList", violationInfoList);
     	result.put("payResult", payResult);
+    	result.put("plProductDetailList", plProductDetailList);
 		
 		return result;
 	}
@@ -261,6 +273,15 @@ public class NewUserService {
 			}
 			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
+			
+			// 2021-10-27 주민등록번호로 생년월일 및 성별 추출
+			userRegInfo.setBirthDt(plMZId.substring(0, 6));
+			String genderCheck = plMZId.substring(6, 6);
+			if("1".equals(genderCheck) || "3".equals(genderCheck) || "5".equals(genderCheck) || "7".equals(genderCheck)) {
+				userRegInfo.setGender("남성");
+			}else {
+				userRegInfo.setGender("여성");
+			}
 			
 		}
 		
@@ -313,6 +334,9 @@ public class NewUserService {
     	PayResultDomain payResultDomain 	= new PayResultDomain();
     	payResultDomain.setMasterSeq(newUserDomain.getMasterSeq());
     	PayResultDomain payResult 			= commonService.getPayResultDetail(payResultDomain);
+    	
+    	//금융상품세부내용 리스트 조회
+    	List<ProductDtlDomain> plProductDetailList	= userRepo.selectPlProductDetailList(newUserDomain);
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
@@ -320,6 +344,7 @@ public class NewUserService {
 		result.put("userRegInfo", userRegInfo);
 		result.put("violationInfoList", violationInfoList);
 		result.put("payResult", payResult);
+		result.put("plProductDetailList", plProductDetailList);
 		
 		return result;
 	}
@@ -663,7 +688,7 @@ public class NewUserService {
 	
 	
 	
-	// 2021-10-12 고도화 - 회원사 거절
+	// 2021-10-12 고도화 - 상태변경
 	@Transactional
 	public ResponseMsg newUserApply(NewUserDomain newUserDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
@@ -677,20 +702,35 @@ public class NewUserService {
 		NewUserDomain param = new NewUserDomain();
 		param.setMasterSeq(newUserDomain.getMasterSeq());
 		userRepo.insertNewUserHistory(param);
-		// 모집인 상태 변경 - 거절
+		// 모집인 상태변경
 		int result = userRepo.newUserApply(newUserDomain);
 		if(result > 0) {
 			// 모집인 상태 단계별 이력 저장
 			userRepo.insertNewMasterStep(newUserDomain);
-			
+			int smsResult = 0;
+			SmsDomain smsDomain = new SmsDomain();
+			smsDomain.setTranCallback("발신번호");
+			smsDomain.setTranPhone(userRegInfo.getPlCellphone());
+			smsDomain.setTranStatus("1");
+			String smsMsg = "";
 			
 			// 문자발송 추가
-			
-			
-			
-			
-			// 문자발송 끝
-			
+			if("15".equals(newUserDomain.getPlStat())) {
+
+			}else if("16".equals(newUserDomain.getPlStat())) {
+				smsMsg += userRegInfo.getComCodeNm()+"로부터 "+userRegInfo.getPlMName()+"님의 대출/리스할부 상품 판매대리·중개업자 등록을 신청하였으나, ";
+				smsMsg += "해당 금융회사로부터 등록대상으로 확인되지 않아 등록신청이 거절되었습니다. (접수번호 : "+userRegInfo.getMasterToId()+")";
+				smsDomain.setTranMsg(smsMsg);
+				smsDomain.setTranEtc1("인스턴스ID");
+				smsResult = smsRepository.sendSms(smsDomain);
+				
+				if(smsResult <= 0) {
+					return new ResponseMsg(HttpStatus.OK, "fail", "상태변경은 완료되었으나\n문자발송에 실패하였습니다. 관리자에 문의해 주세요.");
+				}
+				
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "fail", "상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+			}
 			
 			return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
 		}else {
@@ -783,6 +823,9 @@ public class NewUserService {
 	@Transactional
 	public ResponseMsg newUserDropApply(NewUserDomain newUserDomain){
 		
+		MemberDomain memberDomain 	= new MemberDomain();
+		MemberDomain loginInfo 		= commonService.getMemberDetail(memberDomain);
+		
 		//상세
 		NewUserDomain userRegInfo = userRepo.getNewUserRegDetail(newUserDomain);
 		
@@ -812,8 +855,49 @@ public class NewUserService {
 		NewUserDomain param = new NewUserDomain();
 		param.setMasterSeq(newUserDomain.getMasterSeq());
 		userRepo.insertNewUserHistory(param);
-		// 모집인 상태 변경 - 거절
 		int result = userRepo.newUserDropApply(newUserDomain);
+		
+		// 문자발송 끝
+		
+		if(result > 0) {
+			// 모집인 상태 단계별 이력 저장
+			userRepo.insertNewMasterStep(newUserDomain);
+			
+			/*
+			// 문자발송 추가
+			SmsDomain smsDomain = new SmsDomain();
+			smsDomain.setTranCallback("발신번호");
+			smsDomain.setTranPhone(userRegInfo.getPlCellphone());
+			smsDomain.setTranStatus("1");
+			String smsMsg = "";
+			smsMsg += loginInfo.getComCodeNm()+"로부터 "+userRegInfo.getPlMName()+"님의 대출/리스할부 상품 판매대리·중개업자 등록 해지신청이 접수되었습니다.";
+			smsMsg += " 이의가 있으신 경우 "+loginInfo.getComCodeNm()+"로 연락하시기 바라며, 이의가 없는 경우 신청일로부터 3일 뒤 00시에 자동 해지처리됩니다.";
+			smsDomain.setTranMsg(smsMsg);
+			smsDomain.setTranEtc1("인스턴스ID");
+			int smsResult = smsRepository.sendSms(smsDomain);
+			*/
+			
+			int smsResult = 1;
+			if(smsResult > 0) {
+				return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 완료되었습니다.");
+			}else {
+				return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 완료되었으나 SMS발송에 실패하였습니다.");
+			}
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	
+	// 2021-10-25 고도화 - 모집인 조회 및 해지 - 해지요청취소
+	@Transactional
+	public ResponseMsg newUserDropApplyCancel(NewUserDomain newUserDomain){
+		
+		//기본 이력 저장*****
+		NewUserDomain param = new NewUserDomain();
+		param.setMasterSeq(newUserDomain.getMasterSeq());
+		userRepo.insertNewUserHistory(param);
+		// 모집인 상태 변경 - 완료(해지요청취소에 따른 완료로 변환)
+		int result = userRepo.newUserDropApplyCancel(newUserDomain);
 		if(result > 0) {
 			// 모집인 상태 단계별 이력 저장
 			userRepo.insertNewMasterStep(newUserDomain);
@@ -824,13 +908,10 @@ public class NewUserService {
 			
 			
 			// 문자발송 끝
-			return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 완료되었습니다.");
+			return new ResponseMsg(HttpStatus.OK, "success", "해지요청이 취소되었습니다.");
 		}
 		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
 	}
-	
-	
-	
 	
 	
 	

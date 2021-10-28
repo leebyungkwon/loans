@@ -12,7 +12,7 @@ function pageLoad(){
 		  id			: "applyGrid"
   		, url			: "/admin/newApply/newApplyList"
 	    , width			: "100%"
-	    , check			: true					//체크박스 생성
+	    //, check			: true					//체크박스 생성
   		, headCol		: ["", "접수번호", "회원사","가등록번호", "", "담당자명","모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "법인명", "법인번호", "요청일", "최초승인<br>요청일", "승인<br>남은일수", "실무자<br>확인", "관리자<br>확인", "승인상태"]
   		, bodyCol		: 
   			[
@@ -41,7 +41,7 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 		, excel			: "/admin/newApply/newApplyListExcelDown"
-		, excelFileNm	: "모집인승인처리"
+		, excelFileNm	: "모집인등록승인처리"
 	});
 	
 	//모집인 분류
@@ -186,7 +186,7 @@ function goGetDate2(opt) {
 	$("#srchDate4").val(WebUtil.getDate("today"));
 }
 
-
+/*
 
 //선택 승인완료 -> 필수 첨부파일 하나라도 없으면 요청 불가 *****
 function goApplyAccept() {
@@ -218,6 +218,10 @@ function goApplyAccept() {
 		AjaxUtil.post(p);
 	}
 }
+
+*/
+
+/*
 
 //선택 보안요청
 function goApplyImprove() {
@@ -258,6 +262,8 @@ function goApplyImprove() {
 		AjaxUtil.post(p);
 	}
 }
+
+*/
 
 
 </script>
@@ -420,8 +426,8 @@ function goApplyImprove() {
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyAccept();">선택 승인완료</a>
-				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyImprove();">선택 보완요청</a>
+<!-- 				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyAccept();">선택 승인완료</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="goApplyImprove();">선택 보완요청</a> -->
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
 				<a href="javascript:void(0);" class="btn_sort" id="sortComRegDate"><span class="ico_check"></span> 승인 남은일 순</a>
 			</div>

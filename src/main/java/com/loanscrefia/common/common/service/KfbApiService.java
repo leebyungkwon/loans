@@ -1925,6 +1925,7 @@ public class KfbApiService {
 	            return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, responseJson.getString("res_msg"));
 	        }else {
 				apiCheck = false;
+				message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
 				resExpMsg = "API통신오류 : 시스템관리자에게 문의해 주세요.";
 	            log.error("########m error 1-1  ::  commonKfbApi()");
 	        	// 통신오류 - 응답 이력 저장
@@ -1941,6 +1942,7 @@ public class KfbApiService {
 			resExpMsg = e.getMessage();
 	    	log.error("########m MalformedURLException  ::  commonKfbApi()");
 	    	log.error(e.getMessage());
+	    	message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
 	        e.printStackTrace();
 	    } catch (IOException e) {
 			apiCheck = false;
@@ -1948,12 +1950,14 @@ public class KfbApiService {
 	    	log.error("########m IOException   ::  commonKfbApi()");
 	    	log.error(e.getMessage());
 	    	log.error(e.toString());
+	    	message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
 	        e.printStackTrace();
 	    } catch (JSONException e) {
 			apiCheck = false;
 			resExpMsg = e.getMessage();
 	    	log.error("########m JSONException   ::  commonKfbApi()");
 	    	log.error(e.getMessage());
+	    	message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
 	        e.printStackTrace();
 	    } finally {
 	    	

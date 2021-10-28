@@ -20,7 +20,7 @@ function pageLoad(){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>모집인 조회 및 해지 - 법인</h2>
+			<h2>해지신청 및 조회 - 법인</h2>
 		</div>
 	</div>
 
@@ -42,184 +42,41 @@ function pageLoad(){
 			<div id="table">
 				<table class="view_table">
 					<tr>
-						<th>회원사</th>
-						<td>${result.userRegInfo.comCodeNm }</td>
-						<th>담당자</th>
-						<td>${result.userRegInfo.memberNm } (${result.userRegInfo.email }<c:if test="${result.userRegInfo.extensionNo ne null && result.userRegInfo.extensionNo ne '' }">, ${result.userRegInfo.extensionNo }</c:if>)</td>
-					</tr>
-					<tr>
-						<th>가등록번호</th>
-						<td colspan="3">${result.userRegInfo.preLcNum }</td>
-					</tr>
-					<tr>
-						<th>모집인 상태</th>
-						<td colspan="3">${result.userRegInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.userRegInfo.masterSeq }');">이력보기</a></td>
-					</tr>
-					<tr>
+						<th>신청구분</th>
+						<td>${result.userRegInfo.plRegStatNm }</td>
 						<th>처리상태</th>
-						<td colspan="3">${result.userRegInfo.plStatNm }</td>
+						<td>${result.userRegInfo.plStatNm }</td>
 					</tr>
 					<tr>
-						<th>모집인 분류</th>
-						<td colspan="3">${result.userRegInfo.plClassNm }</td>
-					</tr>
-					<tr>
-						<th>금융상품유형</th>
-						<td colspan="3">${result.userRegInfo.plProductNm }</td>
-					</tr>
-					<tr>
-						<th>업종</th>
-						<td colspan="3">${result.userRegInfo.plWork }</td>
-					</tr>
-					<tr>
-						<th>상호</th>
+						<th>모집인유형</th>
+						<td>${result.userRegInfo.plClassNm }</td>
+						<th>법인명</th>
 						<td>${result.userRegInfo.plMerchantName }</td>
-						<th>대표이사</th>
+					</tr>
+					
+					<tr>
+						<th>대표자명</th>
 						<td>${result.userRegInfo.plCeoName }</td>
+						<th>법인번호</th>
+						<td>${result.userRegInfo.plMName }</td>
 					</tr>
+					
 					<tr>
-						<th>대표이사 주민번호</th>
-						<td>${result.userRegInfo.plMZId }</td>
-						<th>대표이사 휴대폰번호</th>
+						<th>휴대폰번호</th>
 						<td>${result.userRegInfo.plCellphone }</td>
+						<th>신청일</th>
+						<td>${result.userRegInfo.comHaejiDate }</td>
 					</tr>
-					<tr>
-						<th>법인등록번호</th>
-						<td>${result.userRegInfo.plMerchantNo }</td>
-						<th>설립년월일</th>
-						<td>${result.userRegInfo.corpFoundDate }</td>
-					</tr>
-					<tr>
-						<th>본점소재지</th>
-						<td>${result.userRegInfo.addr}</td>
-						<th>상세주소(법인등기부등본상)</th>
-						<td>${result.userRegInfo.addrDetail }</td>
-					</tr>
-					<tr>
-						<th>자본금(백만원)</th>
-						<td colspan="3">${result.userRegInfo.capital }</td>
-					</tr>
-					<tr>
-						<th>의결권있는 발행주식 총수</th>
-						<td colspan="3">${result.userRegInfo.votingStockCnt }</td>
-					</tr>
-					<tr>
-						<th>계약일자</th>
-						<td>${result.userRegInfo.comContDate }</td>
-						<th>위탁예정기간</th>
-						<td>${result.userRegInfo.entrustDate }</td>
-					</tr>
-					<c:if test="${result.userRegInfo.plStat eq '5' || result.userRegInfo.plStat eq '6' || result.userRegInfo.plStat eq '7' }">
+					<c:if test="${result.userRegInfo.plStat eq '4' or !empty result.userRegInfo.creHaejiDate}">
 						<tr>
-							<th>보완요청사유</th>
-							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
+							<th>해지요청사유</th>
+							<td colspan="3">${result.userRegInfo.plHistCdNm }</td>
+						</tr>
+						<tr>
+							<th>해지승인일자</th>
+							<td colspan="3">${result.userRegInfo.creHaejiDate }</td>
 						</tr>
 					</c:if>
-					<c:if test="${result.userRegInfo.plStat eq '10' || result.userRegInfo.plStat eq '11' || result.userRegInfo.plStat eq '12' }">
-						<tr>
-							<th>사유</th>
-							<td colspan="3">${result.userRegInfo.plHistTxt }</td>
-						</tr>
-					</c:if>
-					
-					<tr>
-						<th>승인요청사유</th>
-						<td colspan="3">
-							<textarea rows="6" cols="" id="applyHistTxt" name="applyHistTxt" class="w100">${result.userRegInfo.applyHistTxt }</textarea>
-						</td>
-					</tr>
-					
-				</table>
-			</div>
-	
-			<h3>신청인 관련 서류</h3>
-			<div id="table05">
-				<table class="view_table">
-					<colgroup>
-						<col width="38%"/>
-						<col width="62%"/>
-					</colgroup>
-					<tr>
-						<th class="acenter">정관 *</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType1.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="1"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType1.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">법인등기부등본 *</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType2.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="2"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType2.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">설립,등록 신청의 의사록 *</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType3.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="3"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType3.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">본점 위치 및 명칭을 기재한 서류</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType4.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="4"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType4.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">주주명부 *</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType5.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="5"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType5.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">영위하는 다른 업종에 대한 증빙서류</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType6.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="6"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType6.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">업무수행기준 *</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType15.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType15.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="Y" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="15"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType15.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">위탁계약서</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType31.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="31"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType31.fileSeq }">다운로드</a>
-						</td>
-					</tr>
-					<tr>
-						<th class="acenter">위탁 금융상품직접판매업자 확인서</th>
-						<td>
-							<input type="text" class="w50 file_input" value="${result.userRegInfo.fileType32.fileFullNm }" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }" readonly disabled>
-							<input type="file" name="files" class="inputFile" data-essential="N" style="display: none;"/>
-							<input type="hidden" name="fileTypeList" value="32"/>
-							<a href="javascript:void(0);" class="btn_black btn_small mgl5 goFileDownload" data-fileSeq="${result.userRegInfo.fileType32.fileSeq }">다운로드</a>
-						</td>
-					</tr>
 				</table>
 			</div>
 	

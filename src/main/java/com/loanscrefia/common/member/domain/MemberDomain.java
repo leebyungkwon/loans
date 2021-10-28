@@ -21,6 +21,7 @@ public class MemberDomain extends BaseDomain{
     private String memberId;				// 담당자ID(로그인ID)
 	private String password;				// 비밀번호
 	private int comCode;					// 회원사코드
+	private String comCodeNm;				// 회원사코드명
 	private String memberName;				// 담당자이름
 	private String email;					// 이메일
 	private String mobileNo;				// 전화번호

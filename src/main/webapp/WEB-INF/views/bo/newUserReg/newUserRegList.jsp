@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "newUserRegGrid"
   		, url			: "/member/newUser/newUserRegList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호", "", "모집인<br>분류", "법인사용인<br>여부", "취급상품", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "등록일", "", "승인상태"]
+  		, headCol		: ["", "접수번호", "", "모집인<br>분류", "법인사용인<br>여부", "취급상품", "이름","휴대폰번호", "법인명", "법인번호", "계약기간", "신청일", "", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
@@ -21,11 +21,11 @@ function pageLoad(){
 				,{type:"string"	, name:'corpUserYn'		, index:'corpUserYn'		, width:"9%"		, align:"center"}
 				,{type:"string"	, name:'plProductNm'	, index:'plProductNm'		, width:"8%"		, align:"center"}
 				,{type:"string"	, name:'plMName'		, index:'plMName'			, width:"10%"		, align:"center"}
-				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"16%"		, align:"center"}
 				,{type:"string"	, name:'plCellphone'	, index:'plCellphone'		, width:"17%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"10%"		, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
-				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'		, width:"13%"		, align:"center"}
+				,{type:"string"	, name:'comContDate'	, index:'comContDate'		, width:"15%"		, align:"center"}
+				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"13%"		, align:"center"}
 				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]
@@ -158,10 +158,6 @@ function goGetDate(opt) {
 					<th>이름</th>
 					<td class="">
 						<input type="text" name="plMName">
-					</td>
-					<th>주민등록번호</th>
-					<td class="">
-						<input type="text" name="plMZId" placeholder="-를 빼고 입력해주세요.">
 					</td>
 					<th>휴대폰번호</th>
 					<td class="">

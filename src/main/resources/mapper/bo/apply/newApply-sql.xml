@@ -130,6 +130,8 @@
 				,TLM.UPD_SEQ
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 				,TLM.app_date_hold
+				,TLM.pl_stat_req_seq
+				,TLM.pl_stat_req_path
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				AND TLM.USE_YN = 'Y'
@@ -350,6 +352,8 @@
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 			,TLM.app_date_hold
+			,TLM.pl_stat_req_seq
+			,TLM.pl_stat_req_path
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ 	= #{masterSeq}

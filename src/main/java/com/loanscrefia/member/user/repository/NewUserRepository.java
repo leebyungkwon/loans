@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.domain.ProductDtlDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
@@ -22,8 +23,6 @@ public interface NewUserRepository {
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 위반이력 조회
 	List<NewUserDomain> selectNewUserViolationInfoList(NewUserDomain newUserDomain);
-	
-	
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 법인 : 대표자 및 임원 리스트
 	List<UserImwonDomain> selectNewUserRegCorpImwonList(UserImwonDomain userImwonDomain);
@@ -49,13 +48,14 @@ public interface NewUserRepository {
 	// 2021-10-12 고도화 - 모집인 단계별 이력 저장
 	int insertNewMasterStep(NewUserDomain newUserDomain);
 	
-	// 2021-10-12 고도화 - 회원사 거절	
+	// 2021-10-12 모집인 상태변경	
 	int newUserApply(NewUserDomain newUserDomain);
 
 	// 2021-10-12 고도화 - 모집인 조회 및 해지 - 해지요청
 	int newUserDropApply(NewUserDomain newUserDomain);
 	
-	
+	// 2021-10-25 고도화 - 모집인 조회 및 해지 - 해지요청취소
+	int newUserDropApplyCancel(NewUserDomain newUserDomain);
 	
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사)
@@ -73,5 +73,10 @@ public interface NewUserRepository {
 	
 	//위반이력 수정
 	int updateNewUserViolationInfo(NewUserDomain userDomain);
+	
+	
+	// 2021-10-25 금융상품세부내용 리스트 조회
+	List<ProductDtlDomain> selectPlProductDetailList(NewUserDomain newUserDomain);
+	
 	
 }
