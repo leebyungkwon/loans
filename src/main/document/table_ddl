@@ -267,6 +267,7 @@ create table tb_lc_mas01(
 	
 	, use_yn char(1) not null default 'Y'
 	
+	, reg_seq integer
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
@@ -354,6 +355,7 @@ COMMENT ON COLUMN tb_lc_mas01.file_seq IS '첨부파일시퀀스';
 
 COMMENT ON COLUMN tb_lc_mas01.use_yn IS '사용여부';
 
+COMMENT ON COLUMN tb_lc_mas01.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.upd_timestamp IS '수정일시';
@@ -379,6 +381,7 @@ commit;
 create table tb_lc_mas01_imwon(
 	exc_seq integer not null default nextval('tb_lc_mas01_imwon_seq')
 	, master_seq integer not null
+	, user_seq integer
 	, career_typ char(1)
 	, position_nm varchar(20)
 	, exc_name varchar(20)
@@ -406,6 +409,7 @@ create table tb_lc_mas01_imwon(
 COMMENT ON TABLE tb_lc_mas01_imwon IS '임원정보';
 COMMENT ON COLUMN tb_lc_mas01_imwon.exc_seq IS '임원시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_imwon.user_seq IS '사용자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_imwon.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_mas01_imwon.exc_name IS '이름';
@@ -669,6 +673,7 @@ create table tb_lc_mas01_hist(
 	
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
 	
+	, reg_seq integer
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
@@ -756,6 +761,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.file_seq IS '첨부파일시퀀스';
 
 COMMENT ON COLUMN tb_lc_mas01_hist.use_yn IS '사용여부';
 
+COMMENT ON COLUMN tb_lc_mas01_hist.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_timestamp IS '수정일시';
