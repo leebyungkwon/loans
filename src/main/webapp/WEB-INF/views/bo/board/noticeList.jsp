@@ -12,11 +12,12 @@ function pageLoad(){
 		  id      	 	: "noticeListGrid"
 		, url      	 	: "/common/board/noticeList"
 		, width     	: "100%"
-		, headCol   	: ["", "제목", "조회수", "등록일"]
+		, headCol   	: ["", "제목", "대상", "조회수", "등록일"]
 		, bodyCol   	: 
 			[
 				 {type:"string"		, name:'noticeSeq'		, index:'noticeSeq'		, width:"10%"		, align:"center" 	, id:true , hidden:true}
 				,{type:"string"		, name:'title'			, index:'title'			, width:"60%"		, align:"left"							   }
+				,{type:"string"		, name:'noticeDispCdNm'	, index:'noticeDispCdNm', width:"60%"		, align:"center"						   }
 				,{type:"string"		, name:'viewCnt'		, index:'viewCnt'		, width:"15%"		, align:"center"						   }
 				,{type:"string"		, name:'regTimestamp'	, index:'regTimestamp'	, width:"15%"		, align:"center"						   }
 			]
@@ -27,6 +28,16 @@ function pageLoad(){
 		, rowClick 		: {retFunc : detailPop}
 		, isPaging 		: true
 	});
+	
+	//대상 분류
+	var noticeDispCdNm = {
+		 useCode 	: true
+		,code 		: 'NTC001'
+		,target 	: '#noticeDispCd'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(noticeDispCdNm);
 	
 	//등록 버튼 클릭 이벤트
 	$("#noticeWriteBtn").on("click", function(){
@@ -40,6 +51,7 @@ function detailPop(idx, data){
 	$("#hNoticeSeq").val(noticeSeq);
 	$("#noticeDetailFrm").submit();
 }
+
 </script>
 
 <!-- 글 상세보기 -->
@@ -66,6 +78,10 @@ function detailPop(idx, data){
 					<col width="305">
 				</colgroup>
 				<tr>
+					<th>대상 선택</th>
+					<td>
+						<select name="noticeDispCd" id="noticeDispCd"></select>
+					</td>
 					<th>제목</th>
 					<td> <!-- class="half_input" -->
 						<input type="text" name="title">

@@ -55,7 +55,6 @@
 			var fileName 	= fileVal[fileVal.length - 1];
 			$(this).prev().val(fileName);
 		});
-	
 	}
 
 </script>
@@ -71,6 +70,7 @@
 	<input type="hidden" name="noticeSeq" id="noticeSeq" value="${noticeInfo.noticeSeq}"/>
 		<div class="contents">
 			<div class="notice_view">
+				<h3>${noticeInfo.noticeDispCdNm}</h3>
 				<div class="titlebox">
 					<h3>${noticeInfo.title}</h3>
 					<div class="date">

@@ -7,6 +7,7 @@
 		SELECT 
 		<include refid="common.totalPages"/>
 			TLN.NOTICE_SEQ																				/*공지사항 시퀀스*/
+			,FN_CD_DTL('NTC001',TLN.NOTICE_DISP_CD) AS NOTICE_DISP_CD_NM
 			,TLN.TITLE																					/*제목*/
 			,TLN.INFO																					/*내용*/
 			,TLN.VIEW_CNT																				/*조회수*/
@@ -15,9 +16,13 @@
 			,TLN.REG_SEQ																				/*등록자 시퀀스*/
 			,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD') AS regTimestamp									/*수정일시*/
 			,TLN.UPD_SEQ																				/*수정자 시퀀스*/
+			,TLN.NOTICE_DISP_CD																			
 		FROM TB_LC_NOTICE TLN
 			<where>
 				AND TLN.DEL_YN = 'N'
+			<if test="title != null and title != ''">
+				AND TLN.NOTICE_DISP_CD = #{noticeDispCd}
+			</if>
 			<if test="title != null and title != ''">
 				AND	TLN.TITLE LIKE CONCAT('%', #{title}, '%')
 			</if>
@@ -38,11 +43,13 @@
 	<select id="getNoticeDetail" parameterType="board" resultType="board">
 		SELECT 
 			TLN.NOTICE_SEQ																					/*공지사항 시퀀스*/
-			,TLN.TITLE																							/*제목*/
-			,TLN.INFO																							/*내용*/
+			,TLN.TITLE																						/*제목*/
+			,TLN.INFO																						/*내용*/
 			,TLN.VIEW_CNT																					/*조회수*/
-			,TLN.FILE_SEQ																						/*첨부파일 시퀀스*/
-			,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD')		AS		regTimestamp		/*등록일시*/
+			,TLN.FILE_SEQ																					/*첨부파일 시퀀스*/
+			,TO_CHAR(TLN.REG_TIMESTAMP, 'YYYY-MM-DD')		AS		regTimestamp							/*등록일시*/
+			,TLN.NOTICE_DISP_CD
+			,FN_CD_DTL('NTC001',TLN.NOTICE_DISP_CD) AS NOTICE_DISP_CD_NM
 		FROM TB_LC_NOTICE TLN
 		<where>
 			AND TLN.NOTICE_SEQ = #{noticeSeq}
@@ -58,6 +65,7 @@
 				,FILE_SEQ										/*첨부파일 시퀀스*/
 				,REG_TIMESTAMP									/*등록일시*/
 				,REG_SEQ										/*등록자 시퀀스*/
+				,NOTICE_DISP_CD
 			)
 		VALUES
 			(
@@ -66,6 +74,7 @@
 				,#{fileSeq}										/*첨부파일 시퀀스*/
 				,NOW()											/*등록일시*/
 				,#{regSeq}										/*등록자 시퀀스*/
+				,#{noticeDispCd}
 			)	
 	</select>
 
@@ -77,7 +86,8 @@
 			,INFO					= #{info}
 			,UPD_TIMESTAMP			= NOW()
 			,UPD_SEQ				= #{updSeq}
-			,FILE_SEQ				=	#{fileSeq}
+			,FILE_SEQ				= #{fileSeq}
+			,NOTICE_DISP_CD			= #{noticeDispCd}
 		<where>
 			AND NOTICE_SEQ 	= #{noticeSeq}
 		</where>

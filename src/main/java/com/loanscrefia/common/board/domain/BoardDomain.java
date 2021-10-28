@@ -26,7 +26,9 @@ public class BoardDomain extends BaseDomain{
 	private int 	regSeq;            	 	// 등록자 	시퀀스
 	private String 	regTimestamp;  	 		// 등록일시		
 	private int 	updSeq;            	 	// 수정자 	시퀀스
-	private String 	updTimestamp;    		// 수정일시	
+	private String 	updTimestamp;    		// 수정일시
+	private String	noticeDispCd;
+	private String	noticeDispCdNm;
 	
 	List<FileDomain> fileList;
 	

@@ -126,6 +126,13 @@
 			<div id="table">
 				<table class="view_table">
 					<tr>
+						<th>대상</th>
+						<td> <!-- checked="checked" -->
+							<input type='radio' name='noticeDispCd' value='1' <c:if test = "${noticeInfo.noticeDispCd eq '1'}">checked="checked"</c:if>/> 금융회사<br>
+   							<input type='radio' name='noticeDispCd' value='2' <c:if test = "${noticeInfo.noticeDispCd eq '2'}">checked="checked"</c:if>/> 모집인<br>
+						</td>
+					</tr>
+					<tr>
 						<th>제목</th>
 						<td>
 							<input type="text" id="title" name="title" placeholder="제목을 입력해 주세요."  value="${noticeInfo.title}" class="w60" maxlength="53" data-vd='{"type":"text","len":"1,100","req":true,"msg":"제목을 입력해 주세요"}'/>
