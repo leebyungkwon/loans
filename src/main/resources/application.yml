@@ -45,7 +45,7 @@ spring:
         username: postgres
         password: 1234
       sms:
-        pool-name: EMAIL-DB
+        pool-name: SMS-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
         username: postgres
@@ -106,7 +106,7 @@ spring:
         username: cemms
         password: cemms1234
       sms:
-        pool-name: EMAIL-DB
+        pool-name: SMS-DB
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
         jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
         username: cesms
@@ -167,7 +167,7 @@ spring:
         username: cemms
         password: cemms1234
       sms:
-        pool-name: EMAIL-DB
+        pool-name: SMS-DB
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
         jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
         username: cesms
