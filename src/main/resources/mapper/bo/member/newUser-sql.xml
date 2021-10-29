@@ -80,6 +80,8 @@
 				,TLM.UPD_SEQ
 				,TLM.UPD_TIMESTAMP AS ORIGIN_UPD_TIMESTAMP
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+				,TLM.pl_stat_req_seq
+				,TLM.pl_stat_req_path
 		    FROM TB_LC_MAS01 TLM
 			<where>
 					AND TLM.USE_YN = 'Y'
@@ -141,7 +143,7 @@
 					AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 				</if>
 		    </where>
-		    ORDER BY TLM.MASTER_SEQ DESC
+		    ORDER BY TLM.MASTER_SEQ ASC
    		)Z
 	    <include refid="common.pageBottom"/>
    	</select>
@@ -236,6 +238,8 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+			,TLM.pl_stat_req_seq
+			,TLM.pl_stat_req_path
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.USE_YN 		= 'Y'
@@ -483,6 +487,8 @@
 			,REG_TIMESTAMP
 			,UPD_SEQ
 			,UPD_TIMESTAMP
+			,pl_stat_req_seq
+			,pl_stat_req_path
    		)
    		SELECT
    			 MASTER_SEQ
@@ -552,12 +558,14 @@
 			,NOW()
 			,#{updSeq}
 			,NOW()
+			,pl_stat_req_seq
+			,pl_stat_req_path
    		FROM TB_LC_MAS01
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>
    	
    	
-   	<!-- 2021-10-12 고도화 - 회원사 거절 -->
+   	<!-- 2021-10-12 고도화 - 모집인 상태변경 -->
    	<update id="newUserApply" parameterType="newUser">
    		UPDATE TB_LC_MAS01
    		SET
@@ -578,6 +586,8 @@
    			,PL_HIST_TXT
    			,REG_TIMESTAMP
    			,REG_SEQ
+   			,pl_stat_req_seq
+   			,pl_stat_req_path
    		)
    		SELECT
    			 MASTER_SEQ
@@ -587,11 +597,13 @@
 				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
 				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
 				WHEN PL_STAT IN ('2') THEN APPLY_HIST_TXT
-				WHEN PL_STAT IN ('16') THEN '회원사 승인거절'
+				WHEN PL_STAT IN ('16') THEN '금융회사 등록대상 거절'
 				ELSE ''
 			 END AS PL_HIST_TXT
    			,NOW()
    			,#{regSeq}
+   			,#{regSeq}
+   			,pl_stat_req_path
    		FROM TB_LC_MAS01
    		WHERE MASTER_SEQ = #{masterSeq}
    	</insert>
@@ -698,6 +710,8 @@
 				,(SELECT TLP.NAME FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_NAME
 				,(SELECT TLP.REG_TIMESTAMP FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS ORIGIN_PAY_REG_DATE
 				,(SELECT TO_CHAR(TLP.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_REG_DATE
+				,TLM.pl_stat_req_seq
+				,TLM.pl_stat_req_path
 		    FROM TB_LC_MAS01 TLM
 			<where>
 					AND TLM.USE_YN = 'Y'
@@ -757,7 +771,7 @@
 					AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 				</if>
 		    </where>
-		    ORDER BY TLM.MASTER_SEQ DESC
+		    ORDER BY TLM.MASTER_SEQ ASC
    		)Z
 	    <include refid="common.pageBottom"/>
    	</select>
@@ -777,14 +791,38 @@
 			<if test='plStat.equals("4")'>
 			,PL_HIST_CD		= #{plHistCd}
 			,COM_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
-			,CRE_HAEJI_DATE	= TO_CHAR(NOW(),'YYYYMMDD')
 			</if>
+			,pl_stat_req_seq = #{regSeq}
+			,pl_stat_req_path = '2'
+		WHERE
+			MASTER_SEQ = #{masterSeq}
+   	</update>
+   	
+   	<!-- 2021-10-25 고도화 - 모집인 조회 및 해지 - 해지요청취소 -->
+   	<update id="newUserDropApplyCancel" parameterType="newUser">
+   		UPDATE TB_LC_MAS01
+   		SET
+   			PL_STAT			= #{plStat}
+			,UPD_SEQ		= #{regSeq}
+			,UPD_TIMESTAMP	= NOW()
+			,PL_HIST_TXT 	= null
+			,PL_HIST_CD		= null
+			,COM_HAEJI_DATE	= null
+			,pl_stat_req_seq = #{regSeq}
+			,pl_stat_req_path = null
 		WHERE
 			MASTER_SEQ = #{masterSeq}
    	</update>
    
    
-   
-   
+	<!-- 2021-10-25 금융상품세부내용 리스트 조회 -->
+   	<select id="selectPlProductDetailList" parameterType="newUser" resultType="productDtl">
+   		select
+   			FN_CD_DTL('PRD002',pl_product_dtl_cd) AS pl_product_dtl_cd_nm
+   		from
+   			tb_lc_product_detail
+   		where 
+   			master_seq = #{masterSeq}
+   	</select>
    	
 </mapper> 

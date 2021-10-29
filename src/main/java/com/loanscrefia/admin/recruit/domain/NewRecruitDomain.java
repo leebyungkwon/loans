@@ -168,6 +168,11 @@ public class NewRecruitDomain extends BaseDomain {
 	private String regAddrDetail;		// 등록기준지 상세
 	private String addrBase;			// 주소
 	
+	// 2021-10-25 처리상태 요청자시퀀스, 처리상태 요청경로 추가
+	private int plStatReqSeq;
+	private String plStatReqPath;
+	private String plStatReqPathNm;
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

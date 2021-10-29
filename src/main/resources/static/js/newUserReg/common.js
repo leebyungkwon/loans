@@ -126,11 +126,6 @@ function goUserDropApply(){
 
 //해지요청취소
 function goUserDropApplyCancel(){
-	
-	alert("컬럼 추가한거 확인 후 진행하기(pl_stat_req_seq / pl_stat_req_path) + 이력보기 팝업 관련해서 쿼리 수정하기");
-	return;
-	
-	/*
 	if(confirm("해지요청을 취소하시겠습니까?")){
 		var p = {
 			  url		: "/member/newConfirm/newUserDropApplyCancel"	
@@ -144,7 +139,7 @@ function goUserDropApplyCancel(){
 		}
 		AjaxUtil.post(p);
 	}
-	*/
+	
 }
 
 /* ===============================================================================================================================

@@ -104,7 +104,7 @@ public class NewUserController {
         return mv;
     }
 	
-	// 2021-10-12 고도화 - 회원사 상태 변경
+	// 2021-10-12 고도화 - 상태 변경
 	@PostMapping(value="/newUser/newUserApply")
 	public ResponseEntity<ResponseMsg> newUserApply(NewUserDomain newUserDomain) throws IOException{
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
@@ -207,7 +207,12 @@ public class NewUserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-
+	// 2021-10-25 고도화 - 모집인 조회 및 해지 - 해지요청취소
+	@PostMapping(value="/newConfirm/newUserDropApplyCancel")
+	public ResponseEntity<ResponseMsg> newUserDropApplyCancel(NewUserDomain newUserDomain){
+		ResponseMsg responseMsg = userService.newUserDropApplyCancel(newUserDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 	

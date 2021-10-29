@@ -1045,7 +1045,7 @@ public class NewApplyService {
 		// 2021-10-20 SMS 추가
 		int smsResult = 0;
 		SmsDomain smsDomain = new SmsDomain();
-		smsDomain.setTranCallback("0103167216");
+		smsDomain.setTranCallback("0220110700");
 		smsDomain.setTranStatus("1");
 		
 		
@@ -1387,6 +1387,8 @@ public class NewApplyService {
 			}
 			*/
 			
+			/*
+			
 			// 승인처리시 SMS 발송
 			if(StringUtils.isEmpty(statCheck.getPlCellphone())) {
 				applyCheckMessage = i+1+"번째 휴대폰번호를 확인해 주세요.";
@@ -1394,6 +1396,7 @@ public class NewApplyService {
 				break;
 			}
 			
+			*/
 			
 			//승인상태가 승인요청중인건만 확인
 			if(!"2".equals(statCheck.getPlStat())) {

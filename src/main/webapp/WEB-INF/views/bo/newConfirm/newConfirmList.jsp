@@ -6,12 +6,11 @@
 var newConfirmGrid = Object.create(GRID);
 
 function pageLoad(){
-	//모집인 등록 그리드
 	newConfirmGrid.set({
 		  id			: "newConfirmGrid"
   		, url			: "/member/newConfirm/newConfirmList"
 	    , width			: "100%"
-	  		, headCol		: ["", "접수번호", "","등록번호", "모집인<br>상태", "","처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
+	  	, headCol		: ["", "접수번호", "","등록번호", "모집인<br>상태", "","처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
@@ -37,11 +36,11 @@ function pageLoad(){
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
 		, rowClick		: {retFunc : goNewConfirmDetail}
-		, gridSearch 	: "searchDiv,searchBtn" //검색영역ID,조회버튼ID
-		, isPaging 		: true					//페이징여부
+		, gridSearch 	: "searchDiv,searchBtn"
+		, isPaging 		: true					
 		, size 			: 10
 		, excel			: "/member/newConfirm/newConfirmExcelDown"
-		, excelFileNm	: "모집인조회및해지"
+		, excelFileNm	: "해지신청및조회"
 	});
 	
 	//처리상태
@@ -135,7 +134,7 @@ function goGetDate(opt) {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>모집인 조회 및 해지</h2>
+			<h2>해지신청 및 조회</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
@@ -164,31 +163,31 @@ function goGetDate(opt) {
 				<tr>
 					<th>이름</th>
 					<td class="">
-						<input type="text" name="plMName">
+						<input type="text" name="plMName" />
 					</td>
 					<th>주민등록번호</th>
 					<td class="">
-						<input type="text" name="plMZId" placeholder="-를 빼고 입력해주세요.">
+						<input type="text" name="plMZId" placeholder="-를 빼고 입력해주세요." />
 					</td>
 					<th>휴대폰번호</th>
 					<td class="">
-						<input type="text" name="plCellphone">
+						<input type="text" name="plCellphone" placeholder="-를 빼고 입력해주세요." />
 					</td>
 				</tr>
 				<tr>
 					<th>법인명</th>
 					<td class="">
-						<input type="text" name="plMerchantName">
+						<input type="text" name="plMerchantName" />
 					</td>
 					<th>법인번호</th>
 					<td class="">
-						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
+						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요." />
 					</td>
 				</tr>
 				<tr>
 					<th>접수번호</th>
 					<td class="">
-						<input type="text" name="masterToId">
+						<input type="text" name="masterToId" />
 					</td>
 				</tr>
 				<tr>
