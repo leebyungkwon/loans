@@ -251,8 +251,8 @@ function pageLoad(){
 			var p = {
 				  url		: "/system/api/deletePreLoan"	
 				, param : {
-					, plClass	: plClass
-					, preLcNum	:	preLcNum
+					  plClass	: plClass
+					, preLcNum	: preLcNum
 				}
 				, success 	: function (opt,result) {
 					
