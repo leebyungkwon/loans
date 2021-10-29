@@ -17,9 +17,9 @@ function pageLoad(){
 			[
 				 {type:"string"		, name:'noticeSeq'		, index:'noticeSeq'		, width:"10%"		, align:"center" 	, id:true , hidden:true}
 				,{type:"string"		, name:'title'			, index:'title'			, width:"60%"		, align:"left"							   }
-				,{type:"string"		, name:'noticeDispCdNm'	, index:'noticeDispCdNm', width:"60%"		, align:"center"						   }
-				,{type:"string"		, name:'viewCnt'		, index:'viewCnt'		, width:"15%"		, align:"center"						   }
-				,{type:"string"		, name:'regTimestamp'	, index:'regTimestamp'	, width:"15%"		, align:"center"						   }
+				,{type:"string"		, name:'noticeDispCdNm'	, index:'noticeDispCdNm', width:"10%"		, align:"center"						   }
+				,{type:"string"		, name:'viewCnt'		, index:'viewCnt'		, width:"10%"		, align:"center"						   }
+				,{type:"string"		, name:'regTimestamp'	, index:'regTimestamp'	, width:"10%"		, align:"center"						   }
 			]
 		, sortNm 		: "notice_seq"
 		, sort 			: "DESC"
@@ -51,7 +51,6 @@ function detailPop(idx, data){
 	$("#hNoticeSeq").val(noticeSeq);
 	$("#noticeDetailFrm").submit();
 }
-
 </script>
 
 <!-- 글 상세보기 -->
@@ -70,6 +69,10 @@ function detailPop(idx, data){
 			<h2>공지사항</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
+			<sec:authorize access="hasAnyRole('MEMBER')" >
+				<input type="hidden" name="noticeDispCd" value="1" />
+			</sec:authorize>
+			
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
 					<col width="120">
@@ -78,16 +81,16 @@ function detailPop(idx, data){
 					<col width="305">
 				</colgroup>
 				<tr>
-					<th>대상 선택</th>
-					<td>
-						<select name="noticeDispCd" id="noticeDispCd"></select>
-					</td>
+					<sec:authorize access="hasAnyRole('SYSTEM', 'ADMIN')" >
+						<th>대상</th>
+						<td>
+							<select name="noticeDispCd" id="noticeDispCd"></select>
+						</td>
+					</sec:authorize>
 					<th>제목</th>
-					<td> <!-- class="half_input" -->
+					<td>
 						<input type="text" name="title">
 					</td>
-					<th></th>
-					<td></td>
 				</tr>
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
