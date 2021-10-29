@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @MapperScan(value = "com.loanscrefia.common.common.sms.repository", sqlSessionFactoryRef = "thirdSqlSessionFactory")
 public class ThirdDataSourceConfiguration {
     @Bean(name = "thirdDataSource")
-    @ConfigurationProperties(prefix="spring.sms.datasource.hikari")
+    @ConfigurationProperties(prefix="spring.datasource.hikari.sms")
     public DataSource thirdDataSource() {
         return DataSourceBuilder.create().build();
     }

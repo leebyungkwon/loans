@@ -52,8 +52,7 @@ public class NewUserService {
 	@Autowired private NewUserRepository userRepo;
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
-	@Autowired
-	private SmsRepository smsRepository;
+	@Autowired private SmsRepository smsRepository;
 	
 	//첨부파일 경로
 	@Value("${upload.filePath}")

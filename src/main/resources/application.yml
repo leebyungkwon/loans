@@ -30,32 +30,26 @@ spring:
 ---
 spring:
   profiles: local
-  mst:
-    datasource:
-      hikari:
+  datasource:
+    hikari:
+      mst:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://pg1101.gabiadb.com:5432/loans
-        username: loanadmin
-        password: qwer1234!@
-        maximum-pool-size: 1
-  email:
-    datasource:
-      hikari:
+        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: 1234
+      email:
         pool-name: EMAIL-DB
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 1234
-    
-  sms:
-    datasource:
-      hikari:
-        pool-name: SMS-DB
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 1234
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: 1234
+      sms:
+        pool-name: EMAIL-DB
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: 1234
     
 logging:
   file:
@@ -64,8 +58,10 @@ logging:
     max-size:
       8MB
   level:
-    org.springframework: debug
-    worg.hibernate.type: debug
+    org.springframework: error
+    com.zaxxer.hikari.HikariConfig: TRACE
+    com.zaxxer.hikari: TRACE
+    log4jdbc.log4j2: error
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off
@@ -93,38 +89,28 @@ sms:
 ---
 
 
-
-
 spring:
   profiles: dev
-  devtools:
-    restart:
-      enabled: true
-  mst:
-    datasource:
-      hikari:
+  datasource:
+    hikari:
+      mst:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         jdbc-url: jdbc:log4jdbc:postgresql://192.168.170.102:5432/postgres
         username: postgres
         password: 1234
-  email:
-    datasource:
-      hikari:
+      email:
         pool-name: EMAIL-DB
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
-    username: cemms
-    password: cemms1234
-  sms:
-    datasource:
-      hikari:
-        pool-name: SMS-DB
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
-    username: cesms
-    password: cesms001
-
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+        username: cemms
+        password: cemms1234
+      sms:
+        pool-name: EMAIL-DB
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
+        username: cesms
+        password: cesms001
         
 logging:
   file:
@@ -166,37 +152,26 @@ sms:
 
 spring:
   profiles: prod
-  devtools:
-    restart:
-      enabled: true
-  mst:
-    datasource:
-      hikari:
+  datasource:
+    hikari:
+      mst:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         jdbc-url: jdbc:log4jdbc:postgresql://192.168.170.103:5432/postgres
         username: postgres
         password: crefiaL0ans!@
-        
-        
-  email:
-    datasource:
-      hikari:
+      email:
         pool-name: EMAIL-DB
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
-    username: cemms
-    password: cemms1234
-    
-  sms:
-    datasource:
-      hikari:
-        pool-name: SMS-DB
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
-    username: cesms
-    password: cesms001
-
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;databaseName=CEWEB
+        username: cemms
+        password: cemms1234
+      sms:
+        pool-name: EMAIL-DB
+        driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc-url: jdbc:sqlserver://112.175.78.211:1433;DatabaseName=CESMS
+        username: cesms
+        password: cesms001
         
 logging:
   file:

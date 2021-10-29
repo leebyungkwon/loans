@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @MapperScan(value = "com.loanscrefia.common.common.email.repository", sqlSessionFactoryRef = "secondSqlSessionFactory")
 public class SecondDataSourceConfiguration {
     @Bean(name = "secondDataSource")
-    @ConfigurationProperties(prefix="spring.email.datasource.hikari")
+    @ConfigurationProperties(prefix="spring.datasource.hikari.email")
     public DataSource secondDataSource() {
         return DataSourceBuilder.create().build();
     }

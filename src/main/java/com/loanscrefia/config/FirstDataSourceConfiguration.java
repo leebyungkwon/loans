@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Primary;
 public class FirstDataSourceConfiguration {
      @Primary    
      @Bean(name = "firstDataSource")
-     @ConfigurationProperties(prefix = "spring.mst.datasource.hikari")
+     @ConfigurationProperties(prefix = "spring.datasource.hikari.mst")
      public DataSource firstDataSource() {
          return DataSourceBuilder.create().build();
      }
@@ -33,7 +33,7 @@ public class FirstDataSourceConfiguration {
             sqlSessionFactoryBean.setDataSource(firstDataSource);
             sqlSessionFactoryBean.setVfs(SpringBootVFS.class);  // Spring Boot 전용 VFS 사용하도록 지정
             sqlSessionFactoryBean.setTypeAliasesPackage("com.loanscrefia.*.*.domain");
-            sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/*/*/**.xml"));
+            sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/bo/*/**.xml"));
             org.apache.ibatis.session.Configuration ibatisConfiguration = new org.apache.ibatis.session.Configuration();
             ibatisConfiguration.setMapUnderscoreToCamelCase(true);
             sqlSessionFactoryBean.setConfiguration(ibatisConfiguration);
