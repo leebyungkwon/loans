@@ -128,8 +128,13 @@
 					<tr>
 						<th>대상</th>
 						<td> <!-- checked="checked" -->
+							<c:forEach var="noticeCdList" items="${noticeCdList}">
+							    <input type='radio' name='noticeDispCd' id="noticeDispCd${noticeCdList.codeDtlCd}" value='${noticeCdList.codeDtlCd}' <c:if test = "${noticeInfo.noticeDispCd eq noticeCdList.codeDtlCd}">checked="checked"</c:if>/><label for="noticeDispCd${noticeCdList.codeDtlCd}">${noticeCdList.codeDtlNm}<label></label>
+							</c:forEach>
+							<%-- 
 							<input type='radio' name='noticeDispCd' value='1' <c:if test = "${noticeInfo.noticeDispCd eq '1'}">checked="checked"</c:if>/> 금융회사<br>
    							<input type='radio' name='noticeDispCd' value='2' <c:if test = "${noticeInfo.noticeDispCd eq '2'}">checked="checked"</c:if>/> 모집인<br>
+   							 --%>
 						</td>
 					</tr>
 					<tr>
