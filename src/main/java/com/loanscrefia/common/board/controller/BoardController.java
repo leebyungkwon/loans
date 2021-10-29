@@ -1,5 +1,7 @@
 package com.loanscrefia.common.board.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
+import com.loanscrefia.system.code.domain.CodeDtlDomain;
+import com.loanscrefia.system.code.service.CodeService;
 
 @Controller
 @RequestMapping(value="/common/board")
@@ -24,6 +28,7 @@ public class BoardController {
 
 	@Autowired private BoardService boardService;
 	@Autowired private CommonService commonService;
+	@Autowired private CodeService codeService;
 
 	// 공지사항 이동
 	@GetMapping(value="/noticePage")
@@ -55,6 +60,13 @@ public class BoardController {
 		file = commonService.getFile(file);
 		mv.addObject("file", file);
 		
+		CodeDtlDomain param = new CodeDtlDomain();
+		param.setCodeMstCd("NTC001");
+		List<CodeDtlDomain> noticeCdList = codeService.selectCodeDtlList(param);
+		
+		
+		mv.addObject("noticeCdList", noticeCdList);
+		
 		return mv;
 	}
 
@@ -62,6 +74,14 @@ public class BoardController {
 	@PostMapping(value="/noticeRegPage")
 	public ModelAndView writeNoticeReg(BoardDomain boardDomain) {
 		ModelAndView mv = new ModelAndView(CosntPage.BoBoardPage+"/noticeReg");
+		
+		CodeDtlDomain param = new CodeDtlDomain();
+		param.setCodeMstCd("NTC001");
+		List<CodeDtlDomain> noticeCdList = codeService.selectCodeDtlList(param);
+		
+		
+		mv.addObject("noticeCdList", noticeCdList);
+		
 		return mv;
 	}
 
@@ -77,6 +97,13 @@ public class BoardController {
 		file.setFileSeq(noticeInfo.getFileSeq());
 		file = commonService.getFile(file);
 		mv.addObject("file", file);
+		
+		CodeDtlDomain param = new CodeDtlDomain();
+		param.setCodeMstCd("NTC001");
+		List<CodeDtlDomain> noticeCdList = codeService.selectCodeDtlList(param);
+	
+		
+		mv.addObject("noticeCdList", noticeCdList);
 		
 		return mv;
 	}
