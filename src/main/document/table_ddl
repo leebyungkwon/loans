@@ -354,7 +354,6 @@ commit;
 create table tb_lc_mas01_imwon(
 	exc_seq integer not null default nextval('tb_lc_mas01_imwon_seq')
 	, master_seq integer not null
-	, user_seq integer
 	, career_typ char(1)
 	, position_nm varchar(20)
 	, exc_name varchar(20)
@@ -378,7 +377,6 @@ create table tb_lc_mas01_imwon(
 COMMENT ON TABLE tb_lc_mas01_imwon IS '임원정보';
 COMMENT ON COLUMN tb_lc_mas01_imwon.exc_seq IS '임원시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.master_seq IS '접수번호시퀀스';
-COMMENT ON COLUMN tb_lc_mas01_imwon.user_seq IS '사용자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_imwon.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_mas01_imwon.exc_name IS '이름';

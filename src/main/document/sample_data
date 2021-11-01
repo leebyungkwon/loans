@@ -459,11 +459,9 @@ ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_path char(1);
 
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 						-- 직위
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 						-- 임원자격 적합여부
-ALTER TABLE tb_lc_mas01_imwon ADD COLUMN user_seq INTEGER; 							-- 사용자시퀀스
 
 ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;
 ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);
-
 
 ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1'; 	-- 공지대상(1 : 금융회사 / 2 : 모집인)
 
