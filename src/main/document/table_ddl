@@ -1349,12 +1349,46 @@ COMMENT ON COLUMN tb_lc_product_detail.upd_timestamp IS '수정일시';
 commit;
 
 
-
--- 결격사유 확인서
-
--- 
+-- 개인정보 이용 동의
 
 
+
+-- 결격사유
+
+
+
+
+-- 사용자 정보변경 이력
+
+CREATE SEQUENCE tb_lc_users_hist_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+create table tb_lc_users_hist(
+	user_hist_seq integer not null default nextval('tb_lc_users_hist_seq')
+	, user_seq integer
+	
+	, apply_cd											-- 변경정보코드?
+	
+	, user_name varchar(50) not null
+	, mobile_no varchar(20) not null
+	, pl_m_z_id varchar(13)
+	
+	
+	
+	, use_yn char(1) not null default 'Y'
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+	, PRIMARY KEY (user_hist_seq)
+)
 
 
 
