@@ -717,6 +717,10 @@ public class NewUserService {
 			if("15".equals(newUserDomain.getPlStat())) {
 
 			}else if("16".equals(newUserDomain.getPlStat())) {
+				
+				
+				
+				/*
 				smsMsg += userRegInfo.getComCodeNm()+"로부터 "+userRegInfo.getPlMName()+"님의 대출/리스할부 상품 판매대리·중개업자 등록을 신청하였으나, ";
 				smsMsg += "해당 금융회사로부터 등록대상으로 확인되지 않아 등록신청이 거절되었습니다. (접수번호 : "+userRegInfo.getMasterToId()+")";
 				smsDomain.setTranMsg(smsMsg);
@@ -727,11 +731,18 @@ public class NewUserService {
 					return new ResponseMsg(HttpStatus.OK, "fail", "상태변경은 완료되었으나\n문자발송에 실패하였습니다. 관리자에 문의해 주세요.");
 				}
 				
+				*/
+				
+				
+				
+				
+				
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 			}
 			
 			return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
+			
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}

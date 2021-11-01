@@ -11,7 +11,7 @@ function pageLoad(){
 		  id			: "newUserRegGrid"
   		, url			: "/member/newUser/newUserRegList"
 	    , width			: "100%"
-  		, headCol		: ["", "접수번호", "", "모집인<br>분류", "법인사용인<br>여부", "취급상품", "이름","휴대폰번호", "법인명", "법인번호", "계약기간", "신청일", "", "승인상태"]
+  		, headCol		: ["", "접수번호", "", "모집인<br>분류", "법인사용인<br>여부", "취급상품", "이름","휴대폰번호", "법인명", "법인번호", "계약기간", "승인요청일", "최초승인요청일", "", "승인상태"]
   		, bodyCol		: 
   			[
 				 {type:"string"	, name:'masterSeq'		, index:'masterSeq'			, width:"10px"		, id:true		 , hidden:true}
@@ -26,6 +26,7 @@ function pageLoad(){
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'comContDate'	, index:'comContDate'		, width:"15%"		, align:"center"}
 				,{type:"string"	, name:'comRegDate'		, index:'comRegDate'		, width:"13%"		, align:"center"}
+				,{type:"string"	, name:'firstAppDate'	, index:'firstAppDate'		, width:"13%"		, align:"center"}
 				,{type:"string"	, name:'plStat'			, index:'plStat'			, width:"0%"		, align:"center" , hidden:true}
 				,{type:"string"	, name:'plStatNm'		, index:'plStatNm'			, width:"8%"		, align:"center"}
 			]

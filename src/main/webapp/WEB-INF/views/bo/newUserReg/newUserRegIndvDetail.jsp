@@ -96,7 +96,7 @@ function pageLoad(){
 						<td>${result.userRegInfo.gender }</td>
 					</tr>
 					<tr>
-						<th>신청일</th>
+						<th>승인요청일</th>
 						<td>${result.userRegInfo.comRegDate }</td>
 						<th>연락처</th>
 						<td>${result.userRegInfo.plCellphone }</td>

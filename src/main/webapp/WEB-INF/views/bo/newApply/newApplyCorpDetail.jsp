@@ -618,14 +618,13 @@ function goApplyImprove(num){
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
 			<c:if test="${result.applyInfo.plStat eq '4'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
 				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="corpOcr">OCR검증</a> -->
 			</c:if>
 			
-			<c:if test="${result.applyInfo.plStat eq '14'}">
+<%-- 			<c:if test="${result.applyInfo.plStat eq '14'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(5);">승인요청취소승인</a>
-			</c:if>
+			</c:if> --%>
 			
 			<c:if test="${result.applyInfo.plStat eq '15'}">
 				<c:if test="${result.adminCreGrp eq '2'}">

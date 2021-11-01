@@ -87,9 +87,16 @@ function goRecruitApply(num){
 			plStat = "9";
 			plRegStat = "3";
 		}
-	}else if(num == "4"){
-		plStat = "9";
-		plRegStat = "4";
+		
+		
+		// 2021-11-01 승인완료에 대한 승인이력
+		
+		
+		
+		
+		
+		
+		
 	}else if(num == "3"){
 		plStat = "9";
 		plRegStat = "3";
@@ -548,12 +555,8 @@ function goApplyImprove(num){
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
 			<c:if test="${result.applyInfo.plStat eq '4'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
 				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a> -->
-			</c:if>
-			<c:if test="${result.applyInfo.plStat eq '14'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(5);">승인요청취소승인</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '15'}">
 				<c:if test="${result.adminCreGrp eq '2'}">

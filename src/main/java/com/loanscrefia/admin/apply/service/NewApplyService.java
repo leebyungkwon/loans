@@ -1019,6 +1019,8 @@ public class NewApplyService {
 		if(!newApplyDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
+		
+		
 		/*
 		
 		//승인처리시 이메일 발송
@@ -1176,6 +1178,15 @@ public class NewApplyService {
 						}else {
 							return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
 						}
+						
+						
+						
+						// 2021-11-01 기등록자 승인시 메세지 발송
+						
+						
+						// 2021-11-01 기등록자 승인시 메세지 발송 끝
+						
+						
 					}else {
 						return responseMsg;
 					}

@@ -99,7 +99,7 @@ function pageLoad(){
 						<td>${result.userRegInfo.plMerchantName }</td>
 					</tr>
 					<tr>
-						<th>신청일</th>
+						<th>승인요청일</th>
 						<td>${result.userRegInfo.comRegDate }</td>
 						<th>법인번호</th>
 						<td>${result.userRegInfo.plMerchantNo }</td>
