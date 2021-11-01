@@ -163,7 +163,7 @@ public class NewUserService {
 			
 			// 2021-10-27 주민등록번호로 생년월일 및 성별 추출
 			userRegInfo.setBirthDt(plMZId.substring(0, 6));
-			String genderCheck = plMZId.substring(6, 6);
+			String genderCheck = plMZId.substring(7, 8);
 			if("1".equals(genderCheck) || "3".equals(genderCheck) || "5".equals(genderCheck) || "7".equals(genderCheck)) {
 				userRegInfo.setGender("남성");
 			}else {
@@ -275,7 +275,7 @@ public class NewUserService {
 			
 			// 2021-10-27 주민등록번호로 생년월일 및 성별 추출
 			userRegInfo.setBirthDt(plMZId.substring(0, 6));
-			String genderCheck = plMZId.substring(6, 6);
+			String genderCheck = plMZId.substring(7, 8);
 			if("1".equals(genderCheck) || "3".equals(genderCheck) || "5".equals(genderCheck) || "7".equals(genderCheck)) {
 				userRegInfo.setGender("남성");
 			}else {

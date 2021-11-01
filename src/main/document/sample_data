@@ -464,6 +464,7 @@ ALTER TABLE tb_lc_mas01_imwon ADD COLUMN user_seq INTEGER; 							-- 사용자�
 ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;
 ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);
 
+
 ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1'; 	-- 공지대상(1 : 금융회사 / 2 : 모집인)
 
 -- 코드(property 값 수정)
@@ -516,5 +517,22 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 
 /************************************************************** 고도화 관련 추가 E **************************************************************/
 	 
+	 
+	 
+	 
+-- 임시 random CI
+CREATE SEQUENCE tb_lc_random_ci
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+
+
+ALTER TABLE TB_LC_CORP ADD COLUMN pl_business_no varchar(100);
 	 
 	 

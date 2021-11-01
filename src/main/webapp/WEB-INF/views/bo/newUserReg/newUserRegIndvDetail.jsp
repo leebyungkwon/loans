@@ -107,7 +107,7 @@ function pageLoad(){
 						<th>금융상품 세부내용</th>
 						<td>
 							<c:choose>
-								<c:when test="${result.plProductDetailList.size > 0 }">
+								<c:when test="${fn:length(result.plProductDetailList) > 0 }">
 									<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
 										${productDetailList.plProductDtlCdNm}
 										<c:if test="${!loop.last}"> / </c:if>

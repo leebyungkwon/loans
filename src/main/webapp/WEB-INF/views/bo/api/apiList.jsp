@@ -123,7 +123,7 @@ function pageLoad(){
 			, params : {
 				preLcNum	: preLcNum
 				, conNum	: conNum
-				, plClass	:	plClass
+				, plClass	: plClass
 			}
 			, url : "/system/api/apiPreSearchPopup"
 			, success : function (opt,result) {
@@ -243,6 +243,9 @@ function pageLoad(){
 	
 	// 가등록 삭제
 	$("#deletePreLoan").on("click", function(){
+		
+		alert("운영서버 추후 반영예정");
+		return false;
 		
 		var plClass		=	$("#delPreLcNum").val();
 		var preLcNum		=	$("#delPrelcNum").val();

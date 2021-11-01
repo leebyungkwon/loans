@@ -35,19 +35,19 @@ spring:
       mst:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        jdbc-url: jdbc:log4jdbc:postgresql://116.47.78.15:5431/postgres
         username: postgres
         password: 1234
       email:
         pool-name: EMAIL-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        jdbc-url: jdbc:log4jdbc:postgresql://116.47.78.15:5431/postgres
         username: postgres
         password: 1234
       sms:
         pool-name: SMS-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        jdbc-url: jdbc:log4jdbc:postgresql://116.47.78.15:5431/postgres
         username: postgres
         password: 1234
     
@@ -59,9 +59,9 @@ logging:
       8MB
   level:
     org.springframework: error
-    com.zaxxer.hikari.HikariConfig: TRACE
-    com.zaxxer.hikari: TRACE
-    log4jdbc.log4j2: error
+    #com.zaxxer.hikari.HikariConfig: TRACE
+    #com.zaxxer.hikari: TRACE
+    log4jdbc.log4j2: info
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off

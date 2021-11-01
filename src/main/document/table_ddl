@@ -199,21 +199,15 @@ create table tb_lc_mas01(
 	, pl_regist_no varchar(20)
 	, con_num varchar(10)
 	, pl_class varchar(2)
-	
 	, pl_work varchar(50)
-	
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
-	
 	, api_career_yn char(1) not null default 'N'
-	
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
-	
 	, pl_stat_req_seq integer
 	, pl_stat_req_path char(1)
-	
 	, ci varchar(88)
 	, pl_m_name varchar(50)
 	, pl_m_z_id varchar(100)
@@ -222,10 +216,8 @@ create table tb_lc_mas01(
 	, addr varchar(2)
 	, addr_base varchar(200)
 	, addr_detail varchar(200)
-	
 	, reg_addr varchar(200)
 	, reg_addr_detail varchar(200)
-	
 	, pl_edu_no varchar(30)
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
@@ -239,16 +231,12 @@ create table tb_lc_mas01(
 	, corp_found_date varchar(8)
 	, capital varchar(20)
 	, voting_stock_cnt varchar(20)
-	
 	, other_field varchar(100)
 	, within_govr varchar(100)
-	
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
-	
 	, first_app_date varchar(8)
 	, app_date_hold varchar(8)
-
 	, chk_yn char(1)
 	, admin_chk_yn char(1)
 	, admin_chk_seq integer
@@ -264,9 +252,7 @@ create table tb_lc_mas01(
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
-	
 	, use_yn char(1) not null default 'Y'
-	
 	, reg_seq integer
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
@@ -280,7 +266,6 @@ COMMENT ON TABLE tb_lc_mas01 IS '모집인정보';
 COMMENT ON COLUMN tb_lc_mas01.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01.reg_path IS '등록경로';
-
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.sub_yn IS '약식등록여부';
@@ -292,16 +277,12 @@ COMMENT ON COLUMN tb_lc_mas01.pl_class IS '분류';
 COMMENT ON COLUMN tb_lc_mas01.pl_work IS '업종';
 COMMENT ON COLUMN tb_lc_mas01.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01.career_typ IS '구분(신규/경력)';
-
 COMMENT ON COLUMN tb_lc_mas01.api_career_yn IS '은행연합회API경력여부(신규/경력)';
-
 COMMENT ON COLUMN tb_lc_mas01.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01.pl_stat IS '처리상태';
-
 COMMENT ON COLUMN tb_lc_mas01.pl_stat_req_seq IS '처리상태 요청자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.pl_stat_req_path IS '처리상태 요청경로';
-
 COMMENT ON COLUMN tb_lc_mas01.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01.pl_m_z_id IS '모집인주민등록번호';
@@ -310,10 +291,8 @@ COMMENT ON COLUMN tb_lc_mas01.pl_cellphone IS '모집인휴대전화번호';
 COMMENT ON COLUMN tb_lc_mas01.addr IS '본점소재지(코드)';
 COMMENT ON COLUMN tb_lc_mas01.addr_base IS '본점소재지';
 COMMENT ON COLUMN tb_lc_mas01.addr_detail IS '상세주소(법인등기부등본상)';
-
 COMMENT ON COLUMN tb_lc_mas01.reg_addr IS '등록기준지';
 COMMENT ON COLUMN tb_lc_mas01.reg_addr_detail IS '등록기준지 상세주소';
-
 COMMENT ON COLUMN tb_lc_mas01.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01.career_end_date IS '경력종료일';
@@ -326,16 +305,12 @@ COMMENT ON COLUMN tb_lc_mas01.comp_phone_no IS '회원사대표번호';
 COMMENT ON COLUMN tb_lc_mas01.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 총수';
-
 COMMENT ON COLUMN tb_lc_mas01.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01.within_govr IS '관할 검찰청 또는 지청';
-
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
-
 COMMENT ON COLUMN tb_lc_mas01.first_app_date IS '최초심사요청일';
 COMMENT ON COLUMN tb_lc_mas01.app_date_hold IS '승인일홀딩';
-
 COMMENT ON COLUMN tb_lc_mas01.chk_yn IS '실무자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.admin_chk_yn IS '관리자확인여부';
 COMMENT ON COLUMN tb_lc_mas01.admin_chk_seq IS '관리자확인회원번호';
@@ -352,9 +327,7 @@ COMMENT ON COLUMN tb_lc_mas01.apply_hist_txt IS '승인요청사유';
 COMMENT ON COLUMN tb_lc_mas01.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
 COMMENT ON COLUMN tb_lc_mas01.cre_haeji_date IS '협회해지일자(해지승인날짜)';
 COMMENT ON COLUMN tb_lc_mas01.file_seq IS '첨부파일시퀀스';
-
 COMMENT ON COLUMN tb_lc_mas01.use_yn IS '사용여부';
-
 COMMENT ON COLUMN tb_lc_mas01.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01.upd_seq IS '수정자시퀀스';
@@ -391,18 +364,14 @@ create table tb_lc_mas01_imwon(
 	, career_end_date varchar(8)
 	, full_tm_stat char(1)
 	, expert_stat char(1)
-	
 	, position_cd char(1)
 	, proper_cd char(1)
-	
 	, file_seq integer
-	
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
 	, reg_seq INTEGER NOT NULL
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL 
-	
 	, primary key (exc_seq)
 );
 
@@ -419,12 +388,9 @@ COMMENT ON COLUMN tb_lc_mas01_imwon.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_end_date IS '경력종료일';
 COMMENT ON COLUMN tb_lc_mas01_imwon.full_tm_stat IS '상근상태';
 COMMENT ON COLUMN tb_lc_mas01_imwon.expert_stat IS '전문인력상태';
-
 COMMENT ON COLUMN tb_lc_mas01_imwon.position_cd IS '직위';
 COMMENT ON COLUMN tb_lc_mas01_imwon.proper_cd IS '임원자격 적합여부';
-
 COMMENT ON COLUMN tb_lc_mas01_imwon.file_seq IS '파일시퀀스';
-
 COMMENT ON COLUMN tb_lc_mas01_imwon.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_mas01_imwon.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.reg_timestamp IS '등록일시';
@@ -459,13 +425,11 @@ create table tb_lc_mas01_expert(
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
 	, file_seq integer
-	
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
 	, reg_seq INTEGER NOT NULL
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL 
-	
 	, primary key (exp_seq)
 );
 
@@ -479,7 +443,6 @@ COMMENT ON COLUMN tb_lc_mas01_expert.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01_expert.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01_expert.career_end_date IS '경력종료일';
 COMMENT ON COLUMN tb_lc_mas01_expert.file_seq IS '파일시퀀스';
-
 COMMENT ON COLUMN tb_lc_mas01_expert.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_mas01_expert.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_expert.reg_timestamp IS '등록일시';
@@ -509,13 +472,11 @@ create table tb_lc_mas01_it(
 	, oper_name varchar(20)
 	, pl_m_z_id varchar(100)
 	, file_seq integer
-	
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
 	, reg_seq INTEGER NOT NULL
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL 
-	
 	, primary key (oper_seq)
 );
 
@@ -526,7 +487,6 @@ COMMENT ON COLUMN tb_lc_mas01_it.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_it.oper_name IS '이름';
 COMMENT ON COLUMN tb_lc_mas01_it.pl_m_z_id IS '주민등록번호';
 COMMENT ON COLUMN tb_lc_mas01_it.file_seq IS '파일시퀀스';
-
 COMMENT ON COLUMN tb_lc_mas01_it.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_mas01_it.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_it.reg_timestamp IS '등록일시';
@@ -559,10 +519,8 @@ create table tb_lc_mas01_step(
 	, pl_reg_stat varchar(2) null
 	, pl_stat varchar(2) null
 	, pl_hist_txt text null
-	
 	, pl_stat_req_seq integer
 	, pl_stat_req_path char(1)
-	
 	, reg_timestamp timestamp
 	, reg_seq integer
 	, primary key (master_step_seq)
@@ -610,16 +568,12 @@ create table tb_lc_mas01_hist(
 	, pl_work varchar(50)
 	, corp_user_yn char(1) not null default 'N'
 	, career_typ varchar(2)
-	
 	, api_career_yn char(1) not null default 'N'
-	
 	, pl_product varchar(30)
 	, pl_reg_stat varchar(2)
 	, pl_stat varchar(2)
-	
 	, pl_stat_req_seq integer
 	, pl_stat_req_path char(1)
-	
 	, ci varchar(88)
 	, pl_m_name varchar(50)
 	, pl_m_z_id varchar(100)
@@ -628,10 +582,8 @@ create table tb_lc_mas01_hist(
 	, addr varchar(2)
 	, addr_base varchar(200)
 	, addr_detail varchar(200)
-	
 	, reg_addr varchar(200)
 	, reg_addr_detail varchar(200)
-	
 	, pl_edu_no varchar(30)
 	, career_start_date varchar(8)
 	, career_end_date varchar(8)
@@ -645,16 +597,12 @@ create table tb_lc_mas01_hist(
 	, corp_found_date varchar(8)
 	, capital varchar(20)
 	, voting_stock_cnt varchar(20)
-	
 	, other_field varchar(100)
 	, within_govr varchar(100)
-	
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
-	
 	, first_app_date varchar(8)
 	, app_date_hold varchar(8)
-	
 	, chk_yn char(1)
 	, admin_chk_yn char(1)
 	, admin_chk_seq integer
@@ -670,9 +618,7 @@ create table tb_lc_mas01_hist(
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
-	
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
-	
 	, reg_seq integer
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
@@ -687,7 +633,6 @@ COMMENT ON COLUMN tb_lc_mas01_hist.master_hist_seq IS '모집인변경이력시�
 COMMENT ON COLUMN tb_lc_mas01_hist.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_path IS '등록경로';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.sub_yn IS '약식등록여부';
@@ -700,15 +645,11 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pl_work IS '업종';
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_user_yn IS '법인사용인여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_hist.api_career_yn IS '은행연합회API경력여부(신규/경력)';
-
-
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_product IS '금융상품유형(취급상품)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_reg_stat IS '모집인상태(1.등록,2.정상해지,3.불법해지)';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat IS '처리상태';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat_req_seq IS '처리상태 요청자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_stat_req_path IS '처리상태 요청경로';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_name IS '모집인이름';
 COMMENT ON COLUMN tb_lc_mas01_hist.ci IS 'CI값';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_m_z_id IS '모집인주민등록번호';
@@ -717,10 +658,8 @@ COMMENT ON COLUMN tb_lc_mas01_hist.pl_cellphone IS '모집인휴대전화번호'
 COMMENT ON COLUMN tb_lc_mas01_hist.addr IS '본점소재지(코드)';
 COMMENT ON COLUMN tb_lc_mas01_hist.addr_base IS '본점소재지';
 COMMENT ON COLUMN tb_lc_mas01_hist.addr_detail IS '상세주소(법인등기부등본상)';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr IS '등록기준지';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_addr_detail IS '등록기준지 상세주소';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_edu_no IS '교육이수번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_start_date IS '경력시작일';
 COMMENT ON COLUMN tb_lc_mas01_hist.career_end_date IS '경력종료일';
@@ -733,13 +672,10 @@ COMMENT ON COLUMN tb_lc_mas01_hist.comp_phone_no IS '회원사대표번호';
 COMMENT ON COLUMN tb_lc_mas01_hist.corp_found_date IS '법인설립일';
 COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행주식 총수';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01_hist.within_govr IS '관할 검찰청 또는 지청';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.first_app_date IS '최초심사요청일';
 COMMENT ON COLUMN tb_lc_mas01_hist.app_date_hold IS '승인일홀딩';
 COMMENT ON COLUMN tb_lc_mas01_hist.chk_yn IS '실무자확인여부';
@@ -758,9 +694,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.apply_hist_txt IS '승인요청사유';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
 COMMENT ON COLUMN tb_lc_mas01_hist.cre_haeji_date IS '협회해지일자(해지승인날짜)';
 COMMENT ON COLUMN tb_lc_mas01_hist.file_seq IS '첨부파일시퀀스';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.use_yn IS '사용여부';
-
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_seq IS '수정자시퀀스';
@@ -1001,10 +935,12 @@ commit;
 create table tb_lc_corp(
 	corp_seq integer not null default nextval('tb_lc_corp_seq')
 	, pl_merchant_name varchar(30) not null
-	, pl_merchant_no varchar(100) not null 
+	, pl_merchant_no varchar(100) not null
+	, pl_business_no varchar(100)
 	, path_typ char(1) not null default '1'
 	, pass_yn char(1) not null default 'N'
 	, use_yn char(1) not null default 'Y'
+	, user_seq integer
 	, reg_timestamp timestamp
 	, reg_seq integer
 	, upd_timestamp timestamp
@@ -1016,6 +952,7 @@ COMMENT ON TABLE tb_lc_corp IS '법인정보';
 COMMENT ON COLUMN tb_lc_corp.corp_seq IS '법인시퀀스';
 COMMENT ON COLUMN tb_lc_corp.pl_merchant_name IS '법인명';
 COMMENT ON COLUMN tb_lc_corp.pl_merchant_no IS '법인등록번호';
+COMMENT ON COLUMN tb_lc_corp.pl_business_no IS '사업자번호';
 COMMENT ON COLUMN tb_lc_corp.path_typ IS '등록경로';
 COMMENT ON COLUMN tb_lc_corp.pass_yn IS '금융감독원등록여부';
 COMMENT ON COLUMN tb_lc_corp.use_yn IS '사용여부';
@@ -1196,8 +1133,10 @@ COMMENT ON TABLE tb_lc_popup IS '팝업관리';
 COMMENT ON COLUMN tb_lc_popup.pop_seq IS '팝업시퀀스';
 COMMENT ON COLUMN tb_lc_popup.pop_title IS '제목';
 COMMENT ON COLUMN tb_lc_popup.pop_info IS '내용';
-COMMENT ON COLUMN tb_lc_popup.start_date IS '시작일';
-COMMENT ON COLUMN tb_lc_popup.end_date IS '종료일';
+COMMENT ON COLUMN tb_lc_popup.start_day IS '시작일';
+COMMENT ON COLUMN tb_lc_popup.start_tm IS '시작시간';
+COMMENT ON COLUMN tb_lc_popup.end_day IS '종료일';
+COMMENT ON COLUMN tb_lc_popup.end_tm IS '종료시간';
 COMMENT ON COLUMN tb_lc_popup.dis_yn IS '팝업닫기여부';
 COMMENT ON COLUMN tb_lc_popup.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_popup.reg_timestamp IS '등록일시';
@@ -1254,7 +1193,7 @@ create table tb_lc_users(
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp null
 	, PRIMARY KEY (user_seq)
-)
+);
 
 
 create table TB_LC_PAY_LOG
@@ -1269,16 +1208,13 @@ commit;
 
 create table tb_lc_users_inactive(
 	user_seq integer 
-	, user_id varchar(30) 
-	, password varchar(100) 
-	, user_name varchar(50) 
-	, mobile_no varchar(20)
-	, pl_class char(1) 
+	, user_id varchar(30) not null
+	, password varchar(100) not null
+	, user_name varchar(50) not null
+	, mobile_no varchar(20) not null
+	, pl_class char(1) not null
 	, pl_m_z_id varchar(13)
-	, gender char(1)
 	, email varchar(100)
-	, addr varchar(2)
-	, addr_detail varchar(200)
 	, user_ci varchar(100)
 	, manager_name varchar(50)
 	, manager_mobile_no varchar(20)
@@ -1287,20 +1223,22 @@ create table tb_lc_users_inactive(
 	, corp_appr_dt timestamp
 	, file_seq integer
 	, join_dt timestamp
-	, terms_yn char(1) 
+	, terms_yn char(1) not null default 'N'
 	, terms_dt timestamp
-	, drop_yn char(1)
+	, drop_yn char(1) not null default 'N'
 	, drop_dt timestamp
-	, inactive_yn char(1) 
+	, inactive_yn char(1) not null default 'N'
 	, inactive_dt timestamp
 	, last_login_dt timestamp
+	, fail_cnt INTEGER
+	, fail_stop_dt timestamp
 	, pw_change_dt timestamp
 	, pw_token varchar(100)
 	, pw_token_dt timestamp
-	, reg_seq integer 
-	, reg_timestamp timestamp
-	, upd_seq INTEGER 
-	, upd_timestamp timestamp 
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
 	, PRIMARY KEY (user_seq)
 );
 
