@@ -432,8 +432,10 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 
 /************************************************************** 고도화 관련 추가 S **************************************************************/
 -- 테이블 추가(table_ddl 참고)
-(1)금융상품유형 상세 테이블 : tb_lc_product_detail
-(2)
+(1)금융상품유형 상세 테이블 			: tb_lc_product_detail
+(2)개인정보 필수 동의여부 저장 테이블 	: tb_lc_users_prvt
+(3)결격사유 테이블					: 
+(4)사용자 정보 변경이력 테이블			: 
 
 -- 컬럼 추가
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;
@@ -460,14 +462,14 @@ ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_path char(1);
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 						-- 직위
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 						-- 임원자격 적합여부
 
-ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;
-ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);
+ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;					-- 처리상태 요청자시퀀스
+ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);					-- 처리상태 요청경로
 
 ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1'; 	-- 공지대상(1 : 금융회사 / 2 : 모집인)
 
 -- 코드(property 값 수정)
 CAR001 : 1,2만 모두 property01,property02 값 Y로 수정
-PRD001 : 01,05만 property01 값 Y로 수정				-> BO영향 없음
+PRD001 : 01,05만 property01 값 Y로 수정	
 EXP001 : 1,2만 property01 값 Y로 수정
 
 UPDATE tb_lc_cod01_detail SET property01 = 'Y', property02 = 'Y' WHERE code_mst_cd = 'CAR001' AND code_dtl_cd IN ('1','2');
@@ -514,10 +516,7 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('PTH001','4','배치','배치',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL);
 	 
 /************************************************************** 고도화 관련 추가 E **************************************************************/
-	 
-	 
-	 
-	 
+
 -- 임시 random CI
 CREATE SEQUENCE tb_lc_random_ci
 	INCREMENT BY 1

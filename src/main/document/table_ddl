@@ -1319,7 +1319,6 @@ CREATE SEQUENCE tb_lc_product_detail_seq
 
 commit;
 
--- 금융상품유형 상세
 create table tb_lc_product_detail(
 	product_detail_seq integer not null default nextval('tb_lc_product_detail_seq')
 	, master_seq integer not null
@@ -1349,12 +1348,62 @@ commit;
 
 -- 개인정보 이용 동의
 
+create table tb_lc_users_prvt(
+	user_seq integer
+	, collect_yn char(1)
+	, search_yn char(1)
+	, offer_yn char(1)
+	, use_yn char(1) null default 'Y'
+	, reg_seq integer null
+	, reg_timestamp timestamp null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+);
+
+COMMENT ON TABLE tb_lc_users_prvt IS '개인정보 필수 동의서';
+COMMENT ON COLUMN tb_lc_users_prvt.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_prvt.collect_yn IS '수집 이용에 관한사항 동의여부';
+COMMENT ON COLUMN tb_lc_users_prvt.search_yn IS '조회에 관한사항 동의여부';
+COMMENT ON COLUMN tb_lc_users_prvt.offer_yn IS '제공에 관한사항 동의여부';
+COMMENT ON COLUMN tb_lc_users_prvt.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_users_prvt.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_users_prvt.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_users_prvt.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_users_prvt.upd_timestamp IS '수정일시';
+
+commit;
 
 
 -- 결격사유
 
+create table tb_lc_users_disqual(
+	user_seq integer
+	, collect_yn char(1)
+	, search_yn char(1)
+	, offer_yn char(1)
+	
+	
+	, use_yn char(1) null default 'Y'
+	, reg_seq integer null
+	, reg_timestamp timestamp null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+);
+
+COMMENT ON TABLE tb_lc_users_disqual IS '결격사유';
+COMMENT ON COLUMN tb_lc_users_disqual.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_disqual.collect_yn IS '수집 이용에 관한사항 동의여부';
+COMMENT ON COLUMN tb_lc_users_disqual.search_yn IS '조회에 관한사항 동의여부';
+COMMENT ON COLUMN tb_lc_users_disqual.offer_yn IS '제공에 관한사항 동의여부';
 
 
+COMMENT ON COLUMN tb_lc_users_disqual.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_users_disqual.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_users_disqual.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_users_disqual.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_users_disqual.upd_timestamp IS '수정일시';
+
+commit;
 
 -- 사용자 정보변경 이력
 
