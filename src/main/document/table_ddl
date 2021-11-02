@@ -1378,11 +1378,8 @@ commit;
 
 create table tb_lc_users_disqual(
 	user_seq integer
-	, collect_yn char(1)
-	, search_yn char(1)
-	, offer_yn char(1)
-	
-	
+	, disqual_cd char(1)
+	, disqual_val char(1)
 	, use_yn char(1) null default 'Y'
 	, reg_seq integer null
 	, reg_timestamp timestamp null
@@ -1392,11 +1389,8 @@ create table tb_lc_users_disqual(
 
 COMMENT ON TABLE tb_lc_users_disqual IS '결격사유';
 COMMENT ON COLUMN tb_lc_users_disqual.user_seq IS '사용자시퀀스';
-COMMENT ON COLUMN tb_lc_users_disqual.collect_yn IS '수집 이용에 관한사항 동의여부';
-COMMENT ON COLUMN tb_lc_users_disqual.search_yn IS '조회에 관한사항 동의여부';
-COMMENT ON COLUMN tb_lc_users_disqual.offer_yn IS '제공에 관한사항 동의여부';
-
-
+COMMENT ON COLUMN tb_lc_users_disqual.disqual_cd IS '결격코드';
+COMMENT ON COLUMN tb_lc_users_disqual.disqual_val IS '해당여부';
 COMMENT ON COLUMN tb_lc_users_disqual.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_users_disqual.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_users_disqual.reg_timestamp IS '등록일시';
