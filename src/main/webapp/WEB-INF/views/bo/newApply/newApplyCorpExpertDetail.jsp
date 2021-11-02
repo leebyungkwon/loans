@@ -48,29 +48,23 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th>신규경력 구분</th>
-										<td colspan="3">${corpExpertList.careerTypNm }</td>
-									</tr>
-									<tr>
 										<th>이름</th>
 										<td>${corpExpertList.expName }</td>
 										<th>주민번호</th>
 										<td>${corpExpertList.plMZId }</td>
 									</tr>
 									<tr>
-										<th>금융상품유형</th>
-										<td colspan="3">${result.applyInfo.plProductNm }</td>
-									</tr>
-									<tr>
+										<th>신규경력 구분</th>
+										<td>${corpExpertList.careerTypNm }</td>
 										<th>교육이수번호/인증서번호</th>
-										<td colspan="3">${corpExpertList.plEduNo }</td>
+										<td>${corpExpertList.plEduNo }</td>
 									</tr>
-									<tr>
+<%-- 									<tr>
 										<th>경력시작일</th>
 										<td>${corpExpertList.careerStartDate }</td>
 										<th>경력종료일</th>
 										<td>${corpExpertList.careerEndDate }</td>
-									</tr>
+									</tr> --%>
 								</tbody>
 							</table>
 						</div>
@@ -79,8 +73,8 @@ function pageLoad(){
 						<div id="table10">
 							<table class="view_table border_table">
 								<colgroup>
-									<col width="50%"/>
-									<col width="20%"/>
+									<col width="40%"/>
+									<col width="30%"/>
 									<col width="30%"/>
 								</colgroup>
 								<tr>

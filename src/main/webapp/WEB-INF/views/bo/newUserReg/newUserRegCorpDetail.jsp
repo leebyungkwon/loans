@@ -75,7 +75,7 @@ function pageLoad(){
 		</div>
 	</div>
 
-	<div class="tap_wrap" style="margin-bottom: 30px;">
+<!-- 	<div class="tap_wrap" style="margin-bottom: 30px;">
 		<ul>
 			<li class="on"><a href="javascript:void(0);" class="single" onclick="goTab('1');">등록정보</a></li>
 			<li><a href="javascript:void(0);" onclick="goTab('2');">대표자 및 임원관련<br />사항</a></li>
@@ -83,7 +83,7 @@ function pageLoad(){
 			<li><a href="javascript:void(0);" onclick="goTab('4');">전산설비 관리 인력에<br />관한 사항</a></li>
 			<li><a href="javascript:void(0);" class="single" onclick="goTab('5');">기타 첨부할 서류</a></li>
 		</ul>
-	</div>
+	</div> -->
 	
 	<form name="userRegInfoUpdFrm" id="userRegInfoUpdFrm" action="/member/newUser/newUserApply" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="masterSeq" id="masterSeq" value="${result.userRegInfo.masterSeq }"/>

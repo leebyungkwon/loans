@@ -551,4 +551,8 @@ commit;
 
 ALTER TABLE TB_LC_CORP ADD COLUMN pl_business_no varchar(100);
 	 
+ALTER TABLE tb_lc_mas01 ADD COLUMN apply_com_hist_txt text;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN apply_com_hist_txt text;
+
+update tb_lc_cod01_detail set property03 = 'Y' where code_mst_cd = 'MAS001' and code_dtl_cd = '10';
 	 

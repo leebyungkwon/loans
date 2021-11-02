@@ -37,8 +37,8 @@ function pageLoad(){
 			<div id="table1">
 				<table class="view_table border_table">
 					<colgroup>
-						<col width="50%"/>
-						<col width="20%"/>
+						<col width="40%"/>
+						<col width="30%"/>
 						<col width="30%"/>
 					</colgroup>
 					<tr>

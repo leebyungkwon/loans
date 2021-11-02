@@ -1228,4 +1228,34 @@ public class RecruitService {
 		return result;
 	}
 	
+	// 2021-11-02 등록번호 수동 수정
+	@Transactional
+	public ResponseMsg updatePlRegistNo(RecruitDomain recruitDomain) throws IOException{
+		int result = recruitRepository.updatePlRegistNo(recruitDomain);
+		if(result > 0) {
+			UserDomain param = new UserDomain();
+			param.setMasterSeq(recruitDomain.getMasterSeq());
+			userRepo.insertUserHistory(param);
+			return new ResponseMsg(HttpStatus.OK, "success", "수정되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "수정에 실패하였습니다.");			
+		}
+	}
+	
+	// 2021-11-02 계약번호 수동 수정
+	@Transactional
+	public ResponseMsg updateConNum(RecruitDomain recruitDomain) throws IOException{
+		int result = recruitRepository.updateConNum(recruitDomain);
+		if(result > 0) {
+			UserDomain param = new UserDomain();
+			param.setMasterSeq(recruitDomain.getMasterSeq());
+			userRepo.insertUserHistory(param);
+			return new ResponseMsg(HttpStatus.OK, "success", "수정되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "수정에 실패하였습니다.");			
+		}
+	}
+	
+	
+	
 }

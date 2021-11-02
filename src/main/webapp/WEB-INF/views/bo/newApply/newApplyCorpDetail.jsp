@@ -59,6 +59,8 @@ function goRecruitApply(num){
 	var preLcNum = $("#preLcNum").val();
 	var plProduct = $("#plProduct").val();
 	
+	var applyMessage = "요청사항을 승인하시겠습니까?";
+	
 	/*
 	
 	if(plProduct == "01" || plProduct == "05"){
@@ -78,6 +80,15 @@ function goRecruitApply(num){
 			plStat = "9";
 			plRegStat = "3";
 		}
+		
+		
+		// 2021-11-01 승인완료에 대한 승인이력
+		var applyComHistTxt = $("#applyComHistTxt").val();
+		if(WebUtil.isNull(applyComHistTxt)){
+			applyMessage = "승인완료사유가 없습니다.\n요청사항을 승인하시겠습니까?";
+		}
+		
+		
 	}else if(num == "4"){
 		plStat = "9";
 		plRegStat = "4";
@@ -102,6 +113,7 @@ function goRecruitApply(num){
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
 				,preLcNum		: preLcNum 
+				,applyComHistTxt : applyComHistTxt
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -298,11 +310,15 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>자본금(백만원)</th>
-					<td colspan="3">${result.applyInfo.capital }</td>
+					<td>${result.applyInfo.capital }</td>
+					<th>의결권있는 발행주식 총수</th>
+					<td>${result.applyInfo.votingStockCnt }</td>
 				</tr>
 				<tr>
-					<th>의결권있는 발행주식 총수</th>
-					<td colspan="3">${result.applyInfo.votingStockCnt }</td>
+					<th>영위하는 다른 업종</th>
+					<td>${result.applyInfo.otherField }</td>
+					<th>관할검찰청 또는 지청</th>
+					<td>${result.applyInfo.withinGovr }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>
@@ -311,10 +327,17 @@ function goApplyImprove(num){
 					<td>${result.applyInfo.entrustDate }</td>
 				</tr>
 				
-				<tr>
+<%-- 				<tr>
 					<th>승인요청사유</th>
 					<td colspan="3">
 						<textarea rows="6" cols="" id="" name="" class="w100" readonly>${result.applyInfo.applyHistTxt }</textarea>
+					</td>
+				</tr> --%>
+				
+				<tr>
+					<th>승인완료사유</th>
+					<td colspan="3">
+						<textarea rows="6" cols="" id="applyComHistTxt" name="applyComHistTxt" class="w100" >${result.applyInfo.applyComHistTxt }</textarea>
 					</td>
 				</tr>
 				
@@ -322,7 +345,7 @@ function goApplyImprove(num){
 					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
 					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7' or result.applyInfo.plStat eq '15'}">
 						<tr>
-							<th>사유</th>
+							<th>사유<br/>(보완요청 및 부적격)</th>
 							<td colspan="3">
 								<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100">${result.applyInfo.plHistTxt }</textarea>
 								<%-- <input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }"> --%>
@@ -361,8 +384,8 @@ function goApplyImprove(num){
 		<div id="table05">
 			<table class="view_table border_table">
 				<colgroup>
-					<col width="50%"/>
-					<col width="20%"/>
+					<col width="40%"/>
+					<col width="30%"/>
 					<col width="30%"/>
 				</colgroup>
 				<tr>

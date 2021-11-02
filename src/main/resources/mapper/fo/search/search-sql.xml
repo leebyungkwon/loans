@@ -487,8 +487,6 @@
 		WHERE TLM.PL_CLASS		= '1' 				-- 개인
 		AND TLM.PL_M_NAME 		= #{plMName}
 		AND TLM.PL_CELLPHONE 	= #{plCellphone}
-		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 자격취득
-		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
 		AND TLM.USE_YN			= 'Y'
 		AND TLM.MASTER_SEQ 		= PAY.MASTER_SEQ
 		LIMIT 1
@@ -504,8 +502,6 @@
 		WHERE TLM.PL_CLASS		= '2' 				-- 법인 
 		AND TLM.PL_MERCHANT_NO 	= #{plMerchantNo}
 		AND TLM.PL_CEO_NAME 	= #{plCeoName}
-		AND TLM.PL_REG_STAT 	= '3' 				-- 모집인상태 : 자격취득
-		AND TLM.PL_STAT 		= '9' 				-- 처리상태 : 완료
 		AND TLM.USE_YN			= 'Y'
 		AND TLM.MASTER_SEQ 		= PAY.MASTER_SEQ
 		LIMIT 1

@@ -53,6 +53,13 @@ public class ApplyImwonDomain extends BaseDomain {
 	private String fullTmStatNm;	//상근여부명
 	private String expertStatNm;	//전문인력여부명
 	
+	private String positionCd;		//직위코드
+	private String positionCdNm;	//직위코드명
+	
+	private String properCd;		//임원자격적합여부코드
+	private String properCdNm;		//임원자격적합여부코드명
+	
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	
