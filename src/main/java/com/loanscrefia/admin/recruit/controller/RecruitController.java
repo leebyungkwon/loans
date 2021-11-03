@@ -146,4 +146,20 @@ public class RecruitController {
         return mav;
     }
 	
+	
+	// 2021-11-02 등록번호 수동 수정
+	@PostMapping(value="/recruit/updatePlRegistNo")
+	public ResponseEntity<ResponseMsg> updatePlRegistNo(RecruitDomain recruitDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(recruitService.updatePlRegistNo(recruitDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 2021-11-02 등록번호 수동 수정
+	@PostMapping(value="/recruit/updateConNum")
+	public ResponseEntity<ResponseMsg> updateConNum(RecruitDomain recruitDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(recruitService.updateConNum(recruitDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 }

@@ -10,6 +10,55 @@ function pageLoad(){
 	
 }
 
+// 2021-11-02 등록번호 수정 
+function updatePlRegistNo(){
+	var plRegistNo = $("#updatePlRegistNo").val();
+	if(confirm("등록번호를 수정하시겠습니까?")){
+		var p = {
+			  url		: "/admin/recruit/updatePlRegistNo"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				 , plRegistNo	: plRegistNo
+			}
+			, success 	: function (opt,result) {
+				if(result.data.code == "success"){
+					alert(result.data.message);
+					location.reload();
+				}else{
+					alert(result.data.message);
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+//2021-11-02 계약번호 수정 
+function updateConNum(){
+	var conNum = $("#updateConNum").val();
+	if(confirm("등록번호를 수정하시겠습니까?")){
+		var p = {
+			  url		: "/admin/recruit/updateConNum"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				 , conNum	: conNum
+			}
+			, success 	: function (opt,result) {
+				if(result.data.code == "success"){
+					alert(result.data.message);
+					location.reload();
+				}else{
+					alert(result.data.message);
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+
 //승인
 function goRecruitApply(num){
 	
@@ -175,13 +224,19 @@ function goRecruitImprove(rePlStat){
 					<th>처리상태</th>
 					<td>${result.recruitInfo.plStatNm }</td>
 					<th>등록번호</th>
-					<td>${result.recruitInfo.plRegistNo}</td>
+					<td>
+						<input type="text" id="updatePlRegistNo" value="${result.recruitInfo.plRegistNo}" /> 
+						<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="updatePlRegistNo();">등록번호 수정</a>
+					</td>
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
 					<td>${result.recruitInfo.plClassNm }</td>
-					<th>법인사용인여부</th>
-					<td>${result.recruitInfo.corpUserYn }</td>
+					<th>계약번호</th>
+					<td>
+						<input type="text" id="updateConNum" value="${result.recruitInfo.conNum}" /> 
+						<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="updateConNum();">계약번호 수정</a>
+					</td>
 				</tr>
 				<c:if test="${result.recruitInfo.corpUserYn eq 'Y' }">
 					<tr>
@@ -193,7 +248,9 @@ function goRecruitImprove(rePlStat){
 				</c:if>
 				<tr>
 					<th>신규경력구분</th>
-					<td colspan="3">${result.recruitInfo.careerTypNm }</td>
+					<td>${result.recruitInfo.careerTypNm }</td>
+					<th>법인사용인여부</th>
+					<td>${result.recruitInfo.corpUserYn }</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>

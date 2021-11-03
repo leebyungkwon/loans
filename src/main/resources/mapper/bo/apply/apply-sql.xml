@@ -133,7 +133,7 @@
 				<if test="regPath != null and regPath != ''">
 					AND TLM.REG_PATH = #{regPath}
 					<if test='regPath.equals("B")'>
-						AND TLM.PL_STAT IN ('2','5','13')						-- 처리상태가 승인요청, 보완, 승인일 홀딩
+						AND TLM.PL_STAT IN ('2','5','13','10')						-- 처리상태가 승인요청, 보완, 승인일 홀딩, 부적격
 					</if>
 					
 					<if test='regPath.equals("F")'>

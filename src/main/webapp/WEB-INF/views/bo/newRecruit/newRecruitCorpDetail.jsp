@@ -77,7 +77,7 @@ function goRecruitImprove(rePlStat){
 	
 	var oldHistTxt = $("#oldHistTxt").val();
 	if($(document).find("#plHistArea").length == 0){
-		var tag = '<tr id="plHistArea"><th>사유</th><td colspan="3">';
+		var tag = '<tr id="plHistArea"><th>사유<br/>(보완요청 및 부적격)</th><td colspan="3">';
 		tag += '<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100"></textarea></tr>';
 		$("#infoTable").append(tag);
 		return false;
@@ -271,7 +271,7 @@ function goRecruitImprove(rePlStat){
 				<c:if test="${result.recruitInfo.plStat ne '4'}">
 					<c:if test="${result.recruitInfo.plRegStat ne '4' }">
 						<tr id="plHistArea">
-							<th>사유</th>
+							<th>사유<br/>(보완요청 및 부적격)</th>
 							<td colspan="3">
 								<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100">${result.recruitInfo.plHistTxt }</textarea>
 								<%-- <input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.recruitInfo.plHistTxt }"> --%>
@@ -279,6 +279,13 @@ function goRecruitImprove(rePlStat){
 						</tr>
 					</c:if>
 				</c:if>
+				
+				<tr>
+					<th>승인완료사유</th>
+					<td colspan="3">
+						<textarea rows="6" cols="" id="applyComHistTxt" name="applyComHistTxt" class="w100" readonly="readonly">${result.recruitInfo.applyComHistTxt }</textarea>
+					</td>
+				</tr>
 			</table>
 		</div>
 

@@ -82,30 +82,20 @@ function pageLoad(){
 								</colgroup>
 								<tbody>
 									<tr>
-										<th>신규경력 구분</th>
-										<td colspan="3">${corpImwonList.careerTypNm }</td>
-									</tr>
-									<tr>
 										<th>이름</th>
 										<td>${corpImwonList.excName }</td>
 										<th>주민번호</th>
 										<td>${corpImwonList.plMZId }</td>
 									</tr>
 									<tr>
+										<th>신규경력 구분</th>
+										<td>${corpImwonList.careerTypNm }</td>
 										<th>직위</th>
-										<td>${corpImwonList.positionNm }</td>
-										<th>금융상품유형</th>
-										<td>${result.applyInfo.plProductNm }</td>
+										<td>${corpImwonList.positionCdNm }</td>
 									</tr>
 									<tr>
 										<th>교육이수번호/인증서번호</th>
 										<td colspan="3">${corpImwonList.plEduNo }</td>
-									</tr>
-									<tr>
-										<th>경력시작일</th>
-										<td>${corpImwonList.careerStartDate }</td>
-										<th>경력종료일</th>
-										<td>${corpImwonList.careerEndDate }</td>
 									</tr>
 									<tr>
 										<th>상근여부</th>
@@ -113,6 +103,11 @@ function pageLoad(){
 										<th>전문인력여부</th>
 										<td>${corpImwonList.expertStatNm }</td>
 									</tr>
+									<tr>
+										<th>임원자격 적합여부</th>
+										<td colspan="3">${corpImwonList.properCdNm }</td>
+									</tr>
+
 								</tbody>
 							</table>
 						</div>
@@ -121,8 +116,8 @@ function pageLoad(){
 						<div id="table06">
 							<table class="view_table border_table">
 								<colgroup>
-									<col width="50%"/>
-									<col width="20%"/>
+									<col width="40%"/>
+									<col width="30%"/>
 									<col width="30%"/>
 								</colgroup>
 								<tr>

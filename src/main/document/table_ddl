@@ -249,6 +249,7 @@ create table tb_lc_mas01(
 	, pl_hist_cd varchar(10)
 	, pl_hist_txt text 
 	, apply_hist_txt text 
+	, apply_com_hist_txt text 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
@@ -324,6 +325,7 @@ COMMENT ON COLUMN tb_lc_mas01.send_msg IS '전달메세지';
 COMMENT ON COLUMN tb_lc_mas01.pl_hist_cd IS '해지사유';
 COMMENT ON COLUMN tb_lc_mas01.pl_hist_txt IS '직접입력(사유)';
 COMMENT ON COLUMN tb_lc_mas01.apply_hist_txt IS '승인요청사유';
+COMMENT ON COLUMN tb_lc_mas01.apply_com_hist_txt IS '승인완료사유';
 COMMENT ON COLUMN tb_lc_mas01.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
 COMMENT ON COLUMN tb_lc_mas01.cre_haeji_date IS '협회해지일자(해지승인날짜)';
 COMMENT ON COLUMN tb_lc_mas01.file_seq IS '첨부파일시퀀스';
@@ -613,6 +615,7 @@ create table tb_lc_mas01_hist(
 	, pl_hist_cd varchar(10)
 	, pl_hist_txt text 
 	, apply_hist_txt text 
+	, apply_com_hist_txt text 
 	, com_haeji_date varchar(8)
 	, cre_haeji_date varchar(8)
 	, file_seq integer
@@ -689,6 +692,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.send_msg IS '전달메세지';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_hist_cd IS '해지사유';
 COMMENT ON COLUMN tb_lc_mas01_hist.pl_hist_txt IS '직접입력(사유)';
 COMMENT ON COLUMN tb_lc_mas01_hist.apply_hist_txt IS '승인요청사유';
+COMMENT ON COLUMN tb_lc_mas01_hist.apply_com_hist_txt IS '승인완료사유';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_haeji_date IS '회원사해지일자(회원사입력날짜)';
 COMMENT ON COLUMN tb_lc_mas01_hist.cre_haeji_date IS '협회해지일자(해지승인날짜)';
 COMMENT ON COLUMN tb_lc_mas01_hist.file_seq IS '첨부파일시퀀스';

@@ -70,6 +70,9 @@ function goRecruitApply(num){
 	var preLcNum = $("#preLcNum").val();
 	var plProduct = $("#plProduct").val();
 	
+	
+	var applyMessage = "요청사항을 승인하시겠습니까?";
+	
 	/*
 	if(plProduct == "01" || plProduct == "05"){
 		if(WebUtil.isNull(preLcNum)){
@@ -88,14 +91,11 @@ function goRecruitApply(num){
 			plRegStat = "3";
 		}
 		
-		
 		// 2021-11-01 승인완료에 대한 승인이력
-		
-		
-		
-		
-		
-		
+		var applyComHistTxt = $("#applyComHistTxt").val();
+		if(WebUtil.isNull(applyComHistTxt)){
+			applyMessage = "승인완료사유가 없습니다.\n요청사항을 승인하시겠습니까?";
+		}
 		
 	}else if(num == "3"){
 		plStat = "9";
@@ -108,7 +108,7 @@ function goRecruitApply(num){
 		return false;
 	}
 	
-	if(confirm("요청사항을 승인하시겠습니까?")){
+	if(confirm(applyMessage)){
 		var p = {
 			  url		: "/admin/newApply/updateNewPlStat"	
 			, param		: {
@@ -118,6 +118,7 @@ function goRecruitApply(num){
 				,oldPlStat		: $("#oldPlStat").val()
 				,preRegYn		: preRegYn
 				,preLcNum		: preLcNum
+				,applyComHistTxt : applyComHistTxt
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -333,10 +334,17 @@ function goApplyImprove(num){
 					<td colspan="3">${result.applyInfo.entrustDate }</td>
 				</tr>
 				
-				<tr>
+<%-- 				<tr>
 					<th>승인요청사유</th>
 					<td colspan="3">
 						<textarea rows="6" cols="" id="applyHistTxt" name="applyHistTxt" class="w100" readonly>${result.applyInfo.applyHistTxt }</textarea>
+					</td>
+				</tr> --%>
+				
+				<tr>
+					<th>승인완료사유</th>
+					<td colspan="3">
+						<textarea rows="6" cols="" id="applyComHistTxt" name="applyComHistTxt" class="w100" >${result.applyInfo.applyComHistTxt }</textarea>
 					</td>
 				</tr>
 				
@@ -344,7 +352,7 @@ function goApplyImprove(num){
 					<c:when test="${result.applyInfo.plStat eq '3' or result.applyInfo.plStat eq '7'
 					or result.applyInfo.plStat eq '2' or result.applyInfo.plStat eq '5' or result.applyInfo.plStat eq '7' or result.applyInfo.plStat eq '15'}">
 						<tr>
-							<th>사유</th>
+							<th>사유<br/>(보완요청 및 부적격)</th>
 							<td colspan="3">
 								<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100">${result.applyInfo.plHistTxt }</textarea>
 								<%-- <input type="text" id="plHistTxt" name="plHistTxt" class="w100" maxlength="200" value="${result.applyInfo.plHistTxt }"> --%>
@@ -382,8 +390,8 @@ function goApplyImprove(num){
 		<div id="table02">
 			<table class="view_table border_table">
 				<colgroup>
-					<col width="50%"/>
-					<col width="20%"/>
+					<col width="40%"/>
+					<col width="30%"/>
 					<col width="30%"/>
 				</colgroup>
 				<tr>

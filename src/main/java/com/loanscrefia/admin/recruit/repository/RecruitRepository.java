@@ -40,4 +40,10 @@ public interface RecruitRepository {
 	//모집인 조회 및 변경 > 이력상세
 	RecruitDomain getRecruitHistDetail(RecruitDomain recruitDomain);
 	
+	// 2021-11-02 등록번호 수동 수정
+	int updatePlRegistNo(RecruitDomain recruitDomain);
+
+	// 2021-11-02 계약번호 수동 수정
+	int updateConNum(RecruitDomain recruitDomain);
+	
 }

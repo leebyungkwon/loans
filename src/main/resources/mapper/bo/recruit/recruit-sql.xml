@@ -587,4 +587,26 @@
 	    LIMIT 1
    	</select>
    	
+	<!-- 2021-11-02 등록번호 수동 수정 -->
+   	<update id="updatePlRegistNo" parameterType="recruit">
+		update tb_lc_mas01
+		set
+			upd_seq = #{updSeq}
+			, upd_timestamp = NOW()
+			, pl_regist_no = #{plRegistNo}
+		where
+			master_seq = #{masterSeq}
+   	</update>
+   	
+	<!-- 2021-11-02 등록번호 수동 수정 -->
+   	<update id="updateConNum" parameterType="recruit">
+		update tb_lc_mas01
+		set
+			upd_seq = #{updSeq}
+			, upd_timestamp = NOW()
+			, con_num = #{conNum}
+		where
+			master_seq = #{masterSeq}
+   	</update>
+   	
 </mapper> 
