@@ -1378,7 +1378,7 @@ commit;
 
 create table tb_lc_users_disqual(
 	user_seq integer
-	, disqual_cd char(1)
+	, disqual_cd varchar(2)
 	, disqual_val char(1)
 	, use_yn char(1) null default 'Y'
 	, reg_seq integer null
