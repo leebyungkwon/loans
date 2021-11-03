@@ -1403,7 +1403,8 @@ COMMENT ON COLUMN tb_lc_users_disqual.upd_timestamp IS '수정일시';
 
 commit;
 
--- 사용자 정보변경 이력
+
+-- 사용자 이력
 
 CREATE SEQUENCE tb_lc_users_hist_seq
 	INCREMENT BY 1
@@ -1418,30 +1419,82 @@ commit;
 create table tb_lc_users_hist(
 	user_hist_seq integer not null default nextval('tb_lc_users_hist_seq')
 	, user_seq integer
-	
-	, apply_cd											-- 변경정보코드?
-	
+	, user_id varchar(30) not null
+	, password varchar(100) not null
 	, user_name varchar(50) not null
 	, mobile_no varchar(20) not null
+	, pl_class char(1) not null
 	, pl_m_z_id varchar(13)
-	
-	
-	
-	, use_yn char(1) not null default 'Y'
+	, email varchar(100)
+	, user_ci varchar(100)
+	, manager_name varchar(50)
+	, manager_mobile_no varchar(20)
+	, manager_email varchar(100)
+	, corp_appr_yn char(1) not null default 'N'
+	, corp_appr_dt timestamp
+	, file_seq integer
+	, join_dt timestamp
+	, terms_yn char(1) not null default 'N'
+	, terms_dt timestamp
+	, drop_yn char(1) not null default 'N'
+	, drop_dt timestamp
+	, inactive_yn char(1) not null default 'N'
+	, inactive_dt timestamp
+	, last_login_dt timestamp
+	, fail_cnt INTEGER
+	, fail_stop_dt timestamp
+	, pw_change_dt timestamp
+	, pw_token varchar(100)
+	, pw_token_dt timestamp
 	, reg_seq integer not null
 	, reg_timestamp timestamp not null
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp null
 	, PRIMARY KEY (user_hist_seq)
-)
+);
+
+COMMENT ON TABLE tb_lc_users_hist IS '사용자 이력';
+
+commit;
 
 
+-- 사용자 정보변경 신청내역
 
+CREATE SEQUENCE tb_lc_users_req_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
 
+commit;
 
+create table tb_lc_users_req(
+	user_req_seq integer not null default nextval('tb_lc_users_req_seq')
+	, user_seq integer not null
+	, req_cd char(1) not null
+	, req_val varchar(100) not null
+	, use_yn char(1) not null default 'Y'
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+	, PRIMARY KEY (user_req_seq)
+);
 
+COMMENT ON TABLE tb_lc_users_req IS '사용자 정보변경 신청내역';
+COMMENT ON COLUMN tb_lc_users_req.user_req_seq IS '사용자 정보변경 시퀀스';
+COMMENT ON COLUMN tb_lc_users_req.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_req.req_cd IS '신청코드';
+COMMENT ON COLUMN tb_lc_users_req.req_val IS '신청값';
+COMMENT ON COLUMN tb_lc_users_req.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_users_req.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_users_req.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_users_req.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_users_req.upd_timestamp IS '수정일시';
 
-
+commit;
 
 
 

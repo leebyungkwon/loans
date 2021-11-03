@@ -435,7 +435,9 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 (1)금융상품유형 상세 테이블 			: tb_lc_product_detail
 (2)개인정보 필수 동의여부 저장 테이블 	: tb_lc_users_prvt
 (3)결격사유 테이블					: tb_lc_users_disqual
-(4)사용자 정보 변경이력 테이블			: 
+(4)사용자 이력 테이블				: tb_lc_users_hist
+(4)사용자 정보변경 신청내역 테이블		: tb_lc_users_req 
+(5)모집인 계약정보변경 신청내역 테이블	: 
 
 -- 컬럼 추가
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;
@@ -488,7 +490,8 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('NTC001','공지사항 노출대상','공지사항 노출대상',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('PTH001','처리상태 요청경로','처리상태 요청경로',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('DSQ001','결격요건','결격요건(개인)',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
-	 ('DSQ002','결격요건','결격요건(법인)',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 ('DSQ002','결격요건','결격요건(법인)',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('CHG001','변경신청코드','변경신청코드',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('PST001','1','대표이사','대표이사',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
@@ -532,7 +535,9 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('DSQ002','10','부실금융기관 이력','부실금융기관',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('DSQ002','11','영업 취소 이력','영업 취소 이력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('DSQ002','12','대부업자 여부','대부업자 여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
-	 ('DSQ002','13','다단계판매업자 여부','다단계판매업자 여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL);
+	 ('DSQ002','13','다단계판매업자 여부','다단계판매업자 여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('CHG001','1','이름','이름',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('CHG001','2','주민등록번호','주민등록번호',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL);
 	 
 /************************************************************** 고도화 관련 추가 E **************************************************************/
 
