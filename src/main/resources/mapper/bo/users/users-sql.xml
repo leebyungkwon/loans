@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.loanscrefia.admin.users.repository.UsersRepository">
 
-   	<!-- 회원관리 리스트 조회 -->
-   	<select id="selectUsersList" parameterType="users" resultType="users">
+   	<!-- 개인회원관리 리스트 조회 -->
+   	<select id="selectIndvUsersList" parameterType="users" resultType="users">
    		SELECT 
    			<include refid="common.totalPages"/>
    			Z.*
@@ -36,7 +36,10 @@
 	   				WHEN fail_stop_dt is null THEN 'N'
 	   				ELSE 'Y'
 	   			END AS fail_stop_yn
+	   			, (select b.disqual_val from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '7' limit 1) as dis1
+	   			, (select b.disqual_val from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '8' limit 1) as dis2
 		    FROM tb_lc_users users
+		    WHERE users.pl_class = '1'
 		    ORDER BY users.user_seq DESC
    		)Z
    		<where>
@@ -50,10 +53,6 @@
 			
 			<if test="mobileNo != null and mobileNo != ''">
 				AND Z.mobile_no LIKE '%' || #{mobileNo} || '%'
-			</if>
-			
-			<if test="plClass != null and plClass != ''">
-				AND Z.pl_class = #{plClass}
 			</if>
 			
 			<if test="email != null and email != ''">
@@ -72,7 +71,7 @@
    	</select>
    	
    	
-   	<!-- 로그인 차단 해제 -->
+   	<!-- 로그인 잠금 해제 -->
 	<update id="loginStopUpdate" parameterType="users" >
    		UPDATE tb_lc_users
    		SET
@@ -83,8 +82,8 @@
    		WHERE user_seq = #{userSeq}
 	</update>
 	
-	<!-- 회원관리 상세 조회 -->
-   	<select id="getUsersDetail" parameterType="users" resultType="users">
+	<!-- 개인회원관리 상세 조회 -->
+   	<select id="getIndvUsersDetail" parameterType="users" resultType="users">
    		SELECT
    			users.user_seq
    			, users.user_id
@@ -115,6 +114,8 @@
    				WHEN fail_stop_dt is null THEN 'N'
    				ELSE 'Y'
    			END AS fail_stop_yn
+   			, (select b.disqual_val from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '7' limit 1) as dis1
+   			, (select b.disqual_val from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '8' limit 1) as dis2
 	    FROM tb_lc_users users
 	    WHERE USER_SEQ = #{userSeq}
    	</select>
@@ -282,5 +283,145 @@
 		DELETE FROM tb_lc_users_inactive
 		WHERE user_seq = #{userSeq}
 	</delete>
+	
+	
+	
+	
+   	<!-- 법인회원관리 리스트 조회 -->
+   	<select id="selectCorpUsersList" parameterType="users" resultType="users">
+   		SELECT 
+   			<include refid="common.totalPages"/>
+   			Z.*
+   		FROM
+   		(
+	   		SELECT
+	   			users.user_seq
+	   			, users.user_id
+	   			, users.password
+	   			, users.user_name
+	   			, users.mobile_no
+	   			, users.pl_class
+	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+	   			, users.pl_m_z_id
+	   			, users.email
+	   			, users.user_ci
+	   			, users.corp_appr_yn
+	   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
+	   			, users.terms_yn
+	   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
+	   			, users.drop_yn
+	   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
+	   			, users.inactive_yn
+	   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
+	   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+	   			, TO_CHAR(users.corp_appr_dt,'YYYY-MM-DD') AS corp_appr_dt
+	   			, users.fail_cnt
+	   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
+	   			, CASE
+	   				WHEN fail_stop_dt is null THEN 'N'
+	   				ELSE 'Y'
+	   			END AS fail_stop_yn
+		    FROM tb_lc_users users
+		    WHERE users.pl_class = '2'
+		    ORDER BY users.user_seq DESC
+   		)Z
+   		<where>
+			<if test="userId != null and userId != ''">
+				AND Z.user_id LIKE '%' || #{userId} || '%'
+			</if>
+			
+			<if test="userName != null and userName != ''">
+				AND Z.user_name LIKE '%' || #{userName} || '%'
+			</if>	
+			
+			<if test="mobileNo != null and mobileNo != ''">
+				AND Z.mobile_no LIKE '%' || #{mobileNo} || '%'
+			</if>
+			
+			<if test="plClass != null and plClass != ''">
+				AND Z.pl_class = #{plClass}
+			</if>
+			
+			<if test="email != null and email != ''">
+				AND Z.email LIKE '%' || #{email} || '%'
+			</if>
+			
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.join_dt::TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.join_dt::TIMESTAMP 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+			</if>
+			
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	
+	<!-- 법인회원관리 상세 조회 -->
+   	<select id="getCorpUsersDetail" parameterType="users" resultType="users">
+   		SELECT
+   			users.user_seq
+   			, users.user_id
+   			, users.password
+   			, users.user_name
+   			, users.mobile_no
+   			, users.pl_class
+   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+   			, users.pl_m_z_id
+   			, users.email
+   			, users.user_ci
+   			, users.manager_name
+   			, users.manager_mobile_no
+   			, users.manager_email
+   			, users.corp_appr_yn
+   			, users.file_seq
+   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
+   			, users.terms_yn
+   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
+   			, users.drop_yn
+   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
+   			, users.inactive_yn
+   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
+   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+   			, users.fail_cnt
+   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
+   			, CASE
+   				WHEN fail_stop_dt is null THEN 'N'
+   				ELSE 'Y'
+   			END AS fail_stop_yn
+	    FROM tb_lc_users users
+	    WHERE USER_SEQ = #{userSeq}
+   	</select>
+   	
+   	
+   	
+   	<!-- 개인회원 결격요건 엑셀 업로드 -->
+   	<update id="indvUsersDisExcelUpload" parameterType="users">
+   		UPDATE tb_lc_users_disqual
+   		SET
+   			disqual_val = #{disVal}
+   			, upd_seq = #{regSeq}
+   			, upd_timestamp = NOW()
+   		WHERE
+   			USER_SEQ = (SELECT user_seq FROM tb_lc_users where pl_m_z_id = #{plMZId} AND user_name = #{userName} LIMIT 1)
+   		AND disqual_cd = #{disCd}
+   	</update>
+   	
+   	
+   	
+   	
+   	
+   	<!-- 결격요건 수정 -->
+   	<update id="updateUserDis" parameterType="users" >
+   		UPDATE tb_lc_users_disqual
+   		SET
+   			disqual_val = #{disVal}
+   			, upd_seq = #{regSeq}
+   			, upd_timestamp = NOW()
+   		WHERE
+   			USER_SEQ = #{userSeq}
+   		AND disqual_cd = #{disCd}
+   	</update>
    	
 </mapper> 

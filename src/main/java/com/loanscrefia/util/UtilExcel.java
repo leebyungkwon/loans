@@ -539,5 +539,167 @@ public class UtilExcel<T> {
 		}
 		return true;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 2021-11-03 결격요건 엑셀 업로드 추가
+	public List<Map<String, Object>> disUpload(String uPath, String filePath, String fileSaveNm, String fileExt, Class<?> dClass) {
+
+		Field[] fields = dClass.getDeclaredFields();
+
+		List<String> headerName = new ArrayList<String>();
+		List<String> vCell 		= new ArrayList<String>();
+		List<String> vEnum 		= new ArrayList<String>();
+		List<Integer> vLenMin 	= new ArrayList<Integer>();
+		List<Integer> vLenMax 	= new ArrayList<Integer>();
+		List<String> vEncrypt 	= new ArrayList<String>();
+		
+		for(Field field : fields) {
+			if(field.isAnnotationPresent(ExcelColumn.class)) {
+				ExcelColumn columnAnnotation = field.getAnnotation(ExcelColumn.class);
+				
+				headerName.add(columnAnnotation.headerName());
+				vCell.add(columnAnnotation.vCell());
+				vEnum.add(columnAnnotation.vEnum());
+				vLenMax.add(columnAnnotation.vLenMax());
+				vLenMin.add(columnAnnotation.vLenMin());
+				vEncrypt.add(columnAnnotation.vEncrypt());
+			}
+		}
+		
+		List<Map<String, Object>> result 	= new ArrayList<Map<String, Object>>();
+		Map<String, Object> errorMsgMap		= new HashMap<String, Object>();
+		String errorMsg						= "";
+		
+		try {
+			Workbook wb 						= ExcelFileType.getWorkbook(cryptoApply, uPath, filePath, fileSaveNm, fileExt);
+			Sheet sheet 						= wb.getSheetAt(0);
+			int numOfCells 						= sheet.getRow(0).getPhysicalNumberOfCells();
+			int physicalNumberOfRows			= sheet.getPhysicalNumberOfRows();
+			
+			if(physicalNumberOfRows <= 1) {
+				errorMsg = "엑셀 양식에 입력된 데이터가 없습니다.";
+				errorMsgMap.put("errorMsg", errorMsg);
+	        	result.clear();
+	        	result.add(errorMsgMap);
+	        	return result;
+			}
+			
+			for(int i = 1; i < sheet.getLastRowNum() + 1; i++) {
+			    Row row 				= null;
+			    Cell cell 				= null;
+			    String cellName 		= "";
+			    String cellVal			= "";
+			    Map<String, Object> map = null;
+			    
+				int cellChkCnt 			= 0;
+		        row = sheet.getRow(i);
+		        
+		        if(row != null) {
+		        	for(int t = 0;t < vCell.size();t++) {
+	            		if(StringUtils.isEmpty(ExcelCellRef.getValue(row.getCell(t)).trim())) {
+	            			cellChkCnt++;
+	            		}
+	            	}
+		        	if(vCell.size() == cellChkCnt) {
+		        		errorMsg = row.getRowNum() + 1 + "번째 줄의 데이터가 잘못되었습니다. 해당 row 우클릭 삭제 후 업로드해 주세요.<br>";
+		        		break;
+		        	}
+		        	
+		            map = new HashMap<String, Object>();
+		            for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
+		                cell 		= row.getCell(cellIndex);
+		                cellName 	= ExcelCellRef.getName(cell, cellIndex);
+		                cellVal 	= ExcelCellRef.getValue(cell).trim();
+		                
+		                //log.info(cellIndex + " :: " + cellName + " :: " + cell.getCellType() + " :: " + cellVal);
+		                
+		                boolean valChkResult = false;
+		                
+		                for(int j = 0;j < vCell.size();j++) {
+		                	if(cellName.equals(vCell.get(j))) {
+		                		if(cellVal.length() < vLenMin.get(j)){
+		                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최저 길이는 " + vLenMin.get(j) + " 입니다.<br>";
+		                		}
+		                		
+		                		if(cellVal.length() > vLenMax.get(j)){
+		                			errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 최대 길이는 " + vLenMax.get(j) + " 입니다.<br>";
+		                		}
+		                		
+		                		if(!vEnum.get(j).isEmpty()){
+		                			String val[] = vEnum.get(j).split(",");
+		        	                for(int k = 0;k < val.length;k++) {
+		        	                	if(val[k].equals(cellVal)) valChkResult = true;
+		        	                }
+		        	                if(!valChkResult) {
+		        	                	errorMsg += row.getRowNum() + 1 + "번째 줄의 " + headerName.get(j) + " :: 필수 값은 [" + vEnum.get(j) + "] 입니다.<br>";
+		        	                }
+		                		}
+		                		
+		                		if(!vEncrypt.get(j).isEmpty()){
+		                			//암호화(주민번호,법인번호)
+		                			if(vEncrypt.get(j).equals("Y")) {
+		                				if(StringUtils.isNotEmpty(cellVal)) {
+		                					if(cryptoApply) {
+		                						cellVal = CryptoUtil.encrypt(cellVal.replaceAll("-", ""));
+		                					}else {
+		                						cellVal = cellVal.replaceAll("-", "");
+		                					}
+		                				}
+		                			}
+		                		}
+		                		
+		                	}
+		                }
+		                map.put(cellName, cellVal);
+		            }
+		            result.add(map);
+			    }
+			}
+			
+	    	//에러메세지 있을 때 
+	        if(StringUtils.isNotEmpty(errorMsg)) {
+	        	errorMsgMap.put("errorMsg", errorMsg);
+	        	result.clear();
+	        	result.add(errorMsgMap);
+	        }
+	        
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			errorMsgMap.put("errorMsg", "오류가 발생했습니다.<br>관리자에게 문의해 주세요.");
+        	result.clear();
+        	result.add(errorMsgMap);
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

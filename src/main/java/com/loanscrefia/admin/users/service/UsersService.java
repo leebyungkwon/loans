@@ -1,25 +1,45 @@
 package com.loanscrefia.admin.users.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
+import com.loanscrefia.admin.users.domain.IndvUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
+import com.loanscrefia.common.common.domain.FileDomain;
+import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
+import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.admin.domain.AdminDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.member.user.domain.excel.UserIndvExcelDomain;
+import com.loanscrefia.util.UtilExcel;
+import com.loanscrefia.util.UtilFile;
+import com.loanscrefia.util.UtilMask;
+
+import sinsiway.CryptoUtil;
 
 @Service
 public class UsersService {
@@ -34,20 +54,100 @@ public class UsersService {
 	@Value("${email.apply}")
 	public boolean emailApply;
 	
-	// 회원관리 리스트 조회
+	//암호화 적용여부
+	@Value("${crypto.apply}")
+	public boolean cryptoApply;
+	
+	@Autowired private UtilFile utilFile;
+	@Autowired private UtilExcel<T> utilExcel;
+	
+	//첨부파일 경로
+	@Value("${upload.filePath}")
+	public String uPath;
+	
+	// 개인 회원관리 리스트 조회
 	@Transactional(readOnly=true)
-	public List<UsersDomain> selectUsersList(UsersDomain usersDomain){
-		return usersRepository.selectUsersList(usersDomain);
+	public List<UsersDomain> selectIndvUsersList(UsersDomain usersDomain){
+		
+		UtilMask mask = new UtilMask();
+		// 주민번호 및 법인번호 암호화 후 비교
+		if(StringUtils.isNotEmpty(usersDomain.getPlMerchantNo())) {
+			if(cryptoApply) {
+				usersDomain.setPlMerchantNo(CryptoUtil.encrypt(usersDomain.getPlMerchantNo()));
+			}else {
+				usersDomain.setPlMerchantNo(usersDomain.getPlMerchantNo());
+			}
+		}
+		if(StringUtils.isNotEmpty(usersDomain.getPlMZId())) {
+			if(cryptoApply) {
+				usersDomain.setPlMZId(CryptoUtil.encrypt(usersDomain.getPlMZId()));
+			}else {
+				usersDomain.setPlMZId(usersDomain.getPlMZId());
+			}
+		}
+		
+		List<UsersDomain> resultList = usersRepository.selectIndvUsersList(usersDomain);
+		String plMZId = "";
+		for(UsersDomain list : resultList) {
+			if(StringUtils.isNotEmpty(list.getPlMZId())) {
+				if(cryptoApply) {
+					plMZId 	= CryptoUtil.decrypt(list.getPlMZId());
+				}else {
+					plMZId 	= list.getPlMZId();
+					usersDomain.setPlMZId(plMZId);
+				}
+				if(StringUtils.isNotEmpty(plMZId)) {
+					if(!"false".equals(usersDomain.getIsPaging())) {
+						plMZId = mask.maskSSN(plMZId);
+					}
+				}
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+				list.setPlMZId(plMZId);
+			}
+			
+			StringBuilder merchantNo = new StringBuilder();
+			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
+				if(cryptoApply) {
+					merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				}else {
+					merchantNo.append(list.getPlMerchantNo());
+				}
+				merchantNo.insert(6, "-");
+				list.setPlMerchantNo(merchantNo.toString());
+			}
+		}
+		
+		return resultList;
 	}
 	
 	
-	// 회원관리 상세
+	// 개인 회원관리 상세
 	@Transactional(readOnly=true)
-	public UsersDomain getUsersDetail(UsersDomain usersDomain){
-		return usersRepository.getUsersDetail(usersDomain);
+	public UsersDomain getIndvUsersDetail(UsersDomain usersDomain){
+		return usersRepository.getIndvUsersDetail(usersDomain);
 	}
 	
-	// 로그인 차단 해제
+	// 결격요건 수정
+	@Transactional
+	public ResponseMsg updateUserDis(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		
+		UsersDomain usersDomain1 = new UsersDomain();
+		usersDomain1.setUserSeq(usersDomain.getUserSeq());
+		usersDomain1.setDisCd("7");
+		usersDomain1.setDisVal(usersDomain.getDis1());
+		usersRepository.updateUserDis(usersDomain1);
+		
+		UsersDomain usersDomain2 = new UsersDomain();
+		usersDomain2.setUserSeq(usersDomain.getUserSeq());
+		usersDomain2.setDisCd("8");
+		usersDomain2.setDisVal(usersDomain.getDis2());
+		usersRepository.updateUserDis(usersDomain2);
+		
+		return responseMsg;
+	}
+	
+	// 로그인 잠금 해제
 	@Transactional
 	public ResponseMsg loginStopUpdate(UsersDomain usersDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
@@ -60,6 +160,146 @@ public class UsersService {
 		
 		return responseMsg;
 	}
+	
+	
+	//모집인 등록(엑셀) > 개인
+	@Transactional
+	public ResponseMsg indvUsersDisExcelUpload(MultipartFile[] files, UsersDomain usersDomain) throws IOException{
+		
+		//세션 정보
+		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session 		= request.getSession();
+		MemberDomain loginInfo 		= (MemberDomain)session.getAttribute("member");
+		
+		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
+		Map<String, Object> ret = utilFile.setPath("dis")
+				.setFiles(files)
+				.setExt("excel")
+				.upload();
+		
+		List<Map<String, Object>> excelResult = new ArrayList<Map<String, Object>>();
+		
+		//첨부파일 저장에 성공하면
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				//엑셀 업로드
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.setParam2(usersDomain.getPlClass()).disUpload(uPath, filePath, fileSaveNm, fileExt, IndvUsersExcelDomain.class);
+				
+				//엑셀 업로드 후 에러메세지
+				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				if(errorMsg != null && !errorMsg.equals("")) {
+					//에러메세지 있음
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
+				}else {
+					//에러메세지 없음 -> 저장
+					int insertResult = 0;
+					for(int c=0; c<excelResult.size(); c++) {
+						
+						Map<String, Object> paramResult1 = excelResult.get(c);
+						UsersDomain usersDomain1 = new UsersDomain();
+						usersDomain1.setUserName(paramResult1.get("A").toString());
+						usersDomain1.setPlMZId(paramResult1.get("B").toString());
+						usersDomain1.setDisCd("7");
+						usersDomain1.setDisVal(paramResult1.get("E").toString());
+						usersRepository.indvUsersDisExcelUpload(usersDomain1);
+						
+						Map<String, Object> paramResult2 = excelResult.get(c);
+						UsersDomain usersDomain2 = new UsersDomain();
+						usersDomain2.setUserName(paramResult2.get("A").toString());
+						usersDomain2.setPlMZId(paramResult2.get("B").toString());
+						usersDomain2.setDisCd("8");
+						usersDomain2.setDisVal(paramResult1.get("F").toString());
+						usersRepository.indvUsersDisExcelUpload(usersDomain2);
+						insertResult++;
+					}
+					// 결과메세지
+					if(insertResult > 0) {
+						return new ResponseMsg(HttpStatus.OK, "success", "결격요건 업로드가 완료되었습니다.");
+					}
+				}
+			}
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	// 법인 회원관리 리스트 조회
+	@Transactional(readOnly=true)
+	public List<UsersDomain> selectCorpUsersList(UsersDomain usersDomain){
+		UtilMask mask = new UtilMask();
+		// 주민번호 및 법인번호 암호화 후 비교
+		if(StringUtils.isNotEmpty(usersDomain.getPlMerchantNo())) {
+			if(cryptoApply) {
+				usersDomain.setPlMerchantNo(CryptoUtil.encrypt(usersDomain.getPlMerchantNo()));
+			}else {
+				usersDomain.setPlMerchantNo(usersDomain.getPlMerchantNo());
+			}
+		}
+		if(StringUtils.isNotEmpty(usersDomain.getPlMZId())) {
+			if(cryptoApply) {
+				usersDomain.setPlMZId(CryptoUtil.encrypt(usersDomain.getPlMZId()));
+			}else {
+				usersDomain.setPlMZId(usersDomain.getPlMZId());
+			}
+		}
+		
+		List<UsersDomain> resultList = usersRepository.selectCorpUsersList(usersDomain);
+		String plMZId = "";
+		for(UsersDomain list : resultList) {
+			if(StringUtils.isNotEmpty(list.getPlMZId())) {
+				if(cryptoApply) {
+					plMZId 	= CryptoUtil.decrypt(list.getPlMZId());
+				}else {
+					plMZId 	= list.getPlMZId();
+					usersDomain.setPlMZId(plMZId);
+				}
+				if(StringUtils.isNotEmpty(plMZId)) {
+					if(!"false".equals(usersDomain.getIsPaging())) {
+						plMZId = mask.maskSSN(plMZId);
+					}
+				}
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+				list.setPlMZId(plMZId);
+			}
+			
+			StringBuilder merchantNo = new StringBuilder();
+			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
+				if(cryptoApply) {
+					merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				}else {
+					merchantNo.append(list.getPlMerchantNo());
+				}
+				merchantNo.insert(6, "-");
+				list.setPlMerchantNo(merchantNo.toString());
+			}
+		}
+		
+		return resultList;
+	}
+	
+	
+	// 법인 회원관리 상세
+	@Transactional(readOnly=true)
+	public UsersDomain getCorpUsersDetail(UsersDomain usersDomain){
+		return usersRepository.getCorpUsersDetail(usersDomain);
+	}
+	
+	
+	
+	
+	
 	
 	// 회원관리 법인 승인처리
 	@Transactional
@@ -96,13 +336,6 @@ public class UsersService {
 		}
 		
 	}
-	
-
-	
-	
-	
-	
-	
 	
 	
 	

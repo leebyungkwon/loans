@@ -15,7 +15,7 @@ function usersList(){
 	history.back();
 }
 
-//로그인 차단 해제
+//로그인 잠금 해제
 function loginStopUpdate() {
 	var userSeqArr = [];
 	var userSeq = $("#userSeq").val();
@@ -26,7 +26,7 @@ function loginStopUpdate() {
 		userSeqArr.push(userSeq);	
 	}
 	
-	if(confirm("로그인 차단을 해제 하시겠습니까?")){
+	if(confirm("로그인 잠금을 해제 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/users/loginStopUpdate"	
 			, param		: {
@@ -40,26 +40,29 @@ function loginStopUpdate() {
 	}
 }
 
-// 회원관리 법인 승인처리
-function usersCorpApply(){
-	var userSeq = $("#userSeq").val();
-	if(WebUtil.isNull(userSeq)){
-		alert("법인회원정보가 잘못되었습니다.\w새로고침 후 다시 시도해 주세요.");
-		return false;
-	}
+// 결격사유 및 범죄경력 수정
+function updateIndvUserDis(){
 	
-	if(confirm("법인회원을 승인하시겠습니까?")){
+	var userSeq = $("#userSeq").val();
+	var dis1 = $("input[name='dis1']:checked").val();
+	var dis2 = $("input[name='dis2']:checked").val();
+	
+	
+	if(confirm("결격사유 및 범죄경력을 수정 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/users/usersCorpApply"	
+			  url		: "/admin/users/updateUserDis"	
 			, param		: {
-				userSeq 	: userSeq  
+				userSeq 	:	userSeq
+				, dis1		:	dis1
+				, dis2		:	dis2
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+				console.log("#####" , result);
 		    }
 		}
 		AjaxUtil.post(p);
 	}
+	
 }
 
 </script>
@@ -91,18 +94,6 @@ function usersCorpApply(){
 					<th>연락처</th>
 					<td>${usersInfo.mobileNo}</td>
 				</tr>
-				
-				<tr>
-					<th>구분</th>
-					<td>${usersInfo.plClassNm}</td>
-					<%-- 
-					<th>생년월일</th>
-					<td>${usersInfo.birthDt}</td>
-					 --%>
-					<th></th>
-					<td></td>					
-				</tr>
-				
 				<tr>
 					<th>가입일</th>
 					<td>${usersInfo.joinDt}</td>
@@ -147,8 +138,28 @@ function usersCorpApply(){
 					<td>${usersInfo.lastLoginDt}</td>
 					<th>로그인실패횟수</th>
 					<td>${usersInfo.failCnt}</td>
-					<th>로그인차단일시</th>
+					<th>로그인잠금일시</th>
 					<td>${usersInfo.failStopDt}</td>
+				</tr>
+				
+				<tr>
+					<th>결격사유 조회결과</th>
+					<td class="half_input">
+						<input type="radio" name="dis1" value="Y" id="dis1" <c:if test="${usersInfo.dis1 eq 'Y'}">checked="checked"</c:if> />
+						<label for="dis1">Y</label>
+						<input type="radio" name="dis1" value="N" id="dis2" <c:if test="${usersInfo.dis1 eq 'N'}">checked="checked"</c:if> />
+						<label for="dis2">N</label>						
+					</td>
+					
+					<th>범죄경력 조회결과</th>
+					<td class="half_input">
+						<input type="radio" name="dis2" value="Y" id="dis3" <c:if test="${usersInfo.dis2 eq 'Y'}">checked="checked"</c:if> />
+						<label for="dis3">Y</label>
+						<input type="radio" name="dis2" value="N" id="dis4" <c:if test="${usersInfo.dis2 eq 'N'}">checked="checked"</c:if> />
+						<label for="dis4">N</label>	
+					</td>
+					<th></th>
+					<td></td>
 				</tr>
 				
 				<tr>
@@ -164,13 +175,10 @@ function usersCorpApply(){
 		
 		<div class="btn_wrap">
 			<c:if test="${not empty usersInfo.failStopDt}">
-				<a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="loginStopUpdate();">로그인차단해제</a>
+				<a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="loginStopUpdate();">로그인잠금해제</a>
 			</c:if>
 			<a href="javascript:void(0);" class="btn_gray" onclick="usersList();">목록</a>
-			
-			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprYn eq 'N'}">
-				<a href="javascript:void(0);" class="btn_blue btn_right" onclick="usersCorpApply();">법인승인</a>
-			</c:if>
+			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01" onclick="updateIndvUserDis();">결격요건수정</a>
 		</div>
 	</div>
 </div>

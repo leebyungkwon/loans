@@ -9,17 +9,16 @@ var usersGrid = Object.create(GRID);
 function pageLoad(){
 	usersGrid.set({
 		  id			: "usersGrid"
-		, url			: "/admin/users/usersList"
+		, url			: "/admin/corpUsers/corpUsersList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","아이디", "이름", "연락처", "구분", "이메일", "가입일", "마지막</br>로그인일시","로그인</br>차단여부", "탈퇴여부"]
+		, headCol		: ["","아이디", "이름", "연락처", "이메일", "가입일", "마지막</br>로그인일시","로그인</br>잠금여부", "탈퇴여부"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'userSeq'		, index:'userSeq'		, width:"5%"	, hidden:true  	, id:true}
 				,{type:"string"	, name:'userId'			, index:'userId'		, width:"15%"	}
 				,{type:"string"	, name:'userName'		, index:'userName'		, width:"10%"	}
 				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'		, width:"12%"	, align:"center"}
-				,{type:"string"	, name:'plClassNm'		, index:'plClassNm'		, width:"8%"	, align:"center"}
 				,{type:"string"	, name:'email'			, index:'email'			, width:"15%"	}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'lastLoginDt'	, index:'lastLoginDt'	, width:"12%"	, align:"center"}
@@ -28,8 +27,8 @@ function pageLoad(){
 			]
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
-		, excel 		: "/admin/users/usersExcelListDown"
-		, excelFileNm	: "회원관리"
+		, excel 		: "/admin/corpUsers/corpUsersExcelListDown"
+		, excelFileNm	: "법인회원관리"
 		, isPaging 		: true
 		, size 			: 10
 	});
@@ -93,7 +92,7 @@ function usersDetail(idx, data){
 }
 
 
-// 로그인 차단 해제
+// 로그인 잠금 해제
 function loginStopUpdate() {
 	var chkedLen 	= $("#tbl_usersGrid_body tr td input:checkbox:checked").length;
 	if(chkedLen == 0){
@@ -107,7 +106,7 @@ function loginStopUpdate() {
 		userSeqArr.push(chkData[i].userSeq);
 	}
 	
-	if(confirm("로그인 차단을 해제 하시겠습니까?")){
+	if(confirm("로그인 잠금을 해제 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/users/loginStopUpdate"	
 			, param		: {
@@ -124,14 +123,14 @@ function loginStopUpdate() {
 
 </script>
 
-<form id="usersDetailFrm" method="post" action="/admin/users/usersDetail">
+<form id="usersDetailFrm" method="post" action="/admin/corpUsers/corpUsersDetail">
 	<input type="hidden" name="userSeq" id="userSeq"/>
 </form>
 
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>회원관리</h2>
+			<h2>법인회원 및 법인관리</h2>
 		</div>
 		<div class="info_box k_search" id="search">
 			<table class="info_box_table" style="width: 90%;">
@@ -200,7 +199,7 @@ function loginStopUpdate() {
 		<div class="sorting_wrap">
 			<div class="data total_result"></div>
 			<div class="action">
-				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="loginStopUpdate();">로그인차단해제</a>
+				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="loginStopUpdate();">로그인잠금해제</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
 			</div>
 		</div>

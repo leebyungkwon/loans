@@ -40,7 +40,9 @@ function menuActiveFunction(){
 	}else if(menuUrl[2] == "apiList"){
 		$("#menuApi").addClass("on");
 	}else if(menuUrl[2] == "users"){
-		$("#menuUsers").addClass("on");
+		$("#menuIndvUsers").addClass("on");
+	}else if(menuUrl[2] == "corpUsers"){
+		$("#menuCorpUsers").addClass("on");
 	}else if(menuUrl[2] == "inactive"){
 		$("#menuInactive").addClass("on");
 	}else if(menuUrl[2] == "newUser"){
@@ -88,7 +90,10 @@ function menuActiveFunction(){
 			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">(고도화-협회)모집인 등록신청 확인</a></li>
 			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">(고도화-협회)해지신청 및 조회</a></li>
 			
-			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
+			<li id="menuIndvUsers"><a href="/admin/users/indvUsersPage">(고도화)개인회원관리</a></li>
+			<li id="menuCorpUsers"><a href="/admin/corpUsers/corpUsersPage">(고도화)법인회원 및 법인관리</a></li>
+			
+			
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
 		</sec:authorize>
 		
@@ -114,7 +119,9 @@ function menuActiveFunction(){
 			
 			<li id="menuCode"><a href="/system/code/codePage">코드관리</a></li>
 			<li id="menuApi"><a href="/system/api/apiPage">API관리</a></li>
-			<li id="menuUsers"><a href="/admin/users/usersPage">(고도화)회원관리</a></li>
+			<li id="menuIndvUsers"><a href="/admin/users/indvUsersPage">(고도화)개인회원관리</a></li>
+			<li id="menuCorpUsers"><a href="/admin/corpUsers/corpUsersPage">(고도화)법인회원 및 법인관리</a></li>
+			
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
 			
 			

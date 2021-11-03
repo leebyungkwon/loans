@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
@@ -24,6 +26,7 @@ import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.member.admin.domain.AdminDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.util.UtilExcel;
 
 @Controller
@@ -36,25 +39,25 @@ public class UsersController {
 	@Autowired 
 	private CommonService commonService;
 	
-	// 회원관리 리스트 페이지
-	@GetMapping(value="/users/usersPage")
-	public String usersPage() {
-		return CosntPage.BoUsersPage+"/usersList";
+	// 개인 회원관리 리스트 페이지
+	@GetMapping(value="/users/indvUsersPage")
+	public String indvUsersPage() {
+		return CosntPage.BoUsersPage+"/indvUsersList";
 	}
 	
-	// 회원관리 리스트 조회
-	@PostMapping(value="/users/usersList")
-	public ResponseEntity<ResponseMsg> selectUsersList(UsersDomain usersDomain){
+	// 개인 회원관리 리스트 조회
+	@PostMapping(value="/users/indvUsersList")
+	public ResponseEntity<ResponseMsg> selectIndvUsersList(UsersDomain usersDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
-    	responseMsg.setData(usersService.selectUsersList(usersDomain));
+    	responseMsg.setData(usersService.selectIndvUsersList(usersDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 회원관리 상세
-	@PostMapping(value="/users/usersDetail")
-    public ModelAndView usersDetail(UsersDomain usersDomain) {
-		ModelAndView mv = new ModelAndView(CosntPage.BoUsersPage+"/usersDetail");
-		UsersDomain usersInfo = usersService.getUsersDetail(usersDomain);
+	// 개인 회원관리 상세
+	@PostMapping(value="/users/indvUsersDetail")
+    public ModelAndView indvUsersDetail(UsersDomain usersDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoUsersPage+"/indvUsersDetail");
+		UsersDomain usersInfo = usersService.getIndvUsersDetail(usersDomain);
     	mv.addObject("usersInfo", usersInfo);
     	
     	//첨부파일
@@ -67,27 +70,106 @@ public class UsersController {
         return mv;
     }
 	
-	// 로그인 차단 해제
+	
+	// 결격요건 수정
+	@PostMapping(value="/users/updateUserDis")
+	public ResponseEntity<ResponseMsg> updateUserDis(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.updateUserDis(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	// 개인회원 결격요건 엑셀 업로드 팝업창
+	@GetMapping(value="/users/indvUserDisExcelPopup")
+	public ModelAndView indvUserDisExcelPopup() {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/indvUserDisExcelPopup");
+        return mav;
+	}
+	
+	// 개인회원 결격요건 엑셀 업로드
+	@PostMapping(value="/users/indvUsersDisExcelUpload")
+	public ResponseEntity<ResponseMsg> indvUsersDisExcelUpload(@RequestParam("files") MultipartFile[] files, UsersDomain usersDomain) throws IOException{
+		
+		//2021.10.21
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		responseMsg = usersService.indvUsersDisExcelUpload(files, usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	// 로그인 잠금 해제
 	@PostMapping(value="/users/loginStopUpdate")
 	public ResponseEntity<ResponseMsg> loginStopUpdate(UsersDomain usersDomain){
 		ResponseMsg responseMsg = usersService.loginStopUpdate(usersDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	// 회원관리 법인 승인처리
-	@PostMapping(value="/users/usersCorpApply")
+	// 개인회원 엑셀 다운로드
+	@PostMapping("/users/indvUsersExcelListDown")
+	public void indvUsersExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		usersDomain.setIsPaging("false");
+ 		List<UsersDomain> excelDownList = usersService.selectIndvUsersList(usersDomain);
+ 		new UtilExcel().downLoad(excelDownList, UsersDomain.class, response.getOutputStream());
+	}
+	
+	
+	
+	// 법인 회원관리 리스트 페이지
+	@GetMapping(value="/corpUsers/corpUsersPage")
+	public String corpUsersPage() {
+		return CosntPage.BoUsersPage+"/corpUsersList";
+	}
+	
+	
+	// 법인 회원관리 리스트 조회
+	@PostMapping(value="/corpUsers/corpUsersList")
+	public ResponseEntity<ResponseMsg> selectCorpUsersList(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(usersService.selectCorpUsersList(usersDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	// 법인 회원관리 상세
+	@PostMapping(value="/corpUsers/corpUsersDetail")
+    public ModelAndView corpUsersDetail(UsersDomain usersDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoUsersPage+"/corpUsersDetail");
+		UsersDomain usersInfo = usersService.getCorpUsersDetail(usersDomain);
+    	mv.addObject("usersInfo", usersInfo);
+    	
+    	//첨부파일
+    	FileDomain file = new FileDomain();
+    	if(usersInfo.getFileSeq() > 0) {
+        	file.setFileSeq(usersInfo.getFileSeq());
+        	file = commonService.getFile(file);    		
+    	}
+    	mv.addObject("file", file);
+        return mv;
+    }
+	
+	// 법인회원 승인처리
+	@PostMapping(value="/corpUsers/usersCorpApply")
 	public ResponseEntity<ResponseMsg> usersCorpApply(UsersDomain usersDomain){
 		ResponseMsg responseMsg = usersService.usersCorpApply(usersDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	//엑셀 다운로드
-	@PostMapping("/users/usersExcelListDown")
-	public void usersExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+	
+	// 법인회원 엑셀 다운로드
+	@PostMapping("/corpUsers/corpUsersExcelListDown")
+	public void corpUsersExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
 		usersDomain.setIsPaging("false");
- 		List<UsersDomain> excelDownList = usersService.selectUsersList(usersDomain);
+ 		List<UsersDomain> excelDownList = usersService.selectCorpUsersList(usersDomain);
  		new UtilExcel().downLoad(excelDownList, UsersDomain.class, response.getOutputStream());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
