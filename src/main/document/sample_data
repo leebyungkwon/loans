@@ -456,7 +456,6 @@ ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr_detail varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN other_field varchar(100);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr varchar(100);
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_seq varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN addr_base varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_seq INTEGER; 
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_path char(1); 
