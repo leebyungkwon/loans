@@ -18,15 +18,11 @@ public class UsersDomain extends BaseDomain {
 	private int userSeq;
 	private String userId;					// 회원ID
 	private String password;				// 비밀번호
-	@ExcelColumn(headerName = "이름", order = 0)
 	private String userName;				// 회원명
-	@ExcelColumn(headerName = "연락처", order = 2)
 	private String mobileNo;				// 전화번호
 	private String plClass;					// 구분(개인 / 법인)
 	private String plClassNm;				// 구분명
-	@ExcelColumn(headerName = "주민등록번호", order = 1)
 	private String plMZId;					// 주민등록번호
-	@ExcelColumn(headerName = "이메일", order = 3)
 	private String email;					// 이메일
 	private String userCi;					// 사용자CI값
 	private String managerName;				// 담당자이름
@@ -73,21 +69,33 @@ public class UsersDomain extends BaseDomain {
 	private String srchDate2;				// 가입일(종료)
 	private int[] userSeqArr;				// 그리드 체크박스
 	
-	
 	private Integer corpSeq;
 	private String plMerchantNo;
 	private String plMerchantName;
 	private String plBusinessNo;
+	private String pathTyp;
+	private String passYn;
 	
-	@ExcelColumn(headerName = "결격사유조회결과", order = 4)
 	private String dis1;					// 결격사유 조회 필드
-	@ExcelColumn(headerName = "범죄경력조회결과", order = 5)
 	private String dis2;					// 범죄경력 조회 필드
 	private String disCd;					// 결격사유테이블 코드
 	private String disVal;					// 결격사유테이블 코드값
+	private String updDis1;					// 결격사유 수정일시
+	private String updDis2;					// 범죄경력 수정일시
+	
+	private String dis9;					// 범죄이력
+	private String dis10;					// 부실금융기관
+	private String dis11;					// 영업취소
+	private String dis12;					// 대부업자
+	private String dis13;					// 다단계판매업자
+	
+	private String updDis9;					// 범죄이력 수정일시
+	private String updDis10;				// 부실금융기관 수정일시
+	private String updDis11;				// 영업취소 수정일시
+	private String updDis12;				// 대부업자 수정일시
+	private String updDis13;				// 다단계판매업자 수정일시
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
-	
 	private Map<String, Object> excelMapParam;
 }

@@ -12,7 +12,7 @@ function pageLoad(){
 		, url			: "/admin/users/indvUsersList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","아이디", "이름","주민번호", "연락처", "이메일","결격사유","범죄경력", "가입일", "마지막</br>로그인일시","로그인</br>잠금여부", "탈퇴여부"]
+		, headCol		: ["","아이디", "이름","주민번호", "연락처", "이메일","결격사유","범죄경력","결격요건</br>수정일시", "가입일", "마지막</br>로그인일시","로그인</br>잠금여부"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'userSeq'		, index:'userSeq'		, width:"5%"	, hidden:true  	, id:true}
@@ -23,10 +23,10 @@ function pageLoad(){
 				,{type:"string"	, name:'email'			, index:'email'			, width:"15%"	}
 				,{type:"string"	, name:'dis1'			, index:'dis1'			, width:"8%"	}
 				,{type:"string"	, name:'dis2'			, index:'dis2'			, width:"8%"	}
+				,{type:"string"	, name:'updDis1'		, index:'updDis1'		, width:"12%"	}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'lastLoginDt'	, index:'lastLoginDt'	, width:"12%"	, align:"center"}
 				,{type:"string"	, name:'failStopYn'		, index:'failStopYn'	, width:"8%"	, align:"center"}
-				,{type:"string"	, name:'dropYn'			, index:'dropYn'		, width:"8%"	, align:"center"}
 			]
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
@@ -102,7 +102,6 @@ function loginStopUpdate() {
 				userSeqArr 	: userSeqArr  
 			}
 			, success 	: function (opt,result) {
-				console.log("#####" , result);
 				usersGrid.refresh();
 		    }
 		}

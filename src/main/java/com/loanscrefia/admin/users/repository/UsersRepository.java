@@ -42,8 +42,19 @@ public interface UsersRepository {
 	// 개인회원 결격요건 엑셀 업로드
 	int indvUsersDisExcelUpload(UsersDomain usersDomain);
 	
-	// 결격요건 수정
-	int updateUserDis(UsersDomain usersDomain);
+	// 법인회원 결격요건 엑셀 업로드
+	int corpUsersDisExcelUpload(UsersDomain usersDomain);
+	
+	// 개인회원 결격요건 수정
+	int updateIndvUserDis(UsersDomain usersDomain);
+	
+	// 법인회원 결격요건 수정
+	int updateCorpUserDis(UsersDomain usersDomain);
+
+	// 금융감독원 승인여부 수정
+	int updatePassYn(UsersDomain usersDomain);
+	
+	
 	
 	
 }

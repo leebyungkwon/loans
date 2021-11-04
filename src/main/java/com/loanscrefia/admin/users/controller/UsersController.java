@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
+import com.loanscrefia.admin.users.domain.CorpUsersExcelDownDomain;
+import com.loanscrefia.admin.users.domain.IndvUsersExcelDownDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.service.UsersService;
 import com.loanscrefia.common.common.domain.FileDomain;
@@ -71,10 +73,10 @@ public class UsersController {
     }
 	
 	
-	// 결격요건 수정
-	@PostMapping(value="/users/updateUserDis")
-	public ResponseEntity<ResponseMsg> updateUserDis(UsersDomain usersDomain){
-		ResponseMsg responseMsg = usersService.updateUserDis(usersDomain);
+	// 개인회원 결격요건 수정
+	@PostMapping(value="/users/updateIndvUserDis")
+	public ResponseEntity<ResponseMsg> updateIndvUserDis(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.updateIndvUserDis(usersDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
@@ -109,7 +111,7 @@ public class UsersController {
 	public void indvUsersExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
 		usersDomain.setIsPaging("false");
  		List<UsersDomain> excelDownList = usersService.selectIndvUsersList(usersDomain);
- 		new UtilExcel().downLoad(excelDownList, UsersDomain.class, response.getOutputStream());
+ 		new UtilExcel().downLoad(excelDownList, IndvUsersExcelDownDomain.class, response.getOutputStream());
 	}
 	
 	
@@ -154,13 +156,45 @@ public class UsersController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
+	// 법인회원 결격요건 수정
+	@PostMapping(value="/corpUsers/updateCorpUserDis")
+	public ResponseEntity<ResponseMsg> updateCorpUserDis(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.updateCorpUserDis(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 금융감독원 승인여부 수정
+	@PostMapping(value="/corpUsers/updatePassYn")
+	public ResponseEntity<ResponseMsg> updatePassYn(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.updatePassYn(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	// 법인회원 결격요건 엑셀 업로드 팝업창
+	@GetMapping(value="/corpUsers/corpUserDisExcelPopup")
+	public ModelAndView corpUserDisExcelPopup() {
+		ModelAndView mav = new ModelAndView(CosntPage.Popup+"/corpUserDisExcelPopup");
+        return mav;
+	}
+	
+	// 법인회원 결격요건 엑셀 업로드
+	@PostMapping(value="/corpUsers/corpUsersDisExcelUpload")
+	public ResponseEntity<ResponseMsg> corpUsersDisExcelUpload(@RequestParam("files") MultipartFile[] files, UsersDomain usersDomain) throws IOException{
+		
+		//2021.10.21
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		responseMsg = usersService.corpUsersDisExcelUpload(files, usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	
 	// 법인회원 엑셀 다운로드
 	@PostMapping("/corpUsers/corpUsersExcelListDown")
 	public void corpUsersExcelListDown(UsersDomain usersDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
 		usersDomain.setIsPaging("false");
  		List<UsersDomain> excelDownList = usersService.selectCorpUsersList(usersDomain);
- 		new UtilExcel().downLoad(excelDownList, UsersDomain.class, response.getOutputStream());
+ 		new UtilExcel().downLoad(excelDownList, CorpUsersExcelDownDomain.class, response.getOutputStream());
 	}
 	
 	

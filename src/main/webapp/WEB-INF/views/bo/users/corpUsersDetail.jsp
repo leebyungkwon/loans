@@ -15,7 +15,7 @@ function usersList(){
 	history.back();
 }
 
-//로그인 차단 해제
+//로그인 잠금 해제
 function loginStopUpdate() {
 	var userSeqArr = [];
 	var userSeq = $("#userSeq").val();
@@ -26,36 +26,60 @@ function loginStopUpdate() {
 		userSeqArr.push(userSeq);	
 	}
 	
-	if(confirm("로그인 차단을 해제 하시겠습니까?")){
+	if(confirm("로그인 잠금을 해제 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/users/loginStopUpdate"	
 			, param		: {
 				userSeqArr 	: userSeqArr  
 			}
 			, success 	: function (opt,result) {
-				console.log("#####" , result);
 		    }
 		}
 		AjaxUtil.post(p);
 	}
 }
 
-// 회원관리 법인 승인처리
-function usersCorpApply(){
-	var userSeq = $("#userSeq").val();
-	if(WebUtil.isNull(userSeq)){
-		alert("법인회원정보가 잘못되었습니다.\w새로고침 후 다시 시도해 주세요.");
-		return false;
-	}
+// 결격사유 수정
+function updateCorpUserDis(){
 	
-	if(confirm("법인회원을 승인하시겠습니까?")){
+	var userSeq = $("#userSeq").val();
+	var dis9 = $("input[name='dis9']:checked").val();
+	var dis10 = $("input[name='dis10']:checked").val();
+	var dis11 = $("input[name='dis11']:checked").val();
+	var dis12 = $("input[name='dis12']:checked").val();
+	var dis13 = $("input[name='dis13']:checked").val();
+	
+	if(confirm("결격사유를 수정 하시겠습니까?")){
 		var p = {
-			  url		: "/admin/corpUsers/usersCorpApply"	
+			  url		: "/admin/corpUsers/updateCorpUserDis"	
 			, param		: {
-				userSeq 	: userSeq  
+				userSeq 	:	userSeq
+				, dis9		:	dis9
+				, dis10		:	dis10
+				, dis11		:	dis11
+				, dis12		:	dis12
+				, dis13		:	dis13
 			}
 			, success 	: function (opt,result) {
-				location.reload();
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+// 금융감독원 승인여부 수정
+function updatePassYn(){
+	var corpSeq = $("#corpSeq").val();
+	var passYn = $("input[name='passYn']:checked").val();
+	
+	if(confirm("금융감독원 승인여부를 수정 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/corpUsers/updatePassYn"	
+			, param		: {
+				corpSeq 	:	corpSeq
+				, passYn	:	passYn
+			}
+			, success 	: function (opt,result) {
 		    }
 		}
 		AjaxUtil.post(p);
@@ -67,12 +91,13 @@ function usersCorpApply(){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>법인회원 및 법인관리 상세</h2>
+			<h2>법인회원 및 법인 상세</h2>
 		</div>
 	</div>
 	<div class="contents">
 		<div id="table">
 			<input type="hidden" id="userSeq" value="${usersInfo.userSeq}" />
+			<input type="hidden" id="corpSeq" value="${usersInfo.corpSeq}" />
 			<table class="view_table" id="dtlTable">
 			<colgroup>
 				<col width="12%">
@@ -84,92 +109,122 @@ function usersCorpApply(){
 			</colgroup>
 			<tbody>
 				<tr>
-					<th>아이디</th>
-					<td>${usersInfo.userId}</td>
-					<th>이름</th>
-					<td>${usersInfo.userName}</td>
-					<th>연락처</th>
-					<td>${usersInfo.mobileNo}</td>
+					<th>법인명</th>
+					<td>${usersInfo.plMerchantName}</td>
+					<th>법인번호</th>
+					<td>${usersInfo.plMerchantNo}</td>
+					<th>사업자번호</th>
+					<td>${usersInfo.plBusinessNo}</td>
 				</tr>
-				
 				<tr>
-					<th>구분</th>
-					<td>${usersInfo.plClassNm}</td>
-					<%-- 
-					<th>생년월일</th>
-					<td>${usersInfo.birthDt}</td>
-					 --%>
-					<th></th>
-					<td></td>					
+					<th>금융감독원 승인여부</th>
+					<td class="half_input">
+						<input type="radio" name="passYn" value="Y" id="passYn1" <c:if test="${usersInfo.passYn eq 'Y'}">checked="checked"</c:if> />
+						<label for="passYn1">Y</label>
+						<input type="radio" name="passYn" value="N" id="passYn2" <c:if test="${usersInfo.passYn eq 'N'}">checked="checked"</c:if> />
+						<label for="passYn2">N</label>
+						<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="updatePassYn();">수정</a>				
+					</td>
 				</tr>
-				
-				<tr>
-					<th>가입일</th>
-					<td>${usersInfo.joinDt}</td>
-					<th>약관동의여부</th>
-					<td>${usersInfo.termsYn}</td>
-					<th>약관동의일</th>
-					<td>${usersInfo.termsDt}</td>
-				</tr>
-				
-				<c:if test="${usersInfo.plClass eq '2'}">
-					<%-- 
+				<c:if test="${usersInfo.userSeq > 0}">
 					<tr>
-						<th>담당자이름</th>
-						<td>${usersInfo.managerName}</td>
-						<th>담당자연락처</th>
-						<td>${usersInfo.managerMobileNo}</td>
-						<th>담당자이메일</th>
-						<td>${usersInfo.managerEmail}</td>
+						<th>아이디</th>
+						<td>${usersInfo.userId}</td>
+						<th>이름</th>
+						<td>${usersInfo.userName}</td>
+						<th>연락처</th>
+						<td>${usersInfo.mobileNo}</td>
 					</tr>
-					 --%>
 					<tr>
+						<th>이메일</th>
+						<td>${usersInfo.email}</td>
 						<th>법인승인여부</th>
 						<td>${usersInfo.corpApprYn}</td>
 						<th>법인승인일</th>
 						<td>${usersInfo.corpApprDt}</td>
-						<th></th>
-						<td></td>
+					</tr>
+					<tr>
+						<th>가입일</th>
+						<td>${usersInfo.joinDt}</td>
+						<th>약관동의여부</th>
+						<td>${usersInfo.termsYn}</td>
+						<th>약관동의일</th>
+						<td>${usersInfo.termsDt}</td>
+					</tr>
+					<tr>
+						<th>마지막로그인일시</th>
+						<td>${usersInfo.lastLoginDt}</td>
+						<th>로그인실패횟수</th>
+						<td>${usersInfo.failCnt}</td>
+						<th>로그인잠금일시</th>
+						<td>${usersInfo.failStopDt}</td>
+					</tr>
+					
+					<tr>
+						<th>범죄이력 조회결과</th>
+						<td class="half_input">
+							<input type="radio" name="dis9" value="Y" id="dis9" <c:if test="${usersInfo.dis9 eq 'Y'}">checked="checked"</c:if> />
+							<label for="dis9">Y</label>
+							<input type="radio" name="dis9" value="N" id="dis10" <c:if test="${usersInfo.dis9 eq 'N'}">checked="checked"</c:if> />
+							<label for="dis10">N</label>						
+						</td>
+						<th>부실금융기관 조회결과</th>
+						<td class="half_input">
+							<input type="radio" name="dis10" value="Y" id="dis11" <c:if test="${usersInfo.dis10 eq 'Y'}">checked="checked"</c:if> />
+							<label for="dis11">Y</label>
+							<input type="radio" name="dis10" value="N" id="dis12" <c:if test="${usersInfo.dis10 eq 'N'}">checked="checked"</c:if> />
+							<label for="dis12">N</label>						
+						</td>
+						<th>영업취소 조회결과</th>
+						<td class="half_input">
+							<input type="radio" name="dis11" value="Y" id="dis13" <c:if test="${usersInfo.dis11 eq 'Y'}">checked="checked"</c:if> />
+							<label for="dis13">Y</label>
+							<input type="radio" name="dis11" value="N" id="dis14" <c:if test="${usersInfo.dis11 eq 'N'}">checked="checked"</c:if> />
+							<label for="dis14">N</label>						
+						</td>
+					</tr>
+					
+					
+					<tr>
+						<th>대부업자 조회결과</th>
+						<td class="half_input">
+							<input type="radio" name="dis12" value="Y" id="dis15" <c:if test="${usersInfo.dis12 eq 'Y'}">checked="checked"</c:if> />
+							<label for="dis15">Y</label>
+							<input type="radio" name="dis12" value="N" id="dis16" <c:if test="${usersInfo.dis12 eq 'N'}">checked="checked"</c:if> />
+							<label for="dis16">N</label>						
+						</td>
+						<th>다단계판매업자 조회결과</th>
+						<td class="half_input">
+							<input type="radio" name="dis13" value="Y" id="dis17" <c:if test="${usersInfo.dis13 eq 'Y'}">checked="checked"</c:if> />
+							<label for="dis17">Y</label>
+							<input type="radio" name="dis13" value="N" id="dis18" <c:if test="${usersInfo.dis13 eq 'N'}">checked="checked"</c:if> />
+							<label for="dis18">N</label>						
+						</td>
+						<th>결격요건수정일시</th>
+						<td>${usersInfo.updDis1}</td>
+					</tr>
+					
+					
+					<tr>
+						<th>첨부파일</th>
+						<td colspan="5">
+							<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
+						</td>
 					</tr>
 				</c:if>
-				
-				<tr>
-					<th>이메일</th>
-					<td>${usersInfo.email}</td>
-					<th>탈퇴여부</th>
-					<td>${usersInfo.dropYn}</td>
-					<th>탈퇴일</th>
-					<td>${usersInfo.dropDt}</td>
-				</tr>
-				
-				<tr>
-					<th>마지막로그인일시</th>
-					<td>${usersInfo.lastLoginDt}</td>
-					<th>로그인실패횟수</th>
-					<td>${usersInfo.failCnt}</td>
-					<th>로그인차단일시</th>
-					<td>${usersInfo.failStopDt}</td>
-				</tr>
-				
-				<tr>
-					<th>첨부파일</th>
-					<td colspan="5">
-						<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
-					</td>
-				</tr>
-			
 			</tbody>
 			</table>
 		</div>
 		
 		<div class="btn_wrap">
-			<c:if test="${not empty usersInfo.failStopDt}">
-				<a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="loginStopUpdate();">로그인차단해제</a>
-			</c:if>
 			<a href="javascript:void(0);" class="btn_gray" onclick="usersList();">목록</a>
+			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="updateCorpUserDis();">결격요건수정</a>
 			
+			<c:if test="${not empty usersInfo.failStopDt}">
+				<a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" onclick="loginStopUpdate();">로그인잠금해제</a>
+			</c:if>
 			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprYn eq 'N'}">
-				<a href="javascript:void(0);" class="btn_blue btn_right" onclick="usersCorpApply();">법인승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" onclick="usersCorpApply();">법인승인</a>
 			</c:if>
 		</div>
 	</div>

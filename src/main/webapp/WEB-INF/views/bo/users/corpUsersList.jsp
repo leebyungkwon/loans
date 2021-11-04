@@ -12,37 +12,34 @@ function pageLoad(){
 		, url			: "/admin/corpUsers/corpUsersList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","아이디", "이름", "연락처", "이메일", "가입일", "마지막</br>로그인일시","로그인</br>잠금여부", "탈퇴여부"]
+		, headCol		: ["","아이디","이름","연락처","법인명","법인번호","범죄이력","부실</br>금융기관","영업취소","대부업자","다단계</br>판매업자","결격요건</br>수정일시","금융감독원</br>승인여부", "가입일", "마지막</br>로그인일시","로그인</br>잠금여부"]
 		, bodyCol		: 
 			[
-				 {type:"string"	, name:'userSeq'		, index:'userSeq'		, width:"5%"	, hidden:true  	, id:true}
-				,{type:"string"	, name:'userId'			, index:'userId'		, width:"15%"	}
-				,{type:"string"	, name:'userName'		, index:'userName'		, width:"10%"	}
-				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'		, width:"12%"	, align:"center"}
-				,{type:"string"	, name:'email'			, index:'email'			, width:"15%"	}
+				 {type:"string"	, name:'corpSeq'		, index:'corpSeq'			, width:"5%"	, hidden:true  	, id:true}
+				,{type:"string"	, name:'userId'			, index:'userId'			, width:"15%"	}
+				,{type:"string"	, name:'userName'		, index:'userName'			, width:"10%"	}
+				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'			, width:"12%"	, align:"center"}
+				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"15%"	, align:"center"}
+				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'	, width:"15%"	, align:"center"}
+				,{type:"string"	, name:'dis9'			, index:'dis9'			, width:"8%"	}
+				,{type:"string"	, name:'dis10'			, index:'dis10'			, width:"8%"	}
+				,{type:"string"	, name:'dis11'			, index:'dis11'			, width:"8%"	}
+				,{type:"string"	, name:'dis12'			, index:'dis12'			, width:"8%"	}
+				,{type:"string"	, name:'dis13'			, index:'dis13'			, width:"8%"	}
+				,{type:"string"	, name:'updDis1'		, index:'updDis1'		, width:"12%"	}
+				,{type:"string"	, name:'passYn'			, index:'passYn'		, width:"8%"	}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'lastLoginDt'	, index:'lastLoginDt'	, width:"12%"	, align:"center"}
 				,{type:"string"	, name:'failStopYn'		, index:'failStopYn'	, width:"8%"	, align:"center"}
-				,{type:"string"	, name:'dropYn'			, index:'dropYn'		, width:"8%"	, align:"center"}
+				,{type:"string"	, name:'userSeq'		, index:'userSeq'			, width:"5%"	, hidden:true}
 			]
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
 		, excel 		: "/admin/corpUsers/corpUsersExcelListDown"
-		, excelFileNm	: "법인회원관리"
+		, excelFileNm	: "법인회원및법인관리"
 		, isPaging 		: true
 		, size 			: 10
 	});
-	
-	// 모집인 분류
- 	var plClassCode = {
-		 useCode 	: true
-		,code 		: 'CLS001'
-		,target 	: '#plClass'
-		,updData 	: ''
-		,defaultMsg : '전체'
-	};
-	DataUtil.selectBox(plClassCode);
-	
 	
 	//datepicker
 	$("#date_cal01").datepicker({
@@ -54,6 +51,7 @@ function pageLoad(){
 			$(this).hide();
 		}
 	});
+	
 	$("#date_cal02").datepicker({
 		 dateFormat	: "yy-mm-dd"
 	 	,changeMonth: true
@@ -63,10 +61,6 @@ function pageLoad(){
 			$(this).hide();
 		}
 	});
-	
-	
-	
-	
 }
 
 $(document).mouseup(function(e){
@@ -86,13 +80,13 @@ function goGetDate(opt) {
 
 // 회원정보 상세보기
 function usersDetail(idx, data){
-	var userSeq = usersGrid.gridData[idx].userSeq;
-	$("#userSeq").val(userSeq);
+	var corpSeq = usersGrid.gridData[idx].corpSeq;
+	$("#corpSeq").val(corpSeq);
 	$("#usersDetailFrm").submit();
 }
 
 
-// 로그인 잠금 해제
+// 로그인잠금해제
 function loginStopUpdate() {
 	var chkedLen 	= $("#tbl_usersGrid_body tr td input:checkbox:checked").length;
 	if(chkedLen == 0){
@@ -113,7 +107,6 @@ function loginStopUpdate() {
 				userSeqArr 	: userSeqArr  
 			}
 			, success 	: function (opt,result) {
-				console.log("#####" , result);
 				usersGrid.refresh();
 		    }
 		}
@@ -121,10 +114,74 @@ function loginStopUpdate() {
 	}
 }
 
+//첨부파일명 보여주기
+function goFileNmShow(obj) {
+	var fileVal 	= $("#corpDisFile").val().split("\\");
+	var fileName 	= fileVal[fileVal.length - 1];
+	$("#corpDisFile").prev().val(fileName);
+	
+	//첨부파일 크기 및 확장자 체크
+	var size 	= $("#corpDisFile")[0].files[0].size;
+	var ext 	= fileName.split(".").pop().toLowerCase();
+	if(!Valid.fileCheck(size,ext,"Y")){
+		$("#corpDisFile").val("");
+		$("#corpDisFile").prev().val("");
+	}
+}
+
+
+// 법인회원 결격요건 팝업
+function goCorpUserDisPopOpen() {
+	let p = {
+		  id 		: "corpUserDisExcelPop"
+		, url 		: "/admin/corpUsers/corpUserDisExcelPopup"
+		, success	: function(opt, result) { 
+
+        }
+	}
+	PopUtil.openPopup(p);
+}
+
+
+// 법인회원 결격요건 업로드
+function goCorpDisExcelUpload() {
+	if(WebUtil.isNull($("#corpDisFile").val())){
+		alert("엑셀 파일을 업로드해 주세요.");
+		return;
+	}
+	if(confirm("결격요건을 업로드 하시겠습니까?")){
+		var p = {
+			  name 		: "corpDisForm"
+			, success 	: function (opt,result) {
+				if(WebUtil.isNotNull(result.data)){
+					var html = '';
+					
+					html += '<div class="title_wrap">';
+					html += '<h5>모집인 등록</h5>';
+					html += '<a href="javascript:void(0);" class="pop_close" onclick="PopUtil.closePopup();"></a>';
+					html += '</div>';
+					html += '<p class="popup_desc" style="line-height: 30px;">'+result.data+'</p>';
+					html += '<div class="popup_btn_wrap">';
+					html += '<a href="javascript:void(0);" class="pop_btn_black" onclick="PopUtil.closePopup();">확인</a>';
+					html += '</div>';
+					
+					$(".popup_inner").empty();
+					$(".popup_inner").append(html);
+					$(".popup_wrap").show();
+				}else{
+					location.reload();	
+				}
+	 	    }
+		}
+		AjaxUtil.files(p);
+	}
+}
+
+
 </script>
 
 <form id="usersDetailFrm" method="post" action="/admin/corpUsers/corpUsersDetail">
-	<input type="hidden" name="userSeq" id="userSeq"/>
+	<input type="hidden" name="corpSeq" id="corpSeq"/>
 </form>
 
 <div class="cont_area">
@@ -142,6 +199,7 @@ function loginStopUpdate() {
 					<col width="10%">
 					<col width="23%">
 				</colgroup>
+				
 				<tr>
 					<th>아이디</th>
 					<td class="half_input">
@@ -156,16 +214,72 @@ function loginStopUpdate() {
 						<input type="text" name="mobileNo">
 					</td>
 				</tr>
+				
 				<tr>
-					<th>구분</th>
+					<th>법인명</th>
 					<td class="half_input">
-						<select name="plClass" id="plClass"></select>
+						<input type="text" name="plMerchantName">
 					</td>
-					<th>이메일</th>
+					<th>법인번호</th>
 					<td class="half_input">
-						<input type="text" name="email">
+						<input type="text" name="plMerchantNo">
+					</td>
+					<th>금융감독원 승인여부</th>
+					<td class="half_input">
+						<select name="passYn" id="passYn">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
 					</td>
 				</tr>
+				
+				<tr>
+					<th>범죄이력</th>
+					<td class="half_input">
+						<select name="dis9" id="dis9">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+					<th>부실금융기관</th>
+					<td class="half_input">
+						<select name="dis10" id="dis10">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+					<th>영업취소</th>
+					<td class="half_input">
+						<select name="dis11" id="dis11">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<th>대부업자</th>
+					<td class="half_input">
+						<select name="dis12" id="dis12">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+					<th>다단계판매업자</th>
+					<td class="half_input">
+						<select name="dis13" id="dis13">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+				</tr>
+				
 				<tr>
 					<th>가입일</th>
 					<td colspan="6" class="long_input">
@@ -201,9 +315,11 @@ function loginStopUpdate() {
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="loginStopUpdate();">로그인잠금해제</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpUserDisPopOpen();">결격요건업로드</a>
 			</div>
 		</div>
 		<div id="usersGrid" class="long_table"></div>
 	</div>
+	
 </div>
 

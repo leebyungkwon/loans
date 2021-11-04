@@ -384,6 +384,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   bottom: 0;
   left: 0;
   float: left;
+  overflow-x: auto;
+  overflow-y: scroll;
 }
 
 

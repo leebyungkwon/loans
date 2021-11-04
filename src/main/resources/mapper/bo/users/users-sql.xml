@@ -28,7 +28,7 @@
 	   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
 	   			, users.inactive_yn
 	   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
-	   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+	   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH24:MI:SS') AS last_login_dt
 	   			, TO_CHAR(users.corp_appr_dt,'YYYY-MM-DD') AS corp_appr_dt
 	   			, users.fail_cnt
 	   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
@@ -38,6 +38,8 @@
 	   			END AS fail_stop_yn
 	   			, (select b.disqual_val from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '7' limit 1) as dis1
 	   			, (select b.disqual_val from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '8' limit 1) as dis2
+	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '7' limit 1) as upd_dis1
+	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where users.user_seq = b.user_seq and b.disqual_cd = '8' limit 1) as upd_dis2
 		    FROM tb_lc_users users
 		    WHERE users.pl_class = '1'
 		    ORDER BY users.user_seq DESC
@@ -57,6 +59,14 @@
 			
 			<if test="email != null and email != ''">
 				AND Z.email LIKE '%' || #{email} || '%'
+			</if>
+			
+			<if test="dis1 != null and dis1 != ''">
+				AND Z.dis1 = #{dis1}
+			</if>
+			
+			<if test="dis2 != null and dis2 != ''">
+				AND Z.dis2 = #{dis2}
 			</if>
 			
 			<if test="srchDate1 != null and srchDate1 != ''">
@@ -321,8 +331,21 @@
 	   				WHEN fail_stop_dt is null THEN 'N'
 	   				ELSE 'Y'
 	   			END AS fail_stop_yn
+	   			,corp.corp_seq
+	   			,corp.pl_merchant_name
+	   			,corp.pl_merchant_no
+	   			,corp.pl_business_no
+	   			,corp.path_typ
+	   			,corp.pass_yn
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as dis9
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '10' limit 1) as dis10
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '11' limit 1) as dis11
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
+	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as upd_dis1
 		    FROM tb_lc_users users
-		    WHERE users.pl_class = '2'
+			right outer join tb_lc_corp corp
+			on users.user_seq = corp.user_seq
 		    ORDER BY users.user_seq DESC
    		)Z
    		<where>
@@ -338,14 +361,38 @@
 				AND Z.mobile_no LIKE '%' || #{mobileNo} || '%'
 			</if>
 			
-			<if test="plClass != null and plClass != ''">
-				AND Z.pl_class = #{plClass}
+			<if test="plMerchantName != null and plMerchantName != ''">
+				AND Z.pl_merchant_name LIKE '%' || #{plMerchantName} || '%'
 			</if>
 			
-			<if test="email != null and email != ''">
-				AND Z.email LIKE '%' || #{email} || '%'
+			<if test="plMerchantNo != null and plMerchantNo != ''">
+				AND Z.pl_merchant_no LIKE '%' || #{plMerchantNo} || '%'
 			</if>
 			
+			<if test="dis9 != null and dis9 != ''">
+				AND Z.dis9 = #{dis9}
+			</if>
+			
+			<if test="dis10 != null and dis10 != ''">
+				AND Z.dis10 = #{dis10}
+			</if>
+			
+			<if test="dis11 != null and dis11 != ''">
+				AND Z.dis11 = #{dis11}
+			</if>
+			
+			<if test="dis12 != null and dis12 != ''">
+				AND Z.dis12 = #{dis12}
+			</if>
+			
+			<if test="dis13 != null and dis13 != ''">
+				AND Z.dis13 = #{dis13}
+			</if>
+			
+			<if test="passYn != null and passYn != ''">
+				AND Z.pass_yn = #{passYn}
+			</if>
+
 			<if test="srchDate1 != null and srchDate1 != ''">
 				AND Z.join_dt::TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
 			</if>
@@ -360,38 +407,49 @@
    	
 	<!-- 법인회원관리 상세 조회 -->
    	<select id="getCorpUsersDetail" parameterType="users" resultType="users">
-   		SELECT
-   			users.user_seq
-   			, users.user_id
-   			, users.password
-   			, users.user_name
-   			, users.mobile_no
-   			, users.pl_class
-   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
-   			, users.pl_m_z_id
-   			, users.email
-   			, users.user_ci
-   			, users.manager_name
-   			, users.manager_mobile_no
-   			, users.manager_email
-   			, users.corp_appr_yn
-   			, users.file_seq
-   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
-   			, users.terms_yn
-   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
-   			, users.drop_yn
-   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
-   			, users.inactive_yn
-   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
-   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
-   			, users.fail_cnt
-   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
-   			, CASE
-   				WHEN fail_stop_dt is null THEN 'N'
-   				ELSE 'Y'
-   			END AS fail_stop_yn
-	    FROM tb_lc_users users
-	    WHERE USER_SEQ = #{userSeq}
+	   		SELECT
+	   			users.user_seq
+	   			, users.user_id
+	   			, users.password
+	   			, users.user_name
+	   			, users.mobile_no
+	   			, users.pl_class
+	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+	   			, users.pl_m_z_id
+	   			, users.email
+	   			, users.user_ci
+	   			, users.corp_appr_yn
+	   			, TO_CHAR(users.join_dt,'YYYY-MM-DD') AS join_dt
+	   			, users.terms_yn
+	   			, TO_CHAR(users.terms_dt,'YYYY-MM-DD') AS terms_dt
+	   			, users.drop_yn
+	   			, TO_CHAR(users.drop_dt,'YYYY-MM-DD') AS drop_dt
+	   			, users.inactive_yn
+	   			, TO_CHAR(users.inactive_dt,'YYYY-MM-DD') AS inactive_dt
+	   			, TO_CHAR(users.last_login_dt,'YYYY-MM-DD HH:MI:SS') AS last_login_dt
+	   			, TO_CHAR(users.corp_appr_dt,'YYYY-MM-DD') AS corp_appr_dt
+	   			, users.fail_cnt
+	   			, TO_CHAR(users.fail_stop_dt,'YYYY-MM-DD') AS fail_stop_dt
+	   			, CASE
+	   				WHEN fail_stop_dt is null THEN 'N'
+	   				ELSE 'Y'
+	   			END AS fail_stop_yn
+	   			,corp.corp_seq
+	   			,corp.pl_merchant_name
+	   			,corp.pl_merchant_no
+	   			,corp.pl_business_no
+	   			,corp.path_typ
+	   			,corp.pass_yn
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as dis9
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '10' limit 1) as dis10
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '11' limit 1) as dis11
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
+	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
+	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as upd_dis1
+		    FROM tb_lc_users users
+			right outer join tb_lc_corp corp
+			on users.user_seq = corp.user_seq
+	    	WHERE corp.corp_seq = #{corpSeq}
    	</select>
    	
    	
@@ -408,12 +466,20 @@
    		AND disqual_cd = #{disCd}
    	</update>
    	
+   	<!-- 법인회원 결격요건 엑셀 업로드 -->
+   	<update id="corpUsersDisExcelUpload" parameterType="users">
+   		UPDATE tb_lc_users_disqual
+   		SET
+   			disqual_val = #{disVal}
+   			, upd_seq = #{regSeq}
+   			, upd_timestamp = NOW()
+   		WHERE
+   			USER_SEQ = (SELECT user_seq FROM tb_lc_corp where pl_merchant_no = #{plMerchantNo} AND pl_merchant_name = #{plMerchantName} LIMIT 1)
+   		AND disqual_cd = #{disCd}
+   	</update>
    	
-   	
-   	
-   	
-   	<!-- 결격요건 수정 -->
-   	<update id="updateUserDis" parameterType="users" >
+   	<!-- 개인회원 결격요건 수정 -->
+   	<update id="updateIndvUserDis" parameterType="users" >
    		UPDATE tb_lc_users_disqual
    		SET
    			disqual_val = #{disVal}
@@ -422,6 +488,29 @@
    		WHERE
    			USER_SEQ = #{userSeq}
    		AND disqual_cd = #{disCd}
+   	</update>
+   	
+   	<!-- 법인회원 결격요건 수정 -->
+   	<update id="updateCorpUserDis" parameterType="users" >
+   		UPDATE tb_lc_users_disqual
+   		SET
+   			disqual_val = #{disVal}
+   			, upd_seq = #{regSeq}
+   			, upd_timestamp = NOW()
+   		WHERE
+   			USER_SEQ = #{userSeq}
+   		AND disqual_cd = #{disCd}
+   	</update>
+   	
+   	<!-- 금융감독원 승인여부 수정 -->
+   	<update id="updatePassYn" parameterType="users" >
+   		UPDATE tb_lc_corp
+   		SET
+   			pass_yn = #{passYn}
+   			, upd_seq = #{regSeq}
+   			, upd_timestamp = NOW()
+   		WHERE
+   			CORP_SEQ = #{corpSeq}
    	</update>
    	
 </mapper> 

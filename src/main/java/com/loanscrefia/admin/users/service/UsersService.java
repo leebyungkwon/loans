@@ -23,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
+import com.loanscrefia.admin.users.domain.CorpUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.IndvUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
@@ -127,22 +128,22 @@ public class UsersService {
 		return usersRepository.getIndvUsersDetail(usersDomain);
 	}
 	
-	// 결격요건 수정
+	// 개인회원 결격요건 수정
 	@Transactional
-	public ResponseMsg updateUserDis(UsersDomain usersDomain){
+	public ResponseMsg updateIndvUserDis(UsersDomain usersDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
 		
 		UsersDomain usersDomain1 = new UsersDomain();
 		usersDomain1.setUserSeq(usersDomain.getUserSeq());
 		usersDomain1.setDisCd("7");
 		usersDomain1.setDisVal(usersDomain.getDis1());
-		usersRepository.updateUserDis(usersDomain1);
+		usersRepository.updateIndvUserDis(usersDomain1);
 		
 		UsersDomain usersDomain2 = new UsersDomain();
 		usersDomain2.setUserSeq(usersDomain.getUserSeq());
 		usersDomain2.setDisCd("8");
 		usersDomain2.setDisVal(usersDomain.getDis2());
-		usersRepository.updateUserDis(usersDomain2);
+		usersRepository.updateIndvUserDis(usersDomain2);
 		
 		return responseMsg;
 	}
@@ -162,7 +163,7 @@ public class UsersService {
 	}
 	
 	
-	//모집인 등록(엑셀) > 개인
+	//개인회원 결격요건 엑셀 업로드
 	@Transactional
 	public ResponseMsg indvUsersDisExcelUpload(MultipartFile[] files, UsersDomain usersDomain) throws IOException{
 		
@@ -336,6 +337,150 @@ public class UsersService {
 		}
 		
 	}
+	
+	
+	
+	// 법인회원 결격요건 수정
+	@Transactional
+	public ResponseMsg updateCorpUserDis(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		
+		UsersDomain usersDomain1 = new UsersDomain();
+		usersDomain1.setUserSeq(usersDomain.getUserSeq());
+		usersDomain1.setDisCd("9");
+		usersDomain1.setDisVal(usersDomain.getDis9());
+		usersRepository.updateCorpUserDis(usersDomain1);
+		
+		UsersDomain usersDomain2 = new UsersDomain();
+		usersDomain2.setUserSeq(usersDomain.getUserSeq());
+		usersDomain2.setDisCd("10");
+		usersDomain2.setDisVal(usersDomain.getDis10());
+		usersRepository.updateCorpUserDis(usersDomain2);
+		
+		UsersDomain usersDomain3 = new UsersDomain();
+		usersDomain3.setUserSeq(usersDomain.getUserSeq());
+		usersDomain3.setDisCd("11");
+		usersDomain3.setDisVal(usersDomain.getDis11());
+		usersRepository.updateCorpUserDis(usersDomain3);
+		
+		UsersDomain usersDomain4 = new UsersDomain();
+		usersDomain4.setUserSeq(usersDomain.getUserSeq());
+		usersDomain4.setDisCd("12");
+		usersDomain4.setDisVal(usersDomain.getDis12());
+		usersRepository.updateCorpUserDis(usersDomain4);
+		
+		UsersDomain usersDomain5 = new UsersDomain();
+		usersDomain5.setUserSeq(usersDomain.getUserSeq());
+		usersDomain5.setDisCd("13");
+		usersDomain5.setDisVal(usersDomain.getDis13());
+		usersRepository.updateCorpUserDis(usersDomain5);
+		
+		return responseMsg;
+	}
+	
+	// 금융감독원 승인여부 수정
+	@Transactional
+	public ResponseMsg updatePassYn(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		int result = usersRepository.updatePassYn(usersDomain);
+		if(result <= 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+		}
+		return responseMsg;
+	}
+	
+	//법인회원 결격요건 엑셀 업로드
+	@Transactional
+	public ResponseMsg corpUsersDisExcelUpload(MultipartFile[] files, UsersDomain usersDomain) throws IOException{
+		
+		//세션 정보
+		HttpServletRequest request 	= ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpSession session 		= request.getSession();
+		MemberDomain loginInfo 		= (MemberDomain)session.getAttribute("member");
+		
+		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
+		Map<String, Object> ret = utilFile.setPath("dis")
+				.setFiles(files)
+				.setExt("excel")
+				.upload();
+		
+		List<Map<String, Object>> excelResult = new ArrayList<Map<String, Object>>();
+		
+		//첨부파일 저장에 성공하면
+		if((boolean) ret.get("success")) {
+			List<FileDomain> file = (List<FileDomain>) ret.get("data");
+			if(file.size() > 0) {
+				//엑셀 업로드
+				String filePath		= file.get(0).getFilePath();
+				String fileSaveNm	= file.get(0).getFileSaveNm();
+				String fileExt		= file.get(0).getFileExt();
+				excelResult			= utilExcel.setParam2(usersDomain.getPlClass()).disUpload(uPath, filePath, fileSaveNm, fileExt, CorpUsersExcelDomain.class);
+				
+				//엑셀 업로드 후 에러메세지
+				String errorMsg = (String)excelResult.get(0).get("errorMsg");
+				if(errorMsg != null && !errorMsg.equals("")) {
+					//에러메세지 있음
+					return new ResponseMsg(HttpStatus.OK, "", errorMsg, "");
+				}else {
+					//에러메세지 없음 -> 저장
+					int insertResult = 0;
+					for(int c=0; c<excelResult.size(); c++) {
+						
+						Map<String, Object> paramResult1 = excelResult.get(c);
+						UsersDomain usersDomain1 = new UsersDomain();
+						usersDomain1.setPlMerchantName(paramResult1.get("C").toString());
+						usersDomain1.setPlMerchantNo(paramResult1.get("D").toString());
+						usersDomain1.setDisCd("9");
+						usersDomain1.setDisVal(paramResult1.get("E").toString());
+						usersRepository.corpUsersDisExcelUpload(usersDomain1);
+
+						Map<String, Object> paramResult2 = excelResult.get(c);
+						UsersDomain usersDomain2 = new UsersDomain();
+						usersDomain2.setPlMerchantName(paramResult2.get("C").toString());
+						usersDomain2.setPlMerchantNo(paramResult2.get("D").toString());
+						usersDomain2.setDisCd("10");
+						usersDomain2.setDisVal(paramResult2.get("F").toString());
+						usersRepository.corpUsersDisExcelUpload(usersDomain2);
+						
+						Map<String, Object> paramResult3 = excelResult.get(c);
+						UsersDomain usersDomain3 = new UsersDomain();
+						usersDomain3.setPlMerchantName(paramResult3.get("C").toString());
+						usersDomain3.setPlMerchantNo(paramResult3.get("D").toString());
+						usersDomain3.setDisCd("11");
+						usersDomain3.setDisVal(paramResult3.get("G").toString());
+						usersRepository.corpUsersDisExcelUpload(usersDomain3);
+						
+						Map<String, Object> paramResult4 = excelResult.get(c);
+						UsersDomain usersDomain4 = new UsersDomain();
+						usersDomain4.setPlMerchantName(paramResult4.get("C").toString());
+						usersDomain4.setPlMerchantNo(paramResult4.get("D").toString());
+						usersDomain4.setDisCd("12");
+						usersDomain4.setDisVal(paramResult4.get("H").toString());
+						usersRepository.corpUsersDisExcelUpload(usersDomain4);
+						
+						Map<String, Object> paramResult5 = excelResult.get(c);
+						UsersDomain usersDomain5 = new UsersDomain();
+						usersDomain5.setPlMerchantName(paramResult5.get("C").toString());
+						usersDomain5.setPlMerchantNo(paramResult5.get("D").toString());
+						usersDomain5.setDisCd("13");
+						usersDomain5.setDisVal(paramResult5.get("I").toString());
+						usersRepository.corpUsersDisExcelUpload(usersDomain5);
+						insertResult++;
+					}
+					// 결과메세지
+					if(insertResult > 0) {
+						return new ResponseMsg(HttpStatus.OK, "success", "결격요건 업로드가 완료되었습니다.");
+					}
+				}
+			}
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	
+	
+	
+	
 	
 	
 	
