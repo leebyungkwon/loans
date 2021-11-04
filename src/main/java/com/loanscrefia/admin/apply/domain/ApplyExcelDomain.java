@@ -52,5 +52,7 @@ public class ApplyExcelDomain extends BaseDomain {
 	private String plStatNm;		//처리상태명
 	@ExcelColumn(headerName = "가등록번호", order = 2)
 	private String preLcNum;		//가등록번호
+	@ExcelColumn(headerName = "모집인휴대전화번호", order = 18)
+	private String plCellphone;		//모집인휴대전화번호
 	
 }

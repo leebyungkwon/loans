@@ -45,6 +45,7 @@ public class ApplyDomain extends BaseDomain {
 	@ExcelColumn(headerName = "주민번호", order = 8)
 	private String plMZId;			//모집인주민등록번호
 	private String plMZIdEdu;		//교육수료대조(모집인주민등록번호 대체값)
+	@ExcelColumn(headerName = "모집인휴대전화번호", order = 18)
 	private String plCellphone;		//모집인휴대전화번호
 	private String addr;			//본점소재지						-> [ADD001]1~17
 	private String addrDetail;		//상세주소(법인등기부등본상)
