@@ -272,7 +272,9 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
-					<td colspan="3">${result.applyInfo.plClassNm }</td>
+					<td>${result.applyInfo.plClassNm }</td>
+					<th>결격사유 및 범죄이력</th>
+					<td>${result.applyInfo.disVal }</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>

@@ -150,6 +150,10 @@ public class NewApplyDomain extends BaseDomain {
 	private String plStatReqPath;
 	private String plStatReqPathNm;
 	
+	// 2021-11-04 결격요건 상태 : 하나라도 Y일 경우 Y
+	private String disCd;
+	private String disVal;
+	
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

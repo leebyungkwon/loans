@@ -115,6 +115,9 @@ public class KfbApiService {
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
 			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
+			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
@@ -225,6 +228,10 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
+			
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
@@ -321,6 +328,9 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
 			
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
@@ -765,6 +775,9 @@ public class KfbApiService {
 				conn.setConnectTimeout(TIMEOUT_VALUE);
 				conn.setReadTimeout(TIMEOUT_VALUE);
 				
+				// 2021-11-04 keep-alive관련 옵션 추가
+				conn.setRequestProperty("Connection", "close");
+				
 				conn.setRequestMethod(method);
 				conn.setRequestProperty("Content-Type", "application/json");
 				conn.setRequestProperty("Accept", "application/json");
@@ -931,6 +944,9 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -1109,6 +1125,9 @@ public class KfbApiService {
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
 			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
+			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
 			conn.setRequestProperty("Accept", "application/json"); //응답
@@ -1274,6 +1293,9 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -1447,6 +1469,9 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -1631,6 +1656,9 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
 			
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -1832,6 +1860,9 @@ public class KfbApiService {
 			//2021-09-30 timeout설정
 			conn.setConnectTimeout(TIMEOUT_VALUE);
 			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
 	        
 	        conn.setRequestMethod(methodType);
 			conn.setRequestProperty("Content-Type", "application/json"); //요청

@@ -30,6 +30,8 @@ import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.corp.service.CorpService;
+import com.loanscrefia.admin.users.domain.UsersDomain;
+import com.loanscrefia.admin.users.repository.UsersRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
@@ -65,6 +67,9 @@ public class NewApplyService {
 	
 	@Autowired
 	private NewUserRepository userRepo;
+	
+	@Autowired
+	private UsersRepository usersRepository;
 	
 	@Autowired
 	private EmailRepository emailRepository;
@@ -176,6 +181,33 @@ public class NewApplyService {
 		
 		//상세
 		NewApplyDomain applyInfo = applyRepository.getNewApplyDetail(newApplyDomain);
+		
+		// 2021-11-04 계약건에 등록되어있는 주민등록 번호로 결격요건 조회
+		String resultPlMZId = applyInfo.getPlMZId();
+		UsersDomain usersDomain = new UsersDomain();
+		usersDomain.setPlMZId(resultPlMZId);
+		UsersDomain userDetailResult = usersRepository.getUsersDetailByZId(usersDomain);
+		
+		// user_seq로 결격요건 테이블 조회
+		usersDomain.setUserSeq(userDetailResult.getUserSeq());
+		usersDomain.setPlClass(applyInfo.getPlClass());
+		List<UsersDomain> disList = usersRepository.selectUsersDisList(usersDomain);
+		int disCnt = 0;
+		if(disList.size() > 0) {
+			for(UsersDomain dis : disList) {
+				if(StringUtils.isNotEmpty(dis.getDisVal())) {
+					if("Y".equals(dis.getDisVal())) {
+						disCnt++;
+					}
+				}
+			}
+			if(disCnt > 0) {
+				applyInfo.setDisVal("Y");
+			}else {
+				applyInfo.setDisVal("N");
+			}
+		}
+		
 		
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
@@ -345,9 +377,33 @@ public class NewApplyService {
 		List<CodeDtlDomain> addrCodeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		//상세
-		NewApplyDomain applyInfo 	= applyRepository.getNewApplyDetail(newApplyDomain);
+		NewApplyDomain applyInfo = applyRepository.getNewApplyDetail(newApplyDomain);
 		
+		// 2021-11-04 계약건에 등록되어있는 주민등록 번호로 결격요건 조회
+		String resultPlMZId = applyInfo.getPlMZId();
+		UsersDomain usersDomain = new UsersDomain();
+		usersDomain.setPlMZId(resultPlMZId);
+		UsersDomain userDetailResult = usersRepository.getUsersDetailByZId(usersDomain);
 		
+		// user_seq로 결격요건 테이블 조회
+		usersDomain.setUserSeq(userDetailResult.getUserSeq());
+		usersDomain.setPlClass(applyInfo.getPlClass());
+		List<UsersDomain> disList = usersRepository.selectUsersDisList(usersDomain);
+		int disCnt = 0;
+		if(disList.size() > 0) {
+			for(UsersDomain dis : disList) {
+				if(StringUtils.isNotEmpty(dis.getDisVal())) {
+					if("Y".equals(dis.getDisVal())) {
+						disCnt++;
+					}
+				}
+			}
+			if(disCnt > 0) {
+				applyInfo.setDisVal("Y");
+			}else {
+				applyInfo.setDisVal("N");
+			}
+		}
 		
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();

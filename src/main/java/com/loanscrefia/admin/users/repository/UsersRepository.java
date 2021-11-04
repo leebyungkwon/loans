@@ -4,6 +4,7 @@ package com.loanscrefia.admin.users.repository;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.loanscrefia.admin.users.domain.UsersDomain;
+import com.loanscrefia.member.user.domain.NewUserDomain;
 
 
 @Mapper
@@ -54,7 +55,11 @@ public interface UsersRepository {
 	// 금융감독원 승인여부 수정
 	int updatePassYn(UsersDomain usersDomain);
 	
+	// 2021-11-04 주민등록번호로 개인정보 조회
+	UsersDomain getUsersDetailByZId(UsersDomain usersDomain);
 	
+	// 2021-11-04 회원 결격요건 상세 조회
+	List<UsersDomain> selectUsersDisList(UsersDomain usersDomain);	
 	
 	
 }

@@ -78,5 +78,4 @@ public interface NewUserRepository {
 	// 2021-10-25 금융상품세부내용 리스트 조회
 	List<ProductDtlDomain> selectPlProductDetailList(NewUserDomain newUserDomain);
 	
-	
 }
