@@ -1475,6 +1475,9 @@ create table tb_lc_users_req(
 	, user_seq integer not null
 	, req_cd char(1) not null
 	, req_val varchar(100) not null
+	, file_seq integer
+	, stat char(1) not null default '1'
+	, txt text
 	, use_yn char(1) not null default 'Y'
 	, reg_seq integer not null
 	, reg_timestamp timestamp not null
@@ -1488,6 +1491,9 @@ COMMENT ON COLUMN tb_lc_users_req.user_req_seq IS '사용자 정보변경 시퀀
 COMMENT ON COLUMN tb_lc_users_req.user_seq IS '사용자시퀀스';
 COMMENT ON COLUMN tb_lc_users_req.req_cd IS '신청코드';
 COMMENT ON COLUMN tb_lc_users_req.req_val IS '신청값';
+COMMENT ON COLUMN tb_lc_users_req.file_seq IS '첨부파일 시퀀스';
+COMMENT ON COLUMN tb_lc_users_req.stat IS '상태';
+COMMENT ON COLUMN tb_lc_users_req.txt IS '사유';
 COMMENT ON COLUMN tb_lc_users_req.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_users_req.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_users_req.reg_timestamp IS '등록일시';
