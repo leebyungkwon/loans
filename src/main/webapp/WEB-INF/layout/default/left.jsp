@@ -53,6 +53,10 @@ function menuActiveFunction(){
 		$("#menuNewApply").addClass("on");
 	}else if(menuUrl[2] == "newRecruit"){
 		$("#menuNewRecruit").addClass("on");
+	}else if(menuUrl[2] == "updateIndvUsers"){
+		$("#menuUpdateIndvUsers").addClass("on");
+	}else if(menuUrl[2] == "updateCorpUsers"){
+		$("#menuUpdateCorpUsers").addClass("on");
 	}
 	
 	
@@ -95,6 +99,9 @@ function menuActiveFunction(){
 			
 			
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">(고도화)휴면회원관리</a></li>
+			
+			<li id="menuUpdateIndvUsers"><a href="/admin/updateIndvUsers/updateIndvUsersPage">(고도화)개인회원 정보변경관리</a></li>
+			<li id="menuUpdateCorpUsers"><a href="/admin/updateCorpUsers/updateCorpUsersPage">(고도화)법인회원 정보변경관리</a></li>
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
@@ -132,7 +139,8 @@ function menuActiveFunction(){
 			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">(고도화-협회)모집인 등록 승인처리</a></li>
 			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">(고도화-협회)모집인 조회 및 해지</a></li>
 			
-			
+			<li id="menuUpdateIndvUsers"><a href="/admin/updateIndvUsers/updateIndvUsersPage">(고도화)개인회원 정보변경관리</a></li>
+			<li id="menuUpdateCorpUsers"><a href="/admin/updateCorpUsers/updateCorpUsersPage">(고도화)법인회원 정보변경관리</a></li>
 		</sec:authorize>
 	</ul>
 </div>

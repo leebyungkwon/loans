@@ -61,5 +61,23 @@ public interface UsersRepository {
 	// 2021-11-04 회원 결격요건 상세 조회
 	List<UsersDomain> selectUsersDisList(UsersDomain usersDomain);	
 	
+	// 2021-11-08 개인회원 정보변경관리 리스트 조회
+	List<UsersDomain> selectUpdateIndvUsersList(UsersDomain usersDomain);
+	
+	// 2021-11-08 개인회원 정보변경관리 상세
+	UsersDomain getUpdateIndvUsersDetail(UsersDomain usersDomain);
+	
+	// 2021-11-08 법인회원 정보변경관리 리스트 조회
+	List<UsersDomain> selectUpdateCorpUsersList(UsersDomain usersDomain);
+	
+	// 2021-11-08 법인회원 정보변경관리 상세
+	UsersDomain getUpdateCorpUsersDetail(UsersDomain usersDomain);
+	
+	// 2021-11-08 개인회원 정보변경관리 상태변경
+	int updateIndvUsersStat(UsersDomain usersDomain);
+
+	// 2021-11-08 법인회원 정보변경관리 상태변경
+	int updateCorpUsersStat(UsersDomain usersDomain);
+	
 	
 }

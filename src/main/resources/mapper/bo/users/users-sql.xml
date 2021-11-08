@@ -548,4 +548,260 @@
    	</select>
    	
    	
+   	
+   	
+   	
+   	
+   	<!-- 개인회원 정보변경관리 리스트 조회 -->
+   	<select id="selectUpdateIndvUsersList" parameterType="users" resultType="users">
+   		SELECT 
+   			<include refid="common.totalPages"/>
+   			Z.*
+   		FROM
+   		(
+	   		SELECT
+	   			users.user_seq
+	   			, users.user_id
+	   			, users.password
+	   			, users.user_name
+	   			, users.mobile_no
+	   			, users.pl_class
+	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+	   			, users.pl_m_z_id
+	   			, users.email
+	   			, users.user_ci
+	   			, users.corp_appr_yn
+	   			, req.user_indv_req_seq
+	   			, req.req_user_name
+	   			, req.req_pl_m_z_id
+	   			, req.req_mobile_no
+	   			, req.req_file_seq
+	   			, req.stat
+	   			, FN_CD_DTL('CHG001',req.stat) AS stat_nm
+	   			, req.txt
+	   			, TO_DATE(req.req_date, 'YYYYMMDD') as req_date
+	   			, TO_DATE(req.comp_date, 'YYYYMMDD') as comp_date
+		    FROM tb_lc_users users
+		    INNER JOIN tb_lc_users_indv_req req
+		    ON users.user_seq = req.user_seq
+		    WHERE users.pl_class = '1'
+		    ORDER BY req.req_date DESC
+   		)Z
+   		<where>
+			<if test="userId != null and userId != ''">
+				AND Z.user_id LIKE '%' || #{userId} || '%'
+			</if>
+			
+			<if test="userName != null and userName != ''">
+				AND Z.user_name LIKE '%' || #{userName} || '%'
+			</if>	
+			
+			<if test="mobileNo != null and mobileNo != ''">
+				AND Z.mobile_no LIKE '%' || #{mobileNo} || '%'
+			</if>
+			
+			<if test="email != null and email != ''">
+				AND Z.email LIKE '%' || #{email} || '%'
+			</if>
+			
+			<if test="dis1 != null and dis1 != ''">
+				AND Z.dis1 = #{dis1}
+			</if>
+			
+			<if test="dis2 != null and dis2 != ''">
+				AND Z.dis2 = #{dis2}
+			</if>
+			
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.req_date::TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.req_date::TIMESTAMP 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+			</if>
+			
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	<!-- 개인회원 정보변경관리 상세 조회 -->
+   	<select id="getUpdateIndvUsersDetail" parameterType="users" resultType="users">
+   		SELECT
+   			users.user_seq
+   			, users.user_id
+   			, users.password
+   			, users.user_name
+   			, users.mobile_no
+   			, users.pl_class
+   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+   			, users.pl_m_z_id
+   			, users.email
+   			, users.user_ci
+   			, users.corp_appr_yn
+   			, req.user_indv_req_seq
+   			, req.req_user_name
+   			, req.req_pl_m_z_id
+   			, req.req_mobile_no
+   			, req.req_file_seq
+   			, req.stat
+   			, FN_CD_DTL('CHG001',req.stat) AS stat_nm
+   			, req.txt
+   			, TO_DATE(req.req_date, 'YYYYMMDD') as req_date
+   			, TO_DATE(req.comp_date, 'YYYYMMDD') as comp_date
+	    FROM tb_lc_users users
+	    INNER JOIN tb_lc_users_indv_req req
+	    ON users.user_seq = req.user_seq
+	    WHERE users.pl_class = '1'
+	    AND users.user_seq = #{userSeq}
+   	</select>
+   	
+   	
+   	<!-- 법인회원 정보변경관리 리스트 조회 -->
+   	<select id="selectUpdateCorpUsersList" parameterType="users" resultType="users">
+   		SELECT 
+   			<include refid="common.totalPages"/>
+   			Z.*
+   		FROM
+   		(
+	   		SELECT
+	   			users.user_seq
+	   			, users.user_id
+	   			, users.password
+	   			, users.user_name
+	   			, users.mobile_no
+	   			, users.pl_class
+	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+	   			, users.pl_m_z_id
+	   			, users.email
+	   			, users.user_ci
+	   			, users.corp_appr_yn
+	   			, req.user_corp_req_seq
+	   			, req.req_user_name
+	   			, req.req_pl_m_z_id
+	   			, req.req_mobile_no
+	   			, req.req_file_seq
+	   			, req.stat
+	   			, FN_CD_DTL('CHG001',req.stat) AS stat_nm
+	   			, req.txt
+	   			, TO_DATE(req.req_date, 'YYYYMMDD') as req_date
+	   			, TO_DATE(req.comp_date, 'YYYYMMDD') as comp_date
+	   			,corp.corp_seq
+	   			,corp.pl_merchant_name
+	   			,corp.pl_merchant_no
+	   			,corp.pl_business_no
+	   			,corp.path_typ
+	   			,corp.pass_yn
+		    FROM tb_lc_users users
+		    INNER JOIN tb_lc_users_corp_req req
+		    ON users.user_seq = req.user_seq
+			INNER JOIN tb_lc_corp corp
+			on users.user_seq = corp.user_seq
+		    WHERE users.pl_class = '2'
+		    ORDER BY req.req_date DESC
+   		)Z
+   		<where>
+			<if test="userId != null and userId != ''">
+				AND Z.user_id LIKE '%' || #{userId} || '%'
+			</if>
+			
+			<if test="userName != null and userName != ''">
+				AND Z.user_name LIKE '%' || #{userName} || '%'
+			</if>	
+			
+			<if test="mobileNo != null and mobileNo != ''">
+				AND Z.mobile_no LIKE '%' || #{mobileNo} || '%'
+			</if>
+			
+			<if test="email != null and email != ''">
+				AND Z.email LIKE '%' || #{email} || '%'
+			</if>
+			
+			<if test="dis1 != null and dis1 != ''">
+				AND Z.dis1 = #{dis1}
+			</if>
+			
+			<if test="dis2 != null and dis2 != ''">
+				AND Z.dis2 = #{dis2}
+			</if>
+			
+			<if test="srchDate1 != null and srchDate1 != ''">
+				AND Z.req_date::TIMESTAMP 	<![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+			</if>
+			<if test="srchDate2 != null and srchDate2 != ''">
+				AND Z.req_date::TIMESTAMP 	<![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+			</if>
+			
+	    </where>
+	    <include refid="common.pageBottom"/>
+   	</select>
+   	
+   	<!-- 법인회원 정보변경관리 상세 조회 -->
+   	<select id="getUpdateCorpUsersDetail" parameterType="users" resultType="users">
+   		SELECT
+   			users.user_seq
+   			, users.user_id
+   			, users.password
+   			, users.user_name
+   			, users.mobile_no
+   			, users.pl_class
+   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
+   			, users.pl_m_z_id
+   			, users.email
+   			, users.user_ci
+   			, users.corp_appr_yn
+   			, req.user_corp_req_seq
+   			, req.req_user_name
+   			, req.req_pl_merchant_name
+   			, req.req_pl_m_z_id
+   			, req.req_mobile_no
+   			, req.req_user_ci
+   			, req.req_file_seq
+   			, req.stat
+   			, FN_CD_DTL('CHG001',req.stat) AS stat_nm
+   			, req.txt
+   			, TO_DATE(req.req_date, 'YYYYMMDD') as req_date
+   			, TO_DATE(req.comp_date, 'YYYYMMDD') as comp_date
+   			,corp.corp_seq
+   			,corp.pl_merchant_name
+   			,corp.pl_merchant_no
+   			,corp.pl_business_no
+   			,corp.path_typ
+   			,corp.pass_yn
+	    FROM tb_lc_users users
+	    INNER JOIN tb_lc_users_corp_req req
+	    ON users.user_seq = req.user_seq
+		INNER JOIN tb_lc_corp corp
+		on users.user_seq = corp.user_seq
+	    WHERE users.pl_class = '2'
+	    AND users.user_seq = #{userSeq}
+   	</select>
+   	
+   	<!-- 개인회원 정보변경관리 상태변경 -->
+	<update id="updateIndvUsersStat" parameterType="users" >
+		UPDATE tb_lc_users_indv_req
+		SET
+			stat 				= #{stat}
+			, txt 				= #{txt}
+			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
+   			, upd_seq 			= #{regSeq}
+   			, upd_timestamp		= NOW()
+   		WHERE
+   			user_indv_req_seq	= #{userIndvReqSeq}
+   		AND user_seq 			= #{userSeq}
+	</update>
+   	
+   	
+   	<!-- 법인회원 정보변경관리 상태변경 -->
+	<update id="updateCorpUsersStat" parameterType="users" >
+		UPDATE tb_lc_users_corp_req
+		SET
+			stat 				= #{stat}
+			, txt 				= #{txt}
+			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
+   			, upd_seq 			= #{regSeq}
+   			, upd_timestamp		= NOW()
+   		WHERE
+   			user_corp_req_seq	= #{userCorpReqSeq}
+   		AND user_seq 			= #{userSeq}
+	</update>
+   	
 </mapper> 

@@ -257,4 +257,95 @@ public class UsersController {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 개인회원 정보변경관리 리스트 페이지
+	@GetMapping(value="/updateIndvUsers/updateIndvUsersPage")
+	public String updateIndvUsersPage() {
+		return CosntPage.BoUpdateUsersPage+"/updateIndvUsersList";
+	}
+	
+	// 개인회원 정보변경관리 리스트 조회
+	@PostMapping(value="/updateIndvUsers/updateIndvUsersList")
+	public ResponseEntity<ResponseMsg> selectUpdateIndvUsersList(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(usersService.selectUpdateIndvUsersList(usersDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 개인회원 정보변경관리 상세
+	@PostMapping(value="/updateIndvUsers/updateIndvUsersDetail")
+    public ModelAndView updateIndvUsersDetail(UsersDomain usersDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoUpdateUsersPage+"/updateIndvUsersDetail");
+		UsersDomain usersInfo = usersService.getUpdateIndvUsersDetail(usersDomain);
+    	mv.addObject("usersInfo", usersInfo);
+
+    	// 첨부파일
+		FileDomain fileParam = new FileDomain();
+		if(usersInfo.getReqFileSeq() > 0) {
+			fileParam.setFileGrpSeq(usersInfo.getReqFileSeq());
+			List<FileDomain> fileList = commonService.selectFileList(fileParam);
+			mv.addObject("fileList", fileList);
+		}
+        return mv;
+    }
+	
+	// 개인회원 정보변경관리 상태변경
+	@PostMapping(value="/updateIndvUsers/updateIndvUsersStat")
+	public ResponseEntity<ResponseMsg> updateIndvUsersStat(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.updateIndvUsersStat(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 법인회원 정보변경관리 리스트 페이지
+	@GetMapping(value="/updateCorpUsers/updateCorpUsersPage")
+	public String updateCorpUsersPage() {
+		return CosntPage.BoUpdateUsersPage+"/updateCorpUsersList";
+	}
+	
+	// 법인회원 정보변경관리 리스트 조회
+	@PostMapping(value="/updateCorpUsers/updateCorpUsersList")
+	public ResponseEntity<ResponseMsg> selectUpdateCorpUsersList(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(usersService.selectUpdateCorpUsersList(usersDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 법인회원 정보변경관리 상세
+	@PostMapping(value="/updateCorpUsers/updateCorpUsersDetail")
+    public ModelAndView updateCorpUsersDetail(UsersDomain usersDomain) {
+		ModelAndView mv = new ModelAndView(CosntPage.BoUpdateUsersPage+"/updateCorpUsersDetail");
+		UsersDomain usersInfo = usersService.getUpdateCorpUsersDetail(usersDomain);
+    	mv.addObject("usersInfo", usersInfo);
+
+    	// 첨부파일
+		FileDomain fileParam = new FileDomain();
+		if(usersInfo.getReqFileSeq() > 0) {
+			fileParam.setFileGrpSeq(usersInfo.getReqFileSeq());
+			List<FileDomain> fileList = commonService.selectFileList(fileParam);
+			mv.addObject("fileList", fileList);
+		}
+        return mv;
+    }
+	
+	
+	// 법인회원 정보변경관리 상태변경
+	@PostMapping(value="/updateCorpUsers/updateCorpUsersStat")
+	public ResponseEntity<ResponseMsg> updateCorpUsersStat(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.updateCorpUsersStat(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+
+	
+	
 }

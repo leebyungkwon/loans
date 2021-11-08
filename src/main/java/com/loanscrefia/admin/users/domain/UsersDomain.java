@@ -98,4 +98,24 @@ public class UsersDomain extends BaseDomain {
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	private Map<String, Object> excelMapParam;
+	
+	
+	
+	// 2021-11-08 정보변경 필드 추가
+	private int userIndvReqSeq;				// 개인정보변경 시퀀스
+	private String reqUserName;				// 정보변경 이름
+	private String reqPlMZId;				// 정보변경 주민등록번호
+	private String reqMobileNo;				// 정보변경 연락처
+	private int reqFileSeq;					// 정보변경 첨부파일
+	private String stat;					// 정보변경 상태
+	private String statNm;					// 정보변경 상태명
+	private String txt;						// 정보변경 사유
+	private String reqDate;					// 정보변경 신청일
+	private String compDate;				// 정보변경 완료일
+	
+	private int userCorpReqSeq;				// 법인정보변경 시퀀스
+	private String reqPlMerchantName;		// 정보변경 법인명
+	private String reqUserCi;				// 정보변경 CI
+
+	
 }

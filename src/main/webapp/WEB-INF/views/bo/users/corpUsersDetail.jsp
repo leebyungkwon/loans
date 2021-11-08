@@ -86,6 +86,27 @@ function updatePassYn(){
 	}
 }
 
+//회원관리 법인 승인처리
+function usersCorpApply(){
+	var userSeq = $("#userSeq").val();
+	if(WebUtil.isNull(userSeq)){
+		alert("법인회원정보가 잘못되었습니다.\w새로고침 후 다시 시도해 주세요.");
+		return false;
+	}
+	
+	if(confirm("법인회원을 승인하시겠습니까?")){
+		var p = {
+			  url		: "/admin/corpUsers/usersCorpApply"	
+			, param		: {
+				userSeq 	: userSeq  
+			}
+			, success 	: function (opt,result) {
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
 </script>
 
 <div class="cont_area">

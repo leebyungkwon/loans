@@ -512,4 +512,203 @@ public class UsersService {
 		return responseMsg;
 	}
 	
+	
+	
+	// 개인회원 정보변경관리 리스트 조회
+	@Transactional(readOnly=true)
+	public List<UsersDomain> selectUpdateIndvUsersList(UsersDomain usersDomain){
+		
+		UtilMask mask = new UtilMask();
+		// 주민번호 및 법인번호 암호화 후 비교
+		if(StringUtils.isNotEmpty(usersDomain.getPlMerchantNo())) {
+			if(cryptoApply) {
+				usersDomain.setPlMerchantNo(CryptoUtil.encrypt(usersDomain.getPlMerchantNo()));
+			}else {
+				usersDomain.setPlMerchantNo(usersDomain.getPlMerchantNo());
+			}
+		}
+		if(StringUtils.isNotEmpty(usersDomain.getPlMZId())) {
+			if(cryptoApply) {
+				usersDomain.setPlMZId(CryptoUtil.encrypt(usersDomain.getPlMZId()));
+			}else {
+				usersDomain.setPlMZId(usersDomain.getPlMZId());
+			}
+		}
+		
+		List<UsersDomain> resultList = usersRepository.selectUpdateIndvUsersList(usersDomain);
+		String plMZId = "";
+		for(UsersDomain list : resultList) {
+			if(StringUtils.isNotEmpty(list.getPlMZId())) {
+				if(cryptoApply) {
+					plMZId 	= CryptoUtil.decrypt(list.getPlMZId());
+				}else {
+					plMZId 	= list.getPlMZId();
+					usersDomain.setPlMZId(plMZId);
+				}
+				if(StringUtils.isNotEmpty(plMZId)) {
+					if(!"false".equals(usersDomain.getIsPaging())) {
+						plMZId = mask.maskSSN(plMZId);
+					}
+				}
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+				list.setPlMZId(plMZId);
+			}
+			
+			StringBuilder merchantNo = new StringBuilder();
+			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
+				if(cryptoApply) {
+					merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				}else {
+					merchantNo.append(list.getPlMerchantNo());
+				}
+				merchantNo.insert(6, "-");
+				list.setPlMerchantNo(merchantNo.toString());
+			}
+		}
+		
+		return resultList;
+	}
+	
+	
+	// 개인회원 정보변경관리 상세
+	@Transactional(readOnly=true)
+	public UsersDomain getUpdateIndvUsersDetail(UsersDomain usersDomain){
+		return usersRepository.getUpdateIndvUsersDetail(usersDomain);
+	}
+	
+	
+	// 개인회원 정보변경관리 상태변경
+	@Transactional
+	public ResponseMsg updateIndvUsersStat(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		
+		if("2".equals(usersDomain.getStat())) {
+			// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
+
+			
+			
+		}else if("3".equals(usersDomain.getStat())) {
+			// 정보변경 거절 -> email, 문자발송????
+			
+			
+			
+			
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+		
+		
+		
+		int result = usersRepository.updateIndvUsersStat(usersDomain);
+		if(result > 0) {
+			return responseMsg;
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 법인회원 정보변경관리 리스트 조회
+	@Transactional(readOnly=true)
+	public List<UsersDomain> selectUpdateCorpUsersList(UsersDomain usersDomain){
+		
+		UtilMask mask = new UtilMask();
+		// 주민번호 및 법인번호 암호화 후 비교
+		if(StringUtils.isNotEmpty(usersDomain.getPlMerchantNo())) {
+			if(cryptoApply) {
+				usersDomain.setPlMerchantNo(CryptoUtil.encrypt(usersDomain.getPlMerchantNo()));
+			}else {
+				usersDomain.setPlMerchantNo(usersDomain.getPlMerchantNo());
+			}
+		}
+		if(StringUtils.isNotEmpty(usersDomain.getPlMZId())) {
+			if(cryptoApply) {
+				usersDomain.setPlMZId(CryptoUtil.encrypt(usersDomain.getPlMZId()));
+			}else {
+				usersDomain.setPlMZId(usersDomain.getPlMZId());
+			}
+		}
+		
+		List<UsersDomain> resultList = usersRepository.selectUpdateCorpUsersList(usersDomain);
+		String plMZId = "";
+		for(UsersDomain list : resultList) {
+			if(StringUtils.isNotEmpty(list.getPlMZId())) {
+				if(cryptoApply) {
+					plMZId 	= CryptoUtil.decrypt(list.getPlMZId());
+				}else {
+					plMZId 	= list.getPlMZId();
+					usersDomain.setPlMZId(plMZId);
+				}
+				if(StringUtils.isNotEmpty(plMZId)) {
+					if(!"false".equals(usersDomain.getIsPaging())) {
+						plMZId = mask.maskSSN(plMZId);
+					}
+				}
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+				list.setPlMZId(plMZId);
+			}
+			
+			StringBuilder merchantNo = new StringBuilder();
+			if(StringUtils.isNotEmpty(list.getPlMerchantNo())) {
+				if(cryptoApply) {
+					merchantNo.append(CryptoUtil.decrypt(list.getPlMerchantNo()));
+				}else {
+					merchantNo.append(list.getPlMerchantNo());
+				}
+				merchantNo.insert(6, "-");
+				list.setPlMerchantNo(merchantNo.toString());
+			}
+		}
+		
+		return resultList;
+	}
+	
+	
+	// 법인회원 정보변경관리 상세
+	@Transactional(readOnly=true)
+	public UsersDomain getUpdateCorpUsersDetail(UsersDomain usersDomain){
+		return usersRepository.getUpdateCorpUsersDetail(usersDomain);
+	}
+	
+	
+	
+	// 법인회원 정보변경관리 상태변경
+	@Transactional
+	public ResponseMsg updateCorpUsersStat(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		
+		if("2".equals(usersDomain.getStat())) {
+			// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
+
+			
+			
+		}else if("3".equals(usersDomain.getStat())) {
+			// 정보변경 거절 -> email, 문자발송????
+			
+			
+			
+			
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+		
+		
+		
+		int result = usersRepository.updateCorpUsersStat(usersDomain);
+		if(result > 0) {
+			return responseMsg;
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+	}
+	
 }

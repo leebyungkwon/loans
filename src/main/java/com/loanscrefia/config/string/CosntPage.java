@@ -101,5 +101,8 @@ public class CosntPage {
 	//2021-10-13 모집인 조회 및 해지 페이지
 	public static String BoNewRecruitPage = "bo/newRecruit";
 	
+	//2021-11-08 개인회원 정보변경관리 리스트페이지
+	public static String BoUpdateUsersPage 	= "bo/updateUsers";
+	
 
 }
