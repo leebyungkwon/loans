@@ -36,8 +36,8 @@ commit;
 CREATE TABLE tb_lc_cod01_detail (
 	code_mst_cd varchar(10) NULL,
 	code_dtl_cd varchar(10) NOT NULL,
-	code_dtl_nm varchar(100) NULL,
-	code_dtl_desc varchar(100) NULL,
+	code_dtl_nm text NULL,
+	code_dtl_desc text NULL,
 	property01 varchar(100) NULL,
 	property02 varchar(100) NULL,
 	property03 varchar(100) NULL,
@@ -1458,9 +1458,9 @@ COMMENT ON TABLE tb_lc_users_hist IS '사용자 이력';
 commit;
 
 
--- 사용자 정보변경 신청내역
+-- 사용자 정보변경 신청내역(개인)
 
-CREATE SEQUENCE tb_lc_users_req_seq
+CREATE SEQUENCE tb_lc_users_indv_req_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 9223372036854775807
@@ -1470,40 +1470,96 @@ CREATE SEQUENCE tb_lc_users_req_seq
 
 commit;
 
-create table tb_lc_users_req(
-	user_req_seq integer not null default nextval('tb_lc_users_req_seq')
+create table tb_lc_users_indv_req(
+	user_indv_req_seq integer not null default nextval('tb_lc_users_indv_req_seq')
 	, user_seq integer not null
-	, req_cd char(1) not null
-	, req_val varchar(100) not null
+	, name varchar(100)
+	, plMZId varchar(100)
+	, mobile_no varchar(100)
 	, file_seq integer
 	, stat char(1) not null default '1'
 	, txt text
+	, req_date varchar(8)
+	, comp_date varchar(8)
 	, use_yn char(1) not null default 'Y'
 	, reg_seq integer not null
 	, reg_timestamp timestamp not null
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp null
-	, PRIMARY KEY (user_req_seq)
+	, PRIMARY KEY (user_indv_req_seq)
 );
 
-COMMENT ON TABLE tb_lc_users_req IS '사용자 정보변경 신청내역';
-COMMENT ON COLUMN tb_lc_users_req.user_req_seq IS '사용자 정보변경 시퀀스';
-COMMENT ON COLUMN tb_lc_users_req.user_seq IS '사용자시퀀스';
-COMMENT ON COLUMN tb_lc_users_req.req_cd IS '신청코드';
-COMMENT ON COLUMN tb_lc_users_req.req_val IS '신청값';
-COMMENT ON COLUMN tb_lc_users_req.file_seq IS '첨부파일 시퀀스';
-COMMENT ON COLUMN tb_lc_users_req.stat IS '상태';
-COMMENT ON COLUMN tb_lc_users_req.txt IS '사유';
-COMMENT ON COLUMN tb_lc_users_req.use_yn IS '사용여부';
-COMMENT ON COLUMN tb_lc_users_req.reg_seq IS '등록자시퀀스';
-COMMENT ON COLUMN tb_lc_users_req.reg_timestamp IS '등록일시';
-COMMENT ON COLUMN tb_lc_users_req.upd_seq IS '수정자시퀀스';
-COMMENT ON COLUMN tb_lc_users_req.upd_timestamp IS '수정일시';
+COMMENT ON TABLE tb_lc_users_indv_req IS '사용자 정보변경 신청내역(개인)';
+COMMENT ON COLUMN tb_lc_users_indv_req.user_indv_req_seq IS '사용자 정보변경 시퀀스';
+COMMENT ON COLUMN tb_lc_users_indv_req.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_indv_req.name IS '이름';
+COMMENT ON COLUMN tb_lc_users_indv_req.plMZId IS '주민등록번호';
+COMMENT ON COLUMN tb_lc_users_indv_req.mobile_no IS '휴대폰번호';
+COMMENT ON COLUMN tb_lc_users_indv_req.file_seq IS '첨부파일 시퀀스';
+COMMENT ON COLUMN tb_lc_users_indv_req.stat IS '상태';
+COMMENT ON COLUMN tb_lc_users_indv_req.txt IS '사유';
+COMMENT ON COLUMN tb_lc_users_indv_req.req_date IS '신청일';
+COMMENT ON COLUMN tb_lc_users_indv_req.comp_date IS '완료일(승인/거절)';
+COMMENT ON COLUMN tb_lc_users_indv_req.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_users_indv_req.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_users_indv_req.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_users_indv_req.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_users_indv_req.upd_timestamp IS '수정일시';
 
 commit;
 
 
+-- 사용자 정보변경 신청내역(법인)
 
+CREATE SEQUENCE tb_lc_users_corp_req_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+create table tb_lc_users_corp_req(
+	user_corp_req_seq integer not null default nextval('tb_lc_users_corp_req_seq')
+	, user_seq integer not null
+	, pl_merchant_name varchar(100)
+	, name varchar(100)
+	, plMZId varchar(100)
+	, mobile_no varchar(100)
+	, ci varchar(100)
+	, stat char(1) not null default '1'
+	, txt text
+	, req_date varchar(8)
+	, comp_date varchar(8)
+	, use_yn char(1) not null default 'Y'
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+	, PRIMARY KEY (user_corp_req_seq)
+);
+
+COMMENT ON TABLE tb_lc_users_corp_req IS '사용자 정보변경 신청내역(법인)';
+COMMENT ON COLUMN tb_lc_users_corp_req.user_corp_req_seq IS '사용자 정보변경 시퀀스';
+COMMENT ON COLUMN tb_lc_users_corp_req.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_corp_req.pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_users_corp_req.name IS '대표자 성명';
+COMMENT ON COLUMN tb_lc_users_corp_req.plMZId IS '대표자 주민등록번호';
+COMMENT ON COLUMN tb_lc_users_corp_req.mobile_no IS '대표자 휴대폰번호';
+COMMENT ON COLUMN tb_lc_users_corp_req.ci IS '대표자 CI';
+COMMENT ON COLUMN tb_lc_users_corp_req.stat IS '상태';
+COMMENT ON COLUMN tb_lc_users_corp_req.txt IS '사유';
+COMMENT ON COLUMN tb_lc_users_corp_req.req_date IS '신청일';
+COMMENT ON COLUMN tb_lc_users_corp_req.comp_date IS '완료일(승인/거절)';
+COMMENT ON COLUMN tb_lc_users_corp_req.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_users_corp_req.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_users_corp_req.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_users_corp_req.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_users_corp_req.upd_timestamp IS '수정일시';
+
+commit;
 
 
 
