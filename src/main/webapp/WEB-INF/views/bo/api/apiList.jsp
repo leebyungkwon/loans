@@ -223,7 +223,8 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
-
+	
+/* 
 	
 	// 승인완료 자격취득
 	$("#apiApplyReg").on("click", function(){
@@ -240,7 +241,7 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
-	
+	 */
 	// 가등록 삭제
 	$("#deletePreLoan").on("click", function(){
 		
@@ -490,6 +491,8 @@ function goGetDate(opt) {
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiReg">수동본등록</a>
 		</div>
 		
+<%-- 		
+		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -509,7 +512,7 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiApplyReg">승인완료자격취득</a>
 		</div>
-		
+		 --%>
 		
 	</div>
 	

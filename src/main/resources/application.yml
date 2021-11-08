@@ -35,21 +35,21 @@ spring:
       mst:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://116.47.78.15:5431/postgres
-        username: postgres
-        password: 1234
+        jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
+        username: admin
+        password: admin
       email:
         pool-name: EMAIL-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://116.47.78.15:5431/postgres
-        username: postgres
-        password: 1234
+        jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
+        username: admin
+        password: admin
       sms:
         pool-name: SMS-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-        jdbc-url: jdbc:log4jdbc:postgresql://116.47.78.15:5431/postgres
-        username: postgres
-        password: 1234
+        jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
+        username: admin
+        password: admin
     
 logging:
   file:
