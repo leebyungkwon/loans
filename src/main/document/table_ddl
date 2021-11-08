@@ -1529,6 +1529,7 @@ create table tb_lc_users_corp_req(
 	, req_pl_m_z_id varchar(100)
 	, req_mobile_no varchar(100)
 	, req_user_ci varchar(100)
+	, req_file_seq integer
 	, stat char(1) not null default '1'
 	, txt text
 	, req_date varchar(8)
@@ -1549,6 +1550,7 @@ COMMENT ON COLUMN tb_lc_users_corp_req.req_user_name IS '대표자 성명';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_pl_m_z_id IS '대표자 주민등록번호';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_mobile_no IS '대표자 휴대폰번호';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_user_ci IS '대표자 CI';
+COMMENT ON COLUMN tb_lc_users_corp_req.req_file_seq IS '첨부파일 시퀀스';
 COMMENT ON COLUMN tb_lc_users_corp_req.stat IS '상태';
 COMMENT ON COLUMN tb_lc_users_corp_req.txt IS '사유';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_date IS '신청일';
