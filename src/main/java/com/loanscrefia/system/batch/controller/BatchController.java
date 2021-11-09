@@ -57,7 +57,7 @@ public class BatchController {
 		
 		int successCnt = 0;
 		
-		//배치 시작 이력 저장
+		//schedule_hist 시작 이력 저장
 		//batchService.insertScheduleHist
 		
 		for(BatchDomain reg : recruitRegList) {
@@ -66,7 +66,7 @@ public class BatchController {
 		}
 		batch.setSuccessCnt(successCnt);
 		
-		//배치 완료 이력 저장
+		//schedule_hist 완료 이력 저장
 		//batchService.insertScheduleHist
 
     }

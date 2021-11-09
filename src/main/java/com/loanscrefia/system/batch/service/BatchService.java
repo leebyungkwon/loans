@@ -33,6 +33,7 @@ public class BatchService{
 	public int recruitReg(BatchDomain req) {
 		ApiDomain param = new ApiDomain();
 		int cnt = 0;
+		//schedule 시작 이력저장
 		try {
 			//필요정보 호출하여 param 만들기
 			
@@ -48,6 +49,8 @@ public class BatchService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			
+			//schedule 완료 이력저장
 			return cnt;
 		}
 	}

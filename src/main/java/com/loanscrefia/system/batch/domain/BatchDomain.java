@@ -10,16 +10,18 @@ import lombok.Data;
 @Alias("batch")
 public class BatchDomain extends BaseDomain{
 
-	private String scheduleName;
-	private int reqCnt;
-	private int successCnt;
+	private String scheduleName;//스케줄명
+	private int reqCnt;			//요청건수
+	private int successCnt;		//성공건수
 	private String param;		//json 형식
+
+	private String startTime;	//실행시간
+	private String endTime;		//종료시간
+	
 	private String property01;
 	private String property02;
 	private String property03;
 	private String property04;
 	private String property05;
-	private String startTime;
-	private String endTime;
 	
 }
