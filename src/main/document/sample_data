@@ -491,7 +491,8 @@ INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01
 	 ('PTH001','처리상태 요청경로','처리상태 요청경로',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('DSQ001','결격요건','결격요건(개인)',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
 	 ('DSQ002','결격요건','결격요건(법인)',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
-	 ('CHG001','변경신청상태','변경신청상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
+	 ('CHG001','변경신청상태','변경신청상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL),
+	 ('BAT001','배치상태','배치상태',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-30 17:33:29.498153',NULL,NULL);
 
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('PST001','1','대표이사','대표이사',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
@@ -537,7 +538,10 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('DSQ002','12','대부업자 여부','대부업자 여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('CHG001','1','요청중','요청중',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('CHG001','2','승인','승인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
-	 ('CHG001','3','거절','거절',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL);
+	 ('CHG001','3','거절','거절',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('BAT001','1','대기','대기',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('BAT001','2','성공','성공',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('BAT001','3','에러','에러',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL);
 /************************************************************** 고도화 관련 추가 E **************************************************************/
 
 -- 임시 random CI
