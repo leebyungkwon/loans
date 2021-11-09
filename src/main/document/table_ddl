@@ -1564,7 +1564,56 @@ COMMENT ON COLUMN tb_lc_users_corp_req.upd_timestamp IS '수정일시';
 commit;
 
 
+//배치 정보
 
+CREATE SEQUENCE tb_lc_schedule_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+
+CREATE TABLE public.tb_lc_schedule (
+	schedule_seq int4 NOT NULL DEFAULT nextval('tb_lc_schedule_seq'::regclass),
+	schedule_name varchar(10) NOT NULL,
+	param varchar(500) NULL, 
+	reg_time timestamp NULL,
+	status timestamp NULL,  --01 대기 , 02 성공 , 03 에러
+	error varchar(500) NULL,
+	start_time timestamp NULL,
+	end_time timestamp NULL,
+	property01 varchar(100) NULL,
+	property02 varchar(100) NULL,
+	property03 varchar(100) NULL,
+	property04 varchar(100) NULL,
+	property05 varchar(100) NULL,
+	use_yn bpchar(1) NOT NULL DEFAULT 'Y'::character varying,
+	reg_seq int4 NULL,
+	reg_timestamp timestamp NULL,
+	upd_seq int4 NULL,
+	upd_timestamp timestamp null,
+	CONSTRAINT tb_lc_schedule_pkey PRIMARY KEY (schedule_seq)
+);
+
+CREATE TABLE public.tb_lc_schedule_hist (
+	schedule_name varchar(10) NOT NULL,
+	req_cnt int4 NULL,
+	success_cnt int4 NULL,
+	start_time timestamp NULL,
+	end_time timestamp NULL,
+	property01 varchar(100) NULL,
+	property02 varchar(100) NULL,
+	property03 varchar(100 ) NULL,
+	property04 varchar(100) NULL,
+	property05 varchar(100) NULL,
+	use_yn bpchar(1) NOT NULL DEFAULT 'Y'::character varying,
+	reg_seq int4 NULL,
+	reg_timestamp timestamp NULL,
+	upd_seq int4 NULL,
+	upd_timestamp timestamp NULL
+);
 
 
 
