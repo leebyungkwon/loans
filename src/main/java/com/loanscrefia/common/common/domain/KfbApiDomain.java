@@ -15,6 +15,7 @@ public class KfbApiDomain extends BaseDomain {
 	
 	//공통
 	private int apiSeq;					//Api시퀀스
+	private String apiName;				//api명
 	private String code;				//권한코드
 	private String token;				//토큰
 	private String url;					//요청URL

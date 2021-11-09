@@ -94,10 +94,10 @@ public class ConfigurationForInterceptor extends HandlerInterceptorAdapter {
 		Enumeration<String> paramNames = request.getParameterNames();
 		String p = "?";
 
-		log.info("============================== START ==============================");
-		log.info(" Class       \t:  "	+ handler.getClass());
-		log.info(" Request URI \t:  "	+ url);
-		log.info(" ip \t:  " 			+ ip);
+		//log.info("============================== START ==============================");
+		//log.info(" Class       \t:  "	+ handler.getClass());
+		//log.info(" Request URI \t:  "	+ url);
+		//log.info(" ip \t:  " 			+ ip);
 		
 		while (paramNames.hasMoreElements()) {
 			String key = (String) paramNames.nextElement();  

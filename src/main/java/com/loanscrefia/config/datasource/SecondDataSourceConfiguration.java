@@ -1,4 +1,4 @@
-package com.loanscrefia.config;
+package com.loanscrefia.config.datasource;
 
 import javax.sql.DataSource;
 

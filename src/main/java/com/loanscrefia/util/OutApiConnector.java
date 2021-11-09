@@ -15,8 +15,6 @@ import okhttp3.Response;
 
 /**
  * 외부 API 연동
- * goodsflow = 택배연동
- * vroong    = 배달대행 부릉
  */
 @Log4j
 public class OutApiConnector {
@@ -33,10 +31,10 @@ public class OutApiConnector {
         private String method="";       //
         private Boolean outLog=false;       //
         private JSONObject parameterJson = new JSONObject();
+        
+        private String clientId="";
+        private String clientSecret="";
 
-        /**
-         * 외부 API 관련 로그를 만들어야 한다.
-         */
         public setApi(String receiver, String excuteName) {
             this.receiver   = receiver;
             this.excuteName = excuteName;
@@ -62,8 +60,12 @@ public class OutApiConnector {
             this.method = method;
             return this;
         }
-        public setApi outLog(Boolean outLog){
-            this.outLog = outLog;
+        public setApi clientId(String clientId){
+            this.clientId = clientId;
+            return this;
+        }
+        public setApi clientSecret(String clientSecret){
+            this.clientSecret = clientSecret;
             return this;
         }
 
@@ -128,17 +130,13 @@ public class OutApiConnector {
         Builder builder = new Builder()
                                 .url(b.url)
                                 .method(b.method, body);
+        builder.addHeader("Content-Type", "application/json;charset=utf-8");
+        builder.addHeader("Accept", "application/json;charset=utf-8");
+        builder.addHeader("Authorization", b.token);
 
-        if("vroong".equals(b.receiver)){
-            builder.addHeader("Content-Type", "application/json");
-            builder.addHeader("Authorization", "Basic "+b.token);
-        }else if("goodsflow".equals(b.receiver)){
-            builder.addHeader("Content-Type", "application/json;charset=utf-8");
-            builder.addHeader("goodsFLOW-Api-Key", b.token);
-        }else {
-            builder.addHeader("Content-Type", "application/json;charset=utf-8");
-            builder.addHeader("Accept", "application/json;charset=utf-8");
-            builder.addHeader("Authorization", b.token);
+        if("getAuthCode".equals(b.excuteName)) {
+            builder.addHeader("X-Kfb-Client-Id", b.clientId);
+            builder.addHeader("X-Kfb-User-Secret", b.clientSecret);
         }
         return send(builder.build());
     }

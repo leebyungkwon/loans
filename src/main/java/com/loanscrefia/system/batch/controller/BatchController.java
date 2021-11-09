@@ -1,20 +1,27 @@
 package com.loanscrefia.system.batch.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.loanscrefia.admin.users.domain.UsersDomain;
+import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.KfbApiService;
-import com.loanscrefia.system.batch.repository.BatchRepository;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.domain.BatchReqDomain;
+import com.loanscrefia.system.batch.service.BatchService;
+import com.loanscrefia.util.OutApiConnector;
+import com.loanscrefia.util.OutApiParse;
 
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.SchedulerLock;
 import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
+import okhttp3.Response;
 
 @Slf4j
 @Component
@@ -23,7 +30,7 @@ import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
 public class BatchController {
 
 	@Autowired 
-	private BatchRepository batchRepository;
+	private BatchService batchService;
 	
 	@Autowired
 	private KfbApiService kfbApiService;
@@ -36,8 +43,34 @@ public class BatchController {
 	 * -------------------------------------------------------------------------------------------
 	 */
 	
-	/*
 	
+	@Scheduled(cron="* 0/30 * * * *") 
+    @SchedulerLock(name="recruitReg",lockAtMostForString = "PT30S", lockAtLeastForString = "PT30S")
+    public void SchedulerTest() {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("recruitReg");
+		
+		List<BatchDomain> recruitRegList = batchService.selectReqBatchList(batch);
+		int reqCnt = recruitRegList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		//배치 시작 이력 저장
+		//batchService.insertScheduleHist
+		
+		for(BatchDomain reg : recruitRegList) {
+			int success = batchService.recruitReg(reg);
+			successCnt = successCnt + success;
+		}
+		batch.setSuccessCnt(successCnt);
+		
+		//배치 완료 이력 저장
+		//batchService.insertScheduleHist
+
+    }
+		/*
 	//모집인 엑셀 업로드 후 1개월동안 처리상태가 미요청 + 모집인상태가 승인전인 경우 -> 모집인 데이터 및 모집인 관련 첨부파일 삭제(+서버)
 	//매일 새벽1시
 	@Scheduled(cron = "0 0 1 * * *")

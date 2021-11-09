@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.domain.BatchReqDomain;
 
 @Mapper
 public interface BatchRepository {
@@ -21,5 +23,7 @@ public interface BatchRepository {
 	
 	// 휴면회원 테이블 update - null 처리
 	void updateInactiveUserBatch(UsersDomain usersDomain);
+
+	List<BatchDomain> selectReqBatchList(BatchDomain param);
 	
 }
