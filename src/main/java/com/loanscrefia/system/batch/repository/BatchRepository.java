@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.system.batch.domain.BatchDomain;
@@ -25,5 +26,21 @@ public interface BatchRepository {
 	void updateInactiveUserBatch(UsersDomain usersDomain);
 
 	List<BatchDomain> selectReqBatchList(BatchDomain param);
+	
+	
+	
+	
+	
+	// 2021-11-09 스케줄러 테이블 상태변경
+	int updateSchedule(BatchDomain param);
+	
+	
+	// 2021-11-09 스케쥴명으로 조회
+	List<BatchDomain> selectBatchList(BatchDomain param);
+	
+	// 2021-11-09 가등록번호 update 
+	int updatePreloanReg(NewApplyDomain newApplyDomain);
+	
+	
 	
 }

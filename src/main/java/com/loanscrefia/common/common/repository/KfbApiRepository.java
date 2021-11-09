@@ -45,4 +45,10 @@ public interface KfbApiRepository {
 	List<KfbApiDomain> selectApiList(KfbApiDomain kfbApiDomain);
 	
 	
+	// 고도화 apiKey조회
+	String selectNewKfbApiKey();
+	
+	int insertApiLog(KfbApiDomain kfbApiDomain);
+	int updateApiLog(KfbApiDomain kfbApiDomain);
+	
 }

@@ -21,17 +21,17 @@ import okhttp3.Response;
 @Service
 public class ApiService {
 	
+
 	public static String ClientId 			= "crefia"; 					//요청자 아이디
 	public static String ClientSecret		= "781r671t905ehq46"; 			//요청자 비밀번호
 	
 	@Autowired private KfbApiRepository kfbApiRepo;
 	
-	@Transactional
 	public ResponseMsg excuteApi(ApiDomain apiInfo)  {
 
-		KfbApiDomain logParam = new KfbApiDomain();
-        String token = kfbApiRepo.selectKfbApiKey(logParam);
+        String token = kfbApiRepo.selectNewKfbApiKey();
         
+		KfbApiDomain logParam = new KfbApiDomain();
 		logParam.setToken(token);
 		logParam.setUrl(apiInfo.getUrl());
 
@@ -39,7 +39,7 @@ public class ApiService {
         else                         			logParam.setSendData(apiInfo.getParamJson().toString());
 		
 		logParam.setSendUser(1);
-        int apiKey = kfbApiRepo.insertNewKfbApiLog(logParam);
+        int apiKey = kfbApiRepo.insertApiLog(logParam);
         logParam.setApiSeq(apiKey);
         
 		OutApiConnector.setApi api = new OutApiConnector.setApi("", apiInfo.getApiName());
@@ -84,11 +84,10 @@ public class ApiService {
 			logParam.setResMsg(resMsg);
 			logParam.setResExpMsg(resExpMsg);
 			logParam.setResData(data.toString());
-			kfbApiRepo.updateNewKfbApiLog(logParam);
+			kfbApiRepo.updateApiLog(logParam);
 		}
         
 		return new ResponseMsg(HttpStatus.OK, successCheck, data, resMsg);
 			
 	}
-		
 }

@@ -18,6 +18,9 @@ public class BatchDomain extends BaseDomain{
 	private String startTime;	//실행시간
 	private String endTime;		//종료시간
 	
+	private String status;
+	private String error;
+	
 	private String property01;
 	private String property02;
 	private String property03;

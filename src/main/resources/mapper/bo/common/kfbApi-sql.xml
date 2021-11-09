@@ -152,4 +152,13 @@
 	</select>
 	
 	
+	<!-- 은행연합회 토큰 조회 -->
+	<select id="selectNewKfbApiKey" resultType="string">
+		SELECT
+			KEY
+		FROM KFB_API_KEY
+		WHERE INS_DT = TO_CHAR(NOW(),'YYYYMMDD')
+		LIMIT 1
+	</select>
+	
 </mapper> 

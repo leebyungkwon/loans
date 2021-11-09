@@ -157,4 +157,37 @@ public class BatchController {
     */
 	
 	
+	
+	@Scheduled(cron="* 0/30 * * * *") 
+    @SchedulerLock(name="preloanReg",lockAtMostForString = "PT30S", lockAtLeastForString = "PT30S")
+    public void preloanReg() {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("preloanReg");
+		
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		//schedule_hist 시작 이력 저장
+		//batchService.insertScheduleHist
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.preloanReg(reg);
+			successCnt = successCnt + success;
+		}
+		batch.setSuccessCnt(successCnt);
+		
+		//schedule_hist 완료 이력 저장
+		//batchService.insertScheduleHist
+
+    }
+	
+	
+	
+	
+	
 }

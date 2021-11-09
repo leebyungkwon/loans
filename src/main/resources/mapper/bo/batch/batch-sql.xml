@@ -29,6 +29,42 @@
 		WHERE PL_STAT 	= '9'	
 		AND PL_REGIST_NO IS NULL
     </select>
+    
+    
+    <select id="selectBatchList" parameterType="batch" resultType="batch">
+    	SELECT
+    		*
+    	FROM
+    		tb_lc_schedule
+    	WHERE schedule_name = #{scheduleName}
+    </select>
+    
+    <!-- 스케줄러 테이블 상태변경 --> 
+    <update id="updateSchedule" parameterType="batch" >
+		update tb_lc_schedule
+		set
+			status = #{status}
+			<if test="error != null and error != ''">
+			, error = #{error}
+			</if>
+			, upd_seq = 0
+			, upd_timestamp = NOW()
+		where schedule_seq = #{scheduleSeq}
+    </update>
+    
+    
+    <!-- 가등록번호 update --> 
+    <update id="updatePreloanReg" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			pre_lc_num = #{preLcNum}
+			, upd_timestamp = NOW()
+			, upd_seq = #{regSeq}
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
+    
    	
     
 </mapper>

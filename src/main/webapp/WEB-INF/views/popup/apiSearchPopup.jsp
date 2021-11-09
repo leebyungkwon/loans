@@ -77,7 +77,10 @@
 					<th>계약번호</th>
 					<td>${searchResultList.conNum }</td>
 				</tr>
-
+				<tr>
+					<th>업권</th>
+					<td>${searchResultList.bizCode}</td>
+				</tr>
 				<tr>
 					<th>등록일</th>
 					<td>
