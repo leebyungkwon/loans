@@ -29,18 +29,21 @@ public interface BatchRepository {
 	
 	
 	
-	
+
 	
 	// 2021-11-09 스케줄러 테이블 상태변경
 	int updateSchedule(BatchDomain param);
-	
 	
 	// 2021-11-09 스케쥴명으로 조회
 	List<BatchDomain> selectBatchList(BatchDomain param);
 	
 	// 2021-11-09 가등록번호 update 
-	int updatePreloanReg(NewApplyDomain newApplyDomain);
+	int updatePreLcNum(NewApplyDomain newApplyDomain);
 	
+	// 2021-11-10 배치 시작 이력 저장
+	int insertScheduleHist(BatchDomain param);
 	
+	// 2021-11-10 배치 종료 이력 저장
+	void updateScheduleHist(BatchDomain param);
 	
 }

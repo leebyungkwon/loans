@@ -1597,7 +1597,17 @@ CREATE TABLE public.tb_lc_schedule (
 	CONSTRAINT tb_lc_schedule_pkey PRIMARY KEY (schedule_seq)
 );
 
+
+CREATE SEQUENCE tb_lc_schedule_hist_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
 CREATE TABLE public.tb_lc_schedule_hist (
+	schedule_hist_seq int4 NOT NULL DEFAULT nextval('tb_lc_schedule_hist_seq'::regclass),
 	schedule_name varchar(10) NOT NULL,
 	req_cnt int4 NULL,
 	success_cnt int4 NULL,

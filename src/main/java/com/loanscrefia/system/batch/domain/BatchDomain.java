@@ -10,6 +10,10 @@ import lombok.Data;
 @Alias("batch")
 public class BatchDomain extends BaseDomain{
 
+	
+	private int scheduleSeq;	
+	private int scheduleHistSeq;	
+	
 	private String scheduleName;//스케줄명
 	private int reqCnt;			//요청건수
 	private int successCnt;		//성공건수

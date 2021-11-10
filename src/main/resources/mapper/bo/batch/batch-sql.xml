@@ -37,6 +37,7 @@
     	FROM
     		tb_lc_schedule
     	WHERE schedule_name = #{scheduleName}
+    	AND status in ('01', '03')
     </select>
     
     <!-- 스케줄러 테이블 상태변경 --> 
@@ -45,7 +46,7 @@
 		set
 			status = #{status}
 			<if test="error != null and error != ''">
-			, error = #{error}
+				, error = #{error}
 			</if>
 			, upd_seq = 0
 			, upd_timestamp = NOW()
@@ -54,17 +55,92 @@
     
     
     <!-- 가등록번호 update --> 
-    <update id="updatePreloanReg" parameterType="newApply" >
+    <update id="updatePreLcNum" parameterType="newApply" >
 		update tb_lc_mas01
 		set
 			pre_lc_num = #{preLcNum}
 			, upd_timestamp = NOW()
-			, upd_seq = #{regSeq}
+			, upd_seq = 0
 		where
 			master_seq = #{masterSeq}
     </update>
     
-    
+    <!-- 배치 시작 이력 저장 -->
+    <select id="insertScheduleHist" parameterType="batch" resultType="int">
+		INSERT INTO tb_lc_schedule_hist
+		(
+			schedule_name
+			, req_cnt
+			, start_time
+			<if test="property01 != null and property01 != ''">
+				, property01
+			</if>
+			<if test="property02 != null and property02 != ''">
+				, property02
+			</if>
+			<if test="property03 != null and property03 != ''">
+				, property03
+			</if>
+			<if test="property04 != null and property04 != ''">
+				, property04
+			</if>
+			<if test="property05 != null and property05 != ''">
+				, property05
+			</if>
+			, reg_seq
+			, reg_timestamp
+		)
+		VALUES(
+			#{scheduleName}
+			, #{reqCnt}
+			, NOW()
+			<if test="property01 != null and property01 != ''">
+				, #{property01}
+			</if>
+			<if test="property02 != null and property02 != ''">
+				, #{property02}
+			</if>
+			<if test="property03 != null and property03 != ''">
+				, #{property03}
+			</if>
+			<if test="property04 != null and property04 != ''">
+				, #{property04}
+			</if>
+			<if test="property05 != null and property05 != ''">
+				, #{property05}
+			</if>
+			, 0
+			, NOW()
+		)
+		RETURNING schedule_hist_seq AS scheduleHistSeq
+    </select>
    	
+    <!-- 배치 종료 이력 저장 --> 
+    <update id="updateScheduleHist" parameterType="batch" >
+		UPDATE tb_lc_schedule_hist
+		SET
+			success_cnt			= #{successCnt}
+			, end_time			= NOW()
+			<if test="property01 != null and property01 != ''">
+				, property01	= #{property01}
+			</if>
+			<if test="property02 != null and property02 != ''">
+				, property02	= #{property02}
+			</if>
+			<if test="property03 != null and property03 != ''">
+				, property03	= #{property03}
+			</if>
+			<if test="property04 != null and property04 != ''">
+				, property04	= #{property04}
+			</if>
+			<if test="property05 != null and property05 != ''">
+				, property05	= #{property05}
+			</if>
+			, upd_seq			= 0
+			, upd_timestamp		= NOW()
+		WHERE
+			schedule_name = #{scheduleName}
+		AND schedule_hist_seq = #{scheduleHistSeq}
+    </update>
     
 </mapper>

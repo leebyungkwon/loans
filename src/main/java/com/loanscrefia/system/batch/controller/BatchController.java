@@ -158,35 +158,67 @@ public class BatchController {
 	
 	
 	
+	// 가등록 - 개인
 	@Scheduled(cron="* 0/30 * * * *") 
-    @SchedulerLock(name="preloanReg",lockAtMostForString = "PT30S", lockAtLeastForString = "PT30S")
+    @SchedulerLock(name="preloanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void preloanReg() {
 		
 		BatchDomain batch = new BatchDomain();
-		batch.setScheduleName("preloanReg");
-		
+		batch.setScheduleName("preloanCorpReg");
+		// 스케쥴 이름으로 조회
 		List<BatchDomain> batchList = batchService.selectBatchList(batch);
-		
 		int reqCnt = batchList.size();
 		batch.setReqCnt(reqCnt);
 		
 		int successCnt = 0;
 		
-		//schedule_hist 시작 이력 저장
-		//batchService.insertScheduleHist
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
 		
 		for(BatchDomain reg : batchList) {
 			int success = batchService.preloanReg(reg);
 			successCnt = successCnt + success;
 		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
 		batch.setSuccessCnt(successCnt);
 		
-		//schedule_hist 완료 이력 저장
-		//batchService.insertScheduleHist
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
 
     }
 	
 	
+	
+	// 가등록 - 법인
+	@Scheduled(cron="* 0/30 * * * *") 
+    @SchedulerLock(name="preloanCorpReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void preloanCorpReg() {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("preloanCorpReg");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.preloanCorpReg(reg);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
 	
 	
 	
