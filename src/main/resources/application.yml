@@ -38,19 +38,21 @@ spring:
         jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
         username: admin
         password: admin
+        maximum-pool-size: 1
       email:
         pool-name: EMAIL-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
         username: admin
         password: admin
+        maximum-pool-size: 1
       sms:
         pool-name: SMS-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
         jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
         username: admin
         password: admin
-    
+        maximum-pool-size: 1
 logging:
   file:
     path: C:\logs\
