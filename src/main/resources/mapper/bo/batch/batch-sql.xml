@@ -58,9 +58,11 @@
     <update id="updatePreLcNum" parameterType="newApply" >
 		update tb_lc_mas01
 		set
-			pre_lc_num = #{preLcNum}
+			pre_lc_num 		= #{preLcNum}
+			, pl_regist_no	= #{plRegistNo}
+			, con_num		= #{conNum}
 			, upd_timestamp = NOW()
-			, upd_seq = 0
+			, upd_seq 		= 0
 		where
 			master_seq = #{masterSeq}
     </update>
