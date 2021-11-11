@@ -1661,4 +1661,101 @@ CREATE TABLE public.tb_lc_fo_log (
 );
 
 
+-- 관할 검찰청 또는 지청 / 관할경찰서
+
+CREATE SEQUENCE tb_lc_within_office_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+create table tb_lc_within_office(
+	within_office_seq integer not null default nextval('tb_lc_within_office_seq')
+	, within_office_cd char(1)
+	, within_office_name varchar(100)
+	, within_office_sido varchar(100)
+	, within_office_area text
+	, use_yn char(1) not null default 'Y'
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+	, PRIMARY KEY (within_office_seq)
+);
+
+COMMENT ON TABLE tb_lc_within_office IS '관할 검찰청 또는 지청,관할 경찰서';
+COMMENT ON COLUMN tb_lc_within_office.within_office_seq IS '관할시퀀스';
+COMMENT ON COLUMN tb_lc_within_office.within_office_cd IS '관할코드';
+COMMENT ON COLUMN tb_lc_within_office.within_office_name IS '명칭';
+COMMENT ON COLUMN tb_lc_within_office.within_office_sido IS '시도';
+COMMENT ON COLUMN tb_lc_within_office.within_office_area IS '지역';
+COMMENT ON COLUMN tb_lc_within_office.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_within_office.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_within_office.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_within_office.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_within_office.upd_timestamp IS '수정일시';
+
+commit;
+
+
+-- 관할 행정기관
+
+CREATE SEQUENCE tb_lc_within_adm_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	START 1
+	CACHE 1
+	NO CYCLE;
+
+commit;
+
+create table tb_lc_within_adm(
+	within_adm_seq integer not null default nextval('tb_lc_within_adm_seq')
+	, within_adm_name varchar(100)
+	, within_adm_sido varchar(100)
+	, within_adm_sgg varchar(100)
+	, use_yn char(1) not null default 'Y'
+	, reg_seq integer not null
+	, reg_timestamp timestamp not null
+	, upd_seq INTEGER NULL
+	, upd_timestamp timestamp null
+	, PRIMARY KEY (within_adm_seq)
+);
+
+COMMENT ON TABLE tb_lc_within_adm IS '관할 행정기관';
+COMMENT ON COLUMN tb_lc_within_adm.within_adm_seq IS '관할 행정기관 시퀀스';
+COMMENT ON COLUMN tb_lc_within_adm.within_adm_name IS '관할 행정기관 명칭';
+COMMENT ON COLUMN tb_lc_within_adm.within_adm_sido IS '시도';
+COMMENT ON COLUMN tb_lc_within_adm.within_adm_sgg IS '시군구';
+COMMENT ON COLUMN tb_lc_within_adm.use_yn IS '사용여부';
+COMMENT ON COLUMN tb_lc_within_adm.reg_seq IS '등록자시퀀스';
+COMMENT ON COLUMN tb_lc_within_adm.reg_timestamp IS '등록일시';
+COMMENT ON COLUMN tb_lc_within_adm.upd_seq IS '수정자시퀀스';
+COMMENT ON COLUMN tb_lc_within_adm.upd_timestamp IS '수정일시';
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

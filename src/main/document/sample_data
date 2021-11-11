@@ -438,7 +438,8 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 (4)사용자 이력 테이블				: tb_lc_users_hist
 (4)사용자 정보변경 신청내역 테이블(개인)	: tb_lc_users_indv_req 
 (5)사용자 정보변경 신청내역 테이블(법인)	: tb_lc_users_corp_req 
-(6)모집인 계약정보변경 신청내역 테이블	: 
+(6)관할 행정기관 테이블				: tb_lc_within_adm
+(7)관할 검찰청 또는 지청 / 경찰서 테이블	: tb_lc_within_office
 
 -- 컬럼 추가
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;
@@ -446,23 +447,30 @@ ALTER TABLE tb_lc_mas01 ADD COLUMN reg_path char(1) not null default 'B'; 			-- 
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr varchar(200); 							-- 등록기준지 주소
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_addr_detail varchar(200); 					-- 등록기준지 상세 주소
 ALTER TABLE tb_lc_mas01 ADD COLUMN other_field varchar(100); 						-- 영위하는 다른 업종
-ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr varchar(100); 						-- 관할 검찰청 또는 지청
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr INTEGER; 							-- 관할 검찰청 또는 지청
 ALTER TABLE tb_lc_mas01 ADD COLUMN addr_base varchar(200); 							-- 주소
 ALTER TABLE tb_lc_mas01 ADD COLUMN pl_stat_req_seq INTEGER; 						-- 처리상태 요청자시퀀스
 ALTER TABLE tb_lc_mas01 ADD COLUMN pl_stat_req_path char(1); 						-- 처리상태 요청경로
+ALTER TABLE tb_lc_mas01 ADD COLUMN user_seq INTEGER; 								-- 사용자시퀀스
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_police INTEGER; 							-- 관할 경찰서
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_adm INTEGER; 								-- 관할 행정기관
 
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_seq INTEGER;
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_path char(1) not null default 'B';
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN reg_addr_detail varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN other_field varchar(100);
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr varchar(100);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr INTEGER;
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN addr_base varchar(200);
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_seq INTEGER; 
-ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_path char(1); 
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN pl_stat_req_path char(1);
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN user_seq INTEGER; 
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_police INTEGER;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_adm INTEGER;
 
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN position_cd char(1); 						-- 직위
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN proper_cd char(1); 						-- 임원자격 적합여부
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN user_seq INTEGER; 							-- 사용자시퀀스
 
 ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_seq INTEGER;					-- 처리상태 요청자시퀀스
 ALTER TABLE tb_lc_mas01_step ADD COLUMN pl_stat_req_path char(1);					-- 처리상태 요청경로
@@ -472,9 +480,6 @@ ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1';
 -- 컬럼 데이터타입 수정
 ALTER TABLE tb_lc_cod01_detail ALTER COLUMN code_dtl_nm TYPE TEXT;
 ALTER TABLE tb_lc_cod01_detail ALTER COLUMN code_dtl_desc TYPE TEXT;
-
-
-
 
 -- 코드(property 값 수정)
 CAR001 : 1,2만 모두 property01,property02 값 Y로 수정
