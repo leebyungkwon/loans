@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
+import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.system.batch.domain.BatchDomain;
 import com.loanscrefia.system.batch.domain.BatchReqDomain;
@@ -65,5 +66,9 @@ public interface BatchRepository {
 	
 	// 2021-11-11 법인정보 수정
 	int updateCorpInfo(UsersDomain usersDomain);	
+	
+	
+	// 2021-11-11 위반이력 등록
+	int updateUserViolationInfo(NewUserDomain newUserDomain);
 	
 }

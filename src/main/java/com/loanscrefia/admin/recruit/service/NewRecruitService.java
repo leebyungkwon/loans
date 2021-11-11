@@ -31,6 +31,7 @@ import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.NewUserRepository;
 import com.loanscrefia.system.batch.domain.BatchDomain;
 import com.loanscrefia.system.batch.repository.BatchRepository;
@@ -919,13 +920,8 @@ public class NewRecruitService {
 		
 		
 		// API성공여부
-		boolean apiCheck = false;
-		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
-			
-			
 			if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
-				
 				// 개인
 				if("1".equals(statCheck.getPlClass())) {
 					BatchDomain batchDomain = new BatchDomain();
@@ -954,7 +950,7 @@ public class NewRecruitService {
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
 					
-					batchDomain.setScheduleName("loanUpd");
+					batchDomain.setScheduleName("caseLoanUpd");
 					batchDomain.setParam(jsonParam.toString());
 					batchDomain.setProperty01("1"); //개인,법인 구분값
 					batchRepository.insertBatchPlanInfo(batchDomain);
@@ -989,42 +985,75 @@ public class NewRecruitService {
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
 					
-					batchDomain.setScheduleName("loanUpd");
+					batchDomain.setScheduleName("caseLoanUpd");
 					batchDomain.setParam(jsonParam.toString());
 					batchDomain.setProperty01("2"); //개인,법인 구분값
 					batchRepository.insertBatchPlanInfo(batchDomain);
 				}
+				
+				
+				if(violationRegList.size() > 0) {
+					// 위반이력 등록
+					for(NewUserDomain regVio : violationRegList) {
+						JSONObject jsonRegVioParam = new JSONObject();
+						jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
+						jsonRegVioParam.put("vio_seq", regVio.getViolationSeq());					// 위반이력시퀀스
+						jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
+						jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
+						jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
+						jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
+					
+						BatchDomain vioBatchDomain = new BatchDomain();
+						vioBatchDomain.setScheduleName("violationReg");
+						vioBatchDomain.setParam(jsonRegVioParam.toString());
+						batchRepository.insertBatchPlanInfo(vioBatchDomain);
+
+					}
+				}
+				
+				if(violationDelList.size() > 0) {
+					// 위반이력 삭제
+					for(NewUserDomain delVio : violationDelList) {
+						JSONObject jsonDelVioParam = new JSONObject();
+						jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
+						
+						BatchDomain vioBatchDomain = new BatchDomain();
+						vioBatchDomain.setScheduleName("violationDel");
+						vioBatchDomain.setParam(jsonDelVioParam.toString());
+						batchRepository.insertBatchPlanInfo(vioBatchDomain);
+					}
+				}
 			}
+			
+		}else if("6".equals(recruitDomain.getPlStat())) {
+			// 변경요청에 대한 보완요청
+			
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		if(apiCheck) {
-			//모집인 이력 저장
-			NewUserDomain param = new NewUserDomain();
-			param.setMasterSeq(recruitDomain.getMasterSeq());
-			userRepo.insertNewUserHistory(param);
-			
-			//모집인 상태 변경
-			int result = recruitRepository.updateNewRecruitPlStat(recruitDomain);
-			/*
-			//이메일 전송
-			if(emailApply) {
-				emailResult = emailRepository.sendEmail(emailDomain);
-			}else {
-				emailResult = 1;
-			}
-			*/
-			
-			if(result > 0) {
-				// 모집인단계이력
-				recruitRepository.insertNewMasterStep(recruitDomain);
-				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
-			}else {
-				return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
-			}
+		//모집인 이력 저장
+		NewUserDomain param = new NewUserDomain();
+		param.setMasterSeq(recruitDomain.getMasterSeq());
+		userRepo.insertNewUserHistory(param);
+		
+		//모집인 상태 변경
+		int result = recruitRepository.updateNewRecruitPlStat(recruitDomain);
+		/*
+		//이메일 전송
+		if(emailApply) {
+			emailResult = emailRepository.sendEmail(emailDomain);
 		}else {
-			return new ResponseMsg(HttpStatus.OK, "fail", responseMsg,  "API오류가 발생하였습니다.");
+			emailResult = 1;
+		}
+		*/
+		
+		if(result > 0) {
+			// 모집인단계이력
+			recruitRepository.insertNewMasterStep(recruitDomain);
+			return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
 	}
 	

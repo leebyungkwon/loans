@@ -283,5 +283,14 @@
     </update>
     
     
+	<!-- 위반이력 수정 -->
+	<insert id="updateUserViolationInfo" parameterType="newUser">
+		UPDATE TB_LC_VIOLATION
+		SET
+			VIO_NUM = #{vioNum}
+		WHERE
+			VIOLATION_SEQ = #{violationSeq}
+	</insert>
+    
     
 </mapper>

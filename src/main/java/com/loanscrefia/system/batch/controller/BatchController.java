@@ -196,7 +196,7 @@ public class BatchController {
 	// 정보변경
 	@Scheduled(cron ="* 0/30 * * * *") 
     @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
-    public void indvLoanUpd() throws Exception {
+    public void loanUpd() throws Exception {
 		
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("loanUpd");
@@ -255,6 +255,78 @@ public class BatchController {
 		// schedule_hist 종료 이력 저장
 		batchService.updateScheduleHist(batch);
     }
+	
+	
+	
+	
+	
+	
+	
+	// 건별정보변경
+	@Scheduled(cron ="* 0/30 * * * *") 
+    @SchedulerLock(name="caseLoanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void caseLoanUpd() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("caseLoanUpd");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.caseLoanUpd(reg);
+			successCnt = successCnt + success;
+		}
+		
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
+	
+	
+	
+	
+	// 위반이력 등록
+	@Scheduled(cron ="* 0/30 * * * *") 
+    @SchedulerLock(name="violationReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void violationReg() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("violationReg");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.violationReg(reg);
+			successCnt = successCnt + success;
+		}
+		
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
+	
 	
 	
 }

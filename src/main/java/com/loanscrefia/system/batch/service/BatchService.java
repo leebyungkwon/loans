@@ -17,6 +17,8 @@ import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.ApiService;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.system.batch.domain.BatchDomain;
 import com.loanscrefia.system.batch.domain.BatchReqDomain;
 import com.loanscrefia.system.batch.repository.BatchRepository;
@@ -386,7 +388,7 @@ public class BatchService{
 				
 				// 통신오류
 				req.setStatus("3");
-				errorMessage = "가등록번호 생성시 오류 발생 :: "+updResult.getCode();
+				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -407,7 +409,133 @@ public class BatchService{
 	
 	
 	
-	
+	// 2021-11-11 건별정보수정
+	@Transactional
+	public int caseLoanUpd(BatchDomain req) throws Exception {
+		String errorMessage = "";
+		ApiDomain loanUpdParam = new ApiDomain();
+		loanUpdParam.setMethod("PUT");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		
+		int userSeq = 0;
+		if(!jsonParam.isNull("user_seq")) {
+			userSeq = Integer.parseInt(jsonParam.getString("user_seq").toString());
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 seq 파라미터 오류");
+			errorMessage = "모집인 seq 파라미터 오류";
+			throw new Exception();
+		}
+		
+		int masterSeq = 0;
+		if(!jsonParam.isNull("master_seq")) {
+			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 계약 seq 파라미터 오류");
+			errorMessage = "모집인 계약 seq 파라미터 오류";
+			throw new Exception();
+		}
+
+		
+		// master_seq 추출 후 제거 
+		jsonParam.remove("user_seq");
+		jsonParam.remove("master_seq");
+		loanUpdParam.setParamJson(jsonParam);
+		String plClass = req.getProperty01();
+		if("1".equals(plClass)) {
+			loanUpdParam.setUrl("/loan/v1/loan-consultants");
+			loanUpdParam.setApiName("indvCaseLoanUpd");
+		}else if("2".equals(plClass)) {
+			loanUpdParam.setUrl("/loan/v1/loan-corp-consultants");
+			loanUpdParam.setApiName("corpCaseLoanUpd");
+			
+			// 암호화된 데이터 decrypt
+			String ssn = jsonParam.getString("corp_rep_ssn").toString();
+			jsonParam.remove("corp_rep_ssn");
+			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(ssn));
+			
+		}else {
+			req.setStatus("3");
+			req.setError("구분(개인/법인) 파라미터 오류");
+			errorMessage = "구분(개인/법인) 파라미터 오류";
+			throw new Exception();
+		}
+		
+		int cnt = 0;
+		try {
+			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
+			if("success".equals(updResult.getCode())) {
+				// 계약건별 수정된 데이터 추가
+				NewApplyDomain newApplyDomain = new NewApplyDomain();
+				newApplyDomain.setMasterSeq(masterSeq);
+				if("1".equals(plClass)) {
+					newApplyDomain.setPlMName(jsonParam.getString("name").toString());
+					// 연락처, 계약일 등 JSON배열
+					JSONObject jsonObj = new JSONObject();
+					JSONArray conArr = jsonParam.getJSONArray("con_arr");
+					for(int i=0; i<conArr.length(); i++){
+						jsonObj = conArr.getJSONObject(i);
+						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile").toString());
+					}
+					
+					batchRepository.updateIndvMasInfo(newApplyDomain);
+					
+					// 개인회원 회원정보 수정
+					UsersDomain usersDomain = new UsersDomain();
+					usersDomain.setUserSeq(userSeq);
+					usersDomain.setUserName(jsonParam.getString("name").toString());
+					usersDomain.setMobileNo(jsonObj.getString("con_mobile").toString());
+					batchRepository.updateIndvUsersInfo(usersDomain);
+					
+					
+				}else {
+					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name").toString());
+					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name").toString());
+					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
+					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci").toString());
+					batchRepository.updateCorpMasInfo(newApplyDomain);
+					
+					// 법인회원 회원정보 수정
+					UsersDomain usersDomain = new UsersDomain();
+					usersDomain.setUserSeq(userSeq);
+					usersDomain.setUserName(jsonParam.getString("corp_rep_name").toString());
+					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
+					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci").toString());
+					
+					// 법인회원 연락처 수정 확인
+					//usersDomain.setMobileNo();
+					batchRepository.updateCorpUsersInfo(usersDomain);
+					
+					// 법인명 수정
+					//usersDomain.setPlMerchantName(jsonParam.getString("corp_rep_name").toString());
+					//batchRepository.updateCorpInfo(usersDomain);
+					
+				}
+				
+				req.setStatus("2");
+				cnt = 1;
+				
+			}else {
+				
+				// 통신오류
+				req.setStatus("3");
+				errorMessage = "정보수정API 오류 발생 :: "+updResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
 	
 	
 	
@@ -504,7 +632,64 @@ public class BatchService{
 	
 	
 	
-	
+	// 2021-11-09 위반이력 등록
+	@Transactional
+	public int violationReg(BatchDomain req) throws Exception {
+		// 가등록에 필요한 파라미터
+		String errorMessage = "";
+		ApiDomain preLoanParam = new ApiDomain();
+		preLoanParam.setMethod("POST");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		preLoanParam.setUrl("/loan/v1/violation-consultants");
+		preLoanParam.setApiName("violationReg");
+
+		// 암호화된 데이터 decrypt
+		String ssn = jsonParam.getString("ssn").toString();
+		jsonParam.remove("ssn");
+		jsonParam.put("ssn", CryptoUtil.decrypt(ssn));
+		
+		// 위반이력 시퀀스
+		String vioSeq = jsonParam.getString("vio_seq").toString();
+		// vio_seq 추출 후 제거 
+		jsonParam.remove("vio_seq");
+		preLoanParam.setParamJson(jsonParam);
+		
+		int cnt = 0;
+		try {
+			ResponseMsg vioResult = apiService.excuteApi(preLoanParam);
+			if("success".equals(vioResult.getCode())) {
+				JSONObject vioResponseJson = new JSONObject(vioResult.getData().toString());
+				String apiVioNum = "";
+				if(!vioResponseJson.isNull("vio_num")) {
+					apiVioNum = vioResponseJson.getString("vio_num");
+				}
+				
+				//위반이력
+				NewUserDomain vioRegDomain = new NewUserDomain();
+				vioRegDomain.setVioNum(apiVioNum);
+				vioRegDomain.setViolationSeq(Integer.parseInt(vioSeq));
+				batchRepository.updateUserViolationInfo(vioRegDomain);
+				
+				
+			}else {
+				// 위반이력 등록 실패
+				req.setStatus("3");
+				errorMessage = "위반이력 등록시 오류 발생 :: "+vioResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
 	
 	
 	
