@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.system.batch.domain.BatchDomain;
@@ -43,7 +44,7 @@ public class BatchController {
 	 * -------------------------------------------------------------------------------------------
 	 */
 	
-	
+	/*
 	@Scheduled(cron="* 0/30 * * * *") 
     @SchedulerLock(name="recruitReg",lockAtMostForString = "PT30S", lockAtLeastForString = "PT30S")
     public void SchedulerTest() {
@@ -70,6 +71,9 @@ public class BatchController {
 		//batchService.insertScheduleHist
 
     }
+    
+    */
+    
 		/*
 	//모집인 엑셀 업로드 후 1개월동안 처리상태가 미요청 + 모집인상태가 승인전인 경우 -> 모집인 데이터 및 모집인 관련 첨부파일 삭제(+서버)
 	//매일 새벽1시
@@ -105,16 +109,6 @@ public class BatchController {
     }
     
     */
-	
-	
-	//매일0시1분
-	@Scheduled(cron = "0 1 0 * * *")
-    @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
-    public void apiKeyConnection() throws IOException {
-    	log.info("================ apiAuthToken() START ================");
-    	kfbApiService.getAuthToken();
-    	log.info("================ apiAuthToken() END ================");
-    }
 	
 	
 	/*
@@ -157,9 +151,18 @@ public class BatchController {
     */
 	
 	
+	//매일0시1분 API_KEY 발급
+	@Scheduled(cron = "0 1 0 * * *")
+    @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void apiKeyConnection() throws IOException {
+    	log.info("================ apiAuthToken() START ================");
+    	kfbApiService.getAuthToken();
+    	log.info("================ apiAuthToken() END ================");
+    }
+	
 	
 	// 가등록 -> 본등록
-	@Scheduled(cron="* 0/30 * * * *") 
+	@Scheduled(cron ="* 0/30 * * * *") 
     @SchedulerLock(name="preloanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void preloanReg() throws Exception {
 		
@@ -187,6 +190,40 @@ public class BatchController {
 		batchService.updateScheduleHist(batch);
 
     }
+	
+	
+	
+	
+	// 해지
+	@Scheduled(cron= "* 0/30 * * * *") 
+    @SchedulerLock(name="dropApply", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void dropApply() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("dropApply");
+		// 해지요청 오늘날짜 기준으로 -4일기준 전부
+		List<NewApplyDomain> dropApplyList = batchService.selectDropApplyList(batch);
+		int reqCnt = dropApplyList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(NewApplyDomain drop : dropApplyList) {
+			int success = batchService.dropApply(drop, batch);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+    }
+	
+	
+	
 	
 	
 }

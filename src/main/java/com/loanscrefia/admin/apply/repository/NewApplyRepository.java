@@ -5,13 +5,12 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
-import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
+import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.member.user.domain.NewUserDomain;
-import com.loanscrefia.member.user.domain.UserDomain;
 
 @Mapper
 public interface NewApplyRepository {
@@ -67,4 +66,7 @@ public interface NewApplyRepository {
 	
 	//모집인 승인처리 > 일괄 보완요청
 	int updateNewApplyImprovePlStat(NewApplyDomain newApplyDomain);
+	
+	//모집인 정보 단계별(STATUS) 이력 저장
+	int insertUserStepHistory(SearchDomain searchDomain);
 }

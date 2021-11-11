@@ -23,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
+import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.CorpUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.IndvUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
@@ -584,7 +585,23 @@ public class UsersService {
 		
 		if("2".equals(usersDomain.getStat())) {
 			// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
-
+			NewApplyDomain newApplyDomain = new NewApplyDomain();
+			newApplyDomain.setUserSeq(usersDomain.getUserSeq());
+			
+			// 등록자로 모든 계약건 조회
+			List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 		}else if("3".equals(usersDomain.getStat())) {

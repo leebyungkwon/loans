@@ -473,6 +473,9 @@ ALTER TABLE tb_lc_notice ADD COLUMN notice_disp_cd char(1) not null default '1';
 ALTER TABLE tb_lc_cod01_detail ALTER COLUMN code_dtl_nm TYPE TEXT;
 ALTER TABLE tb_lc_cod01_detail ALTER COLUMN code_dtl_desc TYPE TEXT;
 
+
+
+
 -- 코드(property 값 수정)
 CAR001 : 1,2만 모두 property01,property02 값 Y로 수정
 PRD001 : 01,05만 property01 값 Y로 수정	
@@ -558,9 +561,25 @@ commit;
 
 
 ALTER TABLE TB_LC_CORP ADD COLUMN pl_business_no varchar(100);
-	 
 ALTER TABLE tb_lc_mas01 ADD COLUMN apply_com_hist_txt text;
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN apply_com_hist_txt text;
-
 update tb_lc_cod01_detail set property03 = 'Y' where code_mst_cd = 'MAS001' and code_dtl_cd = '10';
+
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN user_seq INTEGER;
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN user_seq INTEGER;
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN user_seq INTEGER;
+
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_police INTEGER; 						
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_adm INTEGER;							
+
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_police INTEGER; 						
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_adm INTEGER;							
+
+ALTER TABLE tb_lc_mas01 DROP COLUMN within_govr;
+ALTER TABLE tb_lc_mas01_hist DROP COLUMN within_govr;
+
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr INTEGER; 						
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr INTEGER;
 	 

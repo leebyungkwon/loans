@@ -27,9 +27,8 @@ public interface BatchRepository {
 
 	List<BatchDomain> selectReqBatchList(BatchDomain param);
 	
-	
-	
-
+	//배치 예정건 등록
+	int insertBatchPlanInfo(BatchDomain batchDomain);
 	
 	// 2021-11-09 스케줄러 테이블 상태변경
 	int updateSchedule(BatchDomain param);
@@ -45,5 +44,11 @@ public interface BatchRepository {
 	
 	// 2021-11-10 배치 종료 이력 저장
 	void updateScheduleHist(BatchDomain param);
+	
+	// 2021-11-11 해지신청 리스트 조회
+	List<NewApplyDomain> selectDropApplyList(BatchDomain param);
+	
+	// 2021-11-11 해지완료 후 상태변경
+	int updateDropApply(NewApplyDomain newApplyDomain);
 	
 }

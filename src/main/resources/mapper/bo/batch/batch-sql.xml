@@ -31,6 +31,34 @@
     </select>
     
     
+    
+
+	<!-- 배치 예정건 등록 -->
+   	<insert id="insertBatchPlanInfo" parameterType="batch">
+   		INSERT INTO TB_LC_SCHEDULE
+   		(
+	   		 SCHEDULE_NAME 
+			,PARAM 
+			,REG_TIME 
+			,STATUS 
+			,PROPERTY01
+			,REG_SEQ 
+			,REG_TIMESTAMP
+   		)
+   		VALUES
+   		(
+	   		 #{scheduleName}
+			,#{param}
+			,NOW()
+			,'1'
+			,#{property01}
+			,#{regSeq}
+			,NOW()
+   		)
+   	</insert>
+    
+    
+    
     <select id="selectBatchList" parameterType="batch" resultType="batch">
     	SELECT
     		*
@@ -39,6 +67,38 @@
     	WHERE schedule_name = #{scheduleName}
     	AND status in ('01', '03')
     </select>
+    
+    <!-- 2021-11-11 해지신청 리스트 조회 -->
+    <select id="selectDropApplyList" parameterType="batch" resultType="newApply">
+		select
+			MASTER_SEQ
+			, CON_NUM
+			, COM_CODE
+			, FN_CELLPHONE(PL_CELLPHONE) AS PL_CELLPHONE
+			, PL_CLASS
+			, PL_PRODUCT
+			, PL_REG_STAT
+			, PL_STAT
+			, PL_REGIST_NO
+			, CI
+			, PL_M_NAME
+			, PL_M_Z_ID
+			, COM_CONT_DATE
+			, PL_MERCHANT_NAME
+			, PL_CEO_NAME
+			, PL_MERCHANT_NO
+			, PL_BUSINESS_NO
+			, COMP_PHONE_NO
+			, PL_HIST_CD
+			, COM_HAEJI_DATE
+			, TO_CHAR(NOW(), 'YYYYMMDD') as CRE_HAEJI_DATE
+		from
+			tb_lc_mas01
+		where
+			PL_STAT = '4'
+		and com_haeji_date <![CDATA[<=]]> TO_CHAR(TO_CHAR(NOW(), 'YYYYMMDD')::TIMESTAMP - INTERVAL '4 day', 'YYYYMMDD')
+    </select>
+    
     
     <!-- 스케줄러 테이블 상태변경 --> 
     <update id="updateSchedule" parameterType="batch" >
@@ -144,5 +204,20 @@
 			schedule_name = #{scheduleName}
 		AND schedule_hist_seq = #{scheduleHistSeq}
     </update>
+    
+    
+    <!-- 해지완료 후 상태변경 --> 
+    <update id="updateDropApply" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			pl_stat 			= '9'
+			, pl_reg_stat		= '4'
+			, cre_haeji_date	= TO_CHAR(TO_CHAR(NOW(), 'YYYYMMDD')
+			, upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
     
 </mapper>

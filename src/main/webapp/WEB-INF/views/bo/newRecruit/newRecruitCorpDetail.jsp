@@ -444,14 +444,6 @@ function goRecruitImprove(rePlStat){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goRecruitList();">목록</a>
-			<c:if test="${result.recruitInfo.plStat eq '4'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(4);">해지승인</a>
-				<!-- <a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove(7);">보완요청</a> -->
-			</c:if>
-			<c:if test="${result.recruitInfo.plStat eq '2'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove(5);">보완요청</a>
-			</c:if>
 			<c:if test="${result.recruitInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goRecruitImprove(6);">보완요청</a>					

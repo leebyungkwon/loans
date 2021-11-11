@@ -65,31 +65,11 @@ function prevRegCheckPopup() {
 function goRecruitApply(num){
 	var plStat = "";
 	var plRegStat = "";
-	var preRegYn = $("#preRegYn").val();
-	
-	var preLcNum = $("#preLcNum").val();
-	var plProduct = $("#plProduct").val();
-	
-	
 	var applyMessage = "요청사항을 승인하시겠습니까?";
-	
-	/*
-	if(plProduct == "01" || plProduct == "05"){
-		if(WebUtil.isNull(preLcNum)){
-			alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
-			return false;
-		}		
-	}
-	*/
 	
 	if(num == "2"){
 		plStat = "9";
 		plRegStat = "2";
-		// 기등록자인경우 자격취득 - 완료
-		if(preRegYn == "Y"){
-			plStat = "9";
-			plRegStat = "3";
-		}
 		
 		// 2021-11-01 승인완료에 대한 승인이력
 		var applyComHistTxt = $("#applyComHistTxt").val();
@@ -97,12 +77,6 @@ function goRecruitApply(num){
 			applyMessage = "승인완료사유가 없습니다.\n요청사항을 승인하시겠습니까?";
 		}
 		
-	}else if(num == "3"){
-		plStat = "9";
-		plRegStat = "3";
-	}else if(num == "5"){
-		plStat = "1";
-		plRegStat = "1";
 	}else{
 		alert("오류가 발생하였습니다.");
 		return false;
@@ -116,8 +90,6 @@ function goRecruitApply(num){
 				,plStat			: plStat
 				,plRegStat		: plRegStat
 				,oldPlStat		: $("#oldPlStat").val()
-				,preRegYn		: preRegYn
-				,preLcNum		: preLcNum
 				,applyComHistTxt : applyComHistTxt
 			}
 			, success 	: function (opt,result) {
@@ -139,18 +111,8 @@ function goApplyImprove(num){
 	var plStat = '5';
 	var messageCheck = "";
 	
-	var preLcNum = $("#preLcNum").val();
 	if(num == "1"){
 		var plProduct = $("#plProduct").val();
-		
-		/*
-		if(plProduct == "01" || plProduct == "05"){
-			if(WebUtil.isNull(preLcNum)){
-				alert("은행연합회 가등록번호 오류발생 \n시스템관리자에 문의해 주세요.");
-				return false;
-			}
-		}
-		*/
 		plStat = '10';
 		messageCheck = "부적격 사유를 입력해 주세요.";
 	}else{
@@ -182,7 +144,6 @@ function goApplyImprove(num){
 				,plStat		: plStat
 				,plHistTxt	: $("#plHistTxt").val()
 				,oldPlStat	: $("#oldPlStat").val()
-				,preLcNum	: preLcNum 
 			}
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
@@ -204,8 +165,6 @@ function goApplyImprove(num){
 	<input type="hidden" name="masterSeq" id="masterSeq" value="${result.applyInfo.masterSeq }"/>
 	<input type="hidden" name="oldPlStat" id="oldPlStat" value="${result.applyInfo.plStat }"/>
 	<input type="hidden" name="masterToId" id="masterToId" value="${result.applyInfo.masterToId }"/>
-	<input type="hidden" name="preRegYn" id="preRegYn" value="${result.applyInfo.preRegYn }"/>
-	<input type="hidden" name="preLcNum" id="preLcNum" value="${result.applyInfo.preLcNum }"/>
 	<input type="hidden" name="plProduct" id="plProduct" value="${result.applyInfo.plProduct }"/>
 	<input type="hidden" id="oldHistTxt" value="${result.applyInfo.plHistTxt}"/>
 </form>
@@ -564,10 +523,6 @@ function goApplyImprove(num){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="goApplyList();">목록</a>
-			<c:if test="${result.applyInfo.plStat eq '4'}">
-				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(2);">보완요청</a>
-				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a> -->
-			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '15'}">
 				<c:if test="${result.adminCreGrp eq '2'}">
 					<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(2);">승인</a>
@@ -577,7 +532,6 @@ function goApplyImprove(num){
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03 w100p" id="recruitApply" onclick="goRecruitApply(3);">변경승인</a>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>
 				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a> -->					
 			</c:if>

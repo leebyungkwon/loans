@@ -3,6 +3,8 @@ package com.loanscrefia.admin.users.repository;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+
+import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.member.user.domain.NewUserDomain;
 
@@ -78,6 +80,10 @@ public interface UsersRepository {
 
 	// 2021-11-08 법인회원 정보변경관리 상태변경
 	int updateCorpUsersStat(UsersDomain usersDomain);
+	
+	// 2021-11-04 회원 결격요건 상세 조회
+	List<NewApplyDomain> selectUserSeqIndvList(NewApplyDomain newApplyDomain);
+	
 	
 	
 }

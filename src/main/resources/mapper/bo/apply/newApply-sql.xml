@@ -618,4 +618,35 @@
    		WHERE master_seq = #{masterSeq}
    	</update>
    	
+   	<!-- 모집인 정보 단계별(STATUS) 이력 저장 -->
+   	<insert id="insertUserStepHistory" parameterType="search">
+   		INSERT INTO TB_LC_MAS01_STEP
+   		(
+   			 MASTER_SEQ
+   			,PL_REG_STAT
+   			,PL_STAT
+   			,PL_HIST_TXT
+   			,PL_STAT_REQ_SEQ
+			,PL_STAT_REQ_PATH
+   			,REG_TIMESTAMP
+   			,REG_SEQ
+   		)
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_REG_STAT
+   			,PL_STAT
+   			,CASE 
+				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
+				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('2') THEN APPLY_HIST_TXT
+				ELSE ''
+			 END AS PL_HIST_TXT
+			,#{regSeq}
+			,'3'
+   			,NOW()
+   			,#{regSeq}
+   		FROM TB_LC_MAS01
+   		WHERE MASTER_SEQ = #{masterSeq}
+   	</insert>
+   	
 </mapper> 

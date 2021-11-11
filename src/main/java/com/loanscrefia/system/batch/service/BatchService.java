@@ -21,6 +21,7 @@ import com.loanscrefia.system.batch.domain.BatchReqDomain;
 import com.loanscrefia.system.batch.repository.BatchRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import sinsiway.CryptoUtil;
 
 @Slf4j
 @Service
@@ -67,12 +68,21 @@ public class BatchService{
 	
 	
 	
-	
+	// 기등록자 insert
+	@Transactional
+	public int insertBatchPlanInfo(BatchDomain batchDomain) {
+		return batchRepository.insertBatchPlanInfo(batchDomain);
+	}
 	
 	
 	// 2021-11-09 스케줄명으로 조회
 	public List<BatchDomain> selectBatchList(BatchDomain param) {
 		return batchRepository.selectBatchList(param);
+	}
+	
+	// 2021-11-11 해지리스트 조회
+	public List<NewApplyDomain> selectDropApplyList(BatchDomain param) {
+		return batchRepository.selectDropApplyList(param);
 	}
 	
 	
@@ -238,5 +248,103 @@ public class BatchService{
 			return cnt;
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 2021-11-11 해지
+	@Transactional
+	public int dropApply(NewApplyDomain drop, BatchDomain req) throws Exception {
+		String errorMessage = "";
+		ApiDomain dropParam = new ApiDomain();
+		dropParam.setMethod("PUT");
+		
+		JSONObject jsonParam = new JSONObject();
+		JSONObject jsonArrayParam = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		String plClass = drop.getPlClass();
+		
+		if("1".equals(plClass)) {
+			// 개인
+			jsonParam.put("lc_num", drop.getPlRegistNo());
+			jsonParam.put("name", drop.getPlMName());
+			
+			// 배열
+			jsonArrayParam.put("con_num", drop.getConNum());
+			jsonArrayParam.put("con_date", drop.getComContDate().replaceAll("-", ""));
+			jsonArrayParam.put("con_mobile", drop.getPlCellphone());
+			jsonArrayParam.put("fin_phone", "");
+			jsonArrayParam.put("loan_type", drop.getPlProduct());
+			jsonArrayParam.put("cancel_date", drop.getCreHaejiDate().replaceAll("-", ""));
+			jsonArrayParam.put("cancel_code", drop.getPlHistCd());
+			jsonArray.put(jsonArrayParam);
+			jsonParam.put("con_arr", jsonArray);
+			
+		}else {
+			// 법인
+			jsonParam.put("corp_lc_num", drop.getPlRegistNo());						// 등록번호
+			jsonParam.put("corp_name", drop.getPlMerchantName());					// 법인명
+			jsonParam.put("corp_rep_name", drop.getPlCeoName());					// 법인대표명
+			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(drop.getPlMZId()));	// 법인대표주민번호
+			//jsonParam.put("corp_rep_ci", statCheck.getCi());						// 법인대표CI
+			
+			// 배열
+			jsonArrayParam.put("con_num", drop.getConNum());
+			jsonArrayParam.put("con_date", drop.getComContDate().replaceAll("-", ""));
+			jsonArrayParam.put("fin_phone", "");
+			jsonArrayParam.put("loan_type", drop.getPlProduct());
+			jsonArrayParam.put("cancel_date", drop.getCreHaejiDate().replaceAll("-", ""));
+			jsonArrayParam.put("cancel_code", drop.getPlHistCd());
+			jsonArray.put(jsonArrayParam);
+			jsonParam.put("con_arr", jsonArray);
+			
+		}
+		dropParam.setParamJson(jsonParam);
+		if("1".equals(plClass)) {
+			dropParam.setUrl("/loan/v1/loan-consultants");
+		}else if("2".equals(plClass)) {
+			dropParam.setUrl("/loan/v1/loan-corp-consultants");
+		}else {
+			req.setStatus("3");
+			req.setError("구분(개인/법인) 파라미터 오류");
+			errorMessage = "구분(개인/법인) 파라미터 오류";
+			throw new Exception();
+		}
+		int cnt = 0;
+		try {
+			ResponseMsg dropResult = apiService.excuteApi(dropParam);
+			if("success".equals(dropResult.getCode())) {
+				// 해지완료 후 상태변경
+				batchRepository.updateDropApply(drop);
+				req.setStatus("2");
+				cnt = 1;
+			}else {
+				// 해지API발송 실패
+				req.setStatus("3");
+				errorMessage = "해지완료 오류 발생 :: "+dropResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
+	
+	
+	
 	
 }

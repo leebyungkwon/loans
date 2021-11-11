@@ -20,33 +20,35 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.google.gson.JsonObject;
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
-import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
-import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.corp.service.CorpService;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
+import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
+import com.loanscrefia.common.common.service.ApiService;
 import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.common.sms.domain.SmsDomain;
 import com.loanscrefia.common.common.sms.repository.SmsRepository;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.front.search.domain.SearchDomain;
+import com.loanscrefia.front.search.repository.SearchRepository;
 import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.NewUserRepository;
-import com.loanscrefia.member.user.repository.UserRepository;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.service.BatchService;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilMask;
@@ -85,6 +87,11 @@ public class NewApplyService {
 	private KfbApiRepository kfbApiRepository;
 	
 	@Autowired private CorpService corpService;
+	
+	@Autowired private ApiService apiService; //은행연합회
+	@Autowired private BatchService batchService;
+	@Autowired private SearchRepository searchRepository;
+	
 	
 	//암호화 적용여부
 	@Value("${crypto.apply}")
@@ -1071,30 +1078,35 @@ public class NewApplyService {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		NewApplyDomain statCheck = applyRepository.getNewApplyDetail(newApplyDomain);
 		
+		// 법인번호 암호화 해제		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(statCheck.getPlMerchantNo())) {
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(statCheck.getPlMerchantNo()));
+			}else {
+				merchantNo.append(statCheck.getPlMerchantNo());
+			}
+			merchantNo.insert(6, "-");
+			statCheck.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		// 주민번호 암호화 해제		
+		StringBuilder zid = new StringBuilder();
+		if(StringUtils.isNotEmpty(statCheck.getPlMZId())) {
+			if(cryptoApply) {
+				zid.append(CryptoUtil.decrypt(statCheck.getPlMZId()));
+			}else {
+				zid.append(statCheck.getPlMZId());
+			}
+			zid.insert(6, "-");
+			statCheck.setPlMZId(zid.toString());
+		}
+		
 		// 현재 승인상태와 화면에 있는 승인상태 비교
 		if(!newApplyDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
-		
-		
-		/*
-		
-		//승인처리시 이메일 발송
-		if(StringUtils.isEmpty(statCheck.getEmail())) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
-		}
-		
-		*/
-		
-		// 2021-10-13 SMS 추가예정
-		/*
-		int emailResult = 0;
-		EmailDomain emailDomain = new EmailDomain();
-		emailDomain.setName("여신금융협회");
-		emailDomain.setEmail(statCheck.getEmail());
-		*/
-		
-		
+
 		//승인처리시 SMS 발송
 		if(StringUtils.isEmpty(statCheck.getPlCellphone())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "휴대폰번호를 확인해 주세요.");
@@ -1105,196 +1117,176 @@ public class NewApplyService {
 		SmsDomain smsDomain = new SmsDomain();
 		smsDomain.setTranCallback("0220110700");
 		smsDomain.setTranStatus("1");
-		
+		smsDomain.setTranEtc1("10070");
+		smsDomain.setTranPhone("01031672126");
 		
 		// API성공여부
 		boolean apiCheck = false;
-		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		
-		if("1".equals(newApplyDomain.getPlStat()) && "1".equals(newApplyDomain.getPlRegStat())){
+		// 부적격
+		if("10".equals(newApplyDomain.getPlStat())){
 			apiCheck = true;
-		}else if("5".equals(newApplyDomain.getPlStat())) {
-			// 승인요청에 대한 보완
-			//emailDomain.setInstId("141");
-			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());
-			
-			
-			// 2021-10-20 SMS발송 추가
-			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
-			smsDomain.setTranMsg("내용");
-			smsDomain.setTranPhone(statCheck.getPlCellphone());
-			
-			
+			smsDomain.setTranMsg("부적격처리");
+		}else if("5".equals(newApplyDomain.getPlStat())) { // 보완요청
 			apiCheck = true;
-		}else if("9".equals(newApplyDomain.getPlStat()) && "2".equals(newApplyDomain.getPlRegStat()) && "N".equals(newApplyDomain.getPreRegYn())) {
-			
-			// 2021-08-11 법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
-			if(statCheck.getCorpUserYn().equals("Y")) {
-				UserDomain user = new UserDomain();
-				user.setPlMerchantNo(statCheck.getPlMerchantNo());
-				user.setPlProduct(statCheck.getPlProduct());
+			smsDomain.setTranMsg("보완요청");
+		}else if("9".equals(newApplyDomain.getPlStat()) && "2".equals(newApplyDomain.getPlRegStat())) { // 승인요청
+			ApiDomain apiDomain = new ApiDomain();
+			if("1".equals(statCheck.getPlClass())) {
+				// 2021-08-11 법인사용인일 때 -> 해당 법인이 승인된 후에 승인요청할 수 있음 + 금융감독원 승인여부가 Y이면 패스
+				if(statCheck.getCorpUserYn().equals("Y")) {
+					UserDomain user = new UserDomain();
+					user.setPlMerchantNo(statCheck.getPlMerchantNo());
+					user.setPlProduct(statCheck.getPlProduct());
 
-				NewUserDomain newUser = new NewUserDomain();
-				newUser.setPlMerchantNo(statCheck.getPlMerchantNo());
-				newUser.setPlProduct(statCheck.getPlProduct());
-				
-				
-				int corpCheck = applyRepository.applyNewCorpStatCheck(newUser);
-				int corpPassCheck 	= corpService.corpPassCheck(user);
-				if(corpCheck == 0 && corpPassCheck == 0) {
-					return new ResponseMsg(HttpStatus.OK, "fail", "해당법인이 자격취득 상태가 아니거나\n법인관리에 금융감독원 등록여부(Y/N)를 확인해 주세요.");
-				}
-			}
-			
-			// 승인요청에 대한 승인
-			//emailDomain.setInstId("142");
-			//emailDomain.setSubsValue(statCheck.getMasterToId());
-			
-			// 2021-10-20 SMS발송 추가
-			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
-			smsDomain.setTranMsg("내용");
-			smsDomain.setTranPhone(statCheck.getPlCellphone());
-			
-			apiCheck = true;
-		}else if("9".equals(newApplyDomain.getPlStat()) && "3".equals(newApplyDomain.getPlRegStat()) && "Y".equals(newApplyDomain.getPreRegYn())) {
-			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
-			//emailDomain.setInstId("143");
-			//emailDomain.setSubsValue(statCheck.getMasterToId());
-			
-			// 2021-10-20 SMS발송 추가
-			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
-			smsDomain.setTranMsg("내용");
-			smsDomain.setTranPhone(statCheck.getPlCellphone());
-			
-			if(kfbApiApply) {
-				// 금융상품 3, 6번 제외
-				String prdCheck = statCheck.getPlProduct();
-				String lcNum = "";
-				String conNum = "";
-				// 가등록에서 본등록시 등록번호 발급
-				
-				UserDomain userDomain = new UserDomain();
-				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+					NewUserDomain newUser = new NewUserDomain();
+					newUser.setPlMerchantNo(statCheck.getPlMerchantNo());
+					newUser.setPlProduct(statCheck.getPlProduct());
 					
-					// 2021-06-25 은행연합회 API 통신 - 등록
-					String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-					JSONObject jsonParam = new JSONObject();
-					String plClass = statCheck.getPlClass();
-					if("1".equals(plClass)) {
-						jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "POST", plClass, "Y");				
-					}else {
-						jsonParam.put("pre_corp_lc_num", statCheck.getPreLcNum());
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "POST", plClass, "Y");
+					
+					int corpCheck = applyRepository.applyNewCorpStatCheck(newUser);
+					int corpPassCheck 	= corpService.corpPassCheck(user);
+					if(corpCheck == 0 && corpPassCheck == 0) {
+						return new ResponseMsg(HttpStatus.OK, "fail", "해당법인이 자격취득 상태가 아니거나\n법인관리에 금융감독원 등록여부(Y/N)를 확인해 주세요.");
 					}
-					
-					if("success".equals(responseMsg.getCode())) {
-						JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-						if("1".equals(statCheck.getPlClass())) {
-							lcNum = responseJson.getString("lc_num");
-						}else {
-							lcNum = responseJson.getString("corp_lc_num");
-						}
-						
-						if(StringUtils.isEmpty(lcNum)) {
-							return new ResponseMsg(HttpStatus.OK, "fail", "가등록시 전달받은 등록번호 오류.\n관리자에 문의해 주세요.");
-						}
-						
-						// 계약번호 갖고오기[배열]
-						// 등록시 가등록번호를 은행연합회에 던지고 1:N인 등록번호를 받고
-						// 하나의 KEY인 계약번호를 받는데 계약번호가 배열로 리턴되면 뭐가 내번호인지 어케알수있음?????
-						// 계약금융기관코드로 판별????
-						// 가등록시 계약금융기관코드가 필수임 확인해야함 - 중요
-						
-						JSONObject jsonObj = new JSONObject();
-						JSONArray conArr = responseJson.getJSONArray("con_arr");
-						// 계약금융기관코드(저장되어있는 데이터 비교)
-						String comCode = statCheck.getComCode();
-						for(int i=0; i<conArr.length(); i++){
-							jsonObj = conArr.getJSONObject(i);
-							String loanType = jsonObj.getString("loan_type");
-							String finCode = jsonObj.getString("fin_code");
-							// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
-							if(loanType.equals(prdCheck) && finCode.equals(comCode)) {
-								conNum = jsonObj.getString("con_num");
-								break;
+				}
+				
+				// 수수료 기납부여부 조회
+				String param = "name="+statCheck.getPlMName();
+				param += "&ssn="+statCheck.getPlMZId();
+				param += "&ci="+statCheck.getCi();
+				param += "&loan_type="+statCheck.getPlProduct();
+				
+				apiDomain.setApiName("checkLoan");
+				apiDomain.setUrl("/loan/v1/check-loan-consultants");
+				apiDomain.setMethod("GET");
+				apiDomain.setParam(param);
+				
+				// 등록가능여부조회에서 수수료 기납부여부 추출
+				ResponseMsg feeResult = apiService.excuteApi(apiDomain);
+				if("success".equals(feeResult.getCode())) {
+					JSONObject feeResponseJson = new JSONObject(feeResult.getData().toString());
+					if(!feeResponseJson.isNull("fee_yn")) {
+						if("Y".equals(feeResponseJson.getString("fee_yn"))) {
+							// 기등록자인 경우 배치테이블 insert 후 자격취득으로 변경
+							BatchDomain batchDomain = new BatchDomain();
+							JSONObject jsonParam 	= new JSONObject();
+							jsonParam.put("master_seq", statCheck.getMasterSeq());
+							jsonParam.put("name", statCheck.getPlMName());
+							jsonParam.put("ssn", statCheck.getPlMZId());
+							jsonParam.put("ci", statCheck.getCi());
+							jsonParam.put("corp_user_yn", statCheck.getCorpUserYn());
+							if(statCheck.getCorpUserYn().equals("Y")) {
+								jsonParam.put("corp_num", statCheck.getPlMerchantNo());
+							}else {
+								jsonParam.put("corp_num", "");
 							}
-						}
-						
-						if(StringUtils.isEmpty(conNum)) {
-							return new ResponseMsg(HttpStatus.OK, "fail", "계약금융기관코드가 잘못되었습니다.\n관리자에 문의해 주세요.");
-						}
-						
-						userDomain.setMasterSeq(newApplyDomain.getMasterSeq());
-						userDomain.setPlRegistNo(lcNum);
-						userDomain.setConNum(conNum);
-						int updateCnt = kfbApiRepository.updateKfbApiByUserInfo(userDomain);
-						if(updateCnt > 0) {
+							
+							jsonParam.put("con_mobile", statCheck.getPlCellphone());
+							jsonParam.put("con_date", statCheck.getComContDate());
+							jsonParam.put("fin_code", statCheck.getComCode());
+							jsonParam.put("fin_phone", "");
+							jsonParam.put("loan_type", statCheck.getPlProduct());
+							
+							batchDomain.setScheduleName("loanReg");
+							batchDomain.setParam(jsonParam.toString());
+							batchDomain.setProperty01("1");
+							batchService.insertBatchPlanInfo(batchDomain);
+							// 상태변경 -> 결제완료 -> 자격취득
 							apiCheck = true;
+							newApplyDomain.setPlRegStat("5");
+							
+							smsDomain.setTranMsg("기등록자");
+							
 						}else {
-							return new ResponseMsg(HttpStatus.OK, "fail", "API연동 후 내부데이터 오류 발생\n관리자에 문의해 주세요.");
+							// 상태변경 -> 승인완료
+							apiCheck = true;
+							newApplyDomain.setPlRegStat("2");
+							newApplyDomain.setPlStat("9");
+							
+							smsDomain.setTranMsg("최초등록자");
 						}
-						
-						
-						
-						// 2021-11-01 기등록자 승인시 메세지 발송
-						
-						
-						// 2021-11-01 기등록자 승인시 메세지 발송 끝
-						
-						
 					}else {
-						return responseMsg;
+						return new ResponseMsg(HttpStatus.OK, "fail", "수수료 납부여부 값 확인필요!");
 					}
 				}else {
-					apiCheck = true;
+					// API 통신 오류
+					return responseMsg;
 				}
-			}else {
-				apiCheck = true;
-			}
-			
-		}else if("10".equals(newApplyDomain.getPlStat())) {
-			// 승인요청에 대한 부적격
-			//emailDomain.setInstId("144");
-			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+newApplyDomain.getPlHistTxt());
-			
-			// 2021-10-20 SMS발송 추가
-			smsDomain.setTranEtc1("인스턴스ID 넣어주세요");
-			smsDomain.setTranMsg("내용");
-			smsDomain.setTranPhone(statCheck.getPlCellphone());
-
-			if(kfbApiApply) {
-				// 금융상품 3, 6번 제외
-				String prdCheck = statCheck.getPlProduct();
-				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
-					// 2021-06-25 은행연합회 API 통신 - 가등록 취소
-					String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-					JSONObject jsonParam = new JSONObject();
-					String plClass = statCheck.getPlClass();
-					if("1".equals(plClass)) {
-						jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanUrl, "DELETE", plClass, "Y");
-					}else {
-						jsonParam.put("pre_corp_lc_num", statCheck.getPreLcNum());
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.PreLoanCorpUrl, "DELETE", plClass, "Y");
-					}
+			}else if("2".equals(statCheck.getPlClass())){
+				if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
+					String param = "corp_num="+statCheck.getPlMerchantNo();
+					param += "&corp_rep_ssn="+statCheck.getPlMZId();
+					param += "&corp_rep_ci="+statCheck.getCi();
+					param += "&loan_type="+statCheck.getPlProduct();
 					
-					if("success".equals(responseMsg.getCode())) {
-						apiCheck = true;
+					apiDomain.setApiName("checkLoanCorp");
+					apiDomain.setUrl("/loan/v1/check-loan-corp-consultants");
+					apiDomain.setMethod("GET");
+					apiDomain.setParam(param);
+					ResponseMsg corpResponseMsg = apiService.excuteApi(apiDomain);
+					
+					if("success".equals(corpResponseMsg.getCode())) {
+						JSONObject corpFeeResponseJson = new JSONObject(corpResponseMsg.getData().toString());
+						
+						if(!corpFeeResponseJson.isNull("fee_yn")) {
+							if("Y".equals(corpFeeResponseJson.getString("fee_yn"))) {
+								if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) { //*************************************
+									//배치 테이블 저장
+									BatchDomain batchDomain = new BatchDomain();
+									JSONObject jsonParam	= new JSONObject();
+									
+									jsonParam.put("master_seq", statCheck.getMasterSeq());
+									jsonParam.put("corp_num", statCheck.getPlMerchantNo());
+									jsonParam.put("corp_name", statCheck.getPlMerchantName());
+									jsonParam.put("corp_rep_name", statCheck.getPlCeoName());
+									jsonParam.put("corp_rep_ssn", statCheck.getPlMZId());
+									jsonParam.put("corp_rep_ci", statCheck.getCi());
+									jsonParam.put("con_date", statCheck.getComContDate());
+									jsonParam.put("fin_code", statCheck.getComCode());
+									jsonParam.put("fin_phone", "");
+									jsonParam.put("loan_type", statCheck.getPlProduct());
+									
+									batchDomain.setScheduleName("loanReg");
+									batchDomain.setParam(jsonParam.toString());
+									batchDomain.setProperty01("2"); //개인,법인 구분값
+									
+									batchService.insertBatchPlanInfo(batchDomain);
+									// 상태변경 -> 결제완료 -> 자격취득
+									
+									apiCheck = true;
+									newApplyDomain.setPlRegStat("5");
+									smsDomain.setTranMsg("기등록법인");
+									
+								}
+							}else {
+								apiCheck = true;
+								// 상태변경 -> 승인완료
+								newApplyDomain.setPlRegStat("2");
+								newApplyDomain.setPlStat("9");
+								smsDomain.setTranMsg("최초등록법인");
+							}
+						}else {
+							return new ResponseMsg(HttpStatus.OK, "fail", "수수료 납부여부 값 확인필요!");
+						}
 					}else {
+						// API 통신오류
 						return responseMsg;
 					}
 				}else {
+					//TM 상품은 승인완료
+					newApplyDomain.setPlRegStat("2");
+					newApplyDomain.setPlStat("9");
 					apiCheck = true;
+					
+					smsDomain.setTranMsg("TM법인 메세지 필요");
 				}
 			}else {
-				apiCheck = true;
+				return new ResponseMsg(HttpStatus.OK, "fail", "데이터 오류가 발생하였습니다.[PL_CLASS]");
 			}
-			
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
-		
 		
 		if(apiCheck) {
 			//모집인 이력 저장
@@ -1304,16 +1296,6 @@ public class NewApplyService {
 			
 			//모집인 상태 변경
 			int result = applyRepository.updateNewApplyPlStat(newApplyDomain);
-			
-			//이메일 전송
-			
-			/*
-			if(emailApply) {
-				emailResult = emailRepository.sendEmail(emailDomain);
-			}else {
-				emailResult = 1;
-			}
-			*/
 			
 			// 2021-10-20 SMS발송
 			if(smsApply) {
@@ -1334,7 +1316,6 @@ public class NewApplyService {
 		}
 	}
 
-	
 	//모집인 조회 및 변경 > 첨부서류체크 등록
 	@Transactional
 	public ResponseMsg insertNewApplyCheck(ApplyCheckDomain applyCheckDomain){
@@ -1758,6 +1739,18 @@ public class NewApplyService {
 			result++;
 		}
 		return result;
+	}
+	
+	
+	
+	//모집인 상태 변경
+	@Transactional
+	public int updatePlRegStat(SearchDomain searchDomain) {
+		int updateResult = searchRepository.updatePlRegStat(searchDomain);
+		if(updateResult > 0) {
+			applyRepository.insertUserStepHistory(searchDomain);
+		}
+		return updateResult;
 	}
 	
 }

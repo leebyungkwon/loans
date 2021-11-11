@@ -193,6 +193,7 @@ create table tb_lc_mas01(
 	, reg_path char(1) not null default 'B'
 	, com_code integer
 	, member_seq integer
+	, user_seq integer
 	, sub_yn char(1) not null default 'N'
 	, pre_reg_yn char(1) not null default 'N'
 	, pre_lc_num varchar(14)
@@ -232,7 +233,9 @@ create table tb_lc_mas01(
 	, capital varchar(20)
 	, voting_stock_cnt varchar(20)
 	, other_field varchar(100)
-	, within_govr varchar(100)
+	, within_govr integer
+	, within_police integer
+	, within_adm integer
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, first_app_date varchar(8)
@@ -269,6 +272,7 @@ COMMENT ON COLUMN tb_lc_mas01.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01.reg_path IS '등록경로';
 COMMENT ON COLUMN tb_lc_mas01.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01.member_seq IS '담당자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01.user_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.sub_yn IS '약식등록여부';
 COMMENT ON COLUMN tb_lc_mas01.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01.pre_lc_num IS '가등록번호';
@@ -308,6 +312,9 @@ COMMENT ON COLUMN tb_lc_mas01.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01.voting_stock_cnt IS '의결권있는 발행주식 총수';
 COMMENT ON COLUMN tb_lc_mas01.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01.within_govr IS '관할 검찰청 또는 지청';
+COMMENT ON COLUMN tb_lc_mas01.within_police IS '관할 경찰청';
+COMMENT ON COLUMN tb_lc_mas01.within_adm IS '관할 행정관청';
+
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01.first_app_date IS '최초심사요청일';
@@ -356,6 +363,7 @@ commit;
 create table tb_lc_mas01_imwon(
 	exc_seq integer not null default nextval('tb_lc_mas01_imwon_seq')
 	, master_seq integer not null
+	, user_seq integer
 	, career_typ char(1)
 	, position_nm varchar(20)
 	, exc_name varchar(20)
@@ -379,6 +387,7 @@ create table tb_lc_mas01_imwon(
 COMMENT ON TABLE tb_lc_mas01_imwon IS '임원정보';
 COMMENT ON COLUMN tb_lc_mas01_imwon.exc_seq IS '임원시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.master_seq IS '접수번호시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_imwon.user_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.career_typ IS '구분(신규/경력)';
 COMMENT ON COLUMN tb_lc_mas01_imwon.position_nm IS '직위명';
 COMMENT ON COLUMN tb_lc_mas01_imwon.exc_name IS '이름';
@@ -559,6 +568,7 @@ create table tb_lc_mas01_hist(
 	, reg_path char(1) not null default 'B'
 	, com_code integer
 	, member_seq integer
+	, user_seq integer
 	, sub_yn char(1) not null default 'N'
 	, pre_reg_yn char(1) not null default 'N'
 	, pre_lc_num varchar(14)
@@ -598,7 +608,9 @@ create table tb_lc_mas01_hist(
 	, capital varchar(20)
 	, voting_stock_cnt varchar(20)
 	, other_field varchar(100)
-	, within_govr varchar(100)
+	, within_govr integer
+	, within_police integer
+	, within_adm integer
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, first_app_date varchar(8)
@@ -636,6 +648,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.master_to_id IS '접수번호ID(조회)';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_path IS '등록경로';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_code IS '회원사코드';
 COMMENT ON COLUMN tb_lc_mas01_hist.member_seq IS '담당자시퀀스';
+COMMENT ON COLUMN tb_lc_mas01_hist.user_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.sub_yn IS '약식등록여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.pre_reg_yn IS '기등록여부';
 COMMENT ON COLUMN tb_lc_mas01_hist.pre_lc_num IS '가등록번호';
@@ -675,6 +688,8 @@ COMMENT ON COLUMN tb_lc_mas01_hist.capital IS '자본금';
 COMMENT ON COLUMN tb_lc_mas01_hist.voting_stock_cnt IS '의결권있는 발행주식 총수';
 COMMENT ON COLUMN tb_lc_mas01_hist.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01_hist.within_govr IS '관할 검찰청 또는 지청';
+COMMENT ON COLUMN tb_lc_mas01_hist.within_police IS '관할 경찰청';
+COMMENT ON COLUMN tb_lc_mas01_hist.within_adm IS '관할 행정관청';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01_hist.first_app_date IS '최초심사요청일';

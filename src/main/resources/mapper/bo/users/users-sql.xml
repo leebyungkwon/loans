@@ -803,5 +803,16 @@
    			user_corp_req_seq	= #{userCorpReqSeq}
    		AND user_seq 			= #{userSeq}
 	</update>
+	
+	
+   	<!-- 개인회원 모집인 계약조회 -->
+   	<select id="selectUserSeqIndvList" parameterType="newApply" resultType="newApply">
+   		SELECT
+   			*
+   		FROM
+   			tb_lc_mas01
+   		WHERE 
+   			user_seq = #{userSeq}
+   	</select>
    	
 </mapper> 
