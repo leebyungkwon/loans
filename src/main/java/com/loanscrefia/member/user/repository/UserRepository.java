@@ -166,10 +166,11 @@ public interface UserRepository {
 	//가등록번호로 본등록번호 수동등록
 	UserDomain getApiReg(UserDomain userDomain);
 	
-	//승인완료인 건 결제정보가 있을시 자격취득으로 변경
-	List<UserDomain> selectApiApplyList(UserDomain userDomain);
+	//승인완료인 건 결제정보가 있을시 자격취득으로 변경 - 개인
+	List<UserDomain> selectIndvApiApplyList(UserDomain userDomain);
 	
-	
+	//승인완료인 건 결제정보가 있을시 자격취득으로 변경 - 법인
+	List<UserDomain> selectCorpApiApplyList(UserDomain userDomain);	
 	
 
 	

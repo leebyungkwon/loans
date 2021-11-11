@@ -192,7 +192,7 @@ public class BatchController {
     }
 	
 	
-	// 개인회원 정보변경
+	// 정보변경
 	@Scheduled(cron ="* 0/30 * * * *") 
     @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void indvLoanUpd() throws Exception {
@@ -214,7 +214,16 @@ public class BatchController {
 			successCnt = successCnt + success;
 		}
 		
-		// 계약건별 정보변경 성공 후 USER정보 수정 
+		// 계약건별 정보변경 성공 후 USER정보, CORP정보 수정
+		
+		
+		
+		
+		
+		
+		// 계약건별 정보변경 성공 후 USER정보, CORP정보 수정 끝
+		
+		
 		
 		batch.setScheduleHistSeq(scheduleSeq);
 		batch.setSuccessCnt(successCnt);

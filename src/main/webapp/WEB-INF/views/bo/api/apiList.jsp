@@ -224,12 +224,12 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
-/* 
+ 
 	
-	// 승인완료 자격취득
-	$("#apiApplyReg").on("click", function(){
+	// 승인완료 자격취득 - 개인
+	$("#apiIndvApplyReg").on("click", function(){
 		var p = {
-			  url		: "/system/api/apiApplyReg"	
+			  url		: "/system/api/apiIndvApplyReg"	
 			, param		: {
 				
 			}
@@ -241,7 +241,23 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
-	 */
+	
+	// 승인완료 자격취득 - 법인
+	$("#apiCorpApplyReg").on("click", function(){
+		var p = {
+			  url		: "/system/api/apiCorpApplyReg"	
+			, param		: {
+				
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("결과값 :: " , result);
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	 
 	// 가등록 삭제
 	$("#deletePreLoan").on("click", function(){
 		
@@ -454,30 +470,6 @@ function goGetDate(opt) {
 					<col width="23%">
 				</colgroup>
 				<tr>
-					<th></th>
-					<td class="">
-						
-					</td>
-					<th></th>
-					<td class="" colspan="3">
-						#자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기(전체)
-					</td>
-				</tr>
-			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="apiBatch">본등록수동배치</a>
-		</div>
-		
-		<div class="info_box k_search" >
-			<table class="info_box_table" style="width: 90%;">
-				<colgroup>
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-				</colgroup>
-				<tr>
 					<th>가등록번호</th>
 					<td class="">
 						<input type="text" id="regPreLcNum" >
@@ -491,7 +483,34 @@ function goGetDate(opt) {
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiReg">수동본등록</a>
 		</div>
 		
-<%-- 		
+		
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="">
+						
+					</td>
+					<th></th>
+					<td class="" colspan="3">
+						#결제완료, 자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기(전체)
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiBatch">본등록수동배치</a>
+		</div>
+		
+ 		
 		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
@@ -506,14 +525,37 @@ function goGetDate(opt) {
 				<tr>
 					<th></th>
 					<td class="" colspan="1">
-						자격취득한 케이스가 있는경우 하위의 모든 승인완료 데이터를 자격취득으로 변경
+						승인완료 -> 자격취득(결제한 내역이 있을경우 - 개인) 
 					</td>
 				</tr>
 			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="apiApplyReg">승인완료자격취득</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiIndvApplyReg">(개인)승인완료자격취득</a>
 		</div>
-		 --%>
 		
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="" colspan="1">
+						승인완료 -> 자격취득(결제한 내역이 있을경우 - 법인)
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiCorpApplyReg">(법인)승인완료자격취득</a>
+		</div>
+		
+		
+
 	</div>
 	
 	<div class="contents">

@@ -1463,7 +1463,7 @@
 			TB_LC_MAS01
 		where
 			USE_YN = 'Y'
-		and PL_REG_STAT = '3'
+		and PL_REG_STAT IN ('3', '5')
 		and PL_STAT = '9'
 		and (pl_regist_no is null or pl_regist_no = '')
 	</select>
@@ -1488,8 +1488,8 @@
 	</select>
 	
 	
-	<!-- 승인완료인 건 결제정보가 있을시 자격취득으로 변경 -->
-	<select id="selectApiApplyList" parameterType="user" resultType="user">
+	<!-- 승인완료인 건 결제정보가 있을시 자격취득으로 변경 : 개인 -->
+	<select id="selectIndvApiApplyList" parameterType="user" resultType="user">
 		select
 			mas.MASTER_SEQ
 			, mas.PL_CLASS
@@ -1515,8 +1515,39 @@
 		and mas.pl_reg_stat = '2'
 		and mas.pl_stat = '9'
 		and mas.use_yn = 'Y'
+		and mas.pl_class = '1'
 	</select>
    	
+   	
+	<!-- 승인완료인 건 결제정보가 있을시 자격취득으로 변경 : 법인 -->
+	<select id="selectCorpApiApplyList" parameterType="user" resultType="user">
+		select
+			mas.MASTER_SEQ
+			, mas.PL_CLASS
+			, mas.PL_PRODUCT
+			, mas.PRE_LC_NUM
+			, mas.COM_CODE
+		from
+			tb_lc_mas01 mas, (
+		  		SELECT
+		   			 a.MASTER_SEQ
+		   			,a.PL_M_Z_ID
+		   			,a.CI
+		   		FROM TB_LC_MAS01 a, TB_LC_PAY b
+				WHERE a.PL_CLASS		= '2' 				
+				AND a.PL_REG_STAT 		= '3' 				
+				AND a.PL_STAT 			= '9' 				
+				AND a.USE_YN			= 'Y'
+				AND a.MASTER_SEQ 		= b.MASTER_SEQ
+			) sub
+		where
+			mas.pl_m_z_id = sub.pl_m_z_id
+		and mas.ci = sub.ci
+		and mas.pl_reg_stat = '2'
+		and mas.pl_stat = '9'
+		and mas.use_yn = 'Y'
+		and mas.pl_class = '2'
+	</select>
    	
    	
    	
