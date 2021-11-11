@@ -118,7 +118,8 @@ public class OutApiConnector {
 
         builder.addHeader("Content-Type", "application/json;charset=utf-8");
         builder.addHeader("Accept", "application/json;charset=utf-8");
-        builder.addHeader("Authorization", b.token);
+        builder.addHeader("Authorization", b.token);			
+        builder.addHeader("Connection", "close");
 
         return send(builder.build());
     }
@@ -133,6 +134,7 @@ public class OutApiConnector {
         builder.addHeader("Content-Type", "application/json;charset=utf-8");
         builder.addHeader("Accept", "application/json;charset=utf-8");
         builder.addHeader("Authorization", b.token);
+        builder.addHeader("Connection", "close");
 
         if("getAuthCode".equals(b.excuteName)) {
             builder.addHeader("X-Kfb-Client-Id", b.clientId);

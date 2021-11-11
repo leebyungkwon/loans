@@ -652,6 +652,7 @@
 	    ON users.user_seq = req.user_seq
 	    WHERE users.pl_class = '1'
 	    AND users.user_seq = #{userSeq}
+	    AND req.user_indv_req_seq = #{userIndvReqSeq}
    	</select>
    	
    	
@@ -773,6 +774,7 @@
 		on users.user_seq = corp.user_seq
 	    WHERE users.pl_class = '2'
 	    AND users.user_seq = #{userSeq}
+	    AND req.user_corp_req_seq = #{userCorpReqSeq}
    	</select>
    	
    	<!-- 개인회원 정보변경관리 상태변경 -->

@@ -14,15 +14,16 @@ function pageLoad(){
 		, headCol		: ["", "아이디", "이름", "주민번호", "연락처", "이메일", "신청일", "완료일", "상태"]
 		, bodyCol		: 
 			[
-				 {type:"string"	, name:'userSeq'		, index:'userSeq'		, width:"5%"	, hidden:true  	, id:true}
-				,{type:"string"	, name:'userId'			, index:'userId'		, width:"15%"	}
-				,{type:"string"	, name:'userName'		, index:'userName'		, width:"10%"	}
-				,{type:"string"	, name:'plMZId'			, index:'plMZId'		, width:"15%"	}
-				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'		, width:"12%"	, align:"center"}
-				,{type:"string"	, name:'email'			, index:'email'			, width:"15%"	}
-				,{type:"string"	, name:'reqDate'		, index:'reqDate'		, width:"15%"	}
-				,{type:"string"	, name:'compDate'		, index:'compDate'		, width:"15%"	}
-				,{type:"string"	, name:'statNm'			, index:'statNm'		, width:"15%"	}
+				 {type:"string"	, name:'userSeq'		, index:'userSeq'			, width:"5%"	, hidden:true  	, id:true}
+				,{type:"string"	, name:'userId'			, index:'userId'			, width:"15%"	}
+				,{type:"string"	, name:'userName'		, index:'userName'			, width:"10%"	}
+				,{type:"string"	, name:'plMZId'			, index:'plMZId'			, width:"15%"	}
+				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'			, width:"12%"	, align:"center"}
+				,{type:"string"	, name:'email'			, index:'email'				, width:"15%"	}
+				,{type:"string"	, name:'reqDate'		, index:'reqDate'			, width:"15%"	}
+				,{type:"string"	, name:'compDate'		, index:'compDate'			, width:"15%"	}
+				,{type:"string"	, name:'statNm'			, index:'statNm'			, width:"15%"	}
+				,{type:"string"	, name:'userIndvReqSeq' , index:'userIndvReqSeq'	, width:"15%"	, hidden:true}
 			]
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
@@ -72,7 +73,9 @@ function goGetDate(opt) {
 // 회원정보 상세보기
 function usersDetail(idx, data){
 	var userSeq = usersGrid.gridData[idx].userSeq;
+	var userIndvReqSeq = usersGrid.gridData[idx].userIndvReqSeq;
 	$("#userSeq").val(userSeq);
+	$("#userIndvReqSeq").val(userIndvReqSeq);
 	$("#usersDetailFrm").submit();
 }
 
@@ -81,6 +84,7 @@ function usersDetail(idx, data){
 
 <form id="usersDetailFrm" method="post" action="/admin/updateIndvUsers/updateIndvUsersDetail">
 	<input type="hidden" name="userSeq" id="userSeq"/>
+	<input type="hidden" name="userIndvReqSeq" id="userIndvReqSeq"/>
 </form>
 
 <div class="cont_area">

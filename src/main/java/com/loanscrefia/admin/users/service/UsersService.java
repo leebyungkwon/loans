@@ -2,7 +2,6 @@ package com.loanscrefia.admin.users.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,21 +21,17 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.CorpUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.IndvUsersExcelDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
-import com.loanscrefia.common.common.domain.KfbApiDomain;
-import com.loanscrefia.common.common.email.domain.EmailDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
-import com.loanscrefia.member.admin.domain.AdminDomain;
-import com.loanscrefia.member.user.domain.UserDomain;
-import com.loanscrefia.member.user.domain.excel.UserIndvExcelDomain;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.repository.BatchRepository;
 import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 import com.loanscrefia.util.UtilMask;
@@ -66,6 +61,9 @@ public class UsersService {
 	//첨부파일 경로
 	@Value("${upload.filePath}")
 	public String uPath;
+	
+	@Autowired
+	private BatchRepository batchRepository;
 	
 	// 개인 회원관리 리스트 조회
 	@Transactional(readOnly=true)
@@ -591,31 +589,69 @@ public class UsersService {
 			// 등록자로 모든 계약건 조회
 			List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
 			
+			// 수정되여야할 개인정보
+			UsersDomain usersResult = usersRepository.getUpdateIndvUsersDetail(usersDomain);
+			String userName = usersResult.getReqUserName();
+			String mobileNo = usersResult.getReqMobileNo();
+			if(resultList.size() > 0) {
+				for(NewApplyDomain result : resultList) {
+					//배치 테이블 저장
+					BatchDomain batchDomain = new BatchDomain();
+					JSONObject jsonParam = new JSONObject();
+					JSONObject jsonArrayParam = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					
+					jsonParam.put("user_seq", result.getUserSeq());
+					jsonParam.put("master_seq", result.getMasterSeq());
+					jsonParam.put("lc_num", result.getPlRegistNo());
+					if(StringUtils.isEmpty(userName)) {
+						jsonParam.put("name", result.getPlMName());
+					}else {
+						jsonParam.put("name", userName);
+					}
+					
+					// 배열
+					jsonArrayParam.put("con_num", result.getConNum());
+					jsonArrayParam.put("con_date", result.getComContDate().replaceAll("-", ""));
+					if(StringUtils.isEmpty(mobileNo)) {
+						jsonArrayParam.put("con_mobile", result.getPlCellphone());
+					}else {
+						jsonArrayParam.put("con_mobile", mobileNo);
+					}
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", result.getPlProduct());
+					
+					// 해지 key 없이 보낼시 오류 발생 확인
+					/*
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
+					*/
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					batchDomain.setScheduleName("loanUpd");
+					batchDomain.setParam(jsonParam.toString());
+					batchDomain.setProperty01("1"); //개인,법인 구분값
+					batchRepository.insertBatchPlanInfo(batchDomain);
+				}
+			}
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			// 주민등록번호 수정시 
+			String plMZId = usersResult.getReqPlMZId();
+			if(StringUtils.isEmpty(plMZId)) {
+				// 주민등록번호 변경 배치 insert 시작
+				
+				
+			}
 			
 		}else if("3".equals(usersDomain.getStat())) {
 			// 정보변경 거절 -> email, 문자발송????
 			
 			
-			
-			
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		
-		
-		
 		int result = usersRepository.updateIndvUsersStat(usersDomain);
 		if(result > 0) {
 			return responseMsg;
@@ -702,25 +738,58 @@ public class UsersService {
 	@Transactional
 	public ResponseMsg updateCorpUsersStat(UsersDomain usersDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
-		
 		if("2".equals(usersDomain.getStat())) {
 			// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
-
+			NewApplyDomain newApplyDomain = new NewApplyDomain();
+			newApplyDomain.setUserSeq(usersDomain.getUserSeq());
 			
+			// 등록자로 모든 계약건 조회
+			List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
+			
+			if(resultList.size() > 0) {
+				for(NewApplyDomain result : resultList) {
+					//배치 테이블 저장
+					BatchDomain batchDomain = new BatchDomain();
+					JSONObject jsonParam = new JSONObject();
+					JSONObject jsonArrayParam = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					
+					jsonParam.put("user_seq", result.getUserSeq());
+					jsonParam.put("master_seq", result.getMasterSeq());
+					jsonParam.put("lc_num", result.getPlRegistNo());
+					jsonParam.put("name", result.getPlMName());
+					
+					// 배열
+					jsonArrayParam.put("con_num", result.getConNum());
+					jsonArrayParam.put("con_date", result.getComContDate().replaceAll("-", ""));
+					jsonArrayParam.put("con_mobile", result.getPlCellphone());
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", result.getPlProduct());
+					
+					// 해지 key 없이 보낼시 오류 발생 확인
+					/*
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
+					*/
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					batchDomain.setScheduleName("loanUpd");
+					batchDomain.setParam(jsonParam.toString());
+					batchDomain.setProperty01("2"); //개인,법인 구분값
+					batchRepository.insertBatchPlanInfo(batchDomain);
+				}
+			}
 			
 		}else if("3".equals(usersDomain.getStat())) {
 			// 정보변경 거절 -> email, 문자발송????
 			
 			
-			
-			
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		
-		
-		
-		int result = usersRepository.updateCorpUsersStat(usersDomain);
+		int result = usersRepository.updateIndvUsersStat(usersDomain);
 		if(result > 0) {
 			return responseMsg;
 		}else {

@@ -1171,22 +1171,29 @@ public class NewApplyService {
 							// 기등록자인 경우 배치테이블 insert 후 자격취득으로 변경
 							BatchDomain batchDomain = new BatchDomain();
 							JSONObject jsonParam 	= new JSONObject();
+							JSONObject jsonArrayParam = new JSONObject();
+							JSONArray jsonArray = new JSONArray();
+							
 							jsonParam.put("master_seq", statCheck.getMasterSeq());
 							jsonParam.put("name", statCheck.getPlMName());
 							jsonParam.put("ssn", statCheck.getPlMZId());
 							jsonParam.put("ci", statCheck.getCi());
-							jsonParam.put("corp_user_yn", statCheck.getCorpUserYn());
+							//jsonParam.put("corp_user_yn", statCheck.getCorpUserYn());
+							
 							if(statCheck.getCorpUserYn().equals("Y")) {
-								jsonParam.put("corp_num", statCheck.getPlMerchantNo());
+								jsonArrayParam.put("corp_num", statCheck.getPlMerchantNo());
 							}else {
-								jsonParam.put("corp_num", "");
+								jsonArrayParam.put("corp_num", "");
 							}
 							
-							jsonParam.put("con_mobile", statCheck.getPlCellphone());
-							jsonParam.put("con_date", statCheck.getComContDate());
-							jsonParam.put("fin_code", statCheck.getComCode());
-							jsonParam.put("fin_phone", "");
-							jsonParam.put("loan_type", statCheck.getPlProduct());
+							jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+							jsonArrayParam.put("con_date", statCheck.getComContDate());
+							jsonArrayParam.put("fin_code", statCheck.getComCode());
+							jsonArrayParam.put("fin_phone", "");
+							jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+							
+							jsonArray.put(jsonArrayParam);
+							jsonParam.put("con_arr", jsonArray);
 							
 							batchDomain.setScheduleName("loanReg");
 							batchDomain.setParam(jsonParam.toString());
@@ -1195,7 +1202,6 @@ public class NewApplyService {
 							// 상태변경 -> 결제완료 -> 자격취득
 							apiCheck = true;
 							newApplyDomain.setPlRegStat("5");
-							
 							smsDomain.setTranMsg("기등록자");
 							
 						}else {
@@ -1235,6 +1241,8 @@ public class NewApplyService {
 									//배치 테이블 저장
 									BatchDomain batchDomain = new BatchDomain();
 									JSONObject jsonParam	= new JSONObject();
+									JSONObject jsonArrayParam = new JSONObject();
+									JSONArray jsonArray = new JSONArray();
 									
 									jsonParam.put("master_seq", statCheck.getMasterSeq());
 									jsonParam.put("corp_num", statCheck.getPlMerchantNo());
@@ -1242,10 +1250,14 @@ public class NewApplyService {
 									jsonParam.put("corp_rep_name", statCheck.getPlCeoName());
 									jsonParam.put("corp_rep_ssn", statCheck.getPlMZId());
 									jsonParam.put("corp_rep_ci", statCheck.getCi());
-									jsonParam.put("con_date", statCheck.getComContDate());
-									jsonParam.put("fin_code", statCheck.getComCode());
-									jsonParam.put("fin_phone", "");
-									jsonParam.put("loan_type", statCheck.getPlProduct());
+									
+									jsonArrayParam.put("con_date", statCheck.getComContDate());
+									jsonArrayParam.put("fin_code", statCheck.getComCode());
+									jsonArrayParam.put("fin_phone", "");
+									jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+									
+									jsonArray.put(jsonArrayParam);
+									jsonParam.put("con_arr", jsonArray);
 									
 									batchDomain.setScheduleName("loanReg");
 									batchDomain.setParam(jsonParam.toString());

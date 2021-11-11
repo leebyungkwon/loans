@@ -51,4 +51,8 @@ public interface BatchRepository {
 	// 2021-11-11 해지완료 후 상태변경
 	int updateDropApply(NewApplyDomain newApplyDomain);
 	
+	// 2021-11-11 정보변경 완료 
+	int updateLoanUsersInfo(NewApplyDomain newApplyDomain);
+	
+	
 }

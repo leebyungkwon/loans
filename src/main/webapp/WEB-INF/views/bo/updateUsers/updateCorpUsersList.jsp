@@ -18,12 +18,13 @@ function pageLoad(){
 				,{type:"string"	, name:'userId'			, index:'userId'			, width:"15%"	}
 				,{type:"string"	, name:'userName'		, index:'userName'			, width:"10%"	}
 				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'			, width:"12%"	, align:"center"}
-				,{type:"string"	, name:'email'			, index:'email'			, width:"15%"	}
+				,{type:"string"	, name:'email'			, index:'email'				, width:"15%"	}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"15%"	, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'		, width:"15%"	, align:"center"}
 				,{type:"string"	, name:'reqDate'		, index:'reqDate'			, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'compDate'		, index:'compDate'			, width:"15%"	}
 				,{type:"string"	, name:'statNm'			, index:'statNm'			, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'userCorpReqSeq'	, index:'userCorpReqSeq'	, width:"10%"	, align:"center", hidden:true}
 			]
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
@@ -73,7 +74,9 @@ function goGetDate(opt) {
 // 회원정보 상세보기
 function usersDetail(idx, data){
 	var userSeq = usersGrid.gridData[idx].userSeq;
+	var userCorpReqSeq = usersGrid.gridData[idx].userCorpReqSeq;
 	$("#userSeq").val(userSeq);
+	$("#userCorpReqSeq").val(userCorpReqSeq);
 	$("#usersDetailFrm").submit();
 }
 
@@ -82,6 +85,7 @@ function usersDetail(idx, data){
 
 <form id="usersDetailFrm" method="post" action="/admin/updateCorpUsers/updateCorpUsersDetail">
 	<input type="hidden" name="userSeq" id="userSeq"/>
+	<input type="hidden" name="userCorpReqSeq" id="userCorpReqSeq"/>
 </form>
 
 <div class="cont_area">

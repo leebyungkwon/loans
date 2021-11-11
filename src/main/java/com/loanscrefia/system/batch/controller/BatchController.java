@@ -163,8 +163,8 @@ public class BatchController {
 	
 	// 가등록 -> 본등록
 	@Scheduled(cron ="* 0/30 * * * *") 
-    @SchedulerLock(name="preloanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
-    public void preloanReg() throws Exception {
+    @SchedulerLock(name="loanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void loanReg() throws Exception {
 		
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("loanReg");
@@ -190,6 +190,40 @@ public class BatchController {
 		batchService.updateScheduleHist(batch);
 
     }
+	
+	
+	// 개인회원 정보변경
+	@Scheduled(cron ="* 0/30 * * * *") 
+    @SchedulerLock(name="indvLoanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void indvLoanUpd() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("indvLoanUpd");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.loanUpd(reg);
+			successCnt = successCnt + success;
+		}
+		
+		// 계약건별 정보변경 성공 후 USER정보 수정 
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
+	
 	
 	
 	

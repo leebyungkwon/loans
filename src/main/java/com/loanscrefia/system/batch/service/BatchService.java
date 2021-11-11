@@ -104,24 +104,8 @@ public class BatchService{
 		// 가등록에 필요한 파라미터
 		String errorMessage = "";
 		ApiDomain preLoanParam = new ApiDomain();
+		preLoanParam.setMethod("POST");
 		JSONObject jsonParam = new JSONObject(req.getParam());
-		preLoanParam.setParamJson(jsonParam);
-		String plClass = "";
-		if(!jsonParam.isNull("property01")) {
-			plClass = jsonParam.getString("property01").toString();
-		}
-		
-		if("1".equals(plClass)) {
-			preLoanParam.setUrl("/loan/v1/pre-loan-consultants");
-		}else if("2".equals(plClass)) {
-			preLoanParam.setUrl("/loan/v1/pre-loan-corp-consultants");
-		}else {
-			req.setStatus("3");
-			req.setError("구분(개인/법인) 파라미터 오류");
-			errorMessage = "구분(개인/법인) 파라미터 오류";
-			throw new Exception();
-		}
-		
 		int masterSeq = 0;
 		if(!jsonParam.isNull("master_seq")) {
 			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
@@ -131,6 +115,24 @@ public class BatchService{
 			errorMessage = "모집인 계약 seq 파라미터 오류";
 			throw new Exception();
 		}
+		
+		// master_seq 추출 후 제거 
+		jsonParam.remove("master_seq");
+		preLoanParam.setParamJson(jsonParam);
+		String plClass = req.getProperty01();
+		if("1".equals(plClass)) {
+			preLoanParam.setUrl("/loan/v1/pre-loan-consultants");
+			preLoanParam.setApiName("preIndvLoanReg");
+		}else if("2".equals(plClass)) {
+			preLoanParam.setUrl("/loan/v1/pre-loan-corp-consultants");
+			preLoanParam.setApiName("preCorpLoanReg");
+		}else {
+			req.setStatus("3");
+			req.setError("구분(개인/법인) 파라미터 오류");
+			errorMessage = "구분(개인/법인) 파라미터 오류";
+			throw new Exception();
+		}
+
 		
 		int cnt = 0;
 		try {
@@ -159,13 +161,16 @@ public class BatchService{
 				
 				// 본등록에 필요한 파라미터
 				ApiDomain loanParam = new ApiDomain();
+				loanParam.setMethod("POST");
 				// 가등록번호 JSON변환 후 본등록 준비
 				JSONObject loanJsonParam = new JSONObject();
 				if("1".equals(plClass)) {
 					loanParam.setUrl("/loan/v1/loan-consultants");
+					loanParam.setApiName("indvLoanReg");
 					loanJsonParam.put("pre_lc_num", preLcNum);
 				}else {
 					loanParam.setUrl("/loan/v1/loan-corp-consultants");
+					loanParam.setApiName("corpLoanReg");
 					loanJsonParam.put("pre_corp_lc_num", preLcNum);
 				}
 				loanParam.setParamJson(loanJsonParam);
@@ -248,6 +253,91 @@ public class BatchService{
 			return cnt;
 		}
 	}
+	
+	
+	
+
+	// 2021-11-11 정보수정
+	@Transactional
+	public int loanUpd(BatchDomain req) throws Exception {
+		String errorMessage = "";
+		ApiDomain loanUpdParam = new ApiDomain();
+		loanUpdParam.setMethod("PUT");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		int userSeq = 0;
+		if(!jsonParam.isNull("user_seq")) {
+			userSeq = Integer.parseInt(jsonParam.getString("user_seq").toString());
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 seq 파라미터 오류");
+			errorMessage = "모집인 seq 파라미터 오류";
+			throw new Exception();
+		}
+		
+		int masterSeq = 0;
+		if(!jsonParam.isNull("master_seq")) {
+			userSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 계약 seq 파라미터 오류");
+			errorMessage = "모집인 계약 seq 파라미터 오류";
+			throw new Exception();
+		}
+
+		
+		// master_seq 추출 후 제거 
+		jsonParam.remove("user_seq");
+		jsonParam.remove("master_seq");
+		loanUpdParam.setParamJson(jsonParam);
+		String plClass = req.getProperty01();
+		if("1".equals(plClass)) {
+			loanUpdParam.setUrl("/loan/v1/loan-consultants");
+			loanUpdParam.setApiName("indvLoanUpd");
+		}else if("2".equals(plClass)) {
+			loanUpdParam.setUrl("/loan/v1/loan-corp-consultants");
+			loanUpdParam.setApiName("corpLoanUpd");
+		}else {
+			req.setStatus("3");
+			req.setError("구분(개인/법인) 파라미터 오류");
+			errorMessage = "구분(개인/법인) 파라미터 오류";
+			throw new Exception();
+		}
+
+		
+		int cnt = 0;
+		try {
+			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
+			if("success".equals(updResult.getCode())) {
+				// 계약건별 수정된 데이터 추가
+				NewApplyDomain newApplyDomain = new NewApplyDomain();
+				newApplyDomain.setMasterSeq(masterSeq);
+				batchRepository.updateLoanUsersInfo(newApplyDomain);
+				req.setStatus("2");
+				cnt = 1;
+			}else {
+				
+				// 통신오류
+				req.setStatus("3");
+				errorMessage = "가등록번호 생성시 오류 발생 :: "+updResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
+	
+	
+	
+	
 	
 	
 	
