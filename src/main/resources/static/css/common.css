@@ -394,21 +394,43 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
   display: block;
 }
 
+.container .gnb li.cate1{
+    width: 100%;
+    height: 30px;
+    display: block;
+    color: #fff;
+    font: 700 14px/30px 'Malgun Gothic','맑은 고딕';
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    padding-left: 10px;
+    background: #272525;
+}
+.container .gnb li.cate2{
+    width: 100%;
+    height: 40px;
+    display: block;
+    color: #fff;
+    font: 600 12px/40px 'Malgun Gothic','맑은 고딕';
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    padding-left: 10px;
+    background: #6a6c8a;
+}
+
 .container .gnb li a{
   width: 100%;
-  height: 50px;
+  height: 40px;
   display: block;
   color:#666;
-	font:700 14px/50px 'Malgun Gothic','맑은 고딕';
+  font:500 12px/40px 'Malgun Gothic','맑은 고딕';
   border-bottom: 1px solid #ccc;
   box-sizing: border-box;
-  padding-left: 40px;
+  padding-left: 20px;
 }
 
 .container .gnb li.on a{
-  background-color: #0b4fa1;
-  border-bottom: 1px solid #0b4fa1;
-  color: #fff;
+  color: #eb4715;
+  font:900 14px/40px 'Malgun Gothic','맑은 고딕';
 }
 
 .long_table{
