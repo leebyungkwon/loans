@@ -1641,5 +1641,24 @@ CREATE TABLE public.tb_lc_schedule_hist (
 );
 
 
+--로그
+CREATE TABLE public.tb_lc_bo_log (
+	member_seq int8  null,
+	url varchar(500) NULL,
+	param text NULL,
+	ip varchar(100) NULL,
+	ip2 varchar(100) NULL,
+	reg_timestamp timestamp NULL
+);
+
+CREATE TABLE public.tb_lc_fo_log (
+	user_seq int8  null,
+	url varchar(500) NULL,
+	param text NULL,
+	ip varchar(100) NULL,
+	ip2 varchar(100) NULL,
+	reg_timestamp timestamp NULL
+);
+
 
 

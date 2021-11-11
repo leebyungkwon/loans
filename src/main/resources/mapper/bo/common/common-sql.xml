@@ -249,4 +249,16 @@
 		)	
 	</insert>
 	
+		<insert id="saveTransactionLog" parameterType="tranInfo">
+		INSERT INTO TB_LC_BO_LOG
+		VALUES(
+			  #{regSeq}
+			, #{url}
+			, #{param}
+			, #{ip}
+			, #{ip2}
+			, NOW()
+		)	
+	</insert>
+	
 </mapper> 

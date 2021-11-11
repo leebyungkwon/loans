@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
 import com.loanscrefia.common.common.domain.PayResultLogDomain;
+import com.loanscrefia.common.common.domain.TransactionDomain;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 
@@ -54,6 +55,8 @@ public interface CommonRepository {
 	
 	// 2021-09-06 결제관련 메뉴 로그저장
 	int savePayLog(PayResultLogDomain payResultLogDomain);
+
+	void saveTransactionLog(TransactionDomain data);
 	
 	
 }
