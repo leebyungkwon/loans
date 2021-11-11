@@ -36,7 +36,7 @@ public interface BatchRepository {
 	// 2021-11-09 스케쥴명으로 조회
 	List<BatchDomain> selectBatchList(BatchDomain param);
 	
-	// 2021-11-09 가등록번호 update 
+	// 2021-11-09 계약정보(가등록번호, 등록번호 추가)
 	int updatePreLcNum(NewApplyDomain newApplyDomain);
 	
 	// 2021-11-10 배치 시작 이력 저장
@@ -57,5 +57,13 @@ public interface BatchRepository {
 	// 2021-11-11 법인회원 계약정보변경 완료	
 	int updateCorpMasInfo(NewApplyDomain newApplyDomain);
 	
+	// 2021-11-11 개인회원 회원정보 수정
+	int updateIndvUsersInfo(UsersDomain usersDomain);
+	
+	// 2021-11-11 법인회원 회원정보 수정
+	int updateCorpUsersInfo(UsersDomain usersDomain);	
+	
+	// 2021-11-11 법인정보 수정
+	int updateCorpInfo(UsersDomain usersDomain);	
 	
 }

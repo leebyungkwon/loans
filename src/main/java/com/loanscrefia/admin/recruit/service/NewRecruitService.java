@@ -32,6 +32,8 @@ import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.repository.NewUserRepository;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.repository.BatchRepository;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilMask;
@@ -50,6 +52,8 @@ public class NewRecruitService {
 	@Autowired private EmailRepository emailRepository;
 	@Autowired private KfbApiRepository kfbApiRepository;
 	@Autowired private KfbApiService kfbApiService;
+	@Autowired
+	private BatchRepository batchRepository;
 
 	//암호화 적용여부
 	@Value("${crypto.apply}")
@@ -899,6 +903,7 @@ public class NewRecruitService {
     	NewUserDomain userDomain = new NewUserDomain();
     	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	userDomain.setVioNum("empty");
+    	
     	// 등록해야할 위반이력
     	List<NewUserDomain> violationRegList = userRepo.selectNewUserViolationInfoList(userDomain);
     	
@@ -912,254 +917,84 @@ public class NewRecruitService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}
 		
-		/*
-		//승인처리시 이메일 발송
-		if(StringUtils.isEmpty(statCheck.getEmail())) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "이메일을 확인해 주세요.");
-		}
-		*/
-		
-		
-		// 2021-10-13 SMS발송 추가 예정
-		/*
-		int emailResult = 0;
-		EmailDomain emailDomain = new EmailDomain();
-		emailDomain.setName("여신금융협회");
-		emailDomain.setEmail(statCheck.getEmail());
-		*/
 		
 		// API성공여부
 		boolean apiCheck = false;
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
-		
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
-			// 변경요청에 대한 승인
-			//emailDomain.setInstId("145");
-			//emailDomain.setSubsValue(statCheck.getMasterToId());
 			
-			if(kfbApiApply) {
-				String prdCheck = statCheck.getPlProduct();
-				// 금융상품 TM대출(3), TM리스(6) 제외
-				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
-					String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+			
+			if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
+				
+				// 개인
+				if("1".equals(statCheck.getPlClass())) {
+					BatchDomain batchDomain = new BatchDomain();
 					JSONObject jsonParam = new JSONObject();
 					JSONObject jsonArrayParam = new JSONObject();
 					JSONArray jsonArray = new JSONArray();
-
-					// 2021-07-04 은행연합회 API 통신 - 수정
-					// 정보수정시 등록번호 + 계약번호 = 단독수정, 등록번호만 던질시 전체수정임
-					// 주민번호 변경은 정보변경과 다른 API 분기
-					// 정보변경시 은행연합회 API통해 조회된 값과 비교 후 다른경우 변경
-					String plClass = statCheck.getPlClass();
-					if("1".equals(plClass)) {
-						jsonParam.put("lc_num", statCheck.getPlRegistNo());
-						jsonParam.put("name", statCheck.getPlMName());
-						
-						jsonArrayParam.put("con_num", statCheck.getConNum());
-						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
-						jsonArrayParam.put("fin_phone", "");
-						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-						jsonArrayParam.put("cancel_date", "");
-						jsonArrayParam.put("cancel_code", "");
-						
-						jsonArray.put(jsonArrayParam);
-						jsonParam.put("con_arr", jsonArray);
-						
-						log.info("########################");
-						log.info("JSONObject In JSONArray :: " + jsonParam);
-						log.info(":::::::::::::API통신 시작 :::::::::");
-						log.info("########################");
-						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
-						if("success".equals(responseMsg.getCode())) {
-							// 주민번호 변경 API 호출 - 은행연합회 확인
-							boolean zIdCheck = false;
-							JSONObject zIdParam = new JSONObject();
-							if(zIdCheck) {
-								zIdParam.put("bef_ssn", "");											// 변경 전 주민번호 - API 조회된 결과값
-								zIdParam.put("aft_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 변경 후 주민번호 - DB데이터
-								log.info("########################");
-								log.info("jsonParam :: " + zIdParam);
-								log.info("########################");
-								responseMsg = kfbApiService.commonKfbApi(apiKey, zIdParam, KfbApiService.ApiDomain+KfbApiService.modUrl, "PUT", plClass, "N");
-								if(!"success".equals(responseMsg.getCode())) {
-									return responseMsg;
-								}
-							}
-							
-							apiCheck = true;
-							
-						}else {
-							return responseMsg;
-						}
-						
-					}else {
-						jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
-						jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
-						jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
-						jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
-						//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
-						
-						jsonArrayParam.put("con_num", statCheck.getConNum());
-						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-						jsonArrayParam.put("fin_phone", "");
-						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-						jsonArrayParam.put("cancel_date", "");
-						jsonArrayParam.put("cancel_code", "");
-						
-						jsonArray.put(jsonArrayParam);
-						jsonParam.put("con_arr", jsonArray);
-						
-						log.info("########################");
-						log.info("JSONObject In JSONArray :: " + jsonParam);
-						log.info(":::::::::::::API통신 시작 :::::::::");
-						log.info("########################");
-						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
-						if(!"success".equals(responseMsg.getCode())) {
-							return responseMsg;
-						}
-					}
 					
-					if(violationRegList.size() > 0) {
-						// 위반이력 등록
-						for(NewUserDomain regVio : violationRegList) {
-							JSONObject jsonRegVioParam = new JSONObject();
-							jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
-							jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
-							jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
-							jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
-							jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
-							
-							responseMsg = kfbApiService.violation(apiKey, jsonRegVioParam, "POST");
-							if("success".equals(responseMsg.getCode())) {
-								JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
-								String apiVioNum = responseJson.getString("vio_num");
-								NewUserDomain vioRegDomain = new NewUserDomain();
-								vioRegDomain.setVioNum(apiVioNum);
-								vioRegDomain.setViolationSeq(regVio.getViolationSeq());
-								userRepo.updateNewUserViolationInfo(vioRegDomain);
-							}else {
-								return responseMsg;
-							}
-						}
-					}
+					jsonParam.put("user_seq", statCheck.getUserSeq());
+					jsonParam.put("master_seq", statCheck.getMasterSeq());
+					jsonParam.put("lc_num", statCheck.getPlRegistNo());
+					jsonParam.put("name", statCheck.getPlMName());
 					
-					if(violationDelList.size() > 0) {
-						// 위반이력 삭제
-						for(NewUserDomain delVio : violationDelList) {
-							JSONObject jsonDelVioParam = new JSONObject();
-							jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
-							responseMsg = kfbApiService.violation(apiKey, jsonDelVioParam, "DELETE");
-							if("success".equals(responseMsg.getCode())) {
-								NewUserDomain vioDelDomain = new NewUserDomain();
-								vioDelDomain.setViolationSeq(delVio.getViolationSeq());
-								userRepo.deleteNewUserViolationInfo(vioDelDomain);
-							}else {
-								return responseMsg;
-							}
-						}
-					}
+					// 배열
+					jsonArrayParam.put("con_num", statCheck.getConNum());
+					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 					
-					if("success".equals(responseMsg.getCode())) {
-						apiCheck = true;
-					}else {
-						return responseMsg;
-					}
+					// 해지 key 없이 보낼시 오류 발생 확인
+					/*
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
+					*/
 					
-				}else {
-					apiCheck = true;
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					batchDomain.setScheduleName("loanUpd");
+					batchDomain.setParam(jsonParam.toString());
+					batchDomain.setProperty01("1"); //개인,법인 구분값
+					batchRepository.insertBatchPlanInfo(batchDomain);
+					
+					
+					
+				}else { // 법인
+					
+					BatchDomain batchDomain = new BatchDomain();
+					JSONObject jsonParam = new JSONObject();
+					JSONObject jsonArrayParam = new JSONObject();
+					JSONArray jsonArray = new JSONArray();
+					
+					jsonParam.put("user_seq", statCheck.getUserSeq());
+					jsonParam.put("master_seq", statCheck.getMasterSeq());
+					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());
+					jsonParam.put("corp_name", statCheck.getPlMerchantName());
+					jsonParam.put("corp_rep_name", statCheck.getPlCeoName());
+					jsonParam.put("corp_rep_ssn", statCheck.getPlMZId());
+					jsonParam.put("corp_rep_ci", statCheck.getCi());
+					
+					// 배열
+					jsonArrayParam.put("con_num", statCheck.getConNum());
+					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+					jsonArrayParam.put("fin_phone", "");
+					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+					
+					// 해지 key 없이 보낼시 오류 발생 확인
+					jsonArrayParam.put("cancel_date", "");
+					jsonArrayParam.put("cancel_code", "");
+					
+					jsonArray.put(jsonArrayParam);
+					jsonParam.put("con_arr", jsonArray);
+					
+					batchDomain.setScheduleName("loanUpd");
+					batchDomain.setParam(jsonParam.toString());
+					batchDomain.setProperty01("2"); //개인,법인 구분값
+					batchRepository.insertBatchPlanInfo(batchDomain);
 				}
-			}else {
-				apiCheck = true;
 			}
-			
-		}else if("6".equals(recruitDomain.getPlStat())) {
-			// 변경요청에 대한 보완요청
-			//emailDomain.setInstId("146");
-			//emailDomain.setSubsValue(statCheck.getMasterToId()+"|"+recruitDomain.getPlHistTxt());
-			apiCheck = true;
-		}else if("4".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
-			// 해지요청에 대한 승인
-			//emailDomain.setInstId("147");
-			//emailDomain.setSubsValue(statCheck.getMasterToId());
-			
-			if(kfbApiApply) {
-				// 2021-07-04 은행연합회 API 통신 - 수정
-				String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
-				JSONObject jsonParam = new JSONObject();
-				JSONObject jsonArrayParam = new JSONObject();
-				JSONArray jsonArray = new JSONArray();
-				
-				String plClass = statCheck.getPlClass();
-				String prdCheck = statCheck.getPlProduct();
-				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
-					if("1".equals(plClass)) {
-						jsonParam.put("lc_num", statCheck.getPlRegistNo());
-						jsonParam.put("name", statCheck.getPlMName());
-						
-						jsonArrayParam.put("con_num", statCheck.getConNum());
-						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
-						jsonArrayParam.put("fin_phone", "");
-						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-						jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
-						jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
-						
-						jsonArray.put(jsonArrayParam);
-						jsonParam.put("con_arr", jsonArray);
-						
-						log.info("########################");
-						log.info("JSONObject In JSONArray :: " + jsonParam);
-						log.info(":::::::::::::API통신 시작 :::::::::");
-						log.info("########################");
-						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanUrl, "PUT", plClass, "N");
-						
-					}else {
-						jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());					// 등록번호
-						jsonParam.put("corp_name", statCheck.getPlMerchantName());					// 법인명
-						jsonParam.put("corp_rep_name", statCheck.getPlCeoName());					// 법인대표명
-						jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));	// 법인대표주민번호
-						//jsonParam.put("corp_rep_ci", statCheck.getCi());							// 법인대표CI
-						
-						jsonArrayParam.put("con_num", statCheck.getConNum());
-						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-						jsonArrayParam.put("fin_phone", "");
-						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-						jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
-						jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
-						
-						jsonArray.put(jsonArrayParam);
-						jsonParam.put("con_arr", jsonArray);
-						
-						log.info("########################");
-						log.info("JSONObject In JSONArray :: " + jsonParam);
-						log.info(":::::::::::::API통신 시작 :::::::::");
-						log.info("########################");
-						
-						responseMsg = kfbApiService.commonKfbApi(apiKey, jsonParam, KfbApiService.ApiDomain+KfbApiService.LoanCorpUrl, "PUT", plClass, "N");
-					}
-					
-					if("success".equals(responseMsg.getCode())) {
-						apiCheck = true;
-					}else {
-						return responseMsg;
-					}
-				}else {
-					// TM대출, TM리스 제외
-					apiCheck = true;				
-				}
-			}else {
-				apiCheck = true;
-			}
-			
-		}else if("2".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
-			// 승인요청에 대한 승인 - 제외됐음
-			//emailDomain.setInstId("142");
-			//emailDomain.setSubsValue(statCheck.getMasterToId());
-			apiCheck = true;
 		}else{
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
 		}

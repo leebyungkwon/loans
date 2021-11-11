@@ -257,6 +257,28 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
+	
+	
+	
+	// 승인완료 자격취득 - 법인
+	$("#apiPreRegApplyReg").on("click", function(){
+		var p = {
+			  url		: "/system/api/apiPreRegApplyReg"	
+			, param		: {
+				
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("결과값 :: " , result);
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	
+	
+	
 	 
 	// 가등록 삭제
 	$("#deletePreLoan").on("click", function(){
@@ -552,6 +574,29 @@ function goGetDate(opt) {
 				</tr>
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiCorpApplyReg">(법인)승인완료자격취득</a>
+		</div>
+		
+		
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="" colspan="1">
+						승인완료이면서 기등록자인 경우 자격취득(개인/법인 전체)
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreRegApplyReg">기등록자자격취득</a>
 		</div>
 		
 		

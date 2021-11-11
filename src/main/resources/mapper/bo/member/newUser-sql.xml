@@ -425,6 +425,7 @@
    			,REG_PATH
 			,COM_CODE
 			,MEMBER_SEQ
+			,USER_SEQ
 			,SUB_YN
 			,PRE_REG_YN
 			,PRE_LC_NUM
@@ -497,6 +498,7 @@
    			,REG_PATH
 			,COM_CODE
 			,MEMBER_SEQ
+			,USER_SEQ
 			,SUB_YN
 			,PRE_REG_YN
 			,PRE_LC_NUM

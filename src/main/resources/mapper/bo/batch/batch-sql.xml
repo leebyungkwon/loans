@@ -114,7 +114,7 @@
     </update>
     
     
-    <!-- 가등록번호 update --> 
+    <!-- 계약정보(가등록번호, 등록번호 추가) update --> 
     <update id="updatePreLcNum" parameterType="newApply" >
 		update tb_lc_mas01
 		set
@@ -123,6 +123,9 @@
 			, con_num		= #{conNum}
 			, upd_timestamp = NOW()
 			, upd_seq 		= 0
+			, pl_reg_stat	= '3'
+			, pl_stat		= '9'
+			, cre_license_date = TO_CHAR(NOW(), 'YYYYMMDD')
 		where
 			master_seq = #{masterSeq}
     </update>
@@ -244,5 +247,41 @@
 		where
 			master_seq = #{masterSeq}
     </update>
+    
+    <!-- 개인회원 회원정보 수정 --> 
+    <update id="updateIndvUsersInfo" parameterType="newApply" >
+		update tb_lc_users
+		set
+			USER_NAME 			= #{userName}
+			, MOBILE_NO 		= #{mobileNo}
+			, upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+		where USER_SEQ 	= #{userSeq}
+    </update>
+    
+    <!-- 법인회원 회원정보 수정 --> 
+    <update id="updateIndvUsersInfo" parameterType="newApply" >
+		update tb_lc_users
+		set
+			USER_NAME 			= #{userName}
+			, MOBILE_NO 		= #{mobileNo}
+			, PL_M_Z_ID			= #{plMZId}
+			, USER_CI			= #{userCi}
+			, upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+		where USER_SEQ 	= #{userSeq}
+    </update>
+    
+    <!-- 법인정보 수정 --> 
+    <update id="updateCorpInfo" parameterType="newApply" >
+		update tb_lc_corp
+		set
+			PL_MERCHANT_NAME 	= #{plMerchantName}
+			, upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+		where USER_SEQ 	= #{userSeq}
+    </update>
+    
+    
     
 </mapper>

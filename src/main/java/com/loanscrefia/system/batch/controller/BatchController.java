@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -214,16 +215,6 @@ public class BatchController {
 			successCnt = successCnt + success;
 		}
 		
-		// 계약건별 정보변경 성공 후 USER정보, CORP정보 수정
-		
-		
-		
-		
-		
-		
-		// 계약건별 정보변경 성공 후 USER정보, CORP정보 수정 끝
-		
-		
 		
 		batch.setScheduleHistSeq(scheduleSeq);
 		batch.setSuccessCnt(successCnt);
@@ -264,9 +255,6 @@ public class BatchController {
 		// schedule_hist 종료 이력 저장
 		batchService.updateScheduleHist(batch);
     }
-	
-	
-	
 	
 	
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.recruit.domain.NewRecruitDomain;
 import com.loanscrefia.admin.recruit.repository.NewRecruitRepository;
+import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.ApiService;
 import com.loanscrefia.config.message.ResponseMsg;
@@ -326,7 +327,6 @@ public class BatchService{
 			errorMessage = "구분(개인/법인) 파라미터 오류";
 			throw new Exception();
 		}
-
 		
 		int cnt = 0;
 		try {
@@ -347,22 +347,40 @@ public class BatchService{
 					
 					batchRepository.updateIndvMasInfo(newApplyDomain);
 					
+					// 개인회원 회원정보 수정
+					UsersDomain usersDomain = new UsersDomain();
+					usersDomain.setUserSeq(userSeq);
+					usersDomain.setUserName(jsonParam.getString("name").toString());
+					usersDomain.setMobileNo(jsonObj.getString("con_mobile").toString());
+					batchRepository.updateIndvUsersInfo(usersDomain);
+					
 					
 				}else {
 					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name").toString());
 					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name").toString());
 					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
 					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci").toString());
-					
 					batchRepository.updateCorpMasInfo(newApplyDomain);
+					
+					// 법인회원 회원정보 수정
+					UsersDomain usersDomain = new UsersDomain();
+					usersDomain.setUserSeq(userSeq);
+					usersDomain.setUserName(jsonParam.getString("corp_rep_name").toString());
+					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
+					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci").toString());
+					
+					// 법인회원 연락처 수정 확인
+					//usersDomain.setMobileNo();
+					batchRepository.updateCorpUsersInfo(usersDomain);
+					
+					// 법인명 수정
+					usersDomain.setPlMerchantName(jsonParam.getString("corp_rep_name").toString());
+					batchRepository.updateCorpInfo(usersDomain);
+					
 				}
-				
-				
 				
 				req.setStatus("2");
 				cnt = 1;
-				
-				
 				
 			}else {
 				
@@ -483,6 +501,10 @@ public class BatchService{
 			return cnt;
 		}
 	}
+	
+	
+	
+	
 	
 	
 	

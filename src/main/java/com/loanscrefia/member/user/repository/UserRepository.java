@@ -172,6 +172,8 @@ public interface UserRepository {
 	//승인완료인 건 결제정보가 있을시 자격취득으로 변경 - 법인
 	List<UserDomain> selectCorpApiApplyList(UserDomain userDomain);	
 	
-
+	//승인완료이면서 기등록자인 경우 전체 자격취득
+	List<UserDomain> selectPreRegYnApiApplyList(UserDomain userDomain);	
+	
 	
 }
