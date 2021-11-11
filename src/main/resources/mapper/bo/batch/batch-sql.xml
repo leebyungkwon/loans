@@ -219,5 +219,30 @@
 			master_seq = #{masterSeq}
     </update>
     
+    <!-- 개인회원 계약정보변경 완료 --> 
+    <update id="updateIndvMasInfo" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			pl_m_name 			= #{plMName}
+			, pl_cellphone		= #{plCellphone}
+			, upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
+    <!-- 법인회원 계약정보변경 완료 --> 
+    <update id="updateCorpMasInfo" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			pl_ceo_name 		= #{plCeoName}
+			, pl_merchant_name	= #{plMerchantName}
+			, pl_m_z_id			= #{plMZId};
+			, ci				= #{ci}
+			, upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+		where
+			master_seq = #{masterSeq}
+    </update>
     
 </mapper>

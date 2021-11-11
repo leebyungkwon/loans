@@ -115,24 +115,41 @@ public class BatchService{
 			errorMessage = "모집인 계약 seq 파라미터 오류";
 			throw new Exception();
 		}
-		
-		// master_seq 추출 후 제거 
-		jsonParam.remove("master_seq");
-		preLoanParam.setParamJson(jsonParam);
+
 		String plClass = req.getProperty01();
 		if("1".equals(plClass)) {
 			preLoanParam.setUrl("/loan/v1/pre-loan-consultants");
 			preLoanParam.setApiName("preIndvLoanReg");
+
+			// 암호화된 데이터 decrypt
+			String ssn = jsonParam.getString("ssn").toString();
+			jsonParam.remove("ssn");
+			jsonParam.put("ssn", CryptoUtil.decrypt(ssn));
+			
 		}else if("2".equals(plClass)) {
 			preLoanParam.setUrl("/loan/v1/pre-loan-corp-consultants");
 			preLoanParam.setApiName("preCorpLoanReg");
+			
+			// 암호화된 데이터 decrypt
+			String corpRepSsn = jsonParam.getString("corp_rep_ssn").toString();
+			jsonParam.remove("corp_rep_ssn");
+			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(corpRepSsn));
+			
+			// 암호화된 데이터 decrypt
+			String corpNum = jsonParam.getString("corp_num").toString();
+			jsonParam.remove("corp_num");
+			jsonParam.put("corp_num", CryptoUtil.decrypt(corpNum));
+			
 		}else {
 			req.setStatus("3");
 			req.setError("구분(개인/법인) 파라미터 오류");
 			errorMessage = "구분(개인/법인) 파라미터 오류";
 			throw new Exception();
 		}
-
+		
+		// master_seq 추출 후 제거 
+		jsonParam.remove("master_seq");
+		preLoanParam.setParamJson(jsonParam);
 		
 		int cnt = 0;
 		try {
@@ -264,6 +281,7 @@ public class BatchService{
 		ApiDomain loanUpdParam = new ApiDomain();
 		loanUpdParam.setMethod("PUT");
 		JSONObject jsonParam = new JSONObject(req.getParam());
+		
 		int userSeq = 0;
 		if(!jsonParam.isNull("user_seq")) {
 			userSeq = Integer.parseInt(jsonParam.getString("user_seq").toString());
@@ -276,7 +294,7 @@ public class BatchService{
 		
 		int masterSeq = 0;
 		if(!jsonParam.isNull("master_seq")) {
-			userSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 계약 seq 파라미터 오류");
@@ -296,6 +314,12 @@ public class BatchService{
 		}else if("2".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-corp-consultants");
 			loanUpdParam.setApiName("corpLoanUpd");
+			
+			// 암호화된 데이터 decrypt
+			String ssn = jsonParam.getString("corp_rep_ssn").toString();
+			jsonParam.remove("corp_rep_ssn");
+			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(ssn));
+			
 		}else {
 			req.setStatus("3");
 			req.setError("구분(개인/법인) 파라미터 오류");
@@ -311,9 +335,35 @@ public class BatchService{
 				// 계약건별 수정된 데이터 추가
 				NewApplyDomain newApplyDomain = new NewApplyDomain();
 				newApplyDomain.setMasterSeq(masterSeq);
-				batchRepository.updateLoanUsersInfo(newApplyDomain);
+				if("1".equals(plClass)) {
+					newApplyDomain.setPlMName(jsonParam.getString("name").toString());
+					// 연락처, 계약일 등 JSON배열
+					JSONObject jsonObj = new JSONObject();
+					JSONArray conArr = jsonParam.getJSONArray("con_arr");
+					for(int i=0; i<conArr.length(); i++){
+						jsonObj = conArr.getJSONObject(i);
+						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile").toString());
+					}
+					
+					batchRepository.updateIndvMasInfo(newApplyDomain);
+					
+					
+				}else {
+					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name").toString());
+					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name").toString());
+					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
+					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci").toString());
+					
+					batchRepository.updateCorpMasInfo(newApplyDomain);
+				}
+				
+				
+				
 				req.setStatus("2");
 				cnt = 1;
+				
+				
+				
 			}else {
 				
 				// 통신오류
@@ -382,7 +432,7 @@ public class BatchService{
 			jsonParam.put("corp_name", drop.getPlMerchantName());					// 법인명
 			jsonParam.put("corp_rep_name", drop.getPlCeoName());					// 법인대표명
 			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(drop.getPlMZId()));	// 법인대표주민번호
-			//jsonParam.put("corp_rep_ci", statCheck.getCi());						// 법인대표CI
+			jsonParam.put("corp_rep_ci", drop.getCi());								// 법인대표CI
 			
 			// 배열
 			jsonArrayParam.put("con_num", drop.getConNum());

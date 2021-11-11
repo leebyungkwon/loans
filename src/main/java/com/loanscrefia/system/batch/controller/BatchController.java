@@ -194,11 +194,11 @@ public class BatchController {
 	
 	// 개인회원 정보변경
 	@Scheduled(cron ="* 0/30 * * * *") 
-    @SchedulerLock(name="indvLoanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void indvLoanUpd() throws Exception {
 		
 		BatchDomain batch = new BatchDomain();
-		batch.setScheduleName("indvLoanUpd");
+		batch.setScheduleName("loanUpd");
 		// 스케쥴 이름으로 조회
 		List<BatchDomain> batchList = batchService.selectBatchList(batch);
 		int reqCnt = batchList.size();

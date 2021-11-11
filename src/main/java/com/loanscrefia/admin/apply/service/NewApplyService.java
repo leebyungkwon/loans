@@ -1078,30 +1078,6 @@ public class NewApplyService {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", null,  "오류가 발생하였습니다.");
 		NewApplyDomain statCheck = applyRepository.getNewApplyDetail(newApplyDomain);
 		
-		// 법인번호 암호화 해제		
-		StringBuilder merchantNo = new StringBuilder();
-		if(StringUtils.isNotEmpty(statCheck.getPlMerchantNo())) {
-			if(cryptoApply) {
-				merchantNo.append(CryptoUtil.decrypt(statCheck.getPlMerchantNo()));
-			}else {
-				merchantNo.append(statCheck.getPlMerchantNo());
-			}
-			merchantNo.insert(6, "-");
-			statCheck.setPlMerchantNo(merchantNo.toString());
-		}
-		
-		// 주민번호 암호화 해제		
-		StringBuilder zid = new StringBuilder();
-		if(StringUtils.isNotEmpty(statCheck.getPlMZId())) {
-			if(cryptoApply) {
-				zid.append(CryptoUtil.decrypt(statCheck.getPlMZId()));
-			}else {
-				zid.append(statCheck.getPlMZId());
-			}
-			zid.insert(6, "-");
-			statCheck.setPlMZId(zid.toString());
-		}
-		
 		// 현재 승인상태와 화면에 있는 승인상태 비교
 		if(!newApplyDomain.getOldPlStat().equals(statCheck.getPlStat())){
 			return new ResponseMsg(HttpStatus.OK, "fail", "승인상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
@@ -1153,7 +1129,7 @@ public class NewApplyService {
 				
 				// 수수료 기납부여부 조회
 				String param = "name="+statCheck.getPlMName();
-				param += "&ssn="+statCheck.getPlMZId();
+				param += "&ssn="+CryptoUtil.decrypt(statCheck.getPlMZId());
 				param += "&ci="+statCheck.getCi();
 				param += "&loan_type="+statCheck.getPlProduct();
 				
@@ -1222,7 +1198,7 @@ public class NewApplyService {
 			}else if("2".equals(statCheck.getPlClass())){
 				if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
 					String param = "corp_num="+statCheck.getPlMerchantNo();
-					param += "&corp_rep_ssn="+statCheck.getPlMZId();
+					param += "&corp_rep_ssn="+CryptoUtil.decrypt(statCheck.getPlMZId());
 					param += "&corp_rep_ci="+statCheck.getCi();
 					param += "&loan_type="+statCheck.getPlProduct();
 					

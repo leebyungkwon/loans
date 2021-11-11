@@ -593,6 +593,7 @@ public class UsersService {
 			UsersDomain usersResult = usersRepository.getUpdateIndvUsersDetail(usersDomain);
 			String userName = usersResult.getReqUserName();
 			String mobileNo = usersResult.getReqMobileNo();
+			
 			if(resultList.size() > 0) {
 				for(NewApplyDomain result : resultList) {
 					//배치 테이블 저장
@@ -746,6 +747,15 @@ public class UsersService {
 			// 등록자로 모든 계약건 조회
 			List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
 			
+			// 수정되여야할 개인정보
+			UsersDomain usersResult = usersRepository.getUpdateCorpUsersDetail(usersDomain);
+			String plMerchantName = usersResult.getReqPlMerchantName();
+			String userName = usersResult.getReqUserName();
+			// 주민등록번호 수정시 
+			String ssn = usersResult.getReqPlMZId();
+			String mobileNo = usersResult.getReqMobileNo();
+			String userCi = usersResult.getReqUserCi();
+			
 			if(resultList.size() > 0) {
 				for(NewApplyDomain result : resultList) {
 					//배치 테이블 저장
@@ -756,21 +766,40 @@ public class UsersService {
 					
 					jsonParam.put("user_seq", result.getUserSeq());
 					jsonParam.put("master_seq", result.getMasterSeq());
-					jsonParam.put("lc_num", result.getPlRegistNo());
-					jsonParam.put("name", result.getPlMName());
+					jsonParam.put("corp_lc_num", result.getPlRegistNo());
+					if(StringUtils.isEmpty(plMerchantName)) {
+						jsonParam.put("corp_name", result.getPlMerchantName());
+					}else {
+						jsonParam.put("corp_name", plMerchantName);
+					}
+					
+					if(StringUtils.isEmpty(plMerchantName)) {
+						jsonParam.put("corp_rep_name", result.getPlCeoName());
+					}else {
+						jsonParam.put("corp_rep_name", userName);
+					}
+					
+					if(StringUtils.isEmpty(ssn)) {
+						jsonParam.put("corp_rep_ssn", result.getPlMZId());
+					}else {
+						jsonParam.put("corp_rep_ssn", ssn);
+					}
+					
+					if(StringUtils.isEmpty(userCi)) {
+						jsonParam.put("corp_rep_ci", result.getCi());
+					}else {
+						jsonParam.put("corp_rep_ci", userCi);
+					}
 					
 					// 배열
 					jsonArrayParam.put("con_num", result.getConNum());
 					jsonArrayParam.put("con_date", result.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("con_mobile", result.getPlCellphone());
 					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", result.getPlProduct());
 					
 					// 해지 key 없이 보낼시 오류 발생 확인
-					/*
 					jsonArrayParam.put("cancel_date", "");
 					jsonArrayParam.put("cancel_code", "");
-					*/
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
