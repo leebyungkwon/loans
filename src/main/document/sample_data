@@ -438,8 +438,8 @@ INSERT INTO tb_lc_edu01 (user_name,user_birth,user_sex,process_cd,career_typ,com
 (4)사용자 이력 테이블				: tb_lc_users_hist
 (4)사용자 정보변경 신청내역 테이블(개인)	: tb_lc_users_indv_req 
 (5)사용자 정보변경 신청내역 테이블(법인)	: tb_lc_users_corp_req 
-(6)관할 행정기관 테이블				: tb_lc_within_adm
-(7)관할 검찰청 또는 지청 / 경찰서 테이블	: tb_lc_within_office
+(6)관할 행정기관 테이블				: tb_lc_within_adm			-> 데이터 이관도 필요(FO document폴더에 쿼리있어요)
+(7)관할 검찰청 또는 지청 / 경찰서 테이블	: tb_lc_within_office		-> 데이터 이관도 필요(FO document폴더에 쿼리있어요)
 
 -- 컬럼 추가
 ALTER TABLE tb_lc_mas01 ADD COLUMN reg_seq INTEGER;

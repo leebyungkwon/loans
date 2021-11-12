@@ -1680,8 +1680,8 @@ create table tb_lc_within_office(
 	, within_office_sido varchar(100)
 	, within_office_area text
 	, use_yn char(1) not null default 'Y'
-	, reg_seq integer not null
-	, reg_timestamp timestamp not null
+	, reg_seq integer null
+	, reg_timestamp timestamp null
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp null
 	, PRIMARY KEY (within_office_seq)
@@ -1720,8 +1720,8 @@ create table tb_lc_within_adm(
 	, within_adm_sido varchar(100)
 	, within_adm_sgg varchar(100)
 	, use_yn char(1) not null default 'Y'
-	, reg_seq integer not null
-	, reg_timestamp timestamp not null
+	, reg_seq integer NULL
+	, reg_timestamp timestamp NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp null
 	, PRIMARY KEY (within_adm_seq)
