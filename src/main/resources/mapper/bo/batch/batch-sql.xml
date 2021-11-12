@@ -260,7 +260,7 @@
     </update>
     
     <!-- 법인회원 회원정보 수정 --> 
-    <update id="updateIndvUsersInfo" parameterType="newApply" >
+    <update id="updateCorpUsersInfo" parameterType="newApply" >
 		update tb_lc_users
 		set
 			USER_NAME 			= #{userName}

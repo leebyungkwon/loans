@@ -27,6 +27,32 @@ function goUserSearch() {
 	var url 		= $("#"+formNm).attr("action");
 	var classCheck  = formNm;
 	
+	// valid 추가
+	var exp = /^\d{2}-\d{8}$/;
+	if(formNm == "indvUserSearchFrm"){
+		if(WebUtil.isNull($("#indvNo").val())){
+			alert("등록번호를 입력해 주세요.");
+			$("#indvNo").focus();
+			return false;
+		}else{
+			if(!exp.test($("#indvNo").val())){
+				alert("등록번호 형식을 확인해 주세요.");
+				return false;
+			}
+		}
+	}else{
+		if(WebUtil.isNull($("#corpNo").val())){
+			alert("등록번호를 입력해 주세요.");
+			$("#corpNo").focus();
+			return false;
+		}else{
+			if(!exp.test($("#corpNo").val())){
+				alert("등록번호 형식을 확인해 주세요.");
+				return false;
+			}
+		}
+	}
+	
 	var p = {
 		url		: url
 		,param 		: params
@@ -75,7 +101,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				<div class="left_box">
 					<div class="input_box mgt0">
 						<div class="value">
-							<input type="text" name="plRegistNo" placeholder="등록번호 예)10-000000" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
+							<input type="text" id="indvNo" name="plRegistNo" placeholder="등록번호 예)10-000000" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
 						</div>
 					</div>
 				</div>
@@ -112,7 +138,7 @@ function goUserSearchResultPage(formNm,plRegistSearchNo, classCheck) {
 				<div class="left_box">
 					<div class="input_box mgt0">
 						<div class="value">
-							<input type="text" name="plRegistNo" placeholder="등록번호 예)10-000000" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
+							<input type="text" id="corpNo" name="plRegistNo" placeholder="등록번호 예)10-000000" maxlength="20" data-vd='{"type":"text","len":"1,20","req":true,"msg":"등록번호를 입력해 주세요."}'>
 						</div>
 					</div>
 				</div>

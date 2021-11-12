@@ -163,7 +163,7 @@ public class BatchController {
 	
 	
 	// 가등록 -> 본등록
-	@Scheduled(cron ="* 0/30 * * * *") 
+	@Scheduled(cron ="0 * * * * *") 
     @SchedulerLock(name="loanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanReg() throws Exception {
 		
@@ -194,7 +194,7 @@ public class BatchController {
 	
 	
 	// 정보변경
-	@Scheduled(cron ="* 0/30 * * * *") 
+	@Scheduled(cron ="0 * * * * *") 
     @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanUpd() throws Exception {
 		
@@ -229,7 +229,7 @@ public class BatchController {
 	
 	
 	// 해지
-	@Scheduled(cron= "* 0/30 * * * *") 
+	@Scheduled(cron ="0 * * * * *")
     @SchedulerLock(name="dropApply", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void dropApply() throws Exception {
 		
@@ -263,7 +263,7 @@ public class BatchController {
 	
 	
 	// 건별정보변경
-	@Scheduled(cron ="* 0/30 * * * *") 
+	@Scheduled(cron ="0 * * * * *") 
     @SchedulerLock(name="caseLoanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void caseLoanUpd() throws Exception {
 		
@@ -297,7 +297,7 @@ public class BatchController {
 	
 	
 	// 위반이력 등록
-	@Scheduled(cron ="* 0/30 * * * *") 
+	@Scheduled(cron ="0 * * * * *")
     @SchedulerLock(name="violationReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void violationReg() throws Exception {
 		
@@ -331,7 +331,7 @@ public class BatchController {
 	
 
 	// 위반이력 삭제
-	@Scheduled(cron ="* 0/30 * * * *") 
+	@Scheduled(cron ="0 * * * * *")
     @SchedulerLock(name="violationDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void violationDel() throws Exception {
 		

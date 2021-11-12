@@ -280,12 +280,12 @@ function goApplyImprove() {
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
+					<col width="12%">
+					<col width="21%">
+					<col width="12%">
+					<col width="21%">
+					<col width="12%">
+					<col width="21%">
 				</colgroup>
 				<tr>
 					<th>회원사 선택</th>
@@ -352,6 +352,14 @@ function goApplyImprove() {
 					<td class="">
 						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
 					</td>
+					<th>결격사유및범죄이력</th>
+					<td class="half_input">
+						<select name="disYn" id="disYn">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
 				</tr>
 				<tr>
 					<th>접수번호</th>
@@ -362,7 +370,7 @@ function goApplyImprove() {
 					<td class="">
 						<input type="text" name="preLcNum">
 					</td>
-					<th>승인요청건(확인필요)</th>
+					<th>승인요청건</th>
 					<td class="half_input">
 						<input type="checkbox" id="applyResultCheck" name="applyResultCheck"/>
 					</td>
