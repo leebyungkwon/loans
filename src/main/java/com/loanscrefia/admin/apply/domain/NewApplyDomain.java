@@ -154,6 +154,7 @@ public class NewApplyDomain extends BaseDomain {
 	// 2021-11-04 결격요건 상태 : 하나라도 Y일 경우 Y
 	private String disCd;
 	private String disVal;
+	private String disYn;
 	
 	private String dis1;					// 결격사유 조회 필드
 	private String dis2;					// 범죄경력 조회 필드

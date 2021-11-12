@@ -245,14 +245,29 @@
    		)Z	
    		<where>
 	   		<if test="disYn != null and disYn != ''">
-	   		
-	   		
-	   		
+	   			<if test='disYn == "Y" '>
+					and (
+							case when z.pl_class = '1' then dis1 end = 'Y'
+							or case when z.pl_class = '1' then dis2 end = 'Y'
+							or case when z.pl_class = '2' then dis9 end = 'Y'
+							or case when z.pl_class = '2' then dis10 end = 'Y'
+							or case when z.pl_class = '2' then dis11 end = 'Y'
+							or case when z.pl_class = '2' then dis12 end = 'Y'
+					)
+	   			</if>
+	   			<if test='disYn == "N" '>
+					and (
+							((case when z.pl_class = '1' then dis1 end) = 'N' 
+							and (case when z.pl_class = '1' then dis2 end) = 'N')
+							or ((case when z.pl_class = '2' then dis9 end) = 'N' 
+							and (case when z.pl_class = '2' then dis10 end) = 'N'
+							and (case when z.pl_class = '2' then dis11 end) = 'N' 
+							and (case when z.pl_class = '2' then dis12 end) = 'N'
+							and (case when z.pl_class = '2' then dis13 end) = 'N')
+						)
+	   			</if>	   		
 	   		</if>
-   		
    		</where>
-
-   		
 	    <include refid="common.pageBottom"/>
    	</select>
    
