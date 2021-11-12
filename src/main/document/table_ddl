@@ -1623,7 +1623,7 @@ CREATE SEQUENCE tb_lc_schedule_hist_seq
 
 CREATE TABLE public.tb_lc_schedule_hist (
 	schedule_hist_seq int4 NOT NULL DEFAULT nextval('tb_lc_schedule_hist_seq'::regclass),
-	schedule_name varchar(10) NOT NULL,
+	schedule_name varchar(30) NOT NULL,
 	req_cnt int4 NULL,
 	success_cnt int4 NULL,
 	start_time timestamp NULL,
