@@ -132,6 +132,13 @@
 				,TLM.app_date_hold
 				,TLM.pl_stat_req_seq
 				,TLM.pl_stat_req_path
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '7' limit 1) as dis1
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '8' limit 1) as dis2
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as dis9
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '10' limit 1) as dis10
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '11' limit 1) as dis11
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
+	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				AND TLM.USE_YN = 'Y'
@@ -236,6 +243,16 @@
 			</where>
 	   	 ORDER BY ${searchAppDate}, TLM.MASTER_SEQ ASC
    		)Z	
+   		<where>
+	   		<if test="disYn != null and disYn != ''">
+	   		
+	   		
+	   		
+	   		</if>
+   		
+   		</where>
+
+   		
 	    <include refid="common.pageBottom"/>
    	</select>
    

@@ -155,6 +155,17 @@ public class NewApplyDomain extends BaseDomain {
 	private String disCd;
 	private String disVal;
 	
+	private String dis1;					// 결격사유 조회 필드
+	private String dis2;					// 범죄경력 조회 필드
+	private String updDis1;					// 결격사유 수정일시
+	private String updDis2;					// 범죄경력 수정일시
+	
+	private String dis9;					// 범죄이력
+	private String dis10;					// 부실금융기관
+	private String dis11;					// 영업취소
+	private String dis12;					// 대부업자
+	private String dis13;					// 다단계판매업자
+	
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
