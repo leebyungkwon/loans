@@ -922,106 +922,108 @@ public class NewRecruitService {
 		// API성공여부
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
-				// 개인
-				if("1".equals(statCheck.getPlClass())) {
-					BatchDomain batchDomain = new BatchDomain();
-					JSONObject jsonParam = new JSONObject();
-					JSONObject jsonArrayParam = new JSONObject();
-					JSONArray jsonArray = new JSONArray();
-					
-					jsonParam.put("user_seq", statCheck.getUserSeq());
-					jsonParam.put("master_seq", statCheck.getMasterSeq());
-					jsonParam.put("lc_num", statCheck.getPlRegistNo());
-					jsonParam.put("name", statCheck.getPlMName());
-					
-					// 배열
-					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
-					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					
-					// 해지 key 없이 보낼시 오류 발생 확인
-					/*
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
-					*/
-					
-					jsonArray.put(jsonArrayParam);
-					jsonParam.put("con_arr", jsonArray);
-					
-					batchDomain.setScheduleName("caseLoanUpd");
-					batchDomain.setParam(jsonParam.toString());
-					batchDomain.setProperty01("1"); //개인,법인 구분값
-					batchRepository.insertBatchPlanInfo(batchDomain);
-					
-					
-					
-				}else { // 법인
-					
-					BatchDomain batchDomain = new BatchDomain();
-					JSONObject jsonParam = new JSONObject();
-					JSONObject jsonArrayParam = new JSONObject();
-					JSONArray jsonArray = new JSONArray();
-					
-					jsonParam.put("user_seq", statCheck.getUserSeq());
-					jsonParam.put("master_seq", statCheck.getMasterSeq());
-					jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());
-					jsonParam.put("corp_name", statCheck.getPlMerchantName());
-					jsonParam.put("corp_rep_name", statCheck.getPlCeoName());
-					jsonParam.put("corp_rep_ssn", statCheck.getPlMZId());
-					jsonParam.put("corp_rep_ci", statCheck.getCi());
-					
-					// 배열
-					jsonArrayParam.put("con_num", statCheck.getConNum());
-					jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("fin_phone", "");
-					jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-					
-					// 해지 key 없이 보낼시 오류 발생 확인
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
-					
-					jsonArray.put(jsonArrayParam);
-					jsonParam.put("con_arr", jsonArray);
-					
-					batchDomain.setScheduleName("caseLoanUpd");
-					batchDomain.setParam(jsonParam.toString());
-					batchDomain.setProperty01("2"); //개인,법인 구분값
-					batchRepository.insertBatchPlanInfo(batchDomain);
-				}
-				
-				
-				if(violationRegList.size() > 0) {
-					// 위반이력 등록
-					for(NewUserDomain regVio : violationRegList) {
-						JSONObject jsonRegVioParam = new JSONObject();
-						jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
-						jsonRegVioParam.put("vio_seq", regVio.getViolationSeq());					// 위반이력시퀀스
-						jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
-						jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
-						jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
-						jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
-					
-						BatchDomain vioBatchDomain = new BatchDomain();
-						vioBatchDomain.setScheduleName("violationReg");
-						vioBatchDomain.setParam(jsonRegVioParam.toString());
-						batchRepository.insertBatchPlanInfo(vioBatchDomain);
-
-					}
-				}
-				
-				if(violationDelList.size() > 0) {
-					// 위반이력 삭제
-					for(NewUserDomain delVio : violationDelList) {
-						JSONObject jsonDelVioParam = new JSONObject();
-						jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
-						jsonDelVioParam.put("vio_seq", delVio.getViolationSeq());								// 위반이력시퀀스
+				if(kfbApiApply) {
+					// 개인
+					if("1".equals(statCheck.getPlClass())) {
+						BatchDomain batchDomain = new BatchDomain();
+						JSONObject jsonParam = new JSONObject();
+						JSONObject jsonArrayParam = new JSONObject();
+						JSONArray jsonArray = new JSONArray();
 						
-						BatchDomain vioBatchDomain = new BatchDomain();
-						vioBatchDomain.setScheduleName("violationDel");
-						vioBatchDomain.setParam(jsonDelVioParam.toString());
-						batchRepository.insertBatchPlanInfo(vioBatchDomain);
+						jsonParam.put("user_seq", statCheck.getUserSeq());
+						jsonParam.put("master_seq", statCheck.getMasterSeq());
+						jsonParam.put("lc_num", statCheck.getPlRegistNo());
+						jsonParam.put("name", statCheck.getPlMName());
+						
+						// 배열
+						jsonArrayParam.put("con_num", statCheck.getConNum());
+						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+						jsonArrayParam.put("fin_phone", "");
+						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+						
+						// 해지 key 없이 보낼시 오류 발생 확인
+						/*
+						jsonArrayParam.put("cancel_date", "");
+						jsonArrayParam.put("cancel_code", "");
+						*/
+						
+						jsonArray.put(jsonArrayParam);
+						jsonParam.put("con_arr", jsonArray);
+						
+						batchDomain.setScheduleName("caseLoanUpd");
+						batchDomain.setParam(jsonParam.toString());
+						batchDomain.setProperty01("1"); //개인,법인 구분값
+						batchRepository.insertBatchPlanInfo(batchDomain);
+						
+						
+						
+					}else { // 법인
+						
+						BatchDomain batchDomain = new BatchDomain();
+						JSONObject jsonParam = new JSONObject();
+						JSONObject jsonArrayParam = new JSONObject();
+						JSONArray jsonArray = new JSONArray();
+						
+						jsonParam.put("user_seq", statCheck.getUserSeq());
+						jsonParam.put("master_seq", statCheck.getMasterSeq());
+						jsonParam.put("corp_lc_num", statCheck.getPlRegistNo());
+						jsonParam.put("corp_name", statCheck.getPlMerchantName());
+						jsonParam.put("corp_rep_name", statCheck.getPlCeoName());
+						jsonParam.put("corp_rep_ssn", statCheck.getPlMZId());
+						jsonParam.put("corp_rep_ci", statCheck.getCi());
+						
+						// 배열
+						jsonArrayParam.put("con_num", statCheck.getConNum());
+						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
+						jsonArrayParam.put("fin_phone", "");
+						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
+						
+						// 해지 key 없이 보낼시 오류 발생 확인
+						jsonArrayParam.put("cancel_date", "");
+						jsonArrayParam.put("cancel_code", "");
+						
+						jsonArray.put(jsonArrayParam);
+						jsonParam.put("con_arr", jsonArray);
+						
+						batchDomain.setScheduleName("caseLoanUpd");
+						batchDomain.setParam(jsonParam.toString());
+						batchDomain.setProperty01("2"); //개인,법인 구분값
+						batchRepository.insertBatchPlanInfo(batchDomain);
+					}
+					
+					
+					if(violationRegList.size() > 0) {
+						// 위반이력 등록
+						for(NewUserDomain regVio : violationRegList) {
+							JSONObject jsonRegVioParam = new JSONObject();
+							jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
+							jsonRegVioParam.put("vio_seq", regVio.getViolationSeq());					// 위반이력시퀀스
+							jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
+							jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
+							jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
+							jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
+						
+							BatchDomain vioBatchDomain = new BatchDomain();
+							vioBatchDomain.setScheduleName("violationReg");
+							vioBatchDomain.setParam(jsonRegVioParam.toString());
+							batchRepository.insertBatchPlanInfo(vioBatchDomain);
+
+						}
+					}
+					
+					if(violationDelList.size() > 0) {
+						// 위반이력 삭제
+						for(NewUserDomain delVio : violationDelList) {
+							JSONObject jsonDelVioParam = new JSONObject();
+							jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
+							jsonDelVioParam.put("vio_seq", delVio.getViolationSeq());								// 위반이력시퀀스
+							
+							BatchDomain vioBatchDomain = new BatchDomain();
+							vioBatchDomain.setScheduleName("violationDel");
+							vioBatchDomain.setParam(jsonDelVioParam.toString());
+							batchRepository.insertBatchPlanInfo(vioBatchDomain);
+						}
 					}
 				}
 			}
