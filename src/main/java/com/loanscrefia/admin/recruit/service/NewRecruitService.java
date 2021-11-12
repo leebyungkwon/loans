@@ -1016,6 +1016,7 @@ public class NewRecruitService {
 					for(NewUserDomain delVio : violationDelList) {
 						JSONObject jsonDelVioParam = new JSONObject();
 						jsonDelVioParam.put("vio_num", delVio.getVioNum());								// 위반이력번호
+						jsonDelVioParam.put("vio_seq", delVio.getViolationSeq());								// 위반이력시퀀스
 						
 						BatchDomain vioBatchDomain = new BatchDomain();
 						vioBatchDomain.setScheduleName("violationDel");

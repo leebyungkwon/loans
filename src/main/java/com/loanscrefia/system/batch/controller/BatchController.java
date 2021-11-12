@@ -329,4 +329,35 @@ public class BatchController {
 	
 	
 	
+
+	// 위반이력 삭제
+	@Scheduled(cron ="* 0/30 * * * *") 
+    @SchedulerLock(name="violationDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void violationDel() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("violationDel");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.violationDel(reg);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
+	
 }
