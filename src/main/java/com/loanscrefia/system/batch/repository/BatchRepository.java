@@ -71,4 +71,7 @@ public interface BatchRepository {
 	// 2021-11-11 위반이력 등록
 	int updateUserViolationInfo(NewUserDomain newUserDomain);
 	
+	// 2021-11-12 위반이력 삭제
+	int deleteUserViolationInfo(NewUserDomain newUserDomain);
+	
 }

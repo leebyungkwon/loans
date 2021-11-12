@@ -594,8 +594,10 @@ public class BatchService{
 		dropParam.setParamJson(jsonParam);
 		if("1".equals(plClass)) {
 			dropParam.setUrl("/loan/v1/loan-consultants");
+			dropParam.setApiName("indvDropApply");
 		}else if("2".equals(plClass)) {
 			dropParam.setUrl("/loan/v1/loan-corp-consultants");
+			dropParam.setApiName("corpDropApply");
 		}else {
 			req.setStatus("3");
 			req.setError("구분(개인/법인) 파라미터 오류");
@@ -632,16 +634,15 @@ public class BatchService{
 	
 	
 	
-	// 2021-11-09 위반이력 등록
+	// 2021-11-11 위반이력 등록
 	@Transactional
 	public int violationReg(BatchDomain req) throws Exception {
-		// 가등록에 필요한 파라미터
 		String errorMessage = "";
-		ApiDomain preLoanParam = new ApiDomain();
-		preLoanParam.setMethod("POST");
+		ApiDomain vioRegParam = new ApiDomain();
+		vioRegParam.setMethod("POST");
 		JSONObject jsonParam = new JSONObject(req.getParam());
-		preLoanParam.setUrl("/loan/v1/violation-consultants");
-		preLoanParam.setApiName("violationReg");
+		vioRegParam.setUrl("/loan/v1/violation-consultants");
+		vioRegParam.setApiName("violationReg");
 
 		// 암호화된 데이터 decrypt
 		String ssn = jsonParam.getString("ssn").toString();
@@ -652,11 +653,11 @@ public class BatchService{
 		String vioSeq = jsonParam.getString("vio_seq").toString();
 		// vio_seq 추출 후 제거 
 		jsonParam.remove("vio_seq");
-		preLoanParam.setParamJson(jsonParam);
+		vioRegParam.setParamJson(jsonParam);
 		
 		int cnt = 0;
 		try {
-			ResponseMsg vioResult = apiService.excuteApi(preLoanParam);
+			ResponseMsg vioResult = apiService.excuteApi(vioRegParam);
 			if("success".equals(vioResult.getCode())) {
 				JSONObject vioResponseJson = new JSONObject(vioResult.getData().toString());
 				String apiVioNum = "";
@@ -669,7 +670,8 @@ public class BatchService{
 				vioRegDomain.setVioNum(apiVioNum);
 				vioRegDomain.setViolationSeq(Integer.parseInt(vioSeq));
 				batchRepository.updateUserViolationInfo(vioRegDomain);
-				
+				req.setStatus("2");
+				cnt = 1;
 				
 			}else {
 				// 위반이력 등록 실패
@@ -693,5 +695,60 @@ public class BatchService{
 	
 	
 	
+	
+
+	// 2021-11-12 위반이력 삭제
+	@Transactional
+	public int violationDel(BatchDomain req) throws Exception {
+		String errorMessage = "";
+		ApiDomain vioDelParam = new ApiDomain();
+		vioDelParam.setMethod("DELETE");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		vioDelParam.setUrl("/loan/v1/violation-consultants");
+		vioDelParam.setApiName("violationDel");
+
+		// 위반이력 시퀀스
+		String vioSeq = jsonParam.getString("vio_seq").toString();
+		// vio_seq 추출 후 제거 
+		jsonParam.remove("vio_seq");
+		vioDelParam.setParamJson(jsonParam);
+		
+		int cnt = 0;
+		try {
+			ResponseMsg vioResult = apiService.excuteApi(vioDelParam);
+			if("success".equals(vioResult.getCode())) {
+				JSONObject vioResponseJson = new JSONObject(vioResult.getData().toString());
+				String apiVioNum = "";
+				if(!vioResponseJson.isNull("vio_num")) {
+					apiVioNum = vioResponseJson.getString("vio_num");
+				}
+				
+				//위반이력
+				NewUserDomain vioRegDomain = new NewUserDomain();
+				vioRegDomain.setVioNum(apiVioNum);
+				vioRegDomain.setViolationSeq(Integer.parseInt(vioSeq));
+				batchRepository.deleteUserViolationInfo(vioRegDomain);
+				req.setStatus("2");
+				cnt = 1;
+				
+			}else {
+				// 위반이력 삭제 실패
+				req.setStatus("3");
+				errorMessage = "위반이력 삭제시 오류 발생 :: "+vioResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
 	
 }

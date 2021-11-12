@@ -284,13 +284,19 @@
     
     
 	<!-- 위반이력 수정 -->
-	<insert id="updateUserViolationInfo" parameterType="newUser">
+	<update id="updateUserViolationInfo" parameterType="newUser">
 		UPDATE TB_LC_VIOLATION
 		SET
 			VIO_NUM = #{vioNum}
 		WHERE
 			VIOLATION_SEQ = #{violationSeq}
-	</insert>
+	</update>
+	
+	<!-- 위반이력 삭제 -->
+	<delete id="deleteUserViolationInfo" parameterType="newUser">
+		DELETE FROM TB_LC_VIOLATION
+		WHERE VIOLATION_SEQ = #{violationSeq}
+	</delete>
     
     
 </mapper>
