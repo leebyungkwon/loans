@@ -587,4 +587,12 @@ ALTER TABLE tb_lc_mas01_hist DROP COLUMN within_govr;
 
 ALTER TABLE tb_lc_mas01 ADD COLUMN within_govr INTEGER; 						
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_govr INTEGER;
+
+update tb_lc_cod01_detail 
+set
+	property03 = 'Y'
+where
+	code_mst_cd = 'MAS001'
+and code_dtl_cd = '15';
+
 	 

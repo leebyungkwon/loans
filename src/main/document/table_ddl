@@ -1592,10 +1592,10 @@ CREATE SEQUENCE tb_lc_schedule_seq
 
 CREATE TABLE public.tb_lc_schedule (
 	schedule_seq int4 NOT NULL DEFAULT nextval('tb_lc_schedule_seq'::regclass),
-	schedule_name varchar(10) NOT NULL,
+	schedule_name varchar(30) NOT NULL,
 	param varchar(500) NULL, 
 	reg_time timestamp NULL,
-	status timestamp NULL,  --01 대기 , 02 성공 , 03 에러
+	status char(1) null,
 	error varchar(500) NULL,
 	start_time timestamp NULL,
 	end_time timestamp NULL,

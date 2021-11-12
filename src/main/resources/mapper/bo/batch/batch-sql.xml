@@ -65,7 +65,7 @@
     	FROM
     		tb_lc_schedule
     	WHERE schedule_name = #{scheduleName}
-    	AND status in ('01', '03')
+    	AND status in ('1', '3')
     </select>
     
     <!-- 2021-11-11 해지신청 리스트 조회 -->
