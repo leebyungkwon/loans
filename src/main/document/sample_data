@@ -613,18 +613,6 @@ where
 and code_dtl_cd = '15';
 
 
--- 2021.11.15
-INSERT INTO tb_lc_company VALUES('3000000','AA테스트캐피탈',NOW(),1);
-
-
-
-
-
-
-
-
-
-
 
 
 
