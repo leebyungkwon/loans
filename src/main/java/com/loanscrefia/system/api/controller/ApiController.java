@@ -24,7 +24,7 @@ import com.loanscrefia.config.string.CosntPage;
 import com.loanscrefia.front.search.domain.SearchResultDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
-import com.loanscrefia.system.api.service.ApiService;
+import com.loanscrefia.system.api.service.BoApiService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +36,8 @@ public class ApiController {
 	@Autowired
 	private KfbApiService kfbApiService;
 	
-	private ApiService apiService;
+	@Autowired
+	private BoApiService boApiService;
 	
 	@Autowired
 	private KfbApiRepository kfbApiRepository;
@@ -54,7 +55,7 @@ public class ApiController {
 	@PostMapping(value="/api/selectApiList")
 	public ResponseEntity<ResponseMsg> selectApiList(KfbApiDomain kfbApiDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
-    	responseMsg.setData(apiService.selectApiList(kfbApiDomain));
+    	responseMsg.setData(boApiService.selectApiList(kfbApiDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

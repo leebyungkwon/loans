@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 
-public class ApiService {
+@Service
+public class BoApiService {
 
 	@Autowired 
 	private KfbApiRepository kfbApiRepository;

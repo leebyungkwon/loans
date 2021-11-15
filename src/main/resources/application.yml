@@ -149,6 +149,26 @@ email:
 sms:
   apply: true
   
+api:
+  key:
+    juso: devU01TX0FVVEgyMDIxMDkxMDEwNTk1MjExMTY1MDE=
+
+enc:
+  key:
+    location: Z:\loanscrefia\libs\Private2048.key.der
+
+time:
+  vaild:
+    pwdToken: true
+  lock:
+    inactive: true
+
+cert:
+  siteUrl: http://loanagentd.crefia.or.kr/
+  cpCd: V40830000001
+  key:
+    location: Z:\loanscrefia\libs\V40830000001_IDS_01_PROD_AES_license.dat
+    
   
 ---
 

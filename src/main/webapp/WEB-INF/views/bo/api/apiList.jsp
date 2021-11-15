@@ -546,12 +546,12 @@ function goGetDate(opt) {
 				</colgroup>
 				<tr>
 					<th></th>
-					<td class="" colspan="1">
+					<td class="" colspan="3">
 						승인완료 -> 자격취득(결제한 내역이 있을경우 - 개인) 
 					</td>
 				</tr>
 			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="apiIndvApplyReg">(개인)승인완료자격취득</a>
+			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiIndvApplyReg">(개인)승인완료자격취득</a>
 		</div>
 		
 		
@@ -568,12 +568,12 @@ function goGetDate(opt) {
 				</colgroup>
 				<tr>
 					<th></th>
-					<td class="" colspan="1">
+					<td class="" colspan="3">
 						승인완료 -> 자격취득(결제한 내역이 있을경우 - 법인)
 					</td>
 				</tr>
 			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="apiCorpApplyReg">(법인)승인완료자격취득</a>
+			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiCorpApplyReg">(법인)승인완료자격취득</a>
 		</div>
 		
 		
@@ -591,12 +591,12 @@ function goGetDate(opt) {
 				</colgroup>
 				<tr>
 					<th></th>
-					<td class="" colspan="1">
+					<td class="" colspan="3">
 						승인완료이면서 기등록자인 경우 자격취득(개인/법인 전체)
 					</td>
 				</tr>
 			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreRegApplyReg">기등록자자격취득</a>
+			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiPreRegApplyReg">기등록자자격취득</a>
 		</div>
 		
 		
