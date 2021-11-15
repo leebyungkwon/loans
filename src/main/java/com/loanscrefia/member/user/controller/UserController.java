@@ -150,7 +150,7 @@ public class UserController {
 			Date currentDt = new Date();
 			
 			Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
-			Date d2 = dateFormatParser.parse("2021-11-17 18:00:00");
+			Date d2 = dateFormatParser.parse("2021-11-24 18:00:00");
 			
 			//System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
 			//System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
@@ -209,13 +209,11 @@ public class UserController {
 	//등록 처리(엑셀 업로드) : 개인
 	@PostMapping(value="/user/insertUserRegIndvInfoByExcel")
 	public ResponseEntity<ResponseMsg> insertUserRegIndvInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain) throws IOException{
-		
 		//2021.10.21
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "등록 가능 시간이 초과되었습니다.");
 		if(this.compareDtForReg().equals("O")) {
 			responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
 		}
-		
 		//ResponseMsg responseMsg = userService.insertUserRegIndvInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
@@ -223,13 +221,11 @@ public class UserController {
 	//등록 처리(엑셀 업로드) : 법인
 	@PostMapping(value="/user/insertUserRegCorpInfoByExcel")
 	public ResponseEntity<ResponseMsg> insertUserRegCorpInfoByExcel(@RequestParam("files") MultipartFile[] files, UserDomain userDomain) throws IOException{
-		
 		//2021.10.21
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "등록 가능 시간이 초과되었습니다.");
 		if(this.compareDtForReg().equals("O")) {
 			responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
 		}
-		
 		//ResponseMsg responseMsg = userService.insertUserRegCorpInfoByExcel(files, userDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}

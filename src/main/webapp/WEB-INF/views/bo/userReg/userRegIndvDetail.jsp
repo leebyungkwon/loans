@@ -16,7 +16,7 @@ try {
 	Date currentDt = new Date();
 	
 	Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
-	Date d2 = dateFormatParser.parse("2021-11-17 18:00:00");
+	Date d2 = dateFormatParser.parse("2021-11-24 18:00:00");
 	
 	//System.out.println("현재 ::::::::::::::::::::::::::::::::::::: "+d1);
 	//System.out.println("타겟 ::::::::::::::::::::::::::::::::::::: "+d2);
