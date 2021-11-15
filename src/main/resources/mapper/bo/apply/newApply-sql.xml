@@ -5,6 +5,7 @@
    	<!-- 2021-10-13 모집인 등록 승인처리 리스트 -->
    	<select id="selectNewApplyList" parameterType="newApply" resultType="newApply">
    		SELECT 
+   			<include refid="common.totalPages"/>
    			Z.*
    		FROM
    		(
