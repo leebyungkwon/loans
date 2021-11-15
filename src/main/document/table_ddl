@@ -1579,7 +1579,7 @@ COMMENT ON COLUMN tb_lc_users_corp_req.upd_timestamp IS '수정일시';
 commit;
 
 
-//배치 정보
+-- 배치 정보
 
 CREATE SEQUENCE tb_lc_schedule_seq
 	INCREMENT BY 1
