@@ -595,9 +595,11 @@ ALTER TABLE tb_lc_mas01_imwon ADD COLUMN user_seq INTEGER;
 
 ALTER TABLE tb_lc_mas01 ADD COLUMN within_police INTEGER; 						
 ALTER TABLE tb_lc_mas01 ADD COLUMN within_adm INTEGER;							
+ALTER TABLE tb_lc_mas01 ADD COLUMN within_adm_name varchar(100);							
 
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_police INTEGER; 						
 ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_adm INTEGER;							
+ALTER TABLE tb_lc_mas01_hist ADD COLUMN within_adm_name varchar(100);							
 
 ALTER TABLE tb_lc_mas01 DROP COLUMN within_govr;
 ALTER TABLE tb_lc_mas01_hist DROP COLUMN within_govr;
@@ -612,7 +614,7 @@ where
 	code_mst_cd = 'MAS001'
 and code_dtl_cd = '15';
 
-
+ALTER TABLE tb_lc_users_disqual ADD COLUMN master_seq INTEGER;
 
 
 

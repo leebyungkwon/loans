@@ -236,6 +236,7 @@ create table tb_lc_mas01(
 	, within_govr integer
 	, within_police integer
 	, within_adm integer
+	, within_adm_name varchar(100)
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, first_app_date varchar(8)
@@ -314,7 +315,7 @@ COMMENT ON COLUMN tb_lc_mas01.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01.within_govr IS '관할 검찰청 또는 지청';
 COMMENT ON COLUMN tb_lc_mas01.within_police IS '관할 경찰청';
 COMMENT ON COLUMN tb_lc_mas01.within_adm IS '관할 행정관청';
-
+COMMENT ON COLUMN tb_lc_mas01.within_adm IS '관할 행정관청(직접입력)';
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01.first_app_date IS '최초심사요청일';
@@ -611,6 +612,7 @@ create table tb_lc_mas01_hist(
 	, within_govr integer
 	, within_police integer
 	, within_adm integer
+	, within_adm_name varchar(100)
 	, pl_pay_stat varchar(2)
 	, com_reg_date varchar(8)
 	, first_app_date varchar(8)
@@ -690,6 +692,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01_hist.within_govr IS '관할 검찰청 또는 지청';
 COMMENT ON COLUMN tb_lc_mas01_hist.within_police IS '관할 경찰청';
 COMMENT ON COLUMN tb_lc_mas01_hist.within_adm IS '관할 행정관청';
+COMMENT ON COLUMN tb_lc_mas01_hist.within_adm_name IS '관할 행정관청(직접입력)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01_hist.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01_hist.first_app_date IS '최초심사요청일';
@@ -1396,7 +1399,8 @@ commit;
 -- 결격사유
 
 create table tb_lc_users_disqual(
-	user_seq integer
+	master_seq integer
+	, user_seq integer
 	, disqual_cd varchar(2)
 	, disqual_val char(1)
 	, use_yn char(1) null default 'Y'
@@ -1407,6 +1411,7 @@ create table tb_lc_users_disqual(
 );
 
 COMMENT ON TABLE tb_lc_users_disqual IS '결격사유';
+COMMENT ON COLUMN tb_lc_users_disqual.master_seq IS '접수번호시퀀스';
 COMMENT ON COLUMN tb_lc_users_disqual.user_seq IS '사용자시퀀스';
 COMMENT ON COLUMN tb_lc_users_disqual.disqual_cd IS '결격코드';
 COMMENT ON COLUMN tb_lc_users_disqual.disqual_val IS '해당여부';
