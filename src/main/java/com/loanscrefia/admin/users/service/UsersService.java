@@ -643,7 +643,6 @@ public class UsersService {
 			if(StringUtils.isEmpty(plMZId)) {
 				// 주민등록번호 변경 배치 insert 시작
 				
-				
 			}
 			
 		}else if("3".equals(usersDomain.getStat())) {

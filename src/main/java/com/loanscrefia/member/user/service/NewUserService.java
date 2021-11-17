@@ -714,9 +714,12 @@ public class NewUserService {
 			String smsMsg = "";
 			
 			// 문자발송 추가
-			if("15".equals(newUserDomain.getPlStat())) {
+			if("15".equals(newUserDomain.getPlStat())) { // 승인
 
-			}else if("16".equals(newUserDomain.getPlStat())) {
+			}else if("16".equals(newUserDomain.getPlStat())) { // 거절
+				
+				
+				
 				
 				
 				
@@ -732,6 +735,8 @@ public class NewUserService {
 				}
 				
 				*/
+				
+				
 				
 				
 				

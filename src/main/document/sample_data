@@ -616,7 +616,7 @@ and code_dtl_cd = '15';
 
 ALTER TABLE tb_lc_users_disqual ADD COLUMN master_seq INTEGER;
 
-
+ALTER TABLE tb_lc_corp ADD COLUMN user_seq integer;
 
 
 

@@ -161,9 +161,68 @@ public class BatchController {
     	log.info("================ apiAuthToken() END ================");
     }
 	
+	// 가등록삭제
+	@Scheduled(cron ="*/30 * * * * *") 
+    @SchedulerLock(name="preLoanDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void loanDel() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("preLoanDel");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.preLoanDel(reg);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
 	
-	// 가등록 -> 본등록
-	@Scheduled(cron ="0 * * * * *") 
+	// 가등록
+	@Scheduled(cron ="*/30 * * * * *") 
+    @SchedulerLock(name="preloanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void preloanReg() throws Exception {
+		
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("preloanReg");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.preloanReg(reg);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
+	
+	// 본등록
+	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="loanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanReg() throws Exception {
 		
@@ -194,7 +253,7 @@ public class BatchController {
 	
 	
 	// 정보변경
-	@Scheduled(cron ="0 * * * * *") 
+	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanUpd() throws Exception {
 		
@@ -229,7 +288,7 @@ public class BatchController {
 	
 	
 	// 해지
-	@Scheduled(cron ="0 * * * * *")
+	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="dropApply", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void dropApply() throws Exception {
 		
@@ -263,7 +322,7 @@ public class BatchController {
 	
 	
 	// 건별정보변경
-	@Scheduled(cron ="0 * * * * *") 
+	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="caseLoanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void caseLoanUpd() throws Exception {
 		

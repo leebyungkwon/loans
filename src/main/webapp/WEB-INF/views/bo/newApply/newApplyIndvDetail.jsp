@@ -112,7 +112,6 @@ function goApplyImprove(num){
 	var messageCheck = "";
 	
 	if(num == "1"){
-		var plProduct = $("#plProduct").val();
 		plStat = '10';
 		messageCheck = "부적격 사유를 입력해 주세요.";
 	}else{
@@ -529,13 +528,13 @@ function goApplyImprove(num){
 				</c:if>
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(3);">보완요청</a>
 				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a> -->
-				<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 			</c:if>
 			<c:if test="${result.applyInfo.plStat eq '3'}">
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" id="recruitImprove" onclick="goApplyImprove(4);">보완요청</a>
 				<!-- <a href="javascript:void(0);" class="btn_Lgray btn_right_small04 w100p" id="indvOcr">OCR검증</a> -->					
 			</c:if>
 			
+			<a href="javascript:void(0);" class="btn_Lgray btn_right_small01 w100p" onclick="goApplyImprove(1);">부적격</a>
 			<a href="javascript:void(0);" class="btn_Lgray" style="position: absolute; left: 0;" onclick="prevRegCheckPopup()">기등록확인</a>
 		</div>
 	</div>

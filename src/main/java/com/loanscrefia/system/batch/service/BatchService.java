@@ -101,9 +101,70 @@ public class BatchService{
 	}
 	
 	
-	// 2021-11-09 가등록 -> 본등록
+	
+	// 2021-11-15 가등록 삭제
 	@Transactional
-	public int loanReg(BatchDomain req) throws Exception {
+	public int preLoanDel(BatchDomain req) throws Exception {
+		String errorMessage = "";
+		ApiDomain preLoanDelParam = new ApiDomain();
+		preLoanDelParam.setMethod("DELETE");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		String plClass = req.getProperty01();
+		if("1".equals(plClass)) {
+			preLoanDelParam.setUrl("/loan/v1/pre-loan-consultants");
+			preLoanDelParam.setApiName("preIndvLoanDel");
+
+		}else if("2".equals(plClass)) {
+			preLoanDelParam.setUrl("/loan/v1/pre-loan-corp-consultants");
+			preLoanDelParam.setApiName("preIndvLoanDel");
+			
+		}else {
+			req.setStatus("3");
+			req.setError("구분(개인/법인) 파라미터 오류");
+			errorMessage = "구분(개인/법인) 파라미터 오류";
+			throw new Exception();
+		}
+
+		int masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+		jsonParam.remove("master_seq");
+		String preLcNum = jsonParam.getString("preLcNum").toString();
+		preLoanDelParam.setParam(preLcNum);
+		
+		int cnt = 0;
+		try {
+			ResponseMsg delResult = apiService.excuteApi(preLoanDelParam);
+			if("success".equals(delResult.getCode())) {
+				NewApplyDomain preDelDomain = new NewApplyDomain();
+				preDelDomain.setMasterSeq(masterSeq);
+				preDelDomain.setUseYn("N");
+				batchRepository.deletePreLcNum(preDelDomain);
+				req.setStatus("2");
+				cnt = 1;
+			}else {
+				// 가등록 삭제 실패
+				req.setStatus("3");
+				errorMessage = "가등록 삭제시 오류 발생 :: "+delResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
+	
+	
+
+	// 2021-11-115 가등록
+	@Transactional
+	public int preloanReg(BatchDomain req) throws Exception {
 		// 가등록에 필요한 파라미터
 		String errorMessage = "";
 		ApiDomain preLoanParam = new ApiDomain();
@@ -159,8 +220,15 @@ public class BatchService{
 			ResponseMsg preRegResult = apiService.excuteApi(preLoanParam);
 			if("success".equals(preRegResult.getCode())) {
 				String preLcNum ="";
+				String feeYn = "";
 				JSONObject preLoanResponseJson = new JSONObject(preRegResult.getData().toString());
 				
+				// 기등록여부
+				if(!preLoanResponseJson.isNull("fee_yn")) {
+					feeYn = preLoanResponseJson.getString("fee_yn");
+				}
+				
+				// 개인/법인(가등록번호)
 				if("1".equals(plClass)) {
 					if(!preLoanResponseJson.isNull("pre_lc_num")) {
 						preLcNum = preLoanResponseJson.getString("pre_lc_num");
@@ -179,80 +247,16 @@ public class BatchService{
 					throw new Exception();
 				}
 				
-				// 본등록에 필요한 파라미터
-				ApiDomain loanParam = new ApiDomain();
-				loanParam.setMethod("POST");
-				// 가등록번호 JSON변환 후 본등록 준비
-				JSONObject loanJsonParam = new JSONObject();
-				if("1".equals(plClass)) {
-					loanParam.setUrl("/loan/v1/loan-consultants");
-					loanParam.setApiName("indvLoanReg");
-					loanJsonParam.put("pre_lc_num", preLcNum);
-				}else {
-					loanParam.setUrl("/loan/v1/loan-corp-consultants");
-					loanParam.setApiName("corpLoanReg");
-					loanJsonParam.put("pre_corp_lc_num", preLcNum);
-				}
-				loanParam.setParamJson(loanJsonParam);
 				
-				// 본등록 시작
-				ResponseMsg regResult = apiService.excuteApi(loanParam);
-				if("success".equals(regResult.getCode())) {
-					String lcNum ="";
-					String conNum = "";
-					JSONObject loanResponseJson = new JSONObject(regResult.getData().toString());
-					if("1".equals(plClass)) {
-						if(!loanResponseJson.isNull("lc_num")) {
-							lcNum = loanResponseJson.getString("lc_num");
-						}else {
-							req.setStatus("3");
-							req.setError("개인등록번호 생성 실패");
-							errorMessage = "개인등록번호 생성 실패";
-							throw new Exception();
-						}
-						
-					}else {
-						if(!loanResponseJson.isNull("corp_lc_num")) {
-							lcNum = loanResponseJson.getString("corp_lc_num");
-						}else {
-							req.setStatus("3");
-							req.setError("법인등록번호 생성 실패");
-							errorMessage = "법인등록번호 생성 실패";
-							throw new Exception();
-						}
-					}
-					
-					JSONObject jsonObj = new JSONObject();
-					JSONArray conArr = loanResponseJson.getJSONArray("con_arr");
-					// 계약금융기관코드(저장되어있는 데이터 비교)
-					String comCode = jsonParam.getString("com_code").toString();
-					String userLoanType = jsonParam.getString("loan_type").toString();
-					for(int i=0; i<conArr.length(); i++){
-						jsonObj = conArr.getJSONObject(i);
-						String loanType = jsonObj.getString("loan_type");
-						String finCode = jsonObj.getString("fin_code");
-						// 등록시 계약금융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
-						if(loanType.equals(userLoanType) && finCode.equals(comCode)) {
-							conNum = jsonObj.getString("con_num");
-							break;
-						}
-					}
-					
-					// 등록번호 update
-					NewApplyDomain newApplyDomain = new NewApplyDomain();
-					newApplyDomain.setPreLcNum(preLcNum);
-					newApplyDomain.setPlRegistNo(lcNum);
-					newApplyDomain.setConNum(conNum);
-					newApplyDomain.setMasterSeq(masterSeq);
-					batchRepository.updatePreLcNum(newApplyDomain);
-					req.setStatus("2");
-					cnt = 1;
-					
-				}else {
-					// 본등록 실패
-					req.setStatus("3");
-					errorMessage = "본등록번호 생성시 오류 발생 :: "+regResult.getCode();
-				}
+				// 가등록번호 update
+				NewApplyDomain newApplyDomain = new NewApplyDomain();
+				newApplyDomain.setPreLcNum(preLcNum);
+				newApplyDomain.setMasterSeq(masterSeq);
+				newApplyDomain.setPreRegYn(feeYn);
+				batchRepository.updatePreLcNum(newApplyDomain);
+				req.setStatus("2");
+				cnt = 1;
+				
 				
 			}else {
 				// 가등록 실패
@@ -276,6 +280,111 @@ public class BatchService{
 	
 	
 	
+	
+	
+	// 2021-11-115 본등록
+	@Transactional
+	public int loanReg(BatchDomain req) throws Exception {
+		// 가등록에 필요한 파라미터
+		String errorMessage = "";
+		ApiDomain loanParam = new ApiDomain();
+		loanParam.setMethod("POST");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		int masterSeq = 0;
+		if(!jsonParam.isNull("master_seq")) {
+			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 계약 seq 파라미터 오류");
+			errorMessage = "모집인 계약 seq 파라미터 오류";
+			throw new Exception();
+		}
+
+		String plClass = req.getProperty01();
+		if("1".equals(plClass)) {
+			loanParam.setUrl("/loan/v1/loan-consultants");
+			loanParam.setApiName("indvLoanReg");
+		}else {
+			loanParam.setUrl("/loan/v1/loan-corp-consultants");
+			loanParam.setApiName("corpLoanReg");
+		}
+		
+		// master_seq 추출 후 제거 
+		jsonParam.remove("master_seq");
+		loanParam.setParamJson(jsonParam);
+		
+		int cnt = 0;
+		try {
+			ResponseMsg regResult = apiService.excuteApi(loanParam);
+			if("success".equals(regResult.getCode())) {
+				String lcNum ="";
+				String conNum = "";
+				JSONObject loanResponseJson = new JSONObject(regResult.getData().toString());
+				if("1".equals(plClass)) {
+					if(!loanResponseJson.isNull("lc_num")) {
+						lcNum = loanResponseJson.getString("lc_num");
+					}else {
+						req.setStatus("3");
+						req.setError("개인등록번호 생성 실패");
+						errorMessage = "개인등록번호 생성 실패";
+						throw new Exception();
+					}
+					
+				}else {
+					if(!loanResponseJson.isNull("corp_lc_num")) {
+						lcNum = loanResponseJson.getString("corp_lc_num");
+					}else {
+						req.setStatus("3");
+						req.setError("법인등록번호 생성 실패");
+						errorMessage = "법인등록번호 생성 실패";
+						throw new Exception();
+					}
+				}
+				
+				JSONObject jsonObj = new JSONObject();
+				JSONArray conArr = loanResponseJson.getJSONArray("con_arr");
+				// 계약금융기관코드(저장되어있는 데이터 비교)
+				String comCode = jsonParam.getString("com_code").toString();
+				String userLoanType = jsonParam.getString("loan_type").toString();
+				for(int i=0; i<conArr.length(); i++){
+					jsonObj = conArr.getJSONObject(i);
+					String loanType = jsonObj.getString("loan_type");
+					String finCode = jsonObj.getString("fin_code");
+					// 등록시 계약금융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+					if(loanType.equals(userLoanType) && finCode.equals(comCode)) {
+						conNum = jsonObj.getString("con_num");
+						break;
+					}
+				}
+				
+				// 등록번호 update
+				NewApplyDomain newApplyDomain = new NewApplyDomain();
+				newApplyDomain.setPlRegistNo(lcNum);
+				newApplyDomain.setConNum(conNum);
+				newApplyDomain.setMasterSeq(masterSeq);
+				batchRepository.updateLcNum(newApplyDomain);
+				req.setStatus("2");
+				cnt = 1;
+				
+			}else {
+				// 본등록 실패
+				req.setStatus("3");
+				errorMessage = "본등록번호 생성시 오류 발생 :: "+regResult.getCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			return cnt;
+		}
+	}
 
 	// 2021-11-11 정보수정
 	@Transactional
@@ -711,7 +820,11 @@ public class BatchService{
 		String vioSeq = jsonParam.getString("vio_seq").toString();
 		// vio_seq 추출 후 제거 
 		jsonParam.remove("vio_seq");
-		vioDelParam.setParamJson(jsonParam);
+		
+		// DELETE param
+		String vioNum = jsonParam.getString("vio_num").toString();
+		vioDelParam.setParam(vioNum);
+		//vioDelParam.setParamJson(jsonParam);
 		
 		int cnt = 0;
 		try {

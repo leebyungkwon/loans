@@ -35,7 +35,7 @@ public class ApiService {
 		logParam.setToken(token);
 		logParam.setUrl(apiInfo.getUrl());
 
-        if("GET".equals(apiInfo.getMethod()))   logParam.setSendData(apiInfo.getParam());
+        if("GET".equals(apiInfo.getMethod()) || "DELETE".equals(apiInfo.getMethod()))   logParam.setSendData(apiInfo.getParam());
         else                         			logParam.setSendData(apiInfo.getParamJson().toString());
 		
 		logParam.setSendUser(1);

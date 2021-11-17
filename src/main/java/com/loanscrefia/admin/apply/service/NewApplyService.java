@@ -1095,6 +1095,8 @@ public class NewApplyService {
 		smsDomain.setTranStatus("1");
 		smsDomain.setTranEtc1("10070");
 		smsDomain.setTranPhone("01031672126");
+		//smsDomain.setTranPhone(statCheck.getPlCellphone());
+		
 		
 		// API성공여부
 		boolean apiCheck = false;
@@ -1102,10 +1104,39 @@ public class NewApplyService {
 		// 부적격
 		if("10".equals(newApplyDomain.getPlStat())){
 			apiCheck = true;
-			smsDomain.setTranMsg("부적격처리");
+			
+			BatchDomain batchDomain = new BatchDomain();
+			JSONObject jsonParam 	= new JSONObject();
+			jsonParam.put("master_seq", statCheck.getMasterSeq());
+			jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
+			
+			batchDomain.setScheduleName("preLoanDel");
+			batchDomain.setParam(jsonParam.toString());
+			batchDomain.setProperty01("1");
+			batchService.insertBatchPlanInfo(batchDomain);
+			// 상태변경 -> 등록요건 불충족(부적격)
+			apiCheck = true;
+			newApplyDomain.setPlRegStat("10");
+			smsDomain.setTranMsg("등록요건 불충족(부적격)");
+			
 		}else if("5".equals(newApplyDomain.getPlStat())) { // 보완요청
 			apiCheck = true;
+			
+			BatchDomain batchDomain = new BatchDomain();
+			JSONObject jsonParam 	= new JSONObject();
+			jsonParam.put("master_seq", statCheck.getMasterSeq());
+			jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
+			
+			batchDomain.setScheduleName("preLoanDel");
+			batchDomain.setParam(jsonParam.toString());
+			batchDomain.setProperty01("1");
+			batchService.insertBatchPlanInfo(batchDomain);
+			// 상태변경 -> 보완요청
+			apiCheck = true;
+			newApplyDomain.setPlRegStat("5");
 			smsDomain.setTranMsg("보완요청");
+			
+			
 		}else if("9".equals(newApplyDomain.getPlStat()) && "2".equals(newApplyDomain.getPlRegStat())) { // 승인요청
 			ApiDomain apiDomain = new ApiDomain();
 			if("1".equals(statCheck.getPlClass())) {
@@ -1128,73 +1159,30 @@ public class NewApplyService {
 				}
 				
 				if(kfbApiApply) {
-					// 수수료 기납부여부 조회
-					String param = "name="+statCheck.getPlMName();
-					param += "&ssn="+CryptoUtil.decrypt(statCheck.getPlMZId());
-					param += "&ci="+statCheck.getCi();
-					param += "&loan_type="+statCheck.getPlProduct();
-					
-					apiDomain.setApiName("checkLoan");
-					apiDomain.setUrl("/loan/v1/check-loan-consultants");
-					apiDomain.setMethod("GET");
-					apiDomain.setParam(param);
-					
-					// 등록가능여부조회에서 수수료 기납부여부 추출
-					ResponseMsg feeResult = apiService.excuteApi(apiDomain);
-					if("success".equals(feeResult.getCode())) {
-						JSONObject feeResponseJson = new JSONObject(feeResult.getData().toString());
-						if(!feeResponseJson.isNull("fee_yn")) {
-							if("Y".equals(feeResponseJson.getString("fee_yn"))) {
-								// 기등록자인 경우 배치테이블 insert 후 자격취득으로 변경
-								BatchDomain batchDomain = new BatchDomain();
-								JSONObject jsonParam 	= new JSONObject();
-								JSONObject jsonArrayParam = new JSONObject();
-								JSONArray jsonArray = new JSONArray();
-								
-								jsonParam.put("master_seq", statCheck.getMasterSeq());
-								jsonParam.put("name", statCheck.getPlMName());
-								jsonParam.put("ssn", statCheck.getPlMZId());
-								jsonParam.put("ci", statCheck.getCi());
-								//jsonParam.put("corp_user_yn", statCheck.getCorpUserYn());
-								
-								if(statCheck.getCorpUserYn().equals("Y")) {
-									jsonArrayParam.put("corp_num", statCheck.getPlMerchantNo());
-								}else {
-									jsonArrayParam.put("corp_num", "");
-								}
-								
-								jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
-								jsonArrayParam.put("con_date", statCheck.getComContDate());
-								jsonArrayParam.put("fin_code", statCheck.getComCode());
-								jsonArrayParam.put("fin_phone", "");
-								jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-								
-								jsonArray.put(jsonArrayParam);
-								jsonParam.put("con_arr", jsonArray);
-								
-								batchDomain.setScheduleName("loanReg");
-								batchDomain.setParam(jsonParam.toString());
-								batchDomain.setProperty01("1");
-								batchService.insertBatchPlanInfo(batchDomain);
-								// 상태변경 -> 결제완료 -> 자격취득
-								apiCheck = true;
-								newApplyDomain.setPlRegStat("5");
-								smsDomain.setTranMsg("기등록자");
-								
-							}else {
-								// 상태변경 -> 승인완료
-								apiCheck = true;
-								newApplyDomain.setPlRegStat("2");
-								newApplyDomain.setPlStat("9");
-								
-								smsDomain.setTranMsg("최초등록자");
-							}
-						}else {
-							return new ResponseMsg(HttpStatus.OK, "fail", "수수료 납부여부 값 확인필요!");
-						}
+					if("Y".equals(statCheck.getPreRegYn())) {
+						// 기등록자인 경우 배치테이블 insert 후 자격취득으로 변경
+						BatchDomain batchDomain = new BatchDomain();
+						JSONObject jsonParam 	= new JSONObject();
+						
+						jsonParam.put("master_seq", statCheck.getMasterSeq());
+						jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
+						
+						batchDomain.setScheduleName("loanReg");
+						batchDomain.setParam(jsonParam.toString());
+						batchDomain.setProperty01("1");
+						batchService.insertBatchPlanInfo(batchDomain);
+						// 상태변경 -> 결제완료 -> 자격취득
+						apiCheck = true;
+						newApplyDomain.setPlRegStat("5");
+						smsDomain.setTranMsg("기등록자");
+						
 					}else {
-						// API 통신 오류
-						return responseMsg;
+						// 상태변경 -> 승인완료
+						apiCheck = true;
+						newApplyDomain.setPlRegStat("2");
+						newApplyDomain.setPlStat("9");
+						
+						smsDomain.setTranMsg("최초등록자");
 					}
 				}else {
 					// 상태변경 -> 승인완료
@@ -1206,69 +1194,30 @@ public class NewApplyService {
 			}else if("2".equals(statCheck.getPlClass())){
 				if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
 					if(kfbApiApply) {
-						String param = "corp_num="+statCheck.getPlMerchantNo();
-						param += "&corp_rep_ssn="+CryptoUtil.decrypt(statCheck.getPlMZId());
-						param += "&corp_rep_ci="+statCheck.getCi();
-						param += "&loan_type="+statCheck.getPlProduct();
-						
-						apiDomain.setApiName("checkLoanCorp");
-						apiDomain.setUrl("/loan/v1/check-loan-corp-consultants");
-						apiDomain.setMethod("GET");
-						apiDomain.setParam(param);
-						ResponseMsg corpResponseMsg = apiService.excuteApi(apiDomain);
-						
-						if("success".equals(corpResponseMsg.getCode())) {
-							JSONObject corpFeeResponseJson = new JSONObject(corpResponseMsg.getData().toString());
+						if("Y".equals(statCheck.getPreRegYn())) {
+							// 기등록자인 경우 배치테이블 insert 후 자격취득으로 변경
+							BatchDomain batchDomain = new BatchDomain();
+							JSONObject jsonParam 	= new JSONObject();
 							
-							if(!corpFeeResponseJson.isNull("fee_yn")) {
-								if("Y".equals(corpFeeResponseJson.getString("fee_yn"))) {
-									if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) { //*************************************
-										//배치 테이블 저장
-										BatchDomain batchDomain = new BatchDomain();
-										JSONObject jsonParam	= new JSONObject();
-										JSONObject jsonArrayParam = new JSONObject();
-										JSONArray jsonArray = new JSONArray();
-										
-										jsonParam.put("master_seq", statCheck.getMasterSeq());
-										jsonParam.put("corp_num", statCheck.getPlMerchantNo());
-										jsonParam.put("corp_name", statCheck.getPlMerchantName());
-										jsonParam.put("corp_rep_name", statCheck.getPlCeoName());
-										jsonParam.put("corp_rep_ssn", statCheck.getPlMZId());
-										jsonParam.put("corp_rep_ci", statCheck.getCi());
-										
-										jsonArrayParam.put("con_date", statCheck.getComContDate());
-										jsonArrayParam.put("fin_code", statCheck.getComCode());
-										jsonArrayParam.put("fin_phone", "");
-										jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-										
-										jsonArray.put(jsonArrayParam);
-										jsonParam.put("con_arr", jsonArray);
-										
-										batchDomain.setScheduleName("loanReg");
-										batchDomain.setParam(jsonParam.toString());
-										batchDomain.setProperty01("2"); //개인,법인 구분값
-										
-										batchService.insertBatchPlanInfo(batchDomain);
-										// 상태변경 -> 결제완료 -> 자격취득
-										
-										apiCheck = true;
-										newApplyDomain.setPlRegStat("5");
-										smsDomain.setTranMsg("기등록법인");
-										
-									}
-								}else {
-									apiCheck = true;
-									// 상태변경 -> 승인완료
-									newApplyDomain.setPlRegStat("2");
-									newApplyDomain.setPlStat("9");
-									smsDomain.setTranMsg("최초등록법인");
-								}
-							}else {
-								return new ResponseMsg(HttpStatus.OK, "fail", "수수료 납부여부 값 확인필요!");
-							}
+							jsonParam.put("master_seq", statCheck.getMasterSeq());
+							jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
+							
+							batchDomain.setScheduleName("loanReg");
+							batchDomain.setParam(jsonParam.toString());
+							batchDomain.setProperty01("1");
+							batchService.insertBatchPlanInfo(batchDomain);
+							// 상태변경 -> 결제완료 -> 자격취득
+							apiCheck = true;
+							newApplyDomain.setPlRegStat("5");
+							smsDomain.setTranMsg("기등록자");
+							
 						}else {
-							// API 통신오류
-							return responseMsg;
+							// 상태변경 -> 승인완료
+							apiCheck = true;
+							newApplyDomain.setPlRegStat("2");
+							newApplyDomain.setPlStat("9");
+							
+							smsDomain.setTranMsg("최초등록자");
 						}
 					}else {
 						// 상태변경 -> 승인완료

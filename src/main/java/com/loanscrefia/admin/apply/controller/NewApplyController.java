@@ -170,7 +170,6 @@ public class NewApplyController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
 	// 2021-10-13 모집인 등록 승인처리 - 첨부서류체크 등록
 	@PostMapping(value="/newApply/insertNewApplyCheck")
 	public ResponseEntity<ResponseMsg> insertNewApplyCheck(ApplyCheckDomain applyCheckDomain){

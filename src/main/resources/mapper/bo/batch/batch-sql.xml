@@ -57,6 +57,8 @@
    		)
    	</insert>
     
+    
+    
     <select id="selectBatchList" parameterType="batch" resultType="batch">
     	SELECT
     		*
@@ -113,18 +115,16 @@
     </update>
     
     
-    <!-- 계약정보(가등록번호, 등록번호 추가) update --> 
+    <!-- 가등록번호 update 상태 - 승인요청 --> 
     <update id="updatePreLcNum" parameterType="newApply" >
 		update tb_lc_mas01
 		set
 			pre_lc_num 		= #{preLcNum}
-			, pl_regist_no	= #{plRegistNo}
-			, con_num		= #{conNum}
+			, pre_reg_yn	= #{preRegYn}
 			, upd_timestamp = NOW()
 			, upd_seq 		= 0
-			, pl_reg_stat	= '3'
-			, pl_stat		= '9'
-			, cre_license_date = TO_CHAR(NOW(), 'YYYYMMDD')
+			, pl_reg_stat	= '1'
+			, pl_stat		= '2'
 		where
 			master_seq = #{masterSeq}
     </update>
@@ -296,6 +296,23 @@
 		DELETE FROM TB_LC_VIOLATION
 		WHERE VIOLATION_SEQ = #{violationSeq}
 	</delete>
+	
+	
+    <!-- 등록번호 update 상태 : 자격취득 --> 
+    <update id="updateLcNum" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			pl_regist_no	= #{plRegistNo}
+			, con_num		= #{conNum}
+			, upd_timestamp = NOW()
+			, upd_seq 		= 0
+			, pl_reg_stat	= '3'
+			, pl_stat		= '9'
+			, cre_license_date = TO_CHAR(NOW(), 'YYYYMMDD')
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
     
     
 </mapper>
