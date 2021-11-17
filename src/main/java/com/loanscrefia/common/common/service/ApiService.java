@@ -45,7 +45,9 @@ public class ApiService {
 		OutApiConnector.setApi api = new OutApiConnector.setApi("", apiInfo.getApiName());
         api.url(apiInfo.getUrl());
         api.token(token);
-        api.method(apiInfo.getMethod());
+        api.method(apiInfo.getMethod()); 
+        api.parameter("?"+apiInfo.getParam());
+        api.parameterJson(apiInfo.getParamJson());
         api.clientId(ClientId);
         api.clientSecret(ClientSecret);
 

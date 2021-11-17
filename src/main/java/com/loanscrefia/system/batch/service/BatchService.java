@@ -110,14 +110,16 @@ public class BatchService{
 		preLoanDelParam.setMethod("DELETE");
 		JSONObject jsonParam = new JSONObject(req.getParam());
 		String plClass = req.getProperty01();
+		String preLcNum = jsonParam.getString("pre_lc_num").toString();
+		String resultParam = "";
 		if("1".equals(plClass)) {
 			preLoanDelParam.setUrl("/loan/v1/pre-loan-consultants");
 			preLoanDelParam.setApiName("preIndvLoanDel");
-
+			resultParam = "corp_lc_num="+preLcNum;
 		}else if("2".equals(plClass)) {
 			preLoanDelParam.setUrl("/loan/v1/pre-loan-corp-consultants");
 			preLoanDelParam.setApiName("preIndvLoanDel");
-			
+			resultParam = "pre_corp_lc_num="+preLcNum;
 		}else {
 			req.setStatus("3");
 			req.setError("구분(개인/법인) 파라미터 오류");
@@ -127,8 +129,7 @@ public class BatchService{
 
 		int masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
 		jsonParam.remove("master_seq");
-		String preLcNum = jsonParam.getString("preLcNum").toString();
-		preLoanDelParam.setParam(preLcNum);
+		preLoanDelParam.setParam(resultParam);
 		
 		int cnt = 0;
 		try {
@@ -136,7 +137,6 @@ public class BatchService{
 			if("success".equals(delResult.getCode())) {
 				NewApplyDomain preDelDomain = new NewApplyDomain();
 				preDelDomain.setMasterSeq(masterSeq);
-				preDelDomain.setUseYn("N");
 				batchRepository.deletePreLcNum(preDelDomain);
 				req.setStatus("2");
 				cnt = 1;
@@ -823,7 +823,8 @@ public class BatchService{
 		
 		// DELETE param
 		String vioNum = jsonParam.getString("vio_num").toString();
-		vioDelParam.setParam(vioNum);
+		String vioNumUrl = "vio_num="+vioNum;
+		vioDelParam.setParam(vioNumUrl);
 		//vioDelParam.setParamJson(jsonParam);
 		
 		int cnt = 0;

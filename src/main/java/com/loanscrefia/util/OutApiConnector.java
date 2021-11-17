@@ -102,7 +102,7 @@ public class OutApiConnector {
             if(outLog) requestInfo();
 
             Response res = null;
-            if(method.equals("GET"))    res = GET(this);
+            if(method.equals("GET") || method.equals("DELETE"))    res = GET(this);
             else                        res = POST(this);
 
             if(outLog)  responseInfo(res);

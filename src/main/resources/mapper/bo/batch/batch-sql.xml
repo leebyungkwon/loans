@@ -314,5 +314,18 @@
     </update>
     
     
+    <!-- 가등록삭제 - 가등록번호 null --> 
+    <update id="deletePreLcNum" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			pre_lc_num		= null
+			, upd_timestamp = NOW()
+			, upd_seq 		= 0
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
+    
+    
     
 </mapper>

@@ -1112,7 +1112,13 @@ public class NewApplyService {
 			
 			batchDomain.setScheduleName("preLoanDel");
 			batchDomain.setParam(jsonParam.toString());
-			batchDomain.setProperty01("1");
+			
+			if("1".equals(statCheck.getPlClass())) {
+				batchDomain.setProperty01("1");
+			}else {
+				batchDomain.setProperty01("2");
+			}
+			
 			batchService.insertBatchPlanInfo(batchDomain);
 			// 상태변경 -> 등록요건 불충족(부적격)
 			apiCheck = true;
@@ -1129,7 +1135,11 @@ public class NewApplyService {
 			
 			batchDomain.setScheduleName("preLoanDel");
 			batchDomain.setParam(jsonParam.toString());
-			batchDomain.setProperty01("1");
+			if("1".equals(statCheck.getPlClass())) {
+				batchDomain.setProperty01("1");
+			}else {
+				batchDomain.setProperty01("2");
+			}
 			batchService.insertBatchPlanInfo(batchDomain);
 			// 상태변경 -> 보완요청
 			apiCheck = true;
@@ -1204,7 +1214,7 @@ public class NewApplyService {
 							
 							batchDomain.setScheduleName("loanReg");
 							batchDomain.setParam(jsonParam.toString());
-							batchDomain.setProperty01("1");
+							batchDomain.setProperty01("2");
 							batchService.insertBatchPlanInfo(batchDomain);
 							// 상태변경 -> 결제완료 -> 자격취득
 							apiCheck = true;
