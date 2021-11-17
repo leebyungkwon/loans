@@ -173,6 +173,7 @@ public class BatchController {
 		int reqCnt = batchList.size();
 		batch.setReqCnt(reqCnt);
 		
+		
 		int successCnt = 0;
 		
 		// schedule_hist 시작 이력 저장
