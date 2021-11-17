@@ -36,6 +36,8 @@ import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
 import com.loanscrefia.member.user.domain.UserItDomain;
 import com.loanscrefia.member.user.repository.NewUserRepository;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.service.BatchService;
 import com.loanscrefia.system.code.domain.CodeDtlDomain;
 import com.loanscrefia.system.code.service.CodeService;
 import com.loanscrefia.util.UtilExcel;
@@ -53,6 +55,7 @@ public class NewUserService {
 	@Autowired private CommonService commonService;
 	@Autowired private CodeService codeService;
 	@Autowired private SmsRepository smsRepository;
+	@Autowired private BatchService batchService;
 	
 	//첨부파일 경로
 	@Value("${upload.filePath}")
@@ -65,6 +68,14 @@ public class NewUserService {
 	//은행연합회 API 적용여부
 	@Value("${kfbApi.apply}")
 	public boolean kfbApiApply;
+	
+	//이메일 적용여부
+	@Value("${email.apply}")
+	public boolean emailApply;
+	
+	//SMS 적용여부
+	@Value("${sms.apply}")
+	public boolean smsApply;
 
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사)
@@ -708,20 +719,34 @@ public class NewUserService {
 			userRepo.insertNewMasterStep(newUserDomain);
 			int smsResult = 0;
 			SmsDomain smsDomain = new SmsDomain();
-			smsDomain.setTranCallback("발신번호");
+			smsDomain.setTranCallback("0220110700");
 			smsDomain.setTranPhone(userRegInfo.getPlCellphone());
 			smsDomain.setTranStatus("1");
+			smsDomain.setTranEtc1("10070");
 			String smsMsg = "";
 			
 			// 문자발송 추가
 			if("15".equals(newUserDomain.getPlStat())) { // 승인
 
-			}else if("16".equals(newUserDomain.getPlStat())) { // 거절
+			}else if("16".equals(newUserDomain.getPlStat())) {
 				
+				// 금융회사 거절시 가등록 삭제 API 배치 등록
+				BatchDomain batchDomain = new BatchDomain();
+				JSONObject jsonParam 	= new JSONObject();
+				jsonParam.put("master_seq", userRegInfo.getMasterSeq());
+				jsonParam.put("pre_lc_num", userRegInfo.getPreLcNum());
 				
+				batchDomain.setScheduleName("preLoanDel");
+				batchDomain.setParam(jsonParam.toString());
 				
+				if("1".equals(userRegInfo.getPlClass())) {
+					batchDomain.setProperty01("1");
+				}else {
+					batchDomain.setProperty01("2");
+				}
 				
-				
+				batchService.insertBatchPlanInfo(batchDomain);
+				smsDomain.setTranMsg("등록신청 거절");
 				
 				/*
 				smsMsg += userRegInfo.getComCodeNm()+"로부터 "+userRegInfo.getPlMName()+"님의 대출/리스할부 상품 판매대리·중개업자 등록을 신청하였으나, ";
@@ -736,14 +761,15 @@ public class NewUserService {
 				
 				*/
 				
-				
-				
-				
-				
-				
-				
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
+			}
+			
+			// SMS 발송
+			if(smsApply) {
+				smsResult = smsRepository.sendSms(smsDomain);
+			}else {
+				smsResult = 1;
 			}
 			
 			return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
@@ -752,23 +778,6 @@ public class NewUserService {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	// 2021-10-12 고도화 - 모집인 조회 및 해지 리스트
 	@Transactional(readOnly=true)

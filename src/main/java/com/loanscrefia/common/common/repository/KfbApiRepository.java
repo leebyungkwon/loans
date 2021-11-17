@@ -46,7 +46,7 @@ public interface KfbApiRepository {
 	
 	
 	// 고도화 apiKey조회
-	String selectNewKfbApiKey();
+	String selectNewKfbApiKey(KfbApiDomain kfbApiDomain);
 	
 	int insertApiLog(KfbApiDomain kfbApiDomain);
 	int updateApiLog(KfbApiDomain kfbApiDomain);

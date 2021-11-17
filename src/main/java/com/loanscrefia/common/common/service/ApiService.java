@@ -29,9 +29,9 @@ public class ApiService {
 	
 	public ResponseMsg excuteApi(ApiDomain apiInfo)  {
 
-        String token = kfbApiRepo.selectNewKfbApiKey();
-        
 		KfbApiDomain logParam = new KfbApiDomain();
+        String token = kfbApiRepo.selectNewKfbApiKey(logParam);
+        
 		logParam.setToken(token);
 		logParam.setUrl(apiInfo.getUrl());
 

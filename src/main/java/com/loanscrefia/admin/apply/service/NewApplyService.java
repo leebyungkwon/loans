@@ -1183,7 +1183,7 @@ public class NewApplyService {
 						batchService.insertBatchPlanInfo(batchDomain);
 						// 상태변경 -> 결제완료 -> 자격취득
 						apiCheck = true;
-						newApplyDomain.setPlRegStat("5");
+						newApplyDomain.setPlRegStat("3");
 						smsDomain.setTranMsg("기등록자");
 						
 					}else {
@@ -1218,7 +1218,7 @@ public class NewApplyService {
 							batchService.insertBatchPlanInfo(batchDomain);
 							// 상태변경 -> 결제완료 -> 자격취득
 							apiCheck = true;
-							newApplyDomain.setPlRegStat("5");
+							newApplyDomain.setPlRegStat("3");
 							smsDomain.setTranMsg("기등록자");
 							
 						}else {
