@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
+import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.recruit.domain.NewRecruitDomain;
 import com.loanscrefia.admin.recruit.repository.NewRecruitRepository;
 import com.loanscrefia.admin.users.domain.UsersDomain;
@@ -36,6 +37,10 @@ public class BatchService{
 	private ApiService apiService;
 	@Autowired
 	private NewRecruitRepository recruitRepository;
+	
+	@Autowired
+	private NewApplyRepository newApplyRepository;
+	
 
 	@Transactional
 	public int recruitReg(BatchDomain req) {
@@ -110,12 +115,12 @@ public class BatchService{
 		preLoanDelParam.setMethod("DELETE");
 		JSONObject jsonParam = new JSONObject(req.getParam());
 		String plClass = req.getProperty01();
-		String preLcNum = jsonParam.getString("pre_lc_num").toString();
+		String preLcNum = jsonParam.getString("pre_lc_num");
 		String resultParam = "";
 		if("1".equals(plClass)) {
 			preLoanDelParam.setUrl("/loan/v1/pre-loan-consultants");
 			preLoanDelParam.setApiName("preIndvLoanDel");
-			resultParam = "corp_lc_num="+preLcNum;
+			resultParam = "pre_lc_num="+preLcNum;
 		}else if("2".equals(plClass)) {
 			preLoanDelParam.setUrl("/loan/v1/pre-loan-corp-consultants");
 			preLoanDelParam.setApiName("preIndvLoanDel");
@@ -127,7 +132,7 @@ public class BatchService{
 			throw new Exception();
 		}
 
-		int masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+		int masterSeq = jsonParam.getInt("master_seq");
 		jsonParam.remove("master_seq");
 		preLoanDelParam.setParam(resultParam);
 		
@@ -172,7 +177,7 @@ public class BatchService{
 		JSONObject jsonParam = new JSONObject(req.getParam());
 		int masterSeq = 0;
 		if(!jsonParam.isNull("master_seq")) {
-			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+			masterSeq = jsonParam.getInt("master_seq");
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 계약 seq 파라미터 오류");
@@ -186,7 +191,7 @@ public class BatchService{
 			preLoanParam.setApiName("preIndvLoanReg");
 
 			// 암호화된 데이터 decrypt
-			String ssn = jsonParam.getString("ssn").toString();
+			String ssn = jsonParam.getString("ssn");
 			jsonParam.remove("ssn");
 			jsonParam.put("ssn", CryptoUtil.decrypt(ssn));
 			
@@ -195,12 +200,12 @@ public class BatchService{
 			preLoanParam.setApiName("preCorpLoanReg");
 			
 			// 암호화된 데이터 decrypt
-			String corpRepSsn = jsonParam.getString("corp_rep_ssn").toString();
+			String corpRepSsn = jsonParam.getString("corp_rep_ssn");
 			jsonParam.remove("corp_rep_ssn");
 			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(corpRepSsn));
 			
 			// 암호화된 데이터 decrypt
-			String corpNum = jsonParam.getString("corp_num").toString();
+			String corpNum = jsonParam.getString("corp_num");
 			jsonParam.remove("corp_num");
 			jsonParam.put("corp_num", CryptoUtil.decrypt(corpNum));
 			
@@ -292,7 +297,7 @@ public class BatchService{
 		JSONObject jsonParam = new JSONObject(req.getParam());
 		int masterSeq = 0;
 		if(!jsonParam.isNull("master_seq")) {
-			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+			masterSeq = jsonParam.getInt("master_seq");
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 계약 seq 파라미터 오류");
@@ -317,6 +322,14 @@ public class BatchService{
 		try {
 			ResponseMsg regResult = apiService.excuteApi(loanParam);
 			if("success".equals(regResult.getCode())) {
+				
+				// 성공시 master_seq로 상품, 회원사코드등 조회
+				NewApplyDomain newApplySearchDomain = new NewApplyDomain();
+				newApplySearchDomain.setMasterSeq(masterSeq);
+				NewApplyDomain applyResult = newApplyRepository.getNewApplyDetail(newApplySearchDomain);
+				String comCode = applyResult.getComCode();
+				String userLoanType = applyResult.getPlProduct();
+				
 				String lcNum ="";
 				String conNum = "";
 				JSONObject loanResponseJson = new JSONObject(regResult.getData().toString());
@@ -344,8 +357,6 @@ public class BatchService{
 				JSONObject jsonObj = new JSONObject();
 				JSONArray conArr = loanResponseJson.getJSONArray("con_arr");
 				// 계약금융기관코드(저장되어있는 데이터 비교)
-				String comCode = jsonParam.getString("com_code").toString();
-				String userLoanType = jsonParam.getString("loan_type").toString();
 				for(int i=0; i<conArr.length(); i++){
 					jsonObj = conArr.getJSONObject(i);
 					String loanType = jsonObj.getString("loan_type");
@@ -396,7 +407,7 @@ public class BatchService{
 		
 		int userSeq = 0;
 		if(!jsonParam.isNull("user_seq")) {
-			userSeq = Integer.parseInt(jsonParam.getString("user_seq").toString());
+			userSeq = jsonParam.getInt("user_seq");
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 seq 파라미터 오류");
@@ -406,7 +417,7 @@ public class BatchService{
 		
 		int masterSeq = 0;
 		if(!jsonParam.isNull("master_seq")) {
-			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+			masterSeq = jsonParam.getInt("master_seq");
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 계약 seq 파라미터 오류");
@@ -428,7 +439,7 @@ public class BatchService{
 			loanUpdParam.setApiName("corpLoanUpd");
 			
 			// 암호화된 데이터 decrypt
-			String ssn = jsonParam.getString("corp_rep_ssn").toString();
+			String ssn = jsonParam.getString("corp_rep_ssn");
 			jsonParam.remove("corp_rep_ssn");
 			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(ssn));
 			
@@ -447,13 +458,13 @@ public class BatchService{
 				NewApplyDomain newApplyDomain = new NewApplyDomain();
 				newApplyDomain.setMasterSeq(masterSeq);
 				if("1".equals(plClass)) {
-					newApplyDomain.setPlMName(jsonParam.getString("name").toString());
+					newApplyDomain.setPlMName(jsonParam.getString("name"));
 					// 연락처, 계약일 등 JSON배열
 					JSONObject jsonObj = new JSONObject();
 					JSONArray conArr = jsonParam.getJSONArray("con_arr");
 					for(int i=0; i<conArr.length(); i++){
 						jsonObj = conArr.getJSONObject(i);
-						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile").toString());
+						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile"));
 					}
 					
 					batchRepository.updateIndvMasInfo(newApplyDomain);
@@ -461,31 +472,31 @@ public class BatchService{
 					// 개인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
-					usersDomain.setUserName(jsonParam.getString("name").toString());
-					usersDomain.setMobileNo(jsonObj.getString("con_mobile").toString());
+					usersDomain.setUserName(jsonParam.getString("name"));
+					usersDomain.setMobileNo(jsonObj.getString("con_mobile"));
 					batchRepository.updateIndvUsersInfo(usersDomain);
 					
 					
 				}else {
-					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name").toString());
-					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name").toString());
-					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
-					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci").toString());
+					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name"));
+					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name"));
+					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
+					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci"));
 					batchRepository.updateCorpMasInfo(newApplyDomain);
 					
 					// 법인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
-					usersDomain.setUserName(jsonParam.getString("corp_rep_name").toString());
-					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
-					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci").toString());
+					usersDomain.setUserName(jsonParam.getString("corp_rep_name"));
+					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
+					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci"));
 					
 					// 법인회원 연락처 수정 확인
 					//usersDomain.setMobileNo();
 					batchRepository.updateCorpUsersInfo(usersDomain);
 					
 					// 법인명 수정
-					usersDomain.setPlMerchantName(jsonParam.getString("corp_rep_name").toString());
+					usersDomain.setPlMerchantName(jsonParam.getString("corp_rep_name"));
 					batchRepository.updateCorpInfo(usersDomain);
 					
 				}
@@ -528,7 +539,7 @@ public class BatchService{
 		
 		int userSeq = 0;
 		if(!jsonParam.isNull("user_seq")) {
-			userSeq = Integer.parseInt(jsonParam.getString("user_seq").toString());
+			userSeq = jsonParam.getInt("user_seq");
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 seq 파라미터 오류");
@@ -538,7 +549,7 @@ public class BatchService{
 		
 		int masterSeq = 0;
 		if(!jsonParam.isNull("master_seq")) {
-			masterSeq = Integer.parseInt(jsonParam.getString("master_seq").toString());
+			masterSeq = jsonParam.getInt("master_seq");
 		}else {
 			req.setStatus("3");
 			req.setError("모집인 계약 seq 파라미터 오류");
@@ -560,7 +571,7 @@ public class BatchService{
 			loanUpdParam.setApiName("corpCaseLoanUpd");
 			
 			// 암호화된 데이터 decrypt
-			String ssn = jsonParam.getString("corp_rep_ssn").toString();
+			String ssn = jsonParam.getString("corp_rep_ssn");
 			jsonParam.remove("corp_rep_ssn");
 			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(ssn));
 			
@@ -579,13 +590,13 @@ public class BatchService{
 				NewApplyDomain newApplyDomain = new NewApplyDomain();
 				newApplyDomain.setMasterSeq(masterSeq);
 				if("1".equals(plClass)) {
-					newApplyDomain.setPlMName(jsonParam.getString("name").toString());
+					newApplyDomain.setPlMName(jsonParam.getString("name"));
 					// 연락처, 계약일 등 JSON배열
 					JSONObject jsonObj = new JSONObject();
 					JSONArray conArr = jsonParam.getJSONArray("con_arr");
 					for(int i=0; i<conArr.length(); i++){
 						jsonObj = conArr.getJSONObject(i);
-						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile").toString());
+						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile"));
 					}
 					
 					batchRepository.updateIndvMasInfo(newApplyDomain);
@@ -593,24 +604,24 @@ public class BatchService{
 					// 개인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
-					usersDomain.setUserName(jsonParam.getString("name").toString());
-					usersDomain.setMobileNo(jsonObj.getString("con_mobile").toString());
+					usersDomain.setUserName(jsonParam.getString("name"));
+					usersDomain.setMobileNo(jsonObj.getString("con_mobile"));
 					batchRepository.updateIndvUsersInfo(usersDomain);
 					
 					
 				}else {
-					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name").toString());
-					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name").toString());
-					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
-					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci").toString());
+					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name"));
+					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name"));
+					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
+					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci"));
 					batchRepository.updateCorpMasInfo(newApplyDomain);
 					
 					// 법인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
-					usersDomain.setUserName(jsonParam.getString("corp_rep_name").toString());
-					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn").toString()));
-					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci").toString());
+					usersDomain.setUserName(jsonParam.getString("corp_rep_name"));
+					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
+					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci"));
 					
 					// 법인회원 연락처 수정 확인
 					//usersDomain.setMobileNo();
@@ -817,12 +828,12 @@ public class BatchService{
 		vioDelParam.setApiName("violationDel");
 
 		// 위반이력 시퀀스
-		String vioSeq = jsonParam.getString("vio_seq").toString();
+		String vioSeq = jsonParam.getString("vio_seq");
 		// vio_seq 추출 후 제거 
 		jsonParam.remove("vio_seq");
 		
 		// DELETE param
-		String vioNum = jsonParam.getString("vio_num").toString();
+		String vioNum = jsonParam.getString("vio_num");
 		String vioNumUrl = "vio_num="+vioNum;
 		vioDelParam.setParam(vioNumUrl);
 		//vioDelParam.setParamJson(jsonParam);

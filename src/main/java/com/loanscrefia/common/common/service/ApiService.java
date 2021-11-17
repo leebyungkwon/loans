@@ -37,7 +37,7 @@ public class ApiService {
 
 		KfbApiDomain logParam = new KfbApiDomain();
         String token = "Bearer " + kfbApiRepo.selectNewKfbApiKey(logParam);
-        
+        logParam.setApiName(apiInfo.getApiName());
 		logParam.setToken(token);
 		logParam.setUrl(apiInfo.getUrl());
 

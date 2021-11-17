@@ -1122,7 +1122,7 @@ public class NewApplyService {
 			batchService.insertBatchPlanInfo(batchDomain);
 			// 상태변경 -> 등록요건 불충족(부적격)
 			apiCheck = true;
-			newApplyDomain.setPlRegStat("10");
+			newApplyDomain.setPlRegStat("1");
 			smsDomain.setTranMsg("등록요건 불충족(부적격)");
 			
 		}else if("5".equals(newApplyDomain.getPlStat())) { // 보완요청
@@ -1143,7 +1143,7 @@ public class NewApplyService {
 			batchService.insertBatchPlanInfo(batchDomain);
 			// 상태변경 -> 보완요청
 			apiCheck = true;
-			newApplyDomain.setPlRegStat("5");
+			newApplyDomain.setPlRegStat("1");
 			smsDomain.setTranMsg("보완요청");
 			
 			

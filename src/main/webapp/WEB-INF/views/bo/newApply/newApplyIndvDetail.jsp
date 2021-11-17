@@ -279,12 +279,12 @@ function goApplyImprove(num){
 					<th>교육이수번호/인증서번호</th>
 					<td colspan="3">${result.applyInfo.plEduNo }</td>
 				</tr>
-				<tr>
+<%-- 				<tr>
 					<th>경력시작일</th>
 					<td>${result.applyInfo.careerStartDate }</td>
 					<th>경력종료일</th>
 					<td>${result.applyInfo.careerEndDate }</td>
-				</tr>
+				</tr> --%>
 				<tr>
 					<th>계약일자</th>
 					<td colspan="3">${result.applyInfo.comContDate }</td>

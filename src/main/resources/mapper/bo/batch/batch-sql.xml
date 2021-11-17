@@ -66,7 +66,7 @@
     		tb_lc_schedule
     	WHERE schedule_name = #{scheduleName}
     	AND status in ('1', '3')
-    	AND reg_time > (now() - interval'30 minute')
+    	AND reg_time <![CDATA[>]]> (now() - interval'30 minute')
     </select>
     
     <!-- 2021-11-11 해지신청 리스트 조회 -->
@@ -97,7 +97,7 @@
 			tb_lc_mas01
 		where
 			PL_STAT = '4'
-		and com_haeji_date <![CDATA[<=]]> TO_CHAR(TO_CHAR(NOW(), 'YYYYMMDD')::TIMESTAMP - INTERVAL '4 day', 'YYYYMMDD')
+		and com_haeji_date <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '4 day', 'YYYYMMDD')
     </select>
     
     
@@ -111,6 +111,7 @@
 			</if>
 			, upd_seq = 0
 			, upd_timestamp = NOW()
+			, end_time = NOW()
 		where schedule_seq = #{scheduleSeq}
     </update>
     
@@ -214,7 +215,7 @@
 		set
 			pl_stat 			= '9'
 			, pl_reg_stat		= '4'
-			, cre_haeji_date	= TO_CHAR(TO_CHAR(NOW(), 'YYYYMMDD')
+			, cre_haeji_date	= TO_CHAR(NOW(), 'YYYYMMDD')
 			, upd_timestamp 	= NOW()
 			, upd_seq 			= 0
 		where
@@ -239,7 +240,7 @@
 		set
 			pl_ceo_name 		= #{plCeoName}
 			, pl_merchant_name	= #{plMerchantName}
-			, pl_m_z_id			= #{plMZId};
+			, pl_m_z_id			= #{plMZId}
 			, ci				= #{ci}
 			, upd_timestamp 	= NOW()
 			, upd_seq 			= 0

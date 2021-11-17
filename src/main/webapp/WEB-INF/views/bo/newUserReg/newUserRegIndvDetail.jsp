@@ -133,6 +133,10 @@ function pageLoad(){
 						<th>계약기간</th>
 						<td>${result.userRegInfo.entrustDate }</td>
 					</tr>
+					<tr>
+						<th>가등록번호</th>
+						<td>${result.userRegInfo.preLcNum }</td>
+					</tr>
 				</table>
 			</div>
 			<div class="btn_wrap">

@@ -124,7 +124,38 @@ public class UsersService {
 	// 개인 회원관리 상세
 	@Transactional(readOnly=true)
 	public UsersDomain getIndvUsersDetail(UsersDomain usersDomain){
-		return usersRepository.getIndvUsersDetail(usersDomain);
+		
+		UtilMask mask = new UtilMask();
+		UsersDomain result = usersRepository.getIndvUsersDetail(usersDomain);
+		String plMZId = "";
+		if(StringUtils.isNotEmpty(result.getPlMZId())) {
+			if(cryptoApply) {
+				plMZId 	= CryptoUtil.decrypt(result.getPlMZId());
+			}else {
+				plMZId 	= result.getPlMZId();
+				usersDomain.setPlMZId(plMZId);
+			}
+			if(StringUtils.isNotEmpty(plMZId)) {
+				if(!"false".equals(usersDomain.getIsPaging())) {
+					plMZId = mask.maskSSN(plMZId);
+				}
+			}
+			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			result.setPlMZId(plMZId);
+		}
+		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(result.getPlMerchantNo())) {
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(result.getPlMerchantNo()));
+			}else {
+				merchantNo.append(result.getPlMerchantNo());
+			}
+			merchantNo.insert(6, "-");
+			result.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		return result;
 	}
 	
 	// 개인회원 결격요건 수정
@@ -293,13 +324,38 @@ public class UsersService {
 	// 법인 회원관리 상세
 	@Transactional(readOnly=true)
 	public UsersDomain getCorpUsersDetail(UsersDomain usersDomain){
-		return usersRepository.getCorpUsersDetail(usersDomain);
+		UtilMask mask = new UtilMask();
+		UsersDomain result = usersRepository.getCorpUsersDetail(usersDomain);
+		String plMZId = "";
+		if(StringUtils.isNotEmpty(result.getPlMZId())) {
+			if(cryptoApply) {
+				plMZId 	= CryptoUtil.decrypt(result.getPlMZId());
+			}else {
+				plMZId 	= result.getPlMZId();
+				usersDomain.setPlMZId(plMZId);
+			}
+			if(StringUtils.isNotEmpty(plMZId)) {
+				if(!"false".equals(usersDomain.getIsPaging())) {
+					plMZId = mask.maskSSN(plMZId);
+				}
+			}
+			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			result.setPlMZId(plMZId);
+		}
+		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(result.getPlMerchantNo())) {
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(result.getPlMerchantNo()));
+			}else {
+				merchantNo.append(result.getPlMerchantNo());
+			}
+			merchantNo.insert(6, "-");
+			result.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		return result;
 	}
-	
-	
-	
-	
-	
 	
 	// 회원관리 법인 승인처리
 	@Transactional

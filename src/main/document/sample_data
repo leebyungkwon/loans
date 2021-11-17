@@ -618,6 +618,7 @@ ALTER TABLE tb_lc_users_disqual ADD COLUMN master_seq INTEGER;
 
 ALTER TABLE tb_lc_corp ADD COLUMN user_seq integer;
 
+ALTER TABLE tb_lc_kfb_api_log ADD COLUMN api_name varchar(30);
 
 
 

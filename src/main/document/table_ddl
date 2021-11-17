@@ -1306,6 +1306,7 @@ commit;
 
 create table tb_lc_kfb_api_log(
 	api_seq integer not null default nextval('tb_lc_kfb_api_log_seq')
+	, api_name varchar(30)
 	, token text
 	, url text
 	, send_data text 
