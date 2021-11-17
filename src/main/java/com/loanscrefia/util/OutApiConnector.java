@@ -30,7 +30,7 @@ public class OutApiConnector {
         private String parameter="";    //api param
         private String token="";        //api 인증 토큰
         private String method="";       //
-        private Boolean outLog=true;       //
+        private Boolean outLog=false;   //
         private JSONObject parameterJson = new JSONObject();
         
         private String clientId="";
