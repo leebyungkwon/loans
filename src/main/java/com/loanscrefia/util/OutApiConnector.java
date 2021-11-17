@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,7 +17,7 @@ import okhttp3.Response;
 /**
  * 외부 API 연동
  */
-@Log4j
+@Slf4j
 public class OutApiConnector {
     public OutApiConnector() {
 
@@ -29,7 +30,7 @@ public class OutApiConnector {
         private String parameter="";    //api param
         private String token="";        //api 인증 토큰
         private String method="";       //
-        private Boolean outLog=false;       //
+        private Boolean outLog=true;       //
         private JSONObject parameterJson = new JSONObject();
         
         private String clientId="";
@@ -53,7 +54,7 @@ public class OutApiConnector {
             return this;
         }
         public setApi token(String token){
-            this.token = "Bearer " + token;
+            this.token = token;
             return this;
         }
         public setApi method(String method){
@@ -68,6 +69,11 @@ public class OutApiConnector {
             this.clientSecret = clientSecret;
             return this;
         }
+        public setApi outLog(Boolean outLog){
+            this.outLog = outLog;
+            return this;
+        }
+
 
         public void requestInfo(){
             String str = "";
@@ -78,9 +84,9 @@ public class OutApiConnector {
             str += "token --> " + token + "\n";
             str += "method --> " + method + "\n";
             str += "url --> " + url + "\n";
-            if("GET".equals(method))    str += "parameter --> " + parameter+  "\n";
+            if("GET".equals(method) || "DELETE".equals(method))    str += "parameter --> " + parameter+  "\n";
             else                        str += "parameter --> " + parameterJson.toString() + "\n";
-            log.info(str);
+            log.error(str);
         }
         public void responseInfo(Response response) throws IOException {
             String str = "";
@@ -95,14 +101,14 @@ public class OutApiConnector {
             //str += "body --> \n";
             //str += res.body().string()+"\n";
             str += "***************************************************************";
-            log.info(str);
+            log.error(str);
         }
 
         public Response call() throws JSONException, IOException {
             if(outLog) requestInfo();
 
             Response res = null;
-            if(method.equals("GET") || method.equals("DELETE"))    res = GET(this);
+            if("GET".equals(method) || "DELETE".equals(method))    res = GET(this);
             else                        res = POST(this);
 
             if(outLog)  responseInfo(res);
@@ -118,7 +124,7 @@ public class OutApiConnector {
 
         builder.addHeader("Content-Type", "application/json;charset=utf-8");
         builder.addHeader("Accept", "application/json;charset=utf-8");
-        builder.addHeader("Authorization", b.token);			
+        builder.addHeader("Authorization", b.token);
         builder.addHeader("Connection", "close");
 
         return send(builder.build());
@@ -135,7 +141,7 @@ public class OutApiConnector {
         builder.addHeader("Accept", "application/json;charset=utf-8");
         builder.addHeader("Authorization", b.token);
         builder.addHeader("Connection", "close");
-
+        
         if("getAuthCode".equals(b.excuteName)) {
             builder.addHeader("X-Kfb-Client-Id", b.clientId);
             builder.addHeader("X-Kfb-User-Secret", b.clientSecret);
