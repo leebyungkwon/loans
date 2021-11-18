@@ -446,7 +446,6 @@ public class BatchService{
 		String reqUserSeq = req.getProperty02();
 		String reqSeq = req.getProperty03();
 		
-		
 		if("1".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-consultants");
 			loanUpdParam.setApiName("indvLoanUpd");
@@ -470,6 +469,12 @@ public class BatchService{
 		
 		NewApplyDomain newApplyDomain = new NewApplyDomain();
 		newApplyDomain.setMasterSeq(masterSeq);
+		
+		log.error("##################################");
+		log.error("###########     "+plClass+"      ###################");
+		log.error("###########     "+reqUserSeq+"      ###################");
+		log.error("###########     "+reqSeq+"      ###################");
+		log.error("##################################");
 		
 		try {
 			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
@@ -551,12 +556,8 @@ public class BatchService{
 				batchRepository.updateCorpMasInfo(newApplyDomain);
 			}
 			
-			BatchDomain reqBatch = new BatchDomain();
-			reqBatch.setScheduleName("loanUpd");
-			reqBatch.setProperty02(reqUserSeq);
-			
 			// 스케쥴테이블에서 해당 seq가 마지막인 경우 req테이블 상태 변경
-			int reqCnt = batchRepository.selectReqCnt(reqBatch);
+			int reqCnt = batchRepository.selectReqCnt(req);
 			if(reqCnt == 0) {
 				UsersDomain reqResult = new UsersDomain();
 				if("1".equals(plClass)) {

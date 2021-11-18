@@ -42,6 +42,10 @@
 			,REG_TIME 
 			,STATUS 
 			,PROPERTY01
+			,PROPERTY02
+			,PROPERTY03
+			,PROPERTY04
+			,PROPERTY05
 			,REG_SEQ 
 			,REG_TIMESTAMP
    		)
@@ -52,6 +56,10 @@
 			,NOW()
 			,'1'
 			,#{property01}
+			,#{property02}
+			,#{property03}
+			,#{property04}
+			,#{property05}
 			,#{regSeq}
 			,NOW()
    		)
@@ -409,7 +417,6 @@
    			, upd_timestamp		= NOW()
    		WHERE
    			user_indv_req_seq	= #{userIndvReqSeq}
-   		AND user_seq 			= #{userSeq}
 	</update>
 	
    	<!-- 법인정보 변경신청 테이블 상태 변경 -->
@@ -422,7 +429,6 @@
    			, upd_timestamp		= NOW()
    		WHERE
    			user_corp_req_seq	= #{userCorpReqSeq}
-   		AND user_seq 			= #{userSeq}
 	</update>
 
     <select id="selectAllBatchList" resultType="batch" >

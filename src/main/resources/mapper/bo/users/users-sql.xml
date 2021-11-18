@@ -821,6 +821,8 @@
    			tb_lc_mas01
    		WHERE 
    			user_seq = #{userSeq}
+   		AND PL_REG_STAT = '3'
+   		AND PL_STAT = '9'
    	</select>
    	
 </mapper> 
