@@ -342,12 +342,14 @@
     </select>
     <select id="selectBatchErrList" parameterType="batch"  resultType="batch" >
     	SELECT
-    		schedule_name
+    	      schedule_seq
+    		, schedule_name
     		, param
-    		, case when status = '1' then '실행전'
+    		, case when status = '1' then '30분 초과'
     			   when status = '3' then '오류'
     			   else '성공'
        		  end status
+       		, reg_time 
        		, start_time 
        		, error
     	FROM
@@ -355,4 +357,15 @@
     	WHERE schedule_name = #{scheduleName}
     	AND (status in ('3') OR (status in ('1') AND reg_time <![CDATA[<]]> (now() - interval'30 minute')))
     </select>
+    <update id="refreshBatch" parameterType="batch" >
+		update tb_lc_schedule
+		set
+			reg_time = now()
+			, status = '1'
+			, param = #{param}
+			, upd_timestamp = NOW()
+			, upd_seq 		= 0
+		where
+			schedule_seq = #{scheduleSeq}
+    </update>
 </mapper>

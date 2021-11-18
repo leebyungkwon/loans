@@ -85,10 +85,11 @@ public interface BatchRepository {
 
 	List<BatchDomain> selectAllBatchList();
 
-	List<BatchDomain> selectBatchErrList(BatchDomain param);
+	List<BatchDomain> selectBatchErrList(BatchDomain batch);
 
 	List<BatchDomain> selectBatchErrHistList(BatchDomain batch);
-	
+
+	int refreshBatch(BatchDomain batch);
 	
 	
 }

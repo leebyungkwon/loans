@@ -19,6 +19,7 @@ public class BatchDomain extends BaseDomain{
 	private int successCnt;		//성공건수
 	private String param;		//json 형식
 
+	private String regTime;		//등록시간
 	private String startTime;	//실행시간
 	private String endTime;		//종료시간
 	

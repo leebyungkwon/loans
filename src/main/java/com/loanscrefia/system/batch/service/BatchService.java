@@ -8,9 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.recruit.domain.NewRecruitDomain;
@@ -885,6 +887,15 @@ public class BatchService{
 
 	public List<BatchDomain> selectBatchErrHistList(BatchDomain batch) {
 		return batchRepository.selectBatchErrHistList(batch);
+	}
+	@Transactional
+	public ResponseMsg refreshBatch(BatchDomain batch){
+		int result = batchRepository.refreshBatch(batch);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
 	}
 	
 }

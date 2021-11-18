@@ -43,4 +43,12 @@ public class BatchViewController {
     	responseMsg.setData(batchService.selectBatchErrList(batch));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	@PostMapping("/batch/refreshBatch")
+	public ResponseEntity<ResponseMsg> refreshBatch(BatchDomain batch) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(batchService.refreshBatch(batch));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
 }
