@@ -183,8 +183,12 @@ function goRecruitImprove(rePlStat){
 				<tr>
 					<th>모집인 분류</th>
 					<td>${result.recruitInfo.plClassNm }</td>
+					<th>결격사유 및 범죄이력</th>
+					<td>${result.recruitInfo.disVal }</td>
+				</tr>
+				<tr>
 					<th>법인사용인여부</th>
-					<td>${result.recruitInfo.corpUserYn }</td>
+					<td colspan="3">${result.recruitInfo.corpUserYn }</td>
 				</tr>
 				<c:if test="${result.recruitInfo.corpUserYn eq 'Y' }">
 					<tr>
@@ -196,11 +200,34 @@ function goRecruitImprove(rePlStat){
 				</c:if>
 				<tr>
 					<th>신규경력구분</th>
-					<td colspan="3">${result.recruitInfo.careerTypNm }</td>
+					<td>${result.recruitInfo.careerTypNm }</td>
+					<th>API신규경력구분결과</th>
+					<c:choose>
+						<c:when test="${result.recruitInfo.apiCareerYn eq 'Y'}">
+							<td>경력</td>
+						</c:when>
+						<c:otherwise>
+							<td>신규</td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
-					<td colspan="3">${result.recruitInfo.plProductNm }</td>
+					<td>${result.recruitInfo.plProductNm }</td>
+					<th>금융상품 세부내용</th>
+					<td>
+						<c:choose>
+							<c:when test="${fn:length(result.plProductDetailList) > 0 }">
+								<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
+									${productDetailList.plProductDtlCdNm}
+									<c:if test="${!loop.last}"> / </c:if>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								해당없음
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>
 					<th>이름</th>
@@ -226,31 +253,39 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>주소</th>
-					<td colspan="3">${result.recruitInfo.addrBase }</td>
-				</tr>
-				<tr>
+					<td>${result.recruitInfo.addrBase }</td>
 					<th>상세주소</th>
-					<td colspan="3">${result.recruitInfo.addrDetail }</td>
-				</tr>
-				
-				<tr>
-					<th>등록기준지 주소</th>
-					<td colspan="3">${result.recruitInfo.regAddr }</td>
+					<td>${result.recruitInfo.addrDetail }</td>
 				</tr>
 				<tr>
-					<th>등록기준지 상세주소</th>
-					<td colspan="3">${result.recruitInfo.regAddrDetail }</td>
+					<th>등록기준지</th>
+					<td>${result.recruitInfo.regAddr }</td>
+					<th>등록기준지 상세</th>
+					<td>${result.recruitInfo.regAddrDetail }</td>
+				</tr>
+				<tr>
+					<th>관할경찰서</th>
+					<td>${result.recruitInfo.withinPoliceNm }</td>
+					<th>관할행정기관</th>
+					<c:choose>
+						<c:when test="${!empty result.recruitInfo.withinAdmNm }">
+							<td>${result.recruitInfo.withinAdmNm }</td>
+						</c:when>
+						<c:otherwise>
+							<td>${result.recruitInfo.withinAdmName }</td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				<tr>
 					<th>교육이수번호/인증서번호</th>
 					<td colspan="3">${result.recruitInfo.plEduNo }</td>
 				</tr>
-				<tr>
+<%-- 				<tr>
 					<th>경력시작일</th>
 					<td>${result.recruitInfo.careerStartDate }</td>
 					<th>경력종료일</th>
 					<td>${result.recruitInfo.careerEndDate }</td>
-				</tr>
+				</tr> --%>
 				<tr>
 					<th>계약일자</th>
 					<td colspan="3">${result.recruitInfo.comContDate }</td>

@@ -166,14 +166,37 @@ public class NewRecruitDomain extends BaseDomain {
 	// 2021-10-14 컬럼추가
 	private String otherField;			// 영위하는 다른업종
 	private String withinGovr;			// 관할검찰청 또는 지청
+	private String withinGovrNm;		// 관할검찰청 또는 지청명
 	private String regAddr;				// 등록기준지
 	private String regAddrDetail;		// 등록기준지 상세
 	private String addrBase;			// 주소
+	
+	private String withinPolice;		// 관할경찰청
+	private String withinPoliceNm;		// 관할경찰청명
+	private String withinAdm;			// 관할행정기관
+	private String withinAdmNm;			// 관할행정기관명
+	private String withinAdmName;		// 관할행정기관직접입력
 	
 	// 2021-10-25 처리상태 요청자시퀀스, 처리상태 요청경로 추가
 	private int plStatReqSeq;
 	private String plStatReqPath;
 	private String plStatReqPathNm;
+	
+	// 2021-11-04 결격요건 상태 : 하나라도 Y일 경우 Y
+	private String disCd;
+	private String disVal;
+	private String disYn;
+	
+	private String dis1;					// 결격사유 조회 필드
+	private String dis2;					// 범죄경력 조회 필드
+	private String updDis1;					// 결격사유 수정일시
+	private String updDis2;					// 범죄경력 수정일시
+	
+	private String dis9;					// 범죄이력
+	private String dis10;					// 부실금융기관
+	private String dis11;					// 영업취소
+	private String dis12;					// 대부업자
+	private String dis13;					// 다단계판매업자
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

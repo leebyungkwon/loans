@@ -73,7 +73,7 @@ function pageLoad(){
 			
 			<div class="btn_wrap">
 				<c:if test="${result.userRegInfo.plRegStat eq '3' and result.userRegInfo.plStat eq '9'}">
-					<a href="javascript:void(0);" class="btn_black btn_right w100p" onclick="goUserDropApplyPage();">해지요청</a>
+					<a href="javascript:void(0);" class="btn_black btn_right w100p" id="userDropApply" onclick="goUserDropApplyPage();">해지요청</a>
 				</c:if>
 				<c:if test="${result.userRegInfo.plRegStat eq '3' and result.userRegInfo.plStat eq '4' && result.userRegInfo.plStatReqPath eq '2'}">
 					<a href="javascript:void(0);" class="btn_black btn_right w100p" onclick="goUserDropApplyCancel();">해지요청취소</a>

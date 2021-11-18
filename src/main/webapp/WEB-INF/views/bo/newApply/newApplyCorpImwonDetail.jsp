@@ -152,7 +152,7 @@ function pageLoad(){
 								</tr>
 								
 								<tr>
-									<td class="acenter">개인정보필수동의서 *</td>
+									<td class="acenter">개인정보필수동의서(대표이사) *</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpImwonList.fileType34 ne null }">

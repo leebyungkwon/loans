@@ -255,7 +255,21 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
-					<td colspan="3">${result.applyInfo.plProductNm }</td>
+					<td>${result.applyInfo.plProductNm }</td>
+					<th>금융상품 세부내용</th>
+					<td>
+						<c:choose>
+							<c:when test="${fn:length(result.plProductDetailList) > 0 }">
+								<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
+									${productDetailList.plProductDtlCdNm}
+									<c:if test="${!loop.last}"> / </c:if>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								해당없음
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>
 					<th>이름</th>
@@ -269,11 +283,28 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>주소</th>
-					<td colspan="3">${result.applyInfo.addrNm }</td>
+					<td>${result.applyInfo.addrBase }</td>
+					<th>상세주소</th>
+					<td>${result.applyInfo.addrDetail }</td>
 				</tr>
 				<tr>
-					<th>상세주소</th>
-					<td colspan="3">${result.applyInfo.addrDetail }</td>
+					<th>등록기준지</th>
+					<td>${result.applyInfo.regAddr }</td>
+					<th>등록기준지 상세</th>
+					<td>${result.applyInfo.regAddrDetail }</td>
+				</tr>
+				<tr>
+					<th>관할경찰서</th>
+					<td>${result.applyInfo.withinPoliceNm }</td>
+					<th>관할행정기관</th>
+					<c:choose>
+						<c:when test="${!empty result.applyInfo.withinAdmNm }">
+							<td>${result.applyInfo.withinAdmNm }</td>
+						</c:when>
+						<c:otherwise>
+							<td>${result.applyInfo.withinAdmName }</td>
+						</c:otherwise>
+					</c:choose>
 				</tr>
 				<tr>
 					<th>교육이수번호/인증서번호</th>

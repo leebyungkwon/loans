@@ -83,60 +83,64 @@ function pageLoad(){
 			<h3>등록정보</h3>
 			<div id="table">
 				<table class="view_table">
-					<tr>
-						<th>모집인유형</th>
-						<td>${result.userRegInfo.plClassNm }</td>
-						<th>성명</th>
-						<td>${result.userRegInfo.plMName }</td>
-					</tr>
-					<tr>
-						<th>생년월일</th>
-						<td>${result.userRegInfo.birthDt }</td>
-						<th>성별</th>
-						<td>${result.userRegInfo.gender }</td>
-					</tr>
-					<tr>
-						<th>승인요청일</th>
-						<td>${result.userRegInfo.comRegDate }</td>
-						<th>연락처</th>
-						<td>${result.userRegInfo.plCellphone }</td>
-					</tr>
-					<tr>
-						<th>금융상품유형</th>
-						<td>${result.userRegInfo.plProductNm }</td>
-						<th>금융상품 세부내용</th>
-						<td>
-							<c:choose>
-								<c:when test="${fn:length(result.plProductDetailList) > 0 }">
-									<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
-										${productDetailList.plProductDtlCdNm}
-										<c:if test="${!loop.last}"> / </c:if>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									해당없음
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
-					<c:if test="${result.userRegInfo.corpUserYn eq 'Y' }">
+					<colgroup>
+						<col width="15%">
+						<col width="35%">
+						<col width="15%">
+						<col width="35%">
+					</colgroup>
+					<tbody>
 						<tr>
-							<th>소속법인명</th>
-							<td>${result.userRegInfo.plMerchantName }</td>
-							<th>소속법인등록번호</th>
-							<td>${result.userRegInfo.plMerchantNo }</td>
+							<th>모집인유형</th>
+							<td>${result.userRegInfo.plClassNm }</td>
+							<th>성명</th>
+							<td>${result.userRegInfo.plMName }</td>
 						</tr>
-					</c:if>
-					<tr>
-						<th>계약체결(예정)일자</th>
-						<td>${result.userRegInfo.comContDate }</td>
-						<th>계약기간</th>
-						<td>${result.userRegInfo.entrustDate }</td>
-					</tr>
-					<tr>
-						<th>가등록번호</th>
-						<td>${result.userRegInfo.preLcNum }</td>
-					</tr>
+						<tr>
+							<th>생년월일</th>
+							<td>${result.userRegInfo.birthDt }</td>
+							<th>성별</th>
+							<td>${result.userRegInfo.gender }</td>
+						</tr>
+						<tr>
+							<th>승인요청일</th>
+							<td>${result.userRegInfo.comRegDate }</td>
+							<th>연락처</th>
+							<td>${result.userRegInfo.plCellphone }</td>
+						</tr>
+						<tr>
+							<th>금융상품유형</th>
+							<td>${result.userRegInfo.plProductNm }</td>
+							<th>금융상품 세부내용</th>
+							<td>
+								<c:choose>
+									<c:when test="${fn:length(result.plProductDetailList) > 0 }">
+										<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
+											${productDetailList.plProductDtlCdNm}
+											<c:if test="${!loop.last}"> / </c:if>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										해당없음
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						<c:if test="${result.userRegInfo.corpUserYn eq 'Y' }">
+							<tr>
+								<th>소속법인명</th>
+								<td>${result.userRegInfo.plMerchantName }</td>
+								<th>소속법인등록번호</th>
+								<td>${result.userRegInfo.plMerchantNo }</td>
+							</tr>
+						</c:if>
+						<tr>
+							<th>계약체결(예정)일자</th>
+							<td>${result.userRegInfo.comContDate }</td>
+							<th>계약기간</th>
+							<td>${result.userRegInfo.entrustDate }</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			<div class="btn_wrap">

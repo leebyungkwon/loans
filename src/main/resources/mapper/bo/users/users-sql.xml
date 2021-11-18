@@ -521,6 +521,7 @@
    		FROM
    			tb_lc_users
    		WHERE pl_m_z_id = #{plMZId}
+   		LIMIT 1
    	</select>
    	
 	<!-- 2021-11-04 회원 결격요건 상세 조회 -->

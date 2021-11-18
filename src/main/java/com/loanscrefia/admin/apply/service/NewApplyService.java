@@ -45,6 +45,7 @@ import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.front.search.domain.SearchDomain;
 import com.loanscrefia.front.search.repository.SearchRepository;
 import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.domain.ProductDtlDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.NewUserRepository;
 import com.loanscrefia.system.batch.domain.BatchDomain;
@@ -170,7 +171,7 @@ public class NewApplyService {
 		return applyResultList;
 	}
 	
-	//모집인 조회 및 변경 > 상세 : 개인
+	// 2021-10-13 모집인 등록 상세 : 개인
 	@Transactional(readOnly=true)
 	public Map<String,Object> getNewApplyIndvDetail(NewApplyDomain newApplyDomain){
 		//세션 체크
@@ -188,15 +189,10 @@ public class NewApplyService {
 		
 		//상세
 		NewApplyDomain applyInfo = applyRepository.getNewApplyDetail(newApplyDomain);
-		
-		// 2021-11-04 계약건에 등록되어있는 주민등록 번호로 결격요건 조회
-		String resultPlMZId = applyInfo.getPlMZId();
 		UsersDomain usersDomain = new UsersDomain();
-		usersDomain.setPlMZId(resultPlMZId);
-		UsersDomain userDetailResult = usersRepository.getUsersDetailByZId(usersDomain);
 		
 		// user_seq로 결격요건 테이블 조회
-		usersDomain.setUserSeq(userDetailResult.getUserSeq());
+		usersDomain.setUserSeq(applyInfo.getUserSeq());
 		usersDomain.setPlClass(applyInfo.getPlClass());
 		List<UsersDomain> disList = usersRepository.selectUsersDisList(usersDomain);
 		int disCnt = 0;
@@ -345,7 +341,7 @@ public class NewApplyService {
     	}
     	
     	NewUserDomain userDomain = new NewUserDomain();
-    	userDomain.setMemberSeq(newApplyDomain.getMemberSeq());
+    	userDomain.setMasterSeq(newApplyDomain.getMasterSeq());
     	//위반이력
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(userDomain);
     	
@@ -353,6 +349,10 @@ public class NewApplyService {
     	MemberDomain memberDomain = new MemberDomain();
     	memberDomain.setMemberSeq(Long.valueOf(applyInfo.getMemberSeq()));
     	MemberDomain memberResult = commonService.getCompanyMemberDetail(memberDomain);
+    	
+    	
+    	//금융상품세부내용 리스트 조회
+    	List<ProductDtlDomain> plProductDetailList	= userRepo.selectPlProductDetailList(userDomain);
     	
     	
     	//전달
@@ -363,11 +363,12 @@ public class NewApplyService {
     	if(loginInfo.getCreGrp() != null) {
     		result.put("adminCreGrp", loginInfo.getCreGrp());
     	}
+    	result.put("plProductDetailList", plProductDetailList);
 		
 		return result;
 	}
 	
-	//모집인 조회 및 변경 > 상세 : 법인(등록정보 탭)
+	// 2021-10-13 모집인 등록 상세 : 법인(등록정보 탭)
 	@Transactional(readOnly=true)
 	public Map<String,Object> getNewApplyCorpDetail(NewApplyDomain newApplyDomain){
 		
@@ -387,13 +388,10 @@ public class NewApplyService {
 		NewApplyDomain applyInfo = applyRepository.getNewApplyDetail(newApplyDomain);
 		
 		// 2021-11-04 계약건에 등록되어있는 주민등록 번호로 결격요건 조회
-		String resultPlMZId = applyInfo.getPlMZId();
 		UsersDomain usersDomain = new UsersDomain();
-		usersDomain.setPlMZId(resultPlMZId);
-		UsersDomain userDetailResult = usersRepository.getUsersDetailByZId(usersDomain);
 		
 		// user_seq로 결격요건 테이블 조회
-		usersDomain.setUserSeq(userDetailResult.getUserSeq());
+		usersDomain.setUserSeq(applyInfo.getUserSeq());
 		usersDomain.setPlClass(applyInfo.getPlClass());
 		List<UsersDomain> disList = usersRepository.selectUsersDisList(usersDomain);
 		int disCnt = 0;
@@ -525,9 +523,12 @@ public class NewApplyService {
 		}
 		
     	NewUserDomain userDomain = new NewUserDomain();
-    	userDomain.setMemberSeq(newApplyDomain.getMemberSeq());
+    	userDomain.setMasterSeq(newApplyDomain.getMasterSeq());
     	//위반이력
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(userDomain);
+    	
+    	//금융상품세부내용 리스트 조회
+    	List<ProductDtlDomain> plProductDetailList	= userRepo.selectPlProductDetailList(userDomain);
 		
 		//전달
 		result.put("addrCodeList", addrCodeList);
@@ -536,6 +537,7 @@ public class NewApplyService {
     	if(loginInfo.getCreGrp() != null) {
     		result.put("adminCreGrp", loginInfo.getCreGrp());
     	}
+    	result.put("plProductDetailList", plProductDetailList);
 		
 		return result;
 	}

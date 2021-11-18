@@ -184,18 +184,34 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
-					<td colspan="3">${result.recruitInfo.plClassNm }</td>
+					<td>${result.recruitInfo.plClassNm }</td>
+					<th>결격사유 및 범죄이력</th>
+					<td>${result.recruitInfo.disVal }</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
-					<td colspan="3">${result.recruitInfo.plProductNm }</td>
+					<td>${result.recruitInfo.plProductNm }</td>
+					<th>금융상품 세부내용</th>
+					<td>
+						<c:choose>
+							<c:when test="${fn:length(result.plProductDetailList) > 0 }">
+								<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
+									${productDetailList.plProductDtlCdNm}
+									<c:if test="${!loop.last}"> / </c:if>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								해당없음
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>
 					<th>업종</th>
 					<td colspan="3">${result.recruitInfo.plWork }</td>
 				</tr>
 				<tr>
-					<th>상호</th>
+					<th>법인명</th>
 					<td>${result.recruitInfo.plMerchantName }</td>
 					<th>대표이사</th>
 					<td>${result.recruitInfo.plCeoName }</td>
@@ -214,27 +230,21 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				<tr>
 					<th>본점소재지</th>
-					<td colspan="3">${result.recruitInfo.addrBase }</td>
-				</tr>
-				<tr>
-					<th>상세주소(법인등기부등본상)</th>
-					<td colspan="3">${result.recruitInfo.addrDetail }</td>
+					<td>${result.recruitInfo.addrBase }</td>
+					<th>본점소재지 상세</th>
+					<td>${result.recruitInfo.addrDetail }</td>
 				</tr>
 				<tr>
 					<th>자본금(백만원)</th>
-					<td colspan="3">${result.recruitInfo.capital }</td>
-				</tr>
-				<tr>
+					<td>${result.recruitInfo.capital }</td>
 					<th>의결권있는 발행주식 총수</th>
-					<td colspan="3">${result.recruitInfo.votingStockCnt }</td>
+					<td>${result.recruitInfo.votingStockCnt }</td>
 				</tr>
 				<tr>
 					<th>영위하는 다른 업종</th>
-					<td colspan="3">${result.recruitInfo.otherField }</td>
-				</tr>
-				<tr>
+					<td>${result.recruitInfo.otherField }</td>
 					<th>관할검찰청 또는 지청</th>
-					<td colspan="3">${result.recruitInfo.withinGovr }</td>
+					<td>${result.recruitInfo.withinGovrNm }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>

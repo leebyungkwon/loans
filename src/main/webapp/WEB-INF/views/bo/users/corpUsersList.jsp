@@ -12,7 +12,7 @@ function pageLoad(){
 		, url			: "/admin/corpUsers/corpUsersList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","아이디","이름","연락처","법인명","법인번호","범죄이력","부실</br>금융기관","영업취소","대부업자","다단계</br>판매업자","결격요건</br>수정일시","금융감독원</br>승인여부", "가입일", "마지막</br>로그인일시","로그인</br>잠금여부"]
+		, headCol		: ["","아이디","이름","연락처","법인명","법인번호","범죄이력","부실</br>금융기관","영업취소","대부업자","다단계</br>판매업자","결격요건</br>수정일시","법인회원</br>승인여부","금융감독원</br>승인여부","가입일", "마지막</br>로그인일시","로그인</br>잠금여부"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'corpSeq'		, index:'corpSeq'			, width:"5%"	, hidden:true  	, id:true}
@@ -27,6 +27,7 @@ function pageLoad(){
 				,{type:"string"	, name:'dis12'			, index:'dis12'			, width:"8%"	}
 				,{type:"string"	, name:'dis13'			, index:'dis13'			, width:"8%"	}
 				,{type:"string"	, name:'updDis1'		, index:'updDis1'		, width:"12%"	}
+				,{type:"string"	, name:'corpApprYn'		, index:'corpApprYn'	, width:"8%"	}
 				,{type:"string"	, name:'passYn'			, index:'passYn'		, width:"8%"	}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'lastLoginDt'	, index:'lastLoginDt'	, width:"12%"	, align:"center"}

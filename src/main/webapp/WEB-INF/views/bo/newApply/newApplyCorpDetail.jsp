@@ -230,14 +230,28 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
-					<td colspan="3">${result.applyInfo.plProductNm }</td>
+					<td>${result.applyInfo.plProductNm }</td>
+					<th>금융상품 세부내용</th>
+					<td>
+						<c:choose>
+							<c:when test="${fn:length(result.plProductDetailList) > 0 }">
+								<c:forEach var="productDetailList" items="${result.plProductDetailList }" varStatus="loop">
+									${productDetailList.plProductDtlCdNm}
+									<c:if test="${!loop.last}"> / </c:if>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								해당없음
+							</c:otherwise>
+						</c:choose>
+					</td>
 				</tr>
 				<tr>
 					<th>업종</th>
 					<td colspan="3">${result.applyInfo.plWork }</td>
 				</tr>
 				<tr>
-					<th>상호</th>
+					<th>법인명</th>
 					<td>${result.applyInfo.plMerchantName }</td>
 					<th>대표이사</th>
 					<td>${result.applyInfo.plCeoName }</td>
@@ -256,11 +270,9 @@ function goApplyImprove(num){
 				</tr>
 				<tr>
 					<th>본점소재지</th>
-					<td colspan="3">${result.applyInfo.addrNm }</td>
-				</tr>
-				<tr>
-					<th>상세주소(법인등기부등본상)</th>
-					<td colspan="3">${result.applyInfo.addrDetail }</td>
+					<td>${result.applyInfo.addrBase }</td>
+					<th>본점소재지 상세</th>
+					<td>${result.applyInfo.addrDetail }</td>
 				</tr>
 				<tr>
 					<th>자본금(백만원)</th>
@@ -272,7 +284,7 @@ function goApplyImprove(num){
 					<th>영위하는 다른 업종</th>
 					<td>${result.applyInfo.otherField }</td>
 					<th>관할검찰청 또는 지청</th>
-					<td>${result.applyInfo.withinGovr }</td>
+					<td>${result.applyInfo.withinGovrNm }</td>
 				</tr>
 				<tr>
 					<th>계약일자</th>

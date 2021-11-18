@@ -283,6 +283,10 @@
 			,TLM.ADDR_BASE
 			,TLM.OTHER_FIELD
 			,TLM.WITHIN_GOVR
+			,(select office.within_office_name from tb_lc_within_office office where office.within_office_seq = TLM.WITHIN_GOVR) as WITHIN_GOVR_NM
+			,(select office.within_office_name from tb_lc_within_office office where office.within_office_seq = TLM.within_police) as within_police_nm
+			,(select adm.within_adm_name from tb_lc_within_adm adm where adm.within_adm_seq = TLM.within_adm) as within_adm_nm
+			,TLM.within_adm_name
 			,TLM.PL_EDU_NO
 			,TLM.APPLY_COM_HIST_TXT
 			,case
@@ -343,6 +347,9 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+			,TLM.pl_stat_req_seq
+			,TLM.pl_stat_req_path
+			,TLM.USER_SEQ
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
@@ -357,7 +364,10 @@
 			,MASTER_SEQ
 			,CAREER_TYP
 			,FN_CD_DTL('CAR001',CAREER_TYP) AS CAREER_TYP_NM
-			,POSITION_NM
+			,POSITION_CD
+			,FN_CD_DTL('PST001',POSITION_CD) AS POSITION_CD_NM
+			,PROPER_CD
+			,FN_CD_DTL('QUA001',PROPER_CD) AS PROPER_CD_NM
 			,EXC_NAME
 			,PL_M_Z_ID
 			,PL_EDU_NO
@@ -376,6 +386,7 @@
 			,EXPERT_STAT
 			,FN_CD_DTL('EXP001',EXPERT_STAT) AS EXPERT_STAT_NM
 			,FILE_SEQ
+			,USER_SEQ
    		FROM TB_LC_MAS01_IMWON
    		<where>
    			AND MASTER_SEQ 	= #{masterSeq}

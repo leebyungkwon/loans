@@ -20,6 +20,8 @@ import com.loanscrefia.admin.recruit.domain.RecruitImwonDomain;
 import com.loanscrefia.admin.recruit.domain.RecruitItDomain;
 import com.loanscrefia.admin.recruit.repository.NewRecruitRepository;
 import com.loanscrefia.admin.recruit.repository.RecruitRepository;
+import com.loanscrefia.admin.users.domain.UsersDomain;
+import com.loanscrefia.admin.users.repository.UsersRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.domain.PayResultDomain;
@@ -31,6 +33,7 @@ import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.domain.ProductDtlDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.NewUserRepository;
 import com.loanscrefia.system.batch.domain.BatchDomain;
@@ -55,6 +58,8 @@ public class NewRecruitService {
 	@Autowired private KfbApiService kfbApiService;
 	@Autowired
 	private BatchRepository batchRepository;
+	@Autowired
+	private UsersRepository usersRepository;
 
 	//암호화 적용여부
 	@Value("${crypto.apply}")
@@ -134,6 +139,28 @@ public class NewRecruitService {
 		
 		//상세
 		NewRecruitDomain recruitInfo = recruitRepository.getNewRecruitDetail(recruitDomain);
+		UsersDomain usersDomain = new UsersDomain();
+		
+		// user_seq로 결격요건 테이블 조회
+		usersDomain.setUserSeq(recruitInfo.getUserSeq());
+		usersDomain.setPlClass(recruitInfo.getPlClass());
+		List<UsersDomain> disList = usersRepository.selectUsersDisList(usersDomain);
+		int disCnt = 0;
+		if(disList.size() > 0) {
+			for(UsersDomain dis : disList) {
+				if(StringUtils.isNotEmpty(dis.getDisVal())) {
+					if("Y".equals(dis.getDisVal())) {
+						disCnt++;
+					}
+				}
+			}
+			if(disCnt > 0) {
+				recruitInfo.setDisVal("Y");
+			}else {
+				recruitInfo.setDisVal("N");
+			}
+		}
+		
 		
 		//이력조회 시 변경된 데이터 찾기(현재 데이터와 다른 데이터중 최신)
 		recruitDomain.setSearchPlMName(recruitInfo.getPlMName());
@@ -318,11 +345,15 @@ public class NewRecruitService {
     	payResultDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	PayResultDomain payResult = commonService.getPayResultDetail(payResultDomain);
     	
+    	//금융상품세부내용 리스트 조회
+    	List<ProductDtlDomain> plProductDetailList	= userRepo.selectPlProductDetailList(userDomain);
+    	
     	//전달
     	result.put("addrCodeList", addrCodeList);
     	result.put("recruitInfo", recruitInfo);
     	result.put("violationInfoList", violationInfoList);
     	result.put("payResult", payResult);
+    	result.put("plProductDetailList", plProductDetailList);
     	
 		return result;
 	}
@@ -340,6 +371,28 @@ public class NewRecruitService {
 		
 		//상세
 		NewRecruitDomain recruitInfo 	= recruitRepository.getNewRecruitDetail(recruitDomain);
+		
+		UsersDomain usersDomain = new UsersDomain();
+		
+		// user_seq로 결격요건 테이블 조회
+		usersDomain.setUserSeq(recruitInfo.getUserSeq());
+		usersDomain.setPlClass(recruitInfo.getPlClass());
+		List<UsersDomain> disList = usersRepository.selectUsersDisList(usersDomain);
+		int disCnt = 0;
+		if(disList.size() > 0) {
+			for(UsersDomain dis : disList) {
+				if(StringUtils.isNotEmpty(dis.getDisVal())) {
+					if("Y".equals(dis.getDisVal())) {
+						disCnt++;
+					}
+				}
+			}
+			if(disCnt > 0) {
+				recruitInfo.setDisVal("Y");
+			}else {
+				recruitInfo.setDisVal("N");
+			}
+		}
 		
 		// ORIGIN 법인번호 암호화 해제
 		StringBuilder orgMerchantNo = new StringBuilder();
@@ -448,11 +501,15 @@ public class NewRecruitService {
     	payResultDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	PayResultDomain payResult = commonService.getPayResultDetail(payResultDomain);
 		
+    	//금융상품세부내용 리스트 조회
+    	List<ProductDtlDomain> plProductDetailList	= userRepo.selectPlProductDetailList(userDomain);
+    	
 		//전달
 		result.put("addrCodeList", addrCodeList);
 		result.put("recruitInfo", recruitInfo);
 		result.put("violationInfoList", violationInfoList);
 		result.put("payResult", payResult);
+		result.put("plProductDetailList", plProductDetailList);
 		
 		return result;
 	}

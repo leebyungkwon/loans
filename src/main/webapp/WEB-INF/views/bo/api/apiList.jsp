@@ -276,18 +276,13 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
-	
-	
-	
-	 
 	// 가등록 삭제
 	$("#deletePreLoan").on("click", function(){
+		var plClass			=	$("#delPlClass").val();
+		var preLcNum		=	$("#delPreLcNum").val();
 		
-		alert("운영서버 추후 반영예정");
-		return false;
-		
-		var plClass		=	$("#delPreLcNum").val();
-		var preLcNum		=	$("#delPrelcNum").val();
+		console.log("plClass = " + plClass);
+		console.log("preLcNum = " + preLcNum);
 		
 		if(confirm("가등록을 삭제하시겠습니까?")){
 			var p = {

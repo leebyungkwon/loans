@@ -6,6 +6,7 @@
 </div>
 <p class="popup_desc">
 	결격요건 업로드시 법인회원 및 법인관리 리스트에서 다운로드 받으신 엑셀문서 양식을 유지해 주셔야 합니다.<br />
+	※ 법인으로 회원가입된 정보만 결격요건 업로드에 해당됩니다. 
 </p>
 <form name="corpDisForm" id="corpDisForm" method="post" action="/admin/corpUsers/corpUsersDisExcelUpload" enctype="multipart/form-data">
 	<table class="popup_table">

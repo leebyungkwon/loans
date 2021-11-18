@@ -92,10 +92,16 @@ public class NewUserDomain extends BaseDomain {
 	
 	// 2021-10-14 컬럼추가
 	private String otherField;			// 영위하는 다른업종
-	private String withinGovr;			// 관할검찰청 또는 지청
+	private String withinGovr;			// 관할검찰청 또는 지청(법인)
 	private String regAddr;				// 등록기준지
 	private String regAddrDetail;		// 등록기준지 상세
 	private String addrBase;			// 주소
+	
+	private String withinPolice;		// 관할경찰청
+	private String withinPoliceNm;		// 관할경찰청명
+	private String withinAdm;			// 관할행정기관
+	private String withinAdmNm;			// 관할행정기관명
+	private String withinAdmName;		// 관할행정기관직접입력
 	
 	
 	

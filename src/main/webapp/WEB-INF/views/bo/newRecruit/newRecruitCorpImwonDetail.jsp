@@ -79,6 +79,10 @@ function pageLoad(){
 										<th>전문인력여부</th>
 										<td>${corpImwonList.expertStatNm }</td>
 									</tr>
+									<tr>
+										<th>임원자격 적합여부</th>
+										<td colspan="3">${corpImwonList.properCdNm }</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
