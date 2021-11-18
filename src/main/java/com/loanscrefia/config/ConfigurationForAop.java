@@ -34,7 +34,7 @@ public class ConfigurationForAop {
 				int seq = Integer.parseInt(mem.getUsername());
 				Object [] p = pjp.getArgs();
 				
-				if(p[0]==null || p[0]=="") return null;
+				if(p.length == 0 || p[0]==null || p[0]=="") return null;
 				
 				// p.getClass에 상속받은 class가 있는지 확인
 				domain = (BaseDomain)p[0];

@@ -320,6 +320,7 @@ var AjaxUtil = {
      * 에러 핸들러
      */
     errorHandler: function(callback, error) {
+    	console.log(callback,error);
         var errMsg = "서버에 일시적인 문제가 생겼습니다.\n잠시후에 다시 이용해주세요.";
 
         if (error.response) {

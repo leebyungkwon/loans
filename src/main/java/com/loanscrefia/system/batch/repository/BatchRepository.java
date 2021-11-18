@@ -1,5 +1,6 @@
 package com.loanscrefia.system.batch.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -9,7 +10,6 @@ import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.system.batch.domain.BatchDomain;
-import com.loanscrefia.system.batch.domain.BatchReqDomain;
 
 @Mapper
 public interface BatchRepository {
@@ -80,6 +80,14 @@ public interface BatchRepository {
 	
 	// 2021-11-15 가등록 삭제
 	int deletePreLcNum(NewApplyDomain newApplyDomain);
+
+	void deleteShedLock();
+
+	List<BatchDomain> selectAllBatchList();
+
+	List<BatchDomain> selectBatchErrList(BatchDomain param);
+
+	List<BatchDomain> selectBatchErrHistList(BatchDomain batch);
 	
 	
 	

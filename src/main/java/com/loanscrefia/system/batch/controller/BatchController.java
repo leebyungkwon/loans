@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,10 @@ public class BatchController {
 	private KfbApiService kfbApiService;
 	
 	private static final String ONE_MIN = "PT30S"; // 1분동안 Lock
+	
+
+	@Value("${spring.profiles.active}")
+	private String profile;
 	
 	/* -------------------------------------------------------------------------------------------
 	 * cron =  0~59(초) 0~59(분) 0~23(시) 1~31(일) 1~12(월) 0~6(요일) 생략가능(연도)
@@ -156,6 +161,7 @@ public class BatchController {
 	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() throws IOException {
+		if(isLocalBatch()) return;
     	log.info("================ apiAuthToken() START ================");
     	kfbApiService.getAuthToken();
     	log.info("================ apiAuthToken() END ================");
@@ -165,7 +171,7 @@ public class BatchController {
 	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="preLoanDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanDel() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("preLoanDel");
 		// 스케쥴 이름으로 조회
@@ -196,7 +202,7 @@ public class BatchController {
 	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="preloanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void preloanReg() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("preloanReg");
 		// 스케쥴 이름으로 조회
@@ -226,7 +232,7 @@ public class BatchController {
 	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="loanReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanReg() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("loanReg");
 		// 스케쥴 이름으로 조회
@@ -257,7 +263,7 @@ public class BatchController {
 	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void loanUpd() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("loanUpd");
 		// 스케쥴 이름으로 조회
@@ -292,7 +298,7 @@ public class BatchController {
 	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="dropApply", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void dropApply() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("dropApply");
 		// 해지요청 오늘날짜 기준으로 -4일기준 전부
@@ -326,7 +332,7 @@ public class BatchController {
 	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="caseLoanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void caseLoanUpd() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("caseLoanUpd");
 		// 스케쥴 이름으로 조회
@@ -360,7 +366,7 @@ public class BatchController {
 	@Scheduled(cron ="0 * * * * *")
     @SchedulerLock(name="violationReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void violationReg() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("violationReg");
 		// 스케쥴 이름으로 조회
@@ -394,7 +400,7 @@ public class BatchController {
 	@Scheduled(cron ="0 * * * * *")
     @SchedulerLock(name="violationDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void violationDel() throws Exception {
-		
+		if(isLocalBatch()) return;
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("violationDel");
 		// 스케쥴 이름으로 조회
@@ -420,4 +426,10 @@ public class BatchController {
 
     }
 	
+	
+	private boolean isLocalBatch() {
+		boolean flag = true;
+		if(!"local".equals(profile)) flag = false;
+		return flag;
+	}
 }

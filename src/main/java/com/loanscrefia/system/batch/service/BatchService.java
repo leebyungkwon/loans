@@ -1,6 +1,7 @@
 package com.loanscrefia.system.batch.service;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,9 +20,7 @@ import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.ApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
-import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.system.batch.domain.BatchDomain;
-import com.loanscrefia.system.batch.domain.BatchReqDomain;
 import com.loanscrefia.system.batch.repository.BatchRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -874,6 +873,18 @@ public class BatchService{
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
+	}
+
+	public List<BatchDomain> selectAllBatchList() {
+		return batchRepository.selectAllBatchList();
+	}
+
+	public List<BatchDomain> selectBatchErrList(BatchDomain batch) {
+		return batchRepository.selectBatchErrList(batch);
+	}
+
+	public List<BatchDomain> selectBatchErrHistList(BatchDomain batch) {
+		return batchRepository.selectBatchErrHistList(batch);
 	}
 	
 }

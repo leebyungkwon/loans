@@ -121,7 +121,19 @@
   margin-right: 5px;
   vertical-align: middle;
 }
-
+.btn_in{
+  display: block;
+  text-align: center;
+  background-color: #666;
+  color:#fff;
+  font:700 12px/28px 'dotum','맑은 고딕';
+  width: 150px;
+  height: 28px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  float:left;
+  margin-right: 10px;
+}
 .btn_inquiry{
   position: absolute;
   bottom: 20px;

@@ -327,6 +327,32 @@
     </update>
     
     
-    
-    
+    <select id="selectAllBatchList" resultType="batch" >
+		select name as scheduleName from shedlock  
+    </select>
+    <select id="selectBatchErrHistList" resultType="batch" >
+	    select 
+	    	<include refid="common.totalPages"/>
+	    	tlsh.*
+		from tb_lc_schedule_hist tlsh 
+		where req_cnt > 0
+		and req_cnt != success_cnt
+		and start_time <![CDATA[>]]> (now() - interval'3 day')
+	    <include refid="common.pageBottom"/>
+    </select>
+    <select id="selectBatchErrList" parameterType="batch"  resultType="batch" >
+    	SELECT
+    		schedule_name
+    		, param
+    		, case when status = '1' then '실행전'
+    			   when status = '3' then '오류'
+    			   else '성공'
+       		  end status
+       		, start_time 
+       		, error
+    	FROM
+    		tb_lc_schedule
+    	WHERE schedule_name = #{scheduleName}
+    	AND (status in ('3') OR (status in ('1') AND reg_time <![CDATA[<]]> (now() - interval'30 minute')))
+    </select>
 </mapper>
