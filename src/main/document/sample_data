@@ -620,7 +620,8 @@ ALTER TABLE tb_lc_corp ADD COLUMN user_seq integer;
 
 ALTER TABLE tb_lc_kfb_api_log ADD COLUMN api_name varchar(30);
 
-
+ALTER TABLE tb_lc_mas01_expert ALTER COLUMN career_start_date DROP NOT NULL;
+ALTER TABLE tb_lc_mas01_expert ALTER COLUMN career_end_date DROP NOT NULL;
 
 
 
