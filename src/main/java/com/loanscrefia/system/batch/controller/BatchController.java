@@ -281,7 +281,6 @@ public class BatchController {
 			successCnt = successCnt + success;
 		}
 		
-		
 		batch.setScheduleHistSeq(scheduleSeq);
 		batch.setSuccessCnt(successCnt);
 		

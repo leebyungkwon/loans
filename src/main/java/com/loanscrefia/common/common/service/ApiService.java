@@ -86,10 +86,12 @@ public class ApiService {
 			}
 			 
 		} catch (JSONException e) {
-			resExpMsg = e.getMessage();
+			resExpMsg = responseCode + " : "+ e.getMessage();
+			resMsg = responseCode + " : "+ e.getMessage();
 			log.error(e.getMessage());
 		} catch (IOException e) {
-			resExpMsg = e.getMessage();
+			resExpMsg = responseCode + " : "+ e.getMessage();
+			resMsg = responseCode + " : "+ e.getMessage();
 			log.error(e.getMessage());
 		} finally {
 

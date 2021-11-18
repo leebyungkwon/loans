@@ -262,6 +262,7 @@ create table tb_lc_mas01(
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
+	, api_res_msg text
 	, PRIMARY KEY (master_seq)
 );
 
@@ -342,6 +343,8 @@ COMMENT ON COLUMN tb_lc_mas01.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_mas01.api_res_msg IS 'API결과메세지';
+
 
 commit;
 
@@ -638,6 +641,7 @@ create table tb_lc_mas01_hist(
 	, reg_timestamp timestamp NOT NULL
 	, upd_seq INTEGER NULL
 	, upd_timestamp timestamp NULL
+	, api_res_msg text
 	, PRIMARY KEY (master_hist_seq)
 );
 
@@ -719,6 +723,7 @@ COMMENT ON COLUMN tb_lc_mas01_hist.reg_seq IS '등록자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_hist.upd_timestamp IS '수정일시';
+COMMENT ON COLUMN tb_lc_mas01_hist.api_res_msg IS 'API결과메세지';
 
 commit;
 

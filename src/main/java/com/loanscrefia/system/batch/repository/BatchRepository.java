@@ -58,8 +58,14 @@ public interface BatchRepository {
 	// 2021-11-11 개인회원 계약정보변경 완료 
 	int updateIndvMasInfo(NewApplyDomain newApplyDomain);
 	
+	// 2021-11-11 개인회원 건별 계약정보변경 완료 
+	int updateCaseIndvMasInfo(NewApplyDomain newApplyDomain);	
+	
 	// 2021-11-11 법인회원 계약정보변경 완료	
 	int updateCorpMasInfo(NewApplyDomain newApplyDomain);
+	
+	// 2021-11-11 법인회원 건별 계약정보변경 완료	
+	int updateCaseCorpMasInfo(NewApplyDomain newApplyDomain);
 	
 	// 2021-11-11 개인회원 회원정보 수정
 	int updateIndvUsersInfo(UsersDomain usersDomain);
@@ -85,11 +91,29 @@ public interface BatchRepository {
 
 	List<BatchDomain> selectAllBatchList();
 
-	List<BatchDomain> selectBatchErrList(BatchDomain batch);
+	List<BatchDomain> selectBatchErrList(BatchDomain param);
 
 	List<BatchDomain> selectBatchErrHistList(BatchDomain batch);
-
+	
+	
+	// 개인정보수정시 해당 사용자의 전체 데이터 완료 체크 카운트
+	int selectReqCnt(BatchDomain batchDomain);
+	
+	// 2021-11-18 개인정보 변경신청 테이블 상태 변경
+	int updateIndvReq(UsersDomain usersDomain);	
+	
+	// 2021-11-18 법인정보 변경신청 테이블 상태 변경
+	int updateCorpReq(UsersDomain usersDomain);	
+	
 	int refreshBatch(BatchDomain batch);
 	
 	
+	
 }
+
+
+
+
+
+
+

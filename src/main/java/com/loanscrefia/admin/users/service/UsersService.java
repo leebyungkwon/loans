@@ -690,6 +690,9 @@ public class UsersService {
 					batchDomain.setScheduleName("loanUpd");
 					batchDomain.setParam(jsonParam.toString());
 					batchDomain.setProperty01("1"); //개인,법인 구분값
+					batchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+					batchDomain.setProperty03(Integer.toString(usersDomain.getUserIndvReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+					
 					batchRepository.insertBatchPlanInfo(batchDomain);
 				}
 			}
@@ -862,6 +865,8 @@ public class UsersService {
 					batchDomain.setScheduleName("loanUpd");
 					batchDomain.setParam(jsonParam.toString());
 					batchDomain.setProperty01("2"); //개인,법인 구분값
+					batchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+					batchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
 					batchRepository.insertBatchPlanInfo(batchDomain);
 				}
 			}

@@ -782,8 +782,10 @@
 	<update id="updateIndvUsersStat" parameterType="users" >
 		UPDATE tb_lc_users_indv_req
 		SET
-			stat 				= #{stat}
-			, txt 				= #{txt}
+			txt 				= #{txt}
+			<if test='stat.equals("3")'>
+				, stat 				= #{stat}
+			</if>
 			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
    			, upd_seq 			= #{regSeq}
    			, upd_timestamp		= NOW()
@@ -797,7 +799,10 @@
 	<update id="updateCorpUsersStat" parameterType="users" >
 		UPDATE tb_lc_users_corp_req
 		SET
-			stat 				= #{stat}
+			txt 				= #{txt}
+			<if test='stat.equals("3")'>
+				, stat 				= #{stat}
+			</if>
 			, txt 				= #{txt}
 			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
    			, upd_seq 			= #{regSeq}

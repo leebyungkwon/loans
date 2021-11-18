@@ -213,11 +213,16 @@
     <update id="updateDropApply" parameterType="newApply" >
 		update tb_lc_mas01
 		set
-			pl_stat 			= '9'
-			, pl_reg_stat		= '4'
-			, cre_haeji_date	= TO_CHAR(NOW(), 'YYYYMMDD')
-			, upd_timestamp 	= NOW()
+			upd_timestamp 	= NOW()
 			, upd_seq 			= 0
+			<if test="apiSuccessCode != null and apiSuccessCode != ''">
+				<if test="apiSuccessCode.equals('success')">
+					, pl_stat 			= '9'
+					, pl_reg_stat		= '4'
+					, cre_haeji_date	= TO_CHAR(NOW(), 'YYYYMMDD')
+				</if>
+			</if>
+			, api_res_msg	= #{apiResMsg}
 		where
 			master_seq = #{masterSeq}
     </update>
@@ -230,6 +235,7 @@
 			, pl_cellphone		= #{plCellphone}
 			, upd_timestamp 	= NOW()
 			, upd_seq 			= 0
+			, api_res_msg	= #{apiResMsg}
 		where
 			master_seq = #{masterSeq}
     </update>
@@ -244,9 +250,54 @@
 			, ci				= #{ci}
 			, upd_timestamp 	= NOW()
 			, upd_seq 			= 0
+			, api_res_msg	= #{apiResMsg}
 		where
 			master_seq = #{masterSeq}
     </update>
+    
+    
+    <!-- 개인회원 계약정보변경 완료 --> 
+    <update id="updateCaseIndvMasInfo" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			upd_timestamp 			= NOW()
+			, upd_seq 				= 0
+			<if test="apiSuccessCode != null and apiSuccessCode != ''">
+				<if test="apiSuccessCode.equals('success')">
+					, pl_m_name 			= #{plMName}
+					, pl_cellphone			= #{plCellphone}
+					, upd_timestamp 		= NOW()
+					, upd_seq 				= 0
+					, pl_stat				= '9'
+					, pl_reg_stat			= '3'
+				</if>
+			</if>
+			, api_res_msg	= #{apiResMsg}
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
+    <!-- 법인회원 계약정보변경 완료 --> 
+    <update id="updateCaseCorpMasInfo" parameterType="newApply" >
+		update tb_lc_mas01
+		set
+			upd_timestamp 	= NOW()
+			, upd_seq 			= 0
+			<if test="apiSuccessCode != null and apiSuccessCode != ''">
+				<if test="apiSuccessCode.equals('success')">
+					, pl_ceo_name 		= #{plCeoName}
+					, pl_merchant_name	= #{plMerchantName}
+					, pl_m_z_id			= #{plMZId}
+					, ci				= #{ci}
+					, pl_stat			= '9'
+					, pl_reg_stat		= '3'
+				</if>
+			</if>
+			, api_res_msg	= #{apiResMsg}
+		where
+			master_seq = #{masterSeq}
+    </update>
+    
     
     <!-- 개인회원 회원정보 수정 --> 
     <update id="updateIndvUsersInfo" parameterType="newApply" >
@@ -303,13 +354,20 @@
     <update id="updateLcNum" parameterType="newApply" >
 		update tb_lc_mas01
 		set
-			pl_regist_no	= #{plRegistNo}
-			, con_num		= #{conNum}
-			, upd_timestamp = NOW()
+			upd_timestamp 	= NOW()
 			, upd_seq 		= 0
-			, pl_reg_stat	= '3'
-			, pl_stat		= '9'
-			, cre_license_date = TO_CHAR(NOW(), 'YYYYMMDD')
+			<if test="apiSuccessCode != null and apiSuccessCode != ''">
+				<if test="apiSuccessCode.equals('success')">
+					<if test="plRegistNo != null and plRegistNo != ''">
+						, pl_regist_no	= #{plRegistNo}
+						, con_num		= #{conNum}
+						, pl_reg_stat	= '3'
+						, pl_stat		= '9'
+						, cre_license_date = TO_CHAR(NOW(), 'YYYYMMDD')
+					</if>
+				</if>
+			</if>
+			, api_res_msg	= #{apiResMsg}
 		where
 			master_seq = #{masterSeq}
     </update>
@@ -319,17 +377,58 @@
     <update id="deletePreLcNum" parameterType="newApply" >
 		update tb_lc_mas01
 		set
-			pre_lc_num		= null
-			, upd_timestamp = NOW()
+			upd_timestamp = NOW()
 			, upd_seq 		= 0
+			<if test="apiSuccessCode != null and apiSuccessCode != ''">
+				<if test="apiSuccessCode.equals('success')">
+					, pre_lc_num		= null
+				</if>
+			</if>
+			, api_res_msg	= #{apiResMsg}
 		where
 			master_seq = #{masterSeq}
     </update>
     
+    <select id="selectReqCnt" parameterType="batch" resultType="int">
+    	SELECT
+    		COUNT(*)
+    	FROM
+    		tb_lc_schedule
+    	WHERE schedule_name = #{scheduleName}
+    	AND status != '2'
+    	AND property02 = #{property02}
+    </select>
     
+   	<!-- 개인정보 변경신청 테이블 상태 변경 -->
+	<update id="updateIndvReq" parameterType="users" >
+		UPDATE tb_lc_users_indv_req
+		SET
+			stat 				= '2'
+			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
+   			, upd_seq 			= #{regSeq}
+   			, upd_timestamp		= NOW()
+   		WHERE
+   			user_indv_req_seq	= #{userIndvReqSeq}
+   		AND user_seq 			= #{userSeq}
+	</update>
+	
+   	<!-- 법인정보 변경신청 테이블 상태 변경 -->
+	<update id="updateCorpReq" parameterType="users" >
+		UPDATE tb_lc_users_corp_req
+		SET
+			stat 				= '2'
+			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
+   			, upd_seq 			= #{regSeq}
+   			, upd_timestamp		= NOW()
+   		WHERE
+   			user_corp_req_seq	= #{userCorpReqSeq}
+   		AND user_seq 			= #{userSeq}
+	</update>
+
     <select id="selectAllBatchList" resultType="batch" >
 		select name as scheduleName from shedlock  
     </select>
+    
     <select id="selectBatchErrHistList" resultType="batch" >
 	    select 
 	    	<include refid="common.totalPages"/>
@@ -340,7 +439,8 @@
 		and start_time <![CDATA[>]]> (now() - interval'3 day')
 	    <include refid="common.pageBottom"/>
     </select>
-    <select id="selectBatchErrList" parameterType="batch"  resultType="batch" >
+
+	<select id="selectBatchErrList" parameterType="batch"  resultType="batch" >
     	SELECT
     	      schedule_seq
     		, schedule_name
@@ -357,6 +457,7 @@
     	WHERE schedule_name = #{scheduleName}
     	AND (status in ('3') OR (status in ('1') AND reg_time <![CDATA[<]]> (now() - interval'30 minute')))
     </select>
+    
     <update id="refreshBatch" parameterType="batch" >
 		update tb_lc_schedule
 		set
@@ -368,4 +469,5 @@
 		where
 			schedule_seq = #{scheduleSeq}
     </update>
+    
 </mapper>

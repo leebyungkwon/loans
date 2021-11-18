@@ -174,6 +174,10 @@ public class NewApplyDomain extends BaseDomain {
 	private String dis12;					// 대부업자
 	private String dis13;					// 다단계판매업자
 	
+	private String apiResMsg;				// API결과메세지
+	private String apiCode;					// API코드
+	private String apiSuccessCode;			// API결과코드
+	
 	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;

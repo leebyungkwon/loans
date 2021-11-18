@@ -140,6 +140,7 @@
 	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '11' limit 1) as dis11
 	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
 	   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
+	   			,TLM.API_RES_MSG
 		    FROM TB_LC_MAS01 TLM
 			<where>
 				AND TLM.USE_YN = 'Y'
@@ -393,6 +394,7 @@
 			,TLM.pl_stat_req_seq
 			,TLM.pl_stat_req_path
 			,TLM.USER_SEQ
+			,TLM.API_RES_MSG
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ 	= #{masterSeq}

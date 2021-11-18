@@ -980,6 +980,10 @@ public class NewRecruitService {
 		if("3".equals(recruitDomain.getPlRegStat()) && "9".equals(recruitDomain.getPlStat())) {
 			if("01".equals(statCheck.getPlProduct()) || "05".equals(statCheck.getPlProduct())) {
 				if(kfbApiApply) {
+					
+					// 배치에서 상태변경
+					recruitDomain.setPlStat("3");
+					
 					// 개인
 					if("1".equals(statCheck.getPlClass())) {
 						BatchDomain batchDomain = new BatchDomain();
@@ -995,7 +999,7 @@ public class NewRecruitService {
 						// 배열
 						jsonArrayParam.put("con_num", statCheck.getConNum());
 						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
-						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
+						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone().replaceAll("-", ""));
 						jsonArrayParam.put("fin_phone", "");
 						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 						

@@ -116,6 +116,10 @@ public class UsersDomain extends BaseDomain {
 	private int userCorpReqSeq;				// 법인정보변경 시퀀스
 	private String reqPlMerchantName;		// 정보변경 법인명
 	private String reqUserCi;				// 정보변경 CI
+	
+	private String apiResMsg;				// API결과메세지
+	private String apiCode;					// API코드
+	private String apiSuccessCode;			// API결과코드
 
 	
 }

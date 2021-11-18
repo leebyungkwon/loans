@@ -148,6 +148,10 @@ public class NewUserDomain extends BaseDomain {
 	private String originPayRegDate;
 	private String payRegDate;
 	
+	private String apiResMsg;				// API결과메세지
+	private String apiCode;					// API코드
+	private String apiSuccessCode;			// API결과코드
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

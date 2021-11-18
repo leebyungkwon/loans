@@ -1,7 +1,6 @@
 package com.loanscrefia.system.batch.service;
 
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.recruit.domain.NewRecruitDomain;
@@ -137,23 +135,29 @@ public class BatchService{
 		jsonParam.remove("master_seq");
 		preLoanDelParam.setParam(resultParam);
 		
+		NewApplyDomain preDelDomain = new NewApplyDomain();
+		preDelDomain.setMasterSeq(masterSeq);
+		
 		int cnt = 0;
 		try {
 			ResponseMsg delResult = apiService.excuteApi(preLoanDelParam);
 			if("success".equals(delResult.getCode())) {
-				NewApplyDomain preDelDomain = new NewApplyDomain();
-				preDelDomain.setMasterSeq(masterSeq);
-				batchRepository.deletePreLcNum(preDelDomain);
+				preDelDomain.setApiResMsg(delResult.getMessage());
+				preDelDomain.setApiSuccessCode(delResult.getCode());
 				req.setStatus("2");
 				cnt = 1;
 			}else {
 				// 가등록 삭제 실패
 				req.setStatus("3");
 				errorMessage = "가등록 삭제시 오류 발생 :: "+delResult.getCode();
+				preDelDomain.setApiResMsg(delResult.getMessage());
+				preDelDomain.setApiSuccessCode(delResult.getCode());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			req.setStatus("3");
+			preDelDomain.setApiResMsg(e.getMessage());
+			preDelDomain.setApiSuccessCode("fail");
 			if(StringUtils.isEmpty(errorMessage)) {
 				req.setError(e.getMessage());
 			}else {
@@ -161,6 +165,7 @@ public class BatchService{
 			}
 			
 		} finally {
+			batchRepository.deletePreLcNum(preDelDomain);
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
@@ -285,7 +290,7 @@ public class BatchService{
 	}
 	
 	
-	
+
 	
 	
 	// 2021-11-115 본등록
@@ -319,6 +324,11 @@ public class BatchService{
 		jsonParam.remove("master_seq");
 		loanParam.setParamJson(jsonParam);
 		
+		// 등록번호 update
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setMasterSeq(masterSeq);
+		String lcNum ="";
+		String conNum = "";
 		int cnt = 0;
 		try {
 			ResponseMsg regResult = apiService.excuteApi(loanParam);
@@ -331,8 +341,7 @@ public class BatchService{
 				String comCode = applyResult.getComCode();
 				String userLoanType = applyResult.getPlProduct();
 				
-				String lcNum ="";
-				String conNum = "";
+
 				JSONObject loanResponseJson = new JSONObject(regResult.getData().toString());
 				if("1".equals(plClass)) {
 					if(!loanResponseJson.isNull("lc_num")) {
@@ -368,13 +377,10 @@ public class BatchService{
 						break;
 					}
 				}
-				
-				// 등록번호 update
-				NewApplyDomain newApplyDomain = new NewApplyDomain();
 				newApplyDomain.setPlRegistNo(lcNum);
 				newApplyDomain.setConNum(conNum);
-				newApplyDomain.setMasterSeq(masterSeq);
-				batchRepository.updateLcNum(newApplyDomain);
+				newApplyDomain.setApiResMsg(regResult.getMessage());
+				newApplyDomain.setApiSuccessCode(regResult.getCode());
 				req.setStatus("2");
 				cnt = 1;
 				
@@ -382,10 +388,14 @@ public class BatchService{
 				// 본등록 실패
 				req.setStatus("3");
 				errorMessage = "본등록번호 생성시 오류 발생 :: "+regResult.getCode();
+				newApplyDomain.setApiResMsg(regResult.getMessage());
+				newApplyDomain.setApiSuccessCode("fail");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			req.setStatus("3");
+			newApplyDomain.setApiResMsg(e.getMessage());
+			newApplyDomain.setApiSuccessCode("fail");
 			if(StringUtils.isEmpty(errorMessage)) {
 				req.setError(e.getMessage());
 			}else {
@@ -393,6 +403,7 @@ public class BatchService{
 			}
 			
 		} finally {
+			batchRepository.updateLcNum(newApplyDomain);
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
@@ -432,6 +443,10 @@ public class BatchService{
 		jsonParam.remove("master_seq");
 		loanUpdParam.setParamJson(jsonParam);
 		String plClass = req.getProperty01();
+		String reqUserSeq = req.getProperty02();
+		String reqSeq = req.getProperty03();
+		
+		
 		if("1".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-consultants");
 			loanUpdParam.setApiName("indvLoanUpd");
@@ -452,12 +467,14 @@ public class BatchService{
 		}
 		
 		int cnt = 0;
+		
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setMasterSeq(masterSeq);
+		
 		try {
 			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
 			if("success".equals(updResult.getCode())) {
 				// 계약건별 수정된 데이터 추가
-				NewApplyDomain newApplyDomain = new NewApplyDomain();
-				newApplyDomain.setMasterSeq(masterSeq);
 				if("1".equals(plClass)) {
 					newApplyDomain.setPlMName(jsonParam.getString("name"));
 					// 연락처, 계약일 등 JSON배열
@@ -465,25 +482,24 @@ public class BatchService{
 					JSONArray conArr = jsonParam.getJSONArray("con_arr");
 					for(int i=0; i<conArr.length(); i++){
 						jsonObj = conArr.getJSONObject(i);
-						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile"));
+						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile").replaceAll("-", ""));
 					}
-					
-					batchRepository.updateIndvMasInfo(newApplyDomain);
 					
 					// 개인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
 					usersDomain.setUserName(jsonParam.getString("name"));
-					usersDomain.setMobileNo(jsonObj.getString("con_mobile"));
+					usersDomain.setMobileNo(jsonObj.getString("con_mobile").replaceAll("-", ""));
 					batchRepository.updateIndvUsersInfo(usersDomain);
 					
+					// 개인정보 수정 후 계약테이블MAS01 정보 수정
+					batchRepository.updateIndvMasInfo(newApplyDomain);
 					
 				}else {
 					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name"));
 					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name"));
 					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
 					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci"));
-					batchRepository.updateCorpMasInfo(newApplyDomain);
 					
 					// 법인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
@@ -502,18 +518,26 @@ public class BatchService{
 					
 				}
 				
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode(updResult.getCode());
 				req.setStatus("2");
 				cnt = 1;
 				
 			}else {
-				
 				// 통신오류
 				req.setStatus("3");
 				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode("fail");
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			req.setStatus("3");
+			
+			newApplyDomain.setApiResMsg(e.getMessage());
+			newApplyDomain.setApiSuccessCode("fail");
+			
 			if(StringUtils.isEmpty(errorMessage)) {
 				req.setError(e.getMessage());
 			}else {
@@ -521,6 +545,29 @@ public class BatchService{
 			}
 			
 		} finally {
+			if("1".equals(plClass)) {
+				batchRepository.updateIndvMasInfo(newApplyDomain);
+			}else {
+				batchRepository.updateCorpMasInfo(newApplyDomain);
+			}
+			
+			BatchDomain reqBatch = new BatchDomain();
+			reqBatch.setScheduleName("loanUpd");
+			reqBatch.setProperty02(reqUserSeq);
+			
+			// 스케쥴테이블에서 해당 seq가 마지막인 경우 req테이블 상태 변경
+			int reqCnt = batchRepository.selectReqCnt(reqBatch);
+			if(reqCnt == 0) {
+				UsersDomain reqResult = new UsersDomain();
+				if("1".equals(plClass)) {
+					reqResult.setUserIndvReqSeq(Integer.parseInt(reqSeq));
+					batchRepository.updateIndvReq(reqResult);
+				}else {
+					reqResult.setUserCorpReqSeq(Integer.parseInt(reqSeq));
+					batchRepository.updateCorpReq(reqResult);
+				}
+			}
+			
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
@@ -557,7 +604,6 @@ public class BatchService{
 			errorMessage = "모집인 계약 seq 파라미터 오류";
 			throw new Exception();
 		}
-
 		
 		// master_seq 추출 후 제거 
 		jsonParam.remove("user_seq");
@@ -584,12 +630,14 @@ public class BatchService{
 		}
 		
 		int cnt = 0;
+		
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setMasterSeq(masterSeq);
+		
 		try {
 			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
 			if("success".equals(updResult.getCode())) {
 				// 계약건별 수정된 데이터 추가
-				NewApplyDomain newApplyDomain = new NewApplyDomain();
-				newApplyDomain.setMasterSeq(masterSeq);
 				if("1".equals(plClass)) {
 					newApplyDomain.setPlMName(jsonParam.getString("name"));
 					// 연락처, 계약일 등 JSON배열
@@ -597,25 +645,21 @@ public class BatchService{
 					JSONArray conArr = jsonParam.getJSONArray("con_arr");
 					for(int i=0; i<conArr.length(); i++){
 						jsonObj = conArr.getJSONObject(i);
-						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile"));
+						newApplyDomain.setPlCellphone(jsonObj.getString("con_mobile").replaceAll("-", ""));
 					}
-					
-					batchRepository.updateIndvMasInfo(newApplyDomain);
 					
 					// 개인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
 					usersDomain.setUserName(jsonParam.getString("name"));
-					usersDomain.setMobileNo(jsonObj.getString("con_mobile"));
+					usersDomain.setMobileNo(jsonObj.getString("con_mobile").replaceAll("-", ""));
 					batchRepository.updateIndvUsersInfo(usersDomain);
-					
 					
 				}else {
 					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name"));
 					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name"));
 					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
 					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci"));
-					batchRepository.updateCorpMasInfo(newApplyDomain);
 					
 					// 법인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
@@ -634,6 +678,8 @@ public class BatchService{
 					
 				}
 				
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode(updResult.getCode());
 				req.setStatus("2");
 				cnt = 1;
 				
@@ -642,10 +688,14 @@ public class BatchService{
 				// 통신오류
 				req.setStatus("3");
 				errorMessage = "정보수정API 오류 발생 :: "+updResult.getCode();
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode("fail");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			req.setStatus("3");
+			newApplyDomain.setApiResMsg(e.getMessage());
+			newApplyDomain.setApiSuccessCode("fail");
 			if(StringUtils.isEmpty(errorMessage)) {
 				req.setError(e.getMessage());
 			}else {
@@ -653,6 +703,11 @@ public class BatchService{
 			}
 			
 		} finally {
+			if("1".equals(plClass)) {
+				batchRepository.updateCaseIndvMasInfo(newApplyDomain);
+			}else {
+				batchRepository.updateCaseCorpMasInfo(newApplyDomain);
+			}
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
@@ -685,7 +740,7 @@ public class BatchService{
 			// 배열
 			jsonArrayParam.put("con_num", drop.getConNum());
 			jsonArrayParam.put("con_date", drop.getComContDate().replaceAll("-", ""));
-			jsonArrayParam.put("con_mobile", drop.getPlCellphone());
+			jsonArrayParam.put("con_mobile", drop.getPlCellphone().replaceAll("-", ""));
 			jsonArrayParam.put("fin_phone", "");
 			jsonArrayParam.put("loan_type", drop.getPlProduct());
 			jsonArrayParam.put("cancel_date", drop.getCreHaejiDate().replaceAll("-", ""));
@@ -730,17 +785,23 @@ public class BatchService{
 			ResponseMsg dropResult = apiService.excuteApi(dropParam);
 			if("success".equals(dropResult.getCode())) {
 				// 해지완료 후 상태변경
-				batchRepository.updateDropApply(drop);
+				drop.setApiResMsg(dropResult.getMessage());
+				drop.setApiSuccessCode(dropResult.getCode());
 				req.setStatus("2");
 				cnt = 1;
 			}else {
 				// 해지API발송 실패
 				req.setStatus("3");
 				errorMessage = "해지완료 오류 발생 :: "+dropResult.getCode();
+				drop.setApiResMsg(dropResult.getMessage());
+				drop.setApiSuccessCode("fail");
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			req.setStatus("3");
+			drop.setApiResMsg(e.getMessage());
+			drop.setApiSuccessCode("fail");
 			if(StringUtils.isEmpty(errorMessage)) {
 				req.setError(e.getMessage());
 			}else {
@@ -748,6 +809,7 @@ public class BatchService{
 			}
 			
 		} finally {
+			batchRepository.updateDropApply(drop);
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
@@ -888,6 +950,8 @@ public class BatchService{
 	public List<BatchDomain> selectBatchErrHistList(BatchDomain batch) {
 		return batchRepository.selectBatchErrHistList(batch);
 	}
+	
+	
 	@Transactional
 	public ResponseMsg refreshBatch(BatchDomain batch){
 		int result = batchRepository.refreshBatch(batch);

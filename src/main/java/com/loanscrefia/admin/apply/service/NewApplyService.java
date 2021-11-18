@@ -1185,7 +1185,6 @@ public class NewApplyService {
 						batchService.insertBatchPlanInfo(batchDomain);
 						// 상태변경 -> 결제완료 -> 자격취득
 						apiCheck = true;
-						newApplyDomain.setPlRegStat("3");
 						smsDomain.setTranMsg("기등록자");
 						
 					}else {
@@ -1193,7 +1192,6 @@ public class NewApplyService {
 						apiCheck = true;
 						newApplyDomain.setPlRegStat("2");
 						newApplyDomain.setPlStat("9");
-						
 						smsDomain.setTranMsg("최초등록자");
 					}
 				}else {
@@ -1220,7 +1218,6 @@ public class NewApplyService {
 							batchService.insertBatchPlanInfo(batchDomain);
 							// 상태변경 -> 결제완료 -> 자격취득
 							apiCheck = true;
-							newApplyDomain.setPlRegStat("3");
 							smsDomain.setTranMsg("기등록자");
 							
 						}else {
