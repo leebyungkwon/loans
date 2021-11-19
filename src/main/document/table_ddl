@@ -370,7 +370,7 @@ create table tb_lc_mas01_imwon(
 	, user_seq integer
 	, career_typ char(1)
 	, position_nm varchar(20)
-	, exc_name varchar(20)
+	, exc_name varchar(50)
 	, pl_m_z_id varchar(100)
 	, pl_edu_no varchar(30)
 	, career_start_date varchar(8)
@@ -432,7 +432,7 @@ create table tb_lc_mas01_expert(
 	exp_seq integer not null default nextval('tb_lc_mas01_expert_seq')
 	, master_seq integer not null
 	, career_typ char(1)
-	, exp_name varchar(20)
+	, exp_name varchar(50)
 	, pl_m_z_id varchar(100)
 	, pl_edu_no varchar(30)
 	, career_start_date varchar(8)
@@ -482,7 +482,7 @@ commit;
 create table tb_lc_mas01_it(
 	oper_seq integer not null default nextval('tb_lc_mas01_it_seq')
 	, master_seq integer not null
-	, oper_name varchar(20)
+	, oper_name varchar(50)
 	, pl_m_z_id varchar(100)
 	, file_seq integer
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
