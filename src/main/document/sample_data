@@ -561,6 +561,7 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('DSQ002','10','부실금융기관 이력','부실금융기관',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('DSQ002','11','영업 취소 이력','영업 취소 이력',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('DSQ002','12','대부업자 여부','대부업자 여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
+	 ('DSQ002','13','다단계판매업자 여부','다단계판매업자 여부',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('CHG001','1','요청중','요청중',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('CHG001','2','승인','승인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('CHG001','3','거절','거절',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
