@@ -460,8 +460,12 @@
        		, error
     	FROM
     		tb_lc_schedule
-    	WHERE schedule_name = #{scheduleName}
-    	AND (status in ('3') OR (status in ('1') AND reg_time <![CDATA[<]]> (now() - interval'30 minute')))
+    	WHERE 
+    	(status in ('3') OR (status in ('1') AND reg_time <![CDATA[<]]> (now() - interval'30 minute')))
+		<if test="scheduleName != null and scheduleName != ''">
+			AND schedule_name = #{scheduleName}
+		</if>
+    	
     </select>
     
     <update id="refreshBatch" parameterType="batch" >

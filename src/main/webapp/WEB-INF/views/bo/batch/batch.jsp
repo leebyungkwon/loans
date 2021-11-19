@@ -94,6 +94,7 @@ function updateBatch(idx, data){
 	</div>
 	<div class="top_box">
 		<div class="info_box k_search" style="height: auto;overflow: hidden;">
+		<a href="javascript:setBatchList('')" class="btn_in">전체</a>
 		<c:forEach var="list" items="${batchList}">
 			<a href="javascript:setBatchList('${list.scheduleName}')" class="btn_in">${list.scheduleName}</a>
 		</c:forEach>
