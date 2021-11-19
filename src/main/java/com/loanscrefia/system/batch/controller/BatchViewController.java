@@ -46,6 +46,7 @@ public class BatchViewController {
 	@PostMapping("/batch/refreshBatch")
 	public ResponseEntity<ResponseMsg> refreshBatch(BatchDomain batch) {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+		batch.setParam(batch.getParam().replaceAll("&quot;", "\""));
     	responseMsg.setData(batchService.refreshBatch(batch));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
