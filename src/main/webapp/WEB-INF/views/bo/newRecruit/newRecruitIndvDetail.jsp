@@ -435,6 +435,7 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				</c:if>
 				<tr>
 					<th class="acenter">위탁계약서</th>
 					<td>
@@ -468,7 +469,6 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
-				</c:if>
 			</table>
 		</div>
 		<div class="btn_wrap">

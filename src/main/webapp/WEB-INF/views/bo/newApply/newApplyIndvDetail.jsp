@@ -519,8 +519,7 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
-				
-				
+				</c:if>
 				<tr>
 					<td class="acenter">위탁 금융상품직접판매업자 확인서</td>
 					<td>
@@ -548,7 +547,6 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
-				</c:if>
 			</table>
 		</div>
 		<div class="btn_wrap">
