@@ -80,6 +80,17 @@ language 'plpgsql';
 
 
 
+-- 유저seq로 회원명 추출 
+CREATE OR REPLACE FUNCTION fn_user_name(u_seq INTEGER)
+returns VARCHAR(50) as $$
+declare nm VARCHAR(50);
+begin
+	select into nm user_name
+	from tb_lc_users
+	where user_seq = u_seq;
+	return nm;
+end; $$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+language 'plpgsql';
 
 
 

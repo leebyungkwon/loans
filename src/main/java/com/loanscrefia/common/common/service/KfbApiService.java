@@ -730,6 +730,8 @@ public class KfbApiService {
         
 		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
+	
+	
 	//가등록 : POST(가등록 처리),GET(가등록 조회),DELETE(가등록 취소)
 	public ResponseMsg preLoanIndv(String authToken, JSONObject reqParam, String method) throws IOException {
 			
@@ -2020,4 +2022,224 @@ public class KfbApiService {
 		}
 	    return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public ResponseMsg vioSearch(String authToken, JSONObject reqParam, String apiNm, String methodType) throws IOException {
+		
+        String successCheck 	= "fail";
+        String message 			= "";
+        JSONObject responseJson = new JSONObject();
+        int TIMEOUT_VALUE = 3000;		// 3초
+        HttpURLConnection conn = null;
+        BufferedReader br = null;
+        
+		int responseCode = 0;
+		boolean apiCheck = false; 
+        String resCode = "000";
+        String resMsg = "res_msg :: null";
+        String resExpMsg = "";
+		
+		KfbApiDomain newLogParam = new KfbApiDomain();
+		int apiKey = 0;
+        
+        if(authToken == null && !"healthCheck".equals(authToken)) {
+        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : 토큰을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
+        }else if(apiNm == null) {
+        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : API명을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
+        }else if(methodType == null) {
+        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API오류 : method형식을 확인해 주세요.\n시스템관리자에게 문의해 주세요.");
+        }
+        
+        log.error("########m 시작 1111111  ::  commonKfbApi()");
+        
+	    try {
+			String connUrl 	= apiNm;
+			String param 	= "";
+			
+			//파라미터 설정
+			if(methodType.equals("GET") || methodType.equals("DELETE")) {
+				param = "?ssn="+reqParam.getString("ssn");
+				connUrl = connUrl + param;
+			}
+	    	
+			
+			log.error("########m 시작 2  ::  commonKfbApi()");
+			
+	        //URL 설정
+	        URL url 				= new URL(connUrl);
+	        conn 	= (HttpURLConnection)url.openConnection();
+	        
+	        
+	        log.error("########m 시작 3  ::  commonKfbApi()");
+	        
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
+	        
+	        conn.setRequestMethod(methodType);
+			conn.setRequestProperty("Content-Type", "application/json"); //요청
+			conn.setRequestProperty("Accept", "application/json"); //응답
+			conn.setRequestProperty("Authorization", "Bearer "+authToken);
+			
+	        if(methodType.equals("POST") || methodType.equals("PUT")) {
+	        	conn.setDoOutput(true);
+		        if(reqParam != null) {
+		        	
+		        	log.error("########m 시작 3 - 1  ::  commonKfbApi()");
+			        //요청 데이터 전송
+					OutputStream os = null;
+					os = conn.getOutputStream(); 
+					os.write(reqParam.toString().getBytes("utf-8")); 
+					os.flush();
+					os.close();
+		        }
+	        }
+	        log.error("########m 시작 4 ::  commonKfbApi()");
+	        
+	        //요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken(authToken);
+	        logParam.setUrl("HTTP Method [" + methodType + "] ::" +connUrl);
+	        if(reqParam != null) {
+	        	logParam.setSendData(reqParam.toString());
+	        }
+	        this.insertKfbApiReqLog(logParam);
+	        
+	        
+	        
+			// 2021-10-05 api_log 생성
+	        newLogParam.setToken(authToken);
+	        newLogParam.setUrl("HTTP Method [" + methodType + "] ::" +connUrl);
+	        if(reqParam != null) {
+	        	newLogParam.setSendData(reqParam.toString());
+	        }
+            apiKey = this.insertNewKfbApiLog(newLogParam);
+	        
+	        
+	        //요청 결과
+	        responseCode = conn.getResponseCode();
+	        log.error("########m 시작 6  ::  commonKfbApi()");
+	        if(responseCode == 200) {
+	        	apiCheck = true;
+	        	log.error("########m 시작 7  ::  commonKfbApi()");
+	        	br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+	        	log.error("########m 시작 7-1  ::  commonKfbApi()");
+	        	StringBuilder sb 	= new StringBuilder();
+	        	
+	        	String line 		= "";
+	        	log.error("########m 시작 7-1 a  ::  " );
+	        	
+	            while((line = br.readLine()) != null) {
+		        	log.error("########m 시작 7-2  ::  "+line);
+	            	sb.append(line);
+	            }
+	            
+	            br.close();
+	            
+	            log.error("########m 시작 8  ::  commonKfbApi()");
+	            responseJson = new JSONObject(sb.toString());
+	            log.error("########m 시작 8-1  ::  commonKfbApi() " + responseJson.toString());
+	            if(!responseJson.isNull("res_code")) {
+	            	resCode = responseJson.getString("res_code");
+	            }
+	            
+	            if(!responseJson.isNull("res_msg")) {
+	            	resMsg = responseJson.getString("res_msg");
+	            }
+	            
+	            //응답 이력 저장
+	            logParam.setResCode(resCode);
+	            logParam.setResMsg(resMsg);
+	            logParam.setResData(responseJson.toString());
+	            
+	            log.error("########m 시작 9  ::  commonKfbApi()");
+	            
+	            this.insertKfbApiResLog(logParam);
+	            conn.disconnect();
+
+	            //결과
+	            if(resCode.equals("200")) {
+	            	//successCheck
+	            	successCheck = "success";
+	            }
+	            
+	            log.error("########m 시작 10  ::  commonKfbApi()");
+	            
+	            return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, responseJson.getString("res_msg"));
+	        }else {
+				apiCheck = false;
+				message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+				resExpMsg = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+	            log.error("########m error 1-1  ::  commonKfbApi()");
+	        	// 통신오류 - 응답 이력 저장
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg("HTTP Method [" + methodType + "] :: commonKfbApi() 메소드 확인 필요");
+	            logParam.setResData("empty");
+	            this.insertKfbApiResLog(logParam);
+	            conn.disconnect();
+	        	return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, "API통신오류 : 시스템관리자에게 문의해 주세요.");
+	        }
+	        
+	    } catch (MalformedURLException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
+	    	log.error("########m MalformedURLException  ::  commonKfbApi()");
+	    	log.error(e.getMessage());
+	    	message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+	        e.printStackTrace();
+	    } catch (IOException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
+	    	log.error("########m IOException   ::  commonKfbApi()");
+	    	log.error(e.getMessage());
+	    	log.error(e.toString());
+	    	message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+	        e.printStackTrace();
+	    } catch (JSONException e) {
+			apiCheck = false;
+			resExpMsg = e.getMessage();
+	    	log.error("########m JSONException   ::  commonKfbApi()");
+	    	log.error(e.getMessage());
+	    	message = "API통신오류 : 시스템관리자에게 문의해 주세요.";
+	        e.printStackTrace();
+	    } finally {
+	    	
+            // 2021-10-05 api_log 생성
+            newLogParam.setApiSeq(apiKey);
+            if(apiCheck == true) {
+            	newLogParam.setResYn("Y");
+            }else {
+            	newLogParam.setResYn("N");
+            	newLogParam.setResExpMsg(resExpMsg);
+            }
+            newLogParam.setResConCode(responseCode);
+            newLogParam.setResCode(resCode);
+            newLogParam.setResMsg(resMsg);
+            newLogParam.setResData(responseJson.toString());
+            this.updateNewKfbApiLog(newLogParam);
+			
+			// 2021-10-05 disconnect 강제 종료 실행
+			if(conn != null) {
+				conn.disconnect();
+			}
+			conn = null;
+			
+			// 2021-10-05 BufferedReader 강제 종료 실행
+			if(br != null) {
+				br.close();
+			}
+			br = null;
+		}
+	    return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
+	}
+	
 }

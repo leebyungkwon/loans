@@ -893,12 +893,10 @@ public class NewUserService {
 			smsDomain.setTranCallback("0220110700");
 			smsDomain.setTranPhone(userRegInfo.getPlCellphone());
 			smsDomain.setTranStatus("1");
-			/*
+			
 			String smsMsg = "";
-			smsMsg += loginInfo.getComCodeNm()+"로부터 "+userRegInfo.getPlMName()+"님의 대출/리스할부 상품 판매대리·중개업자 등록 해지신청이 접수되었습니다.";
-			smsMsg += " 이의가 있으신 경우 "+loginInfo.getComCodeNm()+"로 연락하시기 바라며, 이의가 없는 경우 신청일로부터 3일 뒤 00시에 자동 해지처리됩니다.";
+			smsMsg += loginInfo.getComCodeNm()+" 로부터 "+userRegInfo.getPlMName()+"님의 대출성상품 모집인 등록 해지신청이 접수되었습니다.";
 			smsDomain.setTranMsg(smsMsg);
-			*/
 			
 			String msg = "해지신청이 접수되었습니다. 이의가 있으신 경우 "+loginInfo.getComCodeNm()+"로 연락하시기 바라며, 이의가 없는 경우 신청일로부터 3일 뒤 00시에 자동 해지처리됩니다.";
 			

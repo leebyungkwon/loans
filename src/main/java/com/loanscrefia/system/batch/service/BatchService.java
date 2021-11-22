@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ import com.loanscrefia.admin.recruit.repository.NewRecruitRepository;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.ApiService;
+import com.loanscrefia.common.common.sms.domain.SmsDomain;
+import com.loanscrefia.common.common.sms.repository.SmsRepository;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.system.batch.domain.BatchDomain;
@@ -40,6 +43,13 @@ public class BatchService{
 	@Autowired
 	private NewApplyRepository newApplyRepository;
 	
+	@Autowired
+	private SmsRepository smsRepository;
+	
+	//SMS 적용여부
+	@Value("${sms.apply}")
+	public boolean smsApply;
+	
 
 	@Transactional
 	public int recruitReg(BatchDomain req) {
@@ -48,7 +58,6 @@ public class BatchService{
 		//schedule 시작 이력저장
 		try {
 			//필요정보 호출하여 param 만들기
-			
 			
 			//api 호출
 			ResponseMsg result = apiService.excuteApi(param);
@@ -384,6 +393,19 @@ public class BatchService{
 				req.setStatus("2");
 				cnt = 1;
 				
+				
+				// 본등록에 대한 메세지 발송
+				int smsResult = 0;
+				SmsDomain smsDomain = new SmsDomain();
+				smsDomain.setTranCallback("0220110700");
+				smsDomain.setTranStatus("1");
+				smsDomain.setTranEtc1("10070");
+				smsDomain.setTranPhone(applyResult.getPlCellphone().replaceAll("-", ""));
+				String tranMsg = applyResult.getUserName()+"님의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
+				smsDomain.setTranMsg(tranMsg);
+				
+				smsResult = smsRepository.sendSms(smsDomain);
+				
 			}else {
 				// 본등록 실패
 				req.setStatus("3");
@@ -570,20 +592,9 @@ public class BatchService{
 			errorMessage = "모집인 seq 파라미터 오류";
 			throw new Exception();
 		}
-		
-		int masterSeq = 0;
-		if(!jsonParam.isNull("master_seq")) {
-			masterSeq = jsonParam.getInt("master_seq");
-		}else {
-			req.setStatus("3");
-			req.setError("모집인 계약 seq 파라미터 오류");
-			errorMessage = "모집인 계약 seq 파라미터 오류";
-			throw new Exception();
-		}
 
 		// master_seq 추출 후 제거 
 		jsonParam.remove("user_seq");
-		jsonParam.remove("master_seq");
 		
 		String plClass = req.getProperty01();
 		String reqUserSeq = req.getProperty02();
@@ -605,7 +616,8 @@ public class BatchService{
 		int cnt = 0;
 		
 		NewApplyDomain newApplyDomain = new NewApplyDomain();
-		newApplyDomain.setMasterSeq(masterSeq);
+		newApplyDomain.setUserSeq(userSeq);
+		newApplyDomain.setPlClass(plClass);
 		
 		try {
 			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);

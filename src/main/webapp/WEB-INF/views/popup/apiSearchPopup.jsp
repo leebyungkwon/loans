@@ -74,6 +74,15 @@
 					</td>
 				</tr>
 				<tr>
+					<th>금융회사코드</th>
+					<td>${searchResultList.finCode }</td>
+				</tr>
+				<tr>
+					<th>금융회사코드명</th>
+					<td>${searchResultList.finName }</td>
+				</tr>
+				
+				<tr>
 					<th>계약번호</th>
 					<td>${searchResultList.conNum }</td>
 				</tr>

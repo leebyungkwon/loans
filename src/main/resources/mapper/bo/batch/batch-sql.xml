@@ -272,8 +272,6 @@
 				<if test="apiSuccessCode.equals('success')">
 					, pl_m_name 			= #{plMName}
 					, pl_cellphone			= #{plCellphone}
-					, upd_timestamp 		= NOW()
-					, upd_seq 				= 0
 					, pl_stat				= '9'
 					, pl_reg_stat			= '3'
 				</if>
@@ -499,7 +497,10 @@
 			, ci			= #{ci}
 			, pl_m_z_id		= #{plMZId}
 		where
-			master_seq = #{masterSeq}
+			user_seq = #{userSeq}
+   		AND PL_REG_STAT = '3'
+   		AND PL_STAT = '9'
+   		AND PL_CLASS = #{plClass}
     </update>
     
     <!-- 개인정보수정 및 주민등록번호 수정 완료 카운트 -->

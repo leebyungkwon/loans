@@ -26,6 +26,11 @@ public class SearchResultDomain extends BaseDomain {
 	private String loanType;						// 대출모집인유형코드(취급상품 01:대출, 05:리스, 03:TM대출, 06:TM대출)
 	private String cancelDate;						// 해지일 
 	private String cancelCode;						// 해지코드
-	
+
+	private String vioFinCode;						// 위반이력 - 금융기관코드
+	private String vioFinCodeNm;					// 위반이력 - 금융기관코드명
+	private String vioDate;							// 위반이력 - 위반일
+	private String vioCode;							// 위반이력 - 위반코드
+	private String vioCodeNm;						// 위반이력 - 위반코드명
 	
 }

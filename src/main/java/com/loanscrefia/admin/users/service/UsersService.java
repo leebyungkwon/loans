@@ -28,6 +28,8 @@ import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.email.repository.EmailRepository;
+import com.loanscrefia.common.common.sms.domain.SmsDomain;
+import com.loanscrefia.common.common.sms.repository.SmsRepository;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.system.batch.domain.BatchDomain;
@@ -49,6 +51,9 @@ public class UsersService {
 	@Autowired
 	private EmailRepository emailRepository;
 	
+	@Autowired
+	private SmsRepository smsRepository;
+	
 	//이메일 적용여부
 	@Value("${email.apply}")
 	public boolean emailApply;
@@ -56,6 +61,10 @@ public class UsersService {
 	//암호화 적용여부
 	@Value("${crypto.apply}")
 	public boolean cryptoApply;
+	
+	//SMS 적용여부
+	@Value("${sms.apply}")
+	public boolean smsApply;
 	
 	@Autowired private UtilFile utilFile;
 	@Autowired private UtilExcel<T> utilExcel;
@@ -674,22 +683,45 @@ public class UsersService {
 	public ResponseMsg updateIndvUsersStat(UsersDomain usersDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
 		
+		// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setUserSeq(usersDomain.getUserSeq());
+		
+		// 등록자로 모든 계약건 조회
+		List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
+		
+		// 수정되여야할 개인정보
+		UsersDomain usersResult = usersRepository.getUpdateIndvUsersDetail(usersDomain);
+		
 		if("2".equals(usersDomain.getStat())) {
-			// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
-			NewApplyDomain newApplyDomain = new NewApplyDomain();
-			newApplyDomain.setUserSeq(usersDomain.getUserSeq());
-			
-			// 등록자로 모든 계약건 조회
-			List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
-			
-			// 수정되여야할 개인정보
-			UsersDomain usersResult = usersRepository.getUpdateIndvUsersDetail(usersDomain);
+
 			String userName = usersResult.getReqUserName();
 			String mobileNo = usersResult.getReqMobileNo();
 			String ssn = usersResult.getReqPlMZId();
-			String userCi = usersResult.getReqUserCi();
+			
+			//String userCi = usersResult.getReqUserCi();
+			String userCi = usersResult.getUserCi();
 			
 			if(resultList.size() > 0) {
+				
+				// 주민등록번호 변경 배치 insert 시작
+				JSONObject ssnJsonParam = new JSONObject();
+				if(StringUtils.isNotEmpty(ssn)) {
+					ssnJsonParam.put("user_seq", usersResult.getUserSeq());
+					ssnJsonParam.put("bef_ssn", usersResult.getPlMZId());
+					ssnJsonParam.put("aft_ssn", ssn);
+					ssnJsonParam.put("aft_ci", userCi);
+					
+					BatchDomain ssnBatchDomain = new BatchDomain();
+					ssnBatchDomain.setScheduleName("loanSsnUpd");
+					ssnBatchDomain.setParam(ssnJsonParam.toString());
+					ssnBatchDomain.setProperty01("1"); 													// 개인,법인 구분값
+					ssnBatchDomain.setProperty02(Integer.toString(usersResult.getUserSeq())); 			// 마지막 결과값 변경시에 사용될 user_seq
+					ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+					ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
+					batchRepository.insertBatchPlanInfo(ssnBatchDomain);
+				}
+				
 				for(NewApplyDomain result : resultList) {
 					//배치 테이블 저장
 					BatchDomain batchDomain = new BatchDomain();
@@ -725,45 +757,38 @@ public class UsersService {
 					batchDomain.setProperty03(Integer.toString(usersDomain.getUserIndvReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
 					
 					batchRepository.insertBatchPlanInfo(batchDomain);
-					
-					
-					
-					// 주민등록번호 변경시 배치 추가 등록
-					JSONObject ssnJsonParam = new JSONObject();
-					if(StringUtils.isNotEmpty(ssn)) {
-						ssnJsonParam.put("bef_ssn", result.getPlMZId());
-						ssnJsonParam.put("aft_ssn", ssn);
-						if(StringUtils.isEmpty(userCi)) {
-							ssnJsonParam.put("aft_ci", result.getCi());
-						}else {
-							ssnJsonParam.put("aft_ci", userCi);
-						}
-					
-						BatchDomain ssnBatchDomain = new BatchDomain();
-						ssnBatchDomain.setScheduleName("loanSsnUpd");
-						ssnBatchDomain.setParam(ssnJsonParam.toString());
-						ssnBatchDomain.setProperty01("1"); 													// 개인,법인 구분값
-						ssnBatchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
-						ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
-						ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
-						batchRepository.insertBatchPlanInfo(ssnBatchDomain);
-					}
-					
-					
+					usersDomain.setStat("1");
 					
 				}
-			}
-			
-			// 주민등록번호 수정시 
-			String plMZId = usersResult.getReqPlMZId();
-			if(StringUtils.isEmpty(plMZId)) {
-				// 주민등록번호 변경 배치 insert 시작
+			}else {
 				
+				// 정보변경 할 계약건이 없는 경우
+				int updResult = usersRepository.updateIndvUsersStat(usersDomain);
+				// user정보 update
+				int updInfoResult = usersRepository.updateIndvUsersApplyInfo(usersResult);
+				
+				if(updResult > 0 && updInfoResult > 0) {
+					return responseMsg;
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+				}
 			}
+
 			
 		}else if("3".equals(usersDomain.getStat())) {
-			// 정보변경 거절 -> email, 문자발송????
 			
+			// 정보변경 거절에 대한 메세지 발송
+			int smsResult = 0;
+			SmsDomain smsDomain = new SmsDomain();
+			smsDomain.setTranCallback("0220110700");
+			smsDomain.setTranStatus("1");
+			smsDomain.setTranEtc1("10070");
+			smsDomain.setTranPhone(usersResult.getMobileNo());
+			String tranMsg = "";
+			tranMsg+= usersResult.getUserName()+"님의 개인정보 변경이 거절되었습니다.";
+			smsDomain.setTranMsg(tranMsg);
+			
+			smsResult = smsRepository.sendSms(smsDomain);
 			
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
@@ -886,24 +911,45 @@ public class UsersService {
 	@Transactional
 	public ResponseMsg updateCorpUsersStat(UsersDomain usersDomain){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setUserSeq(usersDomain.getUserSeq());
+		
+		// 등록자로 모든 계약건 조회
+		List<NewApplyDomain> resultList = usersRepository.selectUserSeqCorpList(newApplyDomain);
+		
+		// 수정되여야할 개인정보
+		UsersDomain usersResult = usersRepository.getUpdateCorpUsersDetail(usersDomain);
+		
 		if("2".equals(usersDomain.getStat())) {
 			// 정보변경 승인 -> API발송을 위한 배치 테이블 insert
-			NewApplyDomain newApplyDomain = new NewApplyDomain();
-			newApplyDomain.setUserSeq(usersDomain.getUserSeq());
-			
-			// 등록자로 모든 계약건 조회
-			List<NewApplyDomain> resultList = usersRepository.selectUserSeqCorpList(newApplyDomain);
-			
-			// 수정되여야할 개인정보
-			UsersDomain usersResult = usersRepository.getUpdateCorpUsersDetail(usersDomain);
 			String plMerchantName = usersResult.getReqPlMerchantName();
 			String userName = usersResult.getReqUserName();
 			// 주민등록번호 수정시 
 			String ssn = usersResult.getReqPlMZId();
 			String mobileNo = usersResult.getReqMobileNo();
-			String userCi = usersResult.getReqUserCi();
+			//String userCi = usersResult.getReqUserCi();
+			String userCi = usersResult.getUserCi();
 			
 			if(resultList.size() > 0) {
+				
+				JSONObject ssnJsonParam = new JSONObject();
+				if(StringUtils.isNotEmpty(ssn)) {
+					ssnJsonParam.put("user_seq", usersResult.getUserSeq());
+					ssnJsonParam.put("bef_ssn", usersResult.getPlMZId());
+					ssnJsonParam.put("aft_ssn", ssn);
+					ssnJsonParam.put("aft_ci", userCi);
+				
+					BatchDomain ssnBatchDomain = new BatchDomain();
+					ssnBatchDomain.setScheduleName("loanSsnUpd");
+					ssnBatchDomain.setParam(ssnJsonParam.toString());
+					ssnBatchDomain.setProperty01("2"); 													//개인,법인 구분값
+					ssnBatchDomain.setProperty02(Integer.toString(usersResult.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+					ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+					ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
+					batchRepository.insertBatchPlanInfo(ssnBatchDomain);
+				}
+				
 				for(NewApplyDomain result : resultList) {
 					//배치 테이블 저장
 					BatchDomain batchDomain = new BatchDomain();
@@ -946,34 +992,40 @@ public class UsersService {
 					batchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
 					batchRepository.insertBatchPlanInfo(batchDomain);
 					
-					// 주민등록번호 변경시 배치 추가 등록
-					JSONObject ssnJsonParam = new JSONObject();
-					if(StringUtils.isNotEmpty(ssn)) {
-						ssnJsonParam.put("user_seq", result.getUserSeq());
-						ssnJsonParam.put("master_seq", result.getMasterSeq());
-						ssnJsonParam.put("bef_ssn", result.getPlMZId());
-						ssnJsonParam.put("aft_ssn", ssn);
-						if(StringUtils.isEmpty(userCi)) {
-							ssnJsonParam.put("aft_ci", result.getCi());
-						}else {
-							ssnJsonParam.put("aft_ci", userCi);
-						}
-					
-						BatchDomain ssnBatchDomain = new BatchDomain();
-						ssnBatchDomain.setScheduleName("loanSsnUpd");
-						ssnBatchDomain.setParam(ssnJsonParam.toString());
-						ssnBatchDomain.setProperty01("2"); 													//개인,법인 구분값
-						ssnBatchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
-						ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
-						ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
-						batchRepository.insertBatchPlanInfo(ssnBatchDomain);
-					}
+
 				}
+			}else {
+				
+				// 정보변경 할 계약건이 없는 경우
+				int updResult = usersRepository.updateCorpUsersStat(usersDomain);
+				// user정보 update
+				int updInfoResult = usersRepository.updateCorpUsersApplyInfo(usersResult);
+				
+				int updCorpResult = usersRepository.updateCorpApplyInfo(usersResult);
+				
+				if(updResult > 0 && updInfoResult > 0) {
+					return responseMsg;
+				}else {
+					return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+				}
+				
+				
 			}
 			
 		}else if("3".equals(usersDomain.getStat())) {
-			// 정보변경 거절 -> email, 문자발송????
 			
+			// 정보변경 거절에 대한 메세지 발송
+			int smsResult = 0;
+			SmsDomain smsDomain = new SmsDomain();
+			smsDomain.setTranCallback("0220110700");
+			smsDomain.setTranStatus("1");
+			smsDomain.setTranEtc1("10070");
+			smsDomain.setTranPhone(usersResult.getMobileNo());
+			String tranMsg = "";
+			tranMsg+= usersResult.getUserName()+"님의 개인정보 변경이 거절되었습니다.";
+			smsDomain.setTranMsg(tranMsg);
+			
+			smsResult = smsRepository.sendSms(smsDomain);
 			
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");

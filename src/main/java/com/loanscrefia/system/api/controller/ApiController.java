@@ -895,6 +895,62 @@ public class ApiController {
     }
 	
 	
+	//위반이력 조회 팝업
+	@GetMapping("/api/vioSearchPopup")
+    public ModelAndView vioSearchPopup(RecruitDomain recruitSearchDomain) throws IOException {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+    	ModelAndView mv = new ModelAndView(CosntPage.Popup+"/vioSearchPopup");
+    	
+		KfbApiDomain kfbApiDomain = new KfbApiDomain();
+		String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
+		JSONObject vioParam = new JSONObject();
+		
+		vioParam.put("ssn", recruitSearchDomain.getPlMZId());
+		
+		responseMsg = kfbApiService.vioSearch(apiKey, vioParam, KfbApiService.ApiDomain+KfbApiService.ViolationUrl, "GET");
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			RecruitDomain recruitDomain = new RecruitDomain();
+			JSONObject jsonObj = new JSONObject();
+			List<SearchResultDomain> searchResult = new ArrayList<SearchResultDomain>();
+			
+			if(!responseJson.isNull("vio_arr")) {
+				JSONArray conArr = responseJson.getJSONArray("vio_arr");
+				if(conArr.length() > 0) {
+					for(int i=0; i<conArr.length(); i++){
+						jsonObj = conArr.getJSONObject(i);
+						SearchResultDomain searchResultDomain = new SearchResultDomain();
+						
+						// 가등록시 등록번호 분기처리 확인
+						if(!jsonObj.isNull("vio_fin_code")) {
+							searchResultDomain.setVioFinCode(jsonObj.getString("vio_fin_code"));
+						}
+						if(!jsonObj.isNull("vio_date")) {
+							searchResultDomain.setVioDate(jsonObj.getString("vio_date"));
+						}
+						if(!jsonObj.isNull("vio_code")) {
+							searchResultDomain.setVioCode(jsonObj.getString("vio_code"));
+						}
+						
+						searchResult.add(searchResultDomain);
+					}
+				}
+			}
+			// 배열 결과 넣고 화면으로 전달
+			recruitDomain.setSearchResultList(searchResult);
+			mv.addObject("result", recruitDomain);
+		}else {
+			// 이전 검증에서 통과 후				
+			// 서버통신오류
+		}
+		return mv;
+       
+    }
+	
+	
+	
+	
+	
 	// 가등록 취소
 	@PostMapping(value="/api/deletePreLoan")
 	public ResponseEntity<ResponseMsg> deletePreLoan(RecruitDomain recruitSearchDomain) throws IOException{

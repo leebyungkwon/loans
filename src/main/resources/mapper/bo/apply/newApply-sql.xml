@@ -394,6 +394,7 @@
 			,TLM.pl_stat_req_seq
 			,TLM.pl_stat_req_path
 			,TLM.USER_SEQ
+			,FN_USER_NAME(TLM.USER_SEQ) AS 
 			,TLM.API_RES_MSG
 	    FROM TB_LC_MAS01 TLM
 	    <where>

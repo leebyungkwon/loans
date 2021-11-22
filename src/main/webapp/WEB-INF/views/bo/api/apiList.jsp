@@ -133,33 +133,6 @@ function pageLoad(){
 		PopUtil.openPopup(p);
 	});
 	
-	// NEW가등록번호 조회 결과 팝업
-	$("#newApiPreSearch").on("click", function(){
-		var plClass		=	$("#newPrePlClass").val();
-		var preLcNum	=	$("#newPreLcNum").val();
-		var conNum		=	$("#newPreConNum").val();
-		
-		if(WebUtil.isNull(preLcNum)){
-			alert("가등록번호를 입력해 주세요.");
-			return false;
-		}
-		
-		let p = {
-			id : "newCrefiaRegPop"
-			, params : {
-				preLcNum	: preLcNum
-				, conNum	: conNum
-				, plClass	:	plClass
-			}
-			, url : "/system/api/newApiPreSearchPopup"
-			, success : function (opt,result) {
-				$(".popup_inner").css("width","55%");
-		    }
-		}
-		PopUtil.openPopup(p);
-	});
-	
-	
 	
 	// 등록번호 조회 결과 팝업
 	$("#apiSearch").on("click", function(){
@@ -180,6 +153,24 @@ function pageLoad(){
 				, plClass	:	plClass
 			}
 			, url : "/system/api/apiSearchPopup"
+			, success : function (opt,result) {
+				$(".popup_inner").css("width","55%");
+		    }
+		}
+		PopUtil.openPopup(p);
+	});
+	
+	
+	// 위반이력 조회
+	$("#vioSearch").on("click", function(){
+		var plMZId = $("#ssn").val();
+		
+		let p = {
+			id : "vioSearchPop"
+			, params : {
+				plMZId	: plMZId
+			}
+			, url : "/system/api/vioSearchPopup"
 			, success : function (opt,result) {
 				$(".popup_inner").css("width","55%");
 		    }
@@ -404,63 +395,6 @@ function goGetDate(opt) {
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreSearch">가등록조회</a>
 		</div>
 		
-		<div class="info_box k_search" >
-			<table class="info_box_table" style="width: 90%;">
-				<colgroup>
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-				</colgroup>
-				<tr>
-					<th>NEW가등록번호</th>
-					<td class="">
-						<input type="text" id="newPreLcNum" >
-					</td>
-					<th>NEW계약번호</th>
-					<td class="">
-						<input type="text" id="newPreConNum" >
-					</td>
-					<th>NEW모집인 분류</th>
-					<td class="half_input">
-						<select id="newPrePlClass">
-							<option value="1">개인</option>
-							<option value="2">법인</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="newApiPreSearch">NEW가등록조회</a>
-		</div>
-		
-		<div class="info_box k_search" >
-			<table class="info_box_table" style="width: 90%;">
-				<colgroup>
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-					<col width="10%">
-					<col width="23%">
-				</colgroup>
-				<tr>
-					<th>가등록번호</th>
-					<td class="">
-						<input type="text" id="delPreLcNum" >
-					</td>
-					<th>모집인 분류</th>
-					<td class="half_input">
-						<select id="delPlClass">
-							<option value="1">개인</option>
-							<option value="2">법인</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<a href="javascript:void(0);" class="btn_inquiry" id="deletePreLoan">가등록삭제</a>
-		</div>
 		
 		
 		<div class="info_box k_search" >
@@ -494,6 +428,57 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiSearch">등록조회</a>
 		</div>
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>주민번호</th>
+					<td class="">
+						<input type="text" id="ssn" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="vioSearch">위반이력조회</a>
+		</div>
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>가등록번호</th>
+					<td class="">
+						<input type="text" id="delPreLcNum" >
+					</td>
+					<th>모집인 분류</th>
+					<td class="half_input">
+						<select id="delPlClass">
+							<option value="1">개인</option>
+							<option value="2">법인</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="deletePreLoan">가등록삭제</a>
+		</div>
+		
+		
+
 		
 		
 		<div class="info_box k_search" >

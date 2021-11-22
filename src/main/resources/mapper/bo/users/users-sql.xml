@@ -783,7 +783,7 @@
 		UPDATE tb_lc_users_indv_req
 		SET
 			txt 				= #{txt}
-			<if test='stat.equals("3")'>
+			<if test='stat.equals("3") || stat.equals("2")'>
 				, stat 				= #{stat}
 			</if>
    			, upd_seq 			= #{regSeq}
@@ -799,7 +799,7 @@
 		UPDATE tb_lc_users_corp_req
 		SET
 			txt 				= #{txt}
-			<if test='stat.equals("3")'>
+			<if test='stat.equals("3") || stat.equals("2")'>
 				, stat 				= #{stat}
 			</if>
    			, upd_seq 			= #{regSeq}
@@ -835,5 +835,69 @@
    		AND PL_STAT = '9'
    		AND PL_CLASS = '2'
    	</select>
+   	
+   	
+   	<!-- 개인회원 정보변경관리 회원정보변경 -->
+	<update id="updateIndvUsersApplyInfo" parameterType="users" >
+		UPDATE tb_lc_users
+		SET
+   			upd_seq 			= 0
+   			, upd_timestamp		= NOW()
+			<if test="reqUserName != null and reqUserName != ''">
+				, user_name 	= #{reqUserName}
+			</if>
+			<if test="reqPlMZId != null and reqPlMZId != ''">
+				, pl_m_z_id 	= #{reqPlMZId}
+			</if>
+			<if test="reqMobileNo != null and reqMobileNo != ''">
+				, mobile_no 	= #{reqMobileNo}
+			</if>
+   		WHERE
+   			user_seq 			= #{userSeq}
+	</update>
+	
+   	
+   	
+   	<!-- 법인회원 정보변경관리 회원정보변경 -->
+	<update id="updateCorpUsersApplyInfo" parameterType="users" >
+		UPDATE tb_lc_users
+		SET
+   			upd_seq 			= 0
+   			, upd_timestamp		= NOW()
+			<if test="reqUserName != null and reqUserName != ''">
+				, user_name 	= #{reqUserName}
+			</if>
+			<if test="reqPlMZId != null and reqPlMZId != ''">
+				, pl_m_z_id 	= #{reqPlMZId}
+			</if>
+			<if test="reqMobileNo != null and reqMobileNo != ''">
+				, mobile_no 	= #{reqMobileNo}
+			</if>
+			<if test="reqUserCi != null and reqUserCi != ''">
+				, user_ci 	= #{reqUserCi}
+			</if>
+   		WHERE
+   			user_seq 			= #{userSeq}
+	</update>
+	
+	
+   	<!-- 법인회원 정보변경관리 법인정보 변경 -->
+	<update id="updateCorpApplyInfo" parameterType="users" >
+		UPDATE tb_lc_corp
+		SET
+   			upd_seq 			= 0
+   			, upd_timestamp		= NOW()
+			<if test="reqPlMerchantName != null and reqPlMerchantName != ''">
+				, pl_merchant_name 	= #{reqPlMerchantName}
+			</if>
+			<if test="reqPlMZId != null and reqPlMZId != ''">
+				, pl_m_z_id 	= #{reqPlMZId}
+			</if>
+			<if test="reqMobileNo != null and reqMobileNo != ''">
+				, mobile_no 	= #{reqMobileNo}
+			</if>
+   		WHERE
+   			user_seq 			= #{userSeq}
+	</update>
    	
 </mapper> 

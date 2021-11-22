@@ -1007,6 +1007,12 @@ public class RecruitService {
 						}
 					}
 					
+					log.error("#######위반이력 등록 및 삭제 시작 ##########");
+					log.error("#######위반이력 등록 및 삭제 시작 ##########");
+					log.error("#######"+violationRegList.size()+"##########");
+					log.error("#######위반이력 등록 및 삭제 시작 ##########");
+					log.error("#######위반이력 등록 및 삭제 시작 ##########");
+					
 					if(violationRegList.size() > 0) {
 						// 위반이력 등록
 						for(UserDomain regVio : violationRegList) {

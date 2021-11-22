@@ -87,6 +87,15 @@ public interface UsersRepository {
 	// 2021-11-04 법인회원정보 조회 리스트
 	List<NewApplyDomain> selectUserSeqCorpList(NewApplyDomain newApplyDomain);
 	
+	// 2021-11-22 개인 정보변경 승인 후 user테이블 정보 변경
+	int updateIndvUsersApplyInfo(UsersDomain usersDomain);
+	
+	// 2021-11-22 법인 정보변경 승인 후 user테이블 정보 변경
+	int updateCorpUsersApplyInfo(UsersDomain usersDomain);
+	
+	// 2021-11-22 법인 정보변경 승인 후 corp테이블 정보 변경
+	int updateCorpApplyInfo(UsersDomain usersDomain);
+	
 	
 	
 }
