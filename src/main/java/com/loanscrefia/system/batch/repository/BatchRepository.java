@@ -107,7 +107,16 @@ public interface BatchRepository {
 	
 	int refreshBatch(BatchDomain batch);
 	
+	// 2021-11-19 주민등록번호, ci 수정
+	int updateUsersSsnInfo(UsersDomain usersDomain);
+
+	// 2021-11-19 계약별 주민등록번호, ci 수정
+	int updateMasSsnInfo(NewApplyDomain newApplyDomain);
 	
+	
+	
+	// 개인정보수정 및 주민등록번호 수정 완료 카운트
+	int selectReqSsnInfoCnt(BatchDomain batchDomain);
 	
 }
 

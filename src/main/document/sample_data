@@ -625,5 +625,20 @@ ALTER TABLE tb_lc_mas01_expert ALTER COLUMN career_start_date DROP NOT NULL;
 ALTER TABLE tb_lc_mas01_expert ALTER COLUMN career_end_date DROP NOT NULL;
 
 
+update tb_lc_cod01_detail 
+set
+	property01 = 'Y'
+where
+	code_mst_cd = 'MAS001'
+and code_dtl_cd = '16';
+
+
+update tb_lc_cod01_detail 
+set
+	property01 = 'Y'
+where
+	code_mst_cd = 'MAS001'
+and code_dtl_cd = '15';
+
 
 	 

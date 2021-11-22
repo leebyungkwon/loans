@@ -290,6 +290,37 @@ public class BatchController {
     }
 	
 	
+	// 주민등록번호 변경
+	@Scheduled(cron ="*/30 * * * * *") 
+    @SchedulerLock(name="loanSsnUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void loanSsnUpd() throws Exception {
+		if(isLocalBatch()) return;
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("loanSsnUpd");
+		// 스케쥴 이름으로 조회
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		// schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.loanSsnUpd(reg);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		// schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+
+    }
+	
+	
 	
 	
 	

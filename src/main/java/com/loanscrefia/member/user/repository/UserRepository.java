@@ -173,7 +173,10 @@ public interface UserRepository {
 	List<UserDomain> selectCorpApiApplyList(UserDomain userDomain);	
 	
 	//승인완료이면서 기등록자인 경우 전체 자격취득
-	List<UserDomain> selectPreRegYnApiApplyList(UserDomain userDomain);	
+	List<UserDomain> selectPreRegYnApiApplyList(UserDomain userDomain);
+	
+	//등록번호가 있는데 계약번호가 없는 케이스
+	List<UserDomain> selectApiConNumList(UserDomain userDomain);	
 	
 	
 }

@@ -1003,12 +1003,6 @@ public class NewRecruitService {
 						jsonArrayParam.put("fin_phone", "");
 						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 						
-						// 해지 key 없이 보낼시 오류 발생 확인
-						/*
-						jsonArrayParam.put("cancel_date", "");
-						jsonArrayParam.put("cancel_code", "");
-						*/
-						
 						jsonArray.put(jsonArrayParam);
 						jsonParam.put("con_arr", jsonArray);
 						
@@ -1040,10 +1034,6 @@ public class NewRecruitService {
 						jsonArrayParam.put("fin_phone", "");
 						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
 						
-						// 해지 key 없이 보낼시 오류 발생 확인
-						jsonArrayParam.put("cancel_date", "");
-						jsonArrayParam.put("cancel_code", "");
-						
 						jsonArray.put(jsonArrayParam);
 						jsonParam.put("con_arr", jsonArray);
 						
@@ -1060,7 +1050,7 @@ public class NewRecruitService {
 							JSONObject jsonRegVioParam = new JSONObject();
 							jsonRegVioParam.put("lc_num", statCheck.getPlRegistNo());					// 등록번호
 							jsonRegVioParam.put("vio_seq", regVio.getViolationSeq());					// 위반이력시퀀스
-							jsonRegVioParam.put("ssn", CryptoUtil.decrypt(statCheck.getPlMZId()));		// 주민등록번호
+							jsonRegVioParam.put("ssn", statCheck.getPlMZId());		// 주민등록번호
 							jsonRegVioParam.put("vio_fin_code", statCheck.getComCode());				// 금융기관코드
 							jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
 							jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일

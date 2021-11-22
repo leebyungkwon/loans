@@ -1210,7 +1210,7 @@ public class NewApplyService {
 							JSONObject jsonParam 	= new JSONObject();
 							
 							jsonParam.put("master_seq", statCheck.getMasterSeq());
-							jsonParam.put("pre_lc_num", statCheck.getPreLcNum());
+							jsonParam.put("pre_corp_lc_num", statCheck.getPreLcNum());
 							
 							batchDomain.setScheduleName("loanReg");
 							batchDomain.setParam(jsonParam.toString());

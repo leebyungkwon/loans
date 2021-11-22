@@ -260,7 +260,7 @@ function pageLoad(){
 	
 	
 	
-	// 승인완료 자격취득 - 법인
+	// 기등록자자격취득
 	$("#apiPreRegApplyReg").on("click", function(){
 		var p = {
 			  url		: "/system/api/apiPreRegApplyReg"	
@@ -299,6 +299,26 @@ function pageLoad(){
 			AjaxUtil.post(p);
 		}
 	});
+	
+	
+	// 계약번호취득
+	$("#apiConNumReg").on("click", function(){
+		var p = {
+			  url		: "/system/api/apiConNumReg"	
+			, param		: {
+				
+			}
+			, success 	: function (opt,result) {
+				
+				console.log("결과값 :: " , result);
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	
+	
 	
 }
 
@@ -592,6 +612,28 @@ function goGetDate(opt) {
 				</tr>
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiPreRegApplyReg">기등록자자격취득</a>
+		</div>
+		
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="" colspan="3">
+						등록번호가 존재하지만 계약번호가 없는케이스 자격취득(승인완료/자격취득/결제완료) pl_stat='9'
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiConNumReg">계약번호취득</a>
 		</div>
 		
 		

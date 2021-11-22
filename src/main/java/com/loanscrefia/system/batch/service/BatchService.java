@@ -437,14 +437,14 @@ public class BatchService{
 			throw new Exception();
 		}
 
-		
 		// master_seq 추출 후 제거 
 		jsonParam.remove("user_seq");
 		jsonParam.remove("master_seq");
-		loanUpdParam.setParamJson(jsonParam);
+		
 		String plClass = req.getProperty01();
 		String reqUserSeq = req.getProperty02();
 		String reqSeq = req.getProperty03();
+		String mobileNo = "";
 		
 		if("1".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-consultants");
@@ -452,11 +452,9 @@ public class BatchService{
 		}else if("2".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-corp-consultants");
 			loanUpdParam.setApiName("corpLoanUpd");
-			
-			// 암호화된 데이터 decrypt
-			String ssn = jsonParam.getString("corp_rep_ssn");
-			jsonParam.remove("corp_rep_ssn");
-			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(ssn));
+			mobileNo = jsonParam.getString("mobile_no");
+			// 법인인 경우 연락처 삭제
+			jsonParam.remove("mobile_no");
 			
 		}else {
 			req.setStatus("3");
@@ -465,16 +463,12 @@ public class BatchService{
 			throw new Exception();
 		}
 		
+		loanUpdParam.setParamJson(jsonParam);
+		
 		int cnt = 0;
 		
 		NewApplyDomain newApplyDomain = new NewApplyDomain();
 		newApplyDomain.setMasterSeq(masterSeq);
-		
-		log.error("##################################");
-		log.error("###########     "+plClass+"      ###################");
-		log.error("###########     "+reqUserSeq+"      ###################");
-		log.error("###########     "+reqSeq+"      ###################");
-		log.error("##################################");
 		
 		try {
 			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
@@ -503,22 +497,19 @@ public class BatchService{
 				}else {
 					newApplyDomain.setPlMerchantName(jsonParam.getString("corp_name"));
 					newApplyDomain.setPlCeoName(jsonParam.getString("corp_rep_name"));
-					newApplyDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
-					newApplyDomain.setCi(jsonParam.getString("corp_rep_ci"));
 					
 					// 법인회원 회원정보 수정
 					UsersDomain usersDomain = new UsersDomain();
 					usersDomain.setUserSeq(userSeq);
+					usersDomain.setMobileNo(mobileNo);
 					usersDomain.setUserName(jsonParam.getString("corp_rep_name"));
-					usersDomain.setPlMZId(CryptoUtil.encrypt(jsonParam.getString("corp_rep_ssn")));
-					usersDomain.setUserCi(jsonParam.getString("corp_rep_ci"));
 					
 					// 법인회원 연락처 수정 확인
 					//usersDomain.setMobileNo();
 					batchRepository.updateCorpUsersInfo(usersDomain);
 					
 					// 법인명 수정
-					usersDomain.setPlMerchantName(jsonParam.getString("corp_rep_name"));
+					usersDomain.setPlMerchantName(jsonParam.getString("corp_name"));
 					batchRepository.updateCorpInfo(usersDomain);
 					
 				}
@@ -555,28 +546,130 @@ public class BatchService{
 			}else {
 				batchRepository.updateCorpMasInfo(newApplyDomain);
 			}
-			
-			// 스케쥴테이블에서 해당 seq가 마지막인 경우 req테이블 상태 변경
-			int reqCnt = batchRepository.selectReqCnt(req);
-			if(reqCnt == 0) {
-				UsersDomain reqResult = new UsersDomain();
-				if("1".equals(plClass)) {
-					reqResult.setUserIndvReqSeq(Integer.parseInt(reqSeq));
-					batchRepository.updateIndvReq(reqResult);
-				}else {
-					reqResult.setUserCorpReqSeq(Integer.parseInt(reqSeq));
-					batchRepository.updateCorpReq(reqResult);
-				}
-			}
-			
 			batchRepository.updateSchedule(req);
+			userInfoUpdResult(plClass, newApplyDomain, req);
 			return cnt;
 		}
 	}
 	
 	
+	// 2021-11-11 주민등록번호 변경
+	@Transactional
+	public int loanSsnUpd(BatchDomain req) throws Exception {
+		String errorMessage = "";
+		ApiDomain loanUpdParam = new ApiDomain();
+		loanUpdParam.setMethod("PUT");
+		JSONObject jsonParam = new JSONObject(req.getParam());
+		
+		int userSeq = 0;
+		if(!jsonParam.isNull("user_seq")) {
+			userSeq = jsonParam.getInt("user_seq");
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 seq 파라미터 오류");
+			errorMessage = "모집인 seq 파라미터 오류";
+			throw new Exception();
+		}
+		
+		int masterSeq = 0;
+		if(!jsonParam.isNull("master_seq")) {
+			masterSeq = jsonParam.getInt("master_seq");
+		}else {
+			req.setStatus("3");
+			req.setError("모집인 계약 seq 파라미터 오류");
+			errorMessage = "모집인 계약 seq 파라미터 오류";
+			throw new Exception();
+		}
+
+		// master_seq 추출 후 제거 
+		jsonParam.remove("user_seq");
+		jsonParam.remove("master_seq");
+		
+		String plClass = req.getProperty01();
+		String reqUserSeq = req.getProperty02();
+		String reqSeq = req.getProperty03();
+		
+		loanUpdParam.setUrl("/loan/v1/mod-ssn");
+		loanUpdParam.setApiName("loanSsnUpd");
+		
+		String befSsn = jsonParam.getString("bef_ssn");
+		String aftSsn = jsonParam.getString("aft_ssn");
+		String aftCi = jsonParam.getString("aft_ci");
+		jsonParam.remove("bef_ssn");
+		jsonParam.remove("aft_ssn");
+		jsonParam.put("bef_ssn", CryptoUtil.decrypt(befSsn));
+		jsonParam.put("aft_ssn", CryptoUtil.decrypt(aftSsn));
+		
+		loanUpdParam.setParamJson(jsonParam);
+		
+		int cnt = 0;
+		
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setMasterSeq(masterSeq);
+		
+		try {
+			ResponseMsg updResult = apiService.excuteApi(loanUpdParam);
+			if("success".equals(updResult.getCode())) {
+				
+				// 주민번호 + ci 정보 수정
+				UsersDomain usersDomain = new UsersDomain();
+				usersDomain.setUserSeq(userSeq);
+				usersDomain.setPlMZId(aftSsn);
+				usersDomain.setUserCi(aftCi);
+				batchRepository.updateUsersSsnInfo(usersDomain);
+				
+				// 주민번호 + ci 정보 수정 후 계약건 전체 수정
+				batchRepository.updateMasSsnInfo(newApplyDomain);
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode(updResult.getCode());
+				req.setStatus("2");
+				cnt = 1;
+				
+			}else {
+				// 통신오류
+				req.setStatus("3");
+				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode("fail");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			
+			newApplyDomain.setApiResMsg(e.getMessage());
+			newApplyDomain.setApiSuccessCode("fail");
+			
+			if(StringUtils.isEmpty(errorMessage)) {
+				req.setError(e.getMessage());
+			}else {
+				req.setError(errorMessage);
+			}
+			
+		} finally {
+			batchRepository.updateSchedule(req);
+			userInfoUpdResult(plClass, newApplyDomain, req);
+			return cnt;
+		}
+	}
 	
 	
+	// 정보변경 및 주민등록번호 수정 완료시 상태값 변경
+	public void userInfoUpdResult(String plClass, NewApplyDomain newApplyDomain, BatchDomain req) {
+		// 스케쥴테이블에서 해당 seq가 마지막인 경우 req테이블 상태 변경
+		int reqCnt = batchRepository.selectReqSsnInfoCnt(req);
+		String reqSeq = req.getProperty03();
+		if(reqCnt == 0) {
+			UsersDomain reqResult = new UsersDomain();
+			if("1".equals(plClass)) {
+				reqResult.setUserIndvReqSeq(Integer.parseInt(reqSeq));
+				batchRepository.updateIndvReq(reqResult);
+			}else {
+				reqResult.setUserCorpReqSeq(Integer.parseInt(reqSeq));
+				batchRepository.updateCorpReq(reqResult);
+			}
+		}
+	}
 	
 	// 2021-11-11 건별정보수정
 	@Transactional
@@ -614,6 +707,8 @@ public class BatchService{
 		if("1".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-consultants");
 			loanUpdParam.setApiName("indvCaseLoanUpd");
+			
+			
 		}else if("2".equals(plClass)) {
 			loanUpdParam.setUrl("/loan/v1/loan-corp-consultants");
 			loanUpdParam.setApiName("corpCaseLoanUpd");

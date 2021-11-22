@@ -36,8 +36,10 @@ import com.loanscrefia.util.UtilExcel;
 import com.loanscrefia.util.UtilFile;
 import com.loanscrefia.util.UtilMask;
 
+import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
 
+@Slf4j
 @Service
 public class UsersService {
 	
@@ -628,7 +630,42 @@ public class UsersService {
 	// 개인회원 정보변경관리 상세
 	@Transactional(readOnly=true)
 	public UsersDomain getUpdateIndvUsersDetail(UsersDomain usersDomain){
-		return usersRepository.getUpdateIndvUsersDetail(usersDomain);
+		
+		UsersDomain result = usersRepository.getUpdateIndvUsersDetail(usersDomain);
+		String plMZId = "";
+		if(StringUtils.isNotEmpty(result.getPlMZId())) {
+			if(cryptoApply) {
+				plMZId 	= CryptoUtil.decrypt(result.getPlMZId());
+			}else {
+				plMZId 	= result.getPlMZId();
+			}
+			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			result.setPlMZId(plMZId);
+		}
+		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(result.getPlMerchantNo())) {
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(result.getPlMerchantNo()));
+			}else {
+				merchantNo.append(result.getPlMerchantNo());
+			}
+			merchantNo.insert(6, "-");
+			result.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		String reqPlMZId = "";
+		if(StringUtils.isNotEmpty(result.getReqPlMZId())) {
+			if(cryptoApply) {
+				reqPlMZId 	= CryptoUtil.decrypt(result.getReqPlMZId());
+			}else {
+				reqPlMZId 	= result.getReqPlMZId();
+			}
+			reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
+			result.setReqPlMZId(reqPlMZId);
+		}
+		
+		return result;
 	}
 	
 	
@@ -649,6 +686,8 @@ public class UsersService {
 			UsersDomain usersResult = usersRepository.getUpdateIndvUsersDetail(usersDomain);
 			String userName = usersResult.getReqUserName();
 			String mobileNo = usersResult.getReqMobileNo();
+			String ssn = usersResult.getReqPlMZId();
+			String userCi = usersResult.getReqUserCi();
 			
 			if(resultList.size() > 0) {
 				for(NewApplyDomain result : resultList) {
@@ -675,15 +714,7 @@ public class UsersService {
 					}else {
 						jsonArrayParam.put("con_mobile", mobileNo);
 					}
-					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", result.getPlProduct());
-					
-					// 해지 key 없이 보낼시 오류 발생 확인
-					/*
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
-					*/
-					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
 					
@@ -694,6 +725,32 @@ public class UsersService {
 					batchDomain.setProperty03(Integer.toString(usersDomain.getUserIndvReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
 					
 					batchRepository.insertBatchPlanInfo(batchDomain);
+					
+					
+					
+					// 주민등록번호 변경시 배치 추가 등록
+					JSONObject ssnJsonParam = new JSONObject();
+					if(StringUtils.isNotEmpty(ssn)) {
+						ssnJsonParam.put("bef_ssn", result.getPlMZId());
+						ssnJsonParam.put("aft_ssn", ssn);
+						if(StringUtils.isEmpty(userCi)) {
+							ssnJsonParam.put("aft_ci", result.getCi());
+						}else {
+							ssnJsonParam.put("aft_ci", userCi);
+						}
+					
+						BatchDomain ssnBatchDomain = new BatchDomain();
+						ssnBatchDomain.setScheduleName("loanSsnUpd");
+						ssnBatchDomain.setParam(ssnJsonParam.toString());
+						ssnBatchDomain.setProperty01("1"); 													// 개인,법인 구분값
+						ssnBatchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+						ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+						ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
+						batchRepository.insertBatchPlanInfo(ssnBatchDomain);
+					}
+					
+					
+					
 				}
 			}
 			
@@ -788,10 +845,42 @@ public class UsersService {
 	// 법인회원 정보변경관리 상세
 	@Transactional(readOnly=true)
 	public UsersDomain getUpdateCorpUsersDetail(UsersDomain usersDomain){
-		return usersRepository.getUpdateCorpUsersDetail(usersDomain);
+		UsersDomain result = usersRepository.getUpdateCorpUsersDetail(usersDomain);
+		String plMZId = "";
+		if(StringUtils.isNotEmpty(result.getPlMZId())) {
+			if(cryptoApply) {
+				plMZId 	= CryptoUtil.decrypt(result.getPlMZId());
+			}else {
+				plMZId 	= result.getPlMZId();
+			}
+			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			result.setPlMZId(plMZId);
+		}
+		
+		StringBuilder merchantNo = new StringBuilder();
+		if(StringUtils.isNotEmpty(result.getPlMerchantNo())) {
+			if(cryptoApply) {
+				merchantNo.append(CryptoUtil.decrypt(result.getPlMerchantNo()));
+			}else {
+				merchantNo.append(result.getPlMerchantNo());
+			}
+			merchantNo.insert(6, "-");
+			result.setPlMerchantNo(merchantNo.toString());
+		}
+		
+		String reqPlMZId = "";
+		if(StringUtils.isNotEmpty(result.getReqPlMZId())) {
+			if(cryptoApply) {
+				reqPlMZId 	= CryptoUtil.decrypt(result.getReqPlMZId());
+			}else {
+				reqPlMZId 	= result.getReqPlMZId();
+			}
+			reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
+			result.setReqPlMZId(reqPlMZId);
+		}
+		
+		return result;
 	}
-	
-	
 	
 	// 법인회원 정보변경관리 상태변경
 	@Transactional
@@ -803,7 +892,7 @@ public class UsersService {
 			newApplyDomain.setUserSeq(usersDomain.getUserSeq());
 			
 			// 등록자로 모든 계약건 조회
-			List<NewApplyDomain> resultList = usersRepository.selectUserSeqIndvList(newApplyDomain);
+			List<NewApplyDomain> resultList = usersRepository.selectUserSeqCorpList(newApplyDomain);
 			
 			// 수정되여야할 개인정보
 			UsersDomain usersResult = usersRepository.getUpdateCorpUsersDetail(usersDomain);
@@ -824,6 +913,10 @@ public class UsersService {
 					
 					jsonParam.put("user_seq", result.getUserSeq());
 					jsonParam.put("master_seq", result.getMasterSeq());
+					mobileNo = (StringUtils.isEmpty(mobileNo)) ? 
+									(result.getMobileNo() == null) ? "" : result.getMobileNo() : mobileNo;
+										
+					jsonParam.put("mobile_no", mobileNo);
 					jsonParam.put("corp_lc_num", result.getPlRegistNo());
 					if(StringUtils.isEmpty(plMerchantName)) {
 						jsonParam.put("corp_name", result.getPlMerchantName());
@@ -831,43 +924,50 @@ public class UsersService {
 						jsonParam.put("corp_name", plMerchantName);
 					}
 					
-					if(StringUtils.isEmpty(plMerchantName)) {
+					if(StringUtils.isEmpty(userName)) {
 						jsonParam.put("corp_rep_name", result.getPlCeoName());
 					}else {
 						jsonParam.put("corp_rep_name", userName);
 					}
 					
-					if(StringUtils.isEmpty(ssn)) {
-						jsonParam.put("corp_rep_ssn", result.getPlMZId());
-					}else {
-						jsonParam.put("corp_rep_ssn", ssn);
-					}
-					
-					if(StringUtils.isEmpty(userCi)) {
-						jsonParam.put("corp_rep_ci", result.getCi());
-					}else {
-						jsonParam.put("corp_rep_ci", userCi);
-					}
-					
 					// 배열
 					jsonArrayParam.put("con_num", result.getConNum());
 					jsonArrayParam.put("con_date", result.getComContDate().replaceAll("-", ""));
-					jsonArrayParam.put("fin_phone", "");
 					jsonArrayParam.put("loan_type", result.getPlProduct());
-					
-					// 해지 key 없이 보낼시 오류 발생 확인
-					jsonArrayParam.put("cancel_date", "");
-					jsonArrayParam.put("cancel_code", "");
 					
 					jsonArray.put(jsonArrayParam);
 					jsonParam.put("con_arr", jsonArray);
 					
 					batchDomain.setScheduleName("loanUpd");
 					batchDomain.setParam(jsonParam.toString());
-					batchDomain.setProperty01("2"); //개인,법인 구분값
+					batchDomain.setProperty01("2");													//개인,법인 구분값
 					batchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
 					batchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+					batchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
 					batchRepository.insertBatchPlanInfo(batchDomain);
+					
+					// 주민등록번호 변경시 배치 추가 등록
+					JSONObject ssnJsonParam = new JSONObject();
+					if(StringUtils.isNotEmpty(ssn)) {
+						ssnJsonParam.put("user_seq", result.getUserSeq());
+						ssnJsonParam.put("master_seq", result.getMasterSeq());
+						ssnJsonParam.put("bef_ssn", result.getPlMZId());
+						ssnJsonParam.put("aft_ssn", ssn);
+						if(StringUtils.isEmpty(userCi)) {
+							ssnJsonParam.put("aft_ci", result.getCi());
+						}else {
+							ssnJsonParam.put("aft_ci", userCi);
+						}
+					
+						BatchDomain ssnBatchDomain = new BatchDomain();
+						ssnBatchDomain.setScheduleName("loanSsnUpd");
+						ssnBatchDomain.setParam(ssnJsonParam.toString());
+						ssnBatchDomain.setProperty01("2"); 													//개인,법인 구분값
+						ssnBatchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+						ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+						ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
+						batchRepository.insertBatchPlanInfo(ssnBatchDomain);
+					}
 				}
 			}
 			
@@ -878,7 +978,7 @@ public class UsersService {
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
 		}
-		int result = usersRepository.updateIndvUsersStat(usersDomain);
+		int result = usersRepository.updateCorpUsersStat(usersDomain);
 		if(result > 0) {
 			return responseMsg;
 		}else {

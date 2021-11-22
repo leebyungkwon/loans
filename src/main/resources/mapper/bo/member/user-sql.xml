@@ -1566,4 +1566,19 @@
 		and mas.use_yn = 'Y'
 	</select>
    	
+   	
+	<!-- 등록번호가 있는데 계약번호가 없는 케이스 -->
+	<select id="selectApiConNumList" parameterType="user" resultType="user">
+		select
+			*
+		from
+			tb_lc_mas01
+		where pl_reg_stat not in ('1', '4')
+		and pl_stat = '9'
+		and pl_regist_no is not null
+		and con_num is null
+		and pl_product in ('01', '05')
+		and use_yn = 'Y'
+	</select>
+   	
 </mapper> 

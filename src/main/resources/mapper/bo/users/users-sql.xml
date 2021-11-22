@@ -786,7 +786,6 @@
 			<if test='stat.equals("3")'>
 				, stat 				= #{stat}
 			</if>
-			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
    			, upd_seq 			= #{regSeq}
    			, upd_timestamp		= NOW()
    		WHERE
@@ -803,8 +802,6 @@
 			<if test='stat.equals("3")'>
 				, stat 				= #{stat}
 			</if>
-			, txt 				= #{txt}
-			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
    			, upd_seq 			= #{regSeq}
    			, upd_timestamp		= NOW()
    		WHERE
@@ -823,6 +820,20 @@
    			user_seq = #{userSeq}
    		AND PL_REG_STAT = '3'
    		AND PL_STAT = '9'
+   		AND PL_CLASS = '1'
+   	</select>
+   	
+   	<!-- 법인회원 모집인 계약조회 -->
+   	<select id="selectUserSeqCorpList" parameterType="newApply" resultType="newApply">
+   		SELECT
+   			*
+   		FROM
+   			tb_lc_mas01
+   		WHERE 
+   			user_seq = #{userSeq}
+   		AND PL_REG_STAT = '3'
+   		AND PL_STAT = '9'
+   		AND PL_CLASS = '2'
    	</select>
    	
 </mapper> 

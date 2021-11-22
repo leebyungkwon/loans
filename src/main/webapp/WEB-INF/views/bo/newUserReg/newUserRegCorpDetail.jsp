@@ -38,7 +38,7 @@ function pageLoad(){
 	
 	// 금융회사 승인
 	$("#newUserApply").on("click", function(){
-		if(confirm("회원사 확인완료를 하시겠습니까?")){
+		if(confirm("금융회사 확인완료를 하시겠습니까?")){
 			$("#plStat").val("15");
 			var p = {
 				  name 		: "userRegInfoUpdFrm"
