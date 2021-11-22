@@ -788,6 +788,7 @@
 			</if>
    			, upd_seq 			= #{regSeq}
    			, upd_timestamp		= NOW()
+   			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
    		WHERE
    			user_indv_req_seq	= #{userIndvReqSeq}
    		AND user_seq 			= #{userSeq}
@@ -804,6 +805,7 @@
 			</if>
    			, upd_seq 			= #{regSeq}
    			, upd_timestamp		= NOW()
+   			, comp_date			= TO_CHAR(NOW(), 'YYYYMMDD')
    		WHERE
    			user_corp_req_seq	= #{userCorpReqSeq}
    		AND user_seq 			= #{userSeq}

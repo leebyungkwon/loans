@@ -746,20 +746,14 @@ public class NewUserService {
 				}
 				
 				batchService.insertBatchPlanInfo(batchDomain);
-				smsDomain.setTranMsg("등록신청 거절");
 				
-				/*
-				smsMsg += userRegInfo.getComCodeNm()+"로부터 "+userRegInfo.getPlMName()+"님의 대출/리스할부 상품 판매대리·중개업자 등록을 신청하였으나, ";
-				smsMsg += "해당 금융회사로부터 등록대상으로 확인되지 않아 등록신청이 거절되었습니다. (접수번호 : "+userRegInfo.getMasterToId()+")";
+				smsMsg += userRegInfo.getPlMName()+"님은 "+userRegInfo.getComCodeNm()+" 대출성상품 모집인 등록 신청이 거절되었습니다";
 				smsDomain.setTranMsg(smsMsg);
-				smsDomain.setTranEtc1("인스턴스ID");
-				smsResult = smsRepository.sendSms(smsDomain);
+				
 				
 				if(smsResult <= 0) {
 					return new ResponseMsg(HttpStatus.OK, "fail", "상태변경은 완료되었으나\n문자발송에 실패하였습니다. 관리자에 문의해 주세요.");
 				}
-				
-				*/
 				
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");

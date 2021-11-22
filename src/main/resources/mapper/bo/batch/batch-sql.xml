@@ -383,11 +383,6 @@
 		set
 			upd_timestamp = NOW()
 			, upd_seq 		= 0
-			<if test="apiSuccessCode != null and apiSuccessCode != ''">
-				<if test="apiSuccessCode.equals('success')">
-					, pre_lc_num		= null
-				</if>
-			</if>
 			, api_res_msg	= #{apiResMsg}
 		where
 			master_seq = #{masterSeq}

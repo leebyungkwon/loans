@@ -250,7 +250,10 @@ function goUserChangeApply(){
 							<!-- <input type="text" name="plHistTxt" id="plHistTxt" class="w100" maxlength="200"/> -->
 						</td>
 					</tr>
-					<c:choose>
+					
+					
+					
+<%-- 					<c:choose>
 						<c:when test="${fn:length(result.violationInfoList) > 0 }">
 							<c:forEach var="violationInfoList" items="${result.violationInfoList }" varStatus="status">
 								<tr class="violationArea">
@@ -287,7 +290,11 @@ function goUserChangeApply(){
 								</td>
 							</tr>
 						</c:otherwise>
-					</c:choose>
+					</c:choose> --%>
+					
+					
+					
+					
 				</table>
 			</div>
 	

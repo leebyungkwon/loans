@@ -631,6 +631,9 @@ public class BatchService{
 				batchRepository.updateUsersSsnInfo(usersDomain);
 				
 				// 주민번호 + ci 정보 수정 후 계약건 전체 수정
+				
+				newApplyDomain.setCi(aftCi);
+				newApplyDomain.setPlMZId(aftSsn);
 				batchRepository.updateMasSsnInfo(newApplyDomain);
 				newApplyDomain.setApiResMsg(updResult.getMessage());
 				newApplyDomain.setApiSuccessCode(updResult.getCode());
