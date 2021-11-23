@@ -401,9 +401,15 @@ public class BatchService{
 				smsDomain.setTranStatus("1");
 				smsDomain.setTranEtc1("10070");
 				smsDomain.setTranPhone(applyResult.getPlCellphone().replaceAll("-", ""));
-				String tranMsg = applyResult.getUserName()+"님의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
-				smsDomain.setTranMsg(tranMsg);
+				String tranMsg = "";
 				
+				if("1".equals(plClass)) {
+					tranMsg = applyResult.getUserName()+"님의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
+				}else {
+					tranMsg = applyResult.getPlMerchantName()+"법임ㄴ의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
+				}
+				
+				smsDomain.setTranMsg(tranMsg);
 				smsResult = smsRepository.sendSms(smsDomain);
 				
 			}else {

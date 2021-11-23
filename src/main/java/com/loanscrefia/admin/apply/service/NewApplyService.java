@@ -1092,13 +1092,13 @@ public class NewApplyService {
 		
 		// 2021-10-20 SMS 추가
 		int smsResult = 0;
+		boolean smsCheck = false;
 		SmsDomain smsDomain = new SmsDomain();
 		smsDomain.setTranCallback("0220110700");
 		smsDomain.setTranStatus("1");
 		smsDomain.setTranEtc1("10070");
-		smsDomain.setTranPhone("01031672126");
-		//smsDomain.setTranPhone(statCheck.getPlCellphone());
-		
+		//smsDomain.setTranPhone("01031672126");
+		smsDomain.setTranPhone(statCheck.getPlCellphone());
 		
 		// API성공여부
 		boolean apiCheck = false;
@@ -1125,7 +1125,6 @@ public class NewApplyService {
 			// 상태변경 -> 등록요건 불충족(부적격)
 			apiCheck = true;
 			newApplyDomain.setPlRegStat("1");
-			smsDomain.setTranMsg("등록요건 불충족(부적격)");
 			
 		}else if("5".equals(newApplyDomain.getPlStat())) { // 보완요청
 			apiCheck = true;
@@ -1146,8 +1145,16 @@ public class NewApplyService {
 			// 상태변경 -> 보완요청
 			apiCheck = true;
 			newApplyDomain.setPlRegStat("1");
-			smsDomain.setTranMsg("보완요청");
 			
+			String smsMsg = "";
+			
+			if("1".equals(statCheck.getPlClass())) {
+				smsMsg += statCheck.getPlMName()+"님의 대출성상품 모집인 등록/정보변경 신청내용을 보완해주세요.";
+			}else {
+				smsMsg += statCheck.getPlMerchantName()+"법인의 대출성상품 모집인 등록/정보변경 신청내용을 보완해주세요.";
+			}
+			smsDomain.setTranMsg(smsMsg);
+			smsCheck = true;
 			
 		}else if("9".equals(newApplyDomain.getPlStat()) && "2".equals(newApplyDomain.getPlRegStat())) { // 승인요청
 			ApiDomain apiDomain = new ApiDomain();
@@ -1185,15 +1192,18 @@ public class NewApplyService {
 						batchService.insertBatchPlanInfo(batchDomain);
 						// 상태변경 -> 결제완료 -> 자격취득
 						apiCheck = true;
-						smsDomain.setTranMsg("기등록자");
+						smsDomain.setTranMsg(statCheck.getPlMName()+"님의 대출성상품 모집인 등록신청이 승인되었습니다.");
 						
 					}else {
 						// 상태변경 -> 승인완료
 						apiCheck = true;
 						newApplyDomain.setPlRegStat("2");
 						newApplyDomain.setPlStat("9");
-						smsDomain.setTranMsg("최초등록자");
+						smsDomain.setTranMsg(statCheck.getPlMName()+"님의 대출성상품 모집인 등록신청이 승인되었사오니 등록수수료를 결제해주세요.");
 					}
+					
+					smsCheck = true;
+					
 				}else {
 					// 상태변경 -> 승인완료
 					apiCheck = true;
@@ -1218,16 +1228,17 @@ public class NewApplyService {
 							batchService.insertBatchPlanInfo(batchDomain);
 							// 상태변경 -> 결제완료 -> 자격취득
 							apiCheck = true;
-							smsDomain.setTranMsg("기등록자");
+							smsDomain.setTranMsg(statCheck.getPlMerchantName()+"법인의 대출성상품 모집인 등록신청이 승인되었습니다.");
 							
 						}else {
 							// 상태변경 -> 승인완료
 							apiCheck = true;
 							newApplyDomain.setPlRegStat("2");
 							newApplyDomain.setPlStat("9");
-							
-							smsDomain.setTranMsg("최초등록자");
+							smsDomain.setTranMsg(statCheck.getPlMerchantName()+"법인의 대출성상품 모집인 등록신청이 승인되었사오니 등록수수료를 결제해주세요.");
 						}
+						
+						smsCheck = true;
 					}else {
 						// 상태변경 -> 승인완료
 						apiCheck = true;
@@ -1240,7 +1251,6 @@ public class NewApplyService {
 					newApplyDomain.setPlStat("9");
 					apiCheck = true;
 					
-					smsDomain.setTranMsg("TM법인 메세지 필요");
 				}
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "데이터 오류가 발생하였습니다.[PL_CLASS]");
@@ -1259,7 +1269,7 @@ public class NewApplyService {
 			int result = applyRepository.updateNewApplyPlStat(newApplyDomain);
 			
 			// 2021-10-20 SMS발송
-			if(smsApply) {
+			if(smsApply && smsCheck) {
 				smsResult = smsRepository.sendSms(smsDomain);
 			}else {
 				smsResult = 1;

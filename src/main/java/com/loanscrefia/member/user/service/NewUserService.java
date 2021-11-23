@@ -751,7 +751,13 @@ public class NewUserService {
 				
 				batchService.insertBatchPlanInfo(batchDomain);
 				
-				smsMsg += userRegInfo.getPlMName()+"님은 "+userRegInfo.getComCodeNm()+" 대출성상품 모집인 등록 신청이 거절되었습니다";
+				if("1".equals(userRegInfo.getPlClass())) {
+					smsMsg += userRegInfo.getPlMName()+"님은 "+userRegInfo.getComCodeNm()+" 대출성상품 모집인 등록 신청이 거절되었습니다";
+				}else {
+					smsMsg += userRegInfo.getPlMerchantName()+"은 "+userRegInfo.getComCodeNm()+" 대출성상품 모집인 등록 신청이 거절되었습니다";
+				}
+				
+				
 				smsDomain.setTranMsg(smsMsg);
 				
 				
