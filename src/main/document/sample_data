@@ -641,4 +641,6 @@ where
 and code_dtl_cd = '15';
 
 
+ALTER TABLE tb_lc_violation ADD COLUMN user_seq integer;
+
 	 

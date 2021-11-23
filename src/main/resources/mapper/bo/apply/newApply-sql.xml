@@ -502,6 +502,9 @@
    			</if>
    			<if test="plRegStat != null and plRegStat != ''">
    				, cre_app_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   				<if test='!plStat.equals("1")'>
+   					,reg_path = 'F'
+   				</if>
    			</if>
    			<if test="plHistTxt != null and plHistTxt != ''">
    				,pl_hist_txt = #{plHistTxt}

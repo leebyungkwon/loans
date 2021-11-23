@@ -377,6 +377,7 @@
 						, pl_reg_stat	= '3'
 						, pl_stat		= '9'
 						, cre_license_date = TO_CHAR(NOW(), 'YYYYMMDD')
+						, reg_path = 'F'
 					</if>
 				</if>
 			</if>
