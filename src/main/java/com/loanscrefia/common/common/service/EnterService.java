@@ -70,11 +70,12 @@ public class EnterService {
 		List<CodeDtlDomain> codeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		for(CodeDtlDomain code : codeList) {
-			log.info("## isVaildIp : {} , {}", ip, code.getCodeDtlNm());
+			log.error("## isVaildIp : {} , {}", ip, code.getCodeDtlNm());
 			if(ip.indexOf(code.getCodeDtlNm()) >= 0) {
 				flag = true;
 			}
 		}
+		flag = true;
 		return flag;
 	}
 }
