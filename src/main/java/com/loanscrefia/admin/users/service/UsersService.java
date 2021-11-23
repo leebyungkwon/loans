@@ -107,12 +107,12 @@ public class UsersService {
 					plMZId 	= list.getPlMZId();
 					usersDomain.setPlMZId(plMZId);
 				}
-				if(StringUtils.isNotEmpty(plMZId)) {
+				if(plMZId != null) {
 					if(!"false".equals(usersDomain.getIsPaging())) {
 						plMZId = mask.maskSSN(plMZId);
 					}
+					plMZId = plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				}
-				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				list.setPlMZId(plMZId);
 			}
 			
@@ -146,12 +146,10 @@ public class UsersService {
 				plMZId 	= result.getPlMZId();
 				usersDomain.setPlMZId(plMZId);
 			}
-			if(StringUtils.isNotEmpty(plMZId)) {
-				if(!"false".equals(usersDomain.getIsPaging())) {
-					plMZId = mask.maskSSN(plMZId);
-				}
+
+			if(plMZId != null) {
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			}
-			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			result.setPlMZId(plMZId);
 		}
 		
@@ -307,12 +305,12 @@ public class UsersService {
 					plMZId 	= list.getPlMZId();
 					usersDomain.setPlMZId(plMZId);
 				}
-				if(StringUtils.isNotEmpty(plMZId)) {
+				if(plMZId != null) {
 					if(!"false".equals(usersDomain.getIsPaging())) {
 						plMZId = mask.maskSSN(plMZId);
 					}
+					plMZId = plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				}
-				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				list.setPlMZId(plMZId);
 			}
 			
@@ -345,12 +343,11 @@ public class UsersService {
 				plMZId 	= result.getPlMZId();
 				usersDomain.setPlMZId(plMZId);
 			}
-			if(StringUtils.isNotEmpty(plMZId)) {
-				if(!"false".equals(usersDomain.getIsPaging())) {
-					plMZId = mask.maskSSN(plMZId);
-				}
+
+			if(plMZId != null) {
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			}
-			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			
 			result.setPlMZId(plMZId);
 		}
 		
@@ -615,12 +612,12 @@ public class UsersService {
 					plMZId 	= list.getPlMZId();
 					usersDomain.setPlMZId(plMZId);
 				}
-				if(StringUtils.isNotEmpty(plMZId)) {
+				if(plMZId != null) {
 					if(!"false".equals(usersDomain.getIsPaging())) {
 						plMZId = mask.maskSSN(plMZId);
 					}
+					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				}
-				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				list.setPlMZId(plMZId);
 			}
 			
@@ -652,7 +649,9 @@ public class UsersService {
 			}else {
 				plMZId 	= result.getPlMZId();
 			}
-			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			if(plMZId != null) {
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			}
 			result.setPlMZId(plMZId);
 		}
 		
@@ -674,7 +673,11 @@ public class UsersService {
 			}else {
 				reqPlMZId 	= result.getReqPlMZId();
 			}
-			reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
+			
+			if(reqPlMZId != null) {
+				reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
+			}
+			
 			result.setReqPlMZId(reqPlMZId);
 		}
 		
@@ -848,12 +851,12 @@ public class UsersService {
 					plMZId 	= list.getPlMZId();
 					usersDomain.setPlMZId(plMZId);
 				}
-				if(StringUtils.isNotEmpty(plMZId)) {
+				if(plMZId != null) {
 					if(!"false".equals(usersDomain.getIsPaging())) {
 						plMZId = mask.maskSSN(plMZId);
 					}
+					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				}
-				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 				list.setPlMZId(plMZId);
 			}
 			
@@ -884,7 +887,11 @@ public class UsersService {
 			}else {
 				plMZId 	= result.getPlMZId();
 			}
-			plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			
+			if(plMZId != null) {
+				plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+			}
+			
 			result.setPlMZId(plMZId);
 		}
 		
@@ -906,7 +913,11 @@ public class UsersService {
 			}else {
 				reqPlMZId 	= result.getReqPlMZId();
 			}
-			reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
+			
+			if(reqPlMZId != null) {
+				reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
+			}
+			
 			result.setReqPlMZId(reqPlMZId);
 		}
 		

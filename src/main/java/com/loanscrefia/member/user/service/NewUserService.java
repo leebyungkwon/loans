@@ -885,6 +885,12 @@ public class NewUserService {
 		userRepo.insertNewUserHistory(param);
 		int result = userRepo.newUserDropApply(newUserDomain);
 		
+		
+		// 정보 저장 후 
+		NewUserDomain resultInfo = new NewUserDomain();
+		resultInfo = userRepo.getNewUserRegDetail(newUserDomain);
+		
+		
 		//배치 테이블 저장
 		BatchDomain batchDomain = new BatchDomain();
 		JSONObject jsonParam = new JSONObject();
@@ -892,13 +898,13 @@ public class NewUserService {
 		JSONArray jsonArray = new JSONArray();
 		
 		if("1".equals(userRegInfo.getPlClass())) {
-			jsonParam.put("master_seq", userRegInfo.getMasterSeq());
-			jsonParam.put("lc_num", userRegInfo.getPlRegistNo());
+			jsonParam.put("master_seq", resultInfo.getMasterSeq());
+			jsonParam.put("lc_num", resultInfo.getPlRegistNo());
 			
 			// 배열
-			jsonArrayParam.put("con_num", userRegInfo.getConNum());
-			jsonArrayParam.put("cancel_date", userRegInfo.getCreHaejiDate().replaceAll("-", ""));
-			jsonArrayParam.put("cancel_code", userRegInfo.getPlHistCd());
+			jsonArrayParam.put("con_num", resultInfo.getConNum());
+			jsonArrayParam.put("cancel_date", resultInfo.getComHaejiDate().replaceAll("-", ""));
+			jsonArrayParam.put("cancel_code", resultInfo.getPlHistCd());
 			
 			jsonArray.put(jsonArrayParam);
 			jsonParam.put("con_arr", jsonArray);
@@ -906,18 +912,18 @@ public class NewUserService {
 			batchDomain.setScheduleName("dropApply");
 			batchDomain.setParam(jsonParam.toString());
 			batchDomain.setProperty01("1"); //개인,법인 구분값
-			batchDomain.setProperty02(Integer.toString(userRegInfo.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
-			batchDomain.setProperty03(Integer.toString(userRegInfo.getMasterSeq())); 			// 마지막 결과값 변경시에 사용될 master_seq
+			batchDomain.setProperty02(Integer.toString(resultInfo.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+			batchDomain.setProperty03(Integer.toString(resultInfo.getMasterSeq())); 			// 마지막 결과값 변경시에 사용될 master_seq
 			batchRepository.insertBatchPlanInfo(batchDomain);
 			
 		}else {
 			
-			jsonParam.put("master_seq", userRegInfo.getMasterSeq());				
-			jsonParam.put("corp_lc_num", userRegInfo.getPlRegistNo());
+			jsonParam.put("master_seq", resultInfo.getMasterSeq());				
+			jsonParam.put("corp_lc_num", resultInfo.getPlRegistNo());
 			// 배열
-			jsonArrayParam.put("con_num", userRegInfo.getConNum());
-			jsonArrayParam.put("cancel_date", userRegInfo.getCreHaejiDate().replaceAll("-", ""));
-			jsonArrayParam.put("cancel_code", userRegInfo.getPlHistCd());
+			jsonArrayParam.put("con_num", resultInfo.getConNum());
+			jsonArrayParam.put("cancel_date", resultInfo.getComHaejiDate().replaceAll("-", ""));
+			jsonArrayParam.put("cancel_code", resultInfo.getPlHistCd());
 			
 			jsonArray.put(jsonArrayParam);
 			jsonParam.put("con_arr", jsonArray);
@@ -925,8 +931,8 @@ public class NewUserService {
 			batchDomain.setScheduleName("dropApply");
 			batchDomain.setParam(jsonParam.toString());
 			batchDomain.setProperty01("2");														//개인,법인 구분값
-			batchDomain.setProperty02(Integer.toString(userRegInfo.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
-			batchDomain.setProperty03(Integer.toString(userRegInfo.getMasterSeq())); 			// 마지막 결과값 변경시에 사용될 master_seq
+			batchDomain.setProperty02(Integer.toString(resultInfo.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+			batchDomain.setProperty03(Integer.toString(resultInfo.getMasterSeq())); 			// 마지막 결과값 변경시에 사용될 master_seq
 			batchRepository.insertBatchPlanInfo(batchDomain);
 		}
 
@@ -940,10 +946,10 @@ public class NewUserService {
 				// 문자발송 추가
 				SmsDomain smsDomain = new SmsDomain();
 				smsDomain.setTranCallback("0220110700");
-				smsDomain.setTranPhone(userRegInfo.getPlCellphone());
+				smsDomain.setTranPhone(resultInfo.getPlCellphone());
 				smsDomain.setTranStatus("1");
 				String smsMsg = "";
-				smsMsg += loginInfo.getComCodeNm()+" 로부터 "+userRegInfo.getPlMName()+"님의 대출성상품 모집인 등록 해지신청이 접수되었습니다.";
+				smsMsg += resultInfo.getComCodeNm()+" 로부터 "+resultInfo.getPlMName()+"님의 대출성상품 모집인 등록 해지신청이 접수되었습니다.";
 				smsDomain.setTranMsg(smsMsg);
 				smsDomain.setTranEtc1("10070");
 				smsResult = smsRepository.sendSms(smsDomain);
