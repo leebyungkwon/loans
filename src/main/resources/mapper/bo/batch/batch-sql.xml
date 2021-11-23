@@ -78,7 +78,7 @@
     	<choose>
     		<when test="scheduleName == 'dropApply' ">
     			AND reg_time <![CDATA[<]]> (now() - interval'4 days')
-				AND reg_time <![CDATA[>]]> (now() - interval'4 days 30minutes');
+				AND reg_time <![CDATA[>]]> (now() - interval'4 days 30minutes')
     		</when>
     		<otherwise>
 				AND reg_time <![CDATA[>]]> (now() - interval'30 minute')    			
