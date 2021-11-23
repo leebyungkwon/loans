@@ -332,16 +332,16 @@ public class BatchController {
 		BatchDomain batch = new BatchDomain();
 		batch.setScheduleName("dropApply");
 		// 해지요청 오늘날짜 기준으로 -4일기준 전부
-		List<NewApplyDomain> dropApplyList = batchService.selectDropApplyList(batch);
-		int reqCnt = dropApplyList.size();
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
 		batch.setReqCnt(reqCnt);
 		
 		int successCnt = 0;
 		// schedule_hist 시작 이력 저장
 		int scheduleSeq = batchService.insertScheduleHist(batch);
 		
-		for(NewApplyDomain drop : dropApplyList) {
-			int success = batchService.dropApply(drop, batch);
+		for(BatchDomain drop : batchList) {
+			int success = batchService.dropApply(drop);
 			successCnt = successCnt + success;
 		}
 		

@@ -23,19 +23,22 @@ public class CorpUsersExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName="법인번호", vCell="D", vLenMin=14, vLenMax=14, vEncrypt="Y")
 	private String plMerchantNo;
 	
-	@ExcelColumn(headerName = "범죄이력", vCell="E", vLenMin=1, vLenMax=1, vEnum="Y,N")	
+	@ExcelColumn(headerName = "사회적신용", vCell="E", vLenMin=1, vLenMax=1, vEnum="Y,N")	
 	private String dis9;
 	
+	/*
 	@ExcelColumn(headerName = "부실금융기관", vCell="F", vLenMin=1, vLenMax=1, vEnum="Y,N")	
 	private String dis10;
 	
 	@ExcelColumn(headerName = "영업취소", vCell="G", vLenMin=1, vLenMax=1, vEnum="Y,N")	
 	private String dis11;
 	
-	@ExcelColumn(headerName = "대부업자", vCell="H", vLenMin=1, vLenMax=1, vEnum="Y,N")	
+	*/
+	
+	@ExcelColumn(headerName = "대부업자", vCell="F", vLenMin=1, vLenMax=1, vEnum="Y,N")	
 	private String dis12;
 	
-	@ExcelColumn(headerName = "다단계판매업자", vCell="I", vLenMin=1, vLenMax=1, vEnum="Y,N")	
+	@ExcelColumn(headerName = "다단계판매업자", vCell="G", vLenMin=1, vLenMax=1, vEnum="Y,N")	
 	private String dis13;
 	
 }

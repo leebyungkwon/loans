@@ -833,86 +833,69 @@ public class BatchService{
 	
 	// 2021-11-11 해지
 	@Transactional
-	public int dropApply(NewApplyDomain drop, BatchDomain req) throws Exception {
+	public int dropApply(BatchDomain req) throws Exception {
 		String errorMessage = "";
 		ApiDomain dropParam = new ApiDomain();
 		dropParam.setMethod("PUT");
+		JSONObject jsonParam = new JSONObject(req.getParam());
 		
-		JSONObject jsonParam = new JSONObject();
-		JSONObject jsonArrayParam = new JSONObject();
-		JSONArray jsonArray = new JSONArray();
-		String plClass = drop.getPlClass();
-		
-		if("1".equals(plClass)) {
-			// 개인
-			jsonParam.put("lc_num", drop.getPlRegistNo());
-			jsonParam.put("name", drop.getPlMName());
-			
-			// 배열
-			jsonArrayParam.put("con_num", drop.getConNum());
-			jsonArrayParam.put("con_date", drop.getComContDate().replaceAll("-", ""));
-			jsonArrayParam.put("con_mobile", drop.getPlCellphone().replaceAll("-", ""));
-			jsonArrayParam.put("fin_phone", "");
-			jsonArrayParam.put("loan_type", drop.getPlProduct());
-			jsonArrayParam.put("cancel_date", drop.getCreHaejiDate().replaceAll("-", ""));
-			jsonArrayParam.put("cancel_code", drop.getPlHistCd());
-			jsonArray.put(jsonArrayParam);
-			jsonParam.put("con_arr", jsonArray);
-			
+		int masterSeq = 0;
+		if(!jsonParam.isNull("master_seq")) {
+			masterSeq = jsonParam.getInt("master_seq");
 		}else {
-			// 법인
-			jsonParam.put("corp_lc_num", drop.getPlRegistNo());						// 등록번호
-			jsonParam.put("corp_name", drop.getPlMerchantName());					// 법인명
-			jsonParam.put("corp_rep_name", drop.getPlCeoName());					// 법인대표명
-			jsonParam.put("corp_rep_ssn", CryptoUtil.decrypt(drop.getPlMZId()));	// 법인대표주민번호
-			jsonParam.put("corp_rep_ci", drop.getCi());								// 법인대표CI
-			
-			// 배열
-			jsonArrayParam.put("con_num", drop.getConNum());
-			jsonArrayParam.put("con_date", drop.getComContDate().replaceAll("-", ""));
-			jsonArrayParam.put("fin_phone", "");
-			jsonArrayParam.put("loan_type", drop.getPlProduct());
-			jsonArrayParam.put("cancel_date", drop.getCreHaejiDate().replaceAll("-", ""));
-			jsonArrayParam.put("cancel_code", drop.getPlHistCd());
-			jsonArray.put(jsonArrayParam);
-			jsonParam.put("con_arr", jsonArray);
-			
+			req.setStatus("3");
+			req.setError("모집인 계약 seq 파라미터 오류");
+			errorMessage = "모집인 계약 seq 파라미터 오류";
+			throw new Exception();
 		}
-		dropParam.setParamJson(jsonParam);
+
+		// master_seq 추출 후 제거 
+		jsonParam.remove("master_seq");
+		
+		String plClass = req.getProperty01();
+		
 		if("1".equals(plClass)) {
 			dropParam.setUrl("/loan/v1/loan-consultants");
-			dropParam.setApiName("indvDropApply");
+			dropParam.setApiName("indvDrop");
 		}else if("2".equals(plClass)) {
 			dropParam.setUrl("/loan/v1/loan-corp-consultants");
-			dropParam.setApiName("corpDropApply");
+			dropParam.setApiName("corpDrop");
 		}else {
 			req.setStatus("3");
 			req.setError("구분(개인/법인) 파라미터 오류");
 			errorMessage = "구분(개인/법인) 파라미터 오류";
 			throw new Exception();
 		}
+		
+		dropParam.setParamJson(jsonParam);
+		
 		int cnt = 0;
+		
+		NewApplyDomain newApplyDomain = new NewApplyDomain();
+		newApplyDomain.setMasterSeq(masterSeq);
+		
 		try {
-			ResponseMsg dropResult = apiService.excuteApi(dropParam);
-			if("success".equals(dropResult.getCode())) {
-				// 해지완료 후 상태변경
-				drop.setApiResMsg(dropResult.getMessage());
-				drop.setApiSuccessCode(dropResult.getCode());
+			ResponseMsg updResult = apiService.excuteApi(dropParam);
+			if("success".equals(updResult.getCode())) {
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode(updResult.getCode());
 				req.setStatus("2");
 				cnt = 1;
 			}else {
-				// 해지API발송 실패
+				// 통신오류
 				req.setStatus("3");
-				errorMessage = "해지완료 오류 발생 :: "+dropResult.getCode();
-				drop.setApiResMsg(dropResult.getMessage());
-				drop.setApiSuccessCode("fail");
-				
+				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
+				newApplyDomain.setApiResMsg(updResult.getMessage());
+				newApplyDomain.setApiSuccessCode("fail");
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			req.setStatus("3");
-			drop.setApiResMsg(e.getMessage());
-			drop.setApiSuccessCode("fail");
+			
+			newApplyDomain.setApiResMsg(e.getMessage());
+			newApplyDomain.setApiSuccessCode("fail");
+			
 			if(StringUtils.isEmpty(errorMessage)) {
 				req.setError(e.getMessage());
 			}else {
@@ -920,7 +903,7 @@ public class BatchService{
 			}
 			
 		} finally {
-			batchRepository.updateDropApply(drop);
+			batchRepository.updateDropMasInfo(newApplyDomain);
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}

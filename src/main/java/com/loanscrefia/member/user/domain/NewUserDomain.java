@@ -21,6 +21,7 @@ public class NewUserDomain extends BaseDomain {
 	private String regPath;			//등록경로(BO:'B', FO:'F')
 	private int comCode;			//담당회원사코드
 	private int memberSeq;			//담당자시퀀스
+	private int userSeq;
 	private String subYn;			//약식등록여부
 	private String preRegYn;		//기등록여부						-> 기등록되어있으면 결제 따로 X
 	private String preLcNum;		//가등록번호

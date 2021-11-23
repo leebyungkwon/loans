@@ -83,9 +83,9 @@ public class UsersDomain extends BaseDomain {
 	private String updDis1;					// 결격사유 수정일시
 	private String updDis2;					// 범죄경력 수정일시
 	
-	private String dis9;					// 범죄이력
-	private String dis10;					// 부실금융기관
-	private String dis11;					// 영업취소
+	private String dis9;					// 범죄이력		-> 사회적신용
+	private String dis10;					// 부실금융기관		-> X
+	private String dis11;					// 영업취소		-> X
 	private String dis12;					// 대부업자
 	private String dis13;					// 다단계판매업자
 	

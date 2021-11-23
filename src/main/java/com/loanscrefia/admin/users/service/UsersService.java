@@ -416,7 +416,7 @@ public class UsersService {
 		usersDomain1.setDisCd("9");
 		usersDomain1.setDisVal(usersDomain.getDis9());
 		usersRepository.updateCorpUserDis(usersDomain1);
-		
+		/*
 		UsersDomain usersDomain2 = new UsersDomain();
 		usersDomain2.setUserSeq(usersDomain.getUserSeq());
 		usersDomain2.setDisCd("10");
@@ -428,7 +428,7 @@ public class UsersService {
 		usersDomain3.setDisCd("11");
 		usersDomain3.setDisVal(usersDomain.getDis11());
 		usersRepository.updateCorpUserDis(usersDomain3);
-		
+		*/
 		UsersDomain usersDomain4 = new UsersDomain();
 		usersDomain4.setUserSeq(usersDomain.getUserSeq());
 		usersDomain4.setDisCd("12");
@@ -500,6 +500,8 @@ public class UsersService {
 						usersDomain1.setDisVal(paramResult1.get("E").toString());
 						usersRepository.corpUsersDisExcelUpload(usersDomain1);
 
+						/*
+						
 						Map<String, Object> paramResult2 = excelResult.get(c);
 						UsersDomain usersDomain2 = new UsersDomain();
 						usersDomain2.setPlMerchantName(paramResult2.get("C").toString());
@@ -516,12 +518,14 @@ public class UsersService {
 						usersDomain3.setDisVal(paramResult3.get("G").toString());
 						usersRepository.corpUsersDisExcelUpload(usersDomain3);
 						
+						*/
+						
 						Map<String, Object> paramResult4 = excelResult.get(c);
 						UsersDomain usersDomain4 = new UsersDomain();
 						usersDomain4.setPlMerchantName(paramResult4.get("C").toString());
 						usersDomain4.setPlMerchantNo(paramResult4.get("D").toString());
 						usersDomain4.setDisCd("12");
-						usersDomain4.setDisVal(paramResult4.get("H").toString());
+						usersDomain4.setDisVal(paramResult4.get("F").toString());
 						usersRepository.corpUsersDisExcelUpload(usersDomain4);
 						
 						Map<String, Object> paramResult5 = excelResult.get(c);
@@ -529,7 +533,7 @@ public class UsersService {
 						usersDomain5.setPlMerchantName(paramResult5.get("C").toString());
 						usersDomain5.setPlMerchantNo(paramResult5.get("D").toString());
 						usersDomain5.setDisCd("13");
-						usersDomain5.setDisVal(paramResult5.get("I").toString());
+						usersDomain5.setDisVal(paramResult5.get("G").toString());
 						usersRepository.corpUsersDisExcelUpload(usersDomain5);
 						insertResult++;
 					}
@@ -718,7 +722,7 @@ public class UsersService {
 					ssnBatchDomain.setProperty01("1"); 													// 개인,법인 구분값
 					ssnBatchDomain.setProperty02(Integer.toString(usersResult.getUserSeq())); 			// 마지막 결과값 변경시에 사용될 user_seq
 					ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
-					ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
+					ssnBatchDomain.setProperty04("IndvReq");											// 개인정보와 주민등록번호 성공에 사용될 param
 					batchRepository.insertBatchPlanInfo(ssnBatchDomain);
 				}
 				
@@ -755,6 +759,7 @@ public class UsersService {
 					batchDomain.setProperty01("1"); //개인,법인 구분값
 					batchDomain.setProperty02(Integer.toString(result.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
 					batchDomain.setProperty03(Integer.toString(usersDomain.getUserIndvReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
+					batchDomain.setProperty04("IndvReq");											// 개인정보와 주민등록번호 성공에 사용될 param
 					
 					batchRepository.insertBatchPlanInfo(batchDomain);
 					usersDomain.setStat("1");
@@ -944,7 +949,7 @@ public class UsersService {
 					ssnBatchDomain.setScheduleName("loanSsnUpd");
 					ssnBatchDomain.setParam(ssnJsonParam.toString());
 					ssnBatchDomain.setProperty01("2"); 													//개인,법인 구분값
-					ssnBatchDomain.setProperty02(Integer.toString(usersResult.getUserSeq())); 				// 마지막 결과값 변경시에 사용될 user_seq
+					ssnBatchDomain.setProperty02(Integer.toString(usersResult.getUserSeq())); 			// 마지막 결과값 변경시에 사용될 user_seq
 					ssnBatchDomain.setProperty03(Integer.toString(usersDomain.getUserCorpReqSeq()));	// 마지막 결과값 변경시에 사용될 변경신청 seq
 					ssnBatchDomain.setProperty04("CorpReq");											// 개인정보와 주민등록번호 성공에 사용될 param
 					batchRepository.insertBatchPlanInfo(ssnBatchDomain);

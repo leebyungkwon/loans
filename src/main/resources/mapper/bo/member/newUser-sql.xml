@@ -82,6 +82,7 @@
 				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 				,TLM.pl_stat_req_seq
 				,TLM.pl_stat_req_path
+				,TLM.USER_SEQ
 		    FROM TB_LC_MAS01 TLM
 			<where>
 					AND TLM.USE_YN = 'Y'
@@ -240,6 +241,8 @@
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
 			,TLM.pl_stat_req_seq
 			,TLM.pl_stat_req_path
+			,TLM.api_res_msg
+			,TLM.USER_SEQ
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.USE_YN 		= 'Y'
@@ -716,6 +719,7 @@
 				,(SELECT TO_CHAR(TLP.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_REG_DATE
 				,TLM.pl_stat_req_seq
 				,TLM.pl_stat_req_path
+				,TLM.USER_SEQ
 		    FROM TB_LC_MAS01 TLM
 			<where>
 					AND TLM.USE_YN = 'Y'

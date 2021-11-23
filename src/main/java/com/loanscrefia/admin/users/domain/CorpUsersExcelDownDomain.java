@@ -22,14 +22,25 @@ public class CorpUsersExcelDownDomain extends BaseDomain {
 	private String plMerchantName;
 	@ExcelColumn(headerName = "법인번호", order = 3)	
 	private String plMerchantNo;
-	@ExcelColumn(headerName = "범죄이력", order = 4)	
+	
+	
+	
+	@ExcelColumn(headerName = "사회적신용", order = 4)	
 	private String dis9;
+	
+	/*
 	@ExcelColumn(headerName = "부실금융기관", order = 5)	
 	private String dis10;
 	@ExcelColumn(headerName = "영업취소", order = 6)	
 	private String dis11;
-	@ExcelColumn(headerName = "대부업자", order = 7)	
+	*/
+	
+	@ExcelColumn(headerName = "대부업자", order = 5)	
 	private String dis12;
-	@ExcelColumn(headerName = "다단계판매업자", order = 8)	
+	@ExcelColumn(headerName = "다단계판매업자", order = 6)	
 	private String dis13;
+	
+	
+	
+	
 }

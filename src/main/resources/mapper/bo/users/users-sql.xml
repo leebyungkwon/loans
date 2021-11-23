@@ -343,6 +343,48 @@
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
 	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as upd_dis1
+	   			, (
+					select
+						d.disqual_val
+					from
+						tb_lc_mas01_imwon im
+						, 
+						(
+							select
+								b.master_seq
+							from
+								tb_lc_users a
+							inner join tb_lc_mas01 b
+							on a.user_seq = b.user_seq
+							limit 1
+						) c
+						, tb_lc_users_disqual d
+					where im.master_seq = c.master_seq
+					and im.user_seq = d.user_seq
+					and d.master_seq = 0
+					and d.disqual_cd = '7'
+	   			) as dis1
+	   			, (
+					select
+						d.disqual_val
+					from
+						tb_lc_mas01_imwon im
+						, 
+						(
+							select
+								b.master_seq
+							from
+								tb_lc_users a
+							inner join tb_lc_mas01 b
+							on a.user_seq = b.user_seq
+							limit 1
+						) c
+						, tb_lc_users_disqual d
+					where im.master_seq = c.master_seq
+					and im.user_seq = d.user_seq
+					and d.master_seq = 0
+					and d.disqual_cd = '8'
+	   			) as dis2
 		    FROM tb_lc_users users
 			right outer join tb_lc_corp corp
 			on users.user_seq = corp.user_seq
@@ -389,8 +431,20 @@
 				AND Z.dis13 = #{dis13}
 			</if>
 			
+			<if test="dis1 != null and dis1 != ''">
+				AND Z.dis1 = #{dis1}
+			</if>
+			
+			<if test="dis2 != null and dis2 != ''">
+				AND Z.dis2 = #{dis2}
+			</if>
+			
 			<if test="passYn != null and passYn != ''">
 				AND Z.pass_yn = #{passYn}
+			</if>
+			
+			<if test="corpApprYn != null and corpApprYn != ''">
+				AND Z.corp_appr_yn = #{corpApprYn}
 			</if>
 
 			<if test="srchDate1 != null and srchDate1 != ''">
@@ -446,6 +500,48 @@
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
 	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as upd_dis1
+	   			, (
+					select
+						d.disqual_val
+					from
+						tb_lc_mas01_imwon im
+						, 
+						(
+							select
+								b.master_seq
+							from
+								tb_lc_users a
+							inner join tb_lc_mas01 b
+							on a.user_seq = b.user_seq
+							limit 1
+						) c
+						, tb_lc_users_disqual d
+					where im.master_seq = c.master_seq
+					and im.user_seq = d.user_seq
+					and d.master_seq = 0
+					and d.disqual_cd = '7'
+	   			) as dis1
+	   			, (
+					select
+						d.disqual_val
+					from
+						tb_lc_mas01_imwon im
+						, 
+						(
+							select
+								b.master_seq
+							from
+								tb_lc_users a
+							inner join tb_lc_mas01 b
+							on a.user_seq = b.user_seq
+							limit 1
+						) c
+						, tb_lc_users_disqual d
+					where im.master_seq = c.master_seq
+					and im.user_seq = d.user_seq
+					and d.master_seq = 0
+					and d.disqual_cd = '8'
+	   			) as dis2
 		    FROM tb_lc_users users
 			right outer join tb_lc_corp corp
 			on users.user_seq = corp.user_seq

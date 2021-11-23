@@ -12,20 +12,20 @@ function pageLoad(){
 		, url			: "/admin/corpUsers/corpUsersList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","아이디","이름","연락처","법인명","법인번호","범죄이력","부실</br>금융기관","영업취소","대부업자","다단계</br>판매업자","결격요건</br>수정일시","법인회원</br>승인여부","금융감독원</br>승인여부","가입일", "마지막</br>로그인일시","로그인</br>잠금여부"]
+		, headCol		: ["","아이디","이름","연락처","법인명","법인번호","사회적신용","대부업자","다단계</br>판매업자","대표자/임원의</br>결격사유","대표자/임원의</br>범죄경력","결격요건</br>수정일시","법인회원</br>승인여부","금융감독원</br>승인여부","가입일", "마지막</br>로그인일시","로그인</br>잠금여부"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'corpSeq'		, index:'corpSeq'			, width:"5%"	, hidden:true  	, id:true}
-				,{type:"string"	, name:'userId'			, index:'userId'			, width:"15%"	}
+				,{type:"string"	, name:'userId'			, index:'userId'			, width:"12%"	}
 				,{type:"string"	, name:'userName'		, index:'userName'			, width:"10%"	}
 				,{type:"string"	, name:'mobileNo'		, index:'mobileNo'			, width:"12%"	, align:"center"}
 				,{type:"string"	, name:'plMerchantName'	, index:'plMerchantName'	, width:"15%"	, align:"center"}
 				,{type:"string"	, name:'plMerchantNo'	, index:'plMerchantNo'	, width:"15%"	, align:"center"}
 				,{type:"string"	, name:'dis9'			, index:'dis9'			, width:"8%"	}
-				,{type:"string"	, name:'dis10'			, index:'dis10'			, width:"8%"	}
-				,{type:"string"	, name:'dis11'			, index:'dis11'			, width:"8%"	}
 				,{type:"string"	, name:'dis12'			, index:'dis12'			, width:"8%"	}
 				,{type:"string"	, name:'dis13'			, index:'dis13'			, width:"8%"	}
+				,{type:"string"	, name:'dis1'			, index:'dis1'			, width:"8%"	}
+				,{type:"string"	, name:'dis2'			, index:'dis2'			, width:"8%"	}
 				,{type:"string"	, name:'updDis1'		, index:'updDis1'		, width:"12%"	}
 				,{type:"string"	, name:'corpApprYn'		, index:'corpApprYn'	, width:"8%"	}
 				,{type:"string"	, name:'passYn'			, index:'passYn'		, width:"8%"	}
@@ -215,7 +215,6 @@ function goCorpDisExcelUpload() {
 						<input type="text" name="mobileNo">
 					</td>
 				</tr>
-				
 				<tr>
 					<th>법인명</th>
 					<td class="half_input">
@@ -234,27 +233,26 @@ function goCorpDisExcelUpload() {
 						</select>
 					</td>
 				</tr>
-				
 				<tr>
-					<th>범죄이력</th>
+					<th>법인회원 승인여부</th>
 					<td class="half_input">
-						<select name="dis9" id="dis9">
+						<select name="corpApprYn" id="corpApprYn">
 							<option value="">전체</option>
 							<option value="Y">Y</option>
 							<option value="N">N</option>
 						</select>
 					</td>
-					<th>부실금융기관</th>
+					<th>대표및임원의결격사유</th>
 					<td class="half_input">
-						<select name="dis10" id="dis10">
+						<select name="dis1" id="dis1">
 							<option value="">전체</option>
 							<option value="Y">Y</option>
 							<option value="N">N</option>
 						</select>
 					</td>
-					<th>영업취소</th>
+					<th>대표및임원의범죄경력</th>
 					<td class="half_input">
-						<select name="dis11" id="dis11">
+						<select name="dis2" id="dis2">
 							<option value="">전체</option>
 							<option value="Y">Y</option>
 							<option value="N">N</option>
@@ -263,6 +261,14 @@ function goCorpDisExcelUpload() {
 				</tr>
 				
 				<tr>
+					<th>사회적신용</th>
+					<td class="half_input">
+						<select name="dis9" id="dis9">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
 					<th>대부업자</th>
 					<td class="half_input">
 						<select name="dis12" id="dis12">
@@ -315,7 +321,7 @@ function goCorpDisExcelUpload() {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="loginStopUpdate();">로그인잠금해제</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">양식다운로드</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goCorpUserDisPopOpen();">결격요건업로드</a>
 			</div>
 		</div>

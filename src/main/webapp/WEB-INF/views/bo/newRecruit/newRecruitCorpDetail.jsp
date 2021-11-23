@@ -160,8 +160,8 @@ function goRecruitImprove(rePlStat){
 				<tr>
 					<th>회원사</th>
 					<td>${result.recruitInfo.comCodeNm }</td>
-					<th>담당자</th>
-					<td>${result.recruitInfo.memberNm } (${result.recruitInfo.email }<c:if test="${result.recruitInfo.extensionNo ne null && result.recruitInfo.extensionNo ne '' }">, ${result.recruitInfo.extensionNo }</c:if>)</td>
+					<th>API상태메세지</th>
+					<td>${result.recruitInfo.apiResMsg }</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>

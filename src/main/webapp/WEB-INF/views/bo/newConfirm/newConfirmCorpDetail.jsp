@@ -48,6 +48,10 @@ function pageLoad(){
 						<td>${result.userRegInfo.plStatNm }</td>
 					</tr>
 					<tr>
+						<th>API상태메세지</th>
+						<td colspan="3">${result.userRegInfo.apiResMsg }</td>
+					</tr>
+					<tr>
 						<th>모집인유형</th>
 						<td>${result.userRegInfo.plClassNm }</td>
 						<th>법인명</th>

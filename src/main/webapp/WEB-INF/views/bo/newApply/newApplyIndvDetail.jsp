@@ -200,8 +200,8 @@ function goApplyImprove(num){
 				<tr>
 					<th>회원사</th>
 					<td>${result.applyInfo.comCodeNm }</td>
-					<th>담당자</th>
-					<td>${result.applyInfo.memberNm } (${result.applyInfo.email }<c:if test="${result.applyInfo.extensionNo ne null && result.applyInfo.extensionNo ne '' }">, ${result.applyInfo.extensionNo }</c:if>)</td>
+					<th>API상태메세지</th>
+					<td>${result.applyInfo.apiResMsg }</td>
 				</tr>
 				<tr>
 					<th>모집인 상태</th>

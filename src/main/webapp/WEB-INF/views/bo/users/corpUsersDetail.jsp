@@ -49,14 +49,12 @@ function updateCorpUserDis(){
 	var dis12 = $("input[name='dis12']:checked").val();
 	var dis13 = $("input[name='dis13']:checked").val();
 	
-	if(confirm("결격사유를 수정 하시겠습니까?")){
+	if(confirm("선택한 결과로 결격요건을 수정 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/corpUsers/updateCorpUserDis"	
 			, param		: {
 				userSeq 	:	userSeq
 				, dis9		:	dis9
-				, dis10		:	dis10
-				, dis11		:	dis11
 				, dis12		:	dis12
 				, dis13		:	dis13
 			}
@@ -182,31 +180,13 @@ function usersCorpApply(){
 					</tr>
 					
 					<tr>
-						<th>범죄이력 조회결과</th>
+						<th>사회적신용 조회결과</th>
 						<td class="half_input">
 							<input type="radio" name="dis9" value="Y" id="dis9" <c:if test="${usersInfo.dis9 eq 'Y'}">checked="checked"</c:if> />
 							<label for="dis9">Y</label>
 							<input type="radio" name="dis9" value="N" id="dis10" <c:if test="${usersInfo.dis9 eq 'N'}">checked="checked"</c:if> />
 							<label for="dis10">N</label>						
 						</td>
-						<th>부실금융기관 조회결과</th>
-						<td class="half_input">
-							<input type="radio" name="dis10" value="Y" id="dis11" <c:if test="${usersInfo.dis10 eq 'Y'}">checked="checked"</c:if> />
-							<label for="dis11">Y</label>
-							<input type="radio" name="dis10" value="N" id="dis12" <c:if test="${usersInfo.dis10 eq 'N'}">checked="checked"</c:if> />
-							<label for="dis12">N</label>						
-						</td>
-						<th>영업취소 조회결과</th>
-						<td class="half_input">
-							<input type="radio" name="dis11" value="Y" id="dis13" <c:if test="${usersInfo.dis11 eq 'Y'}">checked="checked"</c:if> />
-							<label for="dis13">Y</label>
-							<input type="radio" name="dis11" value="N" id="dis14" <c:if test="${usersInfo.dis11 eq 'N'}">checked="checked"</c:if> />
-							<label for="dis14">N</label>						
-						</td>
-					</tr>
-					
-					
-					<tr>
 						<th>대부업자 조회결과</th>
 						<td class="half_input">
 							<input type="radio" name="dis12" value="Y" id="dis15" <c:if test="${usersInfo.dis12 eq 'Y'}">checked="checked"</c:if> />
@@ -221,10 +201,15 @@ function usersCorpApply(){
 							<input type="radio" name="dis13" value="N" id="dis18" <c:if test="${usersInfo.dis13 eq 'N'}">checked="checked"</c:if> />
 							<label for="dis18">N</label>						
 						</td>
+					</tr>
+					<tr>
+						<th>대표및임원의결격사유</th>
+						<td>${usersInfo.dis1}</td>
+						<th>대표및임원의범죄경력</th>
+						<td>${usersInfo.dis2}</td>
 						<th>결격요건수정일시</th>
 						<td>${usersInfo.updDis1}</td>
 					</tr>
-					
 					
 					<tr>
 						<th>첨부파일</th>

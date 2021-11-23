@@ -118,6 +118,14 @@ public interface BatchRepository {
 	// 개인정보수정 및 주민등록번호 수정 완료 카운트
 	int selectReqSsnInfoCnt(BatchDomain batchDomain);
 	
+	
+	// 계약 해지완료 상태 변경
+	int updateDropMasInfo(NewApplyDomain newApplyDomain);
+	
+	//배치 예정건 삭제
+	int deleteBatchPlanInfo(BatchDomain batchDomain);
+	
+	
 }
 
 

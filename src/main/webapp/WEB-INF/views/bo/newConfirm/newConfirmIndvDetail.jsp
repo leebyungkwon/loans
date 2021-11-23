@@ -42,15 +42,16 @@ function pageLoad(){
 						<th>처리상태</th>
 						<td>${result.userRegInfo.plStatNm }</td>
 					</tr>
-				
-				
+					<tr>
+						<th>API상태메세지</th>
+						<td colspan="3">${result.userRegInfo.apiResMsg }</td>
+					</tr>
 					<tr>
 						<th>모집인유형</th>
 						<td>${result.userRegInfo.plClassNm }</td>
 						<th>성명</th>
 						<td>${result.userRegInfo.plMName }</td>
 					</tr>
-					
 					<tr>
 						<th>주민등록번호</th>
 						<td>${result.userRegInfo.plMZId }</td>

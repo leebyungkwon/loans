@@ -92,7 +92,7 @@ function menuActiveFunction(){
 			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">모집인 조회 및 해지</a></li>
 			<li class="cate2">[고도화]회원 관리</li>
 			<li id="menuIndvUsers"><a href="/admin/users/indvUsersPage">개인회원관리</a></li>
-			<li id="menuCorpUsers"><a href="/admin/corpUsers/corpUsersPage">법인회원 및 법인관리</a></li>
+			<li id="menuCorpUsers"><a href="/admin/corpUsers/corpUsersPage">법인회원관리</a></li>
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">휴면회원관리</a></li>
 			<li class="cate2">[고도화]회원 정보 변경관리</li>		
 			<li id="menuUpdateIndvUsers"><a href="/admin/updateIndvUsers/updateIndvUsersPage">개인회원 정보변경관리</a></li>
