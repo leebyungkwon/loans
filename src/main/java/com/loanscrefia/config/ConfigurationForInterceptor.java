@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.loanscrefia.common.common.service.TransactionService;
+import com.loanscrefia.common.common.service.EnterService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ConfigurationForInterceptor extends HandlerInterceptorAdapter {
 
-	@Autowired private TransactionService tran;
+	@Autowired private EnterService ent;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		//서버에 접속되는 정보를 저장한다
-		tran.logSave(request);
+		ent.logSave(request);
 		
 		String url 			= request.getRequestURI();
 		//세션 체크
