@@ -912,6 +912,12 @@ public class NewRecruitService {
         				recruitInfo.setFileType29(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("41")) {
         				recruitInfo.setFileType41(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("42")) {
+        				recruitInfo.setFileType42(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("43")) {
+        				recruitInfo.setFileType43(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("44")) {
+        				recruitInfo.setFileType44(fileList.get(i));
         			}
         		}
         	}
@@ -939,6 +945,12 @@ public class NewRecruitService {
         				recruitInfo.setHistFileType29(fileHistList.get(p));
         			}else if(fileHistList.get(p).getFileType().equals("41")) {
         				recruitInfo.setHistFileType41(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("42")) {
+        				recruitInfo.setHistFileType42(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("43")) {
+        				recruitInfo.setHistFileType43(fileHistList.get(p));
+        			}else if(fileHistList.get(p).getFileType().equals("44")) {
+        				recruitInfo.setHistFileType44(fileHistList.get(p));
         			}
         		}
         	}

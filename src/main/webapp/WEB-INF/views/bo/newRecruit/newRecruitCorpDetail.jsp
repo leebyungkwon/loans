@@ -307,7 +307,7 @@ function goRecruitImprove(rePlStat){
 					<col width="62%"/>
 				</colgroup>
 				<tr>
-					<th class="acenter">정관 *</th>
+					<th class="acenter">정관(공증필요) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType1 ne null }">
@@ -339,7 +339,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">설립,등록 신청의 의사록 *</th>
+					<th class="acenter">설립,등록 신청의 의사결정을 증명할 수 있는 이사회 또는 주주총회 의사록(공증필요) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType3 ne null }">
@@ -371,7 +371,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">주주명부 *</th>
+					<th class="acenter">주주명부(법인인감날인 필수) *</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType5 ne null }">

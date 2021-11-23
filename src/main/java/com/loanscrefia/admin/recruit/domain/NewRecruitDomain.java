@@ -240,6 +240,9 @@ public class NewRecruitDomain extends BaseDomain {
 	private FileDomain fileType28;
 	private FileDomain fileType29;
 	private FileDomain fileType41;
+	private FileDomain fileType42;
+	private FileDomain fileType43;
+	private FileDomain fileType44;
 	
 	//검색
 	private String srchInput1;
@@ -283,4 +286,7 @@ public class NewRecruitDomain extends BaseDomain {
 	private FileDomain histFileType28;
 	private FileDomain histFileType29;
 	private FileDomain histFileType41;
+	private FileDomain histFileType42;
+	private FileDomain histFileType43;
+	private FileDomain histFileType44;
 }

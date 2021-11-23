@@ -194,7 +194,7 @@ function pageLoad(){
 								</c:if>
 
 								<tr>
-									<td class="acenter">상근입증서류 *</td>
+									<td class="acenter">상근입증서류(건강보험자격득실확인서) *</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpExpertList.fileType35 ne null }">
@@ -214,7 +214,7 @@ function pageLoad(){
 								</tr>
 								
 								<tr>
-									<td class="acenter">개인정보필수동의서 *</td>
+									<td class="acenter">개인정보필수동의서(업무수행인력) *</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpExpertList.fileType36 ne null }">

@@ -47,7 +47,32 @@ function pageLoad(){
 						<th>체크사항</th>
 					</tr>
 					<tr>
-						<td class="acenter">물적설비 증빙서류 *</td>
+						<td class="acenter">물적설비내역 확인서 *</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.applyInfo.fileType42 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType42.fileSeq }">${result.applyInfo.fileType42.fileFullNm }</a>
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd411" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd411}">checked</c:if>
+								<c:if test="${empty result.applyInfo.fileType42.fileSeq}">disabled</c:if>
+								 data-fileSeq="${result.applyInfo.fileType42.fileSeq }" >
+								<label for="check_cd411">법인 인감 날인 여부</label>
+							</div>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd412" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd412}">checked</c:if>
+								<c:if test="${empty result.applyInfo.fileType42.fileSeq}">disabled</c:if>
+								 data-fileSeq="${result.applyInfo.fileType42.fileSeq }" >
+								<label for="check_cd412">물적요건 설비내역 및 증빙자료 제출 여부</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="acenter">물적설비내역 증빙서류 *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType21 ne null }">
@@ -109,9 +134,8 @@ function pageLoad(){
 							</div>
 						</td>
 					</tr>
-					
 					<tr>
-						<td class="acenter">결격사유 없음 확인서 *</td>
+						<td class="acenter">결격사유 없음 확인서(법인) *</td>
 						<td>
 							<c:choose>
 								<c:when test="${result.applyInfo.fileType41 ne null }">
@@ -129,7 +153,63 @@ function pageLoad(){
 							</div>
 						</td>
 					</tr>
-					
+					<tr>
+						<td class="acenter">기업신용정보 조회서(최근 3년간 이력) *</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.applyInfo.fileType29 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType29.fileSeq }">${result.applyInfo.fileType29.fileFullNm }</a>
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd413" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd413}">checked</c:if>
+								<c:if test="${empty result.applyInfo.fileType29.fileSeq}">disabled</c:if>
+								 data-fileSeq="${result.applyInfo.fileType29.fileSeq }" >
+								<label for="check_cd413">확인</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="acenter">법인인감증명서 *</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.applyInfo.fileType43 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType43.fileSeq }">${result.applyInfo.fileType43.fileFullNm }</a>
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd414" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd414}">checked</c:if>
+								<c:if test="${empty result.applyInfo.fileType43.fileSeq}">disabled</c:if>
+								 data-fileSeq="${result.applyInfo.fileType43.fileSeq }" >
+								<label for="check_cd414">확인</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="acenter">개인신용정보 보관 전산설비 관련 확인서</td>
+						<td>
+							<c:choose>
+								<c:when test="${result.applyInfo.fileType44 ne null }">
+									<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType44.fileSeq }">${result.applyInfo.fileType44.fileFullNm }</a>
+								</c:when>
+								<c:otherwise>-</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<div class="input_check_wrap mgr10">
+								<input type="checkbox" id="check_cd415" class="check check_cd" <c:if test="${!empty result.applyInfo.checkCd415}">checked</c:if>
+								<c:if test="${empty result.applyInfo.fileType44.fileSeq}">disabled</c:if>
+								 data-fileSeq="${result.applyInfo.fileType44.fileSeq }" >
+								<label for="check_cd415">확인</label>
+							</div>
+						</td>
+					</tr>
 				</table>
 			</div>
 		</div>

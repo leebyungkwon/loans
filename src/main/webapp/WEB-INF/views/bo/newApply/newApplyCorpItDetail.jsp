@@ -96,7 +96,7 @@ function pageLoad(){
 									</td>
 								</tr>
 								<tr>
-									<td class="acenter">상근입증서류 *</td>
+									<td class="acenter">상근입증서류(건강보험자격득실확인서) *</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpItList.fileType20 ne null }">
@@ -142,7 +142,7 @@ function pageLoad(){
 								</tr>
 								
 								<tr>
-									<td class="acenter">개인정보 필수 동의서 *</td>
+									<td class="acenter">개인정보 필수 동의서(전산전문인력) *</td>
 									<td>
 										<c:choose>
 											<c:when test="${corpItList.fileType38 ne null }">

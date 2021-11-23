@@ -42,7 +42,23 @@ function pageLoad(){
 					</colgroup>
 					<tbody>
 						<tr>
-							<th class="acenter">물적설비 증빙서류 *</th>
+							<th class="acenter">물적설비내역 확인서 *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.recruitInfo.fileType42 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType42.fileSeq }">${result.recruitInfo.fileType42.fileFullNm }</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType42}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType42.fileGrpSeq }', '42');">변경사항</a>
+									</c:if>
+								</c:if>
+							</td>
+						</tr>
+						<tr>
+							<th class="acenter">물적설비내역 증빙서류 *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType21 ne null }">
@@ -89,9 +105,8 @@ function pageLoad(){
 								</c:if>
 							</td>
 						</tr>
-						
 						<tr>
-							<th class="acenter">결격사유 없음 확인서 *</th>
+							<th class="acenter">결격사유 없음 확인서(법인) *</th>
 							<td>
 								<c:choose>
 									<c:when test="${result.recruitInfo.fileType41 ne null }">
@@ -102,6 +117,54 @@ function pageLoad(){
 								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
 									<c:if test="${!empty result.recruitInfo.histFileType41}">
 										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType41.fileGrpSeq }', '41');">변경사항</a>
+									</c:if>
+								</c:if>
+							</td>
+						</tr>
+						<tr>
+							<th class="acenter">기업신용정보 조회서(최근 3년간 이력) *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.recruitInfo.fileType29 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType29.fileSeq }">${result.recruitInfo.fileType29.fileFullNm }</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType29}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType29.fileGrpSeq }', '29');">변경사항</a>
+									</c:if>
+								</c:if>
+							</td>
+						</tr>
+						<tr>
+							<th class="acenter">법인인감증명서 *</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.recruitInfo.fileType43 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType43.fileSeq }">${result.recruitInfo.fileType43.fileFullNm }</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType43}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType43.fileGrpSeq }', '43');">변경사항</a>
+									</c:if>
+								</c:if>
+							</td>
+						</tr>
+						<tr>
+							<th class="acenter">개인신용정보 보관 전산설비 관련 확인서</th>
+							<td>
+								<c:choose>
+									<c:when test="${result.recruitInfo.fileType44 ne null }">
+										<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType44.fileSeq }">${result.recruitInfo.fileType44.fileFullNm }</a>
+									</c:when>
+									<c:otherwise>-</c:otherwise>
+								</c:choose>
+								<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+									<c:if test="${!empty result.recruitInfo.histFileType44}">
+										<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType44.fileGrpSeq }', '44');">변경사항</a>
 									</c:if>
 								</c:if>
 							</td>

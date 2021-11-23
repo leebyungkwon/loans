@@ -360,7 +360,7 @@ function goApplyImprove(num){
 					<th>체크사항</th>
 				</tr>
 				<tr>
-					<td class="acenter">정관 *</td>
+					<td class="acenter">정관(공증필요) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType1 ne null }">
@@ -424,7 +424,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">설립,등록 신청의 의사록 *</td>
+					<td class="acenter">설립,등록 신청의 의사결정을 증명할 수 있는 이사회 또는 주주총회 의사록(공증필요) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType3 ne null }">
@@ -474,7 +474,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">주주명부 *</td>
+					<td class="acenter">주주명부(법인인감날인 필수) *</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType5 ne null }">

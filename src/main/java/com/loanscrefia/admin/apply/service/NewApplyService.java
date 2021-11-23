@@ -1033,6 +1033,12 @@ public class NewApplyService {
         				applyInfo.setFileType29(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("41")) {
         				applyInfo.setFileType41(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("42")) {
+        				applyInfo.setFileType42(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("43")) {
+        				applyInfo.setFileType43(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("44")) {
+        				applyInfo.setFileType44(fileList.get(i));
         			}
         			
         			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
@@ -1061,6 +1067,16 @@ public class NewApplyService {
         					applyInfo.setCheckCd409(tmp.getCheckCd());
         				}else if("410".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd410(tmp.getCheckCd());
+        				}else if("411".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd411(tmp.getCheckCd());
+        				}else if("412".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd412(tmp.getCheckCd());
+        				}else if("413".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd413(tmp.getCheckCd());
+        				}else if("414".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd414(tmp.getCheckCd());
+        				}else if("415".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd415(tmp.getCheckCd());
         				}
         			}
         			
