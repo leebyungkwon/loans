@@ -249,7 +249,7 @@
 		)	
 	</insert>
 	
-		<insert id="saveTransactionLog" parameterType="tranInfo">
+	<insert id="saveTransactionLog" parameterType="tranInfo">
 		INSERT INTO TB_LC_BO_LOG
 		VALUES(
 			  #{regSeq}

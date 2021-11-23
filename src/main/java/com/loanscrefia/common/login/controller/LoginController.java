@@ -1,6 +1,9 @@
 package com.loanscrefia.common.login.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.loanscrefia.common.common.service.EnterService;
 import com.loanscrefia.common.login.service.LoginService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.common.member.domain.SignupDomain;
@@ -27,17 +32,22 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController {
 
 	@Autowired private LoginService loginService;
-
+	@Autowired private EnterService enter;
+	
 	// 로그인 페이지
 	@GetMapping("/login")
-	public ModelAndView dispLogin(HttpServletRequest request) {
+	public ModelAndView dispLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
 		HttpSession session = request.getSession();
 		MemberDomain memberDomain = (MemberDomain) session.getAttribute("member");
 		ModelAndView mv = new ModelAndView();
 		if(memberDomain != null) {
 			mv.setViewName("redirect:/main");
 		}else {
-			mv.setViewName(CosntPage.Common + "/login");
+			if(!enter.isVaildIp(request)) 		{
+				mv.setViewName(CosntPage.Error + "/noIp");
+			}
+			else mv.setViewName(CosntPage.Common + "/login");
 		}
 		return mv;
 	}
@@ -72,6 +82,11 @@ public class LoginController {
     @GetMapping("/denied")
     public ModelAndView dispDenied() {
     	ModelAndView mv = new ModelAndView(CosntPage.Error+"/denied");
+        return mv;
+    }
+    @GetMapping("/noIp")
+    public ModelAndView noIp() {
+    	ModelAndView mv = new ModelAndView(CosntPage.Error+"/noIp");
         return mv;
     }
 	

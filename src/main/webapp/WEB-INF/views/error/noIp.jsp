@@ -43,22 +43,9 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript"/>
 	<meta http-equiv="Content-Style-Type" content="text/css"/>
 	<title>여신금융협회</title>
-	
-	<sec:authentication property="principal.username" var="tempMemberSeq" />
-	<script>
-		function pageLoad(){
-			<sec:authorize access="hasAnyRole('TEMP_MEMBER')">
-				$("#adminDetailFrm").submit();
-			</sec:authorize>
-		}
-	</script>
 </head>
 <body>
 
-<form id="adminDetailFrm" method="post" action="/member/admin/adminDetailUpdPage">
-	<input type="hidden" name="memberSeq" value="${tempMemberSeq}"/>
-	<input type="hidden" name="tempMemberCheck" value="Y"/>
-</form>
 
 <div class="error_Wrap">
     <div class="box">

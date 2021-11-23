@@ -1749,6 +1749,15 @@ COMMENT ON COLUMN tb_lc_within_adm.reg_timestamp IS '등록일시';
 COMMENT ON COLUMN tb_lc_within_adm.upd_seq IS '수정자시퀀스';
 COMMENT ON COLUMN tb_lc_within_adm.upd_timestamp IS '수정일시';
 
+
+INSERT INTO public.tb_lc_cod01
+(code_mst_cd, code_mst_nm, code_mst_desc, property01, property02, property03, property04, property05, use_yn, reg_seq, reg_timestamp, upd_seq, upd_timestamp)
+VALUES('RT0001', '접근가능IP', '해당 IP만 사이트 접근이 가능', '', '', '', '', '', 'Y'::character varying, 0, now(), 0, now());
+
+INSERT INTO public.tb_lc_cod01_detail
+(code_mst_cd, code_dtl_cd, code_dtl_nm, code_dtl_desc, property01, property02, property03, property04, property05, use_yn, reg_seq, reg_timestamp, upd_seq, upd_timestamp)
+VALUES('RT0001', '1', '118.235.9', '테스트', '', '', '', '', '', 'Y'::character varying, 0, now(), 0, now());
+
 commit;
 
 

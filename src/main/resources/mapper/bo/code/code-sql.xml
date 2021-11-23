@@ -120,6 +120,9 @@
 			<if test="property05 != null and property05 != ''">
 				AND PROPERTY05 = #{property05}
 			</if>
+			<if test="codeDtlNm != null and codeDtlNm != ''">
+				AND CODE_DTL_NM = #{codeDtlNm}
+			</if>
 		</where>
 		ORDER BY CODE_DTL_CD::INTEGER ASC
 	</select>
