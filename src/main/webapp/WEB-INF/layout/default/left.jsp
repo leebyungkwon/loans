@@ -89,7 +89,7 @@ function menuActiveFunction(){
 			
 			<li class="cate2">[고도화]모집인 관리</li>
 			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">모집인 등록 승인처리</a></li>
-			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">모집인 조회 및 해지</a></li>
+			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">모집인 조회 및 변경</a></li>
 			<li class="cate2">[고도화]회원 관리</li>
 			<li id="menuIndvUsers"><a href="/admin/users/indvUsersPage">개인회원관리</a></li>
 			<li id="menuCorpUsers"><a href="/admin/corpUsers/corpUsersPage">법인회원관리</a></li>
@@ -112,13 +112,10 @@ function menuActiveFunction(){
 			<li id="menuNewConfirm"><a href="/member/newConfirm/newConfirmPage">해지신청 및 조회</a></li>
 		</sec:authorize>
 		
-		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">
 			<li class="cate2">[고도화]기타</li>	
 			<li id="menuBoard"><a href="/common/board/noticePage">공지사항</a></li>
 		</sec:authorize>
-		
-		
 		
 		<sec:authorize access="hasAnyRole('SYSTEM')">
 			<li class="cate1 ">시스템</li>

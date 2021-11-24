@@ -190,7 +190,104 @@ $(document).mouseup(function(e){
 
  
  
- 
+ /*
+
+//위반이력사항 코드 호출
+function goCallViolationCd(){
+	var violationCode = {
+		 useCode 	: true
+		,code 		: 'VIT001'
+		,target 	: '.violationCd'
+		,updData 	: ''
+	};
+	DataUtil.selectBox(violationCode);
+}
+
+//위반이력사항 영역 추가
+function goViolationAdd(obj){
+	var html = $(".violationArea").last().clone();
+	$("#table > table").append(html);
+	$(".violationArea").last().find("td").find("select").find("option").eq(0).attr("selected","selected");
+}
+*/
+
+//위반이력사항 영역 삭제
+function goViolationDel(obj){
+	var violationAreaLen = $(".violationArea").length;
+	if(violationAreaLen == 1){
+		alert("더 이상 삭제할 수 없습니다.");
+		return;
+	}
+	$(obj).closest("tr").remove();
+}
+
+//위반이력사항 데이터 삭제요청
+function goViolationDataDelApply(violationSeq,obj){
+	if(confirm("위반이력 삭제를 요청하시겠습니까?")){
+		var p = {
+			  url		: "/member/newConfirm/newApplyDeleteViolationInfo"	
+			, param		: {
+				  violationSeq 	: violationSeq
+			}
+			, success 	: function (opt,result) {
+				if(result.code == "success"){
+					$(obj).closest("tr").find("td").addClass("red");
+					$(obj).closest("tr").find("td").find("a:last").remove();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+//위반이력사항 데이터 삭제
+function goViolationDataDel(vioNum,violationSeq,obj){
+	
+	if(WebUtil.isNull(vioNum)){
+		alert("위반이력번호를 확인해 주세요.");
+		return false;
+	}
+	
+	if(WebUtil.isNull(violationSeq)){
+		alert("위반이력일련번호를 확인해 주세요.");
+		return false;
+	}	
+	
+	if(confirm("요청과 동시에 은행연합회 API가 발송됩니다.\n위반이력을 삭제하시겠습니까?")){
+		var p = {
+			  url		: "/member/newConfirm/newDeleteNewUserViolationInfo"	
+			, param		: {
+				  violationSeq 	: violationSeq
+				  , vioNum		: vioNum
+			}
+			, success 	: function (opt,result) {
+				
+				$(obj).closest("tr").remove();
+				
+				var violationAreaLen 	= $(".violationArea").length;
+				
+				if(violationAreaLen == 0){
+					goViolationAdd(obj);
+				}
+				
+				/*
+				var violationAreaLen 	= $(".violationArea").length;
+				var aLen 				= $(obj).closest("tr").find("td").find("a").length;
+				
+				if(aLen == 2){
+					$(".violationArea").eq(violationAreaLen - 2).find("td").find("a").before('<a href="javascript:void(0);" class="btn_Lgray btn_add mgl5 mgt7" onclick="goViolationAdd(this);">+</a> '); //공백 제거 금지
+				}else if(violationAreaLen == 1){
+					goViolationAdd(obj);
+				}
+				
+				$(obj).closest("tr").remove();
+				*/
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
  
  
  

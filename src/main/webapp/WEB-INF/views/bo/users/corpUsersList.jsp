@@ -190,7 +190,7 @@ function goCorpDisExcelUpload() {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>법인회원 및 법인관리</h2>
+			<h2>법인회원관리</h2>
 		</div>
 		<div class="info_box k_search" id="search">
 			<table class="info_box_table" style="width: 90%;">

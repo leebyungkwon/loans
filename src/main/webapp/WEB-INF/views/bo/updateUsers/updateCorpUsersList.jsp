@@ -34,6 +34,16 @@ function pageLoad(){
 		, size 			: 10
 	});
 	
+	//정보변경상태
+ 	var statCode = {
+		 useCode 	: true
+		,code 		: 'CHG001'
+		,target 	: '#stat'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(statCode);
+	
 	//datepicker
 	$("#date_cal01").datepicker({
 		 dateFormat	: "yy-mm-dd"
@@ -91,7 +101,7 @@ function usersDetail(idx, data){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>법인회원 및 법인관리</h2>
+			<h2>법인회원 정보변경관리</h2>
 		</div>
 		<div class="info_box k_search" id="search">
 			<table class="info_box_table" style="width: 90%;">
@@ -127,6 +137,10 @@ function usersDetail(idx, data){
 					<th>법인번호</th>
 					<td class="half_input">
 						<input type="text" name="plMerchantNo">
+					</td>
+					<th>상태</th>
+					<td class="half_input">
+						<select name="stat" id="stat"></select>
 					</td>
 				</tr>
 				

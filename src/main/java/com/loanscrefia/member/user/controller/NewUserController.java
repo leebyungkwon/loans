@@ -112,17 +112,6 @@ public class NewUserController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 2021-10-12 고도화 - 모집인 조회 및 해지 페이지(회원사)
 	@GetMapping(value="/newConfirm/newConfirmPage")
 	public String newConfirmPage() {
@@ -213,6 +202,29 @@ public class NewUserController {
 		ResponseMsg responseMsg = userService.newUserDropApplyCancel(newUserDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	
+	//위반이력 삭제요청
+	@PostMapping(value="/newConfirm/newApplyDeleteViolationInfo")
+	public ResponseEntity<ResponseMsg> newApplyDeleteViolationInfo(NewUserDomain newUserDomain){
+		ResponseMsg responseMsg = userService.newApplyDeleteViolationInfo(newUserDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//위반이력 삭제
+	@PostMapping(value="/newConfirm/newDeleteNewUserViolationInfo")
+	public ResponseEntity<ResponseMsg> newDeleteNewUserViolationInfo(NewUserDomain newUserDomain){
+		ResponseMsg responseMsg = userService.newDeleteNewUserViolationInfo(newUserDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	//위반이력 등록 및 배치 insert
+	@PostMapping(value="/newConfirm/newUpdateVio")
+    public ResponseEntity<ResponseMsg> newUpdateVio(NewUserDomain newUserDomain) throws IOException {
+		ResponseMsg responseMsg = userService.newUpdateVio(newUserDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+    }
 	
 	
 	

@@ -400,7 +400,7 @@ public class BatchController {
 	
 	
 	// 위반이력 등록
-	@Scheduled(cron ="0 * * * * *")
+	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="violationReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void violationReg() throws Exception {
 		if(isLocalBatch()) return;
@@ -434,7 +434,7 @@ public class BatchController {
 	
 
 	// 위반이력 삭제
-	@Scheduled(cron ="0 * * * * *")
+	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="violationDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void violationDel() throws Exception {
 		if(isLocalBatch()) return;

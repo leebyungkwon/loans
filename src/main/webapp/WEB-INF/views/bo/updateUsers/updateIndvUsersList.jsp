@@ -33,6 +33,16 @@ function pageLoad(){
 		, size 			: 10
 	});
 	
+	//정보변경상태
+ 	var statCode = {
+		 useCode 	: true
+		,code 		: 'CHG001'
+		,target 	: '#stat'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(statCode);	
+	
 	//datepicker
 	$("#date_cal01").datepicker({
 		 dateFormat	: "yy-mm-dd"
@@ -114,6 +124,12 @@ function usersDetail(idx, data){
 					<th>연락처</th>
 					<td class="half_input">
 						<input type="text" name="mobileNo">
+					</td>
+				</tr>
+				<tr>
+					<th>상태</th>
+					<td class="half_input">
+						<select name="stat" id="stat"></select>
 					</td>
 				</tr>
 				<tr>

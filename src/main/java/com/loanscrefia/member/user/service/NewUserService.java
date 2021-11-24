@@ -234,7 +234,11 @@ public class NewUserService {
         	}
     	}
     	
+    	
+    	
+    	
     	//위반이력
+    	newUserDomain.setUserSeq(userRegInfo.getUserSeq());
     	List<NewUserDomain> violationInfoList 	= userRepo.selectNewUserViolationInfoList(newUserDomain);
     	
     	//결제정보
@@ -342,6 +346,7 @@ public class NewUserService {
 		}
 		
 		//위반이력
+		newUserDomain.setUserSeq(userRegInfo.getUserSeq());
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(newUserDomain);
     	
     	//결제정보
@@ -991,6 +996,93 @@ public class NewUserService {
 		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
 	}
 	
+	//위반이력 삭제요청
+	@Transactional
+	public ResponseMsg newApplyDeleteViolationInfo(NewUserDomain newUserDomain){
+		int updateResult = userRepo.newApplyDeleteViolationInfo(newUserDomain);
+		if(updateResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "삭제요청되었습니다.");
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	
+	//위반이력 삭제 
+	@Transactional
+	public ResponseMsg newDeleteNewUserViolationInfo(NewUserDomain newUserDomain){
+		
+		//위반이력 삭제 배치 insert
+		JSONObject jsonDelVioParam = new JSONObject();
+		jsonDelVioParam.put("vio_num", newUserDomain.getVioNum());										// 위반이력번호
+		jsonDelVioParam.put("vio_seq", newUserDomain.getViolationSeq());								// 위반이력시퀀스
+		
+		BatchDomain vioBatchDomain = new BatchDomain();
+		vioBatchDomain.setScheduleName("violationDel");
+		vioBatchDomain.setParam(jsonDelVioParam.toString());
+		batchRepository.insertBatchPlanInfo(vioBatchDomain);
+		
+		// 배치등록 후 삭제
+		int deleteResult = userRepo.newDeleteNewUserViolationInfo(newUserDomain);
+		if(deleteResult > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "위반이력이 삭제되었습니다.");
+		}
+		return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+	}
+	
+	//위반이력 등록 및 배치 insert
+	@Transactional
+	public ResponseMsg newUpdateVio(NewUserDomain newUserDomain){
+		
+		String[] violationCdArr = newUserDomain.getViolationCdArr();
+		int vioTotCnt = 0;
+		int vioCnt = 0;
+		
+		if(violationCdArr != null && violationCdArr.length > 0) {
+			vioTotCnt = violationCdArr.length;
+			for(int i = 0;i < violationCdArr.length;i++) {
+				if(violationCdArr[i] != null && !violationCdArr[i].equals("")) {
+					newUserDomain.setViolationCd(violationCdArr[i]);
+					userRepo.insertNewUserViolationInfo(newUserDomain);
+					vioCnt++;
+				}
+			}
+		}
+		
+		if(vioTotCnt == vioCnt) {
+			
+			NewUserDomain resultInfo = userRepo.getNewUserRegDetail(newUserDomain);
+			
+			//위반이력
+	    	NewUserDomain userDomain = new NewUserDomain();
+	    	userDomain.setUserSeq(newUserDomain.getUserSeq());
+	    	
+	    	// 등록해야할 위반이력
+	    	List<NewUserDomain> violationRegList = userRepo.selectNewUserViolationInfoList(userDomain);
+			
+			if(violationRegList.size() > 0) {
+				// 위반이력 등록
+				for(NewUserDomain regVio : violationRegList) {
+					JSONObject jsonRegVioParam = new JSONObject();
+					jsonRegVioParam.put("lc_num", resultInfo.getPlRegistNo());					// 등록번호
+					jsonRegVioParam.put("vio_seq", regVio.getViolationSeq());					// 위반이력시퀀스
+					jsonRegVioParam.put("ssn", resultInfo.getPlMZId());							// 주민등록번호
+					jsonRegVioParam.put("vio_fin_code", resultInfo.getComCode());				// 금융기관코드
+					jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
+					jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
+				
+					BatchDomain vioBatchDomain = new BatchDomain();
+					vioBatchDomain.setScheduleName("violationReg");
+					vioBatchDomain.setParam(jsonRegVioParam.toString());
+					batchRepository.insertBatchPlanInfo(vioBatchDomain);
+
+				}
+			}
+			return new ResponseMsg(HttpStatus.OK, "success", "위반이력이 등록되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+		}
+		
+	}
 	
 	
 }

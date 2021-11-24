@@ -17,14 +17,10 @@ public class UserExcelDomain extends BaseDomain {
 
 	@ExcelColumn(headerName = "접수번호", order = 0)
 	private String masterToId;		//접수번호ID(조회)
-	@ExcelColumn(headerName = "가등록번호", order = 15)
-	private String preLcNum;		//가등록번호
 	@ExcelColumn(headerName = "법인사용인여부", order = 5)
 	private String corpUserYn;		//법인사용인여부
 	@ExcelColumn(headerName = "등록번호", order = 1)
-	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
-	@ExcelColumn(headerName = "CI", order = 16)
-	private String ci;				//CI값
+	private String plRegistNo;		//모집인등록번호						
 	@ExcelColumn(headerName = "이름", order = 7)
 	private String plMName;			//모집인이름
 	@ExcelColumn(headerName = "주민번호", order = 8)
@@ -39,8 +35,6 @@ public class UserExcelDomain extends BaseDomain {
 	private String creAppDate;		//승인일
 	@ExcelColumn(headerName = "자격취득일", order = 14)
 	private String creLicenseDate;	//자격취득일
-	@ExcelColumn(headerName = "담당자명", order = 17)
-	private String memberNm;		//담당자명
 	@ExcelColumn(headerName = "모집인분류", order = 4)
 	private String plClassNm;		//분류명
 	@ExcelColumn(headerName = "금융상품유형", order = 6)

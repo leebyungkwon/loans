@@ -263,17 +263,10 @@
 			,TO_CHAR(REG_TIMESTAMP, 'YYYYMMDD') AS REG_TIMESTAMP
 			,UPD_SEQ
 			,UPD_TIMESTAMP
+			,USER_SEQ
 		FROM TB_LC_VIOLATION
-		WHERE MASTER_SEQ = #{masterSeq}
-		<if test="vioNum != null and vioNum != ''">
-			<if test='vioNum.equals("empty")'>
-				AND (VIO_NUM IS NULL OR VIO_NUM = '')
-				AND APPLY_YN = 'N'
-			</if>
-			<if test='vioNum.equals("notEmpty")'>
-				AND APPLY_YN = 'Y'
-			</if>			
-		</if>
+		WHERE USER_SEQ = #{userSeq}
+		AND APPLY_YN = 'N'
 		ORDER BY VIOLATION_SEQ ASC
 	</select>
 	
@@ -833,5 +826,42 @@
    			master_seq = #{masterSeq}
    	</select>
    	
+   	
+   	
+	<!-- 위반이력 삭제요청 -->
+	<update id="newApplyDeleteViolationInfo" parameterType="newUser">
+		UPDATE TB_LC_VIOLATION
+		SET
+			 APPLY_YN 		= 'Y'
+			,UPD_SEQ		= #{updSeq}
+			,UPD_TIMESTAMP	= NOW()
+		WHERE
+			VIOLATION_SEQ = #{violationSeq}
+	</update>
+	
+	
+	<!-- 위반이력 삭제 -->
+	<delete id="newDeleteNewUserViolationInfo" parameterType="newUser">
+		DELETE FROM TB_LC_VIOLATION
+		WHERE VIOLATION_SEQ = #{violationSeq}
+	</delete>
+	
+	<!-- 위반이력 저장 -->
+	<insert id="insertNewUserViolationInfo" parameterType="newUser">
+		INSERT INTO TB_LC_VIOLATION
+		(
+			 USER_SEQ
+			,VIOLATION_CD
+			,REG_SEQ
+			,REG_TIMESTAMP
+		)
+		VALUES
+		(
+			 #{userSeq}
+			,#{violationCd}
+			,#{regSeq}
+			,NOW()
+		)
+	</insert>
    	
 </mapper> 

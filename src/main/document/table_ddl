@@ -1004,14 +1004,15 @@ commit;
 create table tb_lc_violation(
 	violation_seq integer not null default nextval('tb_lc_violation_seq')
 	, vio_num varchar(10)
-	, master_seq integer not null
+	, master_seq integer
+	, user_seq integer
 	, violation_cd varchar(10) not null
 	, apply_yn char(1) not null default 'N'
 	, reg_timestamp timestamp not null
 	, reg_seq integer not null
 	, upd_timestamp timestamp NULL
 	, upd_seq INTEGER NULL
-	, primary key (violation_seq, master_seq)
+	, primary key (violation_seq)
 );
 
 COMMENT ON TABLE tb_lc_violation IS '위반이력정보';

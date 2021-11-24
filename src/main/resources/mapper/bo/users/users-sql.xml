@@ -705,8 +705,8 @@
 				AND Z.dis1 = #{dis1}
 			</if>
 			
-			<if test="dis2 != null and dis2 != ''">
-				AND Z.dis2 = #{dis2}
+			<if test="stat != null and stat != ''">
+				AND Z.stat = #{stat}
 			</if>
 			
 			<if test="srchDate1 != null and srchDate1 != ''">
@@ -813,12 +813,16 @@
 				AND Z.email LIKE '%' || #{email} || '%'
 			</if>
 			
-			<if test="dis1 != null and dis1 != ''">
-				AND Z.dis1 = #{dis1}
+			<if test="plMerchantNo != null and plMerchantNo != ''">
+				AND Z.pl_merchant_no LIKE '%' || #{plMerchantNo} || '%'
+			</if>
+			 
+			<if test="plMerchantName != null and plMerchantName != ''">
+				AND Z.pl_merchant_name LIKE '%' || #{plMerchantName} || '%'
 			</if>
 			
-			<if test="dis2 != null and dis2 != ''">
-				AND Z.dis2 = #{dis2}
+			<if test="stat != null and stat != ''">
+				AND Z.stat = #{stat}
 			</if>
 			
 			<if test="srchDate1 != null and srchDate1 != ''">
