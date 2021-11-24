@@ -1191,6 +1191,7 @@ create table tb_lc_users(
 	, user_name varchar(50) not null
 	, mobile_no varchar(20) not null
 	, pl_class char(1) not null
+	, crf_cd char(1) null
 	, pl_m_z_id varchar(100)
 	, email varchar(100)
 	, user_ci varchar(100)
@@ -1238,6 +1239,7 @@ create table tb_lc_users_inactive(
 	, user_name varchar(50) not null
 	, mobile_no varchar(20) not null
 	, pl_class char(1) not null
+	, crf_cd char(1) null
 	, pl_m_z_id varchar(100)
 	, email varchar(100)
 	, user_ci varchar(100)
@@ -1450,6 +1452,7 @@ create table tb_lc_users_hist(
 	, user_name varchar(50) not null
 	, mobile_no varchar(20) not null
 	, pl_class char(1) not null
+	, crf_cd char(1) null
 	, pl_m_z_id varchar(100)
 	, email varchar(100)
 	, user_ci varchar(100)
