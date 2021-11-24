@@ -85,7 +85,7 @@ function goRecruitApply(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/newApply/newApplyPage";
+					location.href="/admin/newApply/newApplyPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -136,7 +136,7 @@ function goApplyImprove(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/newApply/newApplyPage";
+					location.href="/admin/newApply/newApplyPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -225,8 +225,14 @@ function goApplyImprove(num){
 				<tr>
 					<th>모집인 분류</th>
 					<td>${result.applyInfo.plClassNm }</td>
-					<th>결격사유 및 범죄이력</th>
-					<td>${result.applyInfo.disVal }</td>
+					<th>사회적신용</th>
+					<td>${result.applyInfo.dis9 }</td>
+				</tr>
+				<tr>
+					<th>대부업자</th>
+					<td>${result.applyInfo.dis12 }</td>
+					<th>다단계판매업자</th>
+					<td>${result.applyInfo.dis13 }</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>

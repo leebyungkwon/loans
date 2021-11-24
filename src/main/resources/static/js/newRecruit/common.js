@@ -147,7 +147,8 @@ function goTab3(gubun){
 
 //모집인 조회 및 변경 > 목록 이동
 function goRecruitList(){
-	history.back();
+	//history.back();
+	location.href = "/admin/newRecruit/newRecruitPage?historyback=Y";
 }
 
 //모집인 승인처리 > 목록 이동

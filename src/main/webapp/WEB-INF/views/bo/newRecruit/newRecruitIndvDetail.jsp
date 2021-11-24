@@ -65,7 +65,7 @@ function goRecruitApply(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/newRecruit/newRecruitPage";
+					location.href="/admin/newRecruit/newRecruitPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -119,7 +119,7 @@ function goRecruitImprove(rePlStat){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/newRecruit/newRecruitPage";
+					location.href="/admin/newRecruit/newRecruitPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();

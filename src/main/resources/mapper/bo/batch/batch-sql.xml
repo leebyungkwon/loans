@@ -546,4 +546,11 @@
 		and property03 = #{property03}
     </delete>
     
+    
+    <!-- 금일 토큰 생성 확인 -->
+    <select id="getTokenCheck" parameterType="batch" resultType="int">
+		select COUNT(*) from kfb_api_key kak
+		where ins_dt = to_Char(now(), 'YYYYMMDD')
+    </select>
+    
 </mapper>

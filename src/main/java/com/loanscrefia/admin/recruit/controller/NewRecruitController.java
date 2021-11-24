@@ -42,11 +42,15 @@ public class NewRecruitController {
 	 * -------------------------------------------------------------------------------------------------------
 	 */
 	
+	
 	//리스트 페이지
 	@GetMapping(value="/newRecruit/newRecruitPage")
-	public String recruitPage() {
-		return CosntPage.BoNewRecruitPage+"/newRecruitList";
+	public ModelAndView recruitPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoNewRecruitPage+"/newRecruitList");
+		mv.addObject("historyback", historyback);
+		return mv;
 	}
+	
 	
 	//리스트
 	@PostMapping(value="/newRecruit/newRecruitList")

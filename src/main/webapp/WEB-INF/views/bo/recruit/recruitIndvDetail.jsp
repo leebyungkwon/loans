@@ -98,7 +98,7 @@ function goRecruitApply(num){
 	
 	if(confirm("요청사항을 승인하시겠습니까?")){
 		var p = {
-			  url		: "/admin/newRecruit/updateNewPlStat"	
+			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
 				 masterSeq 		: $("#masterSeq").val()
 				,plStat			: plStat
@@ -111,7 +111,7 @@ function goRecruitApply(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/newRecruit/newRecruitPage";
+					location.href="/admin/recruit/recruitPage";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -154,7 +154,7 @@ function goRecruitImprove(rePlStat){
 	
 	if(confirm(confirmMessage)){
 		var p = {
-			  url		: "/admin/newRecruit/updateNewPlStat"	
+			  url		: "/admin/recruit/updatePlStat"	
 			, param		: {
 				 masterSeq 	: $("#masterSeq").val()
 				,plStat		: plStat
@@ -165,7 +165,7 @@ function goRecruitImprove(rePlStat){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/newRecruit/newRecruitPage";
+					location.href="/admin/recruit/recruitPage";
 				}else{
 					alert(result.data.message);
 					location.reload();

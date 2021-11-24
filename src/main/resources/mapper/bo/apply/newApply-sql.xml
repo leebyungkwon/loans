@@ -246,29 +246,27 @@
 	   	 ORDER BY ${searchAppDate}, TLM.MASTER_SEQ ASC
    		)Z	
    		<where>
-	   		<if test="disYn != null and disYn != ''">
-	   			<if test='disYn == "Y" '>
-					and (
-							case when z.pl_class = '1' then dis1 end = 'Y'
-							or case when z.pl_class = '1' then dis2 end = 'Y'
-							or case when z.pl_class = '2' then dis9 end = 'Y'
-							or case when z.pl_class = '2' then dis10 end = 'Y'
-							or case when z.pl_class = '2' then dis11 end = 'Y'
-							or case when z.pl_class = '2' then dis12 end = 'Y'
-					)
-	   			</if>
-	   			<if test='disYn == "N" '>
-					and (
-							((case when z.pl_class = '1' then dis1 end) = 'N' 
-							and (case when z.pl_class = '1' then dis2 end) = 'N')
-							or ((case when z.pl_class = '2' then dis9 end) = 'N' 
-							and (case when z.pl_class = '2' then dis10 end) = 'N'
-							and (case when z.pl_class = '2' then dis11 end) = 'N' 
-							and (case when z.pl_class = '2' then dis12 end) = 'N'
-							and (case when z.pl_class = '2' then dis13 end) = 'N')
-						)
-	   			</if>	   		
+   		
+	   		<if test="dis1 != null and dis1 != ''">
+	   			AND dis1 = #{dis1}  		
 	   		</if>
+	   		
+	   		<if test="dis2 != null and dis2 != ''">
+	   			AND dis2 = #{dis2}  		
+	   		</if>
+	   		
+	   		<if test="dis9 != null and dis9 != ''">
+	   			AND dis9 = #{dis9}  		
+	   		</if>
+	   		
+	   		<if test="dis12 != null and dis12 != ''">
+	   			AND dis12 = #{dis12}  		
+	   		</if>
+	   		
+	   		<if test="dis13 != null and dis13 != ''">
+	   			AND dis13 = #{dis13}  		
+	   		</if>
+	   		
    		</where>
 	    <include refid="common.pageBottom"/>
    	</select>
@@ -396,6 +394,13 @@
 			,TLM.USER_SEQ
 			,FN_USER_NAME(TLM.USER_SEQ) AS user_name
 			,TLM.API_RES_MSG
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '7' limit 1) as dis1
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '8' limit 1) as dis2
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as dis9
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '10' limit 1) as dis10
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '11' limit 1) as dis11
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
+   			, (select b.disqual_val from tb_lc_users_disqual b where TLM.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ 	= #{masterSeq}

@@ -41,12 +41,6 @@ function updateUserStat(num){
 		return false;
 	}
 	
-	if(WebUtil.isNull(txt)){
-		alert("사유를 입력해 주세요.");
-		$("#txt").focus();
-		return false;
-	}
-	
 	if(confirm(confirmMessage)){
 		var p = {
 			  url		: "/admin/updateCorpUsers/updateCorpUsersStat"	

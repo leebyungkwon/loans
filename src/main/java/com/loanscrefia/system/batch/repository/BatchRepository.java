@@ -28,6 +28,9 @@ public interface BatchRepository {
 
 	List<BatchDomain> selectReqBatchList(BatchDomain param);
 	
+	// 금일 토큰 생성 확인
+	int getTokenCheck(BatchDomain param);
+	
 	//배치 예정건 등록
 	int insertBatchPlanInfo(BatchDomain batchDomain);
 	

@@ -70,6 +70,8 @@ function updatePassYn(){
 	var corpSeq = $("#corpSeq").val();
 	var passYn = $("input[name='passYn']:checked").val();
 	
+	console.log("####" + corpSeq);
+	
 	if(confirm("금융감독원 승인여부를 수정 하시겠습니까?")){
 		var p = {
 			  url		: "/admin/corpUsers/updatePassYn"	

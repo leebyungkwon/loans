@@ -351,9 +351,45 @@ function goApplyImprove() {
 					<td class="">
 						<input type="text" name="plMerchantNo" placeholder="-를 빼고 입력해주세요.">
 					</td>
-					<th>결격사유및범죄이력</th>
+				</tr>
+				<tr>
+					<th>결격사유</th>
 					<td class="half_input">
-						<select name="disYn" id="disYn">
+						<select name="dis1" id="dis1">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+					<th>범죄경력</th>
+					<td class="half_input">
+						<select name="dis2" id="dis2">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>사회적신용</th>
+					<td class="half_input">
+						<select name="dis9" id="dis9">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+					<th>대부업자</th>
+					<td class="half_input">
+						<select name="dis12" id="dis12">
+							<option value="">전체</option>
+							<option value="Y">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+					<th>다단계판매업자</th>
+					<td class="half_input">
+						<select name="dis13" id="dis13">
 							<option value="">전체</option>
 							<option value="Y">Y</option>
 							<option value="N">N</option>
@@ -374,7 +410,6 @@ function goApplyImprove() {
 						<input type="checkbox" id="applyResultCheck" name="applyResultCheck"/>
 					</td>
 				</tr>
-				
 				<tr>
 					<th>승인요청일</th>
 					<td colspan="6" class="long_input">

@@ -80,6 +80,11 @@ public class BatchService{
 		return batchRepository.selectReqBatchList(param);
 	}
 	
+	// 2021-11-24 금일 토큰 생성 확인
+	public int getTokenCheck(BatchDomain param) {
+		return batchRepository.getTokenCheck(param);
+	}
+	
 	
 	
 	

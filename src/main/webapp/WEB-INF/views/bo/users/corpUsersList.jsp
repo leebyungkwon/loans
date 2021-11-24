@@ -34,6 +34,8 @@ function pageLoad(){
 				,{type:"string"	, name:'failStopYn'		, index:'failStopYn'	, width:"8%"	, align:"center"}
 				,{type:"string"	, name:'userSeq'		, index:'userSeq'			, width:"5%"	, hidden:true}
 			]
+		, sortNm 		: "corp_seq"
+		, sort 			: "DESC"
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
 		, excel 		: "/admin/corpUsers/corpUsersExcelListDown"
