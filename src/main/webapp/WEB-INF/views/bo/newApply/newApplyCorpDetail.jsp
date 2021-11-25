@@ -505,7 +505,7 @@ function goApplyImprove(num){
 					</td>
 				</tr>
 				<tr>
-					<td class="acenter">영위하는 다른 업종에 대한 증빙서류</td>
+					<td class="acenter">영위하는 다른 업종에 대한 증빙서류(허가증,등록증 등)</td>
 					<td>
 						<c:choose>
 							<c:when test="${result.applyInfo.fileType6 ne null }">

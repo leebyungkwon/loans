@@ -387,7 +387,7 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
-					<th class="acenter">영위하는 다른 업종에 대한 증빙서류</th>
+					<th class="acenter">영위하는 다른 업종에 대한 증빙서류(허가증,등록증 등)</th>
 					<td>
 						<c:choose>
 							<c:when test="${result.recruitInfo.fileType6 ne null }">
