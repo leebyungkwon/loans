@@ -17,10 +17,18 @@ public class UserExcelDomain extends BaseDomain {
 
 	@ExcelColumn(headerName = "접수번호", order = 0)
 	private String masterToId;		//접수번호ID(조회)
+	@ExcelColumn(headerName = "등록번호", order = 1)
+	private String plRegistNo;		//모집인등록번호		
+	@ExcelColumn(headerName = "모집인상태", order = 2)
+	private String plRegStatNm;		//모집인상태명
+	@ExcelColumn(headerName = "처리상태", order = 3)
+	private String plStatNm;	
+	@ExcelColumn(headerName = "모집인분류", order = 4)
+	private String plClassNm;		//분류명
 	@ExcelColumn(headerName = "법인사용인여부", order = 5)
 	private String corpUserYn;		//법인사용인여부
-	@ExcelColumn(headerName = "등록번호", order = 1)
-	private String plRegistNo;		//모집인등록번호						
+	@ExcelColumn(headerName = "금융상품유형", order = 6)
+	private String plProductNm;		//취급상품명
 	@ExcelColumn(headerName = "이름", order = 7)
 	private String plMName;			//모집인이름
 	@ExcelColumn(headerName = "주민번호", order = 8)
@@ -33,16 +41,11 @@ public class UserExcelDomain extends BaseDomain {
 	private String plMerchantNo;	//법인등록번호
 	@ExcelColumn(headerName = "승인완료일", order = 12)
 	private String creAppDate;		//승인일
-	@ExcelColumn(headerName = "자격취득일", order = 14)
-	private String creLicenseDate;	//자격취득일
-	@ExcelColumn(headerName = "모집인분류", order = 4)
-	private String plClassNm;		//분류명
-	@ExcelColumn(headerName = "금융상품유형", order = 6)
-	private String plProductNm;		//취급상품명
-	@ExcelColumn(headerName = "모집인상태", order = 2)
-	private String plRegStatNm;		//모집인상태명
-	@ExcelColumn(headerName = "처리상태", order = 3)
-	private String plStatNm;		//처리상태명
 	@ExcelColumn(headerName = "결제완료일", order = 13)
 	private String payRegDate;
+	@ExcelColumn(headerName = "자격취득일", order = 14)
+	private String creLicenseDate;	//자격취득일
+	@ExcelColumn(headerName = "ci", order = 15)
+	private String ci;	
+	
 }

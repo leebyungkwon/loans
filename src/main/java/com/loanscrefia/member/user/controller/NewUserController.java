@@ -27,6 +27,7 @@ import com.loanscrefia.member.user.domain.UserExcelDomain;
 import com.loanscrefia.member.user.domain.UserExpertDomain;
 import com.loanscrefia.member.user.domain.UserImwonDomain;
 import com.loanscrefia.member.user.domain.UserItDomain;
+import com.loanscrefia.member.user.domain.UserRegExcelDomain;
 import com.loanscrefia.member.user.service.NewUserService;
 import com.loanscrefia.util.UtilExcel;
 
@@ -48,6 +49,15 @@ public class NewUserController {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
     	responseMsg.setData(userService.selectNewUserRegList(newUserDomain));
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 2021-10-12 고도화 - 모집인 확인처리 엑셀 다운로드
+	@PostMapping("/newUser/newUserRegExcelDown")
+	public void newUserRegExcelDown(NewUserDomain newUserDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		// 2021-07-27 페이징 false
+		newUserDomain.setIsPaging("false");
+ 		List<NewUserDomain> excelDownList = userService.selectNewUserRegList(newUserDomain);
+ 		new UtilExcel().downLoad(excelDownList, UserRegExcelDomain.class, response.getOutputStream());
 	}
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 개인
