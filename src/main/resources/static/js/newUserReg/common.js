@@ -244,12 +244,12 @@ function goViolationDataDelApply(violationSeq,obj){
 function goViolationDataDel(vioNum,violationSeq,obj){
 	
 	if(WebUtil.isNull(vioNum)){
-		alert("위반이력번호를 확인해 주세요.");
+		alert("위반이력번호에 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
 		return false;
 	}
 	
 	if(WebUtil.isNull(violationSeq)){
-		alert("위반이력일련번호를 확인해 주세요.");
+		alert("위반이력일련번호에 오류가 발생하였습니다.\n관리자에 문의해 주세요.");
 		return false;
 	}	
 	

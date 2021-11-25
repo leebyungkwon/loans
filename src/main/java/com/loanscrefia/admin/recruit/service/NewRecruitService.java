@@ -336,6 +336,7 @@ public class NewRecruitService {
     	}
     	
     	NewUserDomain userDomain = new NewUserDomain();
+    	userDomain.setUserSeq(recruitInfo.getUserSeq());
     	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
     	//위반이력
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(userDomain);
@@ -492,7 +493,9 @@ public class NewRecruitService {
 		}
 		
     	NewUserDomain userDomain = new NewUserDomain();
+    	userDomain.setUserSeq(recruitInfo.getUserSeq());
     	userDomain.setMasterSeq(recruitDomain.getMasterSeq());
+    	
     	//위반이력
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(userDomain);
     	

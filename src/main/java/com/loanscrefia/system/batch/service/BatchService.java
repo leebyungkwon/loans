@@ -933,12 +933,12 @@ public class BatchService{
 		vioRegParam.setApiName("violationReg");
 
 		// 암호화된 데이터 decrypt
-		String ssn = jsonParam.getString("ssn").toString();
+		String ssn = jsonParam.getString("ssn");
 		jsonParam.remove("ssn");
 		jsonParam.put("ssn", CryptoUtil.decrypt(ssn));
 		
 		// 위반이력 시퀀스
-		String vioSeq = jsonParam.getString("vio_seq").toString();
+		String vioSeq = jsonParam.getString("vio_seq");
 		// vio_seq 추출 후 제거 
 		jsonParam.remove("vio_seq");
 		vioRegParam.setParamJson(jsonParam);

@@ -76,4 +76,8 @@ public interface NewUserRepository {
 	// 2021-10-25 금융상품세부내용 리스트 조회
 	List<ProductDtlDomain> selectPlProductDetailList(NewUserDomain newUserDomain);
 	
+	// 2021-11-24 배치 등록해야 할 위반이력 
+	List<NewUserDomain> selectNewUserInsertViolationInfoList(NewUserDomain newUserDomain);
+	
+	
 }

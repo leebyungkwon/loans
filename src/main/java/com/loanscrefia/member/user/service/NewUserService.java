@@ -1014,7 +1014,7 @@ public class NewUserService {
 		//위반이력 삭제 배치 insert
 		JSONObject jsonDelVioParam = new JSONObject();
 		jsonDelVioParam.put("vio_num", newUserDomain.getVioNum());										// 위반이력번호
-		jsonDelVioParam.put("vio_seq", newUserDomain.getViolationSeq());								// 위반이력시퀀스
+		jsonDelVioParam.put("vio_seq",  String.valueOf(newUserDomain.getViolationSeq()));
 		
 		BatchDomain vioBatchDomain = new BatchDomain();
 		vioBatchDomain.setScheduleName("violationDel");
@@ -1058,17 +1058,22 @@ public class NewUserService {
 	    	
 	    	// 등록해야할 위반이력
 	    	List<NewUserDomain> violationRegList = userRepo.selectNewUserViolationInfoList(userDomain);
-			
 			if(violationRegList.size() > 0) {
 				// 위반이력 등록
 				for(NewUserDomain regVio : violationRegList) {
 					JSONObject jsonRegVioParam = new JSONObject();
-					jsonRegVioParam.put("lc_num", resultInfo.getPlRegistNo());					// 등록번호
-					jsonRegVioParam.put("vio_seq", regVio.getViolationSeq());					// 위반이력시퀀스
-					jsonRegVioParam.put("ssn", resultInfo.getPlMZId());							// 주민등록번호
-					jsonRegVioParam.put("vio_fin_code", resultInfo.getComCode());				// 금융기관코드
-					jsonRegVioParam.put("vio_code", regVio.getViolationCd());					// 위반사유코드
-					jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());					// 위반일
+					jsonRegVioParam.put("lc_num", resultInfo.getPlRegistNo());							// 등록번호
+					jsonRegVioParam.put("vio_seq", String.valueOf(regVio.getViolationSeq()));
+					
+					if("1".equals(resultInfo.getPlClass())) {
+						jsonRegVioParam.put("ssn", resultInfo.getPlMZId());									// 주민등록번호
+					}else {
+						jsonRegVioParam.put("ssn", resultInfo.getPlMerchantNo());							// 법인은 법인번호
+					}
+					
+					jsonRegVioParam.put("vio_fin_code", String.valueOf(resultInfo.getComCode()));		// 금융기관코드
+					jsonRegVioParam.put("vio_code", regVio.getViolationCd());							// 위반사유코드
+					jsonRegVioParam.put("vio_date", regVio.getRegTimestamp());							// 위반일
 				
 					BatchDomain vioBatchDomain = new BatchDomain();
 					vioBatchDomain.setScheduleName("violationReg");

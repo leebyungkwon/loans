@@ -266,7 +266,7 @@
 			,USER_SEQ
 		FROM TB_LC_VIOLATION
 		WHERE USER_SEQ = #{userSeq}
-		AND APPLY_YN = 'N'
+		AND APPLY_YN != 'D'
 		ORDER BY VIOLATION_SEQ ASC
 	</select>
 	
@@ -841,10 +841,14 @@
 	
 	
 	<!-- 위반이력 삭제 -->
-	<delete id="newDeleteNewUserViolationInfo" parameterType="newUser">
-		DELETE FROM TB_LC_VIOLATION
+	<update id="newDeleteNewUserViolationInfo" parameterType="newUser">
+		UPDATE TB_LC_VIOLATION
+		SET
+			APPLY_YN = 'D'
+			,UPD_SEQ		= #{updSeq}
+			,UPD_TIMESTAMP	= NOW()
 		WHERE VIOLATION_SEQ = #{violationSeq}
-	</delete>
+	</update>
 	
 	<!-- 위반이력 저장 -->
 	<insert id="insertNewUserViolationInfo" parameterType="newUser">
@@ -863,5 +867,26 @@
 			,NOW()
 		)
 	</insert>
+	
+	
+	<!-- 배치 등록해야 할 위반이력  -->
+	<select id="selectNewUserInsertViolationInfoList" parameterType="newUser" resultType="newUser">
+		SELECT
+			 VIOLATION_SEQ
+			,MASTER_SEQ
+			,VIOLATION_CD
+			,FN_CD_DTL('VIT001',VIOLATION_CD) AS VIOLATION_CD_NM
+			,VIO_NUM
+			,APPLY_YN
+			,REG_SEQ
+			,TO_CHAR(REG_TIMESTAMP, 'YYYYMMDD') AS REG_TIMESTAMP
+			,UPD_SEQ
+			,UPD_TIMESTAMP
+			,USER_SEQ
+		FROM TB_LC_VIOLATION
+		WHERE USER_SEQ = #{userSeq}
+		AND APPLY_YN = 'N'
+		ORDER BY VIOLATION_SEQ ASC
+	</select>
    	
 </mapper> 

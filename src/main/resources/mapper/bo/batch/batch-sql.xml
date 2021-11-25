@@ -352,6 +352,7 @@
 		UPDATE TB_LC_VIOLATION
 		SET
 			VIO_NUM = #{vioNum}
+			, APPLY_YN = 'Y'
 		WHERE
 			VIOLATION_SEQ = #{violationSeq}
 	</update>
