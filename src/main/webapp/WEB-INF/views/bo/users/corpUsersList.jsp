@@ -39,7 +39,7 @@ function pageLoad(){
 		, rowClick		: {color:"#ccc", retFunc : usersDetail}
 		, gridSearch 	: "search,searchBtn"
 		, excel 		: "/admin/corpUsers/corpUsersExcelListDown"
-		, excelFileNm	: "법인회원및법인관리"
+		, excelFileNm	: "법인회원관리"
 		, isPaging 		: true
 		, size 			: 10
 	});

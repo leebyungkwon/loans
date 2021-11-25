@@ -305,6 +305,49 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
+								
+								
+								<tr>
+									<td class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류(공증필요)</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpImwonList.fileType46 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType46.fileSeq }">${corpImwonList.fileType46.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd119" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd119}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType46.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType46.fileSeq }" >
+											<label for="check_cd119">확인</label>
+										</div>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류의 번역본</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpImwonList.fileType47 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType47.fileSeq }">${corpImwonList.fileType47.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd120" class="check check_cd" <c:if test="${!empty corpImwonList.checkCd120}">checked</c:if>
+											<c:if test="${empty corpImwonList.fileType47.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpImwonList.fileType47.fileSeq }" >
+											<label for="check_cd120">확인</label>
+										</div>
+									</td>
+								</tr>
+								
+								
 							</table>
 						</div>
 <%-- 						<div class="btn_wrap02">

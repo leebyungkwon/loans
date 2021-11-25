@@ -184,7 +184,7 @@ function updateUserStat(num){
 						<c:when test="${fn:length(fileList) > 0 }">
 							<c:forEach var="updateFileList" items="${fileList}" varStatus="status">
 							<tr>
-								<th>첨부파일</th>
+								<th>법인등기부등본</th>
 								<td colspan="3">
 									<a href="/common/fileDown?fileSeq=${updateFileList.fileSeq}">${updateFileList.fileFullNm}</a>
 								</td>

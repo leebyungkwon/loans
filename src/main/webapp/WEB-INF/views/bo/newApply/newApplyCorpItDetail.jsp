@@ -121,7 +121,7 @@ function pageLoad(){
 									</td>
 								</tr>
 								
-								<tr>
+<%-- 								<tr>
 									<td class="acenter">아웃소싱업체 상주직원 증빙서류</td>
 									<td>
 										<c:choose>
@@ -139,7 +139,7 @@ function pageLoad(){
 											<label for="check_cd304">상주직원임을 증빙하는 모집법인의 확인서 첨부 여부</label>
 										</div>
 									</td>
-								</tr>
+								</tr> --%>
 								
 								<tr>
 									<td class="acenter">개인정보 필수 동의서(전산전문인력) *</td>
@@ -160,6 +160,49 @@ function pageLoad(){
 										</div>
 									</td>
 								</tr>
+								
+								
+								
+								<tr>
+									<td class="acenter">전산전문인력 업무위탁 계약서</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpItList.fileType48 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType48.fileSeq }">${corpItList.fileType48.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd307" class="check check_cd" <c:if test="${!empty corpItList.checkCd307}">checked</c:if>
+											<c:if test="${empty corpItList.fileType48.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpItList.fileType48.fileSeq }" >
+											<label for="check_cd307">확인</label>
+										</div>
+									</td>
+								</tr>
+								
+								<tr>
+									<td class="acenter">전산전문인력 확인서</td>
+									<td>
+										<c:choose>
+											<c:when test="${corpItList.fileType49 ne null }">
+												<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType49.fileSeq }">${corpItList.fileType49.fileFullNm }</a>
+											</c:when>
+											<c:otherwise>-</c:otherwise>
+										</c:choose>
+									</td>
+									<td>
+										<div class="input_check_wrap mgr10">
+											<input type="checkbox" id="check_cd308" class="check check_cd" <c:if test="${!empty corpItList.checkCd308}">checked</c:if>
+											<c:if test="${empty corpItList.fileType49.fileSeq}">disabled</c:if>
+											 data-fileSeq="${corpItList.fileType49.fileSeq }" >
+											<label for="check_cd308">확인</label>
+										</div>
+									</td>
+								</tr>
+								
 								
 							</table>
 						</div>

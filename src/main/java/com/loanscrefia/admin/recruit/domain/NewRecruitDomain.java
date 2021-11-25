@@ -224,6 +224,9 @@ public class NewRecruitDomain extends BaseDomain {
 	private FileDomain fileType13;
 	private FileDomain fileType14;
 	private FileDomain fileType15;
+	private FileDomain fileType16;
+	private FileDomain fileType17;
+	private FileDomain fileType18;
 	
 	
 	private FileDomain fileType31;
@@ -270,6 +273,8 @@ public class NewRecruitDomain extends BaseDomain {
 	private FileDomain histFileType14;
 	private FileDomain histFileType15;
 	private FileDomain histFileType16;
+	private FileDomain histFileType17;
+	private FileDomain histFileType18;
 	private FileDomain histFileType31;
 	private FileDomain histFileType32;
 	

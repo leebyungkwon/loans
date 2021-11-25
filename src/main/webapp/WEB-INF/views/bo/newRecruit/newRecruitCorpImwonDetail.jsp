@@ -187,6 +187,31 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
+									
+									<tr>
+										<th class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류(공증필요)</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType46 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType46.fileSeq }">${corpImwonList.fileType46.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
+									<tr>
+										<th class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류의 번역본</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpImwonList.fileType47 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpImwonList.fileType47.fileSeq }">${corpImwonList.fileType47.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
 								</tbody>
 							</table>
 						</div>

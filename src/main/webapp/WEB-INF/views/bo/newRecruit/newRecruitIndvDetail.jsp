@@ -469,6 +469,80 @@ function goRecruitImprove(rePlStat){
 						</c:if>
 					</td>
 				</tr>
+				
+				
+				
+				<tr>
+					<th class="acenter">개인정보 필수 동의서 *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType15 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType15.fileSeq }">${result.recruitInfo.fileType15.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType15}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType15.fileGrpSeq }', '15');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
+				<tr>
+					<th class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류(공증필요)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType17 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType17.fileSeq }">${result.recruitInfo.fileType17.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType17}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType17.fileGrpSeq }', '17');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<th class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류의 번역본</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType18 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType18.fileSeq }">${result.recruitInfo.fileType18.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType18}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType18.fileGrpSeq }', '18');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
+				<tr>
+					<th class="acenter">휴대폰 가입사실확인서(통신사 발급)</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType16 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType16.fileSeq }">${result.recruitInfo.fileType16.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType16}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType16.fileGrpSeq }', '16');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
+				
 			</table>
 		</div>
 		<div class="btn_wrap">

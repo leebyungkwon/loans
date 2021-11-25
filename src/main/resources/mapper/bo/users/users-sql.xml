@@ -991,12 +991,6 @@
 			<if test="reqPlMerchantName != null and reqPlMerchantName != ''">
 				, pl_merchant_name 	= #{reqPlMerchantName}
 			</if>
-			<if test="reqPlMZId != null and reqPlMZId != ''">
-				, pl_m_z_id 	= #{reqPlMZId}
-			</if>
-			<if test="reqMobileNo != null and reqMobileNo != ''">
-				, mobile_no 	= #{reqMobileNo}
-			</if>
    		WHERE
    			user_seq 			= #{userSeq}
 	</update>

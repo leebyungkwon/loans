@@ -204,6 +204,8 @@ public class NewApplyDomain extends BaseDomain {
 	private FileDomain fileType14;
 	private FileDomain fileType15;
 	private FileDomain fileType16;
+	private FileDomain fileType17;
+	private FileDomain fileType18;
 	
 	private FileDomain fileType31;
 	private FileDomain fileType32;
@@ -220,6 +222,8 @@ public class NewApplyDomain extends BaseDomain {
 	private FileDomain fileType42;
 	private FileDomain fileType43;
 	private FileDomain fileType44;
+	private FileDomain fileType46;
+	private FileDomain fileType47;
 	
 	
 	//검색
@@ -252,6 +256,10 @@ public class NewApplyDomain extends BaseDomain {
 	private String checkCd17;
 	private String checkCd18;
 	private String checkCd19;
+	
+	private String checkCd20;
+	private String checkCd21;
+	private String checkCd22;
 	
 	
 	

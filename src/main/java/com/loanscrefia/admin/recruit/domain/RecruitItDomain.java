@@ -39,4 +39,8 @@ public class RecruitItDomain extends BaseDomain {
 	private FileDomain fileType20;
 	private FileDomain fileType37;
 	private FileDomain fileType38;
+	private FileDomain fileType48;
+	private FileDomain fileType49;
+	
+	
 }

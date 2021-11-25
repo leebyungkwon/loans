@@ -287,6 +287,12 @@ public class NewRecruitService {
         				recruitInfo.setFileType14(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("15")) {
         				recruitInfo.setFileType15(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("16")) {
+        				recruitInfo.setFileType16(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("17")) {
+        				recruitInfo.setFileType17(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("18")) {
+        				recruitInfo.setFileType18(fileList.get(i));
         			}
         		}
         	}
@@ -630,6 +636,10 @@ public class NewRecruitService {
 							imwonList.get(i).setFileType33(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("34")) {
 							imwonList.get(i).setFileType34(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("46")) {
+							imwonList.get(i).setFileType46(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("47")) {
+							imwonList.get(i).setFileType47(fileList.get(j));
 						}
 					}
 				}
@@ -833,6 +843,10 @@ public class NewRecruitService {
 							itList.get(i).setFileType37(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("38")) {
 							itList.get(i).setFileType38(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("48")) {
+							itList.get(i).setFileType48(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("49")) {
+							itList.get(i).setFileType49(fileList.get(j));
 						}
 					}
 				}

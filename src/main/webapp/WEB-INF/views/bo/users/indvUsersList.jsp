@@ -264,7 +264,7 @@ function goIndvDisExcelUpload() {
 			<div class="data total_result"></div>
 			<div class="action">
 				<a href="javascript:void(0);" class="btn_gray btn_small mgr5" onclick="loginStopUpdate();">로그인잠금해제</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">다운로드</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="$('#excelDown').trigger('click');">양식다운로드</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" onclick="goIndvUserDisPopOpen();">결격요건업로드</a>
 			</div>
 		</div>

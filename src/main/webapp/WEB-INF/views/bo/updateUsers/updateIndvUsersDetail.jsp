@@ -160,12 +160,7 @@ function updateUserStat(num){
 						<c:when test="${fn:length(fileList) > 0 }">
 							<c:forEach var="updateFileList" items="${fileList}" varStatus="status">
 							<tr>
-								<c:if test="${updateFileList.fileType eq '13'}">
-									<th>이름변경 첨부파일</th>
-								</c:if>
-								<c:if test="${updateFileList.fileType eq '14'}">
-									<th>주민등록번호 첨부파일</th>
-								</c:if>
+								<th>주민등록등본(초본)</th>
 								<td colspan="5">
 									<a href="/common/fileDown?fileSeq=${updateFileList.fileSeq}">${updateFileList.fileFullNm}</a>
 								</td>

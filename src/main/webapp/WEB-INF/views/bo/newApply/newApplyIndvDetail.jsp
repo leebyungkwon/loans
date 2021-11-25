@@ -547,6 +547,76 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
+				
+				
+				
+				
+				<tr>
+					<td class="acenter">개인정보 필수 동의서 *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType15 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType15.fileSeq }">${result.applyInfo.fileType15.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd20" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd20}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
+							<label for="check_cd20">확인</label>
+						</div>
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류(공증필요)</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType17 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType17.fileSeq }">${result.applyInfo.fileType17.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd21" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType17.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd21}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType17.fileSeq }" >
+							<label for="check_cd21">확인</label>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류의 번역본</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType18 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType18.fileSeq }">${result.applyInfo.fileType18.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd22" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType18.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd22}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType18.fileSeq }" >
+							<label for="check_cd22">확인</label>
+						</div>
+					</td>
+				</tr>
+				
+				
+				
 			</table>
 		</div>
 		<div class="btn_wrap">

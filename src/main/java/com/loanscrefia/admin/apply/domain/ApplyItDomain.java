@@ -39,6 +39,8 @@ public class ApplyItDomain extends BaseDomain {
 	private FileDomain fileType20;
 	private FileDomain fileType37;
 	private FileDomain fileType38;
+	private FileDomain fileType48;
+	private FileDomain fileType49;
 	
 	// 전산설비 첨부파일 체크
 	private String checkCd300;
@@ -48,6 +50,10 @@ public class ApplyItDomain extends BaseDomain {
 	private String checkCd304;
 	private String checkCd305;
 	private String checkCd306;
+	private String checkCd307;
+	private String checkCd308;
+	
+	
 }
 
 

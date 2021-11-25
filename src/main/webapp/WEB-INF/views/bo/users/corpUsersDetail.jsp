@@ -146,6 +146,10 @@ function usersCorpApply(){
 						<label for="passYn2">N</label>
 						<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="updatePassYn();">수정</a>				
 					</td>
+					<th></th>
+					<td></td>
+					<th></th>
+					<td></td>
 				</tr>
 				<c:if test="${usersInfo.userSeq > 0}">
 					<tr>

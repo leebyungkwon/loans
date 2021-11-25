@@ -289,6 +289,10 @@ public class NewApplyService {
         				applyInfo.setFileType15(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("16")) {
         				applyInfo.setFileType16(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("17")) {
+        				applyInfo.setFileType17(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("18")) {
+        				applyInfo.setFileType18(fileList.get(i));
         			}
         			
         			
@@ -334,6 +338,12 @@ public class NewApplyService {
         					applyInfo.setCheckCd18(tmp.getCheckCd());
         				}else if("19".equals(tmp.getCheckCd())) {
         					applyInfo.setCheckCd19(tmp.getCheckCd());
+        				}else if("20".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd20(tmp.getCheckCd());
+        				}else if("21".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd21(tmp.getCheckCd());
+        				}else if("22".equals(tmp.getCheckCd())) {
+        					applyInfo.setCheckCd22(tmp.getCheckCd());
         				}
         			}
         		}
@@ -655,6 +665,10 @@ public class NewApplyService {
 							imwonList.get(i).setFileType33(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("34")) {
 							imwonList.get(i).setFileType34(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("46")) {
+							imwonList.get(i).setFileType46(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("47")) {
+							imwonList.get(i).setFileType47(fileList.get(j));
 						}
 						
 						
@@ -931,6 +945,10 @@ public class NewApplyService {
 							itList.get(i).setFileType37(fileList.get(j));
 						}else if(fileList.get(j).getFileType().equals("38")) {
 							itList.get(i).setFileType38(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("48")) {
+							itList.get(i).setFileType48(fileList.get(j));
+						}else if(fileList.get(j).getFileType().equals("49")) {
+							itList.get(i).setFileType49(fileList.get(j));
 						}
 						
 	        			ApplyCheckDomain checkDomain = new ApplyCheckDomain();
@@ -949,6 +967,12 @@ public class NewApplyService {
 	        					itList.get(i).setCheckCd304(tmp.getCheckCd());
 	        				}else if("305".equals(tmp.getCheckCd())) {
 	        					itList.get(i).setCheckCd305(tmp.getCheckCd());
+	        				}else if("306".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd306(tmp.getCheckCd());
+	        				}else if("307".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd307(tmp.getCheckCd());
+	        				}else if("308".equals(tmp.getCheckCd())) {
+	        					itList.get(i).setCheckCd308(tmp.getCheckCd());
 	        				}
 	        			}
 						

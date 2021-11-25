@@ -88,7 +88,7 @@ function pageLoad(){
 										</td>
 									</tr>
 									
-									<tr>
+<%-- 									<tr>
 										<th class="acenter">아웃소싱업체 상주직원 증빙서류</th>
 										<td>
 											<c:choose>
@@ -98,7 +98,7 @@ function pageLoad(){
 												<c:otherwise>-</c:otherwise>
 											</c:choose>
 										</td>
-									</tr>
+									</tr> --%>
 									
 									<tr>
 										<th class="acenter">개인정보 필수 동의서(전산전문인력) *</th>
@@ -111,6 +111,33 @@ function pageLoad(){
 											</c:choose>
 										</td>
 									</tr>
+									
+									
+									<tr>
+										<th class="acenter">전산전문인력 업무위탁 계약서</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpItList.fileType48 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType48.fileSeq }">${corpItList.fileType48.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
+									<tr>
+										<th class="acenter">전산전문인력 확인서</th>
+										<td>
+											<c:choose>
+												<c:when test="${corpItList.fileType49 ne null }">
+													<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${corpItList.fileType49.fileSeq }">${corpItList.fileType49.fileFullNm }</a>
+												</c:when>
+												<c:otherwise>-</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+									
+									
 								</tbody>
 							</table>
 						</div>
