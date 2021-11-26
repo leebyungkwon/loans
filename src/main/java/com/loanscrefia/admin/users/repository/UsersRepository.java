@@ -29,6 +29,9 @@ public interface UsersRepository {
 	
 	// 법인회원 승인처리
 	int usersCorpApply(UsersDomain usersDomain);
+
+	// 법인회원 승인처리
+	int usersCorpTempApply(UsersDomain usersDomain);
 	
 	// 휴면회원 활성화
 	int updateBoInactiveUser(UsersDomain usersDomain);

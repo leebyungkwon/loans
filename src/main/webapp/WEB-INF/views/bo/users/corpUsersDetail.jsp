@@ -101,6 +101,38 @@ function usersCorpApply(){
 				userSeq 	: userSeq  
 			}
 			, success 	: function (opt,result) {
+				location.href="/admin/corpUsers/corpUsersPage?historyback=Y";
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+
+//회원관리 법인 가승인처리
+function usersCorpTempApply(){
+	var userSeq = $("#userSeq").val();
+	if(WebUtil.isNull(userSeq)){
+		alert("법인회원정보가 잘못되었습니다.\w새로고침 후 다시 시도해 주세요.");
+		return false;
+	}
+	
+	var apprTxt = $("#apprTxt").val();
+	if(WebUtil.isNull(apprTxt)){
+		alert("가승인 사유를 입력해 주세요.");
+		$("#apprTxt").focus();
+		return false;
+	}
+	
+	if(confirm("법인회원을 가승인 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/corpUsers/usersCorpTempApply"	
+			, param		: {
+				userSeq 	: userSeq
+				, apprTxt	: apprTxt
+			}
+			, success 	: function (opt,result) {
+				location.href="/admin/corpUsers/corpUsersPage?historyback=Y";
 		    }
 		}
 		AjaxUtil.post(p);
@@ -223,6 +255,14 @@ function usersCorpApply(){
 							<a href="/common/fileDown?fileSeq=${file.fileSeq}">${file.fileFullNm}</a>
 						</td>
 					</tr>
+					
+					<tr>
+						<th>승인/가승인 사유</th>
+						<td colspan="5">
+							<textarea rows="6" cols="" id="apprTxt" name="apprTxt" class="w100">${usersInfo.txt }</textarea>
+						</td>
+					</tr>
+					
 				</c:if>
 			</tbody>
 			</table>
@@ -237,6 +277,12 @@ function usersCorpApply(){
 			</c:if>
 			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprYn eq 'N'}">
 				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" onclick="usersCorpApply();">법인승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small03 w100p" onclick="usersCorpTempApply();">법인가승인</a>
+			</c:if>
+			
+			<c:if test="${usersInfo.plClass eq '2' and usersInfo.corpApprYn eq 'Y' and usersInfo.roleName eq 'TEMP'}">
+				<a href="javascript:void(0);" class="btn_gray btn_right_small02 w100p" onclick="usersCorpApply();">법인승인</a>
+				<a href="javascript:void(0);" class="btn_gray btn_right_small03 w100p" onclick="usersCorpTempApply();">법인가승인</a>
 			</c:if>
 		</div>
 	</div>

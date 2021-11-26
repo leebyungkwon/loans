@@ -120,6 +120,9 @@ public class UsersDomain extends BaseDomain {
 	private String apiResMsg;				// API결과메세지
 	private String apiCode;					// API코드
 	private String apiSuccessCode;			// API결과코드
+	
+	private String roleName;
+	private String apprTxt;
 
 	
 }

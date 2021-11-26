@@ -401,6 +401,42 @@ public class UsersService {
 		
 	}
 	
+	// 회원관리 법인 가승인처리
+		@Transactional
+		public ResponseMsg usersCorpTempApply(UsersDomain usersDomain){
+			ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+			int result = usersRepository.usersCorpTempApply(usersDomain);
+			if(result <= 0) {
+				responseMsg.setMessage("실패하였습니다");
+				responseMsg.setCode("fail");
+				return responseMsg;
+			}else {
+				// 2021-09-16 법인회원 승인시 이메일 발송 여부 확인
+				
+				/*
+				
+				if(emailApply) {
+					UsersDomain usersResult = usersRepository.getUsersDetail(usersDomain);
+					int emailResult = 0;
+					EmailDomain emailDomain = new EmailDomain();
+					emailDomain.setName("여신금융협회");
+					emailDomain.setEmail(usersDomain.getEmail());
+					emailDomain.setInstId("139");
+					emailDomain.setSubsValue(usersResult.getUserId());
+					emailResult = emailRepository.sendEmail(emailDomain);
+					if(emailResult == 0) {
+						responseMsg.setMessage("메일발송에 실패하였습니다");
+						responseMsg.setCode("fail");
+						return responseMsg;
+					}
+				}
+				
+				*/
+				return responseMsg;
+			}
+			
+		}
+	
 	
 	
 	// 법인회원 결격요건 수정

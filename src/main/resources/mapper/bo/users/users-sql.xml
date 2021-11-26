@@ -99,6 +99,8 @@
    			, users.user_id
    			, users.password
    			, users.user_name
+   			, users.role_name
+   			, users.appr_txt
    			, users.mobile_no
    			, users.pl_class
    			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM
@@ -138,8 +140,23 @@
    			, corp_appr_dt = NOW()
    			, upd_seq = #{updSeq}
    			, upd_timestamp = NOW()
+   			, ROLE_NAME = 'MEMBER'
    		WHERE user_seq = #{userSeq}
 	</update>
+	
+	
+   	<!-- 회원관리 법인 가승인처리 -->
+	<update id="usersCorpTempApply" parameterType="users" >
+   		UPDATE tb_lc_users
+   		SET
+   			corp_appr_yn = 'Y'
+   			, corp_appr_dt = NOW()
+   			, upd_seq = #{updSeq}
+   			, upd_timestamp = NOW()
+   			, appr_txt = #{apprTxt}
+   		WHERE user_seq = #{userSeq}
+	</update>
+	
 	
 	
    	
@@ -283,6 +300,7 @@
     		, pw_token = b.pw_token
     		, pw_token_dt = b.pw_token_dt
     		, corp_appr_yn = b.corp_appr_yn
+    		, role_name = b.role_name
     	FROM tb_lc_users_inactive as b
     	WHERE a.user_seq = #{userSeq}
     	and a.user_seq = b.user_seq
@@ -465,7 +483,9 @@
 	   			users.user_seq
 	   			, users.user_id
 	   			, users.password
+	   			, users.role_name
 	   			, users.user_name
+	   			, users.appr_txt
 	   			, users.mobile_no
 	   			, users.pl_class
 	   			, FN_CD_DTL('CLS001',users.PL_CLASS) AS PL_CLASS_NM

@@ -115,11 +115,12 @@ public class UsersController {
 	}
 	
 	
-	
 	// 법인 회원관리 리스트 페이지
 	@GetMapping(value="/corpUsers/corpUsersPage")
-	public String corpUsersPage() {
-		return CosntPage.BoUsersPage+"/corpUsersList";
+	public ModelAndView corpUsersPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoUsersPage+"/corpUsersList");
+		mv.addObject("historyback", historyback);
+		return mv;
 	}
 	
 	
@@ -153,6 +154,13 @@ public class UsersController {
 	@PostMapping(value="/corpUsers/usersCorpApply")
 	public ResponseEntity<ResponseMsg> usersCorpApply(UsersDomain usersDomain){
 		ResponseMsg responseMsg = usersService.usersCorpApply(usersDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 법인회원 가승인처리
+	@PostMapping(value="/corpUsers/usersCorpTempApply")
+	public ResponseEntity<ResponseMsg> usersCorpTempApply(UsersDomain usersDomain){
+		ResponseMsg responseMsg = usersService.usersCorpTempApply(usersDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

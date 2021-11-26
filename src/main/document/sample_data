@@ -643,5 +643,9 @@ where
 	code_mst_cd = 'MAS001'
 and code_dtl_cd = '15';
 
+ALTER TABLE tb_lc_users ADD COLUMN role_name varchar(20);
+ALTER TABLE tb_lc_users_inactive ADD COLUMN role_name varchar(20);
 
-	 
+ALTER TABLE tb_lc_users ADD COLUMN appr_txt text;
+ALTER TABLE tb_lc_users_inactive ADD COLUMN appr_txt text;
+
