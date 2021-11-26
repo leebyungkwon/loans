@@ -32,6 +32,8 @@ import com.loanscrefia.common.common.sms.domain.SmsDomain;
 import com.loanscrefia.common.common.sms.repository.SmsRepository;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.member.user.domain.NewUserDomain;
+import com.loanscrefia.member.user.service.NewUserService;
 import com.loanscrefia.system.batch.domain.BatchDomain;
 import com.loanscrefia.system.batch.repository.BatchRepository;
 import com.loanscrefia.util.UtilExcel;
@@ -68,6 +70,7 @@ public class UsersService {
 	
 	@Autowired private UtilFile utilFile;
 	@Autowired private UtilExcel<T> utilExcel;
+	@Autowired private NewUserService newUserService;
 	
 	//첨부파일 경로
 	@Value("${upload.filePath}")
@@ -375,6 +378,15 @@ public class UsersService {
 			responseMsg.setCode("fail");
 			return responseMsg;
 		}else {
+			UsersDomain userInfo = this.getCorpUsersDetail(usersDomain);
+			
+			//BO 데이터 FO로 이동
+			NewUserDomain param = new NewUserDomain();
+			param.setPlClass("2");
+			param.setCi(userInfo.getUserCi());
+			param.setUserSeq(usersDomain.getUserSeq());
+			newUserService.switchPrevContractToFo(param);
+			
 			// 2021-09-16 법인회원 승인시 이메일 발송 여부 확인
 			
 			/*
@@ -402,40 +414,40 @@ public class UsersService {
 	}
 	
 	// 회원관리 법인 가승인처리
-		@Transactional
-		public ResponseMsg usersCorpTempApply(UsersDomain usersDomain){
-			ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
-			int result = usersRepository.usersCorpTempApply(usersDomain);
-			if(result <= 0) {
-				responseMsg.setMessage("실패하였습니다");
-				responseMsg.setCode("fail");
-				return responseMsg;
-			}else {
-				// 2021-09-16 법인회원 승인시 이메일 발송 여부 확인
-				
-				/*
-				
-				if(emailApply) {
-					UsersDomain usersResult = usersRepository.getUsersDetail(usersDomain);
-					int emailResult = 0;
-					EmailDomain emailDomain = new EmailDomain();
-					emailDomain.setName("여신금융협회");
-					emailDomain.setEmail(usersDomain.getEmail());
-					emailDomain.setInstId("139");
-					emailDomain.setSubsValue(usersResult.getUserId());
-					emailResult = emailRepository.sendEmail(emailDomain);
-					if(emailResult == 0) {
-						responseMsg.setMessage("메일발송에 실패하였습니다");
-						responseMsg.setCode("fail");
-						return responseMsg;
-					}
+	@Transactional
+	public ResponseMsg usersCorpTempApply(UsersDomain usersDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "success", null, "완료되었습니다.");
+		int result = usersRepository.usersCorpTempApply(usersDomain);
+		if(result <= 0) {
+			responseMsg.setMessage("실패하였습니다");
+			responseMsg.setCode("fail");
+			return responseMsg;
+		}else {
+			// 2021-09-16 법인회원 승인시 이메일 발송 여부 확인
+			
+			/*
+			
+			if(emailApply) {
+				UsersDomain usersResult = usersRepository.getUsersDetail(usersDomain);
+				int emailResult = 0;
+				EmailDomain emailDomain = new EmailDomain();
+				emailDomain.setName("여신금융협회");
+				emailDomain.setEmail(usersDomain.getEmail());
+				emailDomain.setInstId("139");
+				emailDomain.setSubsValue(usersResult.getUserId());
+				emailResult = emailRepository.sendEmail(emailDomain);
+				if(emailResult == 0) {
+					responseMsg.setMessage("메일발송에 실패하였습니다");
+					responseMsg.setCode("fail");
+					return responseMsg;
 				}
-				
-				*/
-				return responseMsg;
 			}
 			
+			*/
+			return responseMsg;
 		}
+		
+	}
 	
 	
 	

@@ -81,6 +81,11 @@ public class NewUserService {
 	@Autowired
 	private BatchRepository batchRepository;
 
+	// 2021-11-26 고도화 - 데이터 이관
+	@Transactional
+	public int switchPrevContractToFo(NewUserDomain newUserDomain) {
+		return userRepo.switchPrevContractToFo(newUserDomain);
+	}
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사)
 	@Transactional(readOnly=true)

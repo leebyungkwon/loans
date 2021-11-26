@@ -89,6 +89,7 @@ function updatePassYn(){
 //회원관리 법인 승인처리
 function usersCorpApply(){
 	var userSeq = $("#userSeq").val();
+	var corpSeq = $("#corpSeq").val();
 	if(WebUtil.isNull(userSeq)){
 		alert("법인회원정보가 잘못되었습니다.\w새로고침 후 다시 시도해 주세요.");
 		return false;
@@ -98,7 +99,8 @@ function usersCorpApply(){
 		var p = {
 			  url		: "/admin/corpUsers/usersCorpApply"	
 			, param		: {
-				userSeq 	: userSeq  
+				 userSeq 	: userSeq  
+				,corpSeq 	: corpSeq
 			}
 			, success 	: function (opt,result) {
 				location.href="/admin/corpUsers/corpUsersPage?historyback=Y";

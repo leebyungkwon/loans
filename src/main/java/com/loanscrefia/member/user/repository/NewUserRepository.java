@@ -14,6 +14,8 @@ import com.loanscrefia.member.user.domain.UserItDomain;
 @Mapper
 public interface NewUserRepository {
 	
+	// 2021-11-26 고도화 - 데이터 이관
+	int switchPrevContractToFo(NewUserDomain newUserDomain);
 	
 	// 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사)
 	List<NewUserDomain> selectNewUserRegList(NewUserDomain newUserDomain);
