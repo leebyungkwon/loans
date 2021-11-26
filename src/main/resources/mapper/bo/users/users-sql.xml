@@ -361,52 +361,59 @@
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
 	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as upd_dis1
-	   			, (
-					select
-						d.disqual_val
-					from
-						tb_lc_mas01_imwon im
-						, 
-						(
-							select
-								b.master_seq
-							from
-								tb_lc_users a
-							inner join tb_lc_mas01 b
-							on a.user_seq = b.user_seq
-							limit 1
-						) c
-						, tb_lc_users_disqual d
-					where im.master_seq = c.master_seq
-					and im.user_seq = d.user_seq
-					and d.master_seq = 0
-					and d.disqual_cd = '7'
-	   			) as dis1
-	   			, (
-					select
-						d.disqual_val
-					from
-						tb_lc_mas01_imwon im
-						, 
-						(
-							select
-								b.master_seq
-							from
-								tb_lc_users a
-							inner join tb_lc_mas01 b
-							on a.user_seq = b.user_seq
-							limit 1
-						) c
-						, tb_lc_users_disqual d
-					where im.master_seq = c.master_seq
-					and im.user_seq = d.user_seq
-					and d.master_seq = 0
-					and d.disqual_cd = '8'
-	   			) as dis2
-		    FROM tb_lc_users users
-			right outer join tb_lc_corp corp
+				, case when dis.dis1 <![CDATA[>]]> 0 then 'Y'
+					   when dis.dis1 is null then ''
+				       else 'N'
+				  end dis1
+				, case when dis.dis2 <![CDATA[>]]> 0 then 'Y'
+					   when dis.dis2 is null then ''
+					   else 'N'
+				  end dis2
+		    FROM tb_lc_corp corp
+			left join tb_lc_users users
 			on users.user_seq = corp.user_seq
-		    ORDER BY users.user_seq DESC
+			left join (
+					select
+						fi.user_seq
+						, SUM(fi.dis1) as dis1
+						, SUM(fi.dis2) as dis2
+					from
+						(
+							select
+								imwon.user_seq as user_seq
+								,dis.user_seq as imwon_seq
+								,case when disqual_cd = '7' and disqual_val = 'N' then 0
+										 when disqual_cd = '7' and disqual_val = 'Y' then 1
+								end dis1
+								,case when disqual_cd = '8' and disqual_val = 'N' then 0
+										 when disqual_cd = '8' and disqual_val = 'Y' then 1
+								end dis2
+							from
+								tb_lc_users_disqual dis
+								, (
+									select
+										im.user_seq as imwon_seq
+										, d.user_seq as user_seq
+									from tb_lc_mas01_imwon im
+									,(
+									select
+										b.master_seq
+										, a.user_seq
+									from
+										tb_lc_users a
+									inner join tb_lc_mas01 b
+									on a.user_seq = b.user_seq
+									) d
+									where im.master_seq = d.master_seq
+									group by d.user_seq, im.user_seq 
+								) imwon
+							where dis.user_seq = imwon.imwon_seq
+							and master_seq = 0
+						) fi
+					group by fi.user_seq
+			) dis
+			on dis.user_seq = users.user_seq
+			ORDER BY users.user_seq desc
    		)Z
    		<where>
 			<if test="userId != null and userId != ''">
@@ -520,52 +527,59 @@
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '12' limit 1) as dis12
 	   			, (select b.disqual_val from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '13' limit 1) as dis13
 	   			, (select TO_CHAR(b.upd_timestamp,'YYYY-MM-DD HH24:MI:SS') from tb_lc_users_disqual b where corp.user_seq = b.user_seq and b.disqual_cd = '9' limit 1) as upd_dis1
-	   			, (
-					select
-						d.disqual_val
-					from
-						tb_lc_mas01_imwon im
-						, 
-						(
-							select
-								b.master_seq
-							from
-								tb_lc_users a
-							inner join tb_lc_mas01 b
-							on a.user_seq = b.user_seq
-							limit 1
-						) c
-						, tb_lc_users_disqual d
-					where im.master_seq = c.master_seq
-					and im.user_seq = d.user_seq
-					and d.master_seq = 0
-					and d.disqual_cd = '7'
-	   			) as dis1
-	   			, (
-					select
-						d.disqual_val
-					from
-						tb_lc_mas01_imwon im
-						, 
-						(
-							select
-								b.master_seq
-							from
-								tb_lc_users a
-							inner join tb_lc_mas01 b
-							on a.user_seq = b.user_seq
-							limit 1
-						) c
-						, tb_lc_users_disqual d
-					where im.master_seq = c.master_seq
-					and im.user_seq = d.user_seq
-					and d.master_seq = 0
-					and d.disqual_cd = '8'
-	   			) as dis2
+				, case when dis.dis1 <![CDATA[>]]> 0 then 'Y'
+					   when dis.dis1 is null then ''
+				       else 'N'
+				  end dis1
+				, case when dis.dis2 <![CDATA[>]]> 0 then 'Y'
+					   when dis.dis2 is null then ''
+					   else 'N'
+				  end dis2
 		    FROM tb_lc_users users
 			right outer join tb_lc_corp corp
 			on users.user_seq = corp.user_seq
-	    	WHERE corp.corp_seq = #{corpSeq}
+			left join (
+					select
+						fi.user_seq
+						, SUM(fi.dis1) as dis1
+						, SUM(fi.dis2) as dis2
+					from
+						(
+							select
+								imwon.user_seq as user_seq
+								,dis.user_seq as imwon_seq
+								,case when disqual_cd = '7' and disqual_val = 'N' then 0
+										 when disqual_cd = '7' and disqual_val = 'Y' then 1
+								end dis1
+								,case when disqual_cd = '8' and disqual_val = 'N' then 0
+										 when disqual_cd = '8' and disqual_val = 'Y' then 1
+								end dis2
+							from
+								tb_lc_users_disqual dis
+								, (
+									select
+										im.user_seq as imwon_seq
+										, d.user_seq as user_seq
+									from tb_lc_mas01_imwon im
+									,(
+									select
+										b.master_seq
+										, a.user_seq
+									from
+										tb_lc_users a
+									inner join tb_lc_mas01 b
+									on a.user_seq = b.user_seq
+									) d
+									where im.master_seq = d.master_seq
+									group by d.user_seq, im.user_seq 
+								) imwon
+							where dis.user_seq = imwon.imwon_seq
+							and master_seq = 0
+						) fi
+					group by fi.user_seq
+			) dis
+			on dis.user_seq = users.user_seq
+			WHERE corp.corp_seq = #{corpSeq}
    	</select>
    	
    	

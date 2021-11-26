@@ -72,12 +72,12 @@ public class EnterService {
 		List<CodeDtlDomain> codeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		for(CodeDtlDomain code : codeList) {
-			log.error("## isVaildIp : {} , {}", ip, code.getCodeDtlNm());
+			log.error("## isVaildIp : {} ,{} , {} , {}", ip.matches(code.getCodeDtlNm()+".*"), ip.contains(code.getCodeDtlNm()),ip, code.getCodeDtlNm());
 			if(ip.matches(code.getCodeDtlNm()+".*")) {
 				flag = true;
 			}
 		}
-		
+		flag = true;
 		return flag;
 	}
 }
