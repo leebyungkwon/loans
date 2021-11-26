@@ -58,11 +58,13 @@ public class EnterService {
 	public boolean isVaildIp(HttpServletRequest request) {
 		boolean flag = false;
 		
-		//if("local".equals(profile) || "dev".equals(profile)) return flag;
+		if("local".equals(profile)
+				/* || "dev".equals(profile) */
+				) return true;
 		
 		String ip = (request.getHeader("X-Forwarded-For") == null) ?
 					"0" : request.getHeader("X-Forwarded-For");
-		//flag = (ip == "") ? true :  flag ;
+		flag = (ip == "") ? true :  flag ;
 		//주소 코드 리스트
 		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
 		codeDtlParam.setCodeMstCd("RT0001");
@@ -71,11 +73,11 @@ public class EnterService {
 		
 		for(CodeDtlDomain code : codeList) {
 			log.error("## isVaildIp : {} , {}", ip, code.getCodeDtlNm());
-			if(ip.indexOf(code.getCodeDtlNm()) >= 0) {
+			if(ip.matches(code.getCodeDtlNm()+".*")) {
 				flag = true;
 			}
 		}
-		flag = true;
+		
 		return flag;
 	}
 }
