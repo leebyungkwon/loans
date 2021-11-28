@@ -58,15 +58,16 @@ public class EnterService {
 	public boolean isVaildIp(HttpServletRequest request) {
 		boolean flag = false;
 
-		log.error("## ip check : {} , {}", request.getRemoteAddr(), request.getHeader("X-Forwarded-For"));
-		
-		if("local".equals(profile)
-				/* || "dev".equals(profile) */
-				) return true;
-		
 		String ip = (request.getHeader("X-Forwarded-For") == null) ?
 					"0" : request.getHeader("X-Forwarded-For");
-		flag = (ip == "") ? true :  flag ;
+		
+		log.error("## ip check :{} , {} , {}", ip, request.getRemoteAddr(), request.getHeader("X-Forwarded-For"));
+
+		if("local".equals(profile)) {
+			flag = (ip == "") ? true :  flag ;
+			return true;
+		}
+		
 		//주소 코드 리스트
 		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
 		codeDtlParam.setCodeMstCd("RT0001");
