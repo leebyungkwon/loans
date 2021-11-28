@@ -1031,10 +1031,16 @@ public class ApplyService {
 			emailDomain.setInstId("142");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
 			apiCheck = true;
+			
+			applyDomain.setRegPath("F");
+			
+			
 		}else if("9".equals(applyDomain.getPlStat()) && "3".equals(applyDomain.getPlRegStat()) && "Y".equals(applyDomain.getPreRegYn())) {
 			// 승인요청에 대한 승인이면서 기등록자인 경우(자격취득 / 완료)
 			emailDomain.setInstId("143");
 			emailDomain.setSubsValue(statCheck.getMasterToId());
+			
+			applyDomain.setRegPath("F");
 			
 			if(kfbApiApply) {
 				// 금융상품 3, 6번 제외

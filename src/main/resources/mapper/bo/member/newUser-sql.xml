@@ -264,12 +264,9 @@
 			,FN_MEMBER_NAME(B.REG_SEQ) AS MEMBER_NM
 	    FROM TB_LC_MAS01 TLM
 	    left join tb_lc_mas01_step b
-	    ON TLM.master_seq = b.master_seq
-	    where b.pl_stat = '16'
-	    <where>
-	    	AND TLM.USE_YN 		= 'Y'
-	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
-	    </where>
+	    ON TLM.master_seq = b.master_seq and b.pl_stat = '16'
+	    where TLM.USE_YN 		= 'Y'
+    	AND TLM.MASTER_SEQ 	= #{masterSeq}
    	</select>
    	
 	<!-- 2021-10-12 고도화 - 모집인 확인처리 위반이력 조회 -->

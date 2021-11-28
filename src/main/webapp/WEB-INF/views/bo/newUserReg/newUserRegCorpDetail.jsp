@@ -141,6 +141,12 @@ function pageLoad(){
 							<th>계약기간</th>
 							<td>${result.userRegInfo.entrustDate }</td>
 						</tr>
+						<tr>
+							<th>거절 승인명</th>
+							<td>${result.userRegInfo.memberNm }</td>
+							<th></th>
+							<td></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

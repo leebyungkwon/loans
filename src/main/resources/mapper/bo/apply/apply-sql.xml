@@ -455,6 +455,11 @@
    			<if test='plStat.equals("5") || plStat.equals("6") || plStat.equals("7")'>
    				,com_upd_date = TO_CHAR(NOW(), 'YYYYMMDD')
    			</if>
+   			<if test="regPath != null and regPath != ''">
+   				<if test='regPath.equals("F")'>
+   					, reg_path = 'F'
+   				</if>
+   			</if>
    			, upd_seq = #{updSeq}
    			, upd_timestamp = NOW()
    		WHERE
