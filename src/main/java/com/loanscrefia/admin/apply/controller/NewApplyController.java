@@ -34,6 +34,7 @@ import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
+import com.loanscrefia.admin.apply.domain.NewApplyExcelDomain;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.apply.service.NewApplyService;
 import com.loanscrefia.common.common.domain.FileDomain;
@@ -103,7 +104,7 @@ public class NewApplyController {
 		// 2021-07-27 페이징 false
 		newApplyDomain.setIsPaging("false");
  		List<NewApplyDomain> excelDownList = applyService.selectNewApplyList(newApplyDomain);
- 		new UtilExcel().downLoad(excelDownList, ApplyExcelDomain.class, response.getOutputStream());
+ 		new UtilExcel().downLoad(excelDownList, NewApplyExcelDomain.class, response.getOutputStream());
 	}
 	
 	

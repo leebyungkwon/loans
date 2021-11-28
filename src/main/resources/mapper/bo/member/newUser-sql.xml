@@ -177,7 +177,6 @@
 			,TLM.COM_CODE
 			,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
 			,TLM.MEMBER_SEQ
-			,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
 			,(SELECT EMAIL FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ) AS EMAIL
 			,FN_CELLPHONE((SELECT MOBILE_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS MOBILE_NO
 			,FN_CELLPHONE((SELECT EXTENSION_NO FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = TLM.MEMBER_SEQ)) AS EXTENSION_NO
@@ -262,7 +261,11 @@
 			,TLM.pl_stat_req_path
 			,TLM.api_res_msg
 			,TLM.USER_SEQ
+			,FN_MEMBER_NAME(B.REG_SEQ) AS MEMBER_NM
 	    FROM TB_LC_MAS01 TLM
+	    left join tb_lc_mas01_step b
+	    ON TLM.master_seq = b.master_seq
+	    where b.pl_stat = '16'
 	    <where>
 	    	AND TLM.USE_YN 		= 'Y'
 	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
@@ -915,9 +918,9 @@
 		and pl_product in ('01', '05')
 		and pl_class = #{plClass}
 		and (
-				(pl_reg_stat = '1' and pl_stat in ('1', '2', '3', '5', '13', '15'))
+				(pl_reg_stat = '1' and pl_stat in ('1', '2', '5', '13', '15'))
 			or
-				(pl_reg_stat = '3' and pl_stat in ('4', '6'))
+				(pl_reg_stat = '3' and pl_stat in ('3', '4', '6'))
 			)
    	</select>
 	

@@ -426,7 +426,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType2.fileSeq}">disabled</c:if> 
 							<c:if test="${!empty result.applyInfo.checkCd2}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType2.fileSeq }" >
-							<label for="check_cd2">주민등록증 사진과 일치여부</label>
+							<label for="check_cd2">등록정보와 일치여부</label>
 						</div>
 					</td>
 				</tr>
@@ -567,7 +567,7 @@ function goApplyImprove(num){
 							<c:if test="${empty result.applyInfo.fileType15.fileSeq}">disabled</c:if>
 							<c:if test="${!empty result.applyInfo.checkCd20}">checked</c:if>
 							 data-fileSeq="${result.applyInfo.fileType15.fileSeq }" >
-							<label for="check_cd20">확인</label>
+							<label for="check_cd20">동의 항목 누락여부 확인</label>
 						</div>
 					</td>
 				</tr>
