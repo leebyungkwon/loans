@@ -61,17 +61,12 @@ public class EnterService {
 		String ip = (request.getHeader("X-Forwarded-For") == null) ?
 					"0" : request.getHeader("X-Forwarded-For");
 		
-		log.error("## ip check :{} , {} , {}", ip, request.getRemoteAddr(), request.getHeader("X-Forwarded-For"));
-
-		if("local".equals(profile)) {
-			flag = (ip == "") ? true :  flag ;
-			return true;
-		}
+		log.error("## ip check :{} , {} , {} , {} , {}", ip, request.getRemoteAddr(), request.getHeader("X-Forwarded-For")
+				, ip.matches("223.*"), ip.contains("223"));
 		
 		//주소 코드 리스트
 		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
 		codeDtlParam.setCodeMstCd("RT0001");
-		codeDtlParam.setCodeDtlNm(ip);
 		List<CodeDtlDomain> codeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		for(CodeDtlDomain code : codeList) {
