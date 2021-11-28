@@ -57,6 +57,8 @@ public class EnterService {
 	@Transactional
 	public boolean isVaildIp(HttpServletRequest request) {
 		boolean flag = false;
+
+		log.error("## ip check : {} , {}", request.getRemoteAddr(), request.getHeader("X-Forwarded-For"));
 		
 		if("local".equals(profile)
 				/* || "dev".equals(profile) */
@@ -72,12 +74,12 @@ public class EnterService {
 		List<CodeDtlDomain> codeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		for(CodeDtlDomain code : codeList) {
-			log.error("## isVaildIp : {} ,{} , {} , {}", ip.matches(code.getCodeDtlNm()+".*"), ip.contains(code.getCodeDtlNm()),ip, code.getCodeDtlNm());
+			log.error("## isVaildIp : {} , {} , {}, {}", ip, code.getCodeDtlNm(), ip.matches(code.getCodeDtlNm()+".*"), ip.contains(code.getCodeDtlNm()));
 			if(ip.matches(code.getCodeDtlNm()+".*")) {
 				flag = true;
 			}
 		}
-		flag = true;
+		
 		return flag;
 	}
 }
