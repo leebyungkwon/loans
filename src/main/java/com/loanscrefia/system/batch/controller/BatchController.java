@@ -148,6 +148,8 @@ public class BatchController {
     		log.info("================ inactiveUserCheck() FOR!!!!!!!!! ================");
     		UsersDomain inactiveDomain = new UsersDomain();
     		inactiveDomain.setUserSeq(tmp.getUserSeq());
+    		
+    		// 쿼리 생성해야함
     		batchRepository.insertInactiveUserBatch(inactiveDomain);
     		batchRepository.updateInactiveUserBatch(inactiveDomain);
     	}
