@@ -267,7 +267,7 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('CAR001','2','경력','경력','Y','Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL), -- 고도화(property 값 수정)
 	 ('PRD001','01','대출','대출','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL), -- 고도화(property 값 수정)
 	 ('PRD001','03','TM대출','TM대출',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL),
-	 ('PRD001','05','리스','리스','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL), -- 고도화(property 값 수정)
+	 ('PRD001','05','리스할부','리스할부','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL), -- 고도화(property 값 수정)
 	 ('PRD001','06','TM리스','TM리스',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:02:17.42183',NULL,NULL);
 INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
 	 ('ADD001','1','서울','',NULL,NULL,NULL,NULL,NULL,'Y',0,'2021-04-30 17:33:39.107933',NULL,NULL),
@@ -544,6 +544,7 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('PRD002','10','기계할부금융','기계할부금융',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD002','11','할부금융','할부금융',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD002','12','오토론','오토론',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('PRD002','13','기타','기타','Y','Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('NTC001','1','금융회사','금융회사',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
 	 ('NTC001','2','모집인','모집인',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:52:43.755424',NULL,NULL),
 	 ('PTH001','1','협회','협회',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 15:48:38.759343',NULL,NULL),
@@ -648,4 +649,34 @@ ALTER TABLE tb_lc_users_inactive ADD COLUMN role_name varchar(20);
 
 ALTER TABLE tb_lc_users ADD COLUMN appr_txt text;
 ALTER TABLE tb_lc_users_inactive ADD COLUMN appr_txt text;
+
+
+-- 2021.11.28
+UPDATE tb_lc_cod01_detail SET code_dtl_nm = '리스할부',code_dtl_desc = '리스할부' WHERE code_mst_cd = 'PRD001' AND code_dtl_cd = '05';
+
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+('PRD002','13','기타','기타','Y','Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
