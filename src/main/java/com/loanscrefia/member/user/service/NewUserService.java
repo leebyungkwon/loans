@@ -171,6 +171,7 @@ public class NewUserService {
 		//상세
 		NewUserDomain userRegInfo 	= userRepo.getNewUserRegDetail(newUserDomain);
 		
+		UtilMask mask = new UtilMask();
 		if(StringUtils.isNotEmpty(userRegInfo.getPlMZId())) {
 			String plMZId 	= "";
 			if(cryptoApply) {
@@ -178,6 +179,11 @@ public class NewUserService {
 			}else {
 				plMZId 		= userRegInfo.getPlMZId();
 			}
+			
+			if(StringUtils.isNotEmpty(plMZId)) {
+				plMZId = mask.maskSSN(plMZId);
+			}
+			
 			plMZId 			= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
 			userRegInfo.setPlMZId(plMZId);
 			
@@ -863,6 +869,12 @@ public class NewUserService {
 		
 		//상세
 		NewUserDomain userRegInfo = userRepo.getNewUserRegDetail(newUserDomain);
+		
+		// 가등록 진행중인 계약건 확인
+		List<NewUserDomain> preRegResult = userRepo.selectPreRegList(userRegInfo);
+		if(preRegResult.size() > 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "등록한 모집인 정보로 진행중인 계약건(가등록)이 존재하여 해지요청이 불가능 합니다.");
+		}
 		
 		if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 해지요청 불가
 			UserImwonDomain chkParam1 	= new UserImwonDomain();

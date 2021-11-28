@@ -23,6 +23,9 @@ public interface NewUserRepository {
 	// 2021-10-12 고도화 - 모집인 확인처리 상세 페이지 : 개인 조회
 	NewUserDomain getNewUserRegDetail(NewUserDomain newUserDomain);
 	
+	// 2021-11-28 가등록중인 데이터 조회
+	List<NewUserDomain> selectPreRegList(NewUserDomain newUserDomain);
+	
 	// 2021-10-12 고도화 - 모집인 확인처리 위반이력 조회
 	List<NewUserDomain> selectNewUserViolationInfoList(NewUserDomain newUserDomain);
 	
