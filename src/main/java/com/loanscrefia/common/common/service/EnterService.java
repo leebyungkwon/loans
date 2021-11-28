@@ -61,8 +61,6 @@ public class EnterService {
 		String ip = (request.getHeader("X-Forwarded-For") == null) ?
 					"0" : request.getHeader("X-Forwarded-For");
 		
-		log.error("## ip check :{} , {} , {} , {} , {}", ip, request.getRemoteAddr(), request.getHeader("X-Forwarded-For")
-				, ip.matches("223.*"), ip.contains("223"));
 		
 		//주소 코드 리스트
 		CodeDtlDomain codeDtlParam = new CodeDtlDomain();
@@ -70,7 +68,7 @@ public class EnterService {
 		List<CodeDtlDomain> codeList = codeService.selectCodeDtlList(codeDtlParam);
 		
 		for(CodeDtlDomain code : codeList) {
-			log.error("## isVaildIp : {} , {} , {}, {}", ip, code.getCodeDtlNm(), ip.matches(code.getCodeDtlNm()+".*"), ip.contains(code.getCodeDtlNm()));
+			//log.error("## isVaildIp : {} , {} , {}, {}", ip, code.getCodeDtlNm(), ip.matches(code.getCodeDtlNm()+".*"), ip.contains(code.getCodeDtlNm()));
 			if(ip.matches(code.getCodeDtlNm()+".*")) {
 				flag = true;
 			}
