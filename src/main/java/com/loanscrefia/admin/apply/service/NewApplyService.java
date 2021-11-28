@@ -1134,7 +1134,7 @@ public class NewApplyService {
 		int smsResult = 0;
 		boolean smsCheck = false;
 		SmsDomain smsDomain = new SmsDomain();
-		smsDomain.setTranCallback("0220110700");
+		smsDomain.setTranCallback("0220110770");
 		smsDomain.setTranStatus("1");
 		smsDomain.setTranEtc1("10070");
 		//smsDomain.setTranPhone("01031672126");

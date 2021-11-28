@@ -402,7 +402,7 @@ public class BatchService{
 				// 본등록에 대한 메세지 발송
 				int smsResult = 0;
 				SmsDomain smsDomain = new SmsDomain();
-				smsDomain.setTranCallback("0220110700");
+				smsDomain.setTranCallback("0220110770");
 				smsDomain.setTranStatus("1");
 				smsDomain.setTranEtc1("10070");
 				smsDomain.setTranPhone(applyResult.getPlCellphone().replaceAll("-", ""));
@@ -411,7 +411,7 @@ public class BatchService{
 				if("1".equals(plClass)) {
 					tranMsg = applyResult.getUserName()+"님의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
 				}else {
-					tranMsg = applyResult.getPlMerchantName()+"법임ㄴ의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
+					tranMsg = applyResult.getPlMerchantName()+" 법인의 대출성상품 모집인 등록이 완료되었습니다. 등록번호는 "+lcNum+" 입니다.";
 				}
 				
 				smsDomain.setTranMsg(tranMsg);

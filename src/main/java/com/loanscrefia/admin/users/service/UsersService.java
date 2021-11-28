@@ -836,7 +836,7 @@ public class UsersService {
 			// 정보변경 거절에 대한 메세지 발송
 			int smsResult = 0;
 			SmsDomain smsDomain = new SmsDomain();
-			smsDomain.setTranCallback("0220110700");
+			smsDomain.setTranCallback("0220110770");
 			smsDomain.setTranStatus("1");
 			smsDomain.setTranEtc1("10070");
 			smsDomain.setTranPhone(usersResult.getMobileNo());
@@ -1080,9 +1080,10 @@ public class UsersService {
 		}else if("3".equals(usersDomain.getStat())) {
 			
 			// 정보변경 거절에 대한 메세지 발송
+			/*
 			int smsResult = 0;
 			SmsDomain smsDomain = new SmsDomain();
-			smsDomain.setTranCallback("0220110700");
+			smsDomain.setTranCallback("0220110770");
 			smsDomain.setTranStatus("1");
 			smsDomain.setTranEtc1("10070");
 			smsDomain.setTranPhone(usersResult.getMobileNo());
@@ -1091,6 +1092,7 @@ public class UsersService {
 			smsDomain.setTranMsg(tranMsg);
 			
 			smsResult = smsRepository.sendSms(smsDomain);
+			*/
 			
 		}else {
 			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");

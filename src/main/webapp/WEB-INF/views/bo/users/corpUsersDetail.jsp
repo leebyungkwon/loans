@@ -261,7 +261,7 @@ function usersCorpTempApply(){
 					<tr>
 						<th>승인/가승인 사유</th>
 						<td colspan="5">
-							<textarea rows="6" cols="" id="apprTxt" name="apprTxt" class="w100">${usersInfo.txt }</textarea>
+							<textarea rows="6" cols="" id="apprTxt" name="apprTxt" class="w100">${usersInfo.apprTxt }</textarea>
 						</td>
 					</tr>
 					

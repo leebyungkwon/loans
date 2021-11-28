@@ -733,7 +733,7 @@ public class NewUserService {
 			userRepo.insertNewMasterStep(newUserDomain);
 			int smsResult = 0;
 			SmsDomain smsDomain = new SmsDomain();
-			smsDomain.setTranCallback("0220110700");
+			smsDomain.setTranCallback("0220110770");
 			smsDomain.setTranPhone(userRegInfo.getPlCellphone());
 			smsDomain.setTranStatus("1");
 			smsDomain.setTranEtc1("10070");
@@ -766,14 +766,7 @@ public class NewUserService {
 				}else {
 					smsMsg += userRegInfo.getPlMerchantName()+"은 "+userRegInfo.getComCodeNm()+" 대출성상품 모집인 등록 신청이 거절되었습니다";
 				}
-				
-				
 				smsDomain.setTranMsg(smsMsg);
-				
-				
-				if(smsResult <= 0) {
-					return new ResponseMsg(HttpStatus.OK, "fail", "상태변경은 완료되었으나\n문자발송에 실패하였습니다. 관리자에 문의해 주세요.");
-				}
 				
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "상태가 올바르지 않습니다.\n새로고침 후 다시 시도해 주세요.");
@@ -784,6 +777,10 @@ public class NewUserService {
 				smsResult = smsRepository.sendSms(smsDomain);
 			}else {
 				smsResult = 1;
+			}
+			
+			if(smsResult <= 0) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "상태변경은 완료되었으나\n문자발송에 실패하였습니다. 관리자에 문의해 주세요.");
 			}
 			
 			return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
@@ -955,7 +952,7 @@ public class NewUserService {
 			if(smsApply) {
 				// 문자발송 추가
 				SmsDomain smsDomain = new SmsDomain();
-				smsDomain.setTranCallback("0220110700");
+				smsDomain.setTranCallback("0220110770");
 				smsDomain.setTranPhone(resultInfo.getPlCellphone());
 				smsDomain.setTranStatus("1");
 				String smsMsg = "";

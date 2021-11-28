@@ -515,6 +515,7 @@
 	   				WHEN fail_stop_dt is null THEN 'N'
 	   				ELSE 'Y'
 	   			END AS fail_stop_yn
+	   			, users.file_seq
 	   			,corp.corp_seq
 	   			,corp.pl_merchant_name
 	   			,corp.pl_merchant_no
