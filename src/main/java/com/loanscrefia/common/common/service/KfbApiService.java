@@ -411,6 +411,113 @@ public class KfbApiService {
 		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
 	}
 	
+	
+
+	//토큰 재발급
+	public ResponseMsg getReAuthToken() throws IOException {
+		
+		String successCheck 	= "fail";
+		String message 			= "";
+		JSONObject responseJson = new JSONObject();
+		int TIMEOUT_VALUE = 3000;		// 3초
+		HttpURLConnection conn = null;
+		BufferedReader br = null;
+		
+		try {
+			//URL 설정
+			URL url 				= new URL(this.getApiDomain()+TokenUrl);
+			conn 	= (HttpURLConnection)url.openConnection();
+			
+			//authCode
+			String authCode 		= this.getAuthCode();
+			
+			//2021-09-30 timeout설정
+			conn.setConnectTimeout(TIMEOUT_VALUE);
+			conn.setReadTimeout(TIMEOUT_VALUE);
+			
+			// 2021-11-04 keep-alive관련 옵션 추가
+			conn.setRequestProperty("Connection", "close");
+			
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Content-Type", "application/json; charset=utf-8"); //요청
+			conn.setRequestProperty("Accept", "application/json"); //응답
+			conn.setRequestProperty("X-Kfb-Client-Id", ClientId);
+			conn.setRequestProperty("X-Kfb-User-Secret", ClientSecret);
+			conn.setRequestProperty("Authorize_code", authCode);
+			conn.setDoOutput(false);
+			
+			//요청 결과
+			int responseCode = conn.getResponseCode();
+			
+			//요청 이력 저장
+	        KfbApiDomain logParam = new KfbApiDomain();
+	        logParam.setToken("");
+	        logParam.setUrl(this.getApiDomain()+TokenUrl);
+	        logParam.setSendData("Authorize_code :: " + authCode);
+	        this.insertKfbApiReqLog(logParam);
+			
+			if(responseCode == 200) {
+				br 	= new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+				StringBuilder sb 	= new StringBuilder();
+				String line 		= "";
+				
+				while((line = br.readLine()) != null) {
+					sb.append(line);
+				}
+				responseJson = new JSONObject(sb.toString());
+				if(responseJson.getString("res_code").equals("200")) {
+					//successCheck
+					successCheck = "success";
+					
+					//토큰 DB 저장
+					KfbApiDomain kfbApiDomain = new KfbApiDomain();
+			        kfbApiDomain.setToken(responseJson.getString("authorization"));
+			        kfbApiRepo.updateKfbApiKey(kfbApiDomain);
+				}
+				
+				//응답 이력 저장
+	            logParam.setResCode(responseJson.getString("res_code"));
+	            logParam.setResMsg(responseJson.getString("res_msg"));
+	            logParam.setResData(responseJson.toString());
+	            this.insertKfbApiResLog(logParam);
+		        
+			}else{
+				log.error("#########################################");
+		        log.error("KfbApiService >> getAuthToken() > 통신오류");
+		        log.error("#########################################");
+		        
+		        //응답 이력 저장
+	            logParam.setResCode(Integer.toString(responseCode));
+	            logParam.setResMsg("getAuthToken() 메소드 확인 필요");
+	            logParam.setResData("empty");
+	            this.insertKfbApiResLog(logParam);
+			}
+			
+			conn.disconnect();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			
+			// 2021-10-05 disconnect 강제 종료 실행
+			if(conn != null) {
+				conn.disconnect();
+			}
+			conn = null;
+			
+			// 2021-10-05 BufferedReader 강제 종료 실행
+			if(br != null) {
+				br.close();
+			}
+			br = null;
+		}
+		
+		
+		return new ResponseMsg(HttpStatus.OK, successCheck, responseJson, message);
+	}
+	
+	
 	//요청 이력 등록
 	@Transactional
 	public void insertKfbApiReqLog(KfbApiDomain kfbApiDomain) {

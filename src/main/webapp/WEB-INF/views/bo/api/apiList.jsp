@@ -106,6 +106,27 @@ function pageLoad(){
 	});
 	
 	
+	// 토큰재발급
+	$("#apiTokenReInsert").on("click", function(){
+		var p = {
+			  url		: "/system/api/getReAuthToken"	
+			, param		: {
+				
+			}
+			, success 	: function (opt,result) {
+				if(result.code == "success"){
+					alert("토큰결과값 :: " + JSON.stringify(result));
+				}else{
+					if(result.data == null){
+						alert("심각한 오류가 발생하였습니다");
+					}else{
+						alert(result.data.resMsg);	
+					}
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	});
 	
 	// 가등록번호 조회 결과 팝업
 	$("#apiPreSearch").on("click", function(){
@@ -633,6 +654,7 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>
+				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiTokenReInsert">토큰재발급</a>
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>

@@ -111,7 +111,37 @@ public class ApiController {
 		}else {
 			responseMsg.setCode(null);
 			kfbApiResultDomain.setResCode("fail");
-			kfbApiResultDomain.setResMsg("연결실패");			
+			kfbApiResultDomain.setResMsg("연결실패");
+		}
+		responseMsg.setCode(null);
+		responseMsg.setData(kfbApiResultDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+	// API토큰재발발급
+	@PostMapping(value="/api/getReAuthToken")
+	public ResponseEntity<ResponseMsg> getReAuthToken(KfbApiDomain kfbApiDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		responseMsg = kfbApiService.getReAuthToken();
+		KfbApiDomain kfbApiResultDomain = new KfbApiDomain();
+		if(responseMsg.getData() != null) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			if(!"fail".equals(responseMsg.getCode())) {
+				kfbApiResultDomain.setToken(responseJson.getString("authorization"));
+				kfbApiResultDomain.setResCode(responseJson.getString("res_code"));
+				kfbApiResultDomain.setResMsg(responseJson.getString("res_msg"));
+				responseMsg.setCode(null);
+			}else {
+				responseMsg.setCode(null);
+				kfbApiResultDomain.setResCode("fail");
+				kfbApiResultDomain.setResMsg("API오류발생 - DB확인");	
+			}
+		}else {
+			responseMsg.setCode(null);
+			kfbApiResultDomain.setResCode("fail");
+			kfbApiResultDomain.setResMsg("연결실패");
 		}
 		responseMsg.setCode(null);
 		responseMsg.setData(kfbApiResultDomain);

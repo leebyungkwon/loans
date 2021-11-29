@@ -161,8 +161,8 @@ public class BatchController {
     
 	
 	
-	//10초마다 API_KEY 체크
-	@Scheduled(cron = "*/10 * * * * *")
+	//30초마다 API_KEY 체크
+	@Scheduled(cron = "*/30 * * * * *")
     @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() throws IOException {
 		if(isLocalBatch()) return;

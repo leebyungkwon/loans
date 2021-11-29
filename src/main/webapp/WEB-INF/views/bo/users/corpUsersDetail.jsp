@@ -243,6 +243,10 @@ function usersCorpTempApply(){
 						</td>
 					</tr>
 					<tr>
+						<th>CI</th>
+						<td colspan="5">${usersInfo.userCi}</td>
+					</tr>
+					<tr>
 						<th>대표및임원의결격사유</th>
 						<td>${usersInfo.dis1}</td>
 						<th>대표및임원의범죄경력</th>

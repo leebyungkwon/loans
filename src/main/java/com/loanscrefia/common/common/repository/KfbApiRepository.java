@@ -30,6 +30,9 @@ public interface KfbApiRepository {
 	//은행연합회 토큰 저장
 	void insertKfbApiKey(KfbApiDomain kfbApiDomain);
 	
+	//은행연합회 토큰 수정
+	void updateKfbApiKey(KfbApiDomain kfbApiDomain);
+	
 	//은행연합회 토큰 조회
 	String selectKfbApiKey(KfbApiDomain kfbApiDomain);
 	

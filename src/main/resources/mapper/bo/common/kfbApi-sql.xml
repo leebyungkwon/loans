@@ -91,6 +91,17 @@
    		)
 	</insert>
 	
+	<!-- 은행연합회 토큰 수정 -->
+	<insert id="updateKfbApiKey" parameterType="kfbApi">
+   		update KFB_API_KEY
+   		set
+   			key = #{token}
+   			, reg_timestamp = NOW()
+   		WHERE
+   			ins_dt = TO_CHAR(NOW(),'YYYYMMDD') 
+	</insert>
+	
+	
 	<!-- 은행연합회 토큰 조회 -->
 	<select id="selectKfbApiKey" resultType="string">
 		SELECT
