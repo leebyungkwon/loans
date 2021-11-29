@@ -13,10 +13,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
+import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.system.batch.domain.BatchDomain;
 import com.loanscrefia.system.batch.domain.BatchReqDomain;
+import com.loanscrefia.system.batch.repository.BatchRepository;
 import com.loanscrefia.system.batch.service.BatchService;
 import com.loanscrefia.util.OutApiConnector;
 import com.loanscrefia.util.OutApiParse;
@@ -34,6 +36,9 @@ public class BatchController {
 
 	@Autowired 
 	private BatchService batchService;
+	
+	@Autowired 
+	private BatchRepository batchRepository;
 	
 	@Autowired
 	private KfbApiService kfbApiService;
@@ -136,16 +141,15 @@ public class BatchController {
     */
 	
 	
-	/*
+	
 	//매일0시2분
-	@Scheduled(cron = "0 2 0 * * *")
+	/* @Scheduled(cron = "0 2 0 * * *") */
+	@Scheduled(cron = "*/10 * * * * *")
     @SchedulerLock(name = "inactiveUserCheck" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void inactiveUserCheck() throws IOException {
-    	log.info("================ inactiveUserCheck() START ================");
     	UsersDomain usersDomain = new UsersDomain();
     	List<UsersDomain> inactiveList = batchRepository.selectInactiveUser(usersDomain);
     	for(UsersDomain tmp : inactiveList) {
-    		log.info("================ inactiveUserCheck() FOR!!!!!!!!! ================");
     		UsersDomain inactiveDomain = new UsersDomain();
     		inactiveDomain.setUserSeq(tmp.getUserSeq());
     		
@@ -153,10 +157,8 @@ public class BatchController {
     		batchRepository.insertInactiveUserBatch(inactiveDomain);
     		batchRepository.updateInactiveUserBatch(inactiveDomain);
     	}
-    	
-    	log.info("================ inactiveUserCheck() END ================");
     }
-    */
+    
 	
 	
 	//10초마다 API_KEY 체크

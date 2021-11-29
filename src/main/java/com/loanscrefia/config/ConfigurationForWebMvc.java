@@ -1,10 +1,5 @@
 package com.loanscrefia.config;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -24,24 +19,7 @@ public class ConfigurationForWebMvc implements WebMvcConfigurer {
 	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		
-		String redirectUrl = "redirect:/front/index";
-		try {
-			SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-			Date currentDt = new Date();
-			
-			Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
-			Date d2 = dateFormatParser.parse("2021-11-29 10:00:00");
-
-			if(d1.compareTo(d2) >= 0) {
-				redirectUrl = "redirect:/login";
-			} 
-			
-		}catch(ParseException e) {
-			
-		}finally {
-			registry.addViewController("/").setViewName(redirectUrl);
-		}
+		registry.addViewController("/").setViewName("redirect:/front/index");
 	}
 	
 	@Override

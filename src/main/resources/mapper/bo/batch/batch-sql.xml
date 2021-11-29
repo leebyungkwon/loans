@@ -20,6 +20,7 @@
    			tb_lc_users
    		WHERE
    			(last_login_dt + '3 month'::interval) <![CDATA[<=]]> now()
+   		AND inactive_yn = 'N'
    	</select>
    	
     <select id="selectReqBatchList" resultType="recreg">
@@ -553,5 +554,85 @@
 		select COUNT(*) from kfb_api_key kak
 		where ins_dt = to_Char(now(), 'YYYYMMDD')
     </select>
+    
+    
+    
+    <insert id="insertInactiveUserBatch" parameterType="users">
+		INSERT INTO tb_lc_users_inactive
+		(
+			user_seq
+			, user_id
+			, password
+			, user_name
+			, mobile_no
+			, pl_class
+			, pl_m_z_id
+			, email
+			, user_ci
+			, manager_name
+			, manager_mobile_no
+			, manager_email
+			, corp_appr_yn
+			, corp_appr_dt
+			, file_seq
+			, join_dt
+			, terms_yn
+			, terms_dt
+			, drop_yn
+			, drop_dt
+			, inactive_yn
+			, inactive_dt
+			, last_login_dt
+			, fail_cnt
+			, fail_stop_dt
+			, pw_change_dt
+			, pw_token
+			, pw_token_dt
+			, reg_seq
+			, reg_timestamp
+			, upd_seq
+			, upd_timestamp
+			, crf_cd
+			, role_name
+			, appr_txt)
+		select user_seq, user_id, password, user_name, mobile_no, pl_class, pl_m_z_id, email, user_ci, manager_name, manager_mobile_no
+		, manager_email, corp_appr_yn, corp_appr_dt, file_seq, join_dt, terms_yn, terms_dt, drop_yn, drop_dt, inactive_yn, NOW(), last_login_dt, fail_cnt, fail_stop_dt, pw_change_dt, pw_token, pw_token_dt, 0, NOW(), 0, NOW(), crf_cd, role_name, appr_txt
+		from tb_lc_users
+		where user_seq = #{userSeq}
+    </insert>
+
+    
+    <insert id="updateInactiveUserBatch" parameterType="users">
+		UPDATE tb_lc_users
+		SET 
+			user_id=''
+			, password=''
+			, user_name=''
+			, mobile_no=''
+			, pl_class=''
+			, pl_m_z_id=''
+			, email=''
+			, user_ci=''
+			, manager_name=''
+			, manager_mobile_no=''
+			, manager_email=''
+			, corp_appr_yn=''
+			, file_seq=0
+			, terms_yn=''
+			, drop_yn=''
+			, inactive_yn='Y'
+			, inactive_dt=NOW()
+			, fail_cnt=0
+			, pw_token=''
+			, reg_seq=0
+			, reg_timestamp=NOW()
+			, upd_seq=0
+			, upd_timestamp=NOW()
+			, crf_cd=''
+			, role_name=''
+			, appr_txt=''
+		WHERE user_seq=#{userSeq}
+    </insert>
+    
     
 </mapper>

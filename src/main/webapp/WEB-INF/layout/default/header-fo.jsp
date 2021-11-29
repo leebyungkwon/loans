@@ -5,6 +5,35 @@
 <%@ page import="org.springframework.security.core.Authentication" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
+
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.ParseException" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Locale" %>
+
+
+<%
+String btnShow = "O";
+
+try {
+	SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+	Date currentDt = new Date();
+	
+	Date d1 = dateFormatParser.parse(dateFormatParser.format(currentDt));
+	Date d2 = dateFormatParser.parse("2021-11-29 10:00:00");
+	
+	if(d1.compareTo(d2) >= 0) {
+		%>
+		<script type="text/javascript">
+		location.href = 'https://creditloanagent.crefia.or.kr/';
+		</script>
+		<%
+	}
+}catch(ParseException e) {
+	btnShow = "X";
+}
+%>
+
 <script type="text/javascript">
 function menuActiveFunction(){
 	$(".gnb > ul > li").removeClass("on");

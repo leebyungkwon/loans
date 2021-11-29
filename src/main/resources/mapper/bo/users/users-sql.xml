@@ -301,7 +301,9 @@
     		, pw_token_dt = b.pw_token_dt
     		, corp_appr_yn = b.corp_appr_yn
     		, role_name = b.role_name
-    	FROM tb_lc_users_inactive as b
+    		, crf_cd = b.crf_cd
+    		, appr_txt=b.appr_txt	
+    	FROM tb_lc_users_inactive b
     	WHERE a.user_seq = #{userSeq}
     	and a.user_seq = b.user_seq
 	</update>
