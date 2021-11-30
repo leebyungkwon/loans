@@ -378,12 +378,12 @@ public class UsersService {
 			responseMsg.setCode("fail");
 			return responseMsg;
 		}else {
-			UsersDomain userInfo = this.getCorpUsersDetail(usersDomain);
+			UsersDomain userInfo = usersRepository.getCorpUsersDetail(usersDomain);
 			
 			//BO 데이터 FO로 이동
 			NewUserDomain param = new NewUserDomain();
 			param.setPlClass("2");
-			param.setCi(userInfo.getUserCi());
+			param.setPlMerchantNo(userInfo.getPlMerchantNo());
 			param.setUserSeq(usersDomain.getUserSeq());
 			newUserService.switchPrevContractToFo(param);
 			

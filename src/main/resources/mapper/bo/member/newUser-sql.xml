@@ -14,10 +14,10 @@
 			,UPD_SEQ 		= #{userSeq}
    			,UPD_TIMESTAMP 	= NOW()
 		<where>
-			AND PL_CLASS 	= #{plClass}
-			AND CI 			= #{ci}
-			AND REG_PATH 	= 'B'
-			AND USE_YN 		= 'Y'
+			AND PL_CLASS 		= #{plClass}
+			AND PL_MERCHANT_NO 	= #{plMerchantNo}
+			AND REG_PATH 		= 'B'
+			AND USE_YN 			= 'Y'
 		</where>
 	</update>
 
