@@ -98,7 +98,7 @@
    			key = #{token}
    			, reg_timestamp = NOW()
    		WHERE
-   			ins_dt = TO_CHAR(NOW(),'YYYYMMDD') 
+   			ins_dt = TO_CHAR(NOW(),'YYYYMMDD')
 	</insert>
 	
 	
@@ -169,6 +169,7 @@
 			KEY
 		FROM KFB_API_KEY
 		WHERE INS_DT = TO_CHAR(NOW(),'YYYYMMDD')
+		ORDER BY REG_TIMESTAMP DESC
 		LIMIT 1
 	</select>
 	

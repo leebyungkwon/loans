@@ -160,19 +160,23 @@ public class BatchController {
     
 	
 	
-	//30초마다 API_KEY 체크
-	@Scheduled(cron = "*/30 * * * * *")
+	//매일0시1분
+	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() throws IOException {
 		if(isLocalBatch()) return;
     	log.info("================ apiAuthToken() START ================");
     	
+    	/*
     	// 금일 토큰 생성 확인
     	BatchDomain batch = new BatchDomain();
     	int tokenCheck = batchService.getTokenCheck(batch);
     	if(tokenCheck == 0) {
     		kfbApiService.getAuthToken();
     	}
+    	*/
+    	
+    	kfbApiService.getAuthToken();
     	
     	log.info("================ apiAuthToken() END ================");
     }

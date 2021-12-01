@@ -654,7 +654,7 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>
-				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiTokenReInsert">토큰재발급</a>
+				<!-- <a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiTokenReInsert">토큰재발급</a> -->
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>

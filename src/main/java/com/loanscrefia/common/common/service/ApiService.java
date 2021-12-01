@@ -13,6 +13,8 @@ import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
 import com.loanscrefia.config.message.ResponseMsg;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.service.BatchService;
 import com.loanscrefia.util.OutApiConnector;
 import com.loanscrefia.util.OutApiParse;
 
@@ -27,7 +29,10 @@ public class ApiService {
 	public static String ClientSecret		= "781r671t905ehq46"; 			//요청자 비밀번호
 	
 	@Autowired private KfbApiRepository kfbApiRepo;
+
 	
+	@Autowired private KfbApiService kfbApiService;
+	@Autowired private BatchService batchService;
 
 	//API 서버 도메인(application.yml)
 	@Value("${kfbApi.url}")
@@ -83,6 +88,14 @@ public class ApiService {
 	            resCode = data.getString("res_code");
 	            resMsg = data.getString("res_msg");
 				logParam.setResData(data.toString());
+				
+				//배치등록*
+				if("401".equals(resCode)) {
+			    	log.info("================ Re apiAuthToken() START ================");
+			    	// 금일 토큰 생성 확인
+			    	kfbApiService.getAuthToken();
+			    	log.info("================ Re apiAuthToken() END ================");
+				}
 			}
 			 
 		} catch (JSONException e) {
