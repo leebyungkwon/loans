@@ -142,9 +142,8 @@ public class BatchController {
 	
 	
 	
-	//매일0시2분
-	/* @Scheduled(cron = "0 2 0 * * *") */
-	@Scheduled(cron = "*/10 * * * * *")
+	//매일0시1분
+	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "inactiveUserCheck" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void inactiveUserCheck() throws IOException {
     	UsersDomain usersDomain = new UsersDomain();

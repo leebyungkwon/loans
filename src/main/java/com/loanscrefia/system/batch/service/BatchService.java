@@ -166,6 +166,9 @@ public class BatchService{
 				errorMessage = "가등록 삭제시 오류 발생 :: "+delResult.getCode();
 				preDelDomain.setApiResMsg(delResult.getMessage());
 				preDelDomain.setApiSuccessCode(delResult.getCode());
+				
+				req.setError("code ::"+delResult.getCode()+" Message :: "+delResult.getMessage());
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -287,6 +290,7 @@ public class BatchService{
 				// 가등록 실패
 				req.setStatus("3");
 				errorMessage = "가등록번호 생성시 오류 발생 :: "+preRegResult.getCode();
+				req.setError("code ::"+preRegResult.getCode()+" Message :: "+preRegResult.getMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,6 +427,9 @@ public class BatchService{
 				errorMessage = "본등록번호 생성시 오류 발생 :: "+regResult.getCode();
 				newApplyDomain.setApiResMsg(regResult.getMessage());
 				newApplyDomain.setApiSuccessCode("fail");
+				
+				req.setError("code ::"+regResult.getCode()+" Message :: "+regResult.getMessage());
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -558,6 +565,9 @@ public class BatchService{
 				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
 				newApplyDomain.setApiResMsg(updResult.getMessage());
 				newApplyDomain.setApiSuccessCode("fail");
+				
+				req.setError("code ::"+updResult.getCode()+" Message :: "+updResult.getMessage());
+				
 			}
 			
 		} catch (Exception e) {
@@ -657,6 +667,8 @@ public class BatchService{
 				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
 				newApplyDomain.setApiResMsg(updResult.getMessage());
 				newApplyDomain.setApiSuccessCode("fail");
+				
+				req.setError("code ::"+updResult.getCode()+" Message :: "+updResult.getMessage());
 			}
 			
 		} catch (Exception e) {
@@ -812,6 +824,9 @@ public class BatchService{
 				errorMessage = "정보수정API 오류 발생 :: "+updResult.getCode();
 				newApplyDomain.setApiResMsg(updResult.getMessage());
 				newApplyDomain.setApiSuccessCode("fail");
+				
+				req.setError("code ::"+updResult.getCode()+" Message :: "+updResult.getMessage());
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -898,6 +913,9 @@ public class BatchService{
 				errorMessage = "정보수정 오류 발생 :: "+updResult.getCode();
 				newApplyDomain.setApiResMsg(updResult.getMessage());
 				newApplyDomain.setApiSuccessCode("fail");
+				
+				req.setError("code ::"+updResult.getCode()+" Message :: "+updResult.getMessage());
+				
 			}
 			
 		} catch (Exception e) {
@@ -965,6 +983,8 @@ public class BatchService{
 				// 위반이력 등록 실패
 				req.setStatus("3");
 				errorMessage = "위반이력 등록시 오류 발생 :: "+vioResult.getCode();
+				
+				req.setError("code ::"+vioResult.getCode()+" Message :: "+vioResult.getMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1028,6 +1048,8 @@ public class BatchService{
 				// 위반이력 삭제 실패
 				req.setStatus("3");
 				errorMessage = "위반이력 삭제시 오류 발생 :: "+vioResult.getCode();
+				
+				req.setError("code ::"+vioResult.getCode()+" Message :: "+vioResult.getMessage());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

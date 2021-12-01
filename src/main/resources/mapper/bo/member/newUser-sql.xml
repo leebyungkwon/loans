@@ -591,6 +591,9 @@
    			PL_STAT			= #{plStat}
 			,UPD_SEQ		= #{regSeq}
 			,UPD_TIMESTAMP	= NOW()
+			<if test="plHistTxt != null and plHistTxt != ''">
+				, pl_hist_txt = #{plHistTxt}
+			</if>
 		WHERE
 			MASTER_SEQ = #{masterSeq}
    	</update>
@@ -614,9 +617,8 @@
    			,PL_STAT
    			,CASE 
 				WHEN PL_STAT = '4' THEN FN_CD_DTL('DRP001',PL_HIST_CD)
-				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12') THEN PL_HIST_TXT
+				WHEN PL_STAT IN ('3','5','6','7','8','10','11','12','16') THEN PL_HIST_TXT
 				WHEN PL_STAT IN ('2') THEN APPLY_HIST_TXT
-				WHEN PL_STAT IN ('16') THEN '금융회사 등록대상 거절'
 				ELSE ''
 			 END AS PL_HIST_TXT
    			,NOW()

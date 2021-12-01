@@ -14,14 +14,20 @@ function pageLoad(){
 	
 	// 금융회사 거절
 	$("#newUserApplyImprove").on("click", function(){
-		if(confirm("등록신청 거절을 하시겠습니까?")){
+		
+		var plHistTxt = $("#plHistTxt").val();
+		var improveMsg = "";
+		if(WebUtil.isNull(plHistTxt)){
+			improveMsg = "거절에 대한 사유가 없습니다.\n등록신청 거절을 하시겠습니까?";
+		}else{
+			improveMsg = "등록신청 거절을 하시겠습니까?";
+		}
+		
+		if(confirm(improveMsg)){
 			$("#plStat").val("16");
 			var p = {
 				  name 		: "userRegInfoUpdFrm"
 				, success 	: function (opt,result) {
-					
-					console.log("성공 #### ::" , result);
-					
 					if(result.data.code == "success"){
 						alert(result.data.message);
 						location.href="/member/newUser/newUserRegPage";
@@ -44,9 +50,6 @@ function pageLoad(){
 			var p = {
 				  name 		: "userRegInfoUpdFrm"
 				, success 	: function (opt,result) {
-					
-					console.log("성공 #### ::" , result);
-					
 					if(result.data.code == "success"){
 						alert(result.data.message);
 						location.href="/member/newUser/newUserRegPage";
@@ -141,10 +144,16 @@ function pageLoad(){
 							<td>${result.userRegInfo.entrustDate }</td>
 						</tr>
 						<tr>
+							<th>상태</th>
+							<td>${result.userRegInfo.plStatNm }</td>
 							<th>거절 승인명</th>
 							<td>${result.userRegInfo.memberNm }</td>
-							<th></th>
-							<td></td>
+						</tr>
+						<tr>
+							<th>사유<br/>(승인 및 거절)</th>
+							<td colspan="3">
+								<textarea rows="6" cols="" id="plHistTxt" name="plHistTxt" class="w100">${result.userRegInfo.plHistTxt}</textarea>
+							</td>
 						</tr>
 					</tbody>
 				</table>
