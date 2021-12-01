@@ -81,6 +81,15 @@ public class ApiService {
 	            resCode = data.getString("res_code");
 	            resMsg = data.getString("res_msg");
 				logParam.setResData(data.toString());
+				
+				//배치등록*
+				if(data.getString("res_code").equals("401")) {
+			    	log.info("================ Re apiAuthToken() START ================");
+			    	// 금일 토큰 생성 확인
+			    	kfbApiService.getAuthToken();
+			    	log.info("================ Re apiAuthToken() END ================");
+				}
+				
 			}else {
 				String resData = OutApiParse.getData(res, "");
 		        data =  new JSONObject(resData);	
@@ -88,14 +97,6 @@ public class ApiService {
 	            resCode = data.getString("res_code");
 	            resMsg = data.getString("res_msg");
 				logParam.setResData(data.toString());
-				
-				//배치등록*
-				if("401".equals(resCode)) {
-			    	log.info("================ Re apiAuthToken() START ================");
-			    	// 금일 토큰 생성 확인
-			    	kfbApiService.getAuthToken();
-			    	log.info("================ Re apiAuthToken() END ================");
-				}
 			}
 			 
 		} catch (JSONException e) {
