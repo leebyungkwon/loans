@@ -530,7 +530,7 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 	 ('EXP001','5','미해당','미해당',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:14:36.281366',NULL,NULL),
 	 ('MAS001','14','승인요청취소','승인요청취소',NULL,NULL,'Y',NULL,NULL,'Y',142,'2021-05-03 17:17:11.282842',NULL,NULL),
 	 ('MAS001','15','금융회사 확인완료','금융회사 확인완료',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
-	 ('MAS001','16','승인거절','승인거절',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
+	 ('MAS001','16','금융회사 승인거절','금융회사 승인거절',NULL,NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('CAR001','3','미해당','미해당',NULL,'Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD002','1','개인신용대출','개인신용대출','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),
 	 ('PRD002','2','담보대출','담보대출','Y',NULL,NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL),

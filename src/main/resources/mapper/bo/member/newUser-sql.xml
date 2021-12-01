@@ -8,15 +8,13 @@
 		SET
 			 USER_SEQ 		= #{userSeq}
 			,REG_PATH 		= CASE 
-								WHEN PL_REG_STAT = '2' OR PL_REG_STAT = '3' THEN 'F'
-								ELSE 'B'
+								WHEN PL_REG_STAT != '1' THEN 'F'
 			 				  END
 			,UPD_SEQ 		= #{userSeq}
    			,UPD_TIMESTAMP 	= NOW()
 		<where>
 			AND PL_CLASS 		= #{plClass}
 			AND PL_MERCHANT_NO 	= #{plMerchantNo}
-			AND REG_PATH 		= 'B'
 			AND USE_YN 			= 'Y'
 		</where>
 	</update>
