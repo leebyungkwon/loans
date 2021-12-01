@@ -993,8 +993,7 @@ public class UsersService {
 			// 주민등록번호 수정시 
 			String ssn = usersResult.getReqPlMZId();
 			String mobileNo = usersResult.getReqMobileNo();
-			//String userCi = usersResult.getReqUserCi();
-			String userCi = usersResult.getUserCi();
+			String userCi = usersResult.getReqUserCi();
 			
 			if(resultList.size() > 0) {
 				

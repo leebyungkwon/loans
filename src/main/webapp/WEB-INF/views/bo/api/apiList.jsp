@@ -17,7 +17,7 @@ function pageLoad(){
 				,{type:"string"	, name:'token'			, index:'token'			, width:"78%"		, align:"left"}
 				,{type:"string"	, name:'regTimestamp'	, index:'regTimestamp'	, width:"12%"		, align:"center"}
 			]
-		, sortNm 		: "ins_dt"
+		, sortNm 		: "reg_timestamp"
 		, sort 			: "DESC"
 		, gridSearch 	: "searchDiv,searchBtn"
 		, isPaging 		: true					

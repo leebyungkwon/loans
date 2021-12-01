@@ -108,6 +108,7 @@
 			KEY
 		FROM KFB_API_KEY
 		WHERE INS_DT = TO_CHAR(NOW(),'YYYYMMDD')
+		ORDER BY reg_timestamp DESC
 		LIMIT 1
 	</select>
 	
