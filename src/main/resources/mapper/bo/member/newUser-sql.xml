@@ -780,6 +780,11 @@
 				<if test="plMerchantNo != null and plMerchantNo != ''">
 					AND TLM.PL_MERCHANT_NO = #{plMerchantNo}
 				</if>
+				
+		    	<if test="plRegStat != null and plRegStat != ''">
+					AND TLM.PL_REG_STAT = #{plRegStat}
+				</if>
+				
 		    	<if test="plStat != null and plStat != ''">
 					AND TLM.PL_STAT = #{plStat}
 				</if>

@@ -43,12 +43,23 @@ function pageLoad(){
 		, excelFileNm	: "해지신청및조회"
 	});
 	
+	//모집인 상태
+ 	var plRegStatCode = {
+		 useCode 	: true
+		,code 		: 'REG001'
+		,target 	: '#plRegStat'
+		,property01 : 'Y'
+		,updData 	: ''
+		,defaultMsg : '전체'
+	};
+	DataUtil.selectBox(plRegStatCode);
+	
 	//처리상태
  	var plStatCode = {
 		 useCode 	: true
 		,code 		: 'MAS001'
 		,target 	: '#plStat'
-		,property01 : 'Y'
+		,property02 : 'Y'
 		,updData 	: ''
 		,defaultMsg : '전체'
 	};
@@ -155,7 +166,13 @@ function goGetDate(opt) {
 					<td class="half_input">
 						<select name="plProduct" id="plProduct"></select>
 					</td>
-					<th>승인상태</th>
+				</tr>
+				<tr>
+					<th>모집인 상태</th>
+					<td class="half_input">
+						<select name="plRegStat" id="plRegStat"></select>
+					</td>
+					<th>처리상태</th>
 					<td class="half_input">
 						<select name="plStat" id="plStat"></select>
 					</td>
