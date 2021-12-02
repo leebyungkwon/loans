@@ -9,7 +9,7 @@
 			 USER_SEQ 		= #{userSeq}
 			,REG_PATH 		= CASE 
 								WHEN PL_REG_STAT != '1' THEN 'F'
-								ELSE 'B'
+								ELSE REG_PATH
 			 				  END
 			,UPD_SEQ 		= #{userSeq}
    			,UPD_TIMESTAMP 	= NOW()
