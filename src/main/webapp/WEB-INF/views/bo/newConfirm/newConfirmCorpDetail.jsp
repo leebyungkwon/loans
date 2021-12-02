@@ -69,7 +69,7 @@ function goViolationAdd(obj){
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title type2">
-			<h2>해지신청 및 조회 - 법인</h2>
+			<h2>모집인 조회 및 변경/해지 - 법인</h2>
 		</div>
 	</div>
 <!-- 

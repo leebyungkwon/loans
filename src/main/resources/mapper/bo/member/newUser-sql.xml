@@ -650,12 +650,12 @@
 
 	<!-- 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사) -->
    	<select id="selectNewConfirmList" parameterType="newUser" resultType="newUser">
-   		SELECT 
+   		SELECT
+   			<include refid="common.totalPages"/> 
    			Z.*
    		FROM
    		(
    			SELECT 
-   				<include refid="common.totalPages"/>
 		    	 TLM.MASTER_SEQ
 		    	,TLM.MASTER_TO_ID
 				,TLM.COM_CODE
@@ -928,6 +928,164 @@
    	</select>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+
+
+	<!-- 2021-12-02 전체 모집인 조회 리스트 -->
+   	<select id="selectTotList" parameterType="newUser" resultType="newUser">
+   		SELECT 
+   			Z.*
+   		FROM
+   		(
+   			SELECT 
+   				<include refid="common.totalPages"/>
+		    	 TLM.MASTER_SEQ
+		    	,TLM.MASTER_TO_ID
+				,TLM.COM_CODE
+				,FN_COM_CODE(TLM.COM_CODE) AS COM_CODE_NM
+				,TLM.MEMBER_SEQ
+				,FN_MEMBER_NAME(TLM.MEMBER_SEQ) AS MEMBER_NM
+				,TLM.SUB_YN
+				,TLM.PRE_REG_YN
+				,TLM.PRE_LC_NUM
+				,TLM.PL_CLASS
+				,FN_CD_DTL('CLS001',TLM.PL_CLASS) AS PL_CLASS_NM
+				,TLM.CORP_USER_YN
+				,TLM.CAREER_TYP
+				,FN_CD_DTL('CAR001',TLM.CAREER_TYP) AS CAREER_TYP_NM
+				,TLM.API_CAREER_YN
+				,TLM.PL_PRODUCT
+				,FN_CD_DTL('PRD001',TLM.PL_PRODUCT) AS PL_PRODUCT_NM
+				,TLM.PL_REG_STAT
+				,FN_CD_DTL('REG001',TLM.PL_REG_STAT) AS PL_REG_STAT_NM
+				,TLM.PL_STAT
+				,FN_CD_DTL('MAS001',TLM.PL_STAT) AS PL_STAT_NM
+				,TLM.PL_REGIST_NO
+				,TLM.CON_NUM
+				,TLM.CI
+				,CASE 
+					WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+					WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 END AS PL_M_NAME
+				<!-- ,TLM.PL_M_NAME -->
+				,TLM.PL_M_Z_ID
+				,TLM.PL_M_Z_ID_EDU
+				,FN_CELLPHONE(TLM.PL_CELLPHONE) AS PL_CELLPHONE
+				,TLM.ADDR
+				,TLM.ADDR_DETAIL
+				,TLM.REG_ADDR
+				,TLM.REG_ADDR_DETAIL
+				,TLM.ADDR_BASE
+				,TLM.OTHER_FIELD
+				,TLM.WITHIN_GOVR
+				,TLM.PL_EDU_NO
+				,TLM.CAREER_START_DATE
+				,TLM.CAREER_END_DATE
+				,TLM.ENTRUST_DATE
+				,TLM.COM_CONT_DATE
+				,TLM.PL_MERCHANT_NAME
+				,TLM.PL_CEO_NAME
+				,TLM.PL_MERCHANT_NO
+				,TLM.PL_BUSINESS_NO
+				,TLM.COMP_PHONE_NO
+				,TLM.CORP_FOUND_DATE
+				,TLM.CAPITAL
+				,TLM.VOTING_STOCK_CNT
+				,TLM.PL_PAY_STAT
+				<!-- ,FN_CD_DTL('A0001',TLM.PL_PAY_STAT) AS PL_PAY_STAT_NM -->
+				,TO_DATE(TLM.COM_REG_DATE,'YYYYMMDD') AS COM_REG_DATE
+				,TO_DATE(TLM.FIRST_APP_DATE,'YYYYMMDD') AS FIRST_APP_DATE
+				,TLM.CRE_APP_DATE AS ORIGIN_CRE_APP_DATE
+				,TO_DATE(TLM.CRE_APP_DATE,'YYYYMMDD') AS CRE_APP_DATE
+				,TLM.CRE_LICENSE_DATE AS ORIGIN_CRE_LICENSE_DATE
+				,TO_DATE(TLM.CRE_LICENSE_DATE,'YYYYMMDD') AS CRE_LICENSE_DATE
+				,TLM.PAY_DATE AS ORIGIN_PAY_DATE
+				,TO_DATE(TLM.PAY_DATE,'YYYYMMDD') AS PAY_DATE
+				,TLM.SEND_MSG
+				,TLM.PL_HIST_CD
+				,TLM.COM_HAEJI_DATE
+				,TLM.CRE_HAEJI_DATE
+				,TLM.FILE_SEQ
+				,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
+				,TLM.UPD_SEQ
+				,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+				,(SELECT TLP.PAY_TYPE FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_TYPE
+				,(SELECT TLP.NAME FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_NAME
+				,(SELECT TLP.REG_TIMESTAMP FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS ORIGIN_PAY_REG_DATE
+				,(SELECT TO_CHAR(TLP.REG_TIMESTAMP, 'YYYY-MM-DD') FROM TB_LC_PAY TLP WHERE TLP.MASTER_SEQ = TLM.MASTER_SEQ ORDER BY TLP.PAY_SEQ DESC LIMIT 1) AS PAY_REG_DATE
+				,TLM.pl_stat_req_seq
+				,TLM.pl_stat_req_path
+				,TLM.USER_SEQ
+		    FROM TB_LC_MAS01 TLM
+			<where>
+					AND TLM.USE_YN = 'Y'
+					AND TLM.PL_STAT IN ('3','4','6','7','9')								-- 변경요청, 해지요청, 변경요청(보완), 해지요청(보완), 완료
+				<if test='creGrp != "2"'>
+					AND	TLM.COM_CODE IN ('3000001',(SELECT COM_CODE FROM TB_LC_MEMBERS WHERE MEMBER_SEQ = #{regSeq}))	-- 시스템이랑 로그인한 사용자와 동일한 회원사 코드인 정보만 출력
+				</if>
+	   			<if test="memberNm != null and memberNm != ''">
+					AND FN_MEMBER_NAME(TLM.MEMBER_SEQ) LIKE '%' || #{memberNm} || '%'
+				</if>
+				<if test="plClass != null and plClass != ''">
+					<if test='plClass.equals("1") || plClass.equals("2")'>
+						AND TLM.PL_CLASS 		= #{plClass} 
+						AND TLM.CORP_USER_YN  = 'N'
+					</if>
+					<if test='plClass.equals("3")'>
+						AND TLM.PL_CLASS 		= '1' 
+						AND TLM.CORP_USER_YN  = 'Y'
+					</if>
+				</if>
+				<if test="plProduct != null and plProduct != ''">
+					AND TLM.PL_PRODUCT = #{plProduct}
+				</if>
+				<if test="plMName != null and plMName != ''">
+					AND (CASE 
+						 WHEN TLM.PL_CLASS = '1' THEN TLM.PL_M_NAME
+						 WHEN TLM.PL_CLASS = '2' THEN TLM.PL_CEO_NAME
+				 		  END
+				 		 ) LIKE '%' || #{plMName} || '%'
+				</if>
+				<if test="plMZId != null and plMZId != ''">
+					AND TLM.PL_M_Z_ID = #{plMZId}
+				</if>
+				<if test="plCellphone != null and plCellphone != ''">
+					AND FN_CELLPHONE(TLM.PL_CELLPHONE) LIKE '%' || #{plCellphone} || '%'
+				</if>
+				<if test="plMerchantName != null and plMerchantName != ''">
+					AND TLM.PL_MERCHANT_NAME LIKE '%' || #{plMerchantName} || '%'
+				</if>
+				<if test="plMerchantNo != null and plMerchantNo != ''">
+					AND TLM.PL_MERCHANT_NO = #{plMerchantNo}
+				</if>
+				
+		    	<if test="plRegStat != null and plRegStat != ''">
+					AND TLM.PL_REG_STAT = #{plRegStat}
+				</if>
+				
+		    	<if test="plStat != null and plStat != ''">
+					AND TLM.PL_STAT = #{plStat}
+				</if>
+				<if test="masterToId != null and masterToId != ''">
+					AND TLM.MASTER_TO_ID LIKE '%' || #{masterToId} || '%'
+				</if>
+				<if test="srchDate1 != null and srchDate1 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+				</if>
+				<if test="srchDate2 != null and srchDate2 != ''">
+					AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+				</if>
+		    </where>
+		    ORDER BY TLM.MASTER_SEQ ASC
+   		)Z
+	    <include refid="common.pageBottom"/>
+   	</select>
 	
    	
 </mapper> 

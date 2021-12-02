@@ -57,6 +57,8 @@ function menuActiveFunction(){
 		$("#menuUpdateIndvUsers").addClass("on");
 	}else if(menuUrl[2] == "updateCorpUsers"){
 		$("#menuUpdateCorpUsers").addClass("on");
+	}else if(menuUrl[2] == "totList"){
+		$("#menuTotList").addClass("on");
 	}
 	
 	
@@ -109,7 +111,12 @@ function menuActiveFunction(){
 			<li id="menuAdmin"><a href="/member/admin/adminPage">관리자 조회 및 변경</a></li>
 			<li class="cate2">[고도화]모집인 관리</li>
 			<li id="menuNewUser"><a href="/member/newUser/newUserRegPage">모집인 등록신청 확인</a></li>
-			<li id="menuNewConfirm"><a href="/member/newConfirm/newConfirmPage">해지신청 및 조회</a></li>
+			<li id="menuNewConfirm"><a href="/member/newConfirm/newConfirmPage">모집인 조회 및 변경/해지</a></li>
+			
+			
+			<li id="menuTotList"><a href="/member/totList/totListPage">전체 모집인 조회</a></li>
+			
+			
 		</sec:authorize>
 		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM', 'MEMBER')">

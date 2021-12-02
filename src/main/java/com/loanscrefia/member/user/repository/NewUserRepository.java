@@ -85,4 +85,9 @@ public interface NewUserRepository {
 	List<NewUserDomain> selectNewUserInsertViolationInfoList(NewUserDomain newUserDomain);
 	
 	
+	// 2021-12-02 전체 모집인 조회 리스트
+	List<NewUserDomain> selectTotList(NewUserDomain newUserDomain);
+	
+	
+	
 }

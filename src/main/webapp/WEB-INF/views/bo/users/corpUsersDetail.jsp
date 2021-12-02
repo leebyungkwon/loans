@@ -243,8 +243,10 @@ function usersCorpTempApply(){
 						</td>
 					</tr>
 					<tr>
-						<th>CI</th>
-						<td colspan="5">${usersInfo.userCi}</td>
+						<th>대표자주민등록번호</th>
+						<td>${usersInfo.plMZId}</td>					
+						<th>대표자CI</th>
+						<td colspan="3">${usersInfo.userCi}</td>
 					</tr>
 					<tr>
 						<th>대표및임원의결격사유</th>

@@ -3,12 +3,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <script type="text/javascript">
-var newConfirmGrid = Object.create(GRID);
+var totListGrid = Object.create(GRID);
 
 function pageLoad(){
-	newConfirmGrid.set({
-		  id			: "newConfirmGrid"
-  		, url			: "/member/newConfirm/newConfirmList"
+	totListGrid.set({
+		  id			: "totListGrid"
+  		, url			: "/member/totList/totList"
 	    , width			: "100%"
 	  	, headCol		: ["", "접수번호", "","등록번호", "모집인<br>상태", "","처리상태", "", "모집인<br>분류", "법인사용인<br>여부", "금융상품<br>유형", "이름", "주민번호", "휴대폰번호", "법인명", "법인번호", "승인<br>완료일", "결제<br>완료일", "자격<br>취득일"]
   		, bodyCol		: 
@@ -35,12 +35,12 @@ function pageLoad(){
 			]
 		, sortNm 		: "master_seq"
 		, sort 			: "DESC"
-		, rowClick		: {retFunc : goNewConfirmDetail}
+		//, rowClick		: {retFunc : goNewConfirmDetail}
 		, gridSearch 	: "searchDiv,searchBtn"
 		, isPaging 		: true					
 		, size 			: 10
-		, excel			: "/member/newConfirm/newConfirmExcelDown"
-		, excelFileNm	: "모집인조회및변경해지"
+		, excel			: "/member/totList/totListExcelDown"
+		, excelFileNm	: "전체모집인조회"
 	});
 	
 	//모집인 상태
@@ -113,6 +113,7 @@ $(document).mouseup(function(e){
 	}
 });
 
+/*
 //모집인 등록 row 클릭 이벤트
 function goNewConfirmDetail(idx, data){
 	var masterSeq 	= newConfirmGrid.gridData[idx].masterSeq;
@@ -129,6 +130,7 @@ function goNewConfirmDetail(idx, data){
 	$("#hMasterSeq").val(masterSeq);
 	$("#userRegDetailFrm").submit();
 }
+*/
 
 //날짜 가져오기
 function goGetDate(opt) {
@@ -145,7 +147,7 @@ function goGetDate(opt) {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>모집인 조회 및 변경/해지</h2>
+			<h2>전체 모집인 조회</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">
@@ -230,7 +232,6 @@ function goGetDate(opt) {
 						</div>
 					</td>
 				</tr>
-				<input type="hidden" id="regPath" name="regPath" value="F" />
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
@@ -243,6 +244,6 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_gray btn_small" onclick="$('#excelDown').trigger('click');">다운로드</a>
 			</div>
 		</div>
-		<div id="newConfirmGrid" class="long_table"></div>
+		<div id="totListGrid" class="long_table"></div>
 	</div>
 </div>

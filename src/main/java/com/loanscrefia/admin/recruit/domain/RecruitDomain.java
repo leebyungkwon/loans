@@ -40,6 +40,7 @@ public class RecruitDomain extends BaseDomain {
 	private String oldPlStat;		//현재처리상태
 	@ExcelColumn(headerName = "등록번호", order = 1)
 	private String plRegistNo;		//모집인등록번호						-> 은행연합회에서 던져주는 정보(1:n)
+	@ExcelColumn(headerName = "계약번호", order = 18)
 	private String conNum;			//계약번호							-> 은행연합회에서 던져주는 정보(1:1)
 	@ExcelColumn(headerName = "CI", order = 17)
 	private String ci;				//CI값

@@ -1104,4 +1104,75 @@ public class NewUserService {
 	}
 	
 	
+	
+	
+	
+
+	// 2021-12-02 전체 모집인 조회 리스트
+	@Transactional(readOnly=true)
+	public List<NewUserDomain> selectTotList(NewUserDomain newUserDomain){
+
+		UtilMask mask = new UtilMask();
+		
+		//세션 정보
+		MemberDomain memberDomain 	= new MemberDomain();
+		MemberDomain loginInfo 		= commonService.getMemberDetail(memberDomain);
+		newUserDomain.setCreGrp(loginInfo.getCreGrp());
+		
+		//검색어 암호화
+		if(StringUtils.isNotEmpty(newUserDomain.getPlMZId())) {
+			if(cryptoApply) {
+				newUserDomain.setPlMZId(CryptoUtil.encrypt(newUserDomain.getPlMZId().replaceAll("-", "")));
+			}else {
+				newUserDomain.setPlMZId(newUserDomain.getPlMZId().replaceAll("-", ""));
+			}
+		}
+		
+		if(StringUtils.isNotEmpty(newUserDomain.getPlMerchantNo())) {
+			if(cryptoApply) {
+				newUserDomain.setPlMerchantNo(CryptoUtil.encrypt(newUserDomain.getPlMerchantNo().replaceAll("-", "")));
+			}else {
+				newUserDomain.setPlMerchantNo(newUserDomain.getPlMerchantNo().replaceAll("-", ""));
+			}
+		}
+		
+		//리스트
+		List<NewUserDomain> userRegList = userRepo.selectTotList(newUserDomain);
+		
+		if(userRegList.size() > 0) {
+			String plMZId 		= "";
+			String plMerchantNo = "";
+			for(int i = 0;i < userRegList.size();i++) {
+				if(StringUtils.isNotEmpty(userRegList.get(i).getPlMZId())) {
+					if(cryptoApply) {
+						plMZId 	= CryptoUtil.decrypt(userRegList.get(i).getPlMZId());
+					}else {
+						plMZId 	= userRegList.get(i).getPlMZId();
+						newUserDomain.setPlMZId(plMZId);
+					}
+					if(StringUtils.isNotEmpty(plMZId)) {
+						plMZId = mask.maskSSN(plMZId);
+					}
+					plMZId 		= plMZId.substring(0, 6) + "-" + plMZId.substring(6);
+					userRegList.get(i).setPlMZId(plMZId);
+				}
+				if(StringUtils.isNotEmpty(userRegList.get(i).getPlMerchantNo())) {
+					if(cryptoApply) {
+						plMerchantNo 	= CryptoUtil.decrypt(userRegList.get(i).getPlMerchantNo());
+					}else {
+						plMerchantNo 	= userRegList.get(i).getPlMerchantNo();
+					}
+					plMerchantNo 		= plMerchantNo.substring(0, 6) + "-" + plMerchantNo.substring(6);
+					userRegList.get(i).setPlMerchantNo(plMerchantNo);
+				}
+			}
+		}
+		return userRegList;
+	}
+	
+	
+	
+	
+	
+	
 }

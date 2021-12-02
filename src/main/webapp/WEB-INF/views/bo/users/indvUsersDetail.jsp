@@ -93,6 +93,18 @@ function updateIndvUserDis(){
 						<td>${usersInfo.mobileNo}</td>
 					</tr>
 					<tr>
+						<th>아이디</th>
+						<td>${usersInfo.userId}</td>
+						<th>이름</th>
+						<td>${usersInfo.userName}</td>
+					</tr>
+					<tr>
+						<th>주민등록번호</th>
+						<td>${usersInfo.plMZId}</td>
+						<th>CI</th>
+						<td colspan="3">${usersInfo.userCi}</td>
+					</tr>
+					<tr>
 						<th>가입일</th>
 						<td>${usersInfo.joinDt}</td>
 						<th>약관동의여부</th>
@@ -128,10 +140,6 @@ function updateIndvUserDis(){
 							<input type="radio" name="dis2" value="N" id="dis4" <c:if test="${usersInfo.dis2 eq 'N'}">checked="checked"</c:if> />
 							<label for="dis4">N</label>	
 						</td>
-					</tr>
-					<tr>
-						<th>CI</th>
-						<td colspan="5">${usersInfo.userCi}</td>
 					</tr>
 					<tr>
 						<th>첨부파일</th>

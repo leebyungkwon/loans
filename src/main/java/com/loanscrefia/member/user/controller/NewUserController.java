@@ -239,4 +239,29 @@ public class NewUserController {
 	
 	
 	
+	
+	// 2021-12-02 전체 모집인 조회 페이지
+	@GetMapping(value="/totList/totListPage")
+	public String totListPage() {
+		return CosntPage.BoNewConfirmPage+"/totList";
+	}
+	
+	// 2021-12-02 전체 모집인 조회 리스트
+	@PostMapping(value="/totList/totList")
+	public ResponseEntity<ResponseMsg> totList(NewUserDomain newUserDomain){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);
+    	responseMsg.setData(userService.selectTotList(newUserDomain));
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	// 2021-12-02 전체 모집인 조회 엑셀 다운로드
+	@PostMapping("/totList/totListExcelDown")
+	public void totListExcelDown(NewUserDomain newUserDomain, HttpServletResponse response) throws IOException, IllegalArgumentException, IllegalAccessException {
+		// 2021-07-27 페이징 false
+		newUserDomain.setIsPaging("false");
+ 		List<NewUserDomain> excelDownList = userService.selectTotList(newUserDomain);
+ 		new UtilExcel().downLoad(excelDownList, UserExcelDomain.class, response.getOutputStream());
+	}
+	
+	
 }
