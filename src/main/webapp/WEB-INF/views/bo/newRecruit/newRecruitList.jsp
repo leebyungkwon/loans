@@ -38,7 +38,7 @@ function pageLoad(){
 		, isPaging 		: true					//페이징여부
 		, size 			: 10
 		, excel			: "/admin/newRecruit/newRecruitListExcelDown"
-		, excelFileNm	: "모집인조회및해지"
+		, excelFileNm	: "모집인조회및변경"
 	});
 	
 	//모집인 상태
@@ -179,7 +179,7 @@ function goGetDate(opt) {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>모집인 조회 및 해지</h2>
+			<h2>모집인 조회 및 변경</h2>
 		</div>
 		<div class="info_box k_search" id="searchDiv">
 			<table class="info_box_table" style="width: 90%;">

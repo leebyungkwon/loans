@@ -195,6 +195,12 @@ function usersCorpTempApply(){
 						<td>${usersInfo.mobileNo}</td>
 					</tr>
 					<tr>
+						<th>주민등록번호</th>
+						<td>${usersInfo.plMZId}</td>					
+						<th>CI</th>
+						<td colspan="3">${usersInfo.userCi}</td>
+					</tr>
+					<tr>
 						<th>이메일</th>
 						<td>${usersInfo.email}</td>
 						<th>법인승인여부</th>
@@ -241,12 +247,6 @@ function usersCorpTempApply(){
 							<input type="radio" name="dis13" value="N" id="dis18" <c:if test="${usersInfo.dis13 eq 'N'}">checked="checked"</c:if> />
 							<label for="dis18">N</label>						
 						</td>
-					</tr>
-					<tr>
-						<th>대표자주민등록번호</th>
-						<td>${usersInfo.plMZId}</td>					
-						<th>대표자CI</th>
-						<td colspan="3">${usersInfo.userCi}</td>
 					</tr>
 					<tr>
 						<th>대표및임원의결격사유</th>

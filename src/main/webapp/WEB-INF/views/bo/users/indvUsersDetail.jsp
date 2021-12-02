@@ -93,12 +93,6 @@ function updateIndvUserDis(){
 						<td>${usersInfo.mobileNo}</td>
 					</tr>
 					<tr>
-						<th>아이디</th>
-						<td>${usersInfo.userId}</td>
-						<th>이름</th>
-						<td>${usersInfo.userName}</td>
-					</tr>
-					<tr>
 						<th>주민등록번호</th>
 						<td>${usersInfo.plMZId}</td>
 						<th>CI</th>
