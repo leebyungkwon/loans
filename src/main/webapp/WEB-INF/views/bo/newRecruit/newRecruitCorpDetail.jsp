@@ -163,6 +163,23 @@ function goRecruitImprove(rePlStat){
 					<th>API상태메세지</th>
 					<td>${result.recruitInfo.apiResMsg }</td>
 				</tr>
+				
+				<tr>
+					<th>담당자명</th>
+					<td>${result.recruitInfo.memberNm }
+						<c:if test="${!empty result.recruitInfo.email}">
+							(${result.recruitInfo.email})
+						</c:if>
+					</td>
+					<th>담당자연락처</th>
+					<td>
+						<c:if test="${!empty result.recruitInfo.extensionNo}">
+							${result.recruitInfo.extensionNo}, 
+						</c:if>
+						${result.recruitInfo.mobileNo }
+					</td>
+				</tr>
+				
 				<tr>
 					<th>모집인 상태</th>
 					<td>${result.recruitInfo.plRegStatNm } <a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="goUserStepHistoryShow('${result.recruitInfo.masterSeq }');">이력보기</a></td>

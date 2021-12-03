@@ -100,6 +100,8 @@ public class NewRecruitDomain extends BaseDomain {
 	
 	@ExcelColumn(headerName = "회원사", order = 2)
 	private String comCodeNm;		//담당회원사명
+	
+	
 	private String memberNm;		//담당자명
 	private String email;			//담당자이메일
 	private String mobileNo;		//담당자휴대폰번호
