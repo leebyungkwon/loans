@@ -70,14 +70,17 @@ function goCodeDtlList(idx, data){
 	$("#codeMstCdSaveType").val("upd");
 	
 	//코드마스터 정보 보여주기
+	var useYn = data.useYn;
+	
 	$("#pCodeMstCd").val(data.codeMstCd);
 	$("#pCodeMstCd").attr("readonly","readonly");
 	$("#pCodeMstNm").val(data.codeMstNm);
 	$("#codeMstSave").find("input[name='useYn']").removeAttr("checked");
-	$("#masUse"+data.useYn).attr("checked","checked");
+	$("#masUse"+useYn).attr("checked","checked");
 	$("#pCodeMstDesc").val(data.codeMstDesc);
 	
 	//코드 상세 관련
+	$("#codeDtlCdSaveType").val("reg");
 	$("#hCodeMstCd").val(data.codeMstCd);
 	$("#codeMstCdText").text(data.codeMstCd);
 	$("#pCodeDtlCd").removeAttr("readonly");
@@ -97,7 +100,7 @@ function goCodeDtlGridDraw(codeMstCd) {
 		  id			: "codeDtlGrid"
 		, url			: "/system/code/codeDtlList?codeMstCd="+codeMstCd
 	    , width			: "100%"
-		, headCol		: ["코드상세ID", "코드상세명", "설명"]
+		, headCol		: ["코드상세ID", "코드상세명", "사용여부", "설명"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'codeDtlCd'		, index:'codeDtlCd'		, id:true	 }
@@ -122,11 +125,13 @@ function goCodeDtlInfo(idx, data){
 	$("#codeDtlCdSaveType").val("upd");
 	
 	//코드상세 정보 보여주기
+	var useYn = data.useYn;
+	
 	$("#pCodeDtlCd").val(data.codeDtlCd);
 	$("#pCodeDtlCd").attr("readonly","readonly");
 	$("#pCodeDtlNm").val(data.codeDtlNm);
 	$("#codeDtlSave").find("input[name='useYn']").removeAttr("checked");
-	$("#dtlUse"+data.useYn).attr("checked","checked");
+	$("#dtlUse"+useYn).attr("checked","checked");
 	$("#pCodeDtlDesc").val(data.codeDtlDesc);
 }
 </script>
