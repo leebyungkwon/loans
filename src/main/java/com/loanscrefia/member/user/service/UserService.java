@@ -2227,6 +2227,7 @@ public class UserService {
 		//상세
 		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
 		
+		/*
 		if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 해지요청 불가
 			UserImwonDomain chkParam1 	= new UserImwonDomain();
 			UserExpertDomain chkParam2 	= new UserExpertDomain();
@@ -2248,6 +2249,8 @@ public class UserService {
 				return new ResponseMsg(HttpStatus.OK, "fail", "하위 데이터가 존재하여 해지요청이 불가능 합니다.");
 			}
 		}
+		*/
+		
 		//기본 이력 저장*****
 		this.insertUserHistory(userDomain);
 		
