@@ -1383,6 +1383,7 @@ public class ApplyService {
 				emailDomain.setSubsValue(tmp.getMasterToId());
 				resultDomain.setPlStat("9");
 				resultDomain.setPlRegStat("2");
+				resultDomain.setRegPath("F");
 				resultEmail.add(emailDomain);
 				apiCheck = true;
 				
@@ -1393,6 +1394,7 @@ public class ApplyService {
 				resultEmail.add(emailDomain);
 				resultDomain.setPlStat("9");
 				resultDomain.setPlRegStat("3");
+				resultDomain.setRegPath("F");
 				
 				if(kfbApiApply) {
 					// 금융상품 3, 6번 제외

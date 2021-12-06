@@ -873,7 +873,7 @@ public class NewUserService {
 		// 가등록 진행중인 계약건 확인
 		List<NewUserDomain> preRegResult = userRepo.selectPreRegList(userRegInfo);
 		if(preRegResult.size() > 0) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "등록한 모집인 정보로 진행중인 계약건(가등록)이 존재하여 해지요청이 불가능 합니다.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "등록한 모집인 정보로 등록/변경요청 건이 존재하여 해지요청이 불가능 합니다.");
 		}
 		
 		/*
