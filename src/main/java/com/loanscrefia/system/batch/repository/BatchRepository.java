@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
+import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
+import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.member.user.domain.NewUserDomain;
@@ -127,6 +130,70 @@ public interface BatchRepository {
 	
 	//배치 예정건 삭제
 	int deleteBatchPlanInfo(BatchDomain batchDomain);
+	
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 2021-12-07 정보 삭제 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	//해지정보 리스트
+	List<NewApplyDomain> selectRegCancelInfoList(NewApplyDomain newApplyDomain);
+	
+	//승인요청 하지 않고 저장만 하고 있는 정보 리스트 : 미요청 건
+	List<NewApplyDomain> selectNotApplyInfoList(NewApplyDomain newApplyDomain);
+	
+	//승인요청 하지 않고 저장만 하고 있는 정보 리스트 : 보완요청 건
+	List<NewApplyDomain> selectNotApplyAgainInfoList(NewApplyDomain newApplyDomain);
+	
+	//승인완료건 취소정보 리스트
+	List<NewApplyDomain> selectCancelInfoList(NewApplyDomain newApplyDomain);
+	
+	//등록요청 거절정보 리스트
+	List<NewApplyDomain> selectRejectInfoList(NewApplyDomain newApplyDomain);
+	
+	//정보 조회
+	NewApplyDomain getMasInfo(NewApplyDomain newApplyDomain);
+	
+	//마스터 테이블 정보 삭제
+	int realDeleteMasInfo(NewApplyDomain newApplyDomain);
+	
+	//마스터 이력 테이블 정보 삭제
+	int realDeleteMasHistInfo(NewApplyDomain newApplyDomain);
+	
+	//단계별 이력 정보 삭제
+	int realDeleteMasStepInfo(NewApplyDomain newApplyDomain);
+	
+	//금융상품유형 상세 정보 삭제
+	int realDeletePrdDtlInfo(NewApplyDomain newApplyDomain);
+	
+	//법인 임원 삭제 리스트
+	List<ApplyImwonDomain> selectCorpImwonDelInfoList(ApplyImwonDomain applyImwonDomain);
+	
+	//법인 업무수행인력 삭제 리스트
+	List<ApplyExpertDomain> selectCorpExpertDelInfoList(ApplyExpertDomain applyExpertDomain);
+	
+	//법인 전산인력 삭제 리스트
+	List<ApplyItDomain> selectCorpItDelInfoList(ApplyItDomain applyItDomain);
+	
+	//법인 임원 삭제
+	int realDeleteCorpImwonInfo(ApplyImwonDomain applyImwonDomain);
+	
+	//법인 업무수행인력 삭제
+	int realDeleteCorpExpertInfo(ApplyExpertDomain applyExpertDomain);
+	
+	//법인 전산인력 삭제
+	int realDeleteCorpItInfo(ApplyItDomain applyItDomain);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

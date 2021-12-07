@@ -286,4 +286,11 @@ public class NewApplyDomain extends BaseDomain {
 	private String checkCd413;
 	private String checkCd414;
 	private String checkCd415;
+	
+	//2021-12-07 정보 삭제 배치 관련
+	private int interval;
+	
+	
+	
+	
 }

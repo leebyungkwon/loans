@@ -476,4 +476,74 @@ public class BatchController {
 		if(!"local".equals(profile)) flag = false;
 		return flag;
 	}
+	
+	
+	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 2021-12-07 정보 삭제 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
+	
+	/*
+	//해지정보 삭제
+	@Scheduled(cron ="")
+    @SchedulerLock(name="regCancelInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void regCancelInfoDel() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.regCancelInfoDel();
+    }
+	
+	//미요청 정보 삭제
+	@Scheduled(cron ="")
+    @SchedulerLock(name="notApplyInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void notApplyInfoDel() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.notApplyInfoDel();
+    }
+	
+	//보완 미이행 정보 삭제
+	@Scheduled(cron ="")
+    @SchedulerLock(name="notApplyAgainInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void notApplyAgainInfoDel() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.notApplyAgainInfoDel();
+    }
+	
+	//취소 정보 삭제
+	@Scheduled(cron ="")
+    @SchedulerLock(name="cancelInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void cancelInfoDel() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.cancelInfoDel();
+    }
+	
+	//금융회사 승인거절 정보 삭제
+	@Scheduled(cron ="")
+    @SchedulerLock(name="rejectInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void rejectInfoDel() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.rejectInfoDel();
+    }
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

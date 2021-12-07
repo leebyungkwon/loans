@@ -41,6 +41,9 @@ public interface CommonRepository {
 	//첨부파일 real 삭제(그룹 시퀀스 사용)
 	int realDeleteFileByGrpSeq(FileDomain fileDomain);
 	
+	//2021-12-07 첨부파일 체크 정보 real 삭제
+	int realDeleteFileCheckInfoByGrpSeq(FileDomain fileDomain);
+	
 	//회원사 리스트
 	List<CodeDtlDomain> selectCompanyCodeList(CodeDtlDomain codeDtlDomain);
 

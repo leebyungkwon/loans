@@ -35,6 +35,9 @@ spring:
       mst:
         pool-name: MASTER-DB
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        #jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
+        #username: postgres
+        #password: 1234
         jdbc-url: jdbc:log4jdbc:postgresql://lcj0821.synology.me:543/postgres
         username: admin
         password: admin
@@ -61,19 +64,19 @@ logging:
       8MB
   level:
     org.springframework: error
-    #com.zaxxer.hikari.HikariConfig: TRACE
-    #com.zaxxer.hikari: TRACE
-    log4jdbc.log4j2: info
+    com.zaxxer.hikari.HikariConfig: TRACE
+    com.zaxxer.hikari: TRACE
+    log4jdbc.log4j2: error
     jdbc.audit: off
     jdbc.connection: off
     jdbc.resultset: off
-    jdbc.sqlonly: debug
+    jdbc.sqlonly: error
 
 upload:
-  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
   
 download:
-  filePath: C:\Users\a\git\loans\src\main\resources\static\upload
+  filePath: C:\Users\sohui\git\loans\src\main\resources\static\upload
 
 kfbApi:
   url: http://172.16.123.10:43003
@@ -87,6 +90,13 @@ email:
   
 sms:
   apply: false
+
+expired:
+  regCancel: 5 #years
+  notApply : 59 #days
+  notApplyAgain : 59 #days
+  cancel : 59 #days
+  reject : 59 #days
   
 ---
 
@@ -169,7 +179,13 @@ cert:
   key:
     location: Z:\loanscrefia\libs\V40830000001_IDS_01_PROD_AES_license.dat
     
-  
+expired:
+  regCancel: 5 #years
+  notApply : 59 #days
+  notApplyAgain : 59 #days
+  cancel : 59 #days
+  reject : 59 #days
+    
 ---
 
 spring:
@@ -231,4 +247,10 @@ email:
 sms:
   apply: true
   
-  
+expired:
+  regCancel: 5 #years
+  notApply : 59 #days
+  notApplyAgain : 59 #days
+  cancel : 59 #days
+  reject : 59 #days
+    

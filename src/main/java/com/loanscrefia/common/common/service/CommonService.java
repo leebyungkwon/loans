@@ -103,8 +103,8 @@ public class CommonService {
 		
 		if(list.size() > 0) {
 			for(int i = 0;i < list.size();i++) {
-				String oFile = this.uploadPath.toString() + "/" + list.get(i).getFilePath() + "/" + list.get(i).getFileSaveNm() + "." + list.get(i).getFileExt();
-				String dFile = this.uploadPath.toString() + "/" + list.get(i).getFilePath() + "/" + list.get(i).getFileSaveNm() + "_dnc." + list.get(i).getFileExt();
+				String oFile = this.uploadPath + "/" + list.get(i).getFilePath() + "/" + list.get(i).getFileSaveNm() + "." + list.get(i).getFileExt();
+				String dFile = this.uploadPath + "/" + list.get(i).getFilePath() + "/" + list.get(i).getFileSaveNm() + "_dnc." + list.get(i).getFileExt();
 				
 				File delFile1 = new File(oFile);
 				File delFile2 = new File(dFile);
@@ -116,6 +116,9 @@ public class CommonService {
 					delFile2.delete();
 				}
 			}
+			
+			//점부파일 체크 정보 삭제
+			commonRepository.realDeleteFileCheckInfoByGrpSeq(fileDomain);
 		}
 		
 		return commonRepository.realDeleteFileByGrpSeq(fileDomain);

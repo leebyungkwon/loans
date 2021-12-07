@@ -159,6 +159,12 @@
 			</if>
 		</where> 
     </delete>
+    
+    <!-- 2021-12-07 첨부파일 체크 정보 real 삭제 -->
+    <delete id="realDeleteFileCheckInfoByGrpSeq" parameterType="file">
+    	DELETE FROM TB_LC_FILE_CHECK 
+   		WHERE FILE_SEQ IN (SELECT TLF.FILE_SEQ FROM TB_LC_FILE01 TLF WHERE TLF.USE_YN = 'Y' AND TLF.FILE_GRP_SEQ = #{fileGrpSeq})
+    </delete>
 	
 	<!-- 회원사 리스트 -->
 	<select id="selectCompanyCodeList" parameterType="codeDtl" resultType="codeDtl">

@@ -30,9 +30,6 @@
 		WHERE PL_STAT 	= '9'	
 		AND PL_REGIST_NO IS NULL
     </select>
-    
-    
-    
 
 	<!-- 배치 예정건 등록 -->
    	<insert id="insertBatchPlanInfo" parameterType="batch">
@@ -65,8 +62,6 @@
 			,NOW()
    		)
    	</insert>
-    
-    
     
     <select id="selectBatchList" parameterType="batch" resultType="batch">
     	SELECT
@@ -118,7 +113,6 @@
 		and com_haeji_date <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '4 minutes', 'YYYYMMDD')
     </select>
     
-    
     <!-- 스케줄러 테이블 상태변경 --> 
     <update id="updateSchedule" parameterType="batch" >
 		update tb_lc_schedule
@@ -132,7 +126,6 @@
 			, end_time = NOW()
 		where schedule_seq = #{scheduleSeq}
     </update>
-    
     
     <!-- 가등록번호 update 상태 - 승인요청 --> 
     <update id="updatePreLcNum" parameterType="newApply" >
@@ -226,7 +219,6 @@
 		AND schedule_hist_seq = #{scheduleHistSeq}
     </update>
     
-    
     <!-- 해지완료 후 상태변경 --> 
     <update id="updateDropApply" parameterType="newApply" >
 		update tb_lc_mas01
@@ -271,7 +263,6 @@
 			master_seq = #{masterSeq}
     </update>
     
-    
     <!-- 개인회원 계약정보변경 완료 --> 
     <update id="updateCaseIndvMasInfo" parameterType="newApply" >
 		update tb_lc_mas01
@@ -312,7 +303,6 @@
 			master_seq = #{masterSeq}
     </update>
     
-    
     <!-- 개인회원 회원정보 수정 --> 
     <update id="updateIndvUsersInfo" parameterType="newApply" >
 		update tb_lc_users
@@ -347,7 +337,6 @@
 		where USER_SEQ 	= #{userSeq}
     </update>
     
-    
 	<!-- 위반이력 수정 -->
 	<update id="updateUserViolationInfo" parameterType="newUser">
 		UPDATE TB_LC_VIOLATION
@@ -363,7 +352,6 @@
 		DELETE FROM TB_LC_VIOLATION
 		WHERE VIOLATION_SEQ = #{violationSeq}
 	</delete>
-	
 	
     <!-- 등록번호 update 상태 : 자격취득 --> 
     <update id="updateLcNum" parameterType="newApply" >
@@ -387,7 +375,6 @@
 		where
 			master_seq = #{masterSeq}
     </update>
-    
     
     <!-- 가등록삭제 - 가등록번호 null --> 
     <update id="deletePreLcNum" parameterType="newApply" >
@@ -483,7 +470,6 @@
 			schedule_seq = #{scheduleSeq}
     </update>
     
-    
     <!-- 주민등록번호 수정 --> 
     <update id="updateUsersSsnInfo" parameterType="users" >
 		update tb_lc_users
@@ -521,7 +507,6 @@
     	AND property04 = #{property04}
     </select>
     
-    
     <!-- 해지완료 상태변경 --> 
     <update id="updateDropMasInfo" parameterType="newApply" >
 		update tb_lc_mas01
@@ -554,8 +539,6 @@
 		select COUNT(*) from kfb_api_key kak
 		where ins_dt = to_Char(now(), 'YYYYMMDD')
     </select>
-    
-    
     
     <insert id="insertInactiveUserBatch" parameterType="users">
 		INSERT INTO tb_lc_users_inactive
@@ -600,7 +583,6 @@
 		from tb_lc_users
 		where user_seq = #{userSeq}
     </insert>
-
     
     <insert id="updateInactiveUserBatch" parameterType="users">
 		UPDATE tb_lc_users
@@ -633,6 +615,184 @@
 			, appr_txt=''
 		WHERE user_seq=#{userSeq}
     </insert>
+    
+    
+    
+    
+    
+    <!-- ====================================================================================================== -->
+   	<!-- [2021-12-07 정보 삭제 관련] -->
+   	<!-- ====================================================================================================== -->
+    
+    <!-- 해지정보 리스트 -->
+    <select id="selectRegCancelInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_CLASS
+    		,FILE_SEQ
+   		FROM TB_LC_MAS01
+   		WHERE REG_PATH 	= 'F'
+   		AND PL_REG_STAT = '4'
+   		AND TO_DATE(CRE_HAEJI_DATE,'YYYYMMDD') + INTERVAL'${interval} years' <![CDATA[<=]]> NOW()
+   	</select>
+    
+    <!-- 승인요청 하지 않고 저장만 하고 있는 정보 리스트 : 미요청 건 -->
+   	<select id="selectNotApplyInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_CLASS
+    		,FILE_SEQ
+    		,REG_PATH
+    		,PRE_LC_NUM
+   		FROM TB_LC_MAS01
+   		WHERE PL_REG_STAT 	= '1'
+   		AND PL_STAT IN 		= '1'
+   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+   	</select>
+   	
+   	<!-- 승인요청 하지 않고 저장만 하고 있는 정보 리스트 : 보완요청 건 -->
+   	<select id="selectNotApplyAgainInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT 
+			 TLM.MASTER_SEQ
+		    ,TLM.PL_CLASS
+		    ,TLM.FILE_SEQ
+		    ,TLM.REG_PATH
+		    ,TLM.PRE_LC_NUM
+		FROM TB_LC_MAS01 TLM 
+		JOIN TB_LC_MAS01_STEP TLMS 
+		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
+		WHERE TLMS.PL_REG_STAT 	= '1'
+		AND TLMS.PL_STAT 		= '5'
+		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+		ORDER BY TLMS.REG_TIMESTAMP DESC
+		LIMIT 1
+   	</select>
+   	
+    <!-- 승인완료건 취소정보 리스트 -->
+    <select id="selectCancelInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT 
+			 TLM.MASTER_SEQ
+		    ,TLM.PL_CLASS
+		    ,TLM.FILE_SEQ
+		FROM TB_LC_MAS01 TLM 
+		JOIN TB_LC_MAS01_STEP TLMS 
+		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
+		WHERE TLMS.PL_REG_STAT 	= '2'
+		AND TLMS.PL_STAT 		= '8'
+		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+    </select>
+    
+    <!-- 등록요청 거절정보 리스트 -->
+    <select id="selectRejectInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT 
+			 TLM.MASTER_SEQ
+		    ,TLM.PL_CLASS
+		    ,TLM.FILE_SEQ
+		FROM TB_LC_MAS01 TLM 
+		JOIN TB_LC_MAS01_STEP TLMS 
+		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
+		WHERE TLMS.PL_REG_STAT 	= '1'
+		AND TLMS.PL_STAT 		= '16'
+		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+    </select>
+    
+    <!-- 정보 조회 -->
+    <select id="getMasInfo" parameterType="newApply" resultType="newApply">
+    	SELECT
+    		 MASTER_SEQ
+		    ,PL_CLASS
+		    ,FILE_SEQ
+    	FROM TB_LC_MAS01
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </select>
+    
+    <!-- 마스터 테이블 정보 삭제 -->
+	<delete id="realDeleteMasInfo" parameterType="newApply">
+    	DELETE FROM TB_LC_MAS01
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+    <!-- 마스터 이력 테이블 정보 삭제 -->
+    <delete id="realDeleteMasHistInfo" parameterType="newApply">
+    	DELETE FROM TB_LC_MAS01_HIST
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+    <!-- 단계별 이력 정보 삭제 -->
+    <delete id="realDeleteMasStepInfo" parameterType="newApply">
+    	DELETE FROM TB_LC_MAS01_STEP
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+	<!-- 금융상품유형 상세 정보 삭제 -->
+    <delete id="realDeletePrdDtlInfo" parameterType="newApply">
+    	DELETE FROM TB_LC_PRODUCT_DETAIL
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+    <!-- 
+    <delete id="realDeleteViolationInfo">
+    
+    </delete>
+     -->
+    
+    <!-- 법인 임원 삭제 리스트 -->
+    <select id="selectCorpImwonDelInfoList" parameterType="applyImwon" resultType="applyImwon">
+    	SELECT 
+			 EXC_SEQ
+			,MASTER_SEQ
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IMWON
+   		WHERE MASTER_SEQ = #{masterSeq}
+    </select>
+    
+    <!-- 법인 업무수행인력 삭제 리스트 -->
+    <select id="selectCorpExpertDelInfoList" parameterType="applyExpert" resultType="applyExpert">
+    	SELECT 
+			 EXP_SEQ
+			,MASTER_SEQ
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_EXPERT
+   		WHERE MASTER_SEQ = #{masterSeq}
+    </select>
+    
+    <!-- 법인 전산인력 삭제 리스트 -->
+    <select id="selectCorpItDelInfoList" parameterType="applyIt" resultType="applyIt">
+    	SELECT 
+			 OPER_SEQ
+			,MASTER_SEQ
+			,FILE_SEQ
+   		FROM TB_LC_MAS01_IT
+   		WHERE MASTER_SEQ = #{masterSeq}
+    </select>
+    
+    <!-- 법인 임원 삭제 -->
+    <delete id="realDeleteCorpImwonInfo" parameterType="applyImwon">
+    	DELETE TB_LC_MAS01_IMWON
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+    <!-- 법인 업무수행인력 삭제 -->
+    <delete id="realDeleteCorpExpertInfo" parameterType="applyExpert">
+    	DELETE TB_LC_MAS01_EXPERT
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+    <!-- 법인 전산인력 삭제 -->
+    <delete id="realDeleteCorpItInfo" parameterType="applyIt">
+    	DELETE TB_LC_MAS01_IT
+    	WHERE MASTER_SEQ = #{masterSeq}
+    </delete>
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
     
     
 </mapper>
