@@ -17,6 +17,7 @@
 			AND PL_CLASS 		= #{plClass}
 			AND PL_MERCHANT_NO 	= #{plMerchantNo}
 			AND USE_YN 			= 'Y'
+			AND USER_SEQ IS NULL
 		</where>
 	</update>
 
