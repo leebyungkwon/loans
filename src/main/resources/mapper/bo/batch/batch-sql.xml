@@ -631,8 +631,7 @@
    			,PL_CLASS
     		,FILE_SEQ
    		FROM TB_LC_MAS01
-   		WHERE REG_PATH 	= 'F'
-   		AND PL_REG_STAT = '4'
+   		WHERE PL_REG_STAT = '4'
    		AND TO_DATE(CRE_HAEJI_DATE,'YYYYMMDD') + INTERVAL'${interval} years' <![CDATA[<=]]> NOW()
    	</select>
     
@@ -663,9 +662,8 @@
 		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
 		WHERE TLMS.PL_REG_STAT 	= '1'
 		AND TLMS.PL_STAT 		= '5'
-		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
-		ORDER BY TLMS.REG_TIMESTAMP DESC
-		LIMIT 1
+		GROUP BY TLM.MASTER_SEQ
+		HAVING TO_CHAR((MAX(TLMS.REG_TIMESTAMP) + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
    	</select>
    	
     <!-- 승인완료건 취소정보 리스트 -->

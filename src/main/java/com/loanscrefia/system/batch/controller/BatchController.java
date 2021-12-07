@@ -524,10 +524,36 @@ public class BatchController {
 		if(isLocalBatch()) return;
 		batchService.rejectInfoDel();
     }
+	
+	//미요청 또는 보완 미이행 건들 삭제 시 가등록 삭제
+	@Scheduled(cron ="") 
+    @SchedulerLock(name="notApplyPreLoanDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void notApplyPreLoanDel() throws Exception {
+		if(isLocalBatch()) return;
+		BatchDomain batch = new BatchDomain();
+		batch.setScheduleName("notApplyPreLoanDel");
+		List<BatchDomain> batchList = batchService.selectBatchList(batch);
+		int reqCnt = batchList.size();
+		
+		batch.setReqCnt(reqCnt);
+		
+		int successCnt = 0;
+		
+		//schedule_hist 시작 이력 저장
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.notApplyPreLoanDel(reg);
+			successCnt = successCnt + success;
+		}
+		
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		
+		//schedule_hist 종료 이력 저장
+		batchService.updateScheduleHist(batch);
+    }
 	*/
-	
-	
-	
 	
 	
 	
