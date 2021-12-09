@@ -663,11 +663,22 @@
 		WHERE TLMS.PL_REG_STAT 	= '1'
 		AND TLMS.PL_STAT 		= '5'
 		GROUP BY TLM.MASTER_SEQ
-		HAVING TO_CHAR((MAX(TLMS.REG_TIMESTAMP) + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+		HAVING TLM.PL_REG_STAT 	= '1'
+		AND TLM.PL_STAT 		= '5'
+		AND TO_CHAR((MAX(TLMS.REG_TIMESTAMP) + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
    	</select>
    	
     <!-- 승인완료건 취소정보 리스트 -->
     <select id="selectCancelInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_CLASS
+    		,FILE_SEQ
+   		FROM TB_LC_MAS01
+   		WHERE PL_REG_STAT 	= '2'
+   		AND PL_STAT IN 		= '8'
+   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+   		<!-- 
    		SELECT 
 			 TLM.MASTER_SEQ
 		    ,TLM.PL_CLASS
@@ -678,10 +689,20 @@
 		WHERE TLMS.PL_REG_STAT 	= '2'
 		AND TLMS.PL_STAT 		= '8'
 		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+		 -->
     </select>
     
     <!-- 등록요청 거절정보 리스트 -->
     <select id="selectRejectInfoList" parameterType="newApply" resultType="newApply">
+   		SELECT
+   			 MASTER_SEQ
+   			,PL_CLASS
+    		,FILE_SEQ
+   		FROM TB_LC_MAS01
+   		WHERE PL_REG_STAT 	= '1'
+   		AND PL_STAT IN 		= '16'
+   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+   		<!-- 
    		SELECT 
 			 TLM.MASTER_SEQ
 		    ,TLM.PL_CLASS
@@ -692,6 +713,7 @@
 		WHERE TLMS.PL_REG_STAT 	= '1'
 		AND TLMS.PL_STAT 		= '16'
 		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+		 -->
     </select>
     
     <!-- 정보 조회 -->
