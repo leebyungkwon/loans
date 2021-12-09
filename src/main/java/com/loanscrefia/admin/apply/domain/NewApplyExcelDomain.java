@@ -69,4 +69,17 @@ public class NewApplyExcelDomain extends BaseDomain {
 	@ExcelColumn(headerName = "모집인휴대전화번호", order = 17)
 	private String plCellphone;		//모집인휴대전화번호
 	
+	@ExcelColumn(headerName = "관할검찰청또는지청", order = 18)
+	private String withinGovrNm;	//관할검찰청또는지청
+	
+	@ExcelColumn(headerName = "관할경찰청", order = 19)
+	private String withinPoliceNm;	//관할경찰청
+	
+	@ExcelColumn(headerName = "관할행정관청", order = 20)
+	private String withinAdmNm;		//관할행정관청
+	
+	@ExcelColumn(headerName = "관할행정관청(직접입력)", order = 21)
+	private String withinAdmName;	//관할행정관청(직접입력)	
+	
+	
 }

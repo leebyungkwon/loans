@@ -27,6 +27,7 @@ import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.api.service.BoApiService;
 
 import lombok.extern.slf4j.Slf4j;
+import sinsiway.CryptoUtil;
 
 @Slf4j
 @Controller
@@ -1077,6 +1078,31 @@ public class ApiController {
 	}
 	
 	
+	
+	
+	
+	// 암호화
+	@PostMapping(value="/crypt/crypt")
+	public ResponseEntity<ResponseMsg> crypt(KfbApiDomain kfbApiDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		//responseMsg.setData(kfbApiService.getAuthCode());
+		String authCode = CryptoUtil.encrypt(kfbApiDomain.getSrchDate1());
+		kfbApiDomain.setCode(authCode);
+		responseMsg.setData(kfbApiDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	// 복호화
+	@PostMapping(value="/crypt/decrypt")
+	public ResponseEntity<ResponseMsg> decrypt(KfbApiDomain kfbApiDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		//responseMsg.setData(kfbApiService.getAuthCode());
+		String authCode = CryptoUtil.decrypt(kfbApiDomain.getSrchDate1());
+		kfbApiDomain.setCode(authCode);
+		responseMsg.setData(kfbApiDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 }

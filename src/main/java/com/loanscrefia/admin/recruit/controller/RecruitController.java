@@ -39,11 +39,13 @@ public class RecruitController {
 	 * 협회 시스템 > 모집인 조회 및 변경
 	 * -------------------------------------------------------------------------------------------------------
 	 */
-	
+
 	//리스트 페이지
 	@GetMapping(value="/recruit/recruitPage")
-	public String recruitPage() {
-		return CosntPage.BoRecruitPage+"/recruitList";
+	public ModelAndView recruitPage(String historyback) {
+		ModelAndView mv =  new ModelAndView(CosntPage.BoRecruitPage+"/recruitList");
+		mv.addObject("historyback", historyback);
+		return mv;
 	}
 	
 	//리스트

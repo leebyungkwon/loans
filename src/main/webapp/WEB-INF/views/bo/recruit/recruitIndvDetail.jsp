@@ -37,7 +37,7 @@ function updatePlRegistNo(){
 //2021-11-02 계약번호 수정 
 function updateConNum(){
 	var conNum = $("#updateConNum").val();
-	if(confirm("등록번호를 수정하시겠습니까?")){
+	if(confirm("계약번호를 수정하시겠습니까?")){
 		var p = {
 			  url		: "/admin/recruit/updateConNum"	
 			, param		: {
@@ -111,7 +111,7 @@ function goRecruitApply(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/recruit/recruitPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -165,7 +165,7 @@ function goRecruitImprove(rePlStat){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/recruit/recruitPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -398,7 +398,7 @@ function goRecruitImprove(rePlStat){
 						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
 							<c:if test="${!empty result.recruitInfo.histFileType3}">
 								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType3.fileGrpSeq }', '3');">변경사항</a>
-							</c:if>
+							</c:if> 
 						</c:if>
 					</td>
 				</tr>

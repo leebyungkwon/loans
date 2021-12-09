@@ -10,6 +10,57 @@ function pageLoad(){
 
 }
 
+
+//2021-11-02 등록번호 수정 
+function updatePlRegistNo(){
+	var plRegistNo = $("#updatePlRegistNo").val();
+	if(confirm("등록번호를 수정하시겠습니까?")){
+		var p = {
+			  url		: "/admin/newRecruit/newUpdatePlRegistNo"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				 , plRegistNo	: plRegistNo
+			}
+			, success 	: function (opt,result) {
+				if(result.data.code == "success"){
+					alert(result.data.message);
+					location.reload();
+				}else{
+					alert(result.data.message);
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+//2021-11-02 계약번호 수정 
+function updateConNum(){
+	var conNum = $("#updateConNum").val();
+	if(confirm("계약번호를 수정하시겠습니까?")){
+		var p = {
+			  url		: "/admin/newRecruit/newUpdateConNum"	
+			, param		: {
+				 masterSeq 		: $("#masterSeq").val()
+				 , conNum	: conNum
+			}
+			, success 	: function (opt,result) {
+				if(result.data.code == "success"){
+					alert(result.data.message);
+					location.reload();
+				}else{
+					alert(result.data.message);
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+
+
 //승인
 function goRecruitApply(num){
 	
@@ -197,13 +248,19 @@ function goRecruitImprove(rePlStat){
 					<th>처리상태</th>
 					<td>${result.recruitInfo.plStatNm }</td>
 					<th>등록번호</th>
-					<td>${result.recruitInfo.plRegistNo}</td>
+					<td>
+						<input type="text" id="updatePlRegistNo" value="${result.recruitInfo.plRegistNo}" /> 
+						<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="updatePlRegistNo();">등록번호 수정</a>
+					</td>
 				</tr>
 				<tr>
 					<th>모집인 분류</th>
 					<td>${result.recruitInfo.plClassNm }</td>
-					<th>결격사유 및 범죄이력</th>
-					<td>${result.recruitInfo.disVal }</td>
+					<th>계약번호</th>
+					<td>
+						<input type="text" id="updateConNum" value="${result.recruitInfo.conNum}" /> 
+						<a href="javascript:void(0);" class="btn_Lgray btn_small mgl5" onclick="updateConNum();">계약번호 수정</a>
+					</td>
 				</tr>
 				<tr>
 					<th>금융상품유형</th>
@@ -224,8 +281,10 @@ function goRecruitImprove(rePlStat){
 					</td>
 				</tr>
 				<tr>
+					<th>결격사유 및 범죄이력</th>
+					<td>${result.recruitInfo.disVal }</td>
 					<th>업종</th>
-					<td colspan="3">${result.recruitInfo.plWork }</td>
+					<td>${result.recruitInfo.plWork }</td>
 				</tr>
 				<tr>
 					<th>법인명</th>

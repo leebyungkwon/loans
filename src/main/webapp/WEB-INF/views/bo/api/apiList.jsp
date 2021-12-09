@@ -293,9 +293,6 @@ function pageLoad(){
 		var plClass			=	$("#delPlClass").val();
 		var preLcNum		=	$("#delPreLcNum").val();
 		
-		console.log("plClass = " + plClass);
-		console.log("preLcNum = " + preLcNum);
-		
 		if(confirm("가등록을 삭제하시겠습니까?")){
 			var p = {
 				  url		: "/system/api/deletePreLoan"	
@@ -328,6 +325,44 @@ function pageLoad(){
 		}
 		AjaxUtil.post(p);
 	});
+	
+	
+	
+	// 암호화
+	$("#crypto").on("click", function(){
+		var srchDate1 =	$("#cryptoval").val();
+		if(confirm("암호화 하시겠습니까?")){
+			var p = {
+					url		: "/system/crypt/crypt"	
+				, param : {
+					srchDate1	: srchDate1
+				}
+				, success 	: function (opt,result) {
+					$("#cryptoResultVal").val(result.data.code);
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
+	
+	// 복호화
+	$("#decrypto").on("click", function(){
+		var srchDate1 =	$("#cryptoval").val();
+		if(confirm("복호화 하시겠습니까?")){
+			var p = {
+				  url		: "/system/crypt/decrypt"	
+				, param : {
+					srchDate1	: srchDate1
+				}
+				, success 	: function (opt,result) {
+					$("#cryptoResultVal").val(result.data.code);
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
+	
+	
 	
 	
 	
@@ -640,6 +675,35 @@ function goGetDate(opt) {
 				</tr>
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiConNumReg">계약번호취득</a>
+		</div>
+		
+		
+		
+		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>변환할데이터</th>
+					<td class="">
+						<input type="text" id="cryptoval" >
+					</td>
+					
+					<th>결과</th>
+					<td class="">
+						<input type="text" id="cryptoResultVal" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" style="margin-right: 120px;" id="crypto">암호화</a>
+			<a href="javascript:void(0);" class="btn_inquiry" id="decrypto">복호화</a>
 		</div>
 		
 		

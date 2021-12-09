@@ -50,6 +50,10 @@
 				,TLM.ADDR_BASE
 				,TLM.OTHER_FIELD
 				,TLM.WITHIN_GOVR
+				,(select office.within_office_name from tb_lc_within_office office where office.within_office_seq = TLM.WITHIN_GOVR) as WITHIN_GOVR_NM
+				,(select office.within_office_name from tb_lc_within_office office where office.within_office_seq = TLM.within_police) as within_police_nm
+				,(select adm.within_adm_name from tb_lc_within_adm adm where adm.within_adm_seq = TLM.within_adm) as within_adm_nm
+				,TLM.within_adm_name
 				,TLM.PL_EDU_NO
 				,TLM.CAREER_START_DATE
 				,TLM.CAREER_END_DATE

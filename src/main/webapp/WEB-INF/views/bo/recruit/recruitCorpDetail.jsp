@@ -39,7 +39,7 @@ function updatePlRegistNo(){
 //2021-11-02 계약번호 수정 
 function updateConNum(){
 	var conNum = $("#updateConNum").val();
-	if(confirm("등록번호를 수정하시겠습니까?")){
+	if(confirm("계약번호를 수정하시겠습니까?")){
 		var p = {
 			  url		: "/admin/recruit/updateConNum"	
 			, param		: {
@@ -110,7 +110,7 @@ function goRecruitApply(num){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/recruit/recruitPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();
@@ -163,7 +163,7 @@ function goRecruitImprove(rePlStat){
 			, success 	: function (opt,result) {
 				if(result.data.code == "success"){
 					alert(result.data.message);
-					location.href="/admin/recruit/recruitPage";
+					location.href="/admin/recruit/recruitPage?historyback=Y";
 				}else{
 					alert(result.data.message);
 					location.reload();

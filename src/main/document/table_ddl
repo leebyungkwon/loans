@@ -316,7 +316,7 @@ COMMENT ON COLUMN tb_lc_mas01.other_field IS '영위하는 다른 업종';
 COMMENT ON COLUMN tb_lc_mas01.within_govr IS '관할 검찰청 또는 지청';
 COMMENT ON COLUMN tb_lc_mas01.within_police IS '관할 경찰청';
 COMMENT ON COLUMN tb_lc_mas01.within_adm IS '관할 행정관청';
-COMMENT ON COLUMN tb_lc_mas01.within_adm IS '관할 행정관청(직접입력)';
+COMMENT ON COLUMN tb_lc_mas01.within_adm_name IS '관할 행정관청(직접입력)';
 COMMENT ON COLUMN tb_lc_mas01.com_cont_date IS '계약일자(회원사)';
 COMMENT ON COLUMN tb_lc_mas01.com_reg_date IS '신청일(심사요청일)';
 COMMENT ON COLUMN tb_lc_mas01.first_app_date IS '최초심사요청일';
