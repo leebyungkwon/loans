@@ -703,17 +703,6 @@ public class UsersService {
 			result.setPlMZId(plMZId);
 		}
 		
-		StringBuilder merchantNo = new StringBuilder();
-		if(StringUtils.isNotEmpty(result.getPlMerchantNo())) {
-			if(cryptoApply) {
-				merchantNo.append(CryptoUtil.decrypt(result.getPlMerchantNo()));
-			}else {
-				merchantNo.append(result.getPlMerchantNo());
-			}
-			merchantNo.insert(6, "-");
-			result.setPlMerchantNo(merchantNo.toString());
-		}
-		
 		String reqPlMZId = "";
 		if(StringUtils.isNotEmpty(result.getReqPlMZId())) {
 			if(cryptoApply) {
@@ -721,12 +710,23 @@ public class UsersService {
 			}else {
 				reqPlMZId 	= result.getReqPlMZId();
 			}
-			
 			if(reqPlMZId != null) {
 				reqPlMZId 		= reqPlMZId.substring(0, 6) + "-" + reqPlMZId.substring(6);
 			}
-			
 			result.setReqPlMZId(reqPlMZId);
+		}
+		
+		String originPlMZId = "";
+		if(StringUtils.isNotEmpty(result.getOriginPlMZId())) {
+			if(cryptoApply) {
+				originPlMZId 	= CryptoUtil.decrypt(result.getOriginPlMZId());
+			}else {
+				originPlMZId 	= result.getOriginPlMZId();
+			}
+			if(originPlMZId != null) {
+				originPlMZId 	= originPlMZId.substring(0, 6) + "-" + originPlMZId.substring(6);
+			}
+			result.setOriginPlMZId(originPlMZId);
 		}
 		
 		return result;
@@ -967,6 +967,19 @@ public class UsersService {
 			}
 			
 			result.setReqPlMZId(reqPlMZId);
+		}
+		
+		String originPlMZId = "";
+		if(StringUtils.isNotEmpty(result.getOriginPlMZId())) {
+			if(cryptoApply) {
+				originPlMZId 	= CryptoUtil.decrypt(result.getOriginPlMZId());
+			}else {
+				originPlMZId 	= result.getOriginPlMZId();
+			}
+			if(originPlMZId != null) {
+				originPlMZId 	= originPlMZId.substring(0, 6) + "-" + originPlMZId.substring(6);
+			}
+			result.setOriginPlMZId(originPlMZId);
 		}
 		
 		return result;

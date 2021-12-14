@@ -658,7 +658,16 @@ INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_
 ('PRD002','13','기타','기타','Y','Y',NULL,NULL,NULL,'Y',1,'2021-04-28 16:00:05.572502',NULL,NULL);
 
 
+-- 2021.12.10
+ALTER TABLE tb_lc_users_indv_req ADD COLUMN origin_user_name varchar(100);
+ALTER TABLE tb_lc_users_indv_req ADD COLUMN origin_pl_m_z_id varchar(100);
+ALTER TABLE tb_lc_users_indv_req ADD COLUMN origin_mobile_no varchar(100);
 
+ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_pl_merchant_name varchar(100);
+ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_user_name varchar(100);
+ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_pl_m_z_id varchar(100);
+ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_mobile_no varchar(100);
+ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_user_ci varchar(100);
 
 
 

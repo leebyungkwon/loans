@@ -123,6 +123,11 @@ public class UsersDomain extends BaseDomain {
 	
 	private String roleName;
 	private String apprTxt;
-
+	
+	private String originUserName;
+	private String originPlMZId;
+	private String originMobileNo;
+	private String originPlMerchantName;
+	private String originUserCi;
 	
 }

@@ -1503,8 +1503,11 @@ commit;
 create table tb_lc_users_indv_req(
 	user_indv_req_seq integer not null default nextval('tb_lc_users_indv_req_seq')
 	, user_seq integer not null
+	, origin_user_name varchar(100)
 	, req_user_name varchar(100)
+	, origin_pl_m_z_id varchar(100)
 	, req_pl_m_z_id varchar(100)
+	, origin_mobile_no varchar(100)
 	, req_mobile_no varchar(100)
 	, req_file_seq integer
 	, stat char(1) not null default '1'
@@ -1522,8 +1525,11 @@ create table tb_lc_users_indv_req(
 COMMENT ON TABLE tb_lc_users_indv_req IS '사용자 정보변경 신청내역(개인)';
 COMMENT ON COLUMN tb_lc_users_indv_req.user_indv_req_seq IS '사용자 정보변경 시퀀스';
 COMMENT ON COLUMN tb_lc_users_indv_req.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_indv_req.origin_user_name IS '이름(기존)';
 COMMENT ON COLUMN tb_lc_users_indv_req.req_user_name IS '이름';
+COMMENT ON COLUMN tb_lc_users_indv_req.origin_pl_m_z_id IS '주민등록번호(기존)';
 COMMENT ON COLUMN tb_lc_users_indv_req.req_pl_m_z_id IS '주민등록번호';
+COMMENT ON COLUMN tb_lc_users_indv_req.origin_mobile_no IS '휴대폰번호(기존)';
 COMMENT ON COLUMN tb_lc_users_indv_req.req_mobile_no IS '휴대폰번호';
 COMMENT ON COLUMN tb_lc_users_indv_req.req_file_seq IS '첨부파일 시퀀스';
 COMMENT ON COLUMN tb_lc_users_indv_req.stat IS '상태';
@@ -1554,10 +1560,15 @@ commit;
 create table tb_lc_users_corp_req(
 	user_corp_req_seq integer not null default nextval('tb_lc_users_corp_req_seq')
 	, user_seq integer not null
+	, origin_pl_merchant_name varchar(100)
 	, req_pl_merchant_name varchar(100)
+	, origin_user_name varchar(100)
 	, req_user_name varchar(100)
+	, origin_pl_m_z_id varchar(100)
 	, req_pl_m_z_id varchar(100)
+	, origin_mobile_no varchar(100)
 	, req_mobile_no varchar(100)
+	, origin_user_ci varchar(100)
 	, req_user_ci varchar(100)
 	, req_file_seq integer
 	, stat char(1) not null default '1'
@@ -1575,10 +1586,15 @@ create table tb_lc_users_corp_req(
 COMMENT ON TABLE tb_lc_users_corp_req IS '사용자 정보변경 신청내역(법인)';
 COMMENT ON COLUMN tb_lc_users_corp_req.user_corp_req_seq IS '사용자 정보변경 시퀀스';
 COMMENT ON COLUMN tb_lc_users_corp_req.user_seq IS '사용자시퀀스';
+COMMENT ON COLUMN tb_lc_users_corp_req.origin_pl_merchant_name IS '법인명(기존)';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_pl_merchant_name IS '법인명';
+COMMENT ON COLUMN tb_lc_users_corp_req.origin_user_name IS '대표자 성명(기존)';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_user_name IS '대표자 성명';
+COMMENT ON COLUMN tb_lc_users_corp_req.origin_pl_m_z_id IS '대표자 주민등록번호(기존)';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_pl_m_z_id IS '대표자 주민등록번호';
+COMMENT ON COLUMN tb_lc_users_corp_req.origin_mobile_no IS '대표자 휴대폰번호(기존)';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_mobile_no IS '대표자 휴대폰번호';
+COMMENT ON COLUMN tb_lc_users_corp_req.origin_user_ci IS '대표자 CI(기존)';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_user_ci IS '대표자 CI';
 COMMENT ON COLUMN tb_lc_users_corp_req.req_file_seq IS '첨부파일 시퀀스';
 COMMENT ON COLUMN tb_lc_users_corp_req.stat IS '상태';

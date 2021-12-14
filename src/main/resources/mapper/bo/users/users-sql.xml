@@ -772,8 +772,11 @@
    			, users.user_ci
    			, users.corp_appr_yn
    			, req.user_indv_req_seq
+   			, req.origin_user_name
    			, req.req_user_name
+   			, req.origin_pl_m_z_id
    			, req.req_pl_m_z_id
+   			, req.origin_mobile_no
    			, req.req_mobile_no
    			, req.req_file_seq
    			, req.stat
@@ -810,6 +813,7 @@
 	   			, users.user_ci
 	   			, users.corp_appr_yn
 	   			, req.user_corp_req_seq
+	   			, req.req_pl_merchant_name
 	   			, req.req_user_name
 	   			, req.req_pl_m_z_id
 	   			, req.req_mobile_no
@@ -887,10 +891,15 @@
    			, users.user_ci
    			, users.corp_appr_yn
    			, req.user_corp_req_seq
-   			, req.req_user_name
+   			, req.origin_pl_merchant_name
    			, req.req_pl_merchant_name
+   			, req.origin_user_name
+   			, req.req_user_name
+   			, req.origin_pl_m_z_id
    			, req.req_pl_m_z_id
+   			, req.origin_mobile_no
    			, req.req_mobile_no
+   			, req.origin_user_ci
    			, req.req_user_ci
    			, req.req_file_seq
    			, req.stat

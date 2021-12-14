@@ -83,13 +83,40 @@ function updateUserStat(num){
 						<th>아이디</th>
 						<td>${usersInfo.userId}</td>
 						<th>이름</th>
-						<td>${usersInfo.userName}</td>
+						<td>
+							<c:choose>
+								<c:when test="${empty usersInfo.originUserName }">
+									${usersInfo.userName}
+								</c:when>
+								<c:otherwise>
+									${usersInfo.originUserName}
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<th>연락처</th>
-						<td>${usersInfo.mobileNo}</td>
+						<td>
+							<c:choose>
+								<c:when test="${empty usersInfo.originMobileNo }">
+									${usersInfo.mobileNo}
+								</c:when>
+								<c:otherwise>
+									${usersInfo.originMobileNo}
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th>주민등록번호</th>
-						<td>${usersInfo.plMZId}</td>
+						<td>
+							<c:choose>
+								<c:when test="${empty usersInfo.originPlMZId }">
+									${usersInfo.plMZId}
+								</c:when>
+								<c:otherwise>
+									${usersInfo.originPlMZId}
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<th>신청일</th>
 						<td>${usersInfo.reqDate}</td>
 						<th>상태</th>
@@ -149,13 +176,6 @@ function updateUserStat(num){
 						<th>상태</th>
 						<td>${usersInfo.statNm}</td>
 					</tr>
-					<tr>
-						<th>사유</th>
-						<td colspan="5">
-							<textarea rows="6" cols="" id="txt" name="txt" class="w100">${usersInfo.txt }</textarea>
-						</td>
-					</tr>
-					
 					<c:choose>
 						<c:when test="${fn:length(fileList) > 0 }">
 							<c:forEach var="updateFileList" items="${fileList}" varStatus="status">
@@ -168,6 +188,12 @@ function updateUserStat(num){
 							</c:forEach>
 						</c:when>
 					</c:choose>
+					<tr>
+						<th>사유</th>
+						<td colspan="5">
+							<textarea rows="6" cols="" id="txt" name="txt" class="w100">${usersInfo.txt }</textarea>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
