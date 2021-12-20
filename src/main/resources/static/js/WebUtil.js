@@ -1,4 +1,5 @@
 var WebUtil = {
+		
     /**
      * null 체크
      * str : 문자열
