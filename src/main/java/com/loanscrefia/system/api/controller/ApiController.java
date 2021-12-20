@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loanscrefia.admin.recruit.domain.RecruitDomain;
+import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.repository.KfbApiRepository;
+import com.loanscrefia.common.common.service.ApiService;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.config.message.ResponseMsg;
 import com.loanscrefia.config.string.CosntPage;
@@ -34,16 +37,11 @@ import sinsiway.CryptoUtil;
 @RequestMapping(value="/system")
 public class ApiController {
 	
-	@Autowired
-	private KfbApiService kfbApiService;
-	
-	@Autowired
-	private BoApiService boApiService;
-	
-	@Autowired
-	private KfbApiRepository kfbApiRepository;
-	
+	@Autowired private KfbApiService kfbApiService;
+	@Autowired private BoApiService boApiService;
+	@Autowired private KfbApiRepository kfbApiRepository;
 	@Autowired private UserRepository userRepo;
+	@Autowired private ApiService apiService;
 
 	// API관리 페이지
 	@GetMapping("/api/apiPage")
@@ -1103,6 +1101,263 @@ public class ApiController {
 		responseMsg.setData(kfbApiDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
+	//등록가능 여부조회 팝업
+	@GetMapping("/api/checkLoan")
+    public ModelAndView checkLoan(RecruitDomain recruitSearchDomain) throws IOException {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null, "fail");
+    	ModelAndView mv = new ModelAndView(CosntPage.Popup+"/apiCheckLoanResultPopup");
+    	
+    	ApiDomain apiDomain = new ApiDomain();
+    	String param = "";
+    	
+    	if(recruitSearchDomain.getPlClass().equals("1")) {
+    		param = "name="+recruitSearchDomain.getPlMName();
+    		param += "&ssn="+recruitSearchDomain.getPlMZId().replaceAll("-", "");
+    		param += "&ci="+recruitSearchDomain.getCi();
+    		param += "&loan_type="+recruitSearchDomain.getPlProduct();
+    		
+    		apiDomain.setApiName("checkLoan");
+    		apiDomain.setUrl("/loan/v1/check-loan-consultants");
+    	}else {
+    		param = "corp_num="+recruitSearchDomain.getPlMerchantNo();
+			param += "&corp_rep_ssn="+recruitSearchDomain.getPlMZId().replaceAll("-", "");
+			param += "&corp_rep_ci="+recruitSearchDomain.getCi();
+			param += "&loan_type="+recruitSearchDomain.getPlProduct();
+			
+			apiDomain.setApiName("checkLoanCorp");
+			apiDomain.setUrl("/loan/v1/check-loan-corp-consultants");
+    	}
+		
+		apiDomain.setMethod("GET");
+		apiDomain.setParam(param);
+		
+		responseMsg = apiService.excuteApi(apiDomain);
+		
+		if("success".equals(responseMsg.getCode())) {
+			JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+			
+			if(!responseJson.isNull("reg_yn")) {
+				mv.addObject("regYn",responseJson.getString("reg_yn"));
+			}
+			if(!responseJson.isNull("fee_yn")) {
+				mv.addObject("feeYn",responseJson.getString("fee_yn"));
+			}
+			mv.addObject("code","success");
+		}else {
+			mv.addObject("code","fail");
+			mv.addObject("msg", responseMsg.getMessage());
+		}
+    	mv.addObject("plClass",recruitSearchDomain.getPlClass());
+    	
+    	
+        return mv;
+    }
+	
+	//master_seq로 수동가등록
+	@PostMapping(value="/api/apiPreReg")
+	public ResponseEntity<ResponseMsg> apiPreReg(UserDomain userSearchDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null, "fail");
+		
+		//조회
+		UserDomain searchResult = userRepo.getUserRegDetail(userSearchDomain);
+		
+		if(searchResult == null) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "", "조회된 결과가 없습니다.");
+		}else {
+			if(StringUtils.isEmpty(searchResult.getPreLcNum())) {
+				ApiDomain apiDomain = new ApiDomain();
+				JSONObject preLoanApiReqParam 	= new JSONObject();
+				JSONObject conArrParam 			= new JSONObject();
+				JSONArray conArr				= new JSONArray();
+				
+				if(searchResult.getPlClass().equals("1")) {
+					preLoanApiReqParam.put("name", searchResult.getPlMName());
+					preLoanApiReqParam.put("ssn", CryptoUtil.decrypt(searchResult.getPlMZId()));
+					preLoanApiReqParam.put("ci", searchResult.getCi());
+
+					//법인사용인일 때만 법인등록번호 넣어주기
+					if(searchResult.getCorpUserYn().equals("Y")) {
+						conArrParam.put("corp_num", CryptoUtil.decrypt(searchResult.getPlMerchantNo()));
+					}else {
+						conArrParam.put("corp_num", "");
+					}
+
+					conArrParam.put("con_mobile", searchResult.getPlCellphone().replaceAll("-", ""));
+					conArrParam.put("con_date", searchResult.getComContDate().replaceAll("-", ""));
+					conArrParam.put("fin_code", Integer.toString(searchResult.getComCode()));
+					conArrParam.put("fin_phone", "");
+					conArrParam.put("loan_type", searchResult.getPlProduct());
+					conArr.put(conArrParam);
+					preLoanApiReqParam.put("con_arr", conArr);
+					
+					apiDomain.setApiName("preLoanReg");
+					apiDomain.setUrl("/loan/v1/pre-loan-consultants");
+				}else {
+					preLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(searchResult.getPlMerchantNo()));
+					preLoanApiReqParam.put("corp_name", searchResult.getPlMerchantName());
+					preLoanApiReqParam.put("corp_rep_name", searchResult.getPlCeoName());
+					preLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(searchResult.getPlMZId())); 
+					preLoanApiReqParam.put("corp_rep_ci", searchResult.getCi());
+
+					conArrParam.put("con_date", searchResult.getComContDate().replaceAll("-", ""));
+					conArrParam.put("fin_code", Integer.toString(searchResult.getComCode()));
+					conArrParam.put("fin_phone", "");
+					conArrParam.put("loan_type", searchResult.getPlProduct());
+					conArr.put(conArrParam);
+					preLoanApiReqParam.put("con_arr", conArr);
+
+					apiDomain.setApiName("preLoanCorpReg");
+					apiDomain.setUrl("/loan/v1/pre-loan-corp-consultants");
+				}
+				
+				apiDomain.setMethod("POST");
+				apiDomain.setParamJson(preLoanApiReqParam);
+
+				//전송
+				responseMsg = apiService.excuteApi(apiDomain);
+				
+				if(responseMsg.getCode().equals("success")) {
+					JSONObject preLoanApiResponse = (JSONObject)responseMsg.getData();
+					
+					//수정
+					UserDomain updateDomain = new UserDomain();
+					updateDomain.setMasterSeq(searchResult.getMasterSeq());
+					
+					if(searchResult.getPlClass().equals("1")) {
+						updateDomain.setPreLcNum(preLoanApiResponse.getString("pre_lc_num"));
+					}else {
+						updateDomain.setPreLcNum(preLoanApiResponse.getString("pre_corp_lc_num"));
+					}
+					updateDomain.setPreRegYn(preLoanApiResponse.getString("fee_yn"));
+					kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
+				}
+			}else {
+				responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "", "이미 가등록 번호가 존재하는 계약입니다.");
+			}
+		}
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	//TM 계약건 가등록 및 본등록(결제한 내역이 있을경우)
+	@PostMapping(value="/api/apiTmReg")
+	public ResponseEntity<ResponseMsg> apiTmReg(UserDomain userSearchDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null, "fail");
+		
+		List<UserDomain> tmConList = userRepo.selectPayCompTmContract(userSearchDomain);
+		
+		if(tmConList.size() > 0) {
+			//가등록
+			for(UserDomain tmp : tmConList) {
+				ApiDomain apiDomain = new ApiDomain();
+				JSONObject preLoanApiReqParam 	= new JSONObject();
+				JSONObject conArrParam 			= new JSONObject();
+				JSONArray conArr				= new JSONArray();
+				
+				preLoanApiReqParam.put("corp_num", CryptoUtil.decrypt(tmp.getPlMerchantNo()));
+				preLoanApiReqParam.put("corp_name", tmp.getPlMerchantName());
+				preLoanApiReqParam.put("corp_rep_name", tmp.getPlCeoName());
+				preLoanApiReqParam.put("corp_rep_ssn", CryptoUtil.decrypt(tmp.getPlMZId())); 
+				preLoanApiReqParam.put("corp_rep_ci", tmp.getCi());
+
+				conArrParam.put("con_date", tmp.getComContDate());
+				conArrParam.put("fin_code", Integer.toString(tmp.getComCode()));
+				conArrParam.put("fin_phone", "");
+				conArrParam.put("loan_type", tmp.getPlProduct());
+				conArr.put(conArrParam);
+				preLoanApiReqParam.put("con_arr", conArr);
+
+				apiDomain.setApiName("preLoanCorpReg");
+				apiDomain.setUrl("/loan/v1/pre-loan-corp-consultants");
+				apiDomain.setMethod("POST");
+				apiDomain.setParamJson(preLoanApiReqParam);
+
+				//전송
+				responseMsg = apiService.excuteApi(apiDomain);
+				
+				if(responseMsg.getCode().equals("success")) {
+					JSONObject preLoanApiResponse = (JSONObject)responseMsg.getData();
+					
+					//수정
+					UserDomain updateDomain = new UserDomain();
+					updateDomain.setMasterSeq(tmp.getMasterSeq());
+					updateDomain.setPreLcNum(preLoanApiResponse.getString("pre_corp_lc_num"));
+					//updateDomain.setPreRegYn(preLoanApiResponse.getString("fee_yn"));
+					kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
+				}
+			}
+			
+			//본등록
+			tmConList = userRepo.selectPayCompTmContract(userSearchDomain);
+			
+			String lcNum = "";
+			String conNum = "";
+			
+			for(UserDomain tmp : tmConList) {
+				ApiDomain apiDomain = new ApiDomain();
+				JSONObject loanApiReqParam = new JSONObject();
+				
+				loanApiReqParam.put("pre_corp_lc_num", tmp.getPreLcNum());
+
+				apiDomain.setApiName("corpLoanReg");
+				apiDomain.setUrl("/loan/v1/loan-corp-consultants");
+				apiDomain.setMethod("POST");
+				apiDomain.setParamJson(loanApiReqParam);
+				
+				//전송
+				responseMsg = apiService.excuteApi(apiDomain);
+				
+				if(responseMsg.getCode().equals("success")) {
+					JSONObject loanApiResponse = (JSONObject)responseMsg.getData();
+					
+					//등록번호
+					lcNum = loanApiResponse.getString("corp_lc_num");
+					
+					//계약번호
+					JSONObject jsonObj = new JSONObject();
+					JSONArray conArr = loanApiResponse.getJSONArray("con_arr");
+					// 계약금융기관코드(저장되어있는 데이터 비교)
+					String plProduct = tmp.getPlProduct();
+					String comCode = Integer.toString(tmp.getComCode());
+					for(int i=0; i<conArr.length(); i++){
+						jsonObj = conArr.getJSONObject(i);
+						String loanType = jsonObj.getString("loan_type");
+						String finCode = jsonObj.getString("fin_code");
+						// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+						if(loanType.equals(plProduct) && finCode.equals(comCode)) {
+							conNum = jsonObj.getString("con_num");
+							break;
+						}
+					}
+					//수정
+					UserDomain updateDomain = new UserDomain();
+					updateDomain.setMasterSeq(tmp.getMasterSeq());
+					updateDomain.setPlRegistNo(lcNum);
+					updateDomain.setConNum(conNum);
+					updateDomain.setPlRegStat("3");
+					kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
+				}
+			}
+		}
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

@@ -128,6 +128,108 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
+	// 개인 등록가능 여부조회
+	$("#indvCheckLoan").on("click", function(){
+		var plMName		= $("#plMName").val();
+		var plMZId		= $("#plMZId").val();
+		var plProduct	= $("#plProduct").val();
+		var ci			= $("#ci").val();
+		
+		if(WebUtil.isNull(plMName)){
+			alert("이름을 입력해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(plMZId)){
+			alert("주민등록번호를 입력해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(plProduct)){
+			alert("금융상품유형을 선택해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(ci)){
+			alert("CI를 입력해 주세요.");
+			return false;
+		}
+		
+		let p = {
+			id : "indvCheckLoan"
+			, params : {
+				plMName		: plMName
+				, plMZId	: plMZId
+				, plProduct	: plProduct
+				, ci		: ci
+				, plClass	: "1"
+			}
+			, url : "/system/api/checkLoan"
+			, success : function (opt,result) {
+				$(".popup_inner").css("width","55%");
+		    }
+		}
+		PopUtil.openPopup(p);
+	});
+	
+	// 법인 등록가능 여부조회
+	$("#corpCheckLoan").on("click", function(){
+		var plMerchantNo	= $("#plMerchantNo").val();
+		var plMZId			= $("#repPlMZId").val();
+		var plProduct		= $("#corpPlProduct").val();
+		var ci				= $("#repCi").val();
+		
+		if(WebUtil.isNull(plMerchantNo)){
+			alert("법인번호를 입력해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(plMZId)){
+			alert("주민등록번호를 입력해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(plProduct)){
+			alert("금융상품유형을 선택해 주세요.");
+			return false;
+		}
+		if(WebUtil.isNull(ci)){
+			alert("CI를 입력해 주세요.");
+			return false;
+		}
+		
+		let p = {
+			id : "corpCheckLoan"
+			, params : {
+				plMerchantNo	: plMerchantNo
+				, plMZId		: plMZId
+				, plProduct		: plProduct
+				, ci			: ci
+				, plClass		: "2"
+			}
+			, url : "/system/api/checkLoan"
+			, success : function (opt,result) {
+				$(".popup_inner").css("width","55%");
+		    }
+		}
+		PopUtil.openPopup(p);
+	});
+	
+	// API수동가등록
+	$("#apiPreReg").on("click", function(){
+		var masterSeq = $("#masterSeq").val();
+		if(WebUtil.isNull(masterSeq)){
+			alert("시퀀스를 입력해 주세요.");
+			return false;
+		}
+		var p = {
+			  url		: "/system/api/apiPreReg"	
+			, param		: {
+				masterSeq	:	masterSeq
+			}
+			, success 	: function (opt,result) {
+				console.log("?????", result);
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
+	
 	// 가등록번호 조회 결과 팝업
 	$("#apiPreSearch").on("click", function(){
 		var plClass		=	$("#prePlClass").val();
@@ -326,7 +428,19 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
-	
+	// TM가등록 및 본등록
+	$("#apiTm").on("click", function(){
+		var p = {
+			url		: "/system/api/apiTmReg"	
+			, param : {
+				
+			}
+			, success 	: function (opt,result) {
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
 	
 	// 암호화
 	$("#crypto").on("click", function(){
@@ -419,7 +533,99 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="searchBtn">조회</a>
 		</div>
-		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>이름</th>
+					<td class="">
+						<input type="text" id="plMName" >
+					</td>
+					<th>주민등록번호</th>
+					<td class="">
+						<input type="text" id="plMZId" placeholder="- 제외">
+					</td>
+					<th>금융상품유형</th>
+					<td class="half_input">
+						<select id="plProduct">
+							<option value="01">대출</option>
+							<option value="05">리스할부</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>CI</th>
+					<td class="" colspan="5">
+						<input type="text" id="ci" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" style="width:160px;" id="indvCheckLoan">(개인)등록가능 여부조회</a>
+		</div>
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>법인번호</th>
+					<td class="">
+						<input type="text" id="plMerchantNo" >
+					</td>
+					<th>대표자 주민등록번호</th>
+					<td class="">
+						<input type="text" id="repPlMZId" placeholder="- 제외">
+					</td>
+					<th>금융상품유형</th>
+					<td class="half_input">
+						<select id="corpPlProduct">
+							<option value="01">대출</option>
+							<option value="03">TM대출</option>
+							<option value="05">리스할부</option>
+							<option value="06">TM리스</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>CI</th>
+					<td class="" colspan="5">
+						<input type="text" id="repCi" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" style="width:160px;" id="corpCheckLoan">(법인)등록가능 여부조회</a>
+		</div>
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>master_seq</th>
+					<td class="">
+						<input type="text" id="masterSeq" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreReg">수동가등록</a>
+		</div>
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -450,9 +656,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiPreSearch">가등록조회</a>
 		</div>
-		
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -484,7 +687,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiSearch">등록조회</a>
 		</div>
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -504,8 +706,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="vioSearch">위반이력조회</a>
 		</div>
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -532,11 +732,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="deletePreLoan">가등록삭제</a>
 		</div>
-		
-		
-
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -560,10 +755,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiReg">수동본등록</a>
 		</div>
-		
-		
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -576,20 +767,13 @@ function goGetDate(opt) {
 				</colgroup>
 				<tr>
 					<th></th>
-					<td class="">
-						
-					</td>
-					<th></th>
-					<td class="" colspan="3">
-						#결제완료, 자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기(전체)
+					<td class="" colspan="6">
+						결제완료, 자격취득 상태인데 등록번호가 없는 케이스에 등록번호 넣어주기(전체)
 					</td>
 				</tr>
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" id="apiBatch">본등록수동배치</a>
 		</div>
-		
- 		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -609,9 +793,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiIndvApplyReg">(개인)승인완료자격취득</a>
 		</div>
-		
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -631,10 +812,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiCorpApplyReg">(법인)승인완료자격취득</a>
 		</div>
-		
-		
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -654,9 +831,6 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiPreRegApplyReg">기등록자자격취득</a>
 		</div>
-		
-		
-		
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -670,16 +844,31 @@ function goGetDate(opt) {
 				<tr>
 					<th></th>
 					<td class="" colspan="3">
-						등록번호가 존재하지만 계약번호가 없는케이스 자격취득(승인완료/자격취득/결제완료) pl_stat='9'
+						등록번호가 존재하지만 계약번호가 없는케이스 자격취득<br>(모집인 상태가 승인완료/자격취득/결제완료이고, 처리상태가 완료인 건)
 					</td>
 				</tr>
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiConNumReg">계약번호취득</a>
 		</div>
-		
-		
-		
-		
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th></th>
+					<td class="" colspan="3">
+						금융상품유형이 TM인 계약건 등록번호 및 계약번호 넣어주기(결제한 내역이 있을경우)
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiTm">TM가등록 및 본등록</a>
+		</div>
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
 				<colgroup>
@@ -705,9 +894,6 @@ function goGetDate(opt) {
 			<a href="javascript:void(0);" class="btn_inquiry" style="margin-right: 120px;" id="crypto">암호화</a>
 			<a href="javascript:void(0);" class="btn_inquiry" id="decrypto">복호화</a>
 		</div>
-		
-		
-
 	</div>
 	
 	<div class="contents">

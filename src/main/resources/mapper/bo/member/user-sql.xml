@@ -1468,7 +1468,6 @@
 		and (pl_regist_no is null or pl_regist_no = '')
 	</select>
 	
-	
 	<!-- 가등록번호로 본등록번호 수동등록 -->
 	<select id="getApiReg" parameterType="user" resultType="user">
 		SELECT
@@ -1486,7 +1485,6 @@
 		and (pl_regist_no is null or pl_regist_no = '')
 		AND PRE_LC_NUM = #{preLcNum}
 	</select>
-	
 	
 	<!-- 승인완료인 건 결제정보가 있을시 자격취득으로 변경 : 개인 -->
 	<select id="selectIndvApiApplyList" parameterType="user" resultType="user">
@@ -1518,7 +1516,6 @@
 		and mas.pl_class = '1'
 	</select>
    	
-   	
 	<!-- 승인완료인 건 결제정보가 있을시 자격취득으로 변경 : 법인 -->
 	<select id="selectCorpApiApplyList" parameterType="user" resultType="user">
 		select
@@ -1549,7 +1546,6 @@
 		and mas.pl_class = '2'
 	</select>
    	
-   	
 	<!-- 승인완료이면서 기등록자인 경우 전체 자격취득 -->
 	<select id="selectPreRegYnApiApplyList" parameterType="user" resultType="user">
 		select
@@ -1566,7 +1562,6 @@
 		and mas.use_yn = 'Y'
 	</select>
    	
-   	
 	<!-- 등록번호가 있는데 계약번호가 없는 케이스 -->
 	<select id="selectApiConNumList" parameterType="user" resultType="user">
 		select
@@ -1580,5 +1575,54 @@
 		and pl_product in ('01', '05')
 		and use_yn = 'Y'
 	</select>
+	
+	<!-- TM 계약 리스트(결제한 내역이 있을경우) -->
+	<select id="selectPayCompTmContract" parameterType="user" resultType="user">
+		select
+			mas.MASTER_SEQ
+			, mas.PL_CLASS
+			, mas.PL_PRODUCT
+			, mas.PRE_LC_NUM
+			, mas.COM_CODE
+			, mas.PL_MERCHANT_NO
+			, mas.PL_MERCHANT_NAME
+			, mas.PL_CEO_NAME
+			, mas.PL_M_Z_ID
+			, mas.CI
+			, mas.COM_CONT_DATE
+		from
+			tb_lc_mas01 mas, (
+		  		SELECT
+		   			 a.MASTER_SEQ
+		   			,a.PL_M_Z_ID
+		   			,a.CI
+		   		FROM TB_LC_MAS01 a, TB_LC_PAY b
+				WHERE a.PL_CLASS		= '2' 				
+				AND a.PL_REG_STAT 		IN ('3','5') 				
+				AND a.PL_STAT 			= '9' 				
+				AND a.PL_PRODUCT		IN ('03','06')
+				AND a.USE_YN			= 'Y'
+				AND a.MASTER_SEQ 		= b.MASTER_SEQ
+			) sub
+		where mas.pl_m_z_id = sub.pl_m_z_id
+		and mas.ci = sub.ci
+		and mas.pl_class = '2'
+		AND mas.PL_PRODUCT IN ('03','06')
+		and mas.pl_reg_stat IN ('2','3','5')
+		and mas.pl_stat = '9'
+		and (
+			((mas.pl_regist_no is null or mas.pl_regist_no = '') and (mas.con_num is null or mas.con_num = ''))
+			or
+			(((mas.pl_regist_no is not null and mas.pl_regist_no != '') and (mas.con_num is null or mas.con_num = ''))
+		)
+		and mas.use_yn = 'Y'
+		group by mas.master_seq
+	</select>
+	
+	
+	
+	
+	
+	
    	
 </mapper> 

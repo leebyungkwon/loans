@@ -178,5 +178,6 @@ public interface UserRepository {
 	//등록번호가 있는데 계약번호가 없는 케이스
 	List<UserDomain> selectApiConNumList(UserDomain userDomain);	
 	
-	
+	//TM 계약 리스트(결제한 내역이 있을경우)
+	List<UserDomain> selectPayCompTmContract(UserDomain userDomain);
 }

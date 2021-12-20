@@ -121,6 +121,9 @@
 			<if test="preLcNum != null and preLcNum != ''">
 				,PRE_LC_NUM 	= #{preLcNum}
 			</if>
+			<if test="preRegYn != null and preRegYn != ''">
+				,PRE_REG_YN 	= #{preRegYn}
+			</if>
 			<if test="plRegistNo != null and plRegistNo != ''">
 				,PL_REGIST_NO 	= #{plRegistNo}
 			</if>
