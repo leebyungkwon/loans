@@ -336,6 +336,7 @@
 			,TO_CHAR(TLM.REG_TIMESTAMP,'YYYY-MM-DD') AS REG_TIMESTAMP
 			,TLM.UPD_SEQ
 			,TO_CHAR(TLM.UPD_TIMESTAMP,'YYYY-MM-DD') AS UPD_TIMESTAMP
+			,TLM.USER_SEQ
 	    FROM TB_LC_MAS01 TLM
 	    <where>
 	    	AND TLM.MASTER_SEQ 	= #{masterSeq}
@@ -432,6 +433,9 @@
    				<if test='plRegStat.equals("3")'>
    					,cre_license_date = TO_CHAR(NOW(),'YYYYMMDD')
    				</if>
+   				<if test='plRegStat.equals("4")'>
+   					,cre_haeji_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   				</if>
    			</if>
    			<if test="plRegStat != null and plRegStat != ''">
    				, cre_app_date = TO_CHAR(NOW(), 'YYYYMMDD')
@@ -441,6 +445,9 @@
    			</if>
    			<if test='plStat.equals("5") || plStat.equals("6") || plStat.equals("7")'>
    				,com_reg_date = TO_CHAR(NOW(), 'YYYYMMDD')
+   			</if>
+   			<if test="regPath != null and regPath != ''">
+   				,reg_path = #{regPath}
    			</if>
    			, upd_seq = #{updSeq}
    			, upd_timestamp = NOW()

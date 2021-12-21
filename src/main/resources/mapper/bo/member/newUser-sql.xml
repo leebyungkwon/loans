@@ -8,7 +8,7 @@
 		SET
 			 USER_SEQ 		= #{userSeq}
 			,REG_PATH 		= CASE 
-								WHEN PL_REG_STAT != '1' THEN 'F'
+								WHEN PL_REG_STAT IN ('2','4','5') OR (PL_REG_STAT = '3' AND PL_STAT != '4') THEN 'F'
 								ELSE REG_PATH
 			 				  END
 			,UPD_SEQ 		= #{userSeq}

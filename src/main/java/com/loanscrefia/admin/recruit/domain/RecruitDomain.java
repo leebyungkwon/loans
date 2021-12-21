@@ -248,4 +248,6 @@ public class RecruitDomain extends BaseDomain {
 	private FileDomain histFileType27;
 	private FileDomain histFileType28;
 	private FileDomain histFileType29;
+	
+	private Integer userSeq;
 }

@@ -1,8 +1,11 @@
 package com.loanscrefia.admin.recruit.service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -1086,6 +1089,10 @@ public class RecruitService {
 				String plClass = statCheck.getPlClass();
 				String prdCheck = statCheck.getPlProduct();
 				if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+					SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+					Date currentDt = new Date();
+					String cancelDt = dateFormatParser.format(currentDt);
+					
 					if("1".equals(plClass)) {
 						jsonParam.put("lc_num", statCheck.getPlRegistNo());
 						jsonParam.put("name", statCheck.getPlMName());
@@ -1095,7 +1102,8 @@ public class RecruitService {
 						jsonArrayParam.put("con_mobile", statCheck.getPlCellphone());
 						jsonArrayParam.put("fin_phone", "");
 						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-						jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
+						//jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
+						jsonArrayParam.put("cancel_date", cancelDt);
 						jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
 						
 						jsonArray.put(jsonArrayParam);
@@ -1119,7 +1127,8 @@ public class RecruitService {
 						jsonArrayParam.put("con_date", statCheck.getComContDate().replaceAll("-", ""));
 						jsonArrayParam.put("fin_phone", "");
 						jsonArrayParam.put("loan_type", statCheck.getPlProduct());
-						jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
+						//jsonArrayParam.put("cancel_date", statCheck.getCreHaejiDate().replaceAll("-", ""));
+						jsonArrayParam.put("cancel_date", cancelDt);
 						jsonArrayParam.put("cancel_code", statCheck.getPlHistCd());
 						
 						jsonArray.put(jsonArrayParam);
@@ -1162,6 +1171,9 @@ public class RecruitService {
 			userRepo.insertUserHistory(param);
 			
 			//모집인 상태 변경
+			if(recruitDomain.getPlRegStat().equals("4") && statCheck.getUserSeq() != null) { //2021.12.20 추가
+				recruitDomain.setRegPath("F");
+			}
 			int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 			
 			//이메일 전송
