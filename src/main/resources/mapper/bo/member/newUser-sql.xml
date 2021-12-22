@@ -284,8 +284,27 @@
 			,UPD_TIMESTAMP
 			,USER_SEQ
 		FROM TB_LC_VIOLATION
-		WHERE USER_SEQ = #{userSeq}
-		AND APPLY_YN != 'D'
+		<where>
+			<choose>
+				<when test="userSeq > 0">
+					AND USER_SEQ = #{userSeq}
+				</when>
+				<otherwise>
+					AND MASTER_SEQ = #{masterSeq}
+				</otherwise>
+			</choose>
+			<choose>
+				<when test="vioNum != null and vioNum != ''">
+					<if test='vioNum.equals("empty")'>
+						AND (VIO_NUM IS NULL OR VIO_NUM = '')
+						AND APPLY_YN = 'N'
+					</if>
+					<if test='vioNum.equals("notEmpty")'>
+						AND APPLY_YN = 'Y'
+					</if>			
+				</when>
+			</choose>
+		</where>
 		ORDER BY VIOLATION_SEQ ASC
 	</select>
 	
@@ -880,14 +899,16 @@
 	<insert id="insertNewUserViolationInfo" parameterType="newUser">
 		INSERT INTO TB_LC_VIOLATION
 		(
-			 USER_SEQ
+			 MASTER_SEQ
+			,USER_SEQ
 			,VIOLATION_CD
 			,REG_SEQ
 			,REG_TIMESTAMP
 		)
 		VALUES
 		(
-			 #{userSeq}
+			 #{masterSeq}
+			,#{userSeq}
 			,#{violationCd}
 			,#{regSeq}
 			,NOW()

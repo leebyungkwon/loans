@@ -1070,7 +1070,9 @@ public class NewUserService {
 			
 			//위반이력
 	    	NewUserDomain userDomain = new NewUserDomain();
+	    	userDomain.setMasterSeq(resultInfo.getMasterSeq());
 	    	userDomain.setUserSeq(newUserDomain.getUserSeq());
+	    	userDomain.setVioNum("empty");
 	    	
 	    	// 등록해야할 위반이력
 	    	List<NewUserDomain> violationRegList = userRepo.selectNewUserViolationInfoList(userDomain);
