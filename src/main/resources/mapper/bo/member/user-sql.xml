@@ -1613,7 +1613,7 @@
 		and (
 			((mas.pl_regist_no is null or mas.pl_regist_no = '') and (mas.con_num is null or mas.con_num = ''))
 			or
-			(((mas.pl_regist_no is not null and mas.pl_regist_no != '') and (mas.con_num is null or mas.con_num = ''))
+			((mas.pl_regist_no is not null and mas.pl_regist_no != '') and (mas.con_num is null or mas.con_num = ''))
 		)
 		and mas.use_yn = 'Y'
 		group by mas.master_seq

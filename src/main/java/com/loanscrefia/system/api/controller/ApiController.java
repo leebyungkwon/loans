@@ -1248,7 +1248,7 @@ public class ApiController {
 	//TM 계약건 가등록 및 본등록(결제한 내역이 있을경우)
 	@PostMapping(value="/api/apiTmReg")
 	public ResponseEntity<ResponseMsg> apiTmReg(UserDomain userSearchDomain) throws IOException{
-		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null, "fail");
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null, "결제된 TM 계약건이 존재하지 않습니다.");
 		
 		List<UserDomain> tmConList = userRepo.selectPayCompTmContract(userSearchDomain);
 		
@@ -1300,48 +1300,50 @@ public class ApiController {
 			String conNum = "";
 			
 			for(UserDomain tmp : tmConList) {
-				ApiDomain apiDomain = new ApiDomain();
-				JSONObject loanApiReqParam = new JSONObject();
-				
-				loanApiReqParam.put("pre_corp_lc_num", tmp.getPreLcNum());
+				if(StringUtils.isNotEmpty(tmp.getPreLcNum())) {
+					ApiDomain apiDomain = new ApiDomain();
+					JSONObject loanApiReqParam = new JSONObject();
+					
+					loanApiReqParam.put("pre_corp_lc_num", tmp.getPreLcNum());
 
-				apiDomain.setApiName("corpLoanReg");
-				apiDomain.setUrl("/loan/v1/loan-corp-consultants");
-				apiDomain.setMethod("POST");
-				apiDomain.setParamJson(loanApiReqParam);
-				
-				//전송
-				responseMsg = apiService.excuteApi(apiDomain);
-				
-				if(responseMsg.getCode().equals("success")) {
-					JSONObject loanApiResponse = (JSONObject)responseMsg.getData();
+					apiDomain.setApiName("corpLoanReg");
+					apiDomain.setUrl("/loan/v1/loan-corp-consultants");
+					apiDomain.setMethod("POST");
+					apiDomain.setParamJson(loanApiReqParam);
 					
-					//등록번호
-					lcNum = loanApiResponse.getString("corp_lc_num");
+					//전송
+					responseMsg = apiService.excuteApi(apiDomain);
 					
-					//계약번호
-					JSONObject jsonObj = new JSONObject();
-					JSONArray conArr = loanApiResponse.getJSONArray("con_arr");
-					// 계약금융기관코드(저장되어있는 데이터 비교)
-					String plProduct = tmp.getPlProduct();
-					String comCode = Integer.toString(tmp.getComCode());
-					for(int i=0; i<conArr.length(); i++){
-						jsonObj = conArr.getJSONObject(i);
-						String loanType = jsonObj.getString("loan_type");
-						String finCode = jsonObj.getString("fin_code");
-						// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
-						if(loanType.equals(plProduct) && finCode.equals(comCode)) {
-							conNum = jsonObj.getString("con_num");
-							break;
+					if(responseMsg.getCode().equals("success")) {
+						JSONObject loanApiResponse = (JSONObject)responseMsg.getData();
+						
+						//등록번호
+						lcNum = loanApiResponse.getString("corp_lc_num");
+						
+						//계약번호
+						JSONObject jsonObj = new JSONObject();
+						JSONArray conArr = loanApiResponse.getJSONArray("con_arr");
+						// 계약금융기관코드(저장되어있는 데이터 비교)
+						String plProduct = tmp.getPlProduct();
+						String comCode = Integer.toString(tmp.getComCode());
+						for(int i=0; i<conArr.length(); i++){
+							jsonObj = conArr.getJSONObject(i);
+							String loanType = jsonObj.getString("loan_type");
+							String finCode = jsonObj.getString("fin_code");
+							// 등록시 계약김융기관코드 및 대출모집인 유형코드(상품코드)가 동일한 정보만 저장(계약일, 대출모집인휴대폰번호 등등 추가가능)
+							if(loanType.equals(plProduct) && finCode.equals(comCode)) {
+								conNum = jsonObj.getString("con_num");
+								break;
+							}
 						}
+						//수정
+						UserDomain updateDomain = new UserDomain();
+						updateDomain.setMasterSeq(tmp.getMasterSeq());
+						updateDomain.setPlRegistNo(lcNum);
+						updateDomain.setConNum(conNum);
+						updateDomain.setPlRegStat("3");
+						kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
 					}
-					//수정
-					UserDomain updateDomain = new UserDomain();
-					updateDomain.setMasterSeq(tmp.getMasterSeq());
-					updateDomain.setPlRegistNo(lcNum);
-					updateDomain.setConNum(conNum);
-					updateDomain.setPlRegStat("3");
-					kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
 				}
 			}
 		}
