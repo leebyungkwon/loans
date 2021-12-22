@@ -534,7 +534,7 @@ public class ApiController {
 		String conNum = "";
 		// 가등록에서 본등록시 등록번호 발급
 		
-		if("01".equals(prdCheck) || "05".equals(prdCheck)) {
+		//if("01".equals(prdCheck) || "05".equals(prdCheck)) {
 			
 			// 2021-06-25 은행연합회 API 통신 - 등록
 			String apiKey = kfbApiRepository.selectKfbApiKey(kfbApiDomain);
@@ -577,7 +577,7 @@ public class ApiController {
 				updateDomain.setPlRegStat("3");
 				kfbApiRepository.updateKfbApiByUserInfo(updateDomain);
 			}
-		}
+		//}
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
