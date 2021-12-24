@@ -1783,14 +1783,82 @@ commit;
 
 
 
+-- 2021.12.21 통계 관련
+create table tb_lc_inaq_stats(
+	name varchar(100)
+	, u_key varchar(100)
+	, case1 integer
+	, case2 integer
+	, case3 integer
+	, case4 integer
+	, case5 integer
+	, case6 integer
+	, case7 integer
+	, case8 integer
+);
+
+COMMENT ON TABLE tb_lc_inaq_stats IS '부적격처리건수(모집인별)';
+
+create table tb_lc_reg_stats(
+	name varchar(100)
+	, case1 integer
+	, case2 integer
+	, case3 integer
+	, case4 integer
+	, case5 integer
+	, case6 integer
+	, case7 integer
+	, case8 integer
+	, case9 integer
+	, case10 integer
+	, case11 integer
+	, case12 integer
+	, case13 integer
+	, case14 integer
+	, case15 integer
+	, case16 integer
+	, case17 integer
+	, case18 integer
+	, case19 integer
+	, case20 integer
+	, case21 integer
+	, case22 integer
+	, case23 integer
+	, case24 integer
+);
+
+COMMENT ON TABLE tb_lc_reg_stats IS '등록처리현황(모집인별)';
 
 
+create table tb_lc_cancel_stats(
+	name varchar(100)
+	, case1 integer
+	, case2 integer
+	, case3 integer
+	, case4 integer
+	, case5 integer
+	, case6 integer
+	, case7 integer
+	, case8 integer
+	, case9 integer
+	, case10 integer
+	, case11 integer
+	, case12 integer
+	, case13 integer
+	, case14 integer
+	, case15 integer
+	, case16 integer
+	, case17 integer
+	, case18 integer
+	, case19 integer
+	, case20 integer
+	, case21 integer
+	, case22 integer
+	, case23 integer
+	, case24 integer
+);
 
-
-
-
-
-
+COMMENT ON TABLE tb_lc_cancel_stats IS '해지처리현황(모집인별)';
 
 
 

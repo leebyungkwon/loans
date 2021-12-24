@@ -670,12 +670,45 @@ ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_mobile_no varchar(100);
 ALTER TABLE tb_lc_users_corp_req ADD COLUMN origin_user_ci varchar(100);
 
 
+-- 2021.12.21 통계 관련
+INSERT INTO public.tb_lc_cod01 (code_mst_cd,code_mst_nm,code_mst_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('CAR002','경력현황','경력현황',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL);
 
+INSERT INTO public.tb_lc_cod01_detail (code_mst_cd,code_dtl_cd,code_dtl_nm,code_dtl_desc,property01,property02,property03,property04,property05,use_yn,reg_seq,reg_timestamp,upd_seq,upd_timestamp) VALUES
+	 ('CAR002','0','1년 미만','1년 미만',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','1','1년~2년','1년~2년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','2','2년~3년','2년~3년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','3','3년~4년','3년~4년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','4','4년~5년','4년~5년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','5','5년~6년','5년~6년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','6','6년~7년','6년~7년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','7','7년~8년','7년~8년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','8','8년~9년','8년~9년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','9','9년~10년','9년~10년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','10','10년~11년','10년~11년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','11','11년~12년','11년~12년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','12','12년~13년','12년~13년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','13','13년~14년','13년~14년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','14','14년~15년','14년~15년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','15','15년~16년','15년~16년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','16','16년~17년','16년~17년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','17','17년~18년','17년~18년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','18','18년~19년','18년~19년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','19','19년~20년','19년~20년',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL),
+	 ('CAR002','20','20년 이상','20년 이상',NULL,NULL,NULL,NULL,NULL,'Y',1,now(),NULL,NULL);
 
-
-
-
-
+CREATE OR REPLACE FUNCTION public.fn_corp_name(corp_no varchar)
+ RETURNS character varying
+ LANGUAGE plpgsql
+AS $$
+declare corp_name VARCHAR(100);
+begin
+	select into corp_name pl_merchant_name
+	from tb_lc_corp
+	where pl_merchant_no = corp_no;
+	return corp_name;
+end; $$
+;
 
 
 
