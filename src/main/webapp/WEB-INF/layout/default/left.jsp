@@ -59,18 +59,30 @@ function menuActiveFunction(){
 		$("#menuUpdateCorpUsers").addClass("on");
 	}else if(menuUrl[2] == "totList"){
 		$("#menuTotList").addClass("on");
+	}else if(menuUrl[2] == "stats1"){
+		$("#menuStats1").addClass("on");
+	}else if(menuUrl[2] == "stats2"){
+		$("#menuStats2").addClass("on");
+	}else if(menuUrl[2] == "stats3"){
+		$("#menuStats3").addClass("on");
+	}else if(menuUrl[2] == "stats4"){
+		$("#menuStats4").addClass("on");
+	}else if(menuUrl[2] == "stats5"){
+		$("#menuStats5").addClass("on");
+	}else if(menuUrl[2] == "stats6"){
+		$("#menuStats6").addClass("on");
+	}else if(menuUrl[2] == "stats7"){
+		$("#menuStats7").addClass("on");
+	}else if(menuUrl[2] == "stats8"){
+		$("#menuStats8").addClass("on");
+	}else if(menuUrl[2] == "stats9"){
+		$("#menuStats9").addClass("on");
 	}
-	
-	
-	
-	
 }
 </script>
 
 <div class="gnb">
 	<ul>
-	
-		
 		<sec:authorize access="hasAnyRole('ADMIN', 'SYSTEM')">
 			<li class="cate1 ">협회</li>
 			<li class="cate2">모집인 관리</li>
@@ -82,25 +94,37 @@ function menuActiveFunction(){
 			<li class="cate2">회원사 관리</li>
 			<li id="menuCompany"><a href="/admin/company/companyCodePage">회원사 관리</a></li> 
 			<li id="menuMng"><a href="/admin/mng/companyPage">회원사 담당자 관리</a></li>
+			
 			<li class="cate2">관리자 관리</li>
 			<li id="menuCrefia"><a href="/admin/crefia/crefiaPage">협회 관리자 관리</a></li>
 			<li id="menuCrefiaWork"><a href="/admin/crefiaWork/crefiaWorkPage">협회 관리자 업무분장</a></li>
 			<li id="menuCorp"><a href="/admin/corp/corpPage">법인 관리</a></li>
 			<li id="menuEdu"><a href="/admin/edu/eduPage">교육이수번호 조회</a></li>
-		<!-- <li id="menuStats"><a href="javascript:void(0);">통계</a></li>	 -->
-			
+		
 			<li class="cate2">[고도화]모집인 관리</li>
 			<li id="menuNewApply"><a href="/admin/newApply/newApplyPage">모집인 등록 승인처리</a></li>
 			<li id="menuNewRecruit"><a href="/admin/newRecruit/newRecruitPage">모집인 조회 및 변경</a></li>
+			
 			<li class="cate2">[고도화]회원 관리</li>
 			<li id="menuIndvUsers"><a href="/admin/users/indvUsersPage">개인회원관리</a></li>
 			<li id="menuCorpUsers"><a href="/admin/corpUsers/corpUsersPage">법인회원관리</a></li>
 			<li id="menuInactive"><a href="/admin/inactive/inactivePage">휴면회원관리</a></li>
+			
 			<li class="cate2">[고도화]회원 정보 변경관리</li>		
 			<li id="menuUpdateIndvUsers"><a href="/admin/updateIndvUsers/updateIndvUsersPage">개인회원 정보변경관리</a></li>
 			<li id="menuUpdateCorpUsers"><a href="/admin/updateCorpUsers/updateCorpUsersPage">법인회원 정보변경관리</a></li>
+			
+			<li class="cate2">[고도화]통계</li>
+			<li id="menuStats1"><a href="/admin/stats1/statsPage">회사별 모집인</a></li> 
+			<li id="menuStats2"><a href="/admin/stats2/statsPage">경력신규</a></li> 
+			<li id="menuStats3"><a href="/admin/stats3/statsPage">경력 현황</a></li> 
+			<li id="menuStats4"><a href="/admin/stats4/statsPage">부적격처리건수</a></li> 
+			<li id="menuStats5"><a href="/admin/stats5/statsPage">등록처리현황(회사별)</a></li> 
+			<li id="menuStats6"><a href="/admin/stats6/statsPage">등록처리현황(모집인별)</a></li> 
+			<li id="menuStats7"><a href="/admin/stats7/statsPage">해지처리현황(회사별)</a></li> 
+			<li id="menuStats8"><a href="/admin/stats8/statsPage">해지처리현황(모집인별)</a></li>
+			<li id="menuStats9"><a href="/admin/stats9/statsPage">불법모집 이력현황</a></li>
 		</sec:authorize>
-		
 		
 		<sec:authorize access="hasAnyRole('MEMBER', 'SYSTEM')">
 			<li class="cate1 ">${member.comCodeNm} <sec:authorize access="hasAnyRole('SYSTEM')">금융회사</sec:authorize></li>
@@ -126,7 +150,6 @@ function menuActiveFunction(){
 			<li id="menuCode"><a href="/system/code/codePage">코드관리</a></li>
 			<li id="menuApi"><a href="/system/api/apiPage">API관리</a></li>
 		</sec:authorize>
-		
 	</ul>
 </div>
 

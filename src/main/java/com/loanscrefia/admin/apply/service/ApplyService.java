@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.google.gson.JsonObject;
 import com.loanscrefia.admin.apply.domain.ApplyCheckDomain;
 import com.loanscrefia.admin.apply.domain.ApplyDomain;
 import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
@@ -28,6 +27,8 @@ import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.repository.ApplyRepository;
 import com.loanscrefia.admin.corp.service.CorpService;
+import com.loanscrefia.admin.stats.domain.StatsDomain;
+import com.loanscrefia.admin.stats.service.StatsService;
 import com.loanscrefia.common.common.domain.FileDomain;
 import com.loanscrefia.common.common.domain.KfbApiDomain;
 import com.loanscrefia.common.common.email.domain.EmailDomain;
@@ -71,6 +72,8 @@ public class ApplyService {
 	private KfbApiRepository kfbApiRepository;
 	
 	@Autowired private CorpService corpService;
+	
+	@Autowired private StatsService statsService;
 	
 	//암호화 적용여부
 	@Value("${crypto.apply}")
@@ -1177,6 +1180,28 @@ public class ApplyService {
 			if(emailResult > 0 && result > 0) {
 				// 모집인단계이력
 				applyRepository.insertMasterStep(applyDomain);
+				
+				//-------------- 부적격 통계를 위해 추가(2021.12.22) : S --------------
+				if("10".equals(applyDomain.getPlStat())) {
+					StatsDomain sParam 	= new StatsDomain();
+					String plClass 		= statCheck.getPlClass();
+					String uKey 		= "";
+					
+					if("1".equals(plClass)) {
+						uKey = statCheck.getCi();
+					}else {
+						uKey = statCheck.getPlMerchantNo();
+					}
+					
+					sParam.setPlProduct(statCheck.getPlProduct());
+					sParam.setPlClass(plClass);
+					sParam.setCorpUserYn(statCheck.getCorpUserYn());
+					sParam.setName(statCheck.getPlMName());
+					sParam.setUKey(uKey);
+					statsService.saveInaqInfoForStats(sParam);
+				}
+				//-------------- 부적격 통계를 위해 추가(2021.12.22) : E --------------
+				
 				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
 			}else if(emailResult == 0){
 				return new ResponseMsg(HttpStatus.OK, "fail", "메일발송에 실패하였습니다.");

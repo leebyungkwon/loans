@@ -27,6 +27,8 @@ import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.corp.service.CorpService;
+import com.loanscrefia.admin.stats.domain.StatsDomain;
+import com.loanscrefia.admin.stats.service.StatsService;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.admin.users.repository.UsersRepository;
 import com.loanscrefia.common.common.domain.ApiDomain;
@@ -92,7 +94,7 @@ public class NewApplyService {
 	@Autowired private ApiService apiService; //은행연합회
 	@Autowired private BatchService batchService;
 	@Autowired private SearchRepository searchRepository;
-	
+	@Autowired private StatsService statsService;
 	
 	//암호화 적용여부
 	@Value("${crypto.apply}")
@@ -352,6 +354,8 @@ public class NewApplyService {
     	
     	NewUserDomain userDomain = new NewUserDomain();
     	userDomain.setMasterSeq(newApplyDomain.getMasterSeq());
+    	userDomain.setUserSeq(applyInfo.getUserSeq());
+    	userDomain.setVioNum("notEmpty");
     	//위반이력
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(userDomain);
     	
@@ -534,6 +538,8 @@ public class NewApplyService {
 		
     	NewUserDomain userDomain = new NewUserDomain();
     	userDomain.setMasterSeq(newApplyDomain.getMasterSeq());
+    	userDomain.setUserSeq(applyInfo.getUserSeq());
+    	userDomain.setVioNum("notEmpty");
     	//위반이력
     	List<NewUserDomain> violationInfoList = userRepo.selectNewUserViolationInfoList(userDomain);
     	
@@ -1318,6 +1324,28 @@ public class NewApplyService {
 			if(smsResult > 0 && result > 0) {
 				// 모집인단계이력
 				applyRepository.insertNewMasterStep(newApplyDomain);
+				
+				//-------------- 부적격 통계를 위해 추가(2021.12.22) : S --------------
+				if("10".equals(newApplyDomain.getPlStat())) {
+					StatsDomain sParam 	= new StatsDomain();
+					String plClass 		= statCheck.getPlClass();
+					String uKey 		= "";
+					
+					if("1".equals(plClass)) {
+						uKey = statCheck.getCi();
+					}else {
+						uKey = statCheck.getPlMerchantNo();
+					}
+					
+					sParam.setPlProduct(statCheck.getPlProduct());
+					sParam.setPlClass(plClass);
+					sParam.setCorpUserYn(statCheck.getCorpUserYn());
+					sParam.setName(statCheck.getPlMName());
+					sParam.setUKey(uKey);
+					statsService.saveInaqInfoForStats(sParam);
+				}
+				//-------------- 부적격 통계를 위해 추가(2021.12.22) : E --------------
+				
 				return new ResponseMsg(HttpStatus.OK, "success", responseMsg, "완료되었습니다.");
 			}else {
 				return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");

@@ -1,32 +1,23 @@
 package com.loanscrefia.system.batch.controller;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
-import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.service.KfbApiService;
 import com.loanscrefia.system.batch.domain.BatchDomain;
-import com.loanscrefia.system.batch.domain.BatchReqDomain;
 import com.loanscrefia.system.batch.repository.BatchRepository;
 import com.loanscrefia.system.batch.service.BatchService;
-import com.loanscrefia.util.OutApiConnector;
-import com.loanscrefia.util.OutApiParse;
 
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.SchedulerLock;
 import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
-import okhttp3.Response;
 
 @Slf4j
 @Component
@@ -34,18 +25,13 @@ import okhttp3.Response;
 @EnableSchedulerLock(defaultLockAtMostFor = "PT30S")
 public class BatchController {
 
-	@Autowired 
-	private BatchService batchService;
+	@Autowired private BatchRepository batchRepository;
+	@Autowired private BatchService batchService;
+	@Autowired private KfbApiService kfbApiService;
 	
-	@Autowired 
-	private BatchRepository batchRepository;
+	//1분동안 Lock
+	private static final String ONE_MIN = "PT30S"; 
 	
-	@Autowired
-	private KfbApiService kfbApiService;
-	
-	private static final String ONE_MIN = "PT30S"; // 1분동안 Lock
-	
-
 	@Value("${spring.profiles.active}")
 	private String profile;
 	
@@ -141,8 +127,7 @@ public class BatchController {
     */
 	
 	
-	
-	//매일0시1분
+	//휴면회원(매일 0시 1분)
 	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "inactiveUserCheck" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void inactiveUserCheck() throws IOException {
@@ -151,16 +136,12 @@ public class BatchController {
     	for(UsersDomain tmp : inactiveList) {
     		UsersDomain inactiveDomain = new UsersDomain();
     		inactiveDomain.setUserSeq(tmp.getUserSeq());
-    		
-    		// 쿼리 생성해야함
     		batchRepository.insertInactiveUserBatch(inactiveDomain);
     		batchRepository.updateInactiveUserBatch(inactiveDomain);
     	}
     }
     
-	
-	
-	//매일0시1분
+	//API 키(매일 0시 1분)
 	@Scheduled(cron = "0 1 0 * * *")
     @SchedulerLock(name = "apiAuthToken" , lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void apiKeyConnection() throws IOException {
@@ -272,7 +253,6 @@ public class BatchController {
 
     }
 	
-	
 	// 정보변경
 	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="loanUpd", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
@@ -302,7 +282,6 @@ public class BatchController {
 		batchService.updateScheduleHist(batch);
 
     }
-	
 	
 	// 주민등록번호 변경
 	@Scheduled(cron ="*/30 * * * * *") 
@@ -334,10 +313,6 @@ public class BatchController {
 
     }
 	
-	
-	
-	
-	
 	// 해지
 	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="dropApply", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
@@ -365,12 +340,6 @@ public class BatchController {
 		// schedule_hist 종료 이력 저장
 		batchService.updateScheduleHist(batch);
     }
-	
-	
-	
-	
-	
-	
 	
 	// 건별정보변경
 	@Scheduled(cron ="*/30 * * * * *") 
@@ -403,9 +372,6 @@ public class BatchController {
 
     }
 	
-	
-	
-	
 	// 위반이력 등록
 	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="violationReg", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
@@ -434,12 +400,8 @@ public class BatchController {
 		
 		// schedule_hist 종료 이력 저장
 		batchService.updateScheduleHist(batch);
-
     }
 	
-	
-	
-
 	// 위반이력 삭제
 	@Scheduled(cron ="*/30 * * * * *")
     @SchedulerLock(name="violationDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
@@ -470,30 +432,61 @@ public class BatchController {
 
     }
 	
-	
 	private boolean isLocalBatch() {
 		boolean flag = true;
 		if(!"local".equals(profile)) flag = false;
 		return flag;
 	}
 	
+	//2021-12-23 승인완료된 건들 중 기등록 계약건 조회 후 기등록 건 자격취득(2분 마다)
+	@Scheduled(cron = "* */2 * * * *")
+    @SchedulerLock(name="preRegContSearch", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void preRegContSearch2() throws Exception {
+		if(isLocalBatch()) return;
+		
+		BatchDomain batch = new BatchDomain();
+		
+		//스케쥴 이름으로 조회
+		batch.setScheduleName("preRegContSearch");
+		List<BatchDomain> batchList = batchService.selectBatchListLimited(batch);
+		int reqCnt = batchList.size();
+		
+		//schedule_hist 시작 이력 저장
+		batch.setReqCnt(reqCnt);
+		int scheduleSeq = batchService.insertScheduleHist(batch);
+		
+		int successCnt = 0;
+		
+		for(BatchDomain reg : batchList) {
+			int success = batchService.preRegContSearch(reg);
+			successCnt = successCnt + success;
+		}
+		
+		//schedule_hist 종료 이력 저장
+		batch.setScheduleHistSeq(scheduleSeq);
+		batch.setSuccessCnt(successCnt);
+		batchService.updateScheduleHist(batch);
+    }
 	
 	
-	/* -------------------------------------------------------------------------------------------------------
+	
+	/* --------------------------------------------------------------------------------------------------------------------------
 	 * 2021-12-07 정보 삭제 관련
-	 * -------------------------------------------------------------------------------------------------------
+	 * 삭제 : 매일 새벽 1시(0 0 1 * * *)
+	 * 미요청 또는 보완 미이행 건들 삭제 시 가등록 삭제 : 30초 마다
+	 * --------------------------------------------------------------------------------------------------------------------------
 	 */
 	
 	/*
-	//해지정보 삭제
-	@Scheduled(cron ="")
+	//해지정보 삭제(매일 새벽 1시)
+	@Scheduled(cron = "")
     @SchedulerLock(name="regCancelInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void regCancelInfoDel() throws Exception {
 		if(isLocalBatch()) return;
 		batchService.regCancelInfoDel();
     }
 	
-	//미요청 정보 삭제
+	//미요청 정보 삭제(매일 새벽 1시)
 	@Scheduled(cron ="")
     @SchedulerLock(name="notApplyInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void notApplyInfoDel() throws Exception {
@@ -501,7 +494,7 @@ public class BatchController {
 		batchService.notApplyInfoDel();
     }
 	
-	//보완 미이행 정보 삭제
+	//보완 미이행 정보 삭제(매일 새벽 1시)
 	@Scheduled(cron ="")
     @SchedulerLock(name="notApplyAgainInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void notApplyAgainInfoDel() throws Exception {
@@ -509,7 +502,7 @@ public class BatchController {
 		batchService.notApplyAgainInfoDel();
     }
 	
-	//취소 정보 삭제
+	//취소 정보 삭제(매일 새벽 1시)
 	@Scheduled(cron ="")
     @SchedulerLock(name="cancelInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void cancelInfoDel() throws Exception {
@@ -517,7 +510,7 @@ public class BatchController {
 		batchService.cancelInfoDel();
     }
 	
-	//금융회사 승인거절 정보 삭제
+	//금융회사 승인거절 정보 삭제(매일 새벽 1시)
 	@Scheduled(cron ="")
     @SchedulerLock(name="rejectInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void rejectInfoDel() throws Exception {
@@ -525,40 +518,66 @@ public class BatchController {
 		batchService.rejectInfoDel();
     }
 	
-	//미요청 또는 보완 미이행 건들 삭제 시 가등록 삭제
+	//등록요건 불충족(부적격) 정보 삭제(매일 새벽 1시)
+	@Scheduled(cron ="")
+    @SchedulerLock(name="inaqInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void inaqInfoDel() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.inaqInfoDel();
+    }
+	
+	//미요청 또는 보완 미이행 건들 삭제 시 가등록 삭제(30초 마다)
 	@Scheduled(cron ="") 
     @SchedulerLock(name="notApplyPreLoanDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void notApplyPreLoanDel() throws Exception {
 		if(isLocalBatch()) return;
+		
 		BatchDomain batch = new BatchDomain();
+		
 		batch.setScheduleName("notApplyPreLoanDel");
 		List<BatchDomain> batchList = batchService.selectBatchList(batch);
 		int reqCnt = batchList.size();
 		
+		//schedule_hist 시작 이력 저장
 		batch.setReqCnt(reqCnt);
+		int scheduleSeq = batchService.insertScheduleHist(batch);
 		
 		int successCnt = 0;
-		
-		//schedule_hist 시작 이력 저장
-		int scheduleSeq = batchService.insertScheduleHist(batch);
 		
 		for(BatchDomain reg : batchList) {
 			int success = batchService.notApplyPreLoanDel(reg);
 			successCnt = successCnt + success;
 		}
 		
+		//schedule_hist 종료 이력 저장
 		batch.setScheduleHistSeq(scheduleSeq);
 		batch.setSuccessCnt(successCnt);
-		
-		//schedule_hist 종료 이력 저장
 		batchService.updateScheduleHist(batch);
     }
 	*/
 	
+	/* --------------------------------------------------------------------------------------------------------------------------
+	 * 2021-12-22 통계 관련
+	 * 등록신청현황(모집인별) 저장 : 매일 0시 1분(0 1 0 * * *)
+	 * 해지신청현황(모집인별) 저장 : 매일 0시 5분(0 5 0 * * *)
+	 * --------------------------------------------------------------------------------------------------------------------------
+	 */
 	
+	//등록신청현황(모집인별) 저장(매일 0시 1분)
+	@Scheduled(cron = "0 1 0 * * *")
+    @SchedulerLock(name="saveRegStatsInfo", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void saveRegStatsInfo() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.saveRegStatsInfo();
+    }
 	
-	
-	
+	//해지신청현황(모집인별) 저장(매일 0시 5분)
+	@Scheduled(cron = "0 5 0 * * *")
+    @SchedulerLock(name="saveCancelStatsInfo", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
+    public void saveCancelStatsInfo() throws Exception {
+		if(isLocalBatch()) return;
+		batchService.saveCancelStatsInfo();
+    }
 	
 	
 	

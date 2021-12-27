@@ -1,6 +1,5 @@
 package com.loanscrefia.system.batch.repository;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -9,6 +8,7 @@ import com.loanscrefia.admin.apply.domain.ApplyExpertDomain;
 import com.loanscrefia.admin.apply.domain.ApplyImwonDomain;
 import com.loanscrefia.admin.apply.domain.ApplyItDomain;
 import com.loanscrefia.admin.apply.domain.NewApplyDomain;
+import com.loanscrefia.admin.stats.domain.StatsDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.member.user.domain.NewUserDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
@@ -131,6 +131,17 @@ public interface BatchRepository {
 	//배치 예정건 삭제
 	int deleteBatchPlanInfo(BatchDomain batchDomain);
 	
+	//2021-12-23 승인완료된 건들 중 기등록 계약건 조회를 위한 리스트 추출
+	int preRegContSearchListForReg(BatchDomain batchDomain);
+	
+	//2021-12-24 승인완료된 건들 중 기등록 계약건 조회를 위한 리스트 추출(limit)
+	List<BatchDomain> selectBatchListLimited(BatchDomain batchDomain);
+	
+	//2021-12-23 관련 승인전 데이터 기등록여부 수정(개인)
+	int updatePreRegYnIndvCont(NewApplyDomain newApplyDomain);
+	
+	//2021-12-23 관련 승인전 데이터 기등록여부 수정(개인)
+	int updatePreRegYnCorpCont(NewApplyDomain newApplyDomain);
 	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 2021-12-07 정보 삭제 관련
@@ -151,6 +162,9 @@ public interface BatchRepository {
 	
 	//등록요청 거절정보 리스트
 	List<NewApplyDomain> selectRejectInfoList(NewApplyDomain newApplyDomain);
+	
+	//등록요건 불충족(부적격)정보 리스트
+	List<NewApplyDomain> selectInaqInfoList(NewApplyDomain newApplyDomain);
 	
 	//정보 조회
 	NewApplyDomain getMasInfo(NewApplyDomain newApplyDomain);
@@ -186,10 +200,22 @@ public interface BatchRepository {
 	int realDeleteCorpItInfo(ApplyItDomain applyItDomain);
 	
 	
+	/* -------------------------------------------------------------------------------------------------------
+	 * 2021-12-22 통계 관련
+	 * -------------------------------------------------------------------------------------------------------
+	 */
 	
+	//등록처리현황(모집인별) 초기화
+	int realDeleteRegStatsInfo(StatsDomain statsDomain);
 	
+	//등록처리현황(모집인별) 저장
+	int insertRegStatsInfo(StatsDomain statsDomain);
 	
+	//해지처리현황(모집인별) 초기화
+	int realDeleteCancelStatsInfo(StatsDomain statsDomain);
 	
+	//해지처리현황(모집인별) 저장
+	int insertCancelStatsInfo(StatsDomain statsDomain);
 	
 	
 	

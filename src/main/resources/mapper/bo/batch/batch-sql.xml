@@ -616,9 +616,93 @@
 		WHERE user_seq=#{userSeq}
     </insert>
     
+    <!-- 2021-12-23 승인완료된 건들 중 기등록 계약건 조회를 위한 리스트 추출 -->
+    <insert id="preRegContSearchListForReg" parameterType="batch">
+    	INSERT INTO TB_LC_SCHEDULE
+   		(
+	   		 SCHEDULE_NAME 
+			,PARAM 
+			,REG_TIME 
+			,STATUS 
+			,PROPERTY01
+			,REG_SEQ 
+			,REG_TIMESTAMP
+   		)
+   		SELECT
+			 'preRegContSearch'
+			,CASE
+				WHEN PL_CLASS = '1' THEN JSON_BUILD_OBJECT('pre_lc_num',PRE_LC_NUM,'master_seq',MASTER_SEQ)
+				ELSE JSON_BUILD_OBJECT('pre_corp_lc_num',PRE_LC_NUM,'master_seq',MASTER_SEQ)
+			 END
+			,NOW()
+			,'1'
+			,PL_CLASS 
+			,0
+			,NOW()
+		FROM TB_LC_MAS01
+		WHERE USE_YN = 'Y'
+		AND PL_PRODUCT IN ('01','05')
+		AND PL_REG_STAT = '2'
+		AND PL_STAT = '9'
+		<if test="sortName != null and sortName != '' and sort != null and sort != ''">
+	    ORDER BY ${sortName} ${sort}
+	    </if>
+	    <if test="isPaging != null and isPaging != '' and isPaging == 'true'">
+		LIMIT ${size}
+		</if>
+    </insert>
     
+    <!-- 2021-12-24 배치 리스트 조회(limit) -->
+    <select id="selectBatchListLimited" parameterType="batch" resultType="batch">
+    	SELECT
+    		*
+    	FROM
+    		TB_LC_SCHEDULE
+    	WHERE SCHEDULE_NAME = #{scheduleName}
+    	AND STATUS IN ('1','3')
+    	AND REG_TIME <![CDATA[>]]> (NOW() - INTERVAL'30 minute')
+    	LIMIT 300
+    </select>
     
+    <!-- 2021-12-23 관련 승인전 데이터 기등록여부 수정(개인) -->
+    <update id="updatePreRegYnIndvCont" parameterType="newApply">
+    	UPDATE TB_LC_MAS01 
+		SET 
+			 PRE_REG_YN 	= 'Y'
+			,UPD_SEQ 		= 0
+			,UPD_TIMESTAMP 	= NOW()
+		WHERE MASTER_SEQ IN (
+			SELECT 
+				MASTER_SEQ 
+			FROM TB_LC_MAS01 
+			WHERE PL_CLASS	= '1' 				-- 개인
+			AND PL_REG_STAT = '1' 				-- 모집인상태 : 승인전
+			AND PRE_REG_YN 	= 'N'
+			AND PL_M_NAME 	= (SELECT PL_M_NAME FROM TB_LC_MAS01 WHERE MASTER_SEQ = #{masterSeq})
+			AND PL_M_Z_ID	= (SELECT PL_M_Z_ID FROM TB_LC_MAS01 WHERE MASTER_SEQ = #{masterSeq})
+			AND USE_YN		= 'Y'
+		)
+    </update>
     
+    <!-- 2021-12-23 관련 승인전 데이터 기등록여부 수정(법인) -->
+	<update id="updatePreRegYnCorpCont" parameterType="newApply">
+    	UPDATE TB_LC_MAS01 
+		SET 
+			 PRE_REG_YN = 'Y'
+			,UPD_SEQ = 0
+			,UPD_TIMESTAMP = NOW()
+		WHERE MASTER_SEQ IN (
+			SELECT 
+				MASTER_SEQ 
+			FROM TB_LC_MAS01 
+			WHERE PL_CLASS		= '2' 				-- 법인
+			AND PL_REG_STAT 	= '1' 				-- 모집인상태 : 승인전
+			AND PRE_REG_YN 		= 'N'
+			AND PL_CEO_NAME 	= (SELECT PL_CEO_NAME FROM TB_LC_MAS01 WHERE MASTER_SEQ = #{masterSeq})
+			AND PL_MERCHANT_NO	= (SELECT PL_MERCHANT_NO FROM TB_LC_MAS01 WHERE MASTER_SEQ = #{masterSeq})
+			AND USE_YN			= 'Y'
+		)
+    </update>
     
     <!-- ====================================================================================================== -->
    	<!-- [2021-12-07 정보 삭제 관련] -->
@@ -632,7 +716,7 @@
     		,FILE_SEQ
    		FROM TB_LC_MAS01
    		WHERE PL_REG_STAT = '4'
-   		AND TO_DATE(CRE_HAEJI_DATE,'YYYYMMDD') + INTERVAL'${interval} years' <![CDATA[<=]]> NOW()
+   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} years'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
    	</select>
     
     <!-- 승인요청 하지 않고 저장만 하고 있는 정보 리스트 : 미요청 건 -->
@@ -643,10 +727,14 @@
     		,FILE_SEQ
     		,REG_PATH
     		,PRE_LC_NUM
+    		,CASE 
+				WHEN UPD_TIMESTAMP IS NULL THEN REG_TIMESTAMP
+				ELSE UPD_TIMESTAMP
+			 END AS REG_TIMESTAMP
    		FROM TB_LC_MAS01
    		WHERE PL_REG_STAT 	= '1'
-   		AND PL_STAT IN 		= '1'
-   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+   		AND PL_STAT  		= '1'
+   		AND TO_CHAR((REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
    	</select>
    	
    	<!-- 승인요청 하지 않고 저장만 하고 있는 정보 리스트 : 보완요청 건 -->
@@ -660,7 +748,7 @@
 		FROM TB_LC_MAS01 TLM 
 		JOIN TB_LC_MAS01_STEP TLMS 
 		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
-		WHERE TLMS.PL_REG_STAT 	= '1'
+		AND TLMS.PL_REG_STAT 	= '1'
 		AND TLMS.PL_STAT 		= '5'
 		GROUP BY TLM.MASTER_SEQ
 		HAVING TLM.PL_REG_STAT 	= '1'
@@ -670,15 +758,6 @@
    	
     <!-- 승인완료건 취소정보 리스트 -->
     <select id="selectCancelInfoList" parameterType="newApply" resultType="newApply">
-   		SELECT
-   			 MASTER_SEQ
-   			,PL_CLASS
-    		,FILE_SEQ
-   		FROM TB_LC_MAS01
-   		WHERE PL_REG_STAT 	= '2'
-   		AND PL_STAT IN 		= '8'
-   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
-   		<!-- 
    		SELECT 
 			 TLM.MASTER_SEQ
 		    ,TLM.PL_CLASS
@@ -686,23 +765,13 @@
 		FROM TB_LC_MAS01 TLM 
 		JOIN TB_LC_MAS01_STEP TLMS 
 		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
-		WHERE TLMS.PL_REG_STAT 	= '2'
+		AND TLMS.PL_REG_STAT 	= '2'
 		AND TLMS.PL_STAT 		= '8'
-		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
-		 -->
+   		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
     </select>
     
     <!-- 등록요청 거절정보 리스트 -->
     <select id="selectRejectInfoList" parameterType="newApply" resultType="newApply">
-   		SELECT
-   			 MASTER_SEQ
-   			,PL_CLASS
-    		,FILE_SEQ
-   		FROM TB_LC_MAS01
-   		WHERE PL_REG_STAT 	= '1'
-   		AND PL_STAT IN 		= '16'
-   		AND TO_CHAR((UPD_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
-   		<!-- 
    		SELECT 
 			 TLM.MASTER_SEQ
 		    ,TLM.PL_CLASS
@@ -710,10 +779,23 @@
 		FROM TB_LC_MAS01 TLM 
 		JOIN TB_LC_MAS01_STEP TLMS 
 		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
-		WHERE TLMS.PL_REG_STAT 	= '1'
+		AND TLMS.PL_REG_STAT 	= '1'
 		AND TLMS.PL_STAT 		= '16'
-		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
-		 -->
+   		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
+    </select>
+    
+    <!-- 등록요건 불충족(부적격)정보 리스트 -->
+    <select id="selectInaqInfoList" parameterType="newApply" resultType="newApply">
+    	SELECT 
+			 TLM.MASTER_SEQ
+		    ,TLM.PL_CLASS
+		    ,TLM.FILE_SEQ
+		FROM TB_LC_MAS01 TLM 
+		JOIN TB_LC_MAS01_STEP TLMS 
+		ON TLM.MASTER_SEQ = TLMS.MASTER_SEQ 
+		AND TLMS.PL_REG_STAT 	= '1'
+		AND TLMS.PL_STAT 		= '10'
+   		AND TO_CHAR((TLMS.REG_TIMESTAMP + INTERVAL'${interval} days'),'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(NOW(),'YYYYMMDD')
     </select>
     
     <!-- 정보 조회 -->
@@ -750,12 +832,6 @@
     	WHERE MASTER_SEQ = #{masterSeq}
     </delete>
     
-    <!-- 
-    <delete id="realDeleteViolationInfo">
-    
-    </delete>
-     -->
-    
     <!-- 법인 임원 삭제 리스트 -->
     <select id="selectCorpImwonDelInfoList" parameterType="applyImwon" resultType="applyImwon">
     	SELECT 
@@ -788,27 +864,109 @@
     
     <!-- 법인 임원 삭제 -->
     <delete id="realDeleteCorpImwonInfo" parameterType="applyImwon">
-    	DELETE TB_LC_MAS01_IMWON
+    	DELETE FROM TB_LC_MAS01_IMWON
     	WHERE MASTER_SEQ = #{masterSeq}
     </delete>
     
     <!-- 법인 업무수행인력 삭제 -->
     <delete id="realDeleteCorpExpertInfo" parameterType="applyExpert">
-    	DELETE TB_LC_MAS01_EXPERT
+    	DELETE FROM TB_LC_MAS01_EXPERT
     	WHERE MASTER_SEQ = #{masterSeq}
     </delete>
     
     <!-- 법인 전산인력 삭제 -->
     <delete id="realDeleteCorpItInfo" parameterType="applyIt">
-    	DELETE TB_LC_MAS01_IT
+    	DELETE FROM TB_LC_MAS01_IT
     	WHERE MASTER_SEQ = #{masterSeq}
     </delete>
     
-   
+   	<!-- ====================================================================================================== -->
+   	<!-- [2021-12-22 통계 관련] -->
+   	<!-- ====================================================================================================== -->
     
+    <!-- 등록처리현황(모집인별) 초기화 -->
+    <delete id="realDeleteRegStatsInfo" parameterType="stats">
+    	DELETE FROM TB_LC_REG_STATS
+    </delete>
     
+    <!-- 등록처리현황(모집인별) 저장 -->
+    <insert id="insertRegStatsInfo" parameterType="stats">
+    	INSERT INTO TB_LC_REG_STATS 
+		(
+			SELECT 
+				 CASE WHEN PL_CLASS = '1' THEN PL_M_NAME ELSE FN_CORP_NAME(PL_MERCHANT_NO) END AS NAME
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE1
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE2
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE3
+				,SUM(CASE WHEN PL_PRODUCT = '03' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE4
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE5
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE6
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE7
+				,SUM(CASE WHEN PL_PRODUCT = '06' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT = '2' THEN 1 ELSE 0 END) CASE8
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE9
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE10
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE11
+				,SUM(CASE WHEN PL_PRODUCT = '03' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE12
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE13
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE14
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE15
+				,SUM(CASE WHEN PL_PRODUCT = '06' AND PL_CLASS = '2' AND PL_REG_STAT = '1' AND PL_STAT IN ('5','15','13') THEN 1 ELSE 0 END) CASE16
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE17
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE18
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '2' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE19
+				,SUM(CASE WHEN PL_PRODUCT = '03' AND PL_CLASS = '2' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE20
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE21
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE22
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '2' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE23
+				,SUM(CASE WHEN PL_PRODUCT = '06' AND PL_CLASS = '2' AND ((PL_REG_STAT = '1' AND PL_STAT = '10') OR (PL_REG_STAT IN ('2','3','5'))) THEN 1 ELSE 0 END) CASE24
+			FROM TB_LC_MAS01 TLM 
+			WHERE USE_YN = 'Y'
+			GROUP BY PL_CLASS, NAME, CASE WHEN PL_CLASS = '1' THEN CI ELSE PL_MERCHANT_NO END
+			ORDER BY PL_CLASS, NAME
+		)
+    </insert>
     
+    <!-- 해지처리현황(모집인별) 초기화 -->
+    <delete id="realDeleteCancelStatsInfo" parameterType="stats">
+    	DELETE FROM TB_LC_CANCEL_STATS
+    </delete>
     
+    <!-- 해지처리현황(모집인별) 저장 -->
+    <insert id="insertCancelStatsInfo" parameterType="stats">
+    	INSERT INTO TB_LC_CANCEL_STATS 
+		(
+			SELECT 
+				 CASE WHEN PL_CLASS = '1' THEN PL_M_NAME ELSE FN_CORP_NAME(PL_MERCHANT_NO) END AS NAME
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE1
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE2
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE3
+				,SUM(CASE WHEN PL_PRODUCT = '03' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE4
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE5
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE6
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE7
+				,SUM(CASE WHEN PL_PRODUCT = '06' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE = TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE8
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE9
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE10
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE11
+				,SUM(CASE WHEN PL_PRODUCT = '03' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE12
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE13
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE14
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE15
+				,SUM(CASE WHEN PL_PRODUCT = '06' AND PL_CLASS = '2' AND PL_REG_STAT = '3' AND PL_STAT = '4' AND COM_HAEJI_DATE <![CDATA[<=]]> TO_CHAR(NOW() - INTERVAL '1 day','YYYYMMDD') THEN 1 ELSE 0 END) CASE16
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE17
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE18
+				,SUM(CASE WHEN PL_PRODUCT = '01' AND PL_CLASS = '2' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE19
+				,SUM(CASE WHEN PL_PRODUCT = '03' AND PL_CLASS = '2' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE20
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'N' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE21
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '1' AND CORP_USER_YN = 'Y' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE22
+				,SUM(CASE WHEN PL_PRODUCT = '05' AND PL_CLASS = '2' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE23
+				,SUM(CASE WHEN PL_PRODUCT = '06' AND PL_CLASS = '2' AND PL_REG_STAT = '4' AND PL_STAT = '9' THEN 1 ELSE 0 END) CASE24
+			FROM TB_LC_MAS01 TLM 
+			WHERE USE_YN = 'Y'
+			GROUP BY PL_CLASS, NAME, CASE WHEN PL_CLASS = '1' THEN CI ELSE PL_MERCHANT_NO END
+			ORDER BY PL_CLASS, NAME
+		)
+    </insert>
     
     
     

@@ -28,6 +28,8 @@ import com.loanscrefia.front.search.domain.SearchResultDomain;
 import com.loanscrefia.member.user.domain.UserDomain;
 import com.loanscrefia.member.user.repository.UserRepository;
 import com.loanscrefia.system.api.service.BoApiService;
+import com.loanscrefia.system.batch.domain.BatchDomain;
+import com.loanscrefia.system.batch.repository.BatchRepository;
 
 import lombok.extern.slf4j.Slf4j;
 import sinsiway.CryptoUtil;
@@ -42,6 +44,7 @@ public class ApiController {
 	@Autowired private KfbApiRepository kfbApiRepository;
 	@Autowired private UserRepository userRepo;
 	@Autowired private ApiService apiService;
+	@Autowired private BatchRepository batchRepository;
 
 	// API관리 페이지
 	@GetMapping("/api/apiPage")
@@ -528,6 +531,12 @@ public class ApiController {
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
 		KfbApiDomain kfbApiDomain = new KfbApiDomain();
 		UserDomain userResult = userRepo.getApiReg(userSearchDomain);
+		
+		if(userResult == null) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "조회할 수 없습니다.\n가등록번호 또는 모집인상태가 자격취득인지 확인해 주세요.");
+			return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		
 		// 금융상품 3, 6번 제외
 		String prdCheck = userResult.getPlProduct();
 		String lcNum = "";
@@ -1253,7 +1262,7 @@ public class ApiController {
 		List<UserDomain> tmConList = userRepo.selectPayCompTmContract(userSearchDomain);
 		
 		if(tmConList.size() > 0) {
-			//가등록
+			//가등록 - 동일 인물의 계약건인 경우 가등록 한번에 안됨
 			for(UserDomain tmp : tmConList) {
 				ApiDomain apiDomain = new ApiDomain();
 				JSONObject preLoanApiReqParam 	= new JSONObject();
@@ -1350,8 +1359,22 @@ public class ApiController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
-	
+	//2021-12-24 승인완료된 건들 중 기등록 계약건 조회 후 배치 테이블 저장
+	@PostMapping(value="/api/preRegContSearch")
+	public ResponseEntity<ResponseMsg> preRegContSearch(BatchDomain batchDomain) {
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, "fail", "실패했습니다.");
+		
+		if(batchDomain.getSize() > 0) {
+			batchDomain.setIsPaging("true");
+		}
+		int insertResult = batchRepository.preRegContSearchListForReg(batchDomain);
+		
+		if(insertResult > 0) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, "success", "배치 테이블에 저장되었습니다.");
+		}
+		
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 	

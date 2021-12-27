@@ -93,10 +93,11 @@ sms:
 
 expired:
   regCancel: 5 #years
-  notApply : 59 #days
-  notApplyAgain : 59 #days
-  cancel : 59 #days
-  reject : 59 #days
+  notApply : 60 #days
+  notApplyAgain : 60 #days
+  cancel : 60 #days
+  reject : 60 #days
+  inaq : 60 #days
   
 ---
 
@@ -159,32 +160,13 @@ email:
 sms:
   apply: true
   
-api:
-  key:
-    juso: devU01TX0FVVEgyMDIxMDkxMDEwNTk1MjExMTY1MDE=
-
-enc:
-  key:
-    location: Z:\loanscrefia\libs\Private2048.key.der
-
-time:
-  vaild:
-    pwdToken: true
-  lock:
-    inactive: true
-
-cert:
-  siteUrl: http://loanagentd.crefia.or.kr/
-  cpCd: V40830000001
-  key:
-    location: Z:\loanscrefia\libs\V40830000001_IDS_01_PROD_AES_license.dat
-    
 expired:
   regCancel: 5 #years
-  notApply : 59 #days
-  notApplyAgain : 59 #days
-  cancel : 59 #days
-  reject : 59 #days
+  notApply : 60 #days
+  notApplyAgain : 60 #days
+  cancel : 60 #days
+  reject : 60 #days
+  inaq : 60 #days
     
 ---
 
@@ -249,8 +231,9 @@ sms:
   
 expired:
   regCancel: 5 #years
-  notApply : 59 #days
-  notApplyAgain : 59 #days
-  cancel : 59 #days
-  reject : 59 #days
+  notApply : 60 #days
+  notApplyAgain : 60 #days
+  cancel : 60 #days
+  reject : 60 #days
+  inaq : 60 #days
     

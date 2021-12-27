@@ -813,7 +813,6 @@ public class UsersService {
 					batchDomain.setProperty04("IndvReq");											// 개인정보와 주민등록번호 성공에 사용될 param
 					
 					batchRepository.insertBatchPlanInfo(batchDomain);
-					usersDomain.setStat("1");
 					
 				}
 			}else {

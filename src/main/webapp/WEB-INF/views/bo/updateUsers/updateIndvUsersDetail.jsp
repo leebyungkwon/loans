@@ -199,7 +199,7 @@ function updateUserStat(num){
 		</div>
 		<div class="btn_wrap">
 			<a href="javascript:void(0);" class="btn_gray" onclick="usersList();">목록</a>
-			<c:if test="${usersInfo.stat eq '1' and empty usersInfo.compDate}">
+			<c:if test="${usersInfo.stat eq '1' }">
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small03" onclick="updateUserStat('2');">승인</a>
 				<a href="javascript:void(0);" class="btn_Lgray btn_right_small01" onclick="updateUserStat('3');">거절</a>
 			</c:if>

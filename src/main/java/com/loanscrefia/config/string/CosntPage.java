@@ -104,5 +104,8 @@ public class CosntPage {
 	//2021-11-08 개인회원 정보변경관리 리스트페이지
 	public static String BoUpdateUsersPage 	= "bo/updateUsers";
 	
+	//2021-12-10 통계페이지
+	public static String BoStatsPage = "bo/stats";
+	
 
 }

@@ -1,6 +1,9 @@
 package com.loanscrefia.system.batch.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -18,6 +21,7 @@ import com.loanscrefia.admin.apply.domain.NewApplyDomain;
 import com.loanscrefia.admin.apply.repository.NewApplyRepository;
 import com.loanscrefia.admin.recruit.domain.NewRecruitDomain;
 import com.loanscrefia.admin.recruit.repository.NewRecruitRepository;
+import com.loanscrefia.admin.stats.domain.StatsDomain;
 import com.loanscrefia.admin.users.domain.UsersDomain;
 import com.loanscrefia.common.common.domain.ApiDomain;
 import com.loanscrefia.common.common.domain.FileDomain;
@@ -68,7 +72,9 @@ public class BatchService{
 	@Value("${expired.reject}")
 	public int reject;
 		
-		
+	//정보 삭제 관련 - 등록요건 불충족(부적격) 처리기준
+	@Value("${expired.inaq}")
+	public int inaq;
 		
 	
 	@Transactional
@@ -604,11 +610,13 @@ public class BatchService{
 			}
 			
 		} finally {
+			/*
 			if("1".equals(plClass)) {
 				batchRepository.updateIndvMasInfo(newApplyDomain);
 			}else {
 				batchRepository.updateCorpMasInfo(newApplyDomain);
 			}
+			*/
 			batchRepository.updateSchedule(req);
 			userInfoUpdResult(plClass, newApplyDomain, req);
 			return cnt;
@@ -860,11 +868,13 @@ public class BatchService{
 			}
 			
 		} finally {
+			/*
 			if("1".equals(plClass)) {
 				batchRepository.updateCaseIndvMasInfo(newApplyDomain);
 			}else {
 				batchRepository.updateCaseCorpMasInfo(newApplyDomain);
 			}
+			*/
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
@@ -1098,6 +1108,10 @@ public class BatchService{
 		return batchRepository.selectBatchErrHistList(batch);
 	}
 	
+	public List<BatchDomain> selectBatchListLimited(BatchDomain batch) {
+		return batchRepository.selectBatchListLimited(batch);
+	}
+	
 	
 	@Transactional
 	public ResponseMsg refreshBatch(BatchDomain batch){
@@ -1111,14 +1125,97 @@ public class BatchService{
 	
 	
 	
-	/*
-	 * 2021-12-07 [정보 삭제 관련 테이블]
+	//2021-12-23 승인완료된 건들 중 기등록 계약건 조회
+	@Transactional
+	public int preRegContSearch(BatchDomain req) throws Exception {
+		
+		JSONObject jsonParam 	= new JSONObject(req.getParam());
+		String plClass 			= req.getProperty01();
+		
+		String param 	= "";
+		int masterSeq 	= jsonParam.getInt("master_seq");
+		
+		ApiDomain apiDomain = new ApiDomain();
+		apiDomain.setMethod("GET");
+		
+		if("1".equals(plClass)) {
+			param = "pre_lc_num="+jsonParam.getString("pre_lc_num");
+			apiDomain.setApiName("searchPreLoan");
+			apiDomain.setUrl("/loan/v1/pre-loan-consultants");
+			apiDomain.setParam(param);
+		}else {
+			param = "pre_corp_lc_num="+jsonParam.getString("pre_corp_lc_num");
+			apiDomain.setApiName("searchPreLoanCorp");
+			apiDomain.setUrl("/loan/v1/pre-loan-corp-consultants");
+			apiDomain.setParam(param);
+		}
+		
+		int cnt = 0;
+		
+		try {
+			//가등록 조회
+			ResponseMsg responseMsg = apiService.excuteApi(apiDomain);
+			
+			if("success".equals(responseMsg.getCode())) {
+				JSONObject responseJson = new JSONObject(responseMsg.getData().toString());
+				
+				if(!responseJson.isNull("fee_yn")) {
+					//기등록자인 경우
+					if("Y".equals(responseJson.getString("fee_yn"))) {
+						//(1)본등록 배치 저장
+						SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+						Date currentDt = new Date();
+						String today = dateFormatParser.format(currentDt);
+						
+						BatchDomain batchDomain = new BatchDomain();
+						
+						batchDomain.setScheduleName("loanReg");
+						batchDomain.setParam(jsonParam.toString());
+						batchDomain.setProperty01(plClass);
+						batchDomain.setProperty05("direct_"+today);
+						
+						this.insertBatchPlanInfo(batchDomain);
+						
+						//(2)관련 승인전 계약건 pre_reg_yn 수정
+						NewApplyDomain newApplyDomain = new NewApplyDomain();
+						newApplyDomain.setMasterSeq(masterSeq);
+						
+						if("1".equals(plClass)){
+							batchRepository.updatePreRegYnIndvCont(newApplyDomain);
+						}else {
+							batchRepository.updatePreRegYnCorpCont(newApplyDomain);
+						}
+					}
+				}
+				
+				req.setStatus("2");
+				cnt = 1;
+				
+			}else {
+				//조회 실패
+				req.setStatus("3");
+				req.setError("code ::"+responseMsg.getCode()+" Message :: "+responseMsg.getMessage());
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			req.setStatus("3");
+			req.setError("preRegContSearch() 배치 오류 :: catch문");
+		}finally {
+			batchRepository.updateSchedule(req);
+		}
+		return cnt;
+	}
+	
+	/* -------------------------------------------------------------------------------------------------------------------
+	 * 2021-12-07 정보 삭제 관련
 	 * tb_lc_file01 / tb_lc_file_check
 	 * tb_lc_mas01 / tb_lc_mas01_hist / tb_lc_mas01_step / tb_lc_product_detail
 	 * tb_lc_mas01_imwon / tb_lc_mas01_expert / tb_lc_mas01_it : 법인 모집인일 때만
+	 * interval은 application.yml에 선언되어 있음
+	 * -------------------------------------------------------------------------------------------------------------------
 	 */
 	
-	//2021-12-07 해지정보 삭제 : AS-IS버전에서 CRE_HAEJI_DATE에 데이터 들어가는지 확인 필요*****
+	//2021-12-07 해지정보 삭제(해지일로부터 5년)
 	@Transactional
 	public void regCancelInfoDel() throws Exception {
 		//해지정보 리스트
@@ -1133,7 +1230,7 @@ public class BatchService{
 		}
 	}
 	
-	//2021-12-07 미요청 정보 삭제
+	//2021-12-07 미요청 정보 삭제(최종 저장일로부터 60일)
 	@Transactional
 	public void notApplyInfoDel() throws Exception {
 		//미요청 정보 리스트
@@ -1144,23 +1241,27 @@ public class BatchService{
 		if(masList.size() > 0) {
 			for(int i = 0;i < masList.size();i++) {
 				if(masList.get(i).getRegPath().equals("B")) {
-					//AS-IS는 등록할 때 가등록을 하기 때문에 가등록 삭제 API 태워야 함.
-					BatchDomain batchDomain = new BatchDomain();
-					JSONObject jsonParam 	= new JSONObject();
-					
-					jsonParam.put("master_seq", masList.get(i).getMasterSeq());
-					jsonParam.put("pre_lc_num", masList.get(i).getPreLcNum());
-					
-					batchDomain.setScheduleName("notApplyPreLoanDel");
-					batchDomain.setParam(jsonParam.toString());
-					
-					if("1".equals(masList.get(i).getPlClass())) {
-						batchDomain.setProperty01("1");
+					//AS-IS
+					if(StringUtils.isEmpty(masList.get(i).getPreLcNum())) {
+						this.masterAndRelatedInfoDel(masList.get(i));
 					}else {
-						batchDomain.setProperty01("2");
+						BatchDomain batchDomain = new BatchDomain();
+						JSONObject jsonParam 	= new JSONObject();
+						
+						jsonParam.put("master_seq", masList.get(i).getMasterSeq());
+						jsonParam.put("pre_lc_num", masList.get(i).getPreLcNum());
+						
+						batchDomain.setScheduleName("notApplyPreLoanDel");
+						batchDomain.setParam(jsonParam.toString());
+						
+						if("1".equals(masList.get(i).getPlClass())) {
+							batchDomain.setProperty01("1");
+						}else {
+							batchDomain.setProperty01("2");
+						}
+						
+						this.insertBatchPlanInfo(batchDomain);
 					}
-					
-					this.insertBatchPlanInfo(batchDomain);
 				}else {
 					//TO-BE는 바로 삭제
 					this.masterAndRelatedInfoDel(masList.get(i));
@@ -1169,7 +1270,7 @@ public class BatchService{
 		}
 	}
 	
-	//2021-12-07 보완 미이행 정보 삭제
+	//2021-12-07 보완 미이행 정보 삭제(최종 보완요청일로부터 60일)
 	@Transactional
 	public void notApplyAgainInfoDel() throws Exception {
 		//미요청 정보 리스트
@@ -1180,23 +1281,27 @@ public class BatchService{
 		if(masList.size() > 0) {
 			for(int i = 0;i < masList.size();i++) {
 				if(masList.get(i).getRegPath().equals("B")) {
-					//AS-IS는 등록할 때 가등록을 하기 때문에 가등록 삭제 API 태워야 함.
-					BatchDomain batchDomain = new BatchDomain();
-					JSONObject jsonParam 	= new JSONObject();
-					
-					jsonParam.put("master_seq", masList.get(i).getMasterSeq());
-					jsonParam.put("pre_lc_num", masList.get(i).getPreLcNum());
-					
-					batchDomain.setScheduleName("notApplyPreLoanDel");
-					batchDomain.setParam(jsonParam.toString());
-					
-					if("1".equals(masList.get(i).getPlClass())) {
-						batchDomain.setProperty01("1");
+					//AS-IS
+					if(StringUtils.isEmpty(masList.get(i).getPreLcNum())) {
+						this.masterAndRelatedInfoDel(masList.get(i));
 					}else {
-						batchDomain.setProperty01("2");
+						BatchDomain batchDomain = new BatchDomain();
+						JSONObject jsonParam 	= new JSONObject();
+						
+						jsonParam.put("master_seq", masList.get(i).getMasterSeq());
+						jsonParam.put("pre_lc_num", masList.get(i).getPreLcNum());
+						
+						batchDomain.setScheduleName("notApplyPreLoanDel");
+						batchDomain.setParam(jsonParam.toString());
+						
+						if("1".equals(masList.get(i).getPlClass())) {
+							batchDomain.setProperty01("1");
+						}else {
+							batchDomain.setProperty01("2");
+						}
+						
+						this.insertBatchPlanInfo(batchDomain);
 					}
-					
-					this.insertBatchPlanInfo(batchDomain);
 				}else {
 					//TO-BE는 바로 삭제
 					this.masterAndRelatedInfoDel(masList.get(i));
@@ -1205,7 +1310,7 @@ public class BatchService{
 		}
 	}
 	
-	//2021-12-07 취소 정보 삭제
+	//2021-12-07 취소 정보 삭제(취소일로부터 60일)
 	@Transactional
 	public void cancelInfoDel() throws Exception {
 		//취소 정보 리스트
@@ -1220,7 +1325,7 @@ public class BatchService{
 		}
 	}
 	
-	//2021-12-07 금융회사 승인거절 정보 삭제
+	//2021-12-07 금융회사 승인거절 정보 삭제(승인거절일로부터 60일)
 	@Transactional
 	public void rejectInfoDel() throws Exception {
 		//금융회사 승인거절 정보 리스트
@@ -1235,21 +1340,36 @@ public class BatchService{
 		}
 	}
 	
+	//2021-12-23 등록요건 불충족(부적격) 정보 삭제(부적격처리일로부터 60일)
+	@Transactional
+	public void inaqInfoDel() throws Exception {
+		//등록요건 불충족(부적격) 정보 리스트
+		NewApplyDomain masParam = new NewApplyDomain();
+		masParam.setInterval(inaq);
+		List<NewApplyDomain> masList = batchRepository.selectInaqInfoList(masParam);
+		
+		if(masList.size() > 0) {
+			for(int i = 0;i < masList.size();i++) {
+				this.masterAndRelatedInfoDel(masList.get(i));
+			}
+		}
+	}
+	
 	//2021-12-07 정보 삭제 공통
 	@Transactional
 	public void masterAndRelatedInfoDel(NewApplyDomain newApplyDomain) {
 		
-		//첨부파일 관련 삭제
-		FileDomain fileDomain = new FileDomain();
-		fileDomain.setFileGrpSeq(newApplyDomain.getFileSeq());
-		int masterFileDelResult = commonService.realDeleteFileByGrpSeq(fileDomain);
+		int masterDelResult = batchRepository.realDeleteMasInfo(newApplyDomain);
 		
 		//그 외
-		if(masterFileDelResult > 0) { //이런 조건을.....주는게 맞지?
-			batchRepository.realDeleteMasInfo(newApplyDomain); //조건을...
+		if(masterDelResult > 0) {
 			batchRepository.realDeleteMasHistInfo(newApplyDomain);
 			batchRepository.realDeleteMasStepInfo(newApplyDomain);
 			batchRepository.realDeletePrdDtlInfo(newApplyDomain);
+			
+			FileDomain fileDomain = new FileDomain();
+			fileDomain.setFileGrpSeq(newApplyDomain.getFileSeq());
+			commonService.realDeleteFileByGrpSeq(fileDomain);
 			
 			//법인일 때 하위데이터도 삭제
 			if(newApplyDomain.getPlClass().equals("2")) {
@@ -1259,18 +1379,16 @@ public class BatchService{
 				List<ApplyImwonDomain> imwonList = batchRepository.selectCorpImwonDelInfoList(imwonDoamin);
 				
 				if(imwonList.size() > 0) {
-					int imwonFileDelResult = 0;
+					int imwonDelResult = batchRepository.realDeleteCorpImwonInfo(imwonDoamin);
 					
-					for(int i = 0;i < imwonList.size();i++) {
-						if(imwonList.get(i).getFileSeq() != null) {
-							FileDomain imwonFileDomain = new FileDomain();
-							imwonFileDomain.setFileGrpSeq(imwonList.get(i).getFileSeq());
-							imwonFileDelResult += commonService.realDeleteFileByGrpSeq(imwonFileDomain);
+					if(imwonDelResult > 0) {
+						for(int i = 0;i < imwonList.size();i++) {
+							if(imwonList.get(i).getFileSeq() != null) {
+								FileDomain imwonFileDomain = new FileDomain();
+								imwonFileDomain.setFileGrpSeq(imwonList.get(i).getFileSeq());
+								commonService.realDeleteFileByGrpSeq(imwonFileDomain);
+							}
 						}
-					}
-					
-					if(imwonFileDelResult > 0) {
-						batchRepository.realDeleteCorpImwonInfo(imwonDoamin);
 					}
 				}
 				
@@ -1280,18 +1398,16 @@ public class BatchService{
 				List<ApplyExpertDomain> expertList = batchRepository.selectCorpExpertDelInfoList(expertDomain);
 				
 				if(expertList.size() > 0) {
-					int expertFileDelResult = 0;
+					int expertDelResult = batchRepository.realDeleteCorpExpertInfo(expertDomain);
 					
-					for(int i = 0;i < expertList.size();i++) {
-						if(expertList.get(i).getFileSeq() != null) {
-							FileDomain expertFileDomain = new FileDomain();
-							expertFileDomain.setFileGrpSeq(expertList.get(i).getFileSeq());
-							expertFileDelResult += commonService.realDeleteFileByGrpSeq(expertFileDomain);
+					if(expertDelResult > 0) {
+						for(int i = 0;i < expertList.size();i++) {
+							if(expertList.get(i).getFileSeq() != null) {
+								FileDomain expertFileDomain = new FileDomain();
+								expertFileDomain.setFileGrpSeq(expertList.get(i).getFileSeq());
+								commonService.realDeleteFileByGrpSeq(expertFileDomain);
+							}
 						}
-					}
-					
-					if(expertFileDelResult > 0) {
-						batchRepository.realDeleteCorpExpertInfo(expertDomain);
 					}
 				}
 				
@@ -1301,18 +1417,16 @@ public class BatchService{
 				List<ApplyItDomain> itList = batchRepository.selectCorpItDelInfoList(itDomain);
 				
 				if(itList.size() > 0) {
-					int itFileDelResult = 0;
+					int itDelResult = batchRepository.realDeleteCorpItInfo(itDomain);
 					
-					for(int i = 0;i < itList.size();i++) {
-						if(itList.get(i).getFileSeq() != null) {
-							FileDomain itFileDomain = new FileDomain();
-							itFileDomain.setFileGrpSeq(itList.get(i).getFileSeq());
-							itFileDelResult += commonService.realDeleteFileByGrpSeq(itFileDomain);
+					if(itDelResult > 0) {
+						for(int i = 0;i < itList.size();i++) {
+							if(itList.get(i).getFileSeq() != null) {
+								FileDomain itFileDomain = new FileDomain();
+								itFileDomain.setFileGrpSeq(itList.get(i).getFileSeq());
+								commonService.realDeleteFileByGrpSeq(itFileDomain);
+							}
 						}
-					}
-					
-					if(itFileDelResult > 0) {
-						batchRepository.realDeleteCorpItInfo(itDomain);
 					}
 				}
 			}
@@ -1362,11 +1476,14 @@ public class BatchService{
 			ResponseMsg delResult = apiService.excuteApi(preLoanDelParam);
 			
 			if("success".equals(delResult.getCode())) {
-				//정보 삭제
+				//가등록 삭제 성공 : 정보 삭제
 				NewApplyDomain masInfo = batchRepository.getMasInfo(newApplyDomain);
-				this.masterAndRelatedInfoDel(masInfo); //조건을...........
-				//newApplyDomain.setApiResMsg(delResult.getMessage()); //완전 삭제여서 필요 없음
-				//newApplyDomain.setApiSuccessCode(delResult.getCode()); //완전 삭제여서 필요 없음
+				
+				if(masInfo != null) {
+					this.masterAndRelatedInfoDel(masInfo);
+				}
+				//newApplyDomain.setApiResMsg(delResult.getMessage()); 		//완전 삭제여서 필요 없음
+				//newApplyDomain.setApiSuccessCode(delResult.getCode()); 	//완전 삭제여서 필요 없음
 				req.setStatus("2");
 				cnt = 1;
 			}else {
@@ -1388,16 +1505,40 @@ public class BatchService{
 				req.setError(errorMessage);
 			}
 		} finally {
-			batchRepository.deletePreLcNum(newApplyDomain);
+			batchRepository.deletePreLcNum(newApplyDomain); //가등록 삭제 실패 시 리턴메세지 저장
 			batchRepository.updateSchedule(req);
-			return cnt;
+		}
+		return cnt;
+	}
+	
+	/* -------------------------------------------------------------------------------------------------------------------
+	 * 2021-12-22 통계 관련
+	 * -------------------------------------------------------------------------------------------------------------------
+	 */
+	
+	//등록신청현황(모집인별)
+	@Transactional
+	public void saveRegStatsInfo() throws Exception {
+		//삭제 후 등록
+		StatsDomain param = new StatsDomain();
+		int deleteResult = batchRepository.realDeleteRegStatsInfo(param);
+		
+		if(deleteResult > 0) {
+			batchRepository.insertRegStatsInfo(param);
 		}
 	}
 	
-	
-	
-	
-	
+	//해지신청현황(모집인별)
+	@Transactional
+	public void saveCancelStatsInfo() throws Exception {
+		//삭제 후 등록
+		StatsDomain param = new StatsDomain();
+		int deleteResult = batchRepository.realDeleteCancelStatsInfo(param);
+		
+		if(deleteResult > 0) {
+			batchRepository.insertCancelStatsInfo(param);
+		}
+	}
 	
 	
 }

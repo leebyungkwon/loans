@@ -442,6 +442,25 @@ function pageLoad(){
 		AjaxUtil.post(p);
 	});
 	
+	// 승인완료 계약건 기등록 조회
+	$("#preRegContSearch").on("click", function(){
+		var size = 0;
+		if(WebUtil.isNotNull($("#size").val())){
+			size = $("#size").val();
+		}
+		var p = {
+			url		: "/system/api/preRegContSearch"	
+			, param : {
+				 sort 		: $("#sortName").val() + "," + $("#sort").val()
+				,size 		: size
+			}
+			, success 	: function (opt,result) {
+				
+		    }
+		}
+		AjaxUtil.post(p);
+	});
+	
 	// 암호화
 	$("#crypto").on("click", function(){
 		var srchDate1 =	$("#cryptoval").val();
@@ -868,6 +887,39 @@ function goGetDate(opt) {
 				</tr>
 			</table>
 			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="apiTm">TM가등록 및 본등록</a>
+		</div>
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>order by</th>
+					<td class=""> <!-- half_input -->
+						<input type="text" id="sortName" style="width: 100px;">
+						<select id="sort" style="width: 65px;">
+							<option value="ASC">ASC</option>
+							<option value="DESC">DESC</option>
+						</select>
+					</td>
+					<th>limit</th>
+					<td class="">
+						<input type="text" id="size">
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td class="" colspan="6">
+						금융상품유형이 TM이 아니고 승인완료,완료인 계약건 조회 후 배치 테이블 저장,기등록 건일 때 자격취득(조건 미 입력 시 전제 건 저장됨)
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" style="width:180px;" class="btn_inquiry" id="preRegContSearch">승인완료 계약건 저장</a>
 		</div>
 		<div class="info_box k_search" >
 			<table class="info_box_table" style="width: 90%;">
