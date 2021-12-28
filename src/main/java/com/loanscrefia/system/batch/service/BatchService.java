@@ -610,13 +610,11 @@ public class BatchService{
 			}
 			
 		} finally {
-			/*
 			if("1".equals(plClass)) {
 				batchRepository.updateIndvMasInfo(newApplyDomain);
 			}else {
 				batchRepository.updateCorpMasInfo(newApplyDomain);
 			}
-			*/
 			batchRepository.updateSchedule(req);
 			userInfoUpdResult(plClass, newApplyDomain, req);
 			return cnt;
@@ -868,13 +866,11 @@ public class BatchService{
 			}
 			
 		} finally {
-			/*
 			if("1".equals(plClass)) {
 				batchRepository.updateCaseIndvMasInfo(newApplyDomain);
 			}else {
 				batchRepository.updateCaseCorpMasInfo(newApplyDomain);
 			}
-			*/
 			batchRepository.updateSchedule(req);
 			return cnt;
 		}
