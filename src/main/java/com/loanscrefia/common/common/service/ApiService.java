@@ -92,11 +92,16 @@ public class ApiService {
 				
 			}else {
 				String resData = OutApiParse.getData(res, "");
-		        data =  new JSONObject(resData);	
-				
-	            resCode = data.getString("res_code");
-	            resMsg = data.getString("res_msg");
-				logParam.setResData(data.toString());
+				if(resData == null || !resData.equals("")){
+		            resCode = responseCode+"";
+		            resMsg = res.message();
+				}else {
+			        data =  new JSONObject(resData);	
+					
+		            resCode = data.getString("res_code");
+		            resMsg = data.getString("res_msg");
+					logParam.setResData(data.toString());
+				}
 			}
 			 
 		} catch (JSONException e) {
