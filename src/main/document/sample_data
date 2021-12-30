@@ -710,7 +710,9 @@ begin
 end; $$
 ;
 
-
+-- 2021.12.30 법인 임원 등록기준지 추가
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_addr varchar(200);
+ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_addr_detail varchar(200);
 
 
 

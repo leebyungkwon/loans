@@ -379,6 +379,8 @@ create table tb_lc_mas01_imwon(
 	, expert_stat char(1)
 	, position_cd char(1)
 	, proper_cd char(1)
+	, reg_addr varchar(200)
+	, reg_addr_detail varchar(200)
 	, file_seq integer
 	, use_yn char(1) NOT NULL DEFAULT 'Y'
 	, reg_seq INTEGER NOT NULL
@@ -403,6 +405,8 @@ COMMENT ON COLUMN tb_lc_mas01_imwon.full_tm_stat IS '상근상태';
 COMMENT ON COLUMN tb_lc_mas01_imwon.expert_stat IS '전문인력상태';
 COMMENT ON COLUMN tb_lc_mas01_imwon.position_cd IS '직위';
 COMMENT ON COLUMN tb_lc_mas01_imwon.proper_cd IS '임원자격 적합여부';
+COMMENT ON COLUMN tb_lc_mas01_imwon.reg_addr IS '등록기준지';
+COMMENT ON COLUMN tb_lc_mas01_imwon.reg_addr_detail IS '등록기준지 상세주소';
 COMMENT ON COLUMN tb_lc_mas01_imwon.file_seq IS '파일시퀀스';
 COMMENT ON COLUMN tb_lc_mas01_imwon.use_yn IS '사용여부';
 COMMENT ON COLUMN tb_lc_mas01_imwon.reg_seq IS '등록자시퀀스';
@@ -1187,6 +1191,7 @@ commit;
 
 create table tb_lc_users(
 	user_seq integer not null default nextval('tb_lc_users_seq')
+	, role_name varchar(20)
 	, user_id varchar(30) not null
 	, password varchar(100) not null
 	, user_name varchar(50) not null
@@ -1201,6 +1206,7 @@ create table tb_lc_users(
 	, manager_email varchar(100)
 	, corp_appr_yn char(1) not null default 'N'
 	, corp_appr_dt timestamp
+	, appr_txt text
 	, file_seq integer
 	, join_dt timestamp
 	, terms_yn char(1) not null default 'N'
@@ -1235,6 +1241,7 @@ commit;
 
 create table tb_lc_users_inactive(
 	user_seq integer 
+	, role_name varchar(20)
 	, user_id varchar(30) not null
 	, password varchar(100) not null
 	, user_name varchar(50) not null
@@ -1249,6 +1256,7 @@ create table tb_lc_users_inactive(
 	, manager_email varchar(100)
 	, corp_appr_yn char(1) not null default 'N'
 	, corp_appr_dt timestamp
+	, appr_txt text
 	, file_seq integer
 	, join_dt timestamp
 	, terms_yn char(1) not null default 'N'
