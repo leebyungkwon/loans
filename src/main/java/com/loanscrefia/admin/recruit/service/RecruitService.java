@@ -1171,8 +1171,10 @@ public class RecruitService {
 			userRepo.insertUserHistory(param);
 			
 			//모집인 상태 변경
-			if(recruitDomain.getPlRegStat().equals("4") && statCheck.getUserSeq() != null) { //2021.12.20 추가
-				recruitDomain.setRegPath("F");
+			if(StringUtils.isNotEmpty(recruitDomain.getPlRegStat())) {
+				if(recruitDomain.getPlRegStat().equals("4") && statCheck.getUserSeq() != null) { //2021.12.20 추가
+					recruitDomain.setRegPath("F");
+				}
 			}
 			int result = recruitRepository.updateRecruitPlStat(recruitDomain);
 			

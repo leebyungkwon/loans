@@ -88,6 +88,10 @@ function pageLoad(){
 										<td>${corpImwonList.plMZId }</td>
 									</tr>
 									<tr>
+										<th>등록기준지</th>
+										<td colspan="3">${corpImwonList.regAddr } ${corpImwonList.regAddrDetail }</td>
+									</tr>
+									<tr>
 										<th>신규경력 구분</th>
 										<td>${corpImwonList.careerTypNm }</td>
 										<th>직위</th>

@@ -59,6 +59,9 @@ public class RecruitImwonDomain extends BaseDomain {
 	private String properCd;		//임원자격적합여부코드
 	private String properCdNm;		//임원자격적합여부코드명
 	
+	private String regAddr;			//등록기준지
+	private String regAddrDetail;	//등록기준지 상세주소
+	
 	//엑셀 업로드
 	private List<Map<String, Object>> excelParam;
 	

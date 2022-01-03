@@ -82,12 +82,11 @@ public class ApiService {
 	            resMsg = data.getString("res_msg");
 				logParam.setResData(data.toString());
 				
-				//배치등록*
 				if(data.getString("res_code").equals("401")) {
-			    	log.info("================ Re apiAuthToken() START ================");
-			    	// 금일 토큰 생성 확인
-			    	kfbApiService.getAuthToken();
-			    	log.info("================ Re apiAuthToken() END ================");
+			    	log.error("================ Re apiAuthToken() START ================");
+			    	//토큰 재발급
+			    	kfbApiService.getReAuthToken();
+			    	log.error("================ Re apiAuthToken() END ================");
 				}
 				
 			}else {

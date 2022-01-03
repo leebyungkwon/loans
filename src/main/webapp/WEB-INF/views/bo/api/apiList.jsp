@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<style>
+#tbl_apiGrid_body{word-break: break-all;}
+</style>
+
 <script type="text/javascript">
 var apiGrid = Object.create(GRID);
 
@@ -116,6 +120,7 @@ function pageLoad(){
 			, success 	: function (opt,result) {
 				if(result.code == "success"){
 					alert("토큰결과값 :: " + JSON.stringify(result));
+					apiGrid.refresh();
 				}else{
 					if(result.data == null){
 						alert("심각한 오류가 발생하였습니다");
@@ -956,7 +961,7 @@ function goGetDate(opt) {
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiHealthCheck">서버상태 확인</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiCode">코드조회</a>
 				<a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiToken">토큰조회</a>
-				<!-- <a href="javascript:void(0);" class="btn_black btn_small mgr5" id="apiTokenReInsert">토큰재발급</a> -->
+				<a href="javascript:void(0);" class="btn_blue btn_small mgr5" id="apiTokenReInsert">토큰재발급</a>
 			</div>
 		</div>
 		<div id="apiGrid" class="long_table"></div>
