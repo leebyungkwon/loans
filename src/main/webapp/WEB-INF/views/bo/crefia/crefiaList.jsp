@@ -74,9 +74,9 @@ function pageLoad(){
 function crefiaDetail(idx, data){
 	var memberSeq = crefiaGrid.gridData[idx].memberSeq;
 	let p = {
-		id : "crefiaSavePopup"
+		id : "crefiaUpdPopup"
 		, params : {"memberSeq" : memberSeq}
-		, url : "/admin/crefia/crefiaSavePopup"
+		, url : "/admin/crefia/crefiaUpdPopup"
 		, success : function (opt,result) {
 			$(".popup_inner").css("width","55%");
 			companyCodeCall();
@@ -181,20 +181,141 @@ function saveCrefia(){
 		return false;
 	}
 	
-	var crefiaParam = {
-		param: param
-		,url: "/admin/crefia/saveCrefia"
-		,success: function(opt, result) {
-			if(WebUtil.isNull(result.message)){
-				alert(result.data[0].defaultMessage);
-			}else{
-				PopUtil.closePopup();
-				location.reload();				
-			}
-    	}
+	if(confirm("등록 하시겠습니까?")){
+		var crefiaParam = {
+			param: param
+			,url: "/admin/crefia/saveCrefia"
+			,success: function(opt, result) {
+				if(WebUtil.isNull(result.message)){
+					alert(result.data[0].defaultMessage);
+				}else{
+					PopUtil.closePopup();
+					location.reload();				
+				}
+	    	}
+		}
+		AjaxUtil.post(crefiaParam);
 	}
-	AjaxUtil.post(crefiaParam);
 }
+
+
+
+// 2022-01-04 보안취약점에 따른 수정 기능 추가 - 협회 관리자 수정
+function updCrefia(){
+	var password = $("#popPassword").val();
+	var passwordChk = $("#popPasswordChk").val();
+	var memberSeq = $("#hiddenMemberSeq").val();
+	var memberName = $("#popMemberName").val();
+	var memberId = $("#popMemberId").val();
+	var creGrp = $("#popCreGrp").val();
+	var oldPassword = $("#oldPassword").val();
+	
+	if(WebUtil.isNull(creGrp)){
+		alert("그룹을 선택해 주세요.");
+		$("#popCreGrp").focus();
+		return false;
+	}
+	if(WebUtil.isNull(memberName)){
+		alert("이름을 입력해 주세요.");
+		$("#popMemberName").focus();
+		return false;
+	}
+	if(WebUtil.isNull(memberId)){
+		alert("아이디를 입력해 주세요.");
+		$("#popMemberId").focus();
+		return false;
+	}
+	if(WebUtil.isNull(oldPassword)){
+		alert("현재비밀번호를 입력해 주세요.");
+		$("#oldPassword").focus();
+		return false;
+	}
+	
+	var	param = {
+		'creGrp'		: creGrp
+		, 'memberId'	: memberId
+		, 'memberName'	: memberName
+		, 'oldPassword' : oldPassword
+	}
+	if(WebUtil.isNull(memberSeq)){
+		if(WebUtil.isNull(password)){
+			alert("비밀번호를 입력해 주세요.");
+			$("#popPassword").focus();
+			return false;
+		}
+	}else{
+		param.memberSeq = memberSeq
+	}
+	if(WebUtil.isNotNull(password)){
+		if(password != passwordChk){
+			alert("비밀번호를 확인해 주세요.");
+			return false;
+		}
+		param.password = password
+	}
+	
+	var checkCount 	= 0;
+
+	if(/[0-9]/.test(password)){ //숫자
+	    checkCount++;
+	}
+	if(/[a-z]/.test(password)){ //소문자
+	    checkCount++;
+	}
+	if(/[A-Z]/.test(password)){ //대문자
+	    checkCount++;
+	}
+	if(/[~!@\#$%<>^&*\()\-=+_\’]/.test(password)){ //특수문자
+	    checkCount++;
+	}
+	if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/.test(password)){ 
+	    alert("비밀번호에 한글을 사용 할 수 없습니다.");
+	    return false;
+	}
+	if(checkCount <= 1){ 
+	    alert('비밀번호는 영문 대/소문자, 숫자, 특수문자 중 2개이상의 조합이여야만 합니다.');
+	    return false;
+	}
+	if (password.length < 8 || password.length > 20){ 
+		alert("8자리 ~ 20자리 이내로 입력해주세요.");
+		return false;
+	}
+	if (/(\w)\1\1/.test(password)){ 
+		alert('같은 문자를 3번 이상 사용하실 수 없습니다.');
+		return false;
+	}
+	if (password.search(memberId) > -1){
+		alert("비밀번호에 아이디가 포함되었습니다.");
+		return false;
+	}
+	if (password.search(/\s/) != -1){ 
+		alert("비밀번호는 공백 없이 입력해주세요.");
+		return false;
+	}
+	
+	if(confirm("정보를 수정 하시겠습니까?")){
+		var crefiaParam = {
+			param: param
+			,url: "/admin/crefia/updCrefia"
+			,success: function(opt, result) {
+				
+				if(WebUtil.isNull(result.message)){
+					alert(result.data[0].defaultMessage);
+				}else{
+					
+					if(result.code == "success"){
+						PopUtil.closePopup();
+						location.reload();					
+					}else{
+						
+					}
+				}
+	 		}
+		}
+		AjaxUtil.post(crefiaParam);
+	}
+}
+
 
 function checkCapsLock(event){
 	if(event.getModifierState("CapsLock")){

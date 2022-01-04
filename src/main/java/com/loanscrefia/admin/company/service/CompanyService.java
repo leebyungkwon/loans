@@ -138,6 +138,23 @@ public class CompanyService {
 	}
 	
 	
+
+	// 2022-01-04 보안취약점에 따른 로그인 잠김 해제 기능 추가
+	@Transactional
+	public ResponseMsg updLoginFail(CompanyDomain companyDomain){
+		int result = companyRepository.updLoginFail(companyDomain);
+		if(result > 0) {
+			return new ResponseMsg(HttpStatus.OK, "success", "완료되었습니다.");
+		}else {
+			return new ResponseMsg(HttpStatus.OK, "fail", "오류가 발생하였습니다.");
+		}
+
+	}
+	
+	
+	
+	
+	
 	/* -------------------------------------------------------------------------------------------------------
 	 * 협회 시스템 > 회원사 관리
 	 * -------------------------------------------------------------------------------------------------------

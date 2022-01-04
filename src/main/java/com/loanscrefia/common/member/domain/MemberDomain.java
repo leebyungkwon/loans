@@ -38,7 +38,17 @@ public class MemberDomain extends BaseDomain{
 		}
 	}
 	private int fileSeq;					// 첨부파일시퀀스
-	private int fileCnt;					// 로그인실패횟수
+	private int fileCnt;					
+	private int failCnt;					// 로그인실패횟수
+	private String failYn;					// 로그인실패잠금여부
+	public boolean failCntCheck() {
+		if(failCnt >= 10) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
 	private String msg;
 	private String creYn;					// 협회여부
 	private String creGrp;

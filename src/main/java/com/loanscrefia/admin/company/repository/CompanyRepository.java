@@ -40,4 +40,8 @@ public interface CompanyRepository {
 	//등록
 	int saveCompanyCode(CompanyDomain companyDomain);
 	
+	
+	// 2022-01-04 보안취약점에 따른 로그인 잠김 해제 기능 추가
+	int updLoginFail(CompanyDomain companyDomain);
+	
 }

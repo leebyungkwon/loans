@@ -29,6 +29,11 @@
 			,FN_CD_DTL('MEM001',TLM.APPR_STAT) AS APPR_STAT_NM
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
+			,case
+				when fail_cnt is null then 'N'
+				when fail_cnt  <![CDATA[<]]> 10 then 'N'
+				else 'Y'
+			end fail_yn
 			,TLM.CRE_YN
 			,TLM.DROP_YN
 			,TLM.UPD_SEQ
@@ -74,6 +79,11 @@
 			,FN_CD_DTL('MEM001',TLM.APPR_STAT) AS APPR_STAT_NM
 			,TLM.FILE_SEQ
 			,TLM.FAIL_CNT
+			,case
+				when fail_cnt is null then 'N'
+				when fail_cnt  <![CDATA[<]]> 10 then 'N'
+				else 'Y'
+			end fail_yn
 			,TLM.CRE_YN
 			,TLM.DROP_YN
 			,TLM.UPD_SEQ
@@ -119,6 +129,19 @@
    			AND MEMBER_SEQ 	= #{memberSeq}
    		</where>
    	</update>
+   	
+   	
+	<!-- 비밀번호 초기화 -->
+    <update id="updLoginFail" parameterType="company">
+   		UPDATE TB_LC_MEMBERS
+   		SET	
+   			fail_cnt   		= 0
+   			,UPD_TIMESTAMP	= NOW()
+   		<where>
+   			AND MEMBER_SEQ 	= #{memberSeq}
+   		</where>
+   	</update>
+   	
    	
    	<!-- ===================== 회원사 관리 ===================== -->
    	

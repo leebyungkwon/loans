@@ -119,6 +119,19 @@ public class CompanyController {
 	}
 	
 	
+	// 2022-01-04 보안취약점에 따른 로그인 잠김 해제 기능 추가
+	@PostMapping(value="/mng/updLoginFail")
+	public ResponseEntity<ResponseMsg> updLoginFail(@Valid CompanyDomain companyDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		responseMsg = companyService.updLoginFail(companyDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	
 	
 	

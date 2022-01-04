@@ -57,6 +57,19 @@ public class CrefiaController {
         return mv;
     }
 	
+	
+	// 2022-01-04 보안취약점에 따른 등록, 상세 분리(상세팝업)
+	@GetMapping("/crefia/crefiaUpdPopup")
+    public ModelAndView crefiaUpdPopup(@ModelAttribute CrefiaDomain crefiaDomain) {
+    	ModelAndView mv = new ModelAndView(CosntPage.Popup+"/crefiaUpdPopup");
+    	if(crefiaDomain.getMemberSeq() > 0) {
+    		CrefiaDomain result = crefiaService.crefiaDetail(crefiaDomain);
+    		mv.addObject("result", result);
+    	}
+        return mv;
+    }
+	
+	
 	//저장
 	@PostMapping(value="/crefia/saveCrefia")
 	public ResponseEntity<ResponseMsg> saveCrefia(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
@@ -69,6 +82,20 @@ public class CrefiaController {
 		responseMsg = crefiaService.saveCrefia(crefiaDomain);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
+	
+	// 2022-01-04 보안취약점에 따른 수정 기능 추가
+	@PostMapping(value="/crefia/updCrefia")
+	public ResponseEntity<ResponseMsg> updCrefia(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
+		if(bindingResult.hasErrors()) {
+			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
+	    	responseMsg.setData(bindingResult.getAllErrors());
+	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+		}
+		responseMsg = crefiaService.updCrefia(crefiaDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
+	
 	
 	
 	//삭제

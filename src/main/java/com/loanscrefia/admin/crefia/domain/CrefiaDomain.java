@@ -45,5 +45,8 @@ public class CrefiaDomain extends BaseDomain {
 	//업무분장 관련
 	private String chkedMemberSeq;			//체크된 실무자
 	
+	// 2022-01-04 보안취약점에 따른 기존패스워드 필드 추가
+	private String oldPassword;
+	
 
 }

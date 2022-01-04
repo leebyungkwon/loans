@@ -60,7 +60,10 @@
     
     <update id="loginFailCnt" parameterType="member" >
     	UPDATE tb_lc_members
-    	SET fail_cnt = fail_cnt+1
+    	SET fail_cnt = case 
+    						when fail_cnt is null then 1
+    						else fail_cnt+1
+    					end
     	WHERE member_id = #{memberId}
     </update>
 

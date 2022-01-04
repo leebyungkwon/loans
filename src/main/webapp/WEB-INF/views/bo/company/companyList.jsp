@@ -13,7 +13,7 @@ function pageLoad(){
 		, url			: "/admin/mng/companyList"
 	    , width			: "100%" 
 	    , check			: true
-		, headCol		: ["","회원사", "아이디", "부서명", "담당자명", "직위", "가입일", "승인상태"]
+		, headCol		: ["","회원사", "아이디", "부서명", "담당자명", "직위", "가입일", "승인상태", "잠김여부"]
 		, bodyCol		: 
 			[
 				 {type:"string"	, name:'memberSeq'		, index:'memberSeq'		, width:"10%"	, hidden:true  	, id:true}
@@ -24,6 +24,7 @@ function pageLoad(){
 				,{type:"string"	, name:'positionNm'		, index:'positionNm'	, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'joinDt'			, index:'joinDt'		, width:"10%"	, align:"center"}
 				,{type:"string"	, name:'apprStatNm'		, index:'apprStatNm'	, width:"10%"	, align:"center"}
+				,{type:"string"	, name:'failYn'			, index:'failYn'	, width:"10%"	, align:"center"}
 			]
 		, sortNm 		: "member_seq"
 		, sort 			: "DESC"

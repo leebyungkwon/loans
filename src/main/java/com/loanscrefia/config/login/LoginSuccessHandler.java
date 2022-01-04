@@ -34,6 +34,10 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         MemberDomain result = commonRepository.getMemberDetail(memberDomain);
         session.setAttribute("member", result);
         
+        
+        // 2022-01-04 보안취약점에 따른 로그인 제한 기능 추가(로그인 실패횟수 초기화)
+        commonRepository.loginSuccess(memberDomain);
+        
         if (session != null) {
             Object[] bb = mem.getAuthorities().toArray();
             String resultRole = bb[0].toString();

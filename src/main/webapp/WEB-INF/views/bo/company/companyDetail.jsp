@@ -92,6 +92,29 @@ function cleanPassword(){
 	}
 }
 
+
+//2022-01-04 보안취약점에 따른 계정잠김 해제
+function updLoginFail(){
+	if(confirm("잠김해제를 하시겠습니까?")){
+		var p = {
+			  url		: "/admin/mng/updLoginFail"	
+			, param		: {
+				 memberSeq : $("#memberSeq").val()
+			}
+			, success 	: function (opt,result) {
+				if(WebUtil.isNull(result.message)){
+					alert(result.data[0].defaultMessage);
+				}else{
+					location.reload();
+				}
+		    }
+		}
+		AjaxUtil.post(p);
+	}
+}
+
+
+
 </script>
 
 <div class="cont_area">
@@ -145,7 +168,9 @@ function cleanPassword(){
 					</tr>
 					<tr>
 						<th>승인상태</th>
-						<td colspan="3">${companyDetail.apprStatNm}</td>
+						<td>${companyDetail.apprStatNm}</td>
+						<th>잠김여부</th>
+						<td>${companyDetail.failYn}</td>
 					</tr>
 					<tr>
 						<th class="acenter">첨부파일</th>
@@ -184,6 +209,10 @@ function cleanPassword(){
       		 		  <a href="javascript:void(0);" class="btn_gray" onclick="companyList();">목록</a>
      			 </c:if>
      			 
+     			 
+     			 <c:if test="${companyDetail.failYn eq 'Y'}">
+     			 	<a href="javascript:void(0);" style="position:absolute; right:354px;" class="btn_black" onclick="updLoginFail();" id="updLoginFail">잠김해제</a>
+     			 </c:if>
      			 
      			 <a href="javascript:void(0);" class="btn_black" style="position:absolute; left:180px;" onclick="companyInfoUpd();">수정</a>
      			 <a href="javascript:void(0);" class="btn_blue" style="float:left;" onclick="cleanPassword();">비밀번호초기화</a>

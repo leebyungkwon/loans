@@ -40,6 +40,7 @@ public class CompanyDomain extends BaseDomain {
 	private String apprStatNm;								//승인상태이름(1.미승인, 2. 가승인, 3. 승인)
 	private int fileSeq;									//첨부파일시퀀스
 	private int failCnt;									//로그인실패횟수
+	private String failYn;									//로그인실패잠금여부
 	private String creYn;									//협회여부
 	private String dropYn;									//탈퇴여부
 	private int updSeq;										//수정자시퀀스
