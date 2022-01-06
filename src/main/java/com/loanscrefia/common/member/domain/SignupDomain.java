@@ -46,4 +46,6 @@ public class SignupDomain extends BaseDomain{
 	private int 	fileSeq;						// 첨부파일ID
 	private String optionTermsYn;		// 선택적약관동의
 	
+	private String passwordChk;
+	
 }

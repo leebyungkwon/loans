@@ -28,6 +28,9 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
+				<th colspan="13">경력 현황</th>
+			</tr>
+			<tr>
 				<th rowspan="3">구분</th>
 				<th colspan="4">대출</th>
 				<th colspan="4">리스할부</th>

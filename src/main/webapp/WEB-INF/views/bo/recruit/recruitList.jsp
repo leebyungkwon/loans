@@ -257,6 +257,7 @@ function goGetDate(opt) {
 							<option value="creAppDate">승인완료일</option>
 							<option value="payDate">결제완료일</option>
 							<option value="creLicenseDate">자격취득일</option>
+							<option value="regDate">등록일</option>
 						</select>
 						<div class="input_wrap">
                 			<input type="text" name="srchDate1" id="srchDate1" class="input_calendar" readonly="readonly" onclick="$('#date_cal01').show();">

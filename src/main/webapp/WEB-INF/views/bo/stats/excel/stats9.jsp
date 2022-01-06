@@ -28,6 +28,9 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
+				<th colspan="89">불법모집 이력현황</th>
+			</tr>
+			<tr>
 				<th rowspan="4">회사명</th>
 				<c:forEach var="cdList" items="${violationCdList }" varStatus="status">
 					<th colspan="8">${cdList.codeDtlNm }(${cdList.codeDtlCd })</th>

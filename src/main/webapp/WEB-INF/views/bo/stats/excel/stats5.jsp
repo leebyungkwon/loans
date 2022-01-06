@@ -28,6 +28,24 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
+				<th colspan="37">등록처리현황(회사별)</th>
+			</tr>
+			<tr>
+				<th colspan="37">
+					<c:choose>
+						<c:when test="${(srchDate1 ne null && srchDate1 ne '') && (srchDate2 ne null && srchDate2 ne '') }">
+							자격취득일 : ${srchDate1 } ~ ${srchDate2 }
+						</c:when>
+						<c:when test="${(srchDate1 ne null && srchDate1 ne '') && (srchDate2 eq null || srchDate2 eq '') }">
+							자격취득일 : ${srchDate1 } ~ 
+						</c:when>
+						<c:when test="${(srchDate1 eq null || srchDate1 eq '') && (srchDate2 ne null && srchDate2 ne '') }">
+							자격취득일 : ~ ${srchDate2 }
+						</c:when>
+					</c:choose>
+				</th>
+			</tr>
+			<tr>
 				<th rowspan="4">회사명</th>
 				<th colspan="12">등록 신청접수</th>
 				<th colspan="12">심사중</th>

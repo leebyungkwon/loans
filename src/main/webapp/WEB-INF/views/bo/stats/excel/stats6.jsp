@@ -28,6 +28,9 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
+				<th colspan="37">등록처리현황(모집인별)</th>
+			</tr>
+			<tr>
 				<th rowspan="4">회사명</th>
 				<th colspan="12">등록 신청접수</th>
 				<th colspan="12">심사중</th>

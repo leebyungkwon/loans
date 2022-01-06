@@ -35,19 +35,13 @@ function excelDown() {
 						<col width="23%">
 					</colgroup>
 					<tr>
-						<th>모집인 상태</th>
+						<th>상태</th>
 						<td>
 							<select name="plRegStat">
 								<option value="" <c:if test="${plRegStat eq '' }">selected="selected"</c:if>>전체</option>
+								<option value="1" <c:if test="${plRegStat eq '1' }">selected="selected"</c:if>>승인요청(보완요청 포함)</option>
 								<option value="2" <c:if test="${plRegStat eq '2' }">selected="selected"</c:if>>승인완료</option>
 								<option value="3" <c:if test="${plRegStat eq '3' }">selected="selected"</c:if>>자격취득(결제완료 포함)</option>
-							</select>
-						</td>
-						<th>처리상태</th>
-						<td>
-							<select name="plStat">
-								<option value="" <c:if test="${plStat eq '' }">selected="selected"</c:if>>전체</option>
-								<option value="2" <c:if test="${plStat eq '2' }">selected="selected"</c:if>>승인요청(보완요청 포함)</option>
 							</select>
 						</td>
 					</tr>
@@ -83,15 +77,15 @@ function excelDown() {
 					</tr>
 					<tr>
 						<th>직속</th>
-						<th>모집법인소속</th>
+						<th>모집법인<br>소속</th>
 						<th>오프라인</th>
 						<th>TM법인</th>
 						<th>직속</th>
-						<th>모집법인소속</th>
+						<th>모집법인<br>소속</th>
 						<th>오프라인</th>
 						<th>TM법인</th>
 						<th>직속</th>
-						<th>모집법인소속</th>
+						<th>모집법인<br>소속</th>
 						<th>오프라인</th>
 						<th>TM법인</th>
 					</tr>

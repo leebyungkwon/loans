@@ -20,6 +20,7 @@ public class CrefiaDomain extends BaseDomain {
     private String memberId;				// 담당자ID(로그인ID)
 	
 	private String password;				// 비밀번호
+	private String passwordChk;
 	
 	private String memberName;				// 담당자이름
 	

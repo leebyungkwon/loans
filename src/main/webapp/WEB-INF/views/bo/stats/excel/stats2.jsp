@@ -28,7 +28,21 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
-				<th rowspan="3">구분</th>
+				<th colspan="19">경력신규</th>
+			</tr>
+			<tr>
+				<th rowspan="4">구분</th>
+				<th colspan="6">승인요청(보완요청 포함)</th>
+				<th colspan="6">승인완료</th>
+				<th colspan="6">자격취득(결제완료 포함)</th>
+			</tr>
+			<tr>
+				<th colspan="2">대출</th>
+				<th colspan="2">리스할부</th>
+				<th colspan="2">계</th>
+				<th colspan="2">대출</th>
+				<th colspan="2">리스할부</th>
+				<th colspan="2">계</th>
 				<th colspan="2">대출</th>
 				<th colspan="2">리스할부</th>
 				<th colspan="2">계</th>
@@ -37,14 +51,32 @@ table td{border: 1px solid #ccc;}
 				<th colspan="2">개인</th>
 				<th colspan="2">개인</th>
 				<th colspan="2">개인</th>
+				<th colspan="2">개인</th>
+				<th colspan="2">개인</th>
+				<th colspan="2">개인</th>
+				<th colspan="2">개인</th>
+				<th colspan="2">개인</th>
+				<th colspan="2">개인</th>
 			</tr>
 			<tr>
 				<th>직속</th>
-				<th>모집법인소속</th>
+				<th>모집법인<br>소속</th>
 				<th>직속</th>
-				<th>모집법인소속</th>
+				<th>모집법인<br>소속</th>
 				<th>직속</th>
-				<th>모집법인소속</th>
+				<th>모집법인<br>소속</th>
+				<th>직속</th>
+				<th>모집법인<br>소속</th>
+				<th>직속</th>
+				<th>모집법인<br>소속</th>
+				<th>직속</th>
+				<th>모집법인<br>소속</th>
+				<th>직속</th>
+				<th>모집법인<br>소속</th>
+				<th>직속</th>
+				<th>모집법인<br>소속</th>
+				<th>직속</th>
+				<th>모집법인<br>소속</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -57,14 +89,26 @@ table td{border: 1px solid #ccc;}
 							<td>${list.case2 }</td>
 							<td>${list.case3 }</td>
 							<td>${list.case4 }</td>
+							<td>${list.case5 }</td>
+							<td>${list.case6 }</td>
+							<td>${list.case7 }</td>
+							<td>${list.case8 }</td>
+							<td>${list.case9 }</td>
+							<td>${list.case10 }</td>
+							<td>${list.case11 }</td>
+							<td>${list.case12 }</td>
 							<td>${list.total1 }</td>
 							<td>${list.total2 }</td>
+							<td>${list.total3 }</td>
+							<td>${list.total4 }</td>
+							<td>${list.total5 }</td>
+							<td>${list.total6 }</td>
 						</tr>
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
 					<tr>
-						<td colspan="6">데이터가 없습니다.</td>
+						<td colspan="19">데이터가 없습니다.</td>
 					</tr>
 				</c:otherwise>
 			</c:choose>

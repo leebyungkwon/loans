@@ -28,6 +28,9 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
+				<th colspan="12">회사별 모집인(${searchCdtNm })</th>
+			</tr>
+			<tr>
 				<th rowspan="3">회사명</th>
 				<th colspan="4">대출</th>
 				<th colspan="4">리스할부</th>

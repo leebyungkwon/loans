@@ -626,8 +626,12 @@ public class UserService {
 	@Transactional
 	public ResponseMsg insertUserRegCorpImwonInfoByExcel(MultipartFile[] files, UserImwonDomain userImwonDomain){
 		//상태값 체크*****
-		this.userValidation(userImwonDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userImwonDomain.getMasterSeq(),"save");
 				
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
+		
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
 				.setFiles(files)
@@ -679,7 +683,11 @@ public class UserService {
 	//모집인 등록(수동) > 법인 : 대표자 및 임원 정보 등록
 	public ResponseMsg insertUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userImwonDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userImwonDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//상세
 		UserDomain param 		= new UserDomain();
@@ -753,7 +761,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg insertUserRegCorpExpertInfoByExcel(MultipartFile[] files, UserExpertDomain userExpertDomain){
 		//상태값 체크*****
-		this.userValidation(userExpertDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userExpertDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
@@ -804,8 +816,12 @@ public class UserService {
 	//모집인 등록(수동) > 법인 : 전문인력 정보 등록
 	public ResponseMsg insertUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userExpertDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userExpertDomain.getMasterSeq(),"save");
 				
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
+		
 		//상세
 		UserDomain param 		= new UserDomain();
 		param.setMasterSeq(userExpertDomain.getMasterSeq());
@@ -876,7 +892,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg insertUserRegCorpItInfoByExcel(MultipartFile[] files, UserItDomain userItDomain){
 		//상태값 체크*****
-		this.userValidation(userItDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userItDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//첨부파일 저장(엑셀업로드용 path에 저장 후 배치로 삭제 예정)
 		Map<String, Object> ret = utilFile.setPath("excel")
@@ -927,7 +947,11 @@ public class UserService {
 	//모집인 등록(수동) > 법인 : 전산인력 정보 등록
 	public ResponseMsg insertUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userItDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userItDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -1608,7 +1632,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegInfo(MultipartFile[] files, UserDomain userDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//기본 이력 저장*****
 		this.insertUserHistory(userDomain);
@@ -1659,7 +1687,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegCorpImwonInfo(MultipartFile[] files, UserImwonDomain userImwonDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userImwonDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userImwonDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -1700,7 +1732,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegCorpExpertInfo(MultipartFile[] files, UserExpertDomain userExpertDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userExpertDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userExpertDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -1741,7 +1777,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg updateUserRegCorpItInfo(MultipartFile[] files, UserItDomain userItDomain, FileDomain fileDomain){
 		//상태값 체크*****
-		this.userValidation(userItDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userItDomain.getMasterSeq(),"save");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//첨부파일 저장
 		Map<String, Object> ret = utilFile.setPath("userReg")
@@ -1782,7 +1822,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegInfo(UserDomain userDomain) throws IOException{
 		//상태값 체크*****
-		this.userValidation(userDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userDomain.getMasterSeq(),"del");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		//상세
 		UserDomain userRegInfo = userRepo.getUserRegDetail(userDomain);
@@ -1886,7 +1930,11 @@ public class UserService {
 			
 			if(userRegInfo != null) {
 				//상태값 체크*****
-				this.userValidation(masterSeqArr[i]);
+				ResponseMsg userValidation = this.userValidation(masterSeqArr[i],"del");
+				
+				if(userValidation.getCode().equals("E1")) {
+					return userValidation;
+				}
 				
 				if(userRegInfo.getPlClass().equals("2")) { //법인은 하위에 등록된 데이터(법인사용인,임원 등 정보)가 있으면 삭제 불가
 					UserImwonDomain chkParam1 	= new UserImwonDomain();
@@ -1981,7 +2029,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegCorpImwonInfo(UserImwonDomain userImwonDomain){
 		//상태값 체크*****
-		this.userValidation(userImwonDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userImwonDomain.getMasterSeq(),"del");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		UserImwonDomain imwonInfo = userRepo.getUserRegCorpImwonInfo(userImwonDomain);
 		
@@ -2007,7 +2059,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegCorpExpertInfo(UserExpertDomain userExpertDomain){
 		//상태값 체크*****
-		this.userValidation(userExpertDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userExpertDomain.getMasterSeq(),"del");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		UserExpertDomain expertInfo = userRepo.getUserRegCorpExpertInfo(userExpertDomain);
 		
@@ -2033,7 +2089,11 @@ public class UserService {
 	@Transactional
 	public ResponseMsg deleteUserRegCorpItInfo(UserItDomain userItDomain){
 		//상태값 체크*****
-		this.userValidation(userItDomain.getMasterSeq());
+		ResponseMsg userValidation = this.userValidation(userItDomain.getMasterSeq(),"del");
+		
+		if(userValidation.getCode().equals("E1")) {
+			return userValidation;
+		}
 		
 		UserItDomain itInfo = userRepo.getUserRegCorpItInfo(userItDomain);
 		
@@ -2364,21 +2424,28 @@ public class UserService {
 		return msg;
 	}
 	
-	public ResponseMsg userValidation(int masterSeq) {
+	public ResponseMsg userValidation(int masterSeq, String type) {
 		
 		String code = "";
 		String msg 	= "";
 		
 		//모집인 상세
-		UserDomain param 		= new UserDomain();
+		UserDomain param 	= new UserDomain();
 		param.setMasterSeq(masterSeq);
 		UserDomain userRegInfo 	= userRepo.getUserRegDetail(param);
+		String plRegStat 	= userRegInfo.getPlRegStat();
+		String plStat 		= userRegInfo.getPlStat();
 		
-		String plStat 			= userRegInfo.getPlStat();		//처리상태 	-> [MAS001]미요청,승인요청,변경요청,해지요청,보완요청(=반려),변경요청(보완),해지요청(보완),취소,완료,등록요건 불충족(=부적격),보완 미이행,등록수수료 미결제
-		
-		if(plStat.equals("2") || plStat.equals("3") || plStat.equals("4")) { // || plStat.equals("10") || plStat.equals("11") || plStat.equals("12")
-			code 	= "E1";
-			msg 	= "등록,수정,삭제가 불가능한 상태입니다.\n새로고침 후 처리상태를 확인해 주세요.";
+		if(type.equals("save")) {
+			if(!plStat.equals("1") && !plStat.equals("5") && !plStat.equals("6") && !(plRegStat.equals("3") && plStat.equals("9"))) {
+				code 	= "E1";
+				msg 	= "등록,수정이 불가능한 상태입니다.\n새로고침 후 처리상태를 확인해 주세요.";
+			}
+		}else if(type.equals("del")) {
+			if(!plStat.equals("1") && !plStat.equals("5") && !plStat.equals("16")) {
+				code 	= "E1";
+				msg 	= "삭제가 불가능한 상태입니다.\n새로고침 후 처리상태를 확인해 주세요.";
+			}
 		}
 		
 		return new ResponseMsg(HttpStatus.OK, code, msg);

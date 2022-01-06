@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -1111,7 +1112,16 @@ public class ApiController {
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	
-	
+	// 비밀번호 암호화
+	@PostMapping(value="/crypt/cryptPwd")
+	public ResponseEntity<ResponseMsg> cryptPwd(KfbApiDomain kfbApiDomain) throws IOException{
+		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK, null, null,  "fail");
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String encPwd = passwordEncoder.encode(kfbApiDomain.getSrchDate1());
+		kfbApiDomain.setCode(encPwd);
+		responseMsg.setData(kfbApiDomain);
+		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
+	}
 	
 	
 	

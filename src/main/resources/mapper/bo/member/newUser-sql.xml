@@ -671,11 +671,11 @@
 	<!-- 2021-10-12 고도화 - 모집인 확인처리 리스트(회원사) -->
    	<select id="selectNewConfirmList" parameterType="newUser" resultType="newUser">
    		SELECT
-   			<include refid="common.totalPages"/> 
    			Z.*
    		FROM
    		(
    			SELECT 
+   				<include refid="common.totalPages"/> 
 		    	 TLM.MASTER_SEQ
 		    	,TLM.MASTER_TO_ID
 				,TLM.COM_CODE

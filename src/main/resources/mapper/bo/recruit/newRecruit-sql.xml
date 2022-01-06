@@ -233,6 +233,14 @@
 									end)::TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
 							</if>
 						</if>
+						<if test="srchSelect2.equals('regDate')">
+							<if test="srchDate1 != null and srchDate1 != ''">
+								AND TLM.REG_TIMESTAMP <![CDATA[>=]]> #{srchDate1}::TIMESTAMP
+							</if>
+							<if test="srchDate2 != null and srchDate2 != ''">
+								AND TLM.REG_TIMESTAMP <![CDATA[<]]> #{srchDate2}::TIMESTAMP + INTERVAL '1 day'
+							</if>
+						</if>
 					</when>
 				</choose>
 			</where> 

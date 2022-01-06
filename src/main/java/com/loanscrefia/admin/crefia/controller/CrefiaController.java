@@ -2,6 +2,7 @@ package com.loanscrefia.admin.crefia.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,14 +86,14 @@ public class CrefiaController {
 	
 	// 2022-01-04 보안취약점에 따른 수정 기능 추가
 	@PostMapping(value="/crefia/updCrefia")
-	public ResponseEntity<ResponseMsg> updCrefia(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult){
+	public ResponseEntity<ResponseMsg> updCrefia(@Valid CrefiaDomain crefiaDomain, BindingResult bindingResult, HttpServletRequest request){
 		ResponseMsg responseMsg = new ResponseMsg(HttpStatus.OK ,null);		
 		if(bindingResult.hasErrors()) {
 			responseMsg = new ResponseMsg(HttpStatus.OK, null, null);
 	    	responseMsg.setData(bindingResult.getAllErrors());
 	    	return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 		}
-		responseMsg = crefiaService.updCrefia(crefiaDomain);
+		responseMsg = crefiaService.updCrefia(crefiaDomain,request);
 		return new ResponseEntity<ResponseMsg>(responseMsg ,HttpStatus.OK);
 	}
 	

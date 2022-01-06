@@ -477,9 +477,8 @@ public class BatchController {
 	 * --------------------------------------------------------------------------------------------------------------------------
 	 */
 	
-	/*
 	//해지정보 삭제(매일 새벽 1시)
-	@Scheduled(cron = "")
+	@Scheduled(cron = "0 0 1 * * *")
     @SchedulerLock(name="regCancelInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void regCancelInfoDel() throws Exception {
 		if(isLocalBatch()) return;
@@ -487,7 +486,7 @@ public class BatchController {
     }
 	
 	//미요청 정보 삭제(매일 새벽 1시)
-	@Scheduled(cron ="")
+	@Scheduled(cron ="0 0 1 * * *")
     @SchedulerLock(name="notApplyInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void notApplyInfoDel() throws Exception {
 		if(isLocalBatch()) return;
@@ -495,7 +494,7 @@ public class BatchController {
     }
 	
 	//보완 미이행 정보 삭제(매일 새벽 1시)
-	@Scheduled(cron ="")
+	@Scheduled(cron ="0 0 1 * * *")
     @SchedulerLock(name="notApplyAgainInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void notApplyAgainInfoDel() throws Exception {
 		if(isLocalBatch()) return;
@@ -503,7 +502,7 @@ public class BatchController {
     }
 	
 	//취소 정보 삭제(매일 새벽 1시)
-	@Scheduled(cron ="")
+	@Scheduled(cron ="0 0 1 * * *")
     @SchedulerLock(name="cancelInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void cancelInfoDel() throws Exception {
 		if(isLocalBatch()) return;
@@ -511,23 +510,25 @@ public class BatchController {
     }
 	
 	//금융회사 승인거절 정보 삭제(매일 새벽 1시)
-	@Scheduled(cron ="")
+	@Scheduled(cron ="0 0 1 * * *")
     @SchedulerLock(name="rejectInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void rejectInfoDel() throws Exception {
 		if(isLocalBatch()) return;
 		batchService.rejectInfoDel();
     }
 	
+	/*
 	//등록요건 불충족(부적격) 정보 삭제(매일 새벽 1시)
-	@Scheduled(cron ="")
+	@Scheduled(cron ="0 0 1 * * *")
     @SchedulerLock(name="inaqInfoDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void inaqInfoDel() throws Exception {
 		if(isLocalBatch()) return;
 		batchService.inaqInfoDel();
     }
+	*/
 	
 	//미요청 또는 보완 미이행 건들 삭제 시 가등록 삭제(30초 마다)
-	@Scheduled(cron ="") 
+	@Scheduled(cron ="*/30 * * * * *") 
     @SchedulerLock(name="notApplyPreLoanDel", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void notApplyPreLoanDel() throws Exception {
 		if(isLocalBatch()) return;
@@ -554,25 +555,24 @@ public class BatchController {
 		batch.setSuccessCnt(successCnt);
 		batchService.updateScheduleHist(batch);
     }
-	*/
 	
 	/* --------------------------------------------------------------------------------------------------------------------------
 	 * 2021-12-22 통계 관련
-	 * 등록신청현황(모집인별) 저장 : 매일 0시 1분(0 1 0 * * *)
-	 * 해지신청현황(모집인별) 저장 : 매일 0시 5분(0 5 0 * * *)
+	 * 등록신청현황(모집인별) 저장 : 매일 23시 59분(0 59 23 * * *)
+	 * 해지신청현황(모집인별) 저장 : 매일 23시 59분(0 59 23 * * *)
 	 * --------------------------------------------------------------------------------------------------------------------------
 	 */
 	
-	//등록신청현황(모집인별) 저장(매일 0시 1분)
-	@Scheduled(cron = "0 1 0 * * *")
+	//등록신청현황(모집인별) 저장(매일 23시 59분 59초)
+	@Scheduled(cron = "59 59 23 * * *")
     @SchedulerLock(name="saveRegStatsInfo", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void saveRegStatsInfo() throws Exception {
 		if(isLocalBatch()) return;
 		batchService.saveRegStatsInfo();
     }
 	
-	//해지신청현황(모집인별) 저장(매일 0시 5분)
-	@Scheduled(cron = "0 5 0 * * *")
+	//해지신청현황(모집인별) 저장(매일 23시 59분 59초)
+	@Scheduled(cron = "59 59 23 * * *")
     @SchedulerLock(name="saveCancelStatsInfo", lockAtMostForString = ONE_MIN, lockAtLeastForString = ONE_MIN)
     public void saveCancelStatsInfo() throws Exception {
 		if(isLocalBatch()) return;

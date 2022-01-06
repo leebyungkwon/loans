@@ -500,6 +500,29 @@ function pageLoad(){
 		}
 	});
 	
+	//비밀번호 암호화
+	$("#cryptoPwd").on("click", function(){
+		var cryptoPwdVal =	$("#cryptoPwdVal").val();
+		
+		if(WebUtil.isNull(cryptoPwdVal)){
+			alert("암호화할 비밀번호를 입력해 주세요.");
+			$("#cryptoPwdVal").focus();
+			return false;
+		}
+		if(confirm("암호화 하시겠습니까?")){
+			var p = {
+					url		: "/system/crypt/cryptPwd"	
+				, param : {
+					srchDate1	: cryptoPwdVal
+				}
+				, success 	: function (opt,result) {
+					$("#cryptoPwdResultVal").val(result.data.code);
+			    }
+			}
+			AjaxUtil.post(p);
+		}
+	});
+	
 	
 	
 	
@@ -950,6 +973,30 @@ function goGetDate(opt) {
 			</table>
 			<a href="javascript:void(0);" class="btn_inquiry" style="margin-right: 120px;" id="crypto">암호화</a>
 			<a href="javascript:void(0);" class="btn_inquiry" id="decrypto">복호화</a>
+		</div>
+		<div class="info_box k_search" >
+			<table class="info_box_table" style="width: 90%;">
+				<colgroup>
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+					<col width="10%">
+					<col width="23%">
+				</colgroup>
+				<tr>
+					<th>변환할 비밀번호</th>
+					<td class="">
+						<input type="text" id="cryptoPwdVal" >
+					</td>
+					
+					<th>결과</th>
+					<td class="">
+						<input type="text" id="cryptoPwdResultVal" >
+					</td>
+				</tr>
+			</table>
+			<a href="javascript:void(0);" class="btn_inquiry" style="margin-right: 120px;" id="cryptoPwd">암호화</a>
 		</div>
 	</div>
 	

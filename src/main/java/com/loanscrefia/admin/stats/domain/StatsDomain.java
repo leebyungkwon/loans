@@ -21,6 +21,9 @@ public class StatsDomain extends BaseDomain {
 	private String name;
 	private String uKey;
 	
+	private String srchDate1;
+	private String srchDate2;
+	
 	private int case1;
 	private int case2;
 	private int case3;

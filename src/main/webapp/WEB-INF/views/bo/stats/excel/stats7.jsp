@@ -28,6 +28,9 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
+				<th colspan="37">해지처리현황(회사별)</th>
+			</tr>
+			<tr>
 				<th rowspan="4">회사명</th>
 				<th colspan="12">해지 신청접수</th>
 				<th colspan="12">해지처리 예정</th>

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,17 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loanscrefia.admin.crefia.domain.CrefiaDomain;
 import com.loanscrefia.admin.crefia.repository.CrefiaRepository;
-import com.loanscrefia.common.common.repository.CommonRepository;
+import com.loanscrefia.common.common.service.CommonService;
 import com.loanscrefia.common.member.domain.MemberDomain;
 import com.loanscrefia.config.message.ResponseMsg;
 
 @Service
 public class CrefiaService {
 
-	@Autowired 
-	private CrefiaRepository crefiaRepository;
-	
-	@Autowired private CommonRepository commonRepository;
+	@Autowired private CrefiaRepository crefiaRepository;
+	@Autowired private CommonService commonService;
 	
 	// 협회 관리자 관리 조회
 	@Transactional(readOnly = true)
@@ -40,27 +40,18 @@ public class CrefiaService {
 	@Transactional
 	public ResponseMsg saveCrefia(CrefiaDomain crefiaDomain) {
 		
-		// 2022-01-04 비밀번호 영문(대소문자 구분), 숫자, 특수문자 조합, 9~12자리
-		String userId = crefiaDomain.getMemberId();
-		String password = crefiaDomain.getPassword();
-		 
-		String pwPattern = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$";
-		Matcher matcher = Pattern.compile(pwPattern).matcher(password);
-		if(!matcher.matches()){
-			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호는 영문(대소문자 구분), 숫자, 특수문자 조합, 8~20자리");
-		}
-		
-		if(password.contains(userId)){
-			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호에 아이디는 포함할 수 없습니다.");
-		}
-		
-		pwPattern = "(\\w)\\1\\1";
-		Matcher matcher2 = Pattern.compile(pwPattern).matcher(password);
-		if(matcher2.find()){
-			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호는 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용이 불가능 합니다.");
+		if(StringUtils.isEmpty(crefiaDomain.getPassword()) || StringUtils.isEmpty(crefiaDomain.getPasswordChk())) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호를 입력해 주세요.");
+		}else {
+			String pwdChkResultMsg = commonService.pwdValidation(crefiaDomain.getMemberId(),crefiaDomain.getPassword(),crefiaDomain.getPasswordChk());
+			
+			if(StringUtils.isNotEmpty(pwdChkResultMsg)) {
+				return new ResponseMsg(HttpStatus.OK, "fail", pwdChkResultMsg);
+			}
 		}
 		
 		int idCheck = crefiaRepository.getmemberId(crefiaDomain);
+		
 		if(idCheck > 0) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이미 등록된 아이디 입니다.");
 		}
@@ -80,56 +71,57 @@ public class CrefiaService {
 	
 
 	@Transactional
-	public ResponseMsg updCrefia(CrefiaDomain crefiaDomain) {
+	public ResponseMsg updCrefia(CrefiaDomain crefiaDomain, HttpServletRequest request) {
 		
+		HttpSession session = request.getSession();
+		MemberDomain loginInfo = (MemberDomain)session.getAttribute("member");
+		
+		if(loginInfo == null) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "로그인이 필요합니다.");
+		}
+		if(crefiaDomain.getMemberSeq() <= 0) {
+			return new ResponseMsg(HttpStatus.OK, "fail", "필수값이 누락되었습니다. 새로고침 후 다시 시도해 주세요.");
+		}
+		
+		//상세
+		CrefiaDomain detail = this.crefiaDetail(crefiaDomain);
+		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
+		
+		if(loginInfo.getCreGrp().equals("1")) { //로그인 계정이 실무자 권한일 때
+			if(loginInfo.getMemberSeq() != detail.getMemberSeq()) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "[E1]수정 권한이 없습니다.");
+			}
+			if(!detail.getCreGrp().equals(crefiaDomain.getCreGrp())) {
+				return new ResponseMsg(HttpStatus.OK, "fail", "[E2]수정 권한이 없습니다.");
+			}
+		}
 		if(StringUtils.isEmpty(crefiaDomain.getOldPassword())) {
-			return new ResponseMsg(HttpStatus.OK, "fail", "현재비밀번호를 입력해 주세요.");
+			return new ResponseMsg(HttpStatus.OK, "fail", "현재 비밀번호를 입력해 주세요.");
+		}else {
+			if(!enc.matches(crefiaDomain.getOldPassword(), detail.getPassword())){
+    			return new ResponseMsg(HttpStatus.OK, "fail", "현재 비밀번호를 확인해 주세요.");
+    		}
 		}
-		
-		if(StringUtils.isEmpty(crefiaDomain.getPassword())) {
+		if(StringUtils.isEmpty(crefiaDomain.getPassword()) || StringUtils.isEmpty(crefiaDomain.getPasswordChk())) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호를 입력해 주세요.");
+		}else {
+			String pwdChkResultMsg = commonService.pwdValidation(detail.getMemberId(),crefiaDomain.getPassword(),crefiaDomain.getPasswordChk());
+			
+			if(StringUtils.isNotEmpty(pwdChkResultMsg)) {
+				return new ResponseMsg(HttpStatus.OK, "fail", pwdChkResultMsg);
+			}
 		}
-		
-		
-		// 2022-01-04 비밀번호 영문(대소문자 구분), 숫자, 특수문자 조합, 9~12자리
-		String userId = crefiaDomain.getMemberId();
-		String password = crefiaDomain.getPassword();
-		 
-		String pwPattern = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$";
-		Matcher matcher = Pattern.compile(pwPattern).matcher(password);
-		if(!matcher.matches()){
-			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호는 영문(대소문자 구분), 숫자, 특수문자 조합, 8~20자리");
-		}
-		
-		if(password.contains(userId)){
-			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호에 아이디는 포함할 수 없습니다.");
-		}
-		
-		pwPattern = "(\\w)\\1\\1";
-		Matcher matcher2 = Pattern.compile(pwPattern).matcher(password);
-		if(matcher2.find()){
-			return new ResponseMsg(HttpStatus.OK, "fail", "비밀번호는 동일한 문자의 반복 및 연속된 3개의 숫자/문자는 사용이 불가능 합니다.");
-		}
-		
 		
 		int idCheck = crefiaRepository.getmemberId(crefiaDomain);
+		
 		if(idCheck > 0) {
 			return new ResponseMsg(HttpStatus.OK, "fail", "이미 등록된 아이디 입니다.");
 		}
 		
 		//비밀번호 암호화
-		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
-		String newPwd = crefiaDomain.getPassword();
-		crefiaDomain.setPassword(enc.encode(newPwd));
-    	if(StringUtils.isNotEmpty(crefiaDomain.getOldPassword())) {
-    		MemberDomain memberDomain = new MemberDomain();
-    		MemberDomain result = commonRepository.getMemberDetail(memberDomain);
-    		if(!enc.matches(crefiaDomain.getOldPassword(), result.getPassword())){
-    			return new ResponseMsg(HttpStatus.OK, "pwFail", "현재 비밀번호를 확인해 주세요.");
-    		}
-    	}
-    	
+		crefiaDomain.setPassword(enc.encode(crefiaDomain.getPassword()));
     	int result = crefiaRepository.updateCrefia(crefiaDomain);
+    	
     	if(result > 0) {
     		return new ResponseMsg(HttpStatus.OK, "success", "수정되었습니다.");
     	}else {

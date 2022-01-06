@@ -251,7 +251,8 @@ function updCrefia(){
 			alert("비밀번호를 확인해 주세요.");
 			return false;
 		}
-		param.password = password
+		param.password = password;
+		param.passwordChk = passwordChk;
 	}
 	
 	var checkCount 	= 0;
