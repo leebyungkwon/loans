@@ -39,7 +39,8 @@ function prevRegCheckPopup() {
 		  id 		: "prevRegCheckPopup"
 		, url 		: "/admin/newApply/prevNewRegCheckPopup"
 		, params 	: {
-			"masterSeq" : $("#masterSeq").val()
+			 "masterSeq" : $("#masterSeq").val()
+			,"plClass" : "2"
 		}
 		, success	: function(opt, result) { 
 			

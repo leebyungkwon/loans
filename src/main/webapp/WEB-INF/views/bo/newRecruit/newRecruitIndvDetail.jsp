@@ -565,6 +565,23 @@ function goRecruitImprove(rePlStat){
 				</tr>
 				
 				<tr>
+					<th class="acenter">결격사유없음 확인서(개인) *</th>
+					<td>
+						<c:choose>
+							<c:when test="${result.recruitInfo.fileType19 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.recruitInfo.fileType19.fileSeq }">${result.recruitInfo.fileType19.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+						<c:if test="${result.recruitInfo.plRegStat == '3' or  result.recruitInfo.plRegStat == '4'}">
+							<c:if test="${!empty result.recruitInfo.histFileType19}">
+								<a href="javascript:void(0);" class="btn_blue btn_small mgl30" onclick="goRecruitFileHistShow('${result.recruitInfo.histFileType19.fileGrpSeq }', '19');">변경사항</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				
+				<tr>
 					<th class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류(공증필요)</th>
 					<td>
 						<c:choose>

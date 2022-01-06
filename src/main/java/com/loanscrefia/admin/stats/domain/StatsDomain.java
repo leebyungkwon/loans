@@ -64,6 +64,15 @@ public class StatsDomain extends BaseDomain {
 	private int case38;
 	private int case39;
 	private int case40;
+	private int case41;
+	private int case42;
+	private int case43;
+	private int case44;
+	private int case45;
+	private int case46;
+	private int case47;
+	private int case48;
+	private int case49;
 	private int case50;
 	private int case51;
 	private int case52;

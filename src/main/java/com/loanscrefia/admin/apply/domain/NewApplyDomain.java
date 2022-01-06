@@ -206,6 +206,7 @@ public class NewApplyDomain extends BaseDomain {
 	private FileDomain fileType16;
 	private FileDomain fileType17;
 	private FileDomain fileType18;
+	private FileDomain fileType19;
 	
 	private FileDomain fileType31;
 	private FileDomain fileType32;

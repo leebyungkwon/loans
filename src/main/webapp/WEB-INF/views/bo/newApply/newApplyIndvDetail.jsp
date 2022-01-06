@@ -50,7 +50,8 @@ function prevRegCheckPopup() {
 		  id 		: "prevRegCheckPopup"
 		, url 		: "/admin/newApply/prevNewRegCheckPopup"
 		, params 	: {
-			"masterSeq" : $("#masterSeq").val()
+			 "masterSeq" : $("#masterSeq").val()
+			,"plClass" : "1"
 		}
 		, success	: function(opt, result) { 
 			
@@ -571,7 +572,26 @@ function goApplyImprove(num){
 						</div>
 					</td>
 				</tr>
-				
+				<tr>
+					<td class="acenter">결격사유없음 확인서(개인) *</td>
+					<td>
+						<c:choose>
+							<c:when test="${result.applyInfo.fileType19 ne null }">
+								<a href="javascript:void(0);" class="goFileDownload" data-fileSeq="${result.applyInfo.fileType19.fileSeq }">${result.applyInfo.fileType19.fileFullNm }</a>
+							</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="input_check_wrap mgr10">
+							<input type="checkbox" id="check_cd19" class="check check_cd" 
+							<c:if test="${empty result.applyInfo.fileType19.fileSeq}">disabled</c:if>
+							<c:if test="${!empty result.applyInfo.checkCd19}">checked</c:if>
+							 data-fileSeq="${result.applyInfo.fileType19.fileSeq }" >
+							<label for="check_cd19">확인</label>
+						</div>
+					</td>
+				</tr>
 				
 				<tr>
 					<td class="acenter">본국 감독당국의 결격요건,범죄이력 확인서류(공증필요)</td>

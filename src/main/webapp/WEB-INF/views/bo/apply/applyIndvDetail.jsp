@@ -50,7 +50,8 @@ function prevRegCheckPopup() {
 		  id 		: "prevRegCheckPopup"
 		, url 		: "/admin/apply/prevRegCheckPopup"
 		, params 	: {
-			"masterSeq" : $("#masterSeq").val()
+			 "masterSeq" : $("#masterSeq").val()
+			,"plClass" : "1"
 		}
 		, success	: function(opt, result) { 
 			

@@ -295,6 +295,8 @@ public class NewApplyService {
         				applyInfo.setFileType17(fileList.get(i));
         			}else if(fileList.get(i).getFileType().equals("18")) {
         				applyInfo.setFileType18(fileList.get(i));
+        			}else if(fileList.get(i).getFileType().equals("19")) {
+        				applyInfo.setFileType19(fileList.get(i));
         			}
         			
         			

@@ -579,7 +579,11 @@
    		FROM
    			TB_LC_MAS01 a
    		WHERE
-   			CI = (SELECT b.CI FROM TB_LC_MAS01 b WHERE b.MASTER_SEQ = #{masterSeq} LIMIT 1)
+   			CASE 
+				WHEN #{plClass} = '1' THEN a.PL_M_Z_ID = (SELECT b.PL_M_Z_ID FROM TB_LC_MAS01 b WHERE b.MASTER_SEQ = #{masterSeq} LIMIT 1)
+				WHEN #{plClass} = '2' THEN a.PL_MERCHANT_NO = (SELECT b.PL_MERCHANT_NO FROM TB_LC_MAS01 b WHERE b.MASTER_SEQ = #{masterSeq} LIMIT 1)
+				ELSE a.MASTER_SEQ = 0
+			END
    			AND a.USE_YN = 'Y'
    	</select>
    	
