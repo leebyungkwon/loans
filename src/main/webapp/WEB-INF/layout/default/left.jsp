@@ -115,7 +115,7 @@ function menuActiveFunction(){
 			<li id="menuUpdateCorpUsers"><a href="/admin/updateCorpUsers/updateCorpUsersPage">법인회원 정보변경관리</a></li>
 			
 			<li class="cate2">[고도화]통계</li>
-			<li id="menuStats1"><a href="/admin/stats1/statsPage">회사별 모집인</a></li> 
+			<li id="menuStats1"><a href="/admin/stats1/statsPage">회사별 등록 모집인 현황</a></li> 
 			<li id="menuStats2"><a href="/admin/stats2/statsPage">경력신규</a></li> 
 			<li id="menuStats3"><a href="/admin/stats3/statsPage">경력 현황</a></li> 
 			<li id="menuStats4"><a href="/admin/stats4/statsPage">부적격처리건수</a></li> 

@@ -714,7 +714,15 @@ end; $$
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_addr varchar(200);
 ALTER TABLE tb_lc_mas01_imwon ADD COLUMN reg_addr_detail varchar(200);
 
-
+-- 2022.01.07 통계 관련
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case25 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case26 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case27 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case28 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case29 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case30 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case31 integer;
+ALTER TABLE tb_lc_reg_stats ADD COLUMN case32 integer;
 
 
 

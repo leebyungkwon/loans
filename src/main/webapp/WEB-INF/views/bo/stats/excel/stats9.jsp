@@ -31,6 +31,11 @@ table td{border: 1px solid #ccc;}
 				<th colspan="89">불법모집 이력현황</th>
 			</tr>
 			<tr>
+				<td colspan="89">
+					1. 각 회사별 불법모집 이력 등록건수
+				</td>
+			</tr>
+			<tr>
 				<th rowspan="4">회사명</th>
 				<c:forEach var="cdList" items="${violationCdList }" varStatus="status">
 					<th colspan="8">${cdList.codeDtlNm }(${cdList.codeDtlCd })</th>

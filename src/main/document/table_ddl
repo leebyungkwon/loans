@@ -1833,6 +1833,14 @@ create table tb_lc_reg_stats(
 	, case22 integer
 	, case23 integer
 	, case24 integer
+	, case25 integer
+	, case26 integer
+	, case27 integer
+	, case28 integer
+	, case29 integer
+	, case30 integer
+	, case31 integer
+	, case32 integer
 );
 
 COMMENT ON TABLE tb_lc_reg_stats IS '등록처리현황(모집인별)';

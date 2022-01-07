@@ -35,6 +35,9 @@ public class EnterService {
 		String ip 			= request.getRemoteAddr();
 		String url 			= request.getRequestURI();
 		
+		// 2022-01-06 접속 브라우저 확인
+		String userAgent	= request.getHeader("User-Agent").toUpperCase();
+		
 		Enumeration<String> paramNames1 = request.getParameterNames();
 		String resultTxt = "";
 		while (paramNames1.hasMoreElements()) {
@@ -46,7 +49,7 @@ public class EnterService {
 
 		TransactionDomain data = new TransactionDomain();
 		
-		data.setUrl(url);
+		data.setUrl("["+userAgent+"] "+url);
 		data.setIp(ips);
 		data.setIp2(ip);
 		data.setParam(resultTxt);

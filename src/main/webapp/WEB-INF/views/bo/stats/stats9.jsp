@@ -22,6 +22,15 @@ function excelDown() {
 		<div class="title">
 			<h2>불법모집 이력현황</h2>
 		</div>
+		<div class="info_box">
+			<table class="info_box_table" style="width: 90%;">
+				<tr>
+					<td>
+						1. 각 회사별 불법모집 이력 등록건수
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	
 	<div class="contents" style="overflow-x: auto;">

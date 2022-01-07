@@ -22,6 +22,17 @@ function excelDown() {
 		<div class="title">
 			<h2>경력 현황</h2>
 		</div>
+		<div class="info_box">
+			<table class="info_box_table" style="width: 90%;">
+				<tr>
+					<td>
+						1. 자격취득 모집인의 경력현황<br>
+						2. 모집인 기준<br>
+						3. 최초 자격취득일 기준으로 경력 산출
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	
 	<div class="contents">

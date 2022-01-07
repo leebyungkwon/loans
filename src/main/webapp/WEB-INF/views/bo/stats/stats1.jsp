@@ -12,6 +12,39 @@ function pageLoad() {
 	$("#searchBtn").on("click",function(){
 		$("#statsFrm").submit();
 	});
+	
+	//datepicker
+	$("#date_cal01").datepicker({
+		 dateFormat	: "yy-mm-dd"
+	 	,changeMonth: true
+		,changeYear	: true
+		,onSelect	: function(dateText1,inst) {
+			$("#srchDate1").val(dateText1);
+			$(this).hide();
+		}
+	});
+	$("#date_cal02").datepicker({
+		 dateFormat	: "yy-mm-dd"
+	 	,changeMonth: true
+		,changeYear	: true
+		,onSelect	: function(dateText1,inst) {
+			$("#srchDate2").val(dateText1);
+			$(this).hide();
+		}
+	});
+}
+
+$(document).mouseup(function(e){
+	var calendar01 = $(".calendar01");
+	if(calendar01.has(e.target).length === 0){
+		calendar01.hide();
+	}
+});
+
+function goGetDate(opt) {
+	var result = WebUtil.getDate(opt);
+	$("#srchDate1").val(result);
+	$("#srchDate2").val(WebUtil.getDate("today"));
 }
 
 function excelDown() {
@@ -23,12 +56,24 @@ function excelDown() {
 <div class="cont_area">
 	<div class="top_box">
 		<div class="title">
-			<h2>회사별 모집인</h2>
+			<h2>회사별 등록 모집인 현황</h2>
+		</div>
+		<div class="info_box">
+			<table class="info_box_table" style="width: 90%;">
+				<tr>
+					<td>
+						1. 기준일자의 각 회사별 자격취득(등록번호 부여) 모집인 수<br>
+						2. 등록건수 기준
+					</td>
+				</tr>
+			</table>
 		</div>
 		<div class="info_box">
 			<form id="statsFrm" action="/admin/stats1/statsPage">
 				<table class="info_box_table" style="width: 90%;">
 					<colgroup>
+						<col width="10%">
+						<col width="23%">
 						<col width="10%">
 						<col width="23%">
 						<col width="10%">
@@ -39,10 +84,31 @@ function excelDown() {
 						<td>
 							<select name="plRegStat">
 								<option value="" <c:if test="${plRegStat eq '' }">selected="selected"</c:if>>전체</option>
-								<option value="1" <c:if test="${plRegStat eq '1' }">selected="selected"</c:if>>승인요청(보완요청 포함)</option>
-								<option value="2" <c:if test="${plRegStat eq '2' }">selected="selected"</c:if>>승인완료</option>
 								<option value="3" <c:if test="${plRegStat eq '3' }">selected="selected"</c:if>>자격취득(결제완료 포함)</option>
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>자격취득일</th>
+						<td colspan="5" class="long_input">
+							<div class="input_wrap">
+		               			<input type="text" name="srchDate1" id="srchDate1" value="${srchDate1 }" class="input_calendar" readonly="readonly" onclick="$('#date_cal01').show();">
+		               			<a class="calendar_ico" onclick="$('#date_cal01').show();"></a>
+							 	<div id="date_cal01" class="calendar01"></div>
+		             			</div>
+						  	~
+						 	<div class="input_wrap mgr5">
+								<input type="text" name="srchDate2" id="srchDate2" value="${srchDate2 }" class="input_calendar" readonly="readonly" onclick="$('#date_cal02').show();">
+								<a class="calendar_ico" onclick="$('#date_cal02').show();"></a>
+								<div id="date_cal02" class="calendar01"></div>
+							</div>
+							<div class="date_btn">
+								<a href="javascript:void(0);" onclick="goGetDate('today');">오늘</a>
+								<a href="javascript:void(0);" onclick="goGetDate('1');">어제</a>
+								<a href="javascript:void(0);" onclick="goGetDate('7');">1주일</a>
+								<a href="javascript:void(0);" onclick="goGetDate('15');">15일</a>
+								<a href="javascript:void(0);" onclick="goGetDate('oneMonthAgo');">1개월</a>
+							</div>
 						</td>
 					</tr>
 				</table>
@@ -66,6 +132,7 @@ function excelDown() {
 						<th colspan="4">대출</th>
 						<th colspan="4">리스할부</th>
 						<th colspan="4">계</th>
+						<th rowspan="3"></th>
 					</tr>
 					<tr>
 						<th colspan="2">개인</th>
@@ -108,12 +175,13 @@ function excelDown() {
 									<td>${list.total2 }</td>
 									<td>${list.total3 }</td>
 									<td>${list.total4 }</td>
+									<td>${list.allCnt }</td>
 								</tr>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<tr>
-								<td colspan="13">데이터가 없습니다.</td>
+								<td colspan="14">데이터가 없습니다.</td>
 							</tr>
 						</c:otherwise>
 					</c:choose>

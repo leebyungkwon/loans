@@ -27,6 +27,8 @@ public class StatsController {
 	public ModelAndView statsPage1(StatsDomain statsDomain) {
 		ModelAndView mav = new ModelAndView(CosntPage.BoStatsPage+"/stats1");
 		mav.addObject("plRegStat",statsDomain.getPlRegStat());
+		mav.addObject("srchDate1", statsDomain.getSrchDate1());
+		mav.addObject("srchDate2", statsDomain.getSrchDate2());
 		mav.addObject("result", statsService.selectStatsResult1(statsDomain));
 		return mav;
 	}
@@ -40,15 +42,11 @@ public class StatsController {
 		String searchCdtNm 	= "전체";
 		
 		if(StringUtils.isNotEmpty(searchCdt)) {
-			if(searchCdt.equals("1")) {
-				searchCdtNm = "승인요청(보완요청 포함)";
-			}else if(searchCdt.equals("2")) {
-				searchCdtNm = "승인완료";
-			}else {
-				searchCdtNm = "자격취득(결제완료 포함)";
-			}
+			searchCdtNm = "자격취득(결제완료 포함)";
 		}
 		mav.addObject("searchCdtNm",searchCdtNm);
+		mav.addObject("srchDate1", statsDomain.getSrchDate1());
+		mav.addObject("srchDate2", statsDomain.getSrchDate2());
 		mav.addObject("result", statsService.selectStatsResult1(statsDomain));
 		return mav;
 	}

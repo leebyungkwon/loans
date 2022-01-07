@@ -24,6 +24,19 @@ function excelDown() {
 		<div class="title">
 			<h2>경력신규</h2>
 		</div>
+		<div class="info_box">
+			<table class="info_box_table" style="width: 90%;">
+				<tr>
+					<td>
+						1. 등록 신청 모집인의 경력·신규 현황<br>
+						2. 모집인 기준<br>
+						3. 승인요청 : 처리상태가 승인요청, 보완요청인 건<br>
+						4. 승인완료 : 모집인상태가 승인완료인 건(취소 제외)<br>
+						5. 모집인상태가 자격취득인 건(결제완료 포함)
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	
 	<div class="contents">
@@ -94,18 +107,18 @@ function excelDown() {
 								<td>${list.case2 }</td>
 								<td>${list.case3 }</td>
 								<td>${list.case4 }</td>
+								<td>${list.total1 }</td>
+								<td>${list.total2 }</td>
 								<td>${list.case5 }</td>
 								<td>${list.case6 }</td>
 								<td>${list.case7 }</td>
 								<td>${list.case8 }</td>
+								<td>${list.total3 }</td>
+								<td>${list.total4 }</td>
 								<td>${list.case9 }</td>
 								<td>${list.case10 }</td>
 								<td>${list.case11 }</td>
 								<td>${list.case12 }</td>
-								<td>${list.total1 }</td>
-								<td>${list.total2 }</td>
-								<td>${list.total3 }</td>
-								<td>${list.total4 }</td>
 								<td>${list.total5 }</td>
 								<td>${list.total6 }</td>
 							</tr>

@@ -11,7 +11,7 @@
 	SimpleDateFormat dateFormatParser = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 	Date currentDt = new Date();
 	String today = dateFormatParser.format(currentDt);
-	String fileName = "회사별_모집인_"+today;
+	String fileName = "회사별_등록_모집인_현황_"+today;
 	fileName = new String((fileName).getBytes("KSC5601"),"8859_1");
 	
 	response.setContentType("application/vnd.ms-excel"); //바로저장
@@ -28,13 +28,35 @@ table td{border: 1px solid #ccc;}
 	<table>
 		<thead>
 			<tr>
-				<th colspan="12">회사별 모집인(${searchCdtNm })</th>
+				<th colspan="14">회사별 등록 모집인 현황(${searchCdtNm })</th>
+			</tr>
+			<tr>
+				<td colspan="14">
+					1. 기준일자의 각 회사별 자격취득(등록번호 부여) 모집인 수<br>
+					2. 등록건수 기준
+				</td>
+			</tr>
+			<tr>
+				<th colspan="14">
+					<c:choose>
+						<c:when test="${(srchDate1 ne null && srchDate1 ne '') && (srchDate2 ne null && srchDate2 ne '') }">
+							자격취득일 : ${srchDate1 } ~ ${srchDate2 }
+						</c:when>
+						<c:when test="${(srchDate1 ne null && srchDate1 ne '') && (srchDate2 eq null || srchDate2 eq '') }">
+							자격취득일 : ${srchDate1 } ~ 
+						</c:when>
+						<c:when test="${(srchDate1 eq null || srchDate1 eq '') && (srchDate2 ne null && srchDate2 ne '') }">
+							자격취득일 : ~ ${srchDate2 }
+						</c:when>
+					</c:choose>
+				</th>
 			</tr>
 			<tr>
 				<th rowspan="3">회사명</th>
 				<th colspan="4">대출</th>
 				<th colspan="4">리스할부</th>
 				<th colspan="4">계</th>
+				<th rowspan="3"></th>
 			</tr>
 			<tr>
 				<th colspan="2">개인</th>
@@ -77,12 +99,13 @@ table td{border: 1px solid #ccc;}
 							<td>${list.total2 }</td>
 							<td>${list.total3 }</td>
 							<td>${list.total4 }</td>
+							<td>${list.allCnt }</td>
 						</tr>
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
 					<tr>
-						<td colspan="13">데이터가 없습니다.</td>
+						<td colspan="14">데이터가 없습니다.</td>
 					</tr>
 				</c:otherwise>
 			</c:choose>

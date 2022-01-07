@@ -22,6 +22,19 @@ function excelDown() {
 		<div class="title">
 			<h2>해지처리현황(모집인별)</h2>
 		</div>
+		<div class="info_box">
+			<table class="info_box_table" style="width: 90%;">
+				<tr>
+					<td>
+						1. 모집인별 해지 처리현황<br>
+						2. 해지건수 기준<br>
+						3. 해지 신청접수 : 처리상태가 해지요청인 건과 모집인상태가 해지완료인 건<br>
+						4. 해지처리 예정 : 처리상태가 해지요청인 건<br>
+						5. 해지 처리완료 : 모집인상태가 해지완료인 건
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	
 	<div class="contents" style="overflow-x: auto;">

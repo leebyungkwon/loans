@@ -6,96 +6,13 @@
 	- 개인 : MEMBER
 	- 법인 : TEMP_MEMBER(승인 전) -> MEMBER(승인 후)
 	
-(3)정보 삭제 관련	: 그대로 반영
-	- 배치 		: [BO]BatchController.java
-	- 모집인 삭제 	: [FO]ApplyService.java
-	
-(4)개인 회원가입 수동일 때
--- 회원 테이블
-INSERT INTO tb_lc_users 
-(
-	 role_name 
-	,user_id
-	,PASSWORD
-	,user_name 
-	,mobile_no 
-	,pl_class 
-	,pl_m_z_id 
-	,corp_appr_yn 
-	,join_d
-	,terms_yn 
-	,terms_dt 
-	,reg_seq 
-	,reg_timestamp 
-)
-VALUES
-(
-	 'MEMBER'
-	,
-	,
-	,
-	,
-	,'1'
-	,
-	,'Y'
-	,NOW()
-	,'Y'									/*약관동의*/
-	,NOW()									/*약관동의일*/
-	,2
-	,NOW()
-)
+(3)개인 회원가입 수동일 때
+	- 회원 테이블(TB_LC_USERS)
+	- 개인정보이용 테이블(TB_LC_USERS_PRVT)
+	- 개인 결격사유 테이블(TB_LC_USERS_DISQUAL) : DISQUAL_CD 7,8 null로 저장
 
--- 개인정보이용 테이블
-INSERT INTO TB_LC_USERS_PRVT
-(
-	 USER_SEQ
-	,COLLECT_YN
-	,SEARCH_YN
-	,OFFER_YN
-	,REG_SEQ
-	,REG_TIMESTAMP
-)
-VALUES
-(
-	 #{userSeq}
-	,'Y'
-	,'Y'
-	,'Y'
-	,#{userSeq}
-	,NOW()
-)
-
-SELECT * FROM tb_lc_cod01_detail tlcd 
-WHERE code_mst_cd = 'DSQ001'
-AND property02 = 'Y'
-AND use_yn = 'Y';
-
--- 결격사유 테이블7,8 null로 저장
-INSERT INTO TB_LC_USERS_DISQUAL
-(
-	 MASTER_SEQ
-	,USER_SEQ
-	,DISQUAL_CD
-	,DISQUAL_VAL
-	,REG_SEQ
-	,REG_TIMESTAMP
-)
-VALUES
-(
-	 0
-	,#{userSeq}
-	,'7'
-	,#{userSeq}
-	,NOW()
-)
-
-
-
-
-
-
-
-
+(4)gradle 빌드 위치
+	- 프로젝트 경로/build/lib/
 
 
 

@@ -158,4 +158,6 @@ public class StatsDomain extends BaseDomain {
 	private int total43;
 	private int total44;
 	
+	private int allCnt;
+	
 }

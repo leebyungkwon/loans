@@ -31,6 +31,13 @@ table td{border: 1px solid #ccc;}
 				<th colspan="13">경력 현황</th>
 			</tr>
 			<tr>
+				<td colspan="13">
+					1. 자격취득 모집인의 경력현황<br>
+					2. 모집인 기준<br>
+					3. 최초 자격취득일 기준으로 경력 산출
+				</td>
+			</tr>
+			<tr>
 				<th rowspan="3">구분</th>
 				<th colspan="4">대출</th>
 				<th colspan="4">리스할부</th>

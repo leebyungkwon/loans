@@ -22,6 +22,16 @@ function excelDown() {
 		<div class="title">
 			<h2>부적격처리건수</h2>
 		</div>
+		<div class="info_box">
+			<table class="info_box_table" style="width: 90%;">
+				<tr>
+					<td>
+						1. 금소법상 등록요건을 충족하지 못해 부적격처리된 모집인 수<br>
+						2. 모집인 기준
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	
 	<div class="contents">

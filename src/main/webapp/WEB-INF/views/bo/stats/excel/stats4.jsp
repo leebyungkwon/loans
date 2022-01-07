@@ -31,6 +31,12 @@ table td{border: 1px solid #ccc;}
 				<th colspan="13">부적격처리건수</th>
 			</tr>
 			<tr>
+				<td colspan="13">
+					1. 금소법상 등록요건을 충족하지 못해 부적격처리된 모집인 수<br>
+					2. 모집인 기준
+				</td>
+			</tr>
+			<tr>
 				<th rowspan="3">구분</th>
 				<th colspan="4">대출</th>
 				<th colspan="4">리스할부</th>

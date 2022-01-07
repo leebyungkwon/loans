@@ -1334,7 +1334,7 @@ public class NewApplyService {
 					String uKey 		= "";
 					
 					if("1".equals(plClass)) {
-						uKey = statCheck.getCi();
+						uKey = statCheck.getPlMZId();
 					}else {
 						uKey = statCheck.getPlMerchantNo();
 					}
