@@ -159,6 +159,8 @@ public class NewRecruitService {
 			}else {
 				recruitInfo.setDisVal("N");
 			}
+		}else {
+			recruitInfo.setDisVal("");
 		}
 		
 		
@@ -404,6 +406,8 @@ public class NewRecruitService {
 			}else {
 				recruitInfo.setDisVal("N");
 			}
+		}else {
+			recruitInfo.setDisVal("");
 		}
 		
 		// ORIGIN 법인번호 암호화 해제

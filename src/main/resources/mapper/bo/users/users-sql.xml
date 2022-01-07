@@ -671,6 +671,8 @@
    		FROM
    			tb_lc_users_disqual
    		WHERE user_seq = #{userSeq}
+   		AND disqual_val IS NOT NULL
+   		AND disqual_val != ''
    		<choose>
    			<when test='plClass == "1"'>
    				AND disqual_cd in ('7', '8')

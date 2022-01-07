@@ -211,6 +211,8 @@ public class NewApplyService {
 			}else {
 				applyInfo.setDisVal("N");
 			}
+		}else {
+			applyInfo.setDisVal("");
 		}
 		
 		
@@ -424,6 +426,8 @@ public class NewApplyService {
 			}else {
 				applyInfo.setDisVal("N");
 			}
+		}else {
+			applyInfo.setDisVal("");
 		}
 		
 		// ORIGIN 법인번호 암호화 해제
